@@ -1,0 +1,98 @@
+tables:
+  - name: members
+    columns:
+      - name: member_id
+        type: int
+        length: 4
+        notNull: TRUE
+        primaryKey: TRUE
+        autoIncrement: TRUE
+
+      - name: mail_address 
+        type: varchar
+        length: 128
+        notNull: TRUE
+      
+      - name: login_password
+        type: varchar
+        length: 40
+        notNull: TRUE
+
+      - name: nickname
+        type: varchar
+        length: 32
+        notNull: TRUE
+
+      - name: birth_date
+        type: date
+        notNull: TRUE
+
+      - name: blood
+        type: int
+        lenfth: 1
+        notNull: TRUE
+        unsigned: TRUE
+      
+      - name: hobbies
+        type: int
+        length: 2
+        notNull: TRUE
+        unsigned: TRUE
+
+      - name: message
+        type: varchar
+        length: 255
+        notNull: TRUE
+
+      - name: register_date
+        type: timestamp
+        notNull: TRUE
+  
+      - name: last_update_date
+        type: timestamp
+      
+      - name: delete_flag
+        type: int
+        length: 1
+        unsigned: TRUE
+        default: 0
+        notNull: TRUE
+
+  - name: managers
+    columns:
+      - name: manager_id
+        type: int
+        length: 4
+        notNull: TRUE
+        primaryKey: TRUE
+        autoIncrement: TRUE
+
+      - name: login_id
+        type: varchar
+        length: 16
+        notNull: TRUE
+
+      - name: login_password
+        type: varchar
+        length: 40
+        notNull: TRUE
+
+      - name: manager_name
+        type: varchar
+        length: 20
+        notNull: TRUE
+
+      - name: register_date
+        type: timestamp
+        notNull: TRUE
+
+      - name: last_update_date
+        type: timestamp
+
+      - name: delete_flag
+        type: int
+        length: 1
+        unsigned: TRUE
+        default: 0
+        notNull: TRUE
+

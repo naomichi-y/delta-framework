@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - コンソールアプリケーションの作成</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips  - コンソールアプリケーションの作成</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2010 年 6 月 1 日</p>
+    <h2>コンソールから実行するコンソールプログラムの作成</h2>
+    <p>delta は web アプリケーションのほかに、コンソールから実行可能なコンソールプログラムの作成機能を提供しています。コンソールプログラムは 1 プログラム 1 コマンド形式で作成するため、web アプリケーションのプログラムを組む時と同じ感覚で開発を進めることができます。</p>
+    <p> 尚、コンソールアプリケーションという特性上、いくつかの機能やコンポーネントに関しては使用上の制約が発生します。詳細については下表を参照して下さい。</p>
+    <h3>利用不可能なコンポーネント </h3>
+    <p>HTTP アクセスでのみ利用可能なコンポーネントはコンソール上で使用することができません。</p>
+    <table>
+      <colgroup>
+      <col width="20%" />
+      <col width="80%" />
+      </colgroup>
+      <tr>
+        <th scope="col">コンポーネント名</th>
+        <th scope="col">標準の実装クラス</th>
+      </tr>
+      <tr>
+        <td>request</td>
+        <td>Delta_HttpRequest</td>
+      </tr>
+      <tr>
+        <td>response</td>
+        <td>Delta_HttpResponse</td>
+      </tr>
+      <tr>
+        <td>session</td>
+        <td>Delta_HttpSession</td>
+      </tr>
+      <tr>
+        <td>user</td>
+        <td>Delta_AuthorityUser</td>
+      </tr>
+      <tr>
+        <td>form</td>
+        <td>Delta_ActionForm</td>
+      </tr>
+    </table>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>controller コンポーネントはコマンド起動時に Delta_ConsoleController のインスタンスが割り当てられます。(web アプリケーションの場合は、リクエストを受け付けたタイミングで Delta_FrontController のインスタンスが割り当てられます) </p>
+      </div>
+    </div>
+    <h3>その他の制約</h3>
+    <ul>
+      <li>フィルタ機能は提供されていません。</li>
+      <li>モジュールの概念がありません。全てのアプリケーションは {APP_ROOT_DIR}/console/command ディレクトリ下に配置する必要があります。機能や用途単位でディレクトリを階層化することも可能です。(<a href="action_package.html">アクションディレクトリを階層化する</a> を参照)</li>
+      <li>ビヘイビアの概念がないため、コンバータやバリデータといった機能は提供されていません。但しバリデータによっては、static メソッドが用意されているものがあり、コマンドクラスから直接コールすることが可能です。</li>
+    </ul>
+    <h2>コマンドの作成から実行まで</h2>
+    <p>コンソールから受け取った引数を出力するプログラムを作成してみましょう。    コードを見ても分かる通り、web アプリケーションの作成時と何らコードに違いがないこと気がつくでしょう。</p>
+    <dl>
+      <dt>PHP Code# console/command/ArgumentsCommand.php</dt>
+      <dd class="lang_php"><code>// クラスの宣言<br />
+        class ArgumentsCommand extends Delta_Command<br />
+        { <br />
+        &nbsp;&nbsp;public function execute()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 引数の取得<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$arguments = $this-&gt;getController()-&gt;getArguments();<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 引数の出力<br />
+        &nbsp;&nbsp;&nbsp; print_r($arguments);<br />
+        <br />
+        &nbsp;&nbsp;        &nbsp;return Delta_View::NONE; <br />
+        &nbsp;&nbsp;}<br />
+        }</code> </dd>
+    </dl>
+    <p>それでは実際にコンソールからコマンドを実行してみましょう。コンソール上でアプリケーションの console ディレクトリへ移動した後、次のコマンドを実行して下さい。 </p>
+    <dl>
+      <dt>Shell Code# コマンドの実行</dt>
+      <dd class="lang_shell"><code>$ cd console<br />
+        $ deltac Arguments -foo=100 -bar=200 // array('foo' =&gt; 100, 'bar' =&gt; 200)<br />
+        <br />
+        #　クラスパス指定して実行 (結果は同じ)<br />
+        $ deltac console/ArgumentsCommand.php -foo=100 -bar=200<br />
+        </code></dd>
+    </dl>
+    <p>引数に指定した &quot;-foo=100 -bar=200&quot; は &quot;名前=値&quot; 形式の二次元配列に展開されます。</p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

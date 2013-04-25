@@ -1,0 +1,31 @@
+componentNames:
+  controller:
+    class: Delta_FrontController
+
+  request:
+    class: Delta_HttpRequest
+
+  response:
+    class: Delta_HttpResponse
+
+  session:
+    class: Delta_HttpSession
+
+  user:
+    class: Delta_AuthorityUser
+
+  form:
+    class: Delta_ActionForm
+
+  messages:
+    class: Delta_ActionMessages
+
+  view:
+    class: Delta_View
+
+  database:
+    class: Delta_DatabaseManager
+
+  console:
+    class: Delta_Console
+

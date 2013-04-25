@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - フレームワーク入門 - サンプルアプリケーションを動かしてみよう</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">フレームワーク入門 - サンプルアプリケーションを動かしてみよう</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2011 年 4 月 26 日</p>
+    <h2>サンプルアプリケーションから学べること</h2>
+    <p>delta が提供するパッケージにはデモ用のサンプルアプリケーションが同梱されています。アプリケーションでは、フレームワークが提供する基本的な機能が使われているので、実開発に入る前にインストールしてコードを眺めて見ると良いでしょう。      学習できる主な内容は次の通りです。</p>
+    <ul>
+      <li>アプリケーションのディレクトリ構成</li>
+      <li>モジュールの概念</li>
+      <li>アクション、ビヘイビア、テンプレートの役割</li>
+      <li>テンプレートヘルパの使い方</li>
+      <li>バリデータやコンバータクラスの使い方</li>
+      <li>トランザクショントークンの発行</li>
+      <li>ユーザ認証</li>
+      <li>データベースとの連携</li>
+      <li>ページネーション</li>
+      <li>ファイルのアップロード</li>
+    </ul>
+    <h2>インストール</h2>
+    <p>インストールはとても簡単です。コンソールを立ち上げて次のコマンドを入力して下さい。</p>
+    <dl>
+      <dt>Shell Code# サンプルアプリケーションのインストール</dt>
+      <dd class="lang_shell"><code># プロジェクトディレクトリへ移動<br />
+        $ cd /var/www/first_project<br />
+        <br />
+        # サンプルアプリケーションのインストール<br />
+        $ delta install-sample <br />
+        <br />
+        # インストール完了<br />
+        sample application install completed.<br />
+        install directory: /var/www/first_project</code></dd>
+    </dl>
+    <p>インストールの完了メッセージが表示されました。実際のディレクトリ構成を見ると分かりますが、アプリケーションディレクトリの modules 下に entry、manager という 2 つのディレクトリが追加されていることが分かります。</p>
+    <p>最後にアプリケーションからデータベースに接続するための接続情報を設定ファイルに定義します。</p>
+    <dl>
+      <dt>YAML Code# config/application.yml</dt>
+      <dd class="lang_yaml"><code>database:<br />
+        &nbsp;&nbsp;default:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host={host}; dbname=delta; port=3306' # PostgreSQL の場合は 'pgsql:' となる<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;user: {user}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;password: {password}</code><br />
+      </dd>
+    </dl>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>dsn (Data Source Name) はデータベースに接続のための識別子です。詳しくは <img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://www.php.net/manual/en/pdo.drivers.php">PDO Drivers</a> を参照して下さい。</p>
+      </div>
+    </div>
+    <p>ファイルを保存したらブラウザを立ち上げてプロジェクトの URL を開いてみましょう。</p>
+    <p><img src="../assets/images/screenshots/installed_sample_application.png" alt="" width="767" height="431" /></p>
+    <p>設定情報の確認ページから「サンプルアプリケーションを起動します。」をクリックして下さい。サンプルアプリケーションの画面が表示されたらインストール成功です。実際にアプリケーションを動かして、プログラムの動作を確認してみましょう。</p>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>サンプルアプリケーションが使用するテーブルは、アプリケーション起動時に database (default) 属性に定義したスキーマに自動生成されます。</p>
+      </div>
+    </div>
+<p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

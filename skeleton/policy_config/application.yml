@@ -1,0 +1,81 @@
+autoload{type='array' output='true'}:
+
+controller{type='array' output='true'}:
+  delegate{default='Delta_FrontControllerDelegate' output='true'}:
+  listener{type='string'}:
+  detectUserAgent{type='boolean' default='FALSE' output='true'}:
+
+htmlEscape{type='array' output='true'}:
+  function{default='htmlspecialchars' output='true'}:
+  flags{default='<?php echo ENT_QUOTES ?>' output='true'}:
+
+module{type='array'}:
+  default{required='true'}:
+  unknown{type='array' required='true'}:
+    module{required='true'}:
+    action{required='true'}:
+  entries{type='array' output='true'}:
+    cpanel{type='array' output='true'}:
+      default{default='LoginForm' output='true'}:
+      enable{type='boolean' default='TRUE' output='true'}:
+      unknown{default='LoginForm' output='true'}:
+    *{type='array' output='true'}:
+      default{default='Index' output='true'}:
+      enable{type='boolean' default='TRUE' output='true'}:
+      unknown{default='Index' output='true'}:
+
+action{type='array' output='true'}:
+  path{default='camelCaps' output='true'}:
+  extension{default='' output='true'}:
+
+response{type='array' output='true'}:
+  callback{type='string' default='ob_gzhandler' output='true'}:
+
+session{type='array' output='true'}:
+  name{default='PHPSESSID' output='true'}:
+  autoStart{type='boolean' default='TRUE' output='true'}:
+  encrypt{type='boolean' default='FALSE' output='true'}:
+  cookieLifetime{type='integer' default='0' output='true'}:
+  cookiePath{default='/' output='true'}:
+  cookieDomain{type='boolean' default='FALSE' output='true'}:
+  cookieSecure{type='boolean' default='FALSE' output='true'}:
+  cookieHttpOnly{type='boolean' default='FALSE' output='true'}:
+  store{default='transparent' output='true'}:
+  timeout{type='integer' default='-1' output='true'}:
+  updateSpan{type='integer' default='-1' output='true'}:
+
+theme{type='array' output='true'}:
+  basePath{type='string' default='theme' output='true'}:
+  name{default='none' output='true'}:
+  domain{type='array' output='true'}:
+  modules{type='array' output='true'}:
+  extension{type='array' output='true'}:
+
+exception{type='array' output='true'}:
+  *{type='array'}:
+    type{required='true'}:
+    delegate{required='true'}:
+    continue{type='boolean' default='FALSE' output='true'}:
+
+error{type='array' output='true'}:
+  catchLevel{type='integer' default='<?php echo E_ALL ?>' output='true'}:
+
+language{default='ja' output='true'}:
+
+charset{type='array' output='true'}:
+  default{default='UTF-8' output='true'}:
+  mime{default='ISO-2022-JP' output='true'}:
+
+view{type='array' output='true'}:
+  extension{default='.php' output='true'}:
+
+debug{type='array' output='true'}:
+  output{type='boolean' default='FALSE' output='true'}:
+  allows{type='array'}:
+
+php{type='array' output='true'}:
+
+vendors{type='array' output='true'}:
+
+project{type='array' output='true'}:
+  gitkeep{type='bool' default='TRUE' output='true'}:

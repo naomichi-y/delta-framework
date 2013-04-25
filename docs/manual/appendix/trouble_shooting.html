@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - 付録 - トラブルシューティング</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div>
+    <h1 id="top">付録 - トラブルシューティング</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2009 年 12 月 28 日</p>
+    <h2>トラブルシューティングの一覧</h2>
+    <ul class="index">
+      <li><a href="#suffixProblem">音楽や動画の再生に失敗する</a></li>
+      <li><a href="#apacheAlias">.do を実行するとエラーが起きる</a></li>
+      <li><a href="#classNotFound">クラスを読み込もうとすると &quot;Class file is not found.&quot; エラーが起きる</a></li>
+    </ul>
+    <h2><a id="suffixProblem" name="suffixProblem"></a>音楽や動画の再生に失敗する</h2>
+    <p>PATH_INFO (mod_rewrite) 形式の URI を使用している場合、amc や 3g2 といったマルチメディアファイルの再生に失敗する可能性があります。<br />
+      これは、delta が特定の拡張子を持つファイル以外のリクエストを全て index.php へリダイレクトするために起こる問題であり、.htaccess にリダイレクトから除外する拡張子を追加することで回避することができます。</p>
+    <dl>
+      <dt>Configuration Code: webroot/.htaccess</dt>
+      <dd class="lang_config"><code>RewriteEngine on<br />
+        <br />
+        # リダイレクトしない拡張子に amc を追加<br />
+        RewriteRule !\.(js|ico|gif|jpg|png|css|swf|amc)$ index.php </code></dd>
+    </dl>
+    <p>以上の設定で、amc ファイルがリクエストされた場合は index.php (フレームワーク) が実行されないようになります。</p>
+    <h2><a id="apacheAlias" name="apacheAlias"></a>.do を実行するとエラーが起きる2 </h2>
+    <p>.do アクションを実行しようとすると、&quot;Bat Request Error&quot; や &quot;Internal Server Error&quot; といったサーバエラーが発生する場合があります。アクションが実行出来ない原因としては、次に挙げるような理由が考えられます。</p>
+    <ul>
+      <li>mod_rewrite  モジュールが無効になっている (&quot;apachectl -l&quot; で mod_rewrite.c がロードされているか確認して下さい)</li>
+      <li>webroot/.htaccess ファイルが無効になっている (httpd.conf の設定で、親ディレクトリの AllowOverride を許可するよう設定して下さい)</li>
+      <li>公開ディレクトリに対して Apache の Alias を使用している </li>
+    </ul>
+    <p>Alias 機能を用いてアプリケーションを公開している場合、URI は &quot;http://{host}/{alias}/&quot; といった形式になります。この場合、{alias} 部分に当たるエイリアス名を webroot/.htaccess において定義しておく必要があります。(デフォルトでは RewriteBase の値が &quot;/&quot; となっているため、&quot;http://{host}/&quot; にマッピングされています) </p>
+    <dl>
+      <dt>Configuration Code: webroot/.htaccess</dt>
+      <dd class="lang_config"> <code>RewriteEngine on<br />
+        // エイリアス名を指定<br />
+        <span class="update">RewriteBase /{alias}</span><br />
+        RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php </code></dd>
+    </dl>
+    <h2><a id="classNotFound" name="classNotFound"></a>クラスを読み込もうとすると &quot;Class file is not found.&quot; エラーが起きる </h2>
+    <p>&quot;Class file is not found. {クラス名}&quot; エラーは、読み込もうとしたクラスファイルが何らかの理由で読み込めなかった場合に発生するエラーです。次のチェックリストに問題がないか確認して下さい。</p>
+    <table>
+              <colgroup>
+          <col width="30%" />
+          <col width="70%" />
+          </colgroup>
+
+      <tr>
+        <th scope="col">ケース</th>
+        <th scope="col">解決方法</th>
+      </tr>
+      <tr>
+        <td>開発者が作成したクラスが読み込まれない</td>
+        <td><ul>
+            <li>プロジェクトディレクトリの libs ディレクトリ下にファイルが存在していますか。ファイル名の書式は、&quot;{クラス名}.php&quot; です。Linux 環境の場合、大文字・小文字は区別されます。</li>
+            <li>コード内のクラス名が間違っていませんか。Linux 環境の場合、大文字・小文字は区別されます。</li>
+            <li>同一クラス名が libs ディレクトリに複数存在していませんか。クラス名はユニークな名前を付ける必要があります。</li>
+          </ul></td>
+      </tr>
+      <tr>
+        <td>直前にフレームワークのメジャーアップデートを行っている </td>
+        <td><ul>
+            <li>フレームワークのメジャーアップデートを行った場合は、プロジェクトディレクトリ下の cache ディレクトリを再作成して下さい。アップデートに伴い、キャッシュアルゴリズムが変更されている可能性があります。</li>
+          </ul></td>
+      </tr>
+    </table>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

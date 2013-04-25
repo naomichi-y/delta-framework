@@ -1,0 +1,56 @@
+action:
+  extension: .do
+
+charset:
+  default: UTF-8
+  mime: ISO-2022-JP
+
+database:
+  default:
+    dsn: "mysql:host=localhost; dbname={DB_NAME}; port={PORT}"
+    user: "{DB_USER}"
+    password: "{DB_PASSWORD}"
+
+debug:
+  output: TRUE
+
+exception:
+  - type: Exception
+    delegate: Delta_ExceptionLoggingDelegate
+    continue: TRUE
+
+  - type: Exception
+    delegate: Delta_ExceptionOutputDelegate
+
+language: ja
+
+secretKey: "{%SECRET_KEY%}"
+
+logger:
+  errorFileAppender:
+    class: Delta_LoggerFileAppender
+    file: error.log
+    rotate:
+      type: date
+      datePattern: Y-m
+
+module:
+  default: "{%MODULE.ENTRY%}"
+  entries:
+    "{%MODULE.ENTRIES.INIT%}":
+      default: Index
+      unknown: Index
+    cpanel:
+      default: LoginForm
+      unknown: LoginForm
+      password: "{%CPANEL.PASSWORD%}"
+  unknown:
+    module: "{%MODULE.UNKNOWN%}"
+    action: Index
+
+project:
+  gitkeep: "{%REPOSITORY.GITKEEP%}"
+
+php:
+  error_log: <?php echo APP_ROOT_DIR . '/logs/fatal_error.log' ?>
+

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - その他の機能 - クラスファイルの自動読み込み</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">その他の機能 - クラスファイルの自動読み込み</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2007 年 3 月 11 日</p>
+    <h2>Hacks</h2>
+    <p>delta にはクラスファイルの自動読み込み機能が備わっています。自動読み込みしたいクラスは、プロジェクトの libs ディレクトリ下に配置して下さい。もちろんサブディレクトリを作ってその中にファイルを配置しても構いません。クラスローダは、libs ディレクトリから対象クラスを再帰的に検索します。</p>
+    <p>尚、クラスを自動読み込みするに当たって、対象のクラスは次のルールに従う必要があります。</p>
+    <ul>
+      <li>クラスファイルはプロジェクトディレクトリの libs 下に配置する
+        <ul>
+          <li>libs 下はパッケージごとにディレクトリを作成、再帰的に階層化できる</li>
+          <li>Delta_ClassLoader#addAutoloadPath() メソッドを使うことで、自動読み込み対象のディレクトリを追加可能 (通常使用する必要はありません) </li>
+        </ul>
+      </li>
+      <li>クラス名は &quot;(クラス名).php&quot; の書式に従う。Foo クラスを作成するのであれば、ファイル名は &quot;Foo.php&quot; となる
+        <ul>
+          <li>クラス名はアプリケーション内で必ずユニークな名前を付ける</li>
+        </ul>
+      </li>
+      <li>1 ファイル 1 クラスの定義に従う。1 つのファイルに複数のクラスを定義した場合、2 つめ以降のクラスは自動読み込みの対象となりません</li>
+    </ul>
+    <p>次にアクションクラスから Foo クラスを自動読み込むサンプルコードを示します。</p>
+    <dl>
+      <dt>PHP Code# libs/entity/Foo.php</dt>
+      <dd class="lang_php"><code>class Foo <br />
+        {<br />
+        &nbsp;&nbsp;private $_foo;<br />
+        <br />
+        &nbsp;&nbsp;public function setFoo($foo)<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_foo = $foo; <br />
+        &nbsp;&nbsp;} <br />
+        <br />
+        &nbsp;&nbsp;public function getFoo()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_foo; <br />
+        &nbsp;&nbsp;
+        } <br />
+        }</code></dd>
+      <dt>PHP Code# modules/{module}/actions/FooClientAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        &nbsp;&nbsp;$foo = new Foo();<br />
+        <br />
+        &nbsp;&nbsp;
+        return Delta_View::NONE; <br />
+        } </code></dd>
+    </dl>
+    <p>このように、Foo クラスは他のクラスから呼び出されることで自動的に読み込まれます。</p>
+    <h3>クラスローダのキャッシュ機能</h3>
+    <p>クラスローダは自動読み込み対象のクラスを見つけると、ファイルパスを内部キャッシュします。これにより 2 回目以降のリクエスト時はキャッシュ情報を返すようになり、パフォーマンスの低下を防いでいます。<br />
+      キャッシュファイルは基本的に自動作成、更新されるため、開発者がファイルを直接操作する必要はありません。</p>
+    <p>尚、キャッシュファイルは次のタイミングで更新されます。</p>
+    <ul>
+      <li>キャッシュ作成後 30 日が経過</li>
+      <li>キャッシュにヒットしたクラスが存在しない (クラス名が変わった、ディレクトリ構成が変更された場合など) </li>
+    </ul>
+    <p>キャッシュを手動で削除したい場合は、プロジェクトディレクトリ内の cache/autoload 下にあるファイルを全て削除して下さい。 </p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

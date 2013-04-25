@@ -1,0 +1,126 @@
+/**
+ * context
+ */
+
+div.delta_context {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 16px;
+  color: #000000;
+  background-color: #ffffff;
+  text-align: left;
+  font-size: 12px;
+}
+
+div.delta_context dd {
+  margin: 10px 40px 10px 40px;
+  border: none;
+}
+
+div.delta_context code {
+  font-family: "Courier New", Courier, monospace !important;
+}
+
+/**
+ * stack trace
+ */
+
+dl.delta_exception_trigger_code {
+  margin-bottom: 2%;
+  border: 1px solid #999999;
+}
+
+dl.delta_exception_trigger_code dt {
+  color: #ffffff;
+  padding: 6px 10px 6px 10px;
+  background-color: #999999;
+}
+
+dl.delta_exception_trigger_code dd {
+  background-color: #efefef;
+  margin: 0;
+}
+
+dl.delta_stack_traces span.file_info {
+  font-weight: normal;
+  font-style: italic;
+}
+
+dl.delta_stack_traces dt {
+  font-weight: bold;
+  padding: 6px;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: none;
+}
+
+div.delta_context dd.delta_code_inspector {
+  border: 1px solid #999999;
+  padding: 0;
+}
+
+/**
+ * code inspector
+ */
+dd.delta_code_inspector h2 {
+  font-size: 12px;
+  padding: 6px;
+  margin: 0;
+  background-color: #999999;
+  text-indent: 4px;
+  color: #ffffff;
+}
+
+p.delta_stack_trace {
+  background-color: #efefef;
+  padding: 10px;
+  margin: 0;
+}
+
+/**
+ * dprint()
+ */
+div.delta_dprint {
+  margin: 20px;
+  border: 1px solid #333333;
+}
+
+p.delta_dprint_title {
+  padding: 6px;
+  text-indent: 10px;
+  background-color: #3C6C92;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+div.delta_dprint_box {
+  padding: 10px;
+  height: 300px;
+  overflow: auto;
+}
+
+div.delta_dprint_box dl.delta_dprint_detail dt {
+  padding: 6px;
+  margin-left: 20px;
+  border-bottom: 1px solid #999999;
+}
+
+div.delta_dprint_box pre {
+  background-color: #efefef;
+  padding: 10px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+} 
+
+/**
+ * dtrace()
+ */
+div.delta_dtrace {
+  display: none;
+  color: red;
+}
+
+

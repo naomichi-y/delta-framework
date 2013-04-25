@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - ファイルのアップロード</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - ファイルのアップロード</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2010 年 10 月 28 日</p>
+    <h2>ファイルのアップロードと検証</h2>
+    <p>delta にはアップロードされたファイルを扱うために次のようなクラスが用意されています。</p>
+    <ul>
+      <li>Delta_UploadValidator: アップロードされたファイルの形式を検証する</li>
+      <li>Delta_FileUploader: アップロードされたファイルを操作する
+        <ul>
+          <li>Delta_ImageUploader: アップロードされたファイルをイメージオブジェクト (Delta_Image) として扱う</li>
+        </ul>
+      </li>
+    </ul>
+    <p>それでは早速、これらのクラスを使ってイメージファイルをアップロードするコードを見てみましょう。初めにファイルをアップロードするためのフォームが必要になります。アクションクラスで必要な処理は特にないのでここでは省略します。 </p>
+    <dl>
+      <dt>Template Code# modules/{module}/templates/image_register_form.php</dt>
+      <dd class="lang_template"> <code>&lt;?php echo $form-&gt;startMultipart('ImageRegister'): ?&gt;<br />
+        &nbsp;&nbsp;&lt;p&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputFile('imageFile') ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('アップロード') ?&gt; <br />
+        &nbsp;&nbsp;&lt;/p&gt;<br />
+        &lt;?php endif; ?&gt; <br />
+        </code></dd>
+    </dl>
+    <h3>アップロードファイルの検証</h3>
+    <p>アップロードされたファイルの内容を検証するルールを作成します。 </p>
+    <dl>
+      <dt>YAML Code# modules/{module}/behaviors/ImageRegister.yml</dt>
+      <dd class="lang_yaml"><code> validate:<br />
+        &nbsp;&nbsp;methods: post<br />
+        &nbsp;&nbsp;names:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;imageFile:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validators: imageUploadValidator<br />
+        <br />
+        &nbsp;&nbsp;validators:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;imageUploadValidator:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_FileUploadValidator<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;required: TRUE<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requiredError: 'アップロードするイメージを指定して下さい。'<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mimeTypes: <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- image/jpeg<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- image/pjpeg<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  image/gif<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- image/png<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- image/x-png<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mimeTypeError: 'ファイル形式が不正です。'<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxSize: 512KB<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxSizeError: 'ファイルサイズが大きすぎます。(512KB まで)'<br />
+        view:<br />
+        &nbsp;&nbsp;success: image_register_form.php </code></dd>
+    </dl>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>Delta_FileUploadValidator を利用する場合、names.{フィールド名}.required、requiredError 属性の指定は無効になります。検証ルールに指定可能なオプションについては <img src="../assets/images/icons/api.gif" alt="delta API" width="14" height="14" /> <a href="../../api/reference/util.image/delta___image.html">Delta_FileUploadValidator</a> リファレンスを参照して下さい。 </p>
+      </div>
+    </div>
+    <h3>アップロードファイルの保存</h3>
+    <p>ビヘイビアに対応するアクションクラスを作成します。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/ImageRegisterAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        &nbsp;&nbsp;$uploader = new Delta_FileUploader('imageFile');<br />
+        &nbsp;&nbsp;$uploader-&gt;deploy('data/uploads/upload.dat');<br />
+        <br />
+        &nbsp;&nbsp;$this-&gt;getMessages()-&gt;add('アップロードが完了しました。');<br />
+        }<br />
+        </code></dd>
+    </dl>
+    <p>ImageRegister アクションでは、アップロードフィールドである imageFile を引数としてアップローダのインスタンスを生成し、deploy() メソッドでファイルを保存します。</p>
+    <h3>アップロードされたファイルの変換</h3>
+    <p>アップロード対象ファイルが画像形式の場合、アップロードと同時に画像のリサイズやフォーマットの変換を行なうことができます。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/ImageRegisterAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        &nbsp;&nbsp;$uploader = new Delta_ImageUploader('imageFile');<br />
+        <br />
+        &nbsp;&nbsp;// 画像操作ライブラリとして GD を使う<br />
+        &nbsp;&nbsp;$uploader-&gt;setImageEngine(Delta_ImageFactory::IMAGE_ENGINE_GD);<br />
+        <br />
+        &nbsp;&nbsp;// アップロードされたファイルをイメージオブジェクトに変換 <br />
+        &nbsp;&nbsp;$image = $uploader-&gt;getImage(); <br />
+        &nbsp;&nbsp;$image-&gt;resizeByMaximum(200);<br />
+        &nbsp;&nbsp;$image-&gt;convertFormat(Delta_Image::IMAGE_TYPE_PNG);<br />
+        &nbsp;&nbsp;$image-&gt;save('data/uploads/upload.dat');<br />
+        <br />
+        &nbsp;&nbsp;$this-&gt;getMessages()-&gt;add('アップロードが完了しました。');<br />
+        }</code></dd>
+    </dl>
+    <p> サンプルコードを見て分かる通り、ファイルのアップロードには Delta_ImageUploader クラスを使用しています。このクラスは Delta_FileUploader から派生した画像アップロード専用のユーティリティであり、getImage() メソッドを使うことで Delta_Image のインスタンスを生成することができます。Delta_Image クラスには画像のリサイズを行なう resizeByMaximum() やフォーマットを変換する convertFormat() メソッドが用意されているので、必要なメソッドをコールした後に save() メソッドを実行すれば新しい形式でファイルが保存されます。</p>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>画像操作クラスの詳細については <img src="../assets/images/icons/api.gif" alt="delta API" width="14" height="14" /> <a href="../../api/reference/util.image/delta___image.html">Delta_Image</a> リファレンスを参照して下さい。 </p>
+      </div>
+    </div>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

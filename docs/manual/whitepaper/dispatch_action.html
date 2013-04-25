@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - ディスパッチアクションの利用</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - ディスパッチアクションの利用</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2006 年 7 月 21 日</p>
+    <h2>Hacks</h2>
+    <p>フォームに submit ボタンが存在する場合、form タグの action 属性に処理先となるアクション名を指定しますが、複数の submit ボタンが存在する場合は、押下されたボタンによって処理するアクションをディスパッチする必要があります。delta では、Delta_DispatchAction クラスを使用することで、アクションのリレーフォワードを実現することが出来ます。</p>
+    <p>まず初めに、テンプレートファイルにてフォームを作成します。</p>
+    <dl>
+      <dt>Template Code# modules/{module}/templates/member_register_confirm.php</dt>
+      <dd class="lang_template"><code>&lt;?php echo $form-&gt;start('MemberRegisterDispatch') ?&gt;<br />
+        &nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('修正', array('name' =&gt; 'dispatchMemberRegisterForm')) ?&gt;<br />
+        &nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('登録', array('name' =&gt; 'dispatchMemberRegister')) ?&gt;<br />
+        &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
+    </dl>
+    <p>form タグの action 属性では、リレーを処理するアクションを指定しており、submit ボタンでは Modify、Register の 2 つのボタンを用意しておきます。submit ボタンの name 属性がそれぞれ dispatchMemberRegisterForm、dispatchMemberRegister になっていることに注目して下さい。リレーアクションでは、&quot;dispatch&quot; から始まるフォーム要素名をフォワード先アクションとして捕らえます。つまり、Modify ボタンが押下された場合は MemberRegisterForm アクション、Register ボタンが押下された場合は MemberRegister アクションへのフォワード処理が発生します。</p>
+    <p>テンプレートの作成が終わったら、次はリレーアクションを作成します。Delta_DispatchAction クラスは、Delta_Action クラスを基底としたディスパッチャです。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/MemberRegisterDispatchAction.php</dt>
+      <dd class="lang_php"><code>// Delta_DispatchAction クラスを継承<br />
+        class MemberRegisterDispatchAction extends Delta_DispatchAction<br />
+        {<br />
+        &nbsp;&nbsp;// submit の name 属性に対応したメソッド<br />
+        &nbsp;&nbsp;public function dispatchMemberRegisterForm()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return 'MemberRegisterForm';<br />
+        &nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;public function dispatchMemberRegister()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return 'MemberRegister';<br />
+        &nbsp;&nbsp;}<br />
+        }</code></dd>
+    </dl>
+    <p>MemberRegisterDispatchAction クラスでは、dispatchMemberRegisterForm()、dispatchMemberRegister() メソッドが定義されており、submit が押下されたときに name 属性に記述された要素名 (アクションメソッド) を処理します。dispatch から始まるメソッドは、フォワード先となるアクション名 (文字列) を返すことで、リレー先となるアクションが処理されます。 </p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>ディスパッチアクションにも通常のアクション同様、ビヘイビアを設定することが出来ます。 </p>
+      </div>
+    </div>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

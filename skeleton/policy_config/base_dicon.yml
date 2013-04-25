@@ -1,0 +1,11 @@
+componentNames{required='true' type='array'}:
+  *{required='true' type='array'}:
+    class{required='true'}:
+    path:
+    constructor{type='array'}:
+      *:
+    setter{type='array'}:
+      *:
+    method{type='array'}:
+    instance:
+

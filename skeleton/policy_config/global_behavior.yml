@@ -1,0 +1,59 @@
+@ref:
+components{type='array'}:
+  @ref:
+  componentNames{type='array'}:
+    *{type='array' required='true'}:
+      class{required='true'}:
+      constructor{type='array'}:
+      setter{type='array'}:
+      method{type='array'}:
+      instance{default='singleton' output='true'}:
+  includes{type='array'}:
+
+safety{type='array'}:
+  @ref:
+  access{default='none' output='true'}:
+
+convert{type='array'}:
+  @ref:
+  *{type='array'}:
+    names{type='string'}:
+    converters{type='array'}:
+
+validate{type='array'}:
+  @ref:
+  methods:
+  methodsError:
+  includes{type='array'}:
+  names{type='array'}:
+    *{type='array'}:
+      required:
+      requiredError:
+      validators:
+      variables{type='array'}:
+  conditions{type='array'}:
+    *{type='array' required='true'}:
+      groups{type='array'}:
+        names{type='array'}:
+          *{type='array'}:
+            required:
+            requiredError:
+            validators:
+            variables{type='array'}:
+        requireRows{type='integer'}:
+      test:
+      testError:
+      names{type='array'}:
+        *{type='array'}:
+          required:
+          requiredError:
+          validators:
+          variables{type='array'}:
+      validators:
+      variables{type='array'}:
+  validators{type='array'}:
+    *{type='array' required='true'}:
+      class{required='true'}:
+
+view{type='array'}:
+  @ref:

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - Basic/Digest 認証の実装</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - Basic/Digest 認証の実装</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2009 年 3 月31 日</p>
+    <h2>認証フィルタの概念</h2>
+    <p>delta には HTTP 認証 (Basic、Digest) を実装する機能がフィルタとして備わっています。</p>
+    <p>下図は認証フィルタの構成を表したクラス図です。<br />
+      認証ロジックは Delta_BasicAuthenticationFilter、Delta_DigestAuthenticationFilter (抽象クラス) に組み込まれており、認証成功 (失敗) 後の処理はカスタムフィルタに定義する必要があります。</p>
+    <p><img src="../assets/images/diagram/class/http_authentication_filter.png" alt="cd Delta_HttpAuthenticationFilter" width="454" height="306" /></p>
+    <h2>Basic 認証の実装</h2>
+    <p>それでは実際に Basic 認証を実装するサンプルコードを見てみましょう。<br />
+      はじめに Delta_BasicAuthenticationFilter を継承したカスタムフィルタを作成します。</p>
+    <dl>
+      <dt>PHP Code# libs/filter/BasicAuthenticationFilter.php</dt>
+      <dd class="lang_php"><code>class BasicAuthenticationFilter extends Delta_BasicAuthenticationFilter<br />
+        {<br />
+        &nbsp;&nbsp;// $username: 認証プロンプトから入力されたユーザ名<br />
+        &nbsp;&nbsp;// $password: 認証プロンプトから入力されたパスワード<br />
+        &nbsp;&nbsp;function authenticate($username, $password)<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 認証を許可するユーザリスト (username =&gt; password)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users = array();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users['foo'] = '100'; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users['bar'] = '200'; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users['baz'] = '300'; <br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 入力されたユーザ名、パスワードが $users 配列に存在するか<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;if (isset($users[$username]) &amp;&amp; strcmp($users[$username], $password) === 0) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 認証成功<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return TRUE;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 認証失敗 <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return FALSE;<br />
+        &nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;public function authenticateSuccess($chain)<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 認証成功時に実行する処理<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// ...<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;parent::authenticateSuccess($chain);<br />
+        &nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;public function authenticateFailure($chain)<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 認証失敗時に実行する処理<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// $this-&gt;getMessages()-&gt;addError('Authentication failed!');<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// $this-&gt;getController()-&gt;forward('AuthenticationError');<br />
+        &nbsp;&nbsp;}<br />
+        } </code></dd>
+    </dl>
+    <p>authenticate() メソッドは Delta_BasicAuthenticationFilter に定義されている抽象メソッドです。このメソッドは認証プロンプトから送信されたユーザ名、パスワードを引数として受け取り、認証に成功したか否かをブーリアン型で返すよう実装します。<br />
+      その後に続く authenticateSuccess()、authenticateFailure() メソッドは Delta_HttpAuthenticationFilter に定義されたオプションメソッドですので、必要がなければオーバーライドする必要はありません。</p>
+    <p>次に特定モジュールで認証フィルタが適用されるよう設定ファイルにルールを追加します。</p>
+    <dl>
+      <dt>YAML Code# modules/{module}/filters.yml</dt>
+      <dd class="lang_yaml"><code>basicAuthenticationFilter:<br />
+        &nbsp;&nbsp;clsas: BasicAuthenticationFilter<br />
+        &nbsp;&nbsp;# 特定パッケージのみ認証フィルタを適用させる場合<br />
+        &nbsp;&nbsp;# packages:<br />
+        &nbsp;&nbsp;#&nbsp;&nbsp;- /auth</code></dd>
+    </dl>
+    <p>最後に認証対象となるアクションを作成しましょう。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/AuthenticationAction.php</dt>
+      <dd class="lang_php"><code>class AuthenticationAction extends Delta_Action<br />
+        {<br />
+        &nbsp;&nbsp;public function execute()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;echo 'Authentication success!';<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::NONE; <br />
+        &nbsp;&nbsp;} <br />
+        } </code></dd>
+    </dl>
+    <p>ブラウザ経由で対象アクションを起動すると、次のような認証ダイアログが開きます。</p>
+    <p><img src="../assets/images/screenshots/authentication_dialog.png" width="509" height="164" alt="認証ダイアログ" /></p>
+    <p>ユーザ名に &quot;foo&quot;、パスワードに &quot;100&quot; を入れることで Basic 認証を通過し、画面には &quot;Authentication success!&quot; の文字列が出力されます。</p>
+    <h2>Digest 認証の実装</h2>
+    <p>Digest 認証の実装は、Basic 認証の時とほぼ同じです。<br />
+      初めに Delta_DigestAuthenticationFilter を親とする実装クラスを作成しましょう。</p>
+    <dl>
+      <dt>PHP Code# libs/filter/DigestAuthenticationFilter.php</dt>
+      <dd class="lang_php"><code>class DigestAuthenticationFilter extends Delta_DigestAuthenticationFilter<br />
+        {<br />
+        &nbsp;&nbsp;// $username: 認証プロンプトから入力されたユーザ名<br />
+        &nbsp;&nbsp;function getPassword($username)<br />
+        &nbsp;&nbsp;{</code><br />
+        <code>&nbsp;&nbsp;&nbsp;&nbsp;// 認証を許可するユーザリスト (username =&gt; password)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users = array();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users['foo'] = '100'; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users['bar'] = '200'; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$users['baz'] = '300';<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// リクエストされたユーザ名が存在するかチェック<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;if (isset($users[$username])) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ユーザ名に対応するパスワードを返す<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $users[$username];<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 存在しない場合は認証失敗<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return FALSE; </code><br />
+        <code>&nbsp;&nbsp;</code>}<br />
+        }</dd>
+    </dl>
+    <p>getPassword() メソッドは、Delta_DigestAuthenticationFilter に定義された抽象メソッドです。このメソッドは認証ダイアログから送信されたユーザ名を引数に取り、ユーザ名に対応するパスワードを返すよう実装します。Basic 認証の時とは認証実装メソッドが異なるので注意して下さい。</p>
+    <p>次にフィルタ適用ルールを定義します。</p>
+    <dl>
+      <dt>YAML Code# modules/{module}/filters.yml</dt>
+      <dd class="lang_yaml"><code>digestAuthenticationFilter:<br />
+        &nbsp;&nbsp;clsas: DigestAuthenticationFilter<br />
+        &nbsp;&nbsp;# 特定パッケージのみ認証フィルタを適用させる場合<br />
+        &nbsp;&nbsp;# packages:<br />
+        &nbsp;&nbsp;#&nbsp;&nbsp;- /auth</code></dd>
+    </dl>
+    <p>最後に認証対象となるアクションを作成すれば完了です。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/AuthenticationAction.php</dt>
+      <dd class="lang_php"><code>class AuthenticationAction extends Delta_Action<br />
+        {<br />
+        &nbsp;&nbsp;public function execute()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;echo 'Authentication success!';<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::NONE; <br />
+        &nbsp;&nbsp;} <br />
+        } </code></dd>
+    </dl>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+moduleEntry:
+  uri: /:module/:action/*
+
+defaultEntry:
+  uri: /:action/*

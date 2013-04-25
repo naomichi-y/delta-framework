@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips  - アクセス制限付きアクションの作成</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips  - アクセス制限付きアクションの作成</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2010 年 5 月 17 日</p>
+    <h2>特定のネットワークからのみアクセスを許可する</h2>
+    <p>特定したネットワーククライアントからのリクエストのみ許可するアクションを作成したい場合、ルータファイルにてアクセス制御を設定すると便利です。</p>
+    <p>初めに routes.yml ファイルにアクセス制御の設定を定義します。</p>
+    <dl>
+      <dt>YAML Code: config/routes.yml</dt>
+      <dd class="lang_yaml"><code>accessRestrictEntry:<br />
+        &nbsp;&nbsp;uri: /restrict/hello<br />
+        &nbsp;&nbsp;forward:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;module: entry<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;action: Hello<br />
+        &nbsp;&nbsp;access:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;allows:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 192.168.0/24<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;denyForward:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;module: entry<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action: AccessDenied<br />
+        &nbsp;&nbsp;packages:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;- entry: /restrict/*<br />
+        <br />
+        moduleEntry:<br />
+        &nbsp;&nbsp;uri: /:module/:action</code><br />
+        <code>&nbsp; packages:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;- entry:/* # 通常は指定する必要なし</code></dd>
+    </dl>
+    <p>ここでは例として、/restrict/hello へのリクエストを要求された場合、entry モジュールの Hello アクションを起動する設定になっています。アクセス制御に用いる属性は、&quot;access&quot; と &quot;packages&quot; です。&quot;access.allows&quot; では許可するネットワーク帯の設定、&quot;access.denyForward&quot; では許可していないネットワークからアクセスがあった場合のフォワード先アクションを指定しています。(&quot;access.denyForward&quot; 属性が未指定の場合は、モジュールのデフォルトアクションにフォワードがかかります)</p>
+    <p>もう一つの &quot;packages&quot; 属性は、現在のルーティングに関連付けるパッケージを指定します。上記例では &quot;entry:/restrict/*&quot; となっていますので、entry モジュールの actions/restrict ディレクトリ下の全てのアクションが accessRestrictEntry ルータに関連付けられます。packages 属性は routes.yml ファイルで指定された順序でパッケージとの関連付けを設定します。よって、moduleEntry の &quot;packages&quot; 属性で &quot;entry:/*&quot; のように指定した場合は、&quot;entry:/restrict&quot; を除いたパッケージからアクションが検索されるようになります。</p>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>packages 属性が未指定の場合、他のルーティングを介して制限対象のアクションにアクセスされる恐れがあります。IP 制限が必要なルーティングには必ず packages を指定するようにしましょう。</p>
+      </div>
+    </div>
+    <p>アクションファイルは routes.yml で設定した通りのパッケージ構成で配置します。</p>
+    <ul>
+      <li>modules/entry/actions/restrict/HelloAction.php</li>
+      <li>modules/entry/actions/AccessDeniedAction.php</li>
+    </ul>
+    <p>クライアントからのリクエスト結果は次のようになります。</p>
+    <table>
+      <colgroup>
+      <col width="15%" />
+      <col width="20%" />
+      <col width="20%" />
+      <col width="20%" />
+      <col width="25%" />
+      </colgroup>
+      <tr>
+        <th scope="col">クライアント IP</th>
+        <th scope="col">リクエスト URI</th>
+        <th scope="col">適用されるルーティング</th>
+        <th scope="col">実行されるモジュール / アクション</th>
+        <th scope="col">結果</th>
+      </tr>
+      <tr>
+        <td>192.168.0.1</td>
+        <td>/restrict/hello</td>
+        <td>accessRestrictEntry</td>
+        <td>entry / Hello</td>
+        <td>アクセス成功</td>
+      </tr>
+      <tr>
+        <td rowspan="2">192.168.1.1</td>
+        <td>/restrict/hello</td>
+        <td>accessRestrictEntry</td>
+        <td>entry / accessDenied</td>
+        <td>アクセス拒否</td>
+      </tr>
+      <tr>
+        <td>/entry/hello.do</td>
+        <td>moduleEntry</td>
+        <td>entry / Index (デフォルトアクション)</td>
+        <td>パッケージが関連付いていないためアクションを実行できない</td>
+      </tr>
+    </table>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

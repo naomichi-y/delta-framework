@@ -1,0 +1,18 @@
+validate:
+  names:
+    tables:
+      required: TRUE
+      requiredError: テーブルが未選択です。
+    createType:
+      required: TRUE
+      requiredError: 生成するクラスが未選択です。
+    baseDAOClassName:
+      required: TRUE
+      requiredError: DAO 基底クラス名が未入力です。
+    baseEntityClassName:
+      required: TRUE
+      requiredError: エンティティ基底クラス名が未入力です。
+
+view:
+  error:
+    forward: GenerateDAOForm

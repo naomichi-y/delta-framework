@@ -1,0 +1,145 @@
+tables:
+  - name: delta_action_requests
+    columns:
+      - name: action_request_id
+        type: int
+        length: 4
+        unsigned: TRUE
+        notNull: TRUE
+        autoIncrement: TRUE
+        primaryKey: TRUE
+
+      - name: hostname
+        type: varchar
+        length: 32
+        notNull: TRUE
+
+      - name: session_id
+        type: varchar
+        length: 48
+        notNull: TRUE
+
+      - name: request_path
+        type: varchar
+        length: 255
+        notNull: TRUE
+
+      - name: module_name
+        type: varchar
+        length: 16
+        notNull: TRUE
+
+      - name: action_name
+        type: varchar
+        length: 48
+        notNull: TRUE
+
+      - name: select_count
+        type: int
+        length: 4
+        notNull: TRUE
+        default: 0
+
+      - name: insert_count
+        type: int
+        length: 4
+        notNull: TRUE
+        default: 0
+
+      - name: update_count
+        type: int
+        length: 4
+        notNull: TRUE
+        default: 0
+
+      - name: delete_count
+        type: int
+        length: 4
+        notNull: TRUE
+        default: 0
+
+      - name: other_count
+        type: int
+        length: 4
+        notNull: TRUE
+        default: 0
+
+      - name: process_time
+        type: float
+        notNull: TRUE
+
+      - name: summary_date
+        type: date
+        notNull: TRUE
+
+      - name: register_date
+        type: timestamp
+        notNull: TRUE
+
+    indexes:
+      - name: idx_delta_action_requests_1
+        columns:
+          - name: hostname
+          - name: summary_date
+
+  - name: delta_sql_requests
+    columns:
+      - name: sql_request_id
+        type: int
+        unsigned: TRUE
+        notNull: TRUE
+        autoIncrement: TRUE
+        primaryKey: TRUE
+
+      - name: action_request_id
+        type: int
+        unsigned: TRUE
+        notNull: TRUE
+
+      - name: statement_type
+        type: int
+        length: 2
+        notNull: TRUE
+
+      - name: prepared_statement
+        type: text
+
+      - name: statement_hash
+        type: varchar
+        length: 32
+        notNull: TRUE
+
+      - name: statement
+        type: text
+        notNull: TRUE
+
+      - name: process_time
+        type: float
+        notNull: TRUE
+
+      - name: file_path
+        type: varchar
+        length: 255
+        notNull: TRUE
+
+      - name: class_name
+        type: varchar
+        length: 48
+
+      - name: method_name
+        type: varchar
+        length: 48
+        notNull: TRUE
+
+      - name: line
+        type: int
+        length: 2
+
+    indexes:
+      - name: fk_sql_requests_page_requests_1
+        columns:
+          - name: action_request_id
+      - name: idx_delta_sql_requests_1
+        columns:
+          - name: statement_hash
+

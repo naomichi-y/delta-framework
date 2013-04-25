@@ -1,0 +1,42 @@
+/**
+ * delta jquery CSS
+ */
+
+.ui-widget {
+  font-size: 0.96em;
+  text-align: left;
+}
+
+table.tablesorter {
+  margin: 2%;
+}
+
+table.tablesorter tbody td {
+  vertical-align: middle;
+}
+
+div.ui-widget h2 {
+  font-size: 1em;
+}
+
+div.ui-dialog-content table {
+  margin: 0 2% 1% 2%;
+}
+
+div.ui-dialog-content {
+  margin-bottom: 1%;
+}
+
+table {
+  width: 96% !important;
+}
+
+div.search {
+  text-align: right;
+  margin-bottom: 1%;
+  font-size: 0.96em;
+}
+
+.highlight {
+  background-color: #dddddd !important;
+}

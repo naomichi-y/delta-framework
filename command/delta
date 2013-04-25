@@ -1,0 +1,17 @@
+#!/bin/sh
+
+############################################################################
+# delta CLI for Linux
+############################################################################
+
+if test -z "$PHP_COMMAND"
+then
+  PHP_COMMAND=php
+fi
+
+if test -z "$DELTA_HOME"
+then
+  DELTA_HOME=@DELTA_HOME@
+fi
+
+$PHP_COMMAND -d html_errors=off "$DELTA_HOME/command/delta.php" $@

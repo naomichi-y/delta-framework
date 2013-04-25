@@ -1,0 +1,2 @@
+manager_id, login_id, login_password, manager_name, register_date
+1, 'admin', '3947cdf52a551de4983746545a1affdb2b04f4a2', 'administrator', NOW()

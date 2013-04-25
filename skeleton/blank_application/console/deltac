@@ -1,0 +1,13 @@
+#!/bin/sh
+
+############################################################################
+# delta console for Linux
+############################################################################
+
+if test -z "$PHP_COMMAND"
+then
+    PHP_COMMAND=php
+fi
+
+CUR_DIR=`dirname $0`
+$PHP_COMMAND $CUR_DIR/deltac.php $@

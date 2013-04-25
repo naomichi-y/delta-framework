@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - 設定ファイル - global_filters.yml</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">設定ファイル - global_filters.yml</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2011 年 1 月25 日</p>
+    <h2>フィルタ設定ファイルの概要</h2>
+    <p>フィルタ設定ファイルは、アプリケーション上のフィルタ動作を設定します。ヘルパには global_filters.yml と filters.yml の 2 種類があり、それぞれフィルタの適用範囲が異なります。</p>
+    <table>
+      <colgroup>
+      <col width="30%" />
+      <col width="50%" />
+      <col width="20%" />
+      </colgroup>
+
+      <tr>
+        <th scope="col">パス</th>
+        <th scope="col">説明</th>
+        <th scope="col">必須</th>
+      </tr>
+      <tr>
+        <td>config/global_filters.yml</td>
+        <td>グローバル設定ファイル。アプリケーション全体に影響。</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>modules/{module}/config/filters.yml</td>
+        <td>単一モジュール設定ファイル。グローバル設定ファイルの内容は継承される。</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <p>フィルタは global_filters.yml、filters.yml の順で処理されます。また、filters は必須ファイルでないため、フィルタを使用しない場合はファイル自体設置する必要がありません。</p>
+    <h2>属性一覧</h2>
+    <p>次に filters (global_filters.yml を含む) ファイルで設定可能な値の一覧を記します。</p>
+    <table>
+          <colgroup>
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="50%" />
+      </colgroup>
+
+      <tr>
+        <th colspan="2" scope="col">属性構成 </th>
+        <th scope="col">デフォルト値</th>
+        <th scope="col">取り得る値</th>
+        <th scope="col">必須</th>
+        <th scope="col">説明</th>
+      </tr>
+      <tr>
+        <td rowspan="6">(フィルタ ID) (+) </td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>(string)</td>
+        <td>◯</td>
+        <td>フィルタ ID を指定します。フィルタ ID はグローバル・モジュール内でユニークな ID を付与する必要があります。(グローバルとモジュールフィルタで ID が重複した場合、モジュールフィルタの設定が優先されます) </td>
+      </tr>
+      <tr>
+        <td>class</td>
+        <td>&nbsp;</td>
+        <td>(string)</td>
+        <td>◯</td>
+        <td>フィルタのクラス名を指定します。</td>
+      </tr>
+      <tr>
+        <td>enable</td>
+        <td>◯</td>
+        <td>(bool)</td>
+        <td></td>
+        <td>フィルタを有効化する場合は TRUE、無効化する場合は FALSE を指定します。 </td>
+      </tr>
+      <tr>
+        <td>packages</td>
+        <td>&nbsp;</td>
+        <td>(array)</td>
+        <td></td>
+        <td>フィルタを適用するパッケージの指定。詳しくは <a href="../whitepaper/filter.html#packageFilter">アプリケーション開発実践 Tips - フィルタを使う - パッケージフィルタ機能 の項</a> を参照。</td>
+      </tr>
+      <tr>
+        <td>forward</td>
+        <td></td>
+        <td>(bool)</td>
+        <td></td>
+        <td><p>アクションのフォワードが発生する度にフィルタを起動するかどうかを設定します。
+            例えばアクション A が実行された場合は アクション B へのフォワード処理が走るとします。この時クライアントからアクション A が要求された場合、forward の指定が TRUE だと A、B それぞれのアクションが実行される直前にフィルタが起動しますが、FALSE 指定時はアクション B にフォワードした際にフィルタが起動しません。</p></td>
+      </tr>
+      <tr>
+        <td>(任意の属性名)</td>
+        <td>&nbsp;</td>
+        <td>(array)</td>
+        <td></td>
+        <td><p>フィルタに任意の値を設定し、initialize() メソッドで設定値を取得することが出来ます。</p>
+          <dl>
+            <dt>YAML Code# config/global_filters.yml</dt>
+            <dd class="lang_yaml"><code>sampleFilter:<br />
+              &nbsp;&nbsp;class: SampleFilter <br />
+              &nbsp;&nbsp;enable: TRUE<br />
+              <br />
+              &nbsp;&nbsp;# 独自に追加した属性値<br />
+              &nbsp;&nbsp;foo: 100<br />
+              &nbsp;&nbsp;bar: 200</code></dd>
+            <dt>PHP Code# libs/filter/SampleFilter.php</dt>
+            <dd class="lang_php"><code>class SampleFilter extends Delta_Filter <br />
+              {<br />
+              &nbsp;&nbsp;public function initialize($filterId, $holder)   {<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;// 100 を返す <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;$foo = $holder-&gt;get('foo');<br />
+              &nbsp;&nbsp;}<br />
+              ...</code></dd>
+          </dl></td>
+      </tr>
+    </table>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
+      </div>
+    </div>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - 入力値の変換 (コンバータ)</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - 入力値の変換 (コンバータ)</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2010 年 9 月 21 日</p>
+    <ul class="index">
+      <li><a href="#introduction">入力値を変換する</a></li>
+      <li><a href="#converterList">コンバータの種類</a></li>
+      <li><a href="#converterOverride">コンバータの作成</a></li>
+    </ul>
+    <h2><a id="introduction" name="introduction"></a>入力値を変換する</h2>
+    <p>コンバータは、クライアントから要求されたリクエスト内容を特定のデータ形式に変換する機能です。例えば HTML フォームから名前を入力させ、次の確認画面で名前を表示させたい場合、名前の前後に余計な空白があると次のアクションでも空白部分が保持されてしまいます。このような場合は、Delta_TrimConverter を利用することで問題を解決することが出来ます。下記のサンプルコードを参照して下さい。</p>
+    <p>初めに、会員登録するためのアクション、及び HTML フォームを作成します。(アクションのコードはここでは省略)</p>
+    <dl>
+      <dt>Template Code# modules/{module}/templates/customer_register_form.php</dt>
+      <dd class="lang_template"><code>&lt;form action=&quot;customerRegister.do&quot; method=&quot;post&quot;&gt;<br />
+        &nbsp;&nbsp;&lt;dl&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &lt;dt&gt;名前&lt;/dt&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &lt;dd&gt;&lt;?php echo $form-&gt;inputText('customerName') ?&gt;&lt;/dd&gt;<br />
+        &nbsp;&nbsp;
+        &lt;/dl&gt;<br />
+        &nbsp;&nbsp;
+        &lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;登録&quot;&gt;&lt;/p&gt; <br />
+        &lt;/form&gt; </code></dd>
+    </dl>
+    <p>次にフォームの遷移先となる CustomerRegister のビヘイビアファイルを設定します。</p>
+    <dl>
+      <dt>YAML Code# modules/{module}/behaviors/CustomerRegister.yml</dt>
+      <dd class="lang_yaml"><code>converte:<br />
+        &nbsp;&nbsp;commonConverter: # コンバータ ID (一意な ID に設定する) <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;names: customerName, ... # 対象とするフィールド<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;converters: # names に適用するコンバータのリスト<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- class: Delta_TrimConverter</code></dd>
+    </dl>
+    <p>上記の設定により、customerRegister.do が実行されると、対象フィールド (customerName) の文字列前後の空白が除去されるようになります。</p>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>names 属性に &quot;@all&quot; を指定することで、リクエストされた全てのフィールドに対しコンバート処理することが可能です。 </p>
+      </div>
+    </div>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/CustomerRegisterAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        &nbsp;&nbsp;// 前後の空白は除去された状態<br />
+        &nbsp;&nbsp;$customerName = $this-&gt;getForm()-&gt;get('customerName'); <br />
+        <br />
+        &nbsp;&nbsp;return Delta_View::NONE; <br />
+        }</code></dd>
+    </dl>
+    <p>尚、コンバータは対象アクションのセキュリティチェック後、バリデータが実行される前に処理されます。従って、バリデータでエラーが発生した場合も、コンバートされたデータが保持されることに注意して下さい。</p>
+    <p>上記のサンプルコードでも示していますが、コンバータ ID (commonConverter) 直下の属性 (names、converters) は、それぞれ複数のフィールド、クラスを定義することが可能です。names (フィールド名) の場合は &quot;,&quot; (カンマ) 区切り、コンバータクラスの場合は &quot;(クラス名):&quot; の形で宣言して下さい。これにより、1 つのコンバータ ID で複数フィールドに対し複数のコンバータを適用することが可能になります。 </p>
+    <h2><a id="converterList" name="converterList"></a>コンバータの種類</h2>
+    <p>delta Framework にはあらかじめいくつかのコンバータが用意されており、ビヘイビアファイルにクラスを定義するだけですぐにでも利用することが可能です。</p>
+    <table>
+      <colgroup>
+      <col width="25%" />
+      <col width="25%" />
+      <col width="50%" />
+      </colgroup>
+      <tr>
+        <th scope="col">クラス名</th>
+        <th scope="col">パッケージ </th>
+        <th scope="col">note</th>
+      </tr>
+      <tr>
+        <td><a href="../../api/reference/converter/delta___format_converter.html">Delta_FormatConverter</a></td>
+        <td>converter</td>
+        <td>フォーマットコンバータ</td>
+      </tr>
+      <tr>
+        <td><a href="../../api/reference/converter/delta___mask_converter.html">Delta_MaskConverter</a></td>
+        <td>converter</td>
+        <td>正規表現置換コンバータ </td>
+      </tr>
+      <tr>
+        <td><a href="../../api/reference/converter/delta___split_converter.html">Delta_SplitConverter</a></td>
+        <td>converter</td>
+        <td>文字列分割コンバータ</td>
+      </tr>
+      <tr>
+        <td><a href="../../api/reference/converter/delta___trim_converter.html">Delta_TrimConverter</a></td>
+        <td>converter</td>
+        <td>ホワイトスペース除去コンバータ</td>
+      </tr>
+      <tr>
+        <td><a href="../../api/reference/converter/delta___emoji_trim_converter.html">Delta_EmojiTrimConverter</a></td>
+        <td>converter</td>
+        <td>絵文字除去コンバータ</td>
+      </tr>
+      <tr>
+        <td><a href="../../api/reference/converter.i18n/delta___multibyte_kana_converter.html">Delta_MultibyteKanaConverter</a></td>
+        <td>converter/i18n</td>
+        <td>マルチバイト文字コンバータ</td>
+      </tr>
+      <tr>
+        <td><a href="../../api/reference/converter.i18n/delta___vendor_character_trim_converter.html">Delta_VendorCharacterTrimConverter</a></td>
+        <td>converter/i18n</td>
+        <td>機種依存文字除去コンバータ</td>
+      </tr>
+    </table>
+    <p>コンバータの種類によっては、クラスに対し属性を設定する必要があります。属性の記述の仕方は全て同じです。ここでは記述方法の例として、Delta_MaskConverter を使った正規表現による文字列の置換方法を示します。</p>
+    <dl>
+      <dt>YAML Code# modules/{module}/behaviors/CustomerRegister.yml</dt>
+      <dd class="lang_yaml"><code>convert:<br />
+        &nbsp;&nbsp;telephoneNumberConverter:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;names: password<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;converters:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- class: Delta_MaskConvereter # 正規表現による文字列置換<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pattern: '/.+/' # 文字列内に含まれる全ての文字を '*' (アスタリスク) に変換<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace: '*'</code></dd>
+    </dl>
+    <p>各コンバータごとの属性の詳細に関しては <img src="../assets/images/icons/api.gif" alt="delta API" width="14" height="14" /> <a href="../../api/index.html">delta API</a> を参照して下さい。 </p>
+    <h2><a id="converterOverride" name="converterOverride"></a>コンバータの作成</h2>
+    <p>実際にアプリケーションを開発していると、フレームワークが提供するコンバータでは対応できない変換ケースも出てきます。このような場合は、オリジナルのコンバータクラスを作成してみましょう。コンバータの作成方法はとても簡単です。Delta_Converter クラスを継承した独自のクラスを作成し、それをビヘイビア上で宣言するだけで良いのです。</p>
+    <p>では初めにコンバータクラスを作成してみましょう。サンプルコードとして、リクエストされた日付形式 (YYYY、または YYYYMM、YYYYMMDD) に不足するフォーマット文字列を現在の日付でアペンドするコードを実装します。このコンバータは、現在が 2008 年 4 月 1 日だとして、&quot;2008&quot; がリクエストされた場合は &quot;20080401&quot;、&quot;200804&quot; がリクエストされた場合は &quot;20080401&quot; に変換する仕組みが必要となります。詳しくは次のコードを確認して下さい。</p>
+    <dl>
+      <dt>PHP Code# libs/validator/OriginalConverter.php</dt>
+      <dd class="lang_php"><code>class OriginalConverter extends Delta_Converter <br />
+        {<br />
+        &nbsp;&nbsp;// イニシャライザ<br />
+        &nbsp;&nbsp;public function initialize($converterId, $holder)<br />
+        &nbsp;&nbsp;{}<br />
+        <br />
+        &nbsp;&nbsp;// データ変換ロジックの実装<br />
+        &nbsp;&nbsp;public function convert($string)<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$length = strlen($string);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$convert = '';<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$error = FALSE; <br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$appendMonth = date('m');<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$appendDay = date('d'); <br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;switch ($length) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 4:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$convert = sprintf('%s%s%s', $string, $appendMonth, $appendDay);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 6:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$convert = sprintf('%s%s', $string, $appendDay);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 12:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$convert = $string; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// バリデータ、もしくはアクションにデータを渡す前にエラー通知を投げる (対応するビューへの遷移、もしくはアクションのフォワードが発生) <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getMessages()-&gt;addError('日付の形式が不正です。');<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$error = TRUE; <br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// オプションパラメータ &quot;appendTime&quot; が TRUE の場合は変換した文字列に現在の時・分・秒をアペンドする <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;if (!$error &amp;&amp; $this-&gt;getParameterHolder()-&gt;getParameterToBool('appendTime', FALSE)) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$convert = sprintf('%s%s%s%s', $convert, date('H'), date('i'), date('s')); <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return $convert; <br />
+        &nbsp;&nbsp;}<br />
+        }</code></dd>
+    </dl>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>変換に失敗した際に Delta_ConverterException をスローすることも可能です。 </p>
+      </div>
+    </div>
+    <p></p>
+    <p>次にコンバータの呼び出し元となるビヘイビアを作成します。ここでは beginDate、endDate という 2 つのフィールドに対し、OriginalConverter クラスで入力値を変換する処理を定義しています。</p>
+    <dl>
+      <dt>YAML Code# modules/{module}/behaviors/OriginalConverter.yml</dt>
+      <dd class="lang_yaml"><code>convert:<br />
+        &nbsp;&nbsp;dateConverter:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;names: beginDate, endDate <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;converters:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: OriginalConverter<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;appendTime: TRUE </code></dd>
+    </dl>
+    <p>&quot;appendTime&quot; 属性はオプションパラメータです。値が TRUE の場合は、変換した結果文字列に現在の時・分・秒を追加します。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/OriginalValidatorAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        &nbsp;&nbsp;// (例) 20080401230000 を返す <br />
+        &nbsp;&nbsp;$beginDate = $this-&gt;getForm()-&gt;get('beginDate');<br />
+        <br />
+        &nbsp;&nbsp;return Delta_View::SUCCESS; <br />
+        } </code></dd>
+    </dl>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

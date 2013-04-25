@@ -1,0 +1,28 @@
+date:
+  class: Delta_DateHelper
+
+form:
+  class: Delta_FormHelper
+  containErrors: 正しく入力されていない項目があります。(残り\1箇所)
+
+html:
+  class: Delta_HTMLHelper
+
+pager:
+  class: Delta_PagerHelper
+  bind: FALSE
+  nextLabel: 次へ
+  previousLabel: 前へ
+  navigationLabel: '\1-\2 件表示 / \3 件中 \4 \5<br />\6'
+  ascendingLabel: '<img src="/assets/base/delta/images/sort_asc.png" width="7" height="7" alt="昇順に並び替え" />'
+  descendingLabel: '<img src="/assets/base/delta/images/sort_desc.png" width="7" height="7" alt="降順に並び替え" />'
+
+site:
+  class: Delta_SiteHelper
+
+request:
+  class: Delta_RequestHelper
+
+user:
+  class: Delta_UserHelper
+

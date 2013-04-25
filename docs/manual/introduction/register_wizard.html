@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - フレームワーク入門 - 入力、確認、登録!</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top"> フレームワーク入門 - 入力、確認、登録!</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2011 年 5 月 3 日 </p>
+    <p>このページでは、Web アプリケーションでよく見かける「登録フォーム」、「確認画面」、「登録完了画面」という 3 ページから構成されるアクションの作成方法を紹介します。チュートリアルを始める前に、前提条件として <a href="hello_world.html">初めてのプログラム作成</a> の内容を理解しておく必要があります。</p>
+    <ul class="index">
+      <li><a href="#form">登録フォームの作成</a></li>
+      <li><a href="#confirm">登録確認画面の作成</a></li>
+      <li><a href="#done">登録完了画面の作成</a></li>
+    </ul>
+    <h2><a name="form" id="form"></a>フォームの作成</h2>
+    <p>まず初めにユーザのデータを登録するためのフォームを作成しましょう。コンソールを立ち上げ、delta コマンドで Form アクションを作成して下さい。</p>
+    <dl>
+      <dt>Shell Code# アクションの作成</dt>
+      <dd class="lang_shell"><code>cd /var/www/modules/hello<br />
+        delta --add-action<br />
+        &gt; Package name [/] (e.g. foo/bar): <br />
+        &gt; Add action name: Form <br />
+        &gt; Create action: /var/www/modules/hello/actions/FormAction.php<br />
+        &gt; Create yaml: /var/www/modules/hello/behaviors/Form.yml<br />
+        &gt; Create template: /var/www/modules/hello/templates/form.php</code></dd>
+    </dl>
+    <p>Form アクションでは、HTML フォーム上に次の要素を配置します。</p>
+    <table border="1">
+      <colgroup>
+      <col width="15%" />
+      <col width="15%" />
+      <col width="35%" />
+      <col width="35%" />
+      </colgroup>
+      <tr>
+        <th scope="col">フィールド</th>
+        <th scope="col">フィールドのタイプ</th>
+        <th scope="col">フィールド名</th>
+        <th scope="col">項目値</th>
+      </tr>
+      <tr>
+        <td>名前</td>
+        <td>text</td>
+        <td>nickname</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>誕生日</td>
+        <td>select</td>
+        <td>birth[year]、birth[month]、birth[date]</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>血液型</td>
+        <td>radio</td>
+        <td>blood</td>
+        <td>A、B、AB、O</td>
+      </tr>
+      <tr>
+        <td>趣味</td>
+        <td>checkbox</td>
+        <td>hobbies</td>
+        <td>音楽、ゲーム、スポーツ、インターネット</td>
+      </tr>
+      <tr>
+        <td>自己紹介</td>
+        <td>textarea</td>
+        <td>message</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>確認ボタン</td>
+        <td>submit</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <p>フォームの完成イメージは次のようになります。</p>
+    <p><img src="../assets/images/screenshots/sample_form.png" alt="" width="292" height="326" /></p>
+    <p>血液型や趣味に関しては、マスタとなるデータが必要となります。まずはデータを作成しましょう。今回はデータベースを使用しないので、サイト設定ファイルにパラメータを定義します。config/site.yml を開いたら、次のコードを追加して下さい。</p>
+    <dl>
+      <dt>YAML Code# config/site.yml</dt>
+      <dd class="lang_yaml"> <code>blood:<br />
+        &nbsp;&nbsp;a: A型<br />
+        &nbsp;&nbsp;b: B型<br />
+        &nbsp;&nbsp;ab: AB型<br />
+        &nbsp;&nbsp;o: O型 <br />
+        <br />
+        hobby:<br />
+        &nbsp;&nbsp;music: 音楽<br />
+        &nbsp;&nbsp;game: ゲーム<br />
+        &nbsp;&nbsp;sports: スポーツ<br />
+        &nbsp;&nbsp;internet: インターネット</code> </dd>
+    </dl>
+    <p>このように、site.yml にはアプリケーションが使用するデータを自由に定義することができます。なお、ここでは誕生日の年・月・日データに関しては定義していません。この理由については後ほど説明します。</p>
+    <p>Form に関しては今のところアクションを編集する必要はないので、テンプレートファイルを編集します。</p>
+    <dl>
+      <dt>Template Code# modules/hello/templates/form.php</dt>
+      <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
+        &lt;html lang=&quot;ja&quot;&gt;<br />
+        &nbsp;&nbsp;&lt;head&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Style-Type&quot; content=&quot;text/css&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Script-Type&quot; content=&quot;text/javascript&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Form&lt;/title&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/assets/css/base.css&quot; /&gt;<br />
+        &nbsp;&nbsp;&lt;/head&gt;<br />
+        <br />
+        &nbsp;&nbsp;&lt;body&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Form&lt;/h1&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div id=&quot;contents&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;start('Confirm') ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputText('nickname', array('size' =&gt; 30), array('label' =&gt; '名前')); ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;selectDate(array('fieldPrefix' =&gt; 'birth','separator' =&gt; array('年', '月', '日')), NULL, array('label' =&gt; '誕生日')); ?&gt; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputRadios('blood', $property-&gt;get('blood'), NULL, array('label' =&gt; '血液型')); ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputCheckboxes('hobbies', $property-&gt;get('hobby'), NULL, array('label' =&gt; '趣味')); ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;textarea('message', array('rows' =&gt; 4, 'cols' =&gt; 60), array('label' =&gt; '自己紹介')); ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;?php echo $form-&gt;inputSubmit('確認') ?&gt;&lt;/p&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;close() ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt; <br />
+        &nbsp;&nbsp;&lt;/body&gt;<br />
+        &lt;/html&gt;</code></dd>
+    </dl>
+    <p>コードの中身はひとまず置いておいて、ファイルを保存したらブラウザからアクションを起動してみましょう。リクエストパスは http://{host}/form.do (または http://{host}/hello/form.do) となります。画面上にフォームが表示されたら成功です。</p>
+    <p>それではテンプレートのコードを見ていきましょう。&lt;body&gt; タグの中を見ると、どこにも宣言していないのに $form という変数が出てきました。$form は名前から想像できる通り、フォームの生成を行うオブジェクトです。例えば $form-&gt;start() はフォーム開始タグの生成、$form-&gt;inputText() はテキストフィールドを生成してくれます。また、selectDate() は単体メソッドで年、月、日のリストを自動生成してくれる上に、オプション引数を渡すことで表示スタイルをカスタマイズすることもできます。</p>
+    <p>今回のソースで出てきたメソッドを整理すると下表のようになります。</p>
+    <table border="1">
+      <tr>
+        <th scope="col">メソッド名</th>
+        <th scope="col">説明</th>
+      </tr>
+      <tr>
+        <td>start()</td>
+        <td>フォームの開始タグを生成。</td>
+      </tr>
+      <tr>
+        <td>inputText()</td>
+        <td>テキストフィールドを生成。</td>
+      </tr>
+      <tr>
+        <td>selectDate()</td>
+        <td>年、月、日から構成される日付リストを生成。</td>
+      </tr>
+      <tr>
+        <td>inputRadios()</td>
+        <td>ラジオボタンを生成。</td>
+      </tr>
+      <tr>
+        <td>inputCheckboxes()</td>
+        <td>チェックボックスを生成。</td>
+      </tr>
+      <tr>
+        <td>textarea()</td>
+        <td>テキストエリアを生成。</td>
+      </tr>
+      <tr>
+        <td>inputSubmit()</td>
+        <td>送信ボタンを生成。</td>
+      </tr>
+      <tr>
+        <td>close()</td>
+        <td>フォームの閉じタグを生成。</td>
+      </tr>
+    </table>
+    <p>このように、$form オブジェクトはフォームの生成を手助けする様々なメソッドを提供します。delta ではこのようなオブジェクトのことをテンプレートヘルパと呼んでいます。テンプレートヘルパには $form 以外にも、HTML を作成する HTML ヘルパ ($html)、リクエストデータを取得するリクエストヘルパ ($request) などが提供されています。</p>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>詳しくは <a href="../whitepaper/helper.html">テンプレートで使用可能なヘルパ</a> を参照して下さい。</p>
+      </div>
+    </div>
+    <p>HTML で出力されたコードを眺めてみると、$form-&gt;start('Confirm') として作成した開始タグは /confirm.do というアクションに遷移させていることが分かります。ここで「確認」ボタンを押すと、Index アクションに遷移してしまいます。これは、Confirm アクションがないために起こる動作です。それでは Form 同様に、Confirm アクションの作成にとりかかりましょう。</p>
+    <h2><a name="confirm" id="confirm"></a>登録確認画面の作成</h2>
+    <p>おなじみの delta コマンドで Confirm アクションを作成した後に、アクションクラスを開いて下さい。execute() メソッドに次のコードを記述します。</p>
+    <dl>
+      <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
+      <dd class="lang_php"> <code>class ConfirmAction extends Delta_Action<br />
+        {<br />
+        &nbsp;&nbsp;public function execute()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$form = $this-&gt;getForm();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$view = $this-&gt;getView();<br /><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$blood = $form-&gt;get('blood');<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$hobbies = $form-&gt;get('hobbies', array());<br/>
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$site = Delta_Config::getSite();<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$view-&gt;setAttribute('blood', $site-&gt;get('blood'));<br/>
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$values = array();<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;foreach ($hobbies as $hobby) {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$values[] = $site-&gt;get('hobby')-&gt;get($hobby);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$view-&gt;setAttribute('hobbies', $values);<br/>
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::SUCCESS;<br />
+        &nbsp;&nbsp;}<br />
+        }</code> </dd>
+    </dl>
+    <p>ようやく本格的なプログラムコードになってきました。それでは一つずつコードを見ていきましょう。</p>
+    <dl>
+      <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
+      <dd class="lang_php"> <code>
+        $form = $this-&gt;getForm();<br />
+        $blood = $form-&gt;get('blood');<br />
+        $hobbies = $form-&gt;get('hobbies', array());</code></dd>
+    </dl>
+    <p>$this-&gt;getForm()-&gt;get() は、フォームから送信された値を取得するメソッドです。例えば血液型として「A 型」のラベルが送信された場合、$blood に代入される値は「a」となります。同様に、趣味で「ゲーム」と「インターネット」を選択した場合、$hobbies に入る値は array('game', 'internet') となるでしょう。hobbies に関しては get() の第二引数に空の配列を指定していますが、これはチェックボックスが未送信の場合に NULL の代替値として array() を返す処理を施しています。(get() メソッドは引数に指定したフィールドが見つからない場合にデフォルトで NULL を返します)</p>
+    <p>このように、値が見つからない場合の代替値を指定しておくことで、型の変換エラーを事前に防止することが可能となります。また、ここで登場した $this-&gt;getForm() は、テンプレートコードで見た $form 変数とはオブジェクトが異なる点に注意して下さい。getForm() の戻り値は form コンポーネント (Delta_ActionForm) ですが、$form ヘルパの実態は Delta_FormHelper のインスタンスとなっています。</p>
+    <div class="note_container note_important">
+      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+      <div class="note_contents">
+        <p>PHP にはクライアントからリクエストされた値を取得するための $_GET や $_POST といったスーパーグローバル変数が提供されていますが、delta を使ったアプリケーションを構築する上ではこれらの変数を使用するべきではありません。中には悪意を持つユーザがプログラムを破壊する目的で不正なコードを送信してくる可能性もあります。delta これらのリクエストデータを安全な形で取得するための各種ラッパーメソッドを提供しています。詳しくは <a href="../../api/reference/http.request/delta___http_request.html">Delta_HttpRequest</a> クラスを参照して下さい。</p>
+      </div>
+    </div>
+    <dl>
+      <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
+      <dd class="lang_php"><code>$site = Delta_Config::getSite();<br />
+        $this-&gt;getView()-&gt;setAttribute('blood', $site-&gt;get('blood')-&gt;get($blood));</code></dd>
+    </dl>
+    <p>Delta_Config は、アプリケーションの設定ファイルを読み込むためのローダークラスです。今回は getSite() というメソッドを実行しているので、参照されるファイルは先ほどのサイトファイルになります。Delta_Config::loadXXX() メソッドは YAML データを Delta_ParameterHolder オブジェクトとして返します。    </p>
+    <p>今回は blood の下のキー $blood も指定していることから、$site-&gt;get('blood')-&gt;get('a') の戻り値は「A 型」となります。ここではラベルに変換された文字列を setAttribute() メソッドを通してテンプレートに割り当てていることが分かります。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>setAttribute() メソッドによって割り当てられた変数はテンプレート上で自動的に HTML エスケープの処理が施されます。これは文字列や整数といったスカラー型だけではなく、配列型、オブジェクト型も対象となります。</p>
+      </div>
+    </div>
+    <dl>
+      <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
+      <dd class="lang_php"><code>$values = array();<br/>
+        foreach ($hobbies as $hobby) {<br />
+        &nbsp;&nbsp;$values[] = $property['hobby'][$hobby];<br />
+        }<br/>
+        <br />
+        $this-&gt;getView()-&gt;setAttribute('hobbies', $values);</code></dd>
+    </dl>
+    <p>趣味も同様に、送信された値からラベル名を取得します。趣味は複数選択できるため、foreach で全ての値を取得する点に注意して下さい。先ほど get() メソッドで代替値に空の配列を指定しましたが、引数の指定がない場合、趣味が未送信だと $hobbies は NULL となり、foreach() でエラーが発生することになります。全てのラベルを取得した後に、ラベル配列を setAttribute() でテンプレートに渡していますが、この時渡されるデータの形式は array('ゲーム', 'インターネット') のようになります。</p>
+    <p>これでアクションクラスのコードは終わりです。ここでは血液型と趣味に関して、フォームから送信された値をラベル名に変換し、テンプレートに割り当てるという処理を行いました。続いてテンプレートファイルを編集しましょう。</p>
+    <dl>
+      <dt>Template Code# modules/hello/templates/confirm.php</dt>
+      <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
+        &lt;html lang=&quot;ja&quot;&gt;<br />
+        &nbsp;&nbsp;&lt;head&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Style-Type&quot; content=&quot;text/css&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Script-Type&quot; content=&quot;text/javascript&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Confirm&lt;/title&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/assets/css/base.css&quot; /&gt;<br />
+        &nbsp;&nbsp;&lt;/head&gt;<br />
+        &nbsp;&nbsp;&lt;body&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Confirm&lt;/h1&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div id=&quot;contents&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;start('Form') ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dl&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dt&gt;名前&lt;/dt&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dd&gt;&lt;?php echo $form-&gt;get('nickname') ?&gt;&lt;/dd&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dt&gt;誕生日&lt;/dt&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dd&gt;&lt;?php echo $form-&gt;get('birth.year') ?&gt;年&lt;?php echo $form-&gt;get('birth.month') ?&gt;月&lt;?php echo $form-&gt;get('birth.day') ?&gt;日        &lt;/dd&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dt&gt;血液型&lt;/dt&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dd&gt;&lt;?php echo $blood ?&gt;&lt;/dd&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dt&gt;趣味&lt;/dt&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dd&gt;&lt;?php echo $html-&gt;ul($hobbies) ?&gt;&lt;/dd&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dt&gt;メッセージ&lt;/dt&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;dd&gt;&lt;?php echo nl2br($form-&gt;get('message')) ?&gt;&lt;/dd&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/dl&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;requestDataToInputHiddens() ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('修正') ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;close() ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+        &nbsp;&nbsp;&lt;/body&gt;<br />
+        &lt;/html&gt;</code></dd>
+    </dl>
+    <p>名前や誕生日は、$form-&gt;get() メソッドを使って送信された値を表示しています。$form-&gt;get() メソッドで取得される値は自動的に HTML エスケープの処理が行われるので、開発者自らが htmlentities() などの関数を使って XSS 対策を行う必要はありません。また誕生日に関しては、&quot;birth.year&quot;、&quot;birth.month&quot; という記述を用いてますが、これは連想配列の形式で送信された誕生日 (birth[year]、birth[month]、birth[day]) を取得する記述方法です。delta では連想配列形式のフィールド名をピリオド区切りの名前で取得することができます。</p>
+    <p>また血液型や趣味に関しては、先ほどアクションでラベル名に変換した値を表示しています。 趣味の項目で使用している $html-&gt;ul() メソッドは、引数に指定した配列を HTML のリスト構造に変換してくれます。今回のように、複数の項目をリスト形式で表示したい場合に役立つでしょう。</p>
+    <p>最後に $form-&gt;requestDataToInputHiddens() というメソッドに注目して下さい。このメソッドは、フォームから送信されたデータを元に hidden フィールドを生成します。これは入力項目を持たない入力確認画面などで、次のページ (登録処理アクション) に値を引き継がせたい場合に使用します。</p>
+    <dl>
+      <dt>HTML Code# requestDataToInputHiddens() メソッドが出力する値</dt>
+      <dd class="lang_html"><code>&lt;input type=&quot;hidden&quot; name=&quot;nickname&quot; value=&quot;test&quot; id=&quot;nickname&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;birth[year]&quot; value=&quot;1980&quot; id=&quot;birth_year&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;birth[month]&quot; value=&quot;08&quot; id=&quot;birth_month&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;birth[day]&quot; value=&quot;6&quot; id=&quot;birth_day&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;blood&quot; value=&quot;a&quot; id=&quot;blood&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;hobbies[0]&quot; value=&quot;game&quot; id=&quot;hobbies_0&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;hobbies[1]&quot; value=&quot;internet&quot; id=&quot;hobbies_1&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;_hobbies&quot; value=&quot;on&quot; id=&quot;hobbies&quot; /&gt;<br />
+        &lt;input type=&quot;hidden&quot; name=&quot;message&quot; value=&quot;test&quot; id=&quot;message&quot; /&gt;</code> </dd>
+    </dl>
+    <p>以上でテンプレートの編集は終わりです。お疲れさまでした。それではブラウザを立ち上げてプログラムの動作確認を行ってみましょう。フォームで入力した値が確認画面で表示されたら成功です。</p>
+    <p><img src="../assets/images/screenshots/form_confirm.png" alt="" width="86" height="304" /></p>
+    <p>更に画面下部に用意された「修正」ボタンを押してみましょう。1 つ手前の入力フォームに戻りますが、先ほど入力した値が各フィールドに自動的にセットされていることが分かります。この時 Form ヘルパは、リクエストされたデータを解析し、フィールド名とマッチするリクエストデータがあれば自動的に送信された値をフィールドの初期値に設定します。つまり、開発者がフィールドごとに初期値の設定する必要はないのです。</p>
+    <p> このように、フォームを作成する上で定型となる面倒な作業は全てヘルパが吸収してくれます。開発者や HTML コーダは、フレームワークが提供するヘルパを使いこなすことで、テンプレートの作成や修正にかかる時間を短縮することが可能となるでしょう。</p>
+    <h2><a name="done" id="done"></a>登録完了画面の作成</h2>
+    <p>最後は登録完了画面の作成です。先ほど作成した確認画面に「登録」ボタンを追加しますが、HTML の性質上フォームには 1 つのアクションしか指定することができません。通常、ボタンごとに応じた動作を起こすには JavaScript 等のスクリプトを使う必要がありますが、delta では実行するアクションを選択するためのディスパッチャというアクションを挟むことで、ボタンに応じたアクションの切り替えを可能としています。</p>
+    <p>初めにフォームの遷移先をディスパッチを行うアクション名に書き換えます。ここでは Dispatcher としました。</p>
+    <dl>
+      <dt>Template Code# modules/hello/templates/confirm.php</dt>
+      <dd class="lang_template"><code>&lt;!-- 古いコード --&gt;<br />
+        &lt;?php echo $form-&gt;start('Form') ?&gt;<br />
+        <br />
+        &lt;!-- 新しいコード --&gt;<br />
+        &lt;?php echo $form-&gt;start('Dispatcher') ?&gt;</code></dd>
+    </dl>
+    <p>次に「登録」ボタンを追加します。ここで先ほど無かった第 2 引数に注目して下さい。inputSubmit() メソッドの第 2 引数には、HTML タグに変換した際に付加する属性を設定できます。name はフォームの要素名を表す属性ですが、それぞれ dispatch という接頭辞が付いてます。これはディスパッチャを使う際の決まり事だと捉えて下さい。もし他のボタンが追加された場合も、要素の名前は dispatchXXX という形式になります。</p>
+    <dl>
+      <dt>Template Code# modules/hello/templates/confirm.php</dt>
+      <dd class="lang_template"><code> &lt;?php echo $form-&gt;inputSubmit('修正', array('name' =&gt; 'dispatchForm')) ?&gt;<br />
+        &lt;?php echo $form-&gt;inputSubmit('登録', array('name' =&gt; 'dispatchRegister')) ?&gt;</code></dd>
+    </dl>
+    <p>これで確認画面のテンプレート編集は終わりです。今度は Dispatcher アクションを作成しましょう。</p>
+    <dl>
+      <dt>PHP Code# modules/hello/actions/DispacherAction</dt>
+      <dd class="lang_php"> <code>class DispatcherAction extends Delta_DispatchAction<br />
+        {<br />
+        &nbsp;&nbsp;      public function dispatchForm()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return 'Form';<br />
+        &nbsp;&nbsp;}<br/>
+        <br />
+        &nbsp;&nbsp;      public function dispatchRegister()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return 'Register';<br />
+        &nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;public function defaultForward()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return 'Confirm';<br />
+        &nbsp;&nbsp;}<br />
+        }</code> </dd>
+    </dl>
+    <p>ファイルを開いたら、Delta_Action となっている親クラスの名前を Delta_DispatchAction に書き換えます。Delta_DispatchAction は、フォームから送信されたボタンに従って実行するアクションを確定させる抽象クラスです。実体は Delta_Action の子クラスですが、execute() メソッドは使用せず、代わりに dispatchForm()、dispatchRegister() といったメソッドが定義されています。</p>
+    <p>勘の良い方は気づいたかもしれませんが、Dispatcher アクションに定義されたメソッド名はそのまま確認画面のボタンの名に合致しています。つまり、修正ボタンを押したら dispatchForm()、登録ボタンが押されたら dispatchRegister() メソッドが実行されるという仕組みです。メソッドの戻り値はそのままフォワード (遷移) するアクション名になります。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>defaultForward() メソッドは、送信されたボタンが不明な場合に起動するデフォルトフォワードメソッドであり、Delta_DispatchAction クラスに定義されています。送信ボタン押下時のリクエストパスは /hello/dispatcher.do のようになりますが、URI をブラウザに直に入力した場合、ボタンが押されていない状態となるため、defaultForward() メソッドが起動します。 </p>
+      </div>
+    </div>
+    <p>最後に登録完了画面を作成します。アクション名は Register として下さい。</p>
+    <dl>
+      <dt>PHP Code# modules/hello/actions/DispacherAction</dt>
+      <dd class="lang_php"> <code>class RegisterAction extends Delta_Action<br />
+        {<br />
+        &nbsp;&nbsp;public function execute()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getMessages()-&gt;add('登録完了しました。');<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::SUCCESS;<br />
+        &nbsp;&nbsp;}<br />
+        }</code></dd>
+    </dl>
+    <p>$this-&gt;getMessages() はクライアントに通知するメッセージを扱ったコンポーネントです。ここでは「登録完了しました。」というメッセージを add() メソッドで登録しています。メッセージには成功通知以外にも、ビジネスロジックで発生するエラーメッセージ、フォームのフィールドに対するバリデートエラーメッセージがあります。</p>
+    <p>アクションを書き換えたところでテンプレートを編集しましょう。</p>
+    <dl>
+      <dt>Template Code# modules/hello/templates/register.php</dt>
+      <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
+        &lt;html lang=&quot;ja&quot;&gt;<br />
+        &nbsp;&nbsp;&lt;head&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Style-Type&quot; content=&quot;text/css&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Script-Type&quot; content=&quot;text/javascript&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Register&lt;/title&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/assets/css/base.css&quot; /&gt;<br />
+        &nbsp;&nbsp;&lt;/head&gt;<br />
+        &nbsp;&nbsp;&lt;body&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Register&lt;/h1&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div id=&quot;contents&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $html-&gt;messages() ?&gt; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+        &nbsp;&nbsp;&lt;/body&gt;<br />
+        &lt;/html&gt;</code></dd>
+    </dl>
+    <p>$html-&gt;messages() メソッドは、メッセージコンポーネントに格納されたメッセージをリスト形式で出力するヘルパです。ファイルを保存したらアプリケーションを立ち上げてみて下さい。確認画面から完了画面に遷移できましたか? プログラムが正しく動作していれば、先ほどアクションで設定したメッセージが表示される筈です。</p>
+    <p>ここでテンプレートに直にメッセージを書かなかったのには理由があります。今回はごく簡単なコードでしたが、実際に稼働するアプリケーションとなると、ビジネスロジックでエラーが発生したり、成功通知メッセージも条件によって変化することがあります。このような場合、出力メッセージをテンプレート上で切り替えていたのでは大変です。メッセージコンポーネントを使えばメッセージを外部ファイルで一元管理することもできますし、何よりヘルパを使って統一的なインタフェースでメッセージ管理が可能となります。アプリケーションを構築する上では、フレームワークが提供するコンポーネントをうまく使いこなすことがポイントとなるでしょう。</p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

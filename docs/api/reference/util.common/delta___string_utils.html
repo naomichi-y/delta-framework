@@ -1,0 +1,2725 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta http-equiv="Content-Language" content="ja" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <title>delta 1.1 API Reference - Delta_StringUtils</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
+    <!--#if expr="$HTTP_HOST = /delta-framework.org/" --><link rel="stylesheet" href="/global_assets/css/navi.css" type="text/css" media="screen" /><!--#endif -->
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="../../assets/js/jquery.treeview.js" type="text/javascript"></script>
+    <script src="../../assets/js/delta_api.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <header>
+      <div class="row">
+        <div class="half">
+          <a href="../../index.html"><img src="../../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+          <!--#include virtual="/global_assets/content/navi.php" -->
+        </div>
+      </div>
+      <h1 id="top">delta 1.1 API Reference</h1>
+    </header>
+    <div id="contents">
+      <div class="row">
+        <!-- quarter -->
+        <div class="quarter">
+          <div id="sidetree">
+  <div id="tree_header">
+    <a href="../../index.html">Packages</a> |
+    <span id="tree_control">
+      <a href="#">Collapse</a> |
+      <a href="#">Expand</a>    </span>
+  </div>
+
+  <ul class="treeview" id="tree">
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>cache</span>
+        <ul style="display: none;">
+                      <li><a href="../cache/delta___apc_cache.html" title="Delta_APCCache">Delta_APCCache</a></li>
+                      <li><a href="../cache/delta___cache.html" title="Delta_Cache">Delta_Cache</a></li>
+                      <li><a href="../cache/delta___cache_manager.html" title="Delta_CacheManager">Delta_CacheManager</a></li>
+                      <li><a href="../cache/delta___database_cache.html" title="Delta_DatabaseCache">Delta_DatabaseCache</a></li>
+                      <li><a href="../cache/delta___e_accelerator_cache.html" title="Delta_EAcceleratorCache">Delta_EAcceleratorCache</a></li>
+                      <li><a href="../cache/delta___file_cache.html" title="Delta_FileCache">Delta_FileCache</a></li>
+                      <li><a href="../cache/delta___function_cache.html" title="Delta_FunctionCache">Delta_FunctionCache</a></li>
+                      <li><a href="../cache/delta___memcache_cache.html" title="Delta_MemcacheCache">Delta_MemcacheCache</a></li>
+                      <li><a href="../cache/delta___null_cache.html" title="Delta_NullCache">Delta_NullCache</a></li>
+                      <li><a href="../cache/delta___x_cache_cache.html" title="Delta_XCacheCache">Delta_XCacheCache</a></li>
+                      <li><a href="../cache/delta___yaml_cache.html" title="Delta_YAMLCache">Delta_YAMLCache</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>console</span>
+        <ul style="display: none;">
+                      <li><a href="../console/delta___ansi_graphic.html" title="Delta_ANSIGraphic">Delta_ANSIGraphic</a></li>
+                      <li><a href="../console/delta___console.html" title="Delta_Console">Delta_Console</a></li>
+                      <li><a href="../console/delta___console_command.html" title="Delta_ConsoleCommand">Delta_ConsoleCommand</a></li>
+                      <li><a href="../console/delta___console_dialog.html" title="Delta_ConsoleDialog">Delta_ConsoleDialog</a></li>
+                      <li><a href="../console/delta___console_input.html" title="Delta_ConsoleInput">Delta_ConsoleInput</a></li>
+                      <li><a href="../console/delta___console_input_configure.html" title="Delta_ConsoleInputConfigure">Delta_Consol...utConfigure</a></li>
+                      <li><a href="../console/delta___console_output.html" title="Delta_ConsoleOutput">Delta_ConsoleOutput</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller</span>
+        <ul style="display: none;">
+                      <li><a href="../controller/delta___front_controller.html" title="Delta_FrontController">Delta_FrontController</a></li>
+                      <li><a href="../controller/delta___front_controller_delegate.html" title="Delta_FrontControllerDelegate">Delta_FrontC...lerDelegate</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.action</span>
+        <ul style="display: none;">
+                      <li><a href="../controller.action/delta___action.html" title="Delta_Action">Delta_Action</a></li>
+                      <li><a href="../controller.action/delta___action_stack.html" title="Delta_ActionStack">Delta_ActionStack</a></li>
+                      <li><a href="../controller.action/delta___dispatch_action.html" title="Delta_DispatchAction">Delta_DispatchAction</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.filter</span>
+        <ul style="display: none;">
+                      <li><a href="../controller.filter/delta___action_filter.html" title="Delta_ActionFilter">Delta_ActionFilter</a></li>
+                      <li><a href="../controller.filter/delta___basic_authentication_filter.html" title="Delta_BasicAuthenticationFilter">Delta_BasicA...ationFilter</a></li>
+                      <li><a href="../controller.filter/delta___digest_authentication_filter.html" title="Delta_DigestAuthenticationFilter">Delta_Digest...ationFilter</a></li>
+                      <li><a href="../controller.filter/delta___filter.html" title="Delta_Filter">Delta_Filter</a></li>
+                      <li><a href="../controller.filter/delta___filter_chain.html" title="Delta_FilterChain">Delta_FilterChain</a></li>
+                      <li><a href="../controller.filter/delta___filter_manager.html" title="Delta_FilterManager">Delta_FilterManager</a></li>
+                      <li><a href="../controller.filter/delta___http_authentication_filter.html" title="Delta_HttpAuthenticationFilter">Delta_HttpAu...ationFilter</a></li>
+                      <li><a href="../controller.filter/delta___maintenance_filter.html" title="Delta_MaintenanceFilter">Delta_MaintenanceFilter</a></li>
+                      <li><a href="../controller.filter/delta___sql_logging_filter.html" title="Delta_SQLLoggingFilter">Delta_SQLLoggingFilter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.listener</span>
+        <ul style="display: none;">
+                      <li><a href="../controller.listener/delta___controller_listener.html" title="Delta_ControllerListener">Delta_ControllerListener</a></li>
+                      <li><a href="../controller.listener/delta___performance_listener.html" title="Delta_PerformanceListener">Delta_PerformanceListener</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>converter</span>
+        <ul style="display: none;">
+                      <li><a href="../converter/delta___convert_manager.html" title="Delta_ConvertManager">Delta_ConvertManager</a></li>
+                      <li><a href="../converter/delta___converter.html" title="Delta_Converter">Delta_Converter</a></li>
+                      <li><a href="../converter/delta___emoji_trim_converter.html" title="Delta_EmojiTrimConverter">Delta_EmojiTrimConverter</a></li>
+                      <li><a href="../converter/delta___format_converter.html" title="Delta_FormatConverter">Delta_FormatConverter</a></li>
+                      <li><a href="../converter/delta___mask_converter.html" title="Delta_MaskConverter">Delta_MaskConverter</a></li>
+                      <li><a href="../converter/delta___split_converter.html" title="Delta_SplitConverter">Delta_SplitConverter</a></li>
+                      <li><a href="../converter/delta___trim_converter.html" title="Delta_TrimConverter">Delta_TrimConverter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>converter.i18n</span>
+        <ul style="display: none;">
+                      <li><a href="../converter.i18n/delta___multibyte_kana_converter.html" title="Delta_MultibyteKanaConverter">Delta_Multib...naConverter</a></li>
+                      <li><a href="../converter.i18n/delta___vendor_character_trim_converter.html" title="Delta_VendorCharacterTrimConverter">Delta_Vendor...imConverter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database</span>
+        <ul style="display: none;">
+                      <li><a href="../database/delta___database_connection.html" title="Delta_DatabaseConnection">Delta_DatabaseConnection</a></li>
+                      <li><a href="../database/delta___database_expression.html" title="Delta_DatabaseExpression">Delta_DatabaseExpression</a></li>
+                      <li><a href="../database/delta___database_manager.html" title="Delta_DatabaseManager">Delta_DatabaseManager</a></li>
+                      <li><a href="../database/delta___database_result_set.html" title="Delta_DatabaseResultSet">Delta_DatabaseResultSet</a></li>
+                      <li><a href="../database/delta___database_statement.html" title="Delta_DatabaseStatement">Delta_DatabaseStatement</a></li>
+                      <li><a href="../database/delta___record_object.html" title="Delta_RecordObject">Delta_RecordObject</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.command</span>
+        <ul style="display: none;">
+                      <li><a href="../database.command/delta___database_command.html" title="Delta_DatabaseCommand">Delta_DatabaseCommand</a></li>
+                      <li><a href="../database.command/delta___database_my_sql_command.html" title="Delta_DatabaseMySQLCommand">Delta_DatabaseMySQLCommand</a></li>
+                      <li><a href="../database.command/delta___database_postgre_sql_command.html" title="Delta_DatabasePostgreSQLCommand">Delta_Databa...eSQLCommand</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.dao</span>
+        <ul style="display: none;">
+                      <li><a href="../database.dao/delta___dao.html" title="Delta_DAO">Delta_DAO</a></li>
+                      <li><a href="../database.dao/delta___dao_factory.html" title="Delta_DAOFactory">Delta_DAOFactory</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.entity</span>
+        <ul style="display: none;">
+                      <li><a href="../database.entity/delta___database_entity.html" title="Delta_DatabaseEntity">Delta_DatabaseEntity</a></li>
+                      <li><a href="../database.entity/delta___entity.html" title="Delta_Entity">Delta_Entity</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.profiler</span>
+        <ul style="display: none;">
+                      <li><a href="../database.profiler/delta___sql_prepared_statement_parser.html" title="Delta_SQLPreparedStatementParser">Delta_SQLPre...ementParser</a></li>
+                      <li><a href="../database.profiler/delta___sql_profiler.html" title="Delta_SQLProfiler">Delta_SQLProfiler</a></li>
+                      <li><a href="../database.profiler/delta___sql_profiler_report.html" title="Delta_SQLProfilerReport">Delta_SQLProfilerReport</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>domain.model</span>
+        <ul style="display: none;">
+                      <li><a href="../domain.model/delta___database_model.html" title="Delta_DatabaseModel">Delta_DatabaseModel</a></li>
+                      <li><a href="../domain.model/delta___model.html" title="Delta_Model">Delta_Model</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>domain.service</span>
+        <ul style="display: none;">
+                      <li><a href="../domain.service/delta___service.html" title="Delta_Service">Delta_Service</a></li>
+                      <li><a href="../domain.service/delta___service_factory.html" title="Delta_ServiceFactory">Delta_ServiceFactory</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>exception</span>
+        <ul style="display: none;">
+                      <li><a href="../exception/delta___application_exception.html" title="Delta_ApplicationException">Delta_ApplicationException</a></li>
+                      <li><a href="../exception/delta___business_logic_exception.html" title="Delta_BusinessLogicException">Delta_Busine...icException</a></li>
+                      <li><a href="../exception/delta___command_exception.html" title="Delta_CommandException">Delta_CommandException</a></li>
+                      <li><a href="../exception/delta___configuration_exception.html" title="Delta_ConfigurationException">Delta_Config...onException</a></li>
+                      <li><a href="../exception/delta___connect_exception.html" title="Delta_ConnectException">Delta_ConnectException</a></li>
+                      <li><a href="../exception/delta___data_not_found_exception.html" title="Delta_DataNotFoundException">Delta_DataNo...ndException</a></li>
+                      <li><a href="../exception/delta___exception.html" title="Delta_Exception">Delta_Exception</a></li>
+                      <li><a href="../exception/delta___forward_exception.html" title="Delta_ForwardException">Delta_ForwardException</a></li>
+                      <li><a href="../exception/delta___io_exception.html" title="Delta_IOException">Delta_IOException</a></li>
+                      <li><a href="../exception/delta___image_exception.html" title="Delta_ImageException">Delta_ImageException</a></li>
+                      <li><a href="../exception/delta___parse_exception.html" title="Delta_ParseException">Delta_ParseException</a></li>
+                      <li><a href="../exception/delta___request_exception.html" title="Delta_RequestException">Delta_RequestException</a></li>
+                      <li><a href="../exception/delta___security_exception.html" title="Delta_SecurityException">Delta_SecurityException</a></li>
+                      <li><a href="../exception/delta___unsupported_exception.html" title="Delta_UnsupportedException">Delta_UnsupportedException</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>exception.delegate</span>
+        <ul style="display: none;">
+                      <li><a href="../exception.delegate/delta___exception_delegate.html" title="Delta_ExceptionDelegate">Delta_ExceptionDelegate</a></li>
+                      <li><a href="../exception.delegate/delta___exception_logging_delegate.html" title="Delta_ExceptionLoggingDelegate">Delta_Except...ingDelegate</a></li>
+                      <li><a href="../exception.delegate/delta___exception_output_delegate.html" title="Delta_ExceptionOutputDelegate">Delta_Except...putDelegate</a></li>
+                      <li><a href="../exception.delegate/delta___exception_stack_trace_delegate.html" title="Delta_ExceptionStackTraceDelegate">Delta_Except...aceDelegate</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>form</span>
+        <ul style="display: none;">
+                      <li><a href="../form/delta___action_form.html" title="Delta_ActionForm">Delta_ActionForm</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request</span>
+        <ul style="display: none;">
+                      <li><a href="../http.request/delta___http_request.html" title="Delta_HttpRequest">Delta_HttpRequest</a></li>
+                      <li><a href="../http.request/delta___http_request_sender.html" title="Delta_HttpRequestSender">Delta_HttpRequestSender</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.response</span>
+        <ul style="display: none;">
+                      <li><a href="../http.response/delta___http_response.html" title="Delta_HttpResponse">Delta_HttpResponse</a></li>
+                      <li><a href="../http.response/delta___http_response_parser.html" title="Delta_HttpResponseParser">Delta_HttpResponseParser</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.session</span>
+        <ul style="display: none;">
+                      <li><a href="../http.session/delta___http_session.html" title="Delta_HttpSession">Delta_HttpSession</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.session.handler</span>
+        <ul style="display: none;">
+                      <li><a href="../http.session.handler/delta___apc_session_handler.html" title="Delta_APCSessionHandler">Delta_APCSessionHandler</a></li>
+                      <li><a href="../http.session.handler/delta___database_session_handler.html" title="Delta_DatabaseSessionHandler">Delta_Databa...sionHandler</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.session.user</span>
+        <ul style="display: none;">
+                      <li><a href="../http.session.user/delta___authority_user.html" title="Delta_AuthorityUser">Delta_AuthorityUser</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.container</span>
+        <ul style="display: none;">
+                      <li><a href="../kernel.container/delta___di_container.html" title="Delta_DIContainer">Delta_DIContainer</a></li>
+                      <li><a href="../kernel.container/delta___di_container_factory.html" title="Delta_DIContainerFactory">Delta_DIContainerFactory</a></li>
+                      <li><a href="../kernel.container/delta___di_controller.html" title="Delta_DIController">Delta_DIController</a></li>
+                      <li><a href="../kernel.container/delta___object.html" title="Delta_Object">Delta_Object</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.handler</span>
+        <ul style="display: none;">
+                      <li><a href="../kernel.handler/delta___error_handler.html" title="Delta_ErrorHandler">Delta_ErrorHandler</a></li>
+                      <li><a href="../kernel.handler/delta___exception_handler.html" title="Delta_ExceptionHandler">Delta_ExceptionHandler</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.loader</span>
+        <ul style="display: none;">
+                      <li><a href="../kernel.loader/delta___boot_loader.html" title="Delta_BootLoader">Delta_BootLoader</a></li>
+                      <li><a href="../kernel.loader/delta___class_loader.html" title="Delta_ClassLoader">Delta_ClassLoader</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.path</span>
+        <ul style="display: none;">
+                      <li><a href="../kernel.path/delta___app_path_manager.html" title="Delta_AppPathManager">Delta_AppPathManager</a></li>
+                      <li><a href="../kernel.path/delta___theme.html" title="Delta_Theme">Delta_Theme</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.path.router</span>
+        <ul style="display: none;">
+                      <li><a href="../kernel.path.router/delta___router.html" title="Delta_Router">Delta_Router</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger</span>
+        <ul style="display: none;">
+                      <li><a href="../logger/delta___log_writer.html" title="Delta_LogWriter">Delta_LogWriter</a></li>
+                      <li><a href="../logger/delta___logger.html" title="Delta_Logger">Delta_Logger</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger.appender</span>
+        <ul style="display: none;">
+                      <li><a href="../logger.appender/delta___logger_appender.html" title="Delta_LoggerAppender">Delta_LoggerAppender</a></li>
+                      <li><a href="../logger.appender/delta___logger_console_appender.html" title="Delta_LoggerConsoleAppender">Delta_Logger...oleAppender</a></li>
+                      <li><a href="../logger.appender/delta___logger_file_appender.html" title="Delta_LoggerFileAppender">Delta_LoggerFileAppender</a></li>
+                      <li><a href="../logger.appender/delta___logger_mail_appender.html" title="Delta_LoggerMailAppender">Delta_LoggerMailAppender</a></li>
+                      <li><a href="../logger.appender/delta___logger_sapi_appender.html" title="Delta_LoggerSAPIAppender">Delta_LoggerSAPIAppender</a></li>
+                      <li><a href="../logger.appender/delta___logger_socket_appender.html" title="Delta_LoggerSocketAppender">Delta_LoggerSocketAppender</a></li>
+                      <li><a href="../logger.appender/delta___logger_syslog_appender.html" title="Delta_LoggerSyslogAppender">Delta_LoggerSyslogAppender</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger.rotator.executor</span>
+        <ul style="display: none;">
+                      <li><a href="../logger.rotator.executor/delta___log_rotate_date_based_executor.html" title="Delta_LogRotateDateBasedExecutor">Delta_LogRot...sedExecutor</a></li>
+                      <li><a href="../logger.rotator.executor/delta___log_rotate_executor.html" title="Delta_LogRotateExecutor">Delta_LogRotateExecutor</a></li>
+                      <li><a href="../logger.rotator.executor/delta___log_rotate_null_based_executor.html" title="Delta_LogRotateNullBasedExecutor">Delta_LogRot...sedExecutor</a></li>
+                      <li><a href="../logger.rotator.executor/delta___log_rotate_size_based_executor.html" title="Delta_LogRotateSizeBasedExecutor">Delta_LogRot...sedExecutor</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger.rotator.policy</span>
+        <ul style="display: none;">
+                      <li><a href="../logger.rotator.policy/delta___log_rotate_date_based_policy.html" title="Delta_LogRotateDateBasedPolicy">Delta_LogRot...BasedPolicy</a></li>
+                      <li><a href="../logger.rotator.policy/delta___log_rotate_null_based_policy.html" title="Delta_LogRotateNullBasedPolicy">Delta_LogRot...BasedPolicy</a></li>
+                      <li><a href="../logger.rotator.policy/delta___log_rotate_policy.html" title="Delta_LogRotatePolicy">Delta_LogRotatePolicy</a></li>
+                      <li><a href="../logger.rotator.policy/delta___log_rotate_size_based_policy.html" title="Delta_LogRotateSizeBasedPolicy">Delta_LogRot...BasedPolicy</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>message</span>
+        <ul style="display: none;">
+                      <li><a href="../message/delta___action_messages.html" title="Delta_ActionMessages">Delta_ActionMessages</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net</span>
+        <ul style="display: none;">
+                      <li><a href="../net/delta___socket.html" title="Delta_Socket">Delta_Socket</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net.agent</span>
+        <ul style="display: none;">
+                      <li><a href="../net.agent/delta___user_agent.html" title="Delta_UserAgent">Delta_UserAgent</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net.agent.adapter</span>
+        <ul style="display: none;">
+                      <li><a href="../net.agent.adapter/delta___user_agent_au_adapter.html" title="Delta_UserAgentAUAdapter">Delta_UserAgentAUAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_adapter.html" title="Delta_UserAgentAdapter">Delta_UserAgentAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_android_adapter.html" title="Delta_UserAgentAndroidAdapter">Delta_UserAg...roidAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_android_tablet_adapter.html" title="Delta_UserAgentAndroidTabletAdapter">Delta_UserAg...bletAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_default_adapter.html" title="Delta_UserAgentDefaultAdapter">Delta_UserAg...aultAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_do_co_mo_adapter.html" title="Delta_UserAgentDoCoMoAdapter">Delta_UserAg...CoMoAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_i_pad_adapter.html" title="Delta_UserAgentIPadAdapter">Delta_UserAgentIPadAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_i_phone_adapter.html" title="Delta_UserAgentIPhoneAdapter">Delta_UserAg...honeAdapter</a></li>
+                      <li><a href="../net.agent.adapter/delta___user_agent_soft_bank_adapter.html" title="Delta_UserAgentSoftBankAdapter">Delta_UserAg...BankAdapter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net.mail</span>
+        <ul style="display: none;">
+                      <li><a href="../net.mail/delta___mime.html" title="Delta_MIME">Delta_MIME</a></li>
+                      <li><a href="../net.mail/delta___mail_attachment.html" title="Delta_MailAttachment">Delta_MailAttachment</a></li>
+                      <li><a href="../net.mail/delta___mail_message.html" title="Delta_MailMessage">Delta_MailMessage</a></li>
+                      <li><a href="../net.mail/delta___mail_parser.html" title="Delta_MailParser">Delta_MailParser</a></li>
+                      <li><a href="../net.mail/delta___mail_part.html" title="Delta_MailPart">Delta_MailPart</a></li>
+                      <li><a href="../net.mail/delta___mail_sender.html" title="Delta_MailSender">Delta_MailSender</a></li>
+                      <li><a href="../net.mail/delta___smtp.html" title="Delta_SMTP">Delta_SMTP</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>pager</span>
+        <ul style="display: none;">
+                      <li><a href="../pager/delta___array_pager.html" title="Delta_ArrayPager">Delta_ArrayPager</a></li>
+                      <li><a href="../pager/delta___database_pager.html" title="Delta_DatabasePager">Delta_DatabasePager</a></li>
+                      <li><a href="../pager/delta___pager.html" title="Delta_Pager">Delta_Pager</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util</span>
+        <ul style="display: none;">
+                      <li><a href="../util/delta___blowfish_cipher.html" title="Delta_BlowfishCipher">Delta_BlowfishCipher</a></li>
+                      <li><a href="../util/delta___file_uploader.html" title="Delta_FileUploader">Delta_FileUploader</a></li>
+                      <li><a href="../util/delta___php_string_parser.html" title="Delta_PHPStringParser">Delta_PHPStringParser</a></li>
+                      <li><a href="../util/delta___parameter_holder.html" title="Delta_ParameterHolder">Delta_ParameterHolder</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.code</span>
+        <ul style="display: none;">
+                      <li><a href="../util.code/delta___api_generator.html" title="Delta_APIGenerator">Delta_APIGenerator</a></li>
+                      <li><a href="../util.code/delta___code_inspector.html" title="Delta_CodeInspector">Delta_CodeInspector</a></li>
+                      <li><a href="../util.code/delta___tokenizer.html" title="Delta_Tokenizer">Delta_Tokenizer</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.code.helper</span>
+        <ul style="display: none;">
+                      <li><a href="../util.code.helper/delta___document_make_helper.html" title="Delta_DocumentMakeHelper">Delta_DocumentMakeHelper</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.common</span>
+        <ul style="display: none;">
+                      <li><a href="../util.common/delta___array_utils.html" title="Delta_ArrayUtils">Delta_ArrayUtils</a></li>
+                      <li><a href="../util.common/delta___common_utils.html" title="Delta_CommonUtils">Delta_CommonUtils</a></li>
+                      <li><a href="../util.common/delta___core_utils.html" title="Delta_CoreUtils">Delta_CoreUtils</a></li>
+                      <li><a href="../util.common/delta___date_utils.html" title="Delta_DateUtils">Delta_DateUtils</a></li>
+                      <li><a href="../util.common/delta___debug_utils.html" title="Delta_DebugUtils">Delta_DebugUtils</a></li>
+                      <li><a href="../util.common/delta___file_utils.html" title="Delta_FileUtils">Delta_FileUtils</a></li>
+                      <li><a href="../util.common/delta___network_utils.html" title="Delta_NetworkUtils">Delta_NetworkUtils</a></li>
+                      <li><a href="../util.common/delta___number_utils.html" title="Delta_NumberUtils">Delta_NumberUtils</a></li>
+                      <li><a href="../util.common/delta___string_utils.html" title="Delta_StringUtils">Delta_StringUtils</a></li>
+                      <li><a href="../util.common/delta___uri_utils.html" title="Delta_URIUtils">Delta_URIUtils</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.config</span>
+        <ul style="display: none;">
+                      <li><a href="../util.config/delta___config.html" title="Delta_Config">Delta_Config</a></li>
+                      <li><a href="../util.config/delta___config_compiler.html" title="Delta_ConfigCompiler">Delta_ConfigCompiler</a></li>
+                      <li><a href="../util.config/delta___config_custom_holder.html" title="Delta_ConfigCustomHolder">Delta_ConfigCustomHolder</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.file</span>
+        <ul style="display: none;">
+                      <li><a href="../util.file/delta___csv_writer.html" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
+                      <li><a href="../util.file/delta___file_lock.html" title="Delta_FileLock">Delta_FileLock</a></li>
+                      <li><a href="../util.file/delta___file_writer.html" title="Delta_FileWriter">Delta_FileWriter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.image</span>
+        <ul style="display: none;">
+                      <li><a href="../util.image/delta___image.html" title="Delta_Image">Delta_Image</a></li>
+                      <li><a href="../util.image/delta___image_color.html" title="Delta_ImageColor">Delta_ImageColor</a></li>
+                      <li><a href="../util.image/delta___image_delegate.html" title="Delta_ImageDelegate">Delta_ImageDelegate</a></li>
+                      <li><a href="../util.image/delta___image_factory.html" title="Delta_ImageFactory">Delta_ImageFactory</a></li>
+                      <li><a href="../util.image/delta___image_gd_delegate.html" title="Delta_ImageGDDelegate">Delta_ImageGDDelegate</a></li>
+                      <li><a href="../util.image/delta___image_image_magick_delegate.html" title="Delta_ImageImageMagickDelegate">Delta_ImageI...ickDelegate</a></li>
+                      <li><a href="../util.image/delta___image_uploader.html" title="Delta_ImageUploader">Delta_ImageUploader</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>validator</span>
+        <ul style="display: none;">
+                      <li><a href="../validator/delta___check_box_validator.html" title="Delta_CheckBoxValidator">Delta_CheckBoxValidator</a></li>
+                      <li><a href="../validator/delta___compare_validator.html" title="Delta_CompareValidator">Delta_CompareValidator</a></li>
+                      <li><a href="../validator/delta___credit_card_validator.html" title="Delta_CreditCardValidator">Delta_CreditCardValidator</a></li>
+                      <li><a href="../validator/delta___date_validator.html" title="Delta_DateValidator">Delta_DateValidator</a></li>
+                      <li><a href="../validator/delta___domain_validator.html" title="Delta_DomainValidator">Delta_DomainValidator</a></li>
+                      <li><a href="../validator/delta___e_mail_validator.html" title="Delta_EMailValidator">Delta_EMailValidator</a></li>
+                      <li><a href="../validator/delta___emoji_validator.html" title="Delta_EmojiValidator">Delta_EmojiValidator</a></li>
+                      <li><a href="../validator/delta___file_upload_validator.html" title="Delta_FileUploadValidator">Delta_FileUploadValidator</a></li>
+                      <li><a href="../validator/delta___ip_address_validator.html" title="Delta_IPAddressValidator">Delta_IPAddressValidator</a></li>
+                      <li><a href="../validator/delta___length_validator.html" title="Delta_LengthValidator">Delta_LengthValidator</a></li>
+                      <li><a href="../validator/delta___mask_validator.html" title="Delta_MaskValidator">Delta_MaskValidator</a></li>
+                      <li><a href="../validator/delta___numeric_validator.html" title="Delta_NumericValidator">Delta_NumericValidator</a></li>
+                      <li><a href="../validator/delta___range_validator.html" title="Delta_RangeValidator">Delta_RangeValidator</a></li>
+                      <li><a href="../validator/delta___required_validator.html" title="Delta_RequiredValidator">Delta_RequiredValidator</a></li>
+                      <li><a href="../validator/delta___sequence_string_validator.html" title="Delta_SequenceStringValidator">Delta_Sequen...ngValidator</a></li>
+                      <li><a href="../validator/delta___string_validator.html" title="Delta_StringValidator">Delta_StringValidator</a></li>
+                      <li><a href="../validator/delta___textarea_validator.html" title="Delta_TextareaValidator">Delta_TextareaValidator</a></li>
+                      <li><a href="../validator/delta___url_validator.html" title="Delta_URLValidator">Delta_URLValidator</a></li>
+                      <li><a href="../validator/delta___validate_manager.html" title="Delta_ValidateManager">Delta_ValidateManager</a></li>
+                      <li><a href="../validator/delta___validator.html" title="Delta_Validator">Delta_Validator</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>validator.i18n</span>
+        <ul style="display: none;">
+                      <li><a href="../validator.i18n/delta___required_jp_validator.html" title="Delta_RequiredJpValidator">Delta_RequiredJpValidator</a></li>
+                      <li><a href="../validator.i18n/delta___string_jp_validator.html" title="Delta_StringJpValidator">Delta_StringJpValidator</a></li>
+                      <li><a href="../validator.i18n/delta___vendor_character_validator.html" title="Delta_VendorCharacterValidator">Delta_Vendor...erValidator</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view</span>
+        <ul style="display: none;">
+                      <li><a href="../view/delta___view.html" title="Delta_View">Delta_View</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view.decorator</span>
+        <ul style="display: none;">
+                      <li><a href="../view.decorator/delta___html_escape_array_decorator.html" title="Delta_HTMLEscapeArrayDecorator">Delta_HTMLEs...ayDecorator</a></li>
+                      <li><a href="../view.decorator/delta___html_escape_decorator.html" title="Delta_HTMLEscapeDecorator">Delta_HTMLEscapeDecorator</a></li>
+                      <li><a href="../view.decorator/delta___html_escape_object_decorator.html" title="Delta_HTMLEscapeObjectDecorator">Delta_HTMLEs...ctDecorator</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view.helper</span>
+        <ul style="display: none;">
+                      <li><a href="../view.helper/delta___date_helper.html" title="Delta_DateHelper">Delta_DateHelper</a></li>
+                      <li><a href="../view.helper/delta___form_helper.html" title="Delta_FormHelper">Delta_FormHelper</a></li>
+                      <li><a href="../view.helper/delta___html_helper.html" title="Delta_HTMLHelper">Delta_HTMLHelper</a></li>
+                      <li><a href="../view.helper/delta___helper.html" title="Delta_Helper">Delta_Helper</a></li>
+                      <li><a href="../view.helper/delta___helper_manager.html" title="Delta_HelperManager">Delta_HelperManager</a></li>
+                      <li><a href="../view.helper/delta___pager_helper.html" title="Delta_PagerHelper">Delta_PagerHelper</a></li>
+                      <li><a href="../view.helper/delta___request_helper.html" title="Delta_RequestHelper">Delta_RequestHelper</a></li>
+                      <li><a href="../view.helper/delta___site_helper.html" title="Delta_SiteHelper">Delta_SiteHelper</a></li>
+                      <li><a href="../view.helper/delta___user_helper.html" title="Delta_UserHelper">Delta_UserHelper</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view.renderer</span>
+        <ul style="display: none;">
+                      <li><a href="../view.renderer/delta___base_renderer.html" title="Delta_BaseRenderer">Delta_BaseRenderer</a></li>
+                      <li><a href="../view.renderer/delta___mustache_renderer.html" title="Delta_MustacheRenderer">Delta_MustacheRenderer</a></li>
+                      <li><a href="../view.renderer/delta___phptal_renderer.html" title="Delta_PHPTALRenderer">Delta_PHPTALRenderer</a></li>
+                      <li><a href="../view.renderer/delta___renderer.html" title="Delta_Renderer">Delta_Renderer</a></li>
+                      <li><a href="../view.renderer/delta___smarty_renderer.html" title="Delta_SmartyRenderer">Delta_SmartyRenderer</a></li>
+                      <li><a href="../view.renderer/delta___twig_renderer.html" title="Delta_TwigRenderer">Delta_TwigRenderer</a></li>
+                  </ul>
+      </li>
+      </ul>
+</div>
+        </div>
+        <!-- /quarter -->
+        <!-- threequarter -->
+        <div class="threequarter">
+          <article>
+            <h2>
+                              Class
+                            Delta_StringUtils            </h2>
+            <p class="right">
+              <a href="#description">Description</a> |
+              <a href="#constants">Constants</a> |
+                              <a href="#properties">Properties</a> |
+                            <a href="#methods">Methods</a>
+            </p>
+
+            <h3 id="description">Description</h3>
+                          <div class="text">
+文字列を操作する汎用的なユーティリティメソッドを提供します。
+</div>
+                        <table summary="Description">
+              <colgroup>
+                <col width="20%" />
+                <col width="80%" />
+              </colgroup>
+                                                                                        <tr>
+                      <th class="left">Author</th>
+                      <td><div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</td>
+                    </tr>
+                                                                                                                <tr>
+                      <th class="left">Category</th>
+                      <td><div class="text">
+delta
+</div>
+</td>
+                    </tr>
+                                                                                            <tr>
+                      <th class="left">Package</th>
+                      <td><div class="text">
+util.common
+</div>
+</td>
+                    </tr>
+                                                              <tr>
+                <th class="left">Inheritance</th>
+                <td>
+                  Delta_StringUtils                                  </td>
+              </tr>
+                                          <tr>
+                <th class="left">Source file</th>
+                <td>/util/common/Delta_StringUtils.php</td>
+              </tr>
+            </table>
+            <p class="right"><a href="#top">To top</a></p>
+
+            <h3 id="constants">Constants</h3>
+                          <table summary="Constants">
+                <colgroup>
+                  <col width="20%" />
+                  <col width="80%" />
+                </colgroup>
+                <tr>
+                  <th>Constnat</th>
+                  <th>Summary</th>
+                </tr>
+                                  <tr>
+                    <td class="left"><a href="#constant_STRING_CASE_LOWER">STRING_CASE_LOWER</a></td>
+                    <td class="left">
+                                              <div class="text">
+英大文字定数。
+</div>
+                                          </td>
+                  </tr>
+                                  <tr>
+                    <td class="left"><a href="#constant_STRING_CASE_NUMERIC">STRING_CASE_NUMERIC</a></td>
+                    <td class="left">
+                                              <div class="text">
+数値文字定数。
+</div>
+                                          </td>
+                  </tr>
+                                  <tr>
+                    <td class="left"><a href="#constant_STRING_CASE_UPPER">STRING_CASE_UPPER</a></td>
+                    <td class="left">
+                                              <div class="text">
+英小文字定数。
+</div>
+                                          </td>
+                  </tr>
+                              </table>
+                        <p class="right"><a href="#">To top</a></p>
+
+                          <h3 id="properties">Properties</h3>
+                              <p>公開されているプロパティはありません。</p>
+                            <p class="right"><a href="#top">To top</a></p>
+            
+            <h3 id="methods">Methods</h3>
+                                          <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
+                <table summary="Methods">
+                  <colgroup>
+                    <col width="20%" />
+                    <col width="60%" />
+                    <col width="30%" />
+                   </colgroup>
+                  <tr>
+                    <th>Method</th>
+                    <th>Summary</th>
+                    <th>Defined by</th>
+                  </tr>
+                                                                                    <tr>
+                                              <td>
+                                                      <a href="#method_buildHash">buildHash()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+指定された文字列を元に SHA1 を用いて 40bit のハッシュ値を生成します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_buildRandomString">buildRandomString()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+ランダムな文字列を生成します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_convertCamelCase">convertCamelCase()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string を camelCaps 記法に変換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_convertPascalCase">convertPascalCase()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string をクラス名の命名記法に変換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_convertSnakeCase">convertSnakeCase()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string をアンダースコア形式のファイル名記法に変換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_convertSwapCase">convertSwapCase()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列内の大文字を小文字に、小文字を大文字に変換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_countMatches">countMatches()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string に含まれる target の出現回数を取得します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_decodeGzip">decodeGzip()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+gzip 圧縮された文字列をデコードします。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_encodeQuotedPrintable">encodeQuotedPrintable()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+対象となる文字列を quoted-printable 形式でエンコード (8bit またはリテラルの文字列データを 7bit 形式に変換) します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_escape">escape()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+HTML 特殊文字をエスケープします。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_escapeUnicode">escapeUnicode()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string を Unicode エスケープします。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_excludeReplace">excludeReplace()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string 内の from を全て to に置換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_formatJSONString">formatJSONString()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+JSON 形式の文字列を整形されたテキストに変換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_getDigitOnly">getDigitOnly()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+string に含まれる数字のみを結合して取得します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_indent">indent()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string にインデントを設定します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_insert">insert()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string の位置 to に insert 文字列を挿入します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_joinArray">joinArray()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+配列要素を文字列によって連結します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_nullOrEmpty">nullOrEmpty()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+string が NULL か空文字列であるかどうかチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_replaceLinefeed">replaceLinefeed()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string に含まれる改行コード (CR、LF、CRLF) を全て to に変換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_replaceSubstring">replaceSubstring()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列の一部を置換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_searchIndex">searchIndex()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string から search が最初に現れる位置を取得します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_splitExclude">splitExclude()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string を delimiter 区切りに配列分割します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_trim">trim()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+マルチバイトに対応した <a href="../util.common/delta___string_utils.html#method_trim">trim()</a> 関数の機能を提供します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_trimExplode">trimExplode()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string を delimiter によって分割します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_truncate">truncate()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string の長さが length になるよう、文字列の右端を切り捨てます。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_truncateCenter">truncateCenter()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string の長さが length になるよう、文字列の中央を切り捨てます。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_wordwrap">wordwrap()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+文字列 string を separator 区切りに分割します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___string_utils.html">Delta_StringUtils</a></td>
+                      </tr>
+                                                      </table>
+                                      <p class="right"><a href="#methods">To methods</a></p>
+
+                        <h3>Constant details</h3>
+              <dl>
+                              <dt id="constant_STRING_CASE_LOWER">STRING_CASE_LOWER</dt>
+                <dd>
+                  <div class="source"><code>STRING_CASE_LOWER = 1</code></div>
+                                      <div class="text">
+英大文字定数。
+</div>
+                                    <p class="right"><a href="#constants">To constants</a></p>
+                </dd>
+                              <dt id="constant_STRING_CASE_NUMERIC">STRING_CASE_NUMERIC</dt>
+                <dd>
+                  <div class="source"><code>STRING_CASE_NUMERIC = 4</code></div>
+                                      <div class="text">
+数値文字定数。
+</div>
+                                    <p class="right"><a href="#constants">To constants</a></p>
+                </dd>
+                              <dt id="constant_STRING_CASE_UPPER">STRING_CASE_UPPER</dt>
+                <dd>
+                  <div class="source"><code>STRING_CASE_UPPER = 2</code></div>
+                                      <div class="text">
+英小文字定数。
+</div>
+                                    <p class="right"><a href="#constants">To constants</a></p>
+                </dd>
+                            </dl>
+            
+            
+                        <h3>Method details</h3>
+              <dl>
+                                                      <dt id="method_buildHash">buildHash()</dt>
+                    <dd>
+                      <div class="source"><code>public static string buildHash($string)</code></div>
+                                              <div class="text">
+指定された文字列を元に SHA1 を用いて 40bit のハッシュ値を生成します。
+ハッシュ生成のソルトにはアプリケーション固有の秘密鍵 (application.yml に定義された &#039;secretKey&#039;) が使用されます。
+<div class="source"><code>// 例えば &#039;cd64e1dc810669d42c0d8b713fe31391391688ce&#039; を返す
+$string = Delta_StringUtils::buildHash(&#039;Hello world!&#039;);
+</code></div>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+生成したハッシュ値を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_buildRandomString">buildRandomString()</dt>
+                    <dd>
+                      <div class="source"><code>public static string buildRandomString($length = 8, $type = self::STRING_CASE_LOWER, $similar = TRUE)</code></div>
+                                              <div class="text">
+ランダムな文字列を生成します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$length</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+生成する文字列の長さ。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$type</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+生成する文字列のタイプを Delta_StringUtils::STRING_CASE_* 定数で指定。
+  Delta_StringUtils::STRING_CASE_LOWER|Delta_StringUtils::STRING_CASE_UPPER|Delta_StringUtils::STRING_CASE_NUMERIC を指定した場合は英数字の組み合わせとなる。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$similar</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+TRUE を指定した場合、視覚的に間違いやすい文字が連続しないよう並び順を調整します。
+  対象となる文字の組み合わせは次の通り。
+</div>
+<ul>
+<li>0 と O (数値のゼロと英大文字のオー)</li>
+<li>1 と I (数値のイチと英大文字のアイ)</li>
+<li>l と I (英小文字のエルと英大文字のアイ)</li>
+</ul>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+生成した文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_convertCamelCase">convertCamelCase()</dt>
+                    <dd>
+                      <div class="source"><code>public static camelCaps convertCamelCase($string)</code></div>
+                                              <div class="text">
+文字列 string を camelCaps 記法に変換します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>camelCaps</td>
+                              <td>
+                                                                  <div class="text">
+形式に変換した文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_convertPascalCase">convertPascalCase()</dt>
+                    <dd>
+                      <div class="source"><code>public static string convertPascalCase($string)</code></div>
+                                              <div class="text">
+文字列 string をクラス名の命名記法に変換します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象文字列をクラス名の命名記法に変換します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_convertSnakeCase">convertSnakeCase()</dt>
+                    <dd>
+                      <div class="source"><code>public static string convertSnakeCase($string, $underscore = TRUE)</code></div>
+                                              <div class="text">
+文字列 string をアンダースコア形式のファイル名記法に変換します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$underscore</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+string に含まれるアンダースコアをダブルアンダースコア (&#039;__&#039;) に変換する場合は TRUE、変換しない場合は FALSE を指定。
+string が &#039;FooBar&#039; の場合 (アンダースコアを含まない)
+</div>
+<ul>
+<li>TRUE: foo_bar…Delta_StringUtils::convertPascalCase(&#039;foo_bar&#039;) は &#039;FooBar&#039; を返す</li>
+<li>FALSE: foo_bar…Delta_StringUtils::convertPascalCase(&#039;foo_bar&#039;) は &#039;FooBar&#039; を返す</li>
+</ul>
+<div class="text">string が &#039;Foo_Bar&#039; の場合 (アンダースコアを含む)
+</div>
+<ul>
+<li>TRUE: foo__bar…Delta_StringUtils::convertPascalCase(&#039;foo__bar&#039;) は &#039;Foo_Bar&#039; を返す</li>
+<li>FALSE: foo_bar…Delta_StringUtils::convertPascalCase(&#039;foo_bar&#039;) は &#039;FooBar&#039; を返す (逆変換が不可能となる)</li>
+</ul>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象文字列をアンダースコア形式のファイル名記法に変換します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_convertSwapCase">convertSwapCase()</dt>
+                    <dd>
+                      <div class="source"><code>public static string convertSwapCase($string)</code></div>
+                                              <div class="text">
+文字列内の大文字を小文字に、小文字を大文字に変換します。
+<div class="source"><code>// &#039;hello WORLD!&#039;
+$string = Delta_StringUtils::convertSwapCase(&#039;HELLO world!&#039;);
+</code></div>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_countMatches">countMatches()</dt>
+                    <dd>
+                      <div class="source"><code>public static int countMatches($string, $target, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string に含まれる target の出現回数を取得します。
+<div class="source"><code>// 2
+$count = Delta_StringUtils::countMatches(&#039;Hello world!&#039;, &#039;o&#039;);
+</code></div>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$target</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+検索対象文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+target の出現回数を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_decodeGzip">decodeGzip()</dt>
+                    <dd>
+                      <div class="source"><code>public static string decodeGzip($data)</code></div>
+                                              <div class="text">
+gzip 圧縮された文字列をデコードします。
+<i>この関数を使うには、PHP のコンパイル時に <a href="http://www.php.net/manual/zlib.setup.php">Zlib モジュール</a> を有効化しておく必要があります。</i>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$data</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+デコードするデータ。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+デコードされた文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_encodeQuotedPrintable">encodeQuotedPrintable()</dt>
+                    <dd>
+                      <div class="source"><code>public static string encodeQuotedPrintable($string, $linefeed = &quot;\n&quot;, $width = 76)</code></div>
+                                              <div class="text">
+対象となる文字列を quoted-printable 形式でエンコード (8bit またはリテラルの文字列データを 7bit 形式に変換) します。
+<i>この関数は <a href="http://www.php.net/function.quoted_printable_encode.php">quoted_printable_encode()</a> 関数と似ていますが、linefeed、width を指定できる点が異なります。</i>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$linefeed</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+改行コード。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$width</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+1 行辺りの最大長。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+エンコード結果の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_escape">escape()</dt>
+                    <dd>
+                      <div class="source"><code>public static string escape($values, $flags = NULL, $doubleEncode = FALSE, array $allows = array(), $encoding = NULL)</code></div>
+                                              <div class="text">
+HTML 特殊文字をエスケープします。
+変換される文字は application.yml の &#039;htmlEscape&#039; 属性に設定した形式によります。
+(デフォルトで使用される関数は <a href="http://www.php.net/function.htmlspecialchars.php">htmlspecialchars()</a>、ENT_QUOTES フラグが適用される)
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$values</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+変換対象のデータ。文字列や配列のほか、オブジェクトを指定することも可能。
+</div>
+<ul>
+<li>配列が指定された場合: 返されるデータは <a href="../view.decorator/delta___html_escape_array_decorator.html">Delta_HTMLEscapeArrayDecorator</a> によってラッピングされたオブジェクトを返します。</li>
+<li>オブジェクトが指定された場合: 返されるデータは <a href="../view.decorator/delta___html_escape_object_decorator.html">Delta_HTMLEscapeObjectDecorator</a> によってラッピングされたオブジェクトを返します。</li>
+</ul>
+<div class="text">配列の中にネスト構造で格納された別の配列やオブジェクトについても、<a href="../view.decorator/delta___html_escape_decorator.html">Delta_HTMLEscapeDecorator</a> によって自動的にラッピングされた値が返されます。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$flags</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+変換に使用するフラグ。詳しくは <a href="http://www.php.net/function.htmlentities.php">htmlentities()</a> 関数を参照。
+  未指定の場合は &#039;htmlEscape.flags&#039; 属性に指定された形式で変換を行う。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$doubleEncode</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+既存の全ての HTML エンティティを再エンコードするかどうかの指定。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$allows</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+変換対象外とする HTML タグ。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_escapeUnicode">escapeUnicode()</dt>
+                    <dd>
+                      <div class="source"><code>public static string escapeUnicode($string)</code></div>
+                                              <div class="text">
+文字列 string を Unicode エスケープします。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。(UTF-8)
+  英数字、及び &#039;-&#039; (ハイフン)、&#039;.&#039; (ピリオド) を除く全ての文字がエスケープ対象となる。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+Unicode エスケープした文字列 (\uXXXX) を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_excludeReplace">excludeReplace()</dt>
+                    <dd>
+                      <div class="source"><code>public static string excludeReplace($from, $to, $string, $excludeTag = &#039;&quot;&#039;, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string 内の from を全て to に置換します。
+excludeTag で囲まれた文字列内は置換対象外となります。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$from</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+置換前の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$to</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+置換後の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+置換対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$excludeTag</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+マッチ対象外のタグ。配列形式で開始タグと終了タグを指定可能。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+置換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_formatJSONString">formatJSONString()</dt>
+                    <dd>
+                      <div class="source"><code>public static string formatJSONString($json, $linefeed = &quot;\n&quot;, $whitespace = &#039; &#039;, $indent = 2)</code></div>
+                                              <div class="text">
+JSON 形式の文字列を整形されたテキストに変換します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$json</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+JSON 形式の文字列データ。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$linefeed</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+改行コード。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$whitespace</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+ホワイトスペース。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$indent</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+インデント数。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+整形された JSON 文字列を返します。形式が不正な場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_getDigitOnly">getDigitOnly()</dt>
+                    <dd>
+                      <div class="source"><code>public static string getDigitOnly($string)</code></div>
+                                              <div class="text">
+string に含まれる数字のみを結合して取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+数字文字列を結合した結果文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_indent">indent()</dt>
+                    <dd>
+                      <div class="source"><code>public static string indent($string, $indent = 2, $char = &#039; &#039;)</code></div>
+                                              <div class="text">
+文字列 string にインデントを設定します。
+文字列が複数行の場合は各行に対して同じインデントを設定します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$indent</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+インデント数。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$char</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+インデントに用いる文字。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+インデントを設定した文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_insert">insert()</dt>
+                    <dd>
+                      <div class="source"><code>public static string insert($string, $insert, $to = 0, $range = NULL, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string の位置 to に insert 文字列を挿入します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$insert</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+挿入文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$to</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+挿入位置。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$range</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+挿入位置で元の文字列を上書きする場合の削除文字数。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_joinArray">joinArray()</dt>
+                    <dd>
+                      <div class="source"><code>public static string joinArray($glue, array $array, $afterInsert = TRUE, $callback = NULL)</code></div>
+                                              <div class="text">
+配列要素を文字列によって連結します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$glue</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+連結に用いる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$array</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+連結したい文字列の配列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$afterInsert</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+glue の挿入位置。TRUE の場合は array 文字列の後、FALSE の場合は array 文字列より先に挿入する。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$callback</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+array 文字列を連結する際に実行するコールバック関数。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+array 文字列を glue によって連結した結果を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_nullOrEmpty">nullOrEmpty()</dt>
+                    <dd>
+                      <div class="source"><code>public static bool nullOrEmpty($string)</code></div>
+                                              <div class="text">
+string が NULL か空文字列であるかどうかチェックします。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+string が NULL または空文字列の場合は TRUE、値が格納されている場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_replaceLinefeed">replaceLinefeed()</dt>
+                    <dd>
+                      <div class="source"><code>public static string replaceLinefeed($string, $to = &quot;\n&quot;)</code></div>
+                                              <div class="text">
+文字列 string に含まれる改行コード (CR、LF、CRLF) を全て to に変換します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$to</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+統一する改行コード。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+改行コード統一後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_replaceSubstring">replaceSubstring()</dt>
+                    <dd>
+                      <div class="source"><code>public static string replaceSubstring($string, $replacement, $start, $length = NULL, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列の一部を置換します。
+この関数は、<a href="http://www.php.net/function.substr_replace.php">substr_replace()</a> 関数のマルチバイト対応版です。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$replacement</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+置換文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$start</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+正の場合、置換は string で start 番目の文字から始まります。負の場合、置換は string の終端から string 番目の文字から始まります。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$length</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+正の場合、string の置換される部分の長さを表します。負の場合、置換を停止する位置が string の終端から何文字目かを表します。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+置換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_searchIndex">searchIndex()</dt>
+                    <dd>
+                      <div class="source"><code>public static string searchIndex($string, $search, $offset = 0, $excludeTag = &#039;&quot;&#039;, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string から search が最初に現れる位置を取得します。
+<a href="http://www.php.net/function.strpos.php">strpos()</a> 関数と異なり、excludeTag で囲まれた内部の文字列はマッチ対象外となります。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+検索対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$search</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+検索文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$offset</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+検索開始位置。offset 指定時も返される位置は string の先頭からの相対位置となります。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$excludeTag</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+検索から除外するタグ。
+  &#039; (シングルクォート) を渡した場合、シングルクォートで括られた中に存在する $search はマッチ対象外となります。
+  配列形式で開始・終了タグを指定することも可能です。
+  またバックスラッシュでエスケープされた文字はタグと見なされません。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+search が最初に現れる位置を返します。見つからない場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_splitExclude">splitExclude()</dt>
+                    <dd>
+                      <div class="source"><code>public static array splitExclude($string, $delimiter = &#039;,&#039;, $excludeTag = &#039;&quot;&#039;, $trim = TRUE, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string を delimiter 区切りに配列分割します。
+解析対象のフィールドが excludeTag で括られている場合、excludeTag 内の文字列は delimiter 解析の対象外となります。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+解析対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$delimiter</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+フィールドのデリミタ。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$excludeTag</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+マッチ対象外のタグ。配列形式で開始タグと終了タグを指定可能。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$trim</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+結果を返す際に excludeTag 文字を含める場合は TRUE、含めない場合は FALSE を指定。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+文字列を delimiter で分割した配列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_trim">trim()</dt>
+                    <dd>
+                      <div class="source"><code>public static string trim($string, $charlist = NULL, $ltrim = TRUE, $rtrim = TRUE, $emptyToNull = FALSE, $encoding = NULL)</code></div>
+                                              <div class="text">
+マルチバイトに対応した <a href="../util.common/delta___string_utils.html#method_trim">trim()</a> 関数の機能を提供します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換対象の文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$charlist</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+削除する文字のリスト。未指定時はホワイトスペースを除去します。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$ltrim</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+文字列の最初から空白 (もしくは他の文字) を取り除く場合に TRUE を指定。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$rtrim</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+文字列の最後から空白 (もしくは他の文字) を取り除く場合に TRUE を指定。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$emptyToNull</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+結果が空文字の時に NULL を返したい場合は TRUE を指定。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_trimExplode">trimExplode()</dt>
+                    <dd>
+                      <div class="source"><code>public static array trimExplode($delimiter = &#039;,&#039;, $string)</code></div>
+                                              <div class="text">
+文字列 string を delimiter によって分割します。
+分割された文字列の前後にあるホワイトスペースは除去されます。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$delimiter</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+デリミタ文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象となる文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+delimiter によって分割された配列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_truncate">truncate()</dt>
+                    <dd>
+                      <div class="source"><code>public static string truncate($string, $length = 32, $suffix = &#039;...&#039;, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string の長さが length になるよう、文字列の右端を切り捨てます。
+文字列が切り捨てられた場所には suffix が追加されます。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$length</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+文字列の上限。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$suffix</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+切り捨てが発生した箇所に追加する文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_truncateCenter">truncateCenter()</dt>
+                    <dd>
+                      <div class="source"><code>public static string truncateCenter($string, $length = 32, $suffix = &#039;...&#039;, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string の長さが length になるよう、文字列の中央を切り捨てます。
+文字列が切り捨てられた場所には suffix が追加されます。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+対象文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$length</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+文字列の上限。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$suffix</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+切り捨てが発生した箇所に追加する文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+変換後の文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_wordwrap">wordwrap()</dt>
+                    <dd>
+                      <div class="source"><code>public static string wordwrap($string, $width = 78, $separator = &quot;\r\n&quot;, $encoding = NULL)</code></div>
+                                              <div class="text">
+文字列 string を separator 区切りに分割します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$string</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+マルチバイト文字列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$width</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+分割する文字列長。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$separator</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+分割に使用する文字。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$encoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+文字列のエンコーディング形式。未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+指定した文字で分割された文字列を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                </dl>
+                      </article>
+        </div>
+        <!-- /threequarter -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /contents -->
+    <footer>
+  <p>This document was generated on Fri, 26 Apr 2013 06:47:46 +0900<br />
+  Copyright © delta framework project.</p>
+</footer>
+  </body>
+</html>

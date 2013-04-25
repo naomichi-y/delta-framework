@@ -1,0 +1,22 @@
+tables:
+  - name: delta_caches
+    columns:
+      - name: cache_name
+        type: varchar
+        length: 64
+        notNull: TRUE
+        primaryKey: TRUE
+
+      - name: cache_value
+        type: text
+        notNull: TRUE
+
+      - name: namespace
+        type: varchar
+        length: 32
+        notNull: TRUE
+        primaryKey: TRUE
+
+      - name: expire_date
+        type: timestamp
+

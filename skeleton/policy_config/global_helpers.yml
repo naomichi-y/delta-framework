@@ -1,0 +1,33 @@
+request{type='array' output='true'}:
+  class{output='true' default='Delta_RequestHelper'}:
+  assign{output='false' default='request'}:
+  bind{type='boolean' output='true' default=TRUE}:
+
+form{type='array' output='true'}:
+  class{output='true' default='Delta_FormHelper'}:
+  assign{output='false' default='form'}:
+  bind{type='boolean' output='true' default=TRUE}:
+
+html{type='array' output='true'}:
+  class{output='true' default='Delta_HTMLHelper'}:
+  assign{output='false' default='html'}:
+  bind{type='boolean' output='true' default=TRUE}:
+
+pager{type='array' output='true'}:
+  class{output='true' default='Delta_PagerHelper'}:
+  assign{output='false' default='pager'}:
+
+user{type='array' output='true'}:
+  class{output='true' default='Delta_UserHelper'}:
+  assign{output='false' default='user'}:
+  bind{type='boolean' output='true' default=TRUE}:
+
+site{type='array' output='true'}:
+  class{output='true' default='Delta_SiteHelper'}:
+  assign{output='false' default='site'}:
+  bind{type='boolean' output='true' default=TRUE}:
+
+date{type='array' output='true'}:
+  class{output='true' default='Delta_DateHelper'}:
+  assign{output='false' default='date'}:
+  bind{type='boolean' output='true' default=TRUE}:

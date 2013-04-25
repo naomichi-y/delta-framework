@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - コーディング規約 - コーディングスタイル</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div>
+    <h1 id="top">コーディング規約 - コーディングスタイル</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2012 年 6 月 6 日 </p>
+    <p>delta を使ったアプリケーション開発におけるコーディングルールを解説します。</p>
+    <ul class="index">
+      <li><a href="#phpFormat">PHP の書式</a>
+        <ul>
+          <li><a href="#encoding">エンコーディング形式と改行コード</a></li>
+          <li><a href="#phpTag">PHP コードの開始と終わり</a></li>
+          <li><a href="#indent">インデント</a></li>
+          <li><a href="#lineLimit">1 行辺りの長さ</a></li>
+          <li><a href="#comment">コメント</a></li>
+          <li><a href="#define">定数</a></li>
+          <li><a href="#operand">演算子</a></li>
+        </ul>
+      </li>
+      <li><a href="#yamlFormat">YAML の書式</a>
+        <ul>
+          <li><a href="#yamlAttribute">属性</a></li>
+          <li><a href="#yamlValue">値</a></li>
+        </ul>
+      </li>
+      <li><a href="#stringAndArray">文字列と配列</a>
+        <ul>
+          <li><a href="#literal">文字列リテラル</a></li>
+          <li><a href="#array">配列</a></li>
+        </ul>
+      </li>
+      <li><a href="#controlStructure">制御構造 </a>
+        <ul>
+          <li><a href="#controlStructureCommonStyle">共通規則</a></li>
+          <li><a href="#if">if 文</a></li>
+          <li><a href="#for">for 文</a></li>
+          <li><a href="#switch">switch case 文</a> </li>
+          <li><a href="#template">テンプレートにおける記述形式</a></li>
+        </ul>
+      </li>
+      <li><a href="#class">クラス</a>
+        <ul>
+          <li><a href="#defineClass">クラスの宣言</a></li>
+          <li><a href="#classConstantName">クラス定数</a></li>
+          <li><a href="#defineClassMember">メンバ変数</a></li>
+          <li><a href="#defineClassMethod">メソッド (関数)</a></li>
+          <li><a href="#dao">DAO</a></li>
+        </ul>
+      </li>
+      <li><a href="#variables">変数</a>
+        <ul>
+          <li><a href="#superGlobalVariables">スーパーグローバル変数</a></li>
+          <li><a href="#globalVariables">グローバル変数 </a></li>
+        </ul>
+      </li>
+      <li><a href="#exception">例外</a></li>
+      <li><a href="#etc">その他</a></li>
+    </ul>
+    <h2><a id="phpFormat" name="phpFormat"></a>PHP の書式 </h2>
+    <h3><a id="encoding" name="encoding"></a>エンコーディング形式と改行コード</h3>
+    <ul>
+      <li>原則的にエンコーディングは UTF-8 (BOM なし)、改行コードは LF (Unix スタイル) で統一して下さい。Windows や Mac で開発する場合は改行コードを LF に変更する必要があります。</li>
+    </ul>
+    <h3><a id="phpTag" name="phpTag"></a>PHP コードの開始と終わり</h3>
+    <p>プログラムを記述するにあたり、標準的な次のタグを宣言する必要があります。</p>
+    <dl>
+      <dt>PHP Code# PHP タグの明示化</dt>
+      <dd class="lang_php"><code>&lt;?php</code></dd>
+    </dl>
+    <ul>
+      <li>短縮型の &quot;&lt;?〜?&gt;&quot; は使用しないで下さい。OS や環境によってスクリプトが正しく認識されない可能性があります。</li>
+      <li>プログラムが PHP 言語だけで構成される場合、ファイルの最終行で終了タグ (&quot;?&gt;&quot;) を含めるべきではありません。これは終了タグ以降にある空文字が出力されるのを防ぐ目的があります。</li>
+    </ul>
+    <h3><a id="indent" name="indent"></a>インデント</h3>
+    <ul>
+      <li>プログラムを読みやすくするため、適宜インデントを入れて下さい。</li>
+      <li>インデントには 2 つの空白記号を使います。タブは環境によりサイズが異なるため使用するべきではありません。</li>
+    </ul>
+    <dl>
+      <dt>PHP Code# インデントの例</dt>
+      <dd class="lang_php"><code>{<br />
+        &nbsp;&nbsp;// 2 つの空白記号を使用 <br />
+        &nbsp;&nbsp;$foo = 0; <br />
+        }</code></dd>
+    </dl>
+    <h3><a id="lineLimit" name="lineLimit"></a>1 行辺りの長さ</h3>
+    <ul>
+      <li>プログラムコードにおける一行辺りの長さは 80 文字、長くても 120 文字程度に抑えるべきです。あまりに長いコードは、使用しているエディタによっては可読性が下がります。コードが長くなる場合は途中で降り返して下さい。
+        <dl>
+          <dt>PHP Code# コードの折り返し</dt>
+          <dd class="lang_php"><code> public function hello() <br />
+            {<br />
+            &nbsp;&nbsp;// 可読性の低いコード<br />
+            &nbsp;&nbsp;$message = sprintf('%sさん%s 前回のログインは%sです。', $this-&gt;getNickname(), $this-&gt;getGreeting(), $this-&gt;getLastLoginDate());<br />
+            <br />
+            &nbsp;&nbsp;// 可読性の高いコード<br />
+            &nbsp;&nbsp;$message = sprintf('%sさん%s 前回のログインは%sです。', <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getNickname(), <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;$this-&gt;getGreeting(), <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getLastLoginDate());<br />
+            <br />
+            &nbsp;&nbsp;return $message;<br />
+            }</code></dd>
+        </dl>
+      </li>
+    </ul>
+    <h3><a id="comment" name="comment"></a>コメント </h3>
+    <ul>
+      <li>&quot;#&quot; (シャープ) 形式のコメントは使用するべきではありません。代わりにインラインブロック (&quot;//&quot;、あるいは &quot;/*〜*/&quot;) を使用して下さい。 </li>
+      <li>全てのコメントは 1 つの空白を開けた後に初めて下さい。</li>
+      <li>英数字は半角文字で統一して下さい。全角文字を使うと対象キーワードが検索でマッチしない可能性があります。</li>
+      <li>プログラム中のコメントは多ければ良いという訳ではありません。コードだけでは説明が不足している箇所に記述するべきです。</li>
+      <li>コメントの形式は <a href="http://phpdoc.org/">phpDocumentor</a> と互換性を持たせます。</li>
+      <li>クラスにはクラスコメントを定義して下さい。
+        <ul>
+          <li>クラスの動作説明</li>
+          <li>@package: クラスのパッケージ情報</li>
+          <li>@author: 作成者情報 </li>
+        </ul>
+        <dl>
+          <dt>PHP Code# クラスコメントの例</dt>
+          <dd class="lang_php"><code>/**<br />
+            &nbsp;* クラスの概要を記述します。2 行目以降に定義されたコメントは概要と見なされないことに注意して下さい。<br />
+            &nbsp;*　<br />
+            &nbsp;* クラスの詳しい説明があれば記述します。<br />
+            &nbsp;* 文章の途中 (句点等)　で改行を含めるべきではありません。<br />
+            &nbsp;*　一行一文を原則として下さい。 <br />
+            &nbsp;* <br />
+            &nbsp;* @package libs.service<br />
+            &nbsp;* @author Naomichi Yamakita &lt;naomichi.y@delta-framework.org&gt;<br />
+            &nbsp;*/ <br />
+            class HelloWorld extends Delta_Object<br />
+            {<br />
+            &nbsp;&nbsp;...<br />
+            } </code></dd>
+        </dl>
+      </li>
+      <li>独自に作成したメソッド (関数) にはコメントを定義して下さい。
+        <ul>
+          <li>メソッド (関数) の動作説明</li>
+          <li>@param: 引数の型と説明</li>
+          <li>@return: 戻り値の型と説明</li>
+          <li>@throws: 発生しうる例外クラスと説明</li>
+          <li>@author: 作成者情報</li>
+        </ul>
+        <dl>
+          <dt>PHP Code# メソッドコメントの例</dt>
+          <dd class="lang_php"><code>/**<br />
+            &nbsp;* 挨拶文を返します。<br />
+            &nbsp;* <br />
+            &nbsp;* @param string $name 挨拶する相手の名前。<br />
+            &nbsp;* @return string 挨拶文を返します。<br />
+            &nbsp;* @throws RuntimeException 名前が不明な場合に発生。 <br />
+            &nbsp;* @author Naomichi Yamakita &lt;naomichi.y@delta-framework.org&gt;<br />
+            &nbsp;*/ <br />
+            public function hello($name)<br />
+            {<br />
+            &nbsp;&nbsp;if (Delta_StringUtils::nullOrEmpty($name)) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;throw new RuntimeException('誰か分かりません。');<br />
+            &nbsp;&nbsp;} <br />
+            <br />
+            &nbsp;&nbsp;return sprintf('こんにちは、%sさん', $name);<br />
+            } </code></dd>
+        </dl>
+      </li>
+    </ul>
+    <h3><a id="define" name="define"></a>定数</h3>
+    <ul>
+      <li>複数のプログラムで使用する汎用パラメータは定数化しておくべきです。</li>
+      <li>PHP 定数 (TRUE、FALSE、NULL など) の表記は大文字で統一して下さい。</li>
+    </ul>
+    <h3><a name="operand" id="operand"></a>演算子</h3>
+    <ul>
+      <li>演算子の前後には常に 1 つの余白記号を入れて下さい。
+        <dl>
+          <dt>PHP Code# 可読性の低いコード</dt>
+          <dd class="lang_php"><code>for($i=0;$i&lt;100;$i++){<br />
+            &nbsp;&nbsp;...<br />
+            } </code></dd>
+          <dt>PHP Code# 可読性の高いコード</dt>
+          <dd class="lang_php"><code>for ($i = 0; $i &lt; 100; $i++) {<br />
+            &nbsp;&nbsp;...<br />
+            } </code></dd>
+        </dl>
+      </li>
+    </ul>
+    <h2><a id="yamlFormat" name="yamlFormat"></a>YAML の書式 </h2>
+    <h3><a name="yamlAttribute" id="yamlAttribute"></a>属性</h3>
+    <ul>
+      <li>属性名は camelCaps 形式で統一します。</li>
+    </ul>
+    <h3><a name="yamlValue" id="yamlValue"></a>値</h3>
+    <ul>
+      <li>文字列はシングルクォートで括ります。
+        <ul>
+          <li>&quot;hello&quot; のような 1 つの英単語で構成される文字の場合、シングルクォートは必須ではありません。</li>
+          <li>マルチバイト文字を含む文字列は常にシングルクォートで括ることを推奨します。</li>
+          <li>TRUE や FALSE といった定数は大文字で定義します。</li>
+        </ul>
+      </li>
+    </ul>
+    <h2><a id="stringAndArray" name="stringAndArray"></a>文字列と配列</h2>
+    <h3><a id="literal" name="literal"></a>文字列リテラル</h3>
+    <ul>
+      <li>原則的にリテラル文字はシングルクォートで括る必要があります。ダブルクォートは内部に含まれる変数を展開するため、パフォーマンスの観点から通常は使用するべきではありません。</li>
+      <li>シングルクォートを含む文字列の場合は例外的にダブルクォートの使用が許可されます。
+        <dl>
+          <dt>PHP Code# 文字列リテラルの例</dt>
+          <dd class="lang_php"><code>// リテラル文字列の表現<br />
+            $string = 'what'; <br />
+            <br />
+            // シングルクォートを含む文字列 <br />
+            $string = &quot;what's&quot;;<br />
+            <br />
+            // 改行コードを含む文字列 <br />
+            $string = &quot;hello\n&quot;;</code></dd>
+        </dl>
+      </li>
+      <li>複数の文字列を結合する場合は、&quot;.&quot; (ドット) 演算子を用います。&quot;.&quot; の前後には常に 1 つの空白記号が必要です。
+        <dl>
+          <dt>PHP Code# 文字列結合の例</dt>
+          <dd class="lang_php"><code>$string = 'Hello' . 'World';<br />
+            <br />
+            // 文字列が長くなる場合は適宜改行する<br />
+            $string = 'abcdefghijklmnopqrstuvwxyz'<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;</code><code>'ABCDEFGHIJKLMNOPQRSTUVWXYZ'<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;'0123456789';</code></dd>
+        </dl>
+      </li>
+    </ul>
+    <ul>
+      <li>SQL の記述について
+        <ul>
+          <li>カラムを区切る &quot;,&quot; (カンマ) の後には 1 つの空白記号を入れます。</li>
+          <li>SET や FROM といった制御ステートメントは前の行から改行した後に宣言します。</li>
+          <li>予約語や関数名は大文字で宣言します。</li>
+          <li>テーブル名やカラム名は小文字で宣言します。</li>
+          <li>1 行につき 1 ステートメントを原則とします。
+            <ul>
+              <li>UPDATE 文における更新カラムは 1 行につき 1 カラム記述して下さい。</li>
+            </ul>
+          </li>
+          <li>バインド変数はアンダースコア形式で宣言します。 </li>
+        </ul>
+        <dl>
+          <dt>PHP Code# SQL の記述例</dt>
+          <dd class="lang_php"><code>$sql = 'SELECT COUNT(id) '<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; . 'FROM foo '<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; . 'WHERE bar = :bar '<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; . 'AND target_date BETWEEN :begin_date AND :end_date';<br />
+            <br />
+            $sql = 'UPDATE foo '<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'SET target_date = NOW(), '<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'bar = :bar '<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'WHERE id = :id';</code> <code><br />
+            </code></dd>
+        </dl>
+      </li>
+    </ul>
+    <h3><a id="array" name="array"></a>配列 </h3>
+    <ul>
+      <li>配列変数はあらかじめ array() で初期化しておく必要があります。</li>
+      <li>配列に複数の要素を追加する場合、&quot;,&quot; (カンマ) の直後は 1 つの空白記号を入れて下さい。
+        <dl>
+          <dt>PHP Code# 配列宣言の例</dt>
+          <dd class="lang_php"><code>// 配列の初期化<br />
+            $array = array(100, 200, 300);<br />
+            <br />
+            // 要素数が多い場合は適宜改行する <br />
+            $array = array(100, 200, 300,<br />
+            </code><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;400, 500, 600,<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;700, 900, 000);<br />
+            <br />
+            // 連想配列は代入演算子の位置を揃える<br />
+            $array = array(<br />
+            &nbsp;&nbsp;'red'&nbsp;&nbsp;&nbsp;=&gt; '#F00',<br />
+            &nbsp;&nbsp;'green'&nbsp;=&gt; '#0F0',<br />
+            &nbsp;&nbsp;'blue'&nbsp;&nbsp;=&gt; '#00F'<br />
+            ); <br />
+            </code></dd>
+        </dl>
+      </li>
+    </ul>
+    <h2><a id="controlStructure" name="controlStructure"></a>制御構造</h2>
+    <h3><a id="controlStructureCommonStyle" name="controlStructureCommonStyle"></a>共通規則</h3>
+    <ul>
+      <li>条件括弧の前後には 1 つの空白記号を入れて下さい。</li>
+      <li>条件開始の括弧 ({) は条件文と同じ行に定義してください。 </li>
+      <li>終了括弧は常に改行して下さい。</li>
+      <li>条件内のコードが 1 行であったとしても括弧を省略するべきではありません。</li>
+      <li>制御構造の前後には改行を入れるべきです。</li>
+    </ul>
+    <dl>
+      <dt>PHP Code# 可読性の低いコード</dt>
+      <dd class="lang_php"><code>$foo = 100;<br />
+        if($foo){<br />
+        &nbsp;&nbsp;$foo = 200;<br />
+        }else <br />
+        &nbsp;&nbsp;$foo = 300;<br />
+        $foo = 400; </code></dd>
+      <dt>PHP Code# 可読性の高いコード</dt>
+      <dd class="lang_php"><code>$foo = 100;<br />
+        <br />
+        if($foo) {<br />
+        &nbsp;&nbsp;$foo = 200;<br />
+        } else {<br />
+        &nbsp;&nbsp;$foo = 300;<br />
+        } <br />
+        <br />
+        $foo = 400;</code></dd>
+    </dl>
+    <h3><a id="if" name="if">if 文</a></h3>
+    <ul>
+      <li>条件が複雑な場合は内括弧を使ったり、適切な場所で改行を入れるべきです。ただし可読性が下がるようであれば多少冗長になったとしても条件文を分けた方が良い場合もあります。</li>
+      <li>&quot;elseif&quot; は使用するべきではありません。&quot;else if&quot; を使用して下さい。
+        <dl>
+          <dt>PHP Code# if 文の定義</dt>
+          <dd class="lang_php"><code>if ($condition == 0) {<br />
+            &nbsp;&nbsp;$value = 0; <br />
+            } else if ($condition == 1) {<br />
+            &nbsp;&nbsp;$value = 1; <br />
+            } else {<br />
+            &nbsp;&nbsp;$value = 2; <br />
+            }</code></dd>
+        </dl>
+      </li>
+      <li>値が含まれているかのチェックで &quot;if ($value)&quot; を使うべきではありません。$value に 0 が格納されている場合、この条件文は FALSE を返します。PHP の isset() 関数、または Delta_StringUtils#nullOrEmpty() を使用して下さい。
+        <dl>
+          <dt>PHP Code# 値の比較</dt>
+          <dd class="lang_php"><code>// FALSE を返す <br />
+            if ('0') {<br />
+            }</code></dd>
+        </dl>
+      </li>
+      <li>三項演算子はプログラムの見通しが悪くなるため原則的に使用するべきではありません。</li>
+      <li><code></code>変数の値や戻り値は厳密に比較して下さい。&quot;==&quot; ではなく、&quot;===&quot; や &quot;!==&quot; を使用するべきです
+        <dl>
+          <dt>PHP Code# 値の比較</dt>
+          <dd class="lang_php"><code>// TRUE を返す<br />
+            if ('0' == FALSE) {<br />
+            }<br />
+            </code><code><br />
+            // FALSE を返す<br />
+            if ('0' === FALSE) {<br />
+            }</code></dd>
+        </dl>
+      </li>
+    </ul>
+    <h3><a id="for" name="for"></a>for 文</h3>
+    <ul>
+      <li>&quot;;&quot; (セミコロン) の後には 1 つの空白記号を入れて下さい。</li>
+    </ul>
+    <dl>
+      <dt>PHP Code# for 文の定義</dt>
+      <dd class="lang_php"><code>for ($i = 0; $i &lt; $cnt; $i++) {<br />
+        &nbsp;&nbsp;... <br />
+        }</code></dd>
+    </dl>
+    <h3><a id="switch" name="switch">switch case </a> 文</h3>
+    <ul>
+      <li>case 文はインデントしてから開始します。</li>
+      <li>default は必須です。特に処理がなければ break 文を入れて下さい。</li>
+      <li>各条件において処理を抜けるための break 文は必須です。後に続く条件に処理を継続させたい場合は、明示的に注釈コメントを付けておくべきです。</li>
+    </ul>
+    <dl>
+      <dt>PHP Code# switch case 文の定義 </dt>
+      <dd class="lang_php"><code>switch ($condition)
+        {<br />
+        &nbsp;&nbsp;case 100:<br />
+        &nbsp;&nbsp;&nbsp;
+        break;<br />
+        <br />
+        &nbsp;&nbsp;case 200:<br />
+        &nbsp;&nbsp;&nbsp;
+        break;<br />
+        <br />
+        &nbsp;
+        default:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;break; <br />
+        }<br />
+        </code></dd>
+    </dl>
+    <h3><a id="template" name="template">テンプレートにおける記述形式</a></h3>
+    <ul>
+      <li>テンプレートファイル限定で次のような制御構造も認められます。
+        <dl>
+          <dt>Template Code# if 文の定義</dt>
+          <dd class="lang_template"><code>&lt;?php if ($html-&gt;hasErrors()): ?&gt;<br />
+            &lt;p&gt;エラーがあります。&lt;/p&gt;<br />
+            &lt;?php elseif: ?&gt; <br />
+            &lt;p&gt;エラーはありません。&lt;/p&gt;<br />
+            &lt;?php endif; ?&gt; </code></dd>
+          <dt>Template Code# for 文の定義</dt>
+          <dd class="lang_template"><code>&lt;ul&gt;<br />
+            &nbsp;&nbsp;&lt;?php for ($i = 0; $i &lt; 100; $i++): ?&gt;<br />
+            &nbsp;&nbsp;&lt;li&gt;&lt;?php echo $i ?&gt;&lt;/li&gt; <br />
+            &nbsp;&nbsp;&lt;?php endfor; ?&gt;<br />
+            &lt;/p&gt; </code></dd>
+          <dt>Template Code# while 文の定義</dt>
+          <dd class="lang_template"><code>&lt;ul&gt;<br />
+            &nbsp;&nbsp;&lt;?php while($current = $pager-&gt;next()) ?&gt;<br />
+            &nbsp;&nbsp;&lt;li&gt;&lt;?php echo $current['name'] ?&gt;&lt;/li&gt; <br />
+            &nbsp;&nbsp;&lt;?php endwhile; ?&gt;<br />
+            &lt;/ul&gt;</code></dd>
+        </dl>
+      </li>
+    </ul>
+    <h2><a id="class" name="class"></a>クラス</h2>
+    <h3><a id="defineClass" name="defineClass"></a>クラスの宣言 </h3>
+    <ul>
+      <li>インデントは OTBS (One true brace) 形式とします。
+        <dl>
+          <dt>PHP Code# OSBS 形式のコード例</dt>
+          <dd class="lang_php"><code>class HelloWorld<br />
+            {<br />
+            &nbsp; public function greeting($name = NULL)<br />
+            &nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;if (is_null($name)) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;} else {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            &nbsp;&nbsp;} <br />
+            } </code></dd>
+        </dl>
+      </li>
+      <li>クラス名と開始括弧の間には改行を含めます。</li>
+      <li>閉じ括弧の前は常に改行を含めます。</li>
+      <li>1 ファイル 1 クラスを原則とします。</li>
+      <li>クラスファイルには関数を含めるべきではありません。</li>
+      <li>クラスが空の場合、&quot;{&quot; と &quot;}&quot; の間には改行を含めません。(メソッドや関数も同じ)</li>
+    </ul>
+    <dl>
+      <dt>PHP Code# クラス定義の例</dt>
+      <dd class="lang_php"><code>class HelloWorld extends Delta_Object<br />
+        {}</code></dd>
+    </dl>
+    <h3><a id="classConstantName" name="classConstantName"></a>クラス定数 </h3>
+    <ul>
+      <li>クラス定数はクラス宣言の直後に定義します。(メンバ変数よりも先に宣言します)</li>
+      <li>使用可能な文字は英大文字、数字、及び &quot;_&quot; (アンダーバー) になります。最初の文字は必ず英字で開始する必要があります。複数の単語を組み合わせる場合はアンダーバーで区切ります。</li>
+      <li>クラス定数には &quot;{クラス名}::{定数名}&quot; の形式でアクセスします。&quot;::&quot; の前後に空白は含めません。 </li>
+    </ul>
+    <h3><a id="defineClassMember" name="defineClassMember"></a>メンバ変数 </h3>
+    <ul>
+      <li>var は使用するべきではありません。</li>
+      <li>全てのメンバ変数にはアクセス修飾子 (public、private、protected) を付けます。 </li>
+      <li>変数の定義順序は次の通りです。
+        <ul>
+          <li>クラス定数</li>
+          <li>static メンバ変数</li>
+          <li>メンバ変数 (public、private、protected) </li>
+        </ul>
+      </li>
+      <li>プライベート変数はアクセサメソッドを通してアクセスするべきです。</li>
+      <li>プライベート変数 (及び protected) の名前は &quot;_&quot; (アンダーバー) から始めます。</li>
+      <li>原則的にグローバル変数は使用するべきではありません。</li>
+    </ul>
+    <dl>
+      <dt>PHP Code# アクセサを用いたプライベート変数へのアクセス</dt>
+      <dd class="lang_php"><code>class HelloWorld extends Delta_Object<br />
+        {<br />
+        &nbsp;&nbsp;private $_greeting;<br />
+        <br />
+        &nbsp;&nbsp;public function setGreeting($greeting)<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greeting = $greeting; <br />
+        &nbsp;&nbsp;} <br />
+        <br />
+        &nbsp;&nbsp;public function getGreeting()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greeting; <br />
+        &nbsp;&nbsp;}<br />
+        }</code></dd>
+    </dl>
+    <h3><a id="defineClassMethod" name="defineClassMethod"></a> メソッド (関数)</h3>
+    <ul>
+      <li>宣言
+        <ul>
+          <li>インデントは &quot;One true brace&quot; 形式とします。</li>
+          <li>メソッド
+            <ul>
+              <li>全てのメソッドにはアクセス修飾子 (public、private、protected) を付けます。</li>
+              <li>空メソッド (何もしないメソッド) を定義する場合、開始括弧と終了括弧の間に改行は不要です。</li>
+              <li>コンストラクタを宣言する際は __construct() を使用して下さい。</li>
+              <li>static メソッドの宣言は &quot;{アクセス修飾子} static function {メソッド名}&quot; の形式とします。 </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>引数
+        <ul>
+          <li>引数が 2 つ以上ある場合、&quot;,&quot; (カンマ) の後に  1 つの空白記号を入れて下さい。</li>
+          <li>デフォルト値を有する引数は、引数リストの後方に追加します。</li>
+          <li>&quot;setStatus(3)&quot; のように、引数にマジックナンバー (突如現れる数字の定数) を使うメソッドは好ましくありません。setStatus() の場合、引数に渡している 3 は何の状態を表しているのか一見して分からないためです。汎用的なパラメータは定数化して名前を付けるべきです。</li>
+          <li>引数の数が 5 つを超える場合はメソッドの設計を観直して下さい。</li>
+          <li>引数の書式が長くなる場合は適宜折り返して下さい。(サンプルコードを参照)</li>
+          <li>値の参照渡しはメソッドの宣言時のみ有効です。実行時に参照渡しするべきではありません。</li>
+        </ul>
+      </li>
+      <li>処理
+        <ul>
+          <ul>
+            <li>メソッド (関数) の処理は長くても 100 行以下に抑えるべきです。コードは長ければ長いほど可読性が下がります。 コードが長くなる場合は処理の分割を検討して下さい。
+              <ul>
+                <li>コードの分割は、処理の依存関係が整理されるため、保守性の向上にも繋がるでしょう。</li>
+              </ul>
+            </li>
+          </ul>
+          <li>goto 文は使用するべきではありません。</li>
+          <li>原則的にグローバル変数は使用するべきではありません。</li>
+          <li>戻り値は括弧で括るべきではありません。 </li>
+          <li>return の前には 1 行改行を入れて下さい。</li>
+        </ul>
+      </li>
+    </ul>
+    <p>次にコーディング規約に則ったメソッド定義の例を示します。</p>
+    <dl>
+      <dt>PHP Code# メソッドの宣言</dt>
+      <dd class="lang_php"><code>class HelloWorld extends Delta_Object<br />
+        { <br />
+        &nbsp;&nbsp;private $_greeting;<br />
+        &nbsp;&nbsp;private $_name;<br />
+        <br />
+        &nbsp;&nbsp;// コンストラクタの定義 <br />
+        &nbsp;&nbsp;public function __construct($greeting, $name = 'Anonymous')<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greeting = $greeting;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_name = $name;<br />
+        &nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;public function hello()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return sprintf('%s、%sさん', $this-&gt;_greeting, $this-&gt;_name);<br />
+        &nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;// 引数の書式が長いメソッドの宣言 <br />
+        &nbsp;&nbsp;public function longMethod($arg1 = 100,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$arg2 = 200,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$arg3 = 300,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$arg4 = 400,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$arg5 = 500,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$arg6 = 600<br />
+        &nbsp;&nbsp;} {<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;...<br />
+        &nbsp;&nbsp;} <br />
+        <br />
+        &nbsp;&nbsp;// 空メソッドの定義 <br />
+        &nbsp;&nbsp;public function nullMethod()<br />
+        &nbsp;&nbsp;{}<br />
+        }</code></dd>
+    </dl>
+    <h3><a id="dao" name="dao">DAO</a></h3>
+    <ul>
+      <li>DAO のクラス内では CRUD の順序でメソッドを定義して下さい。CREATE や ALTER といったテーブルを制御するメソッドは DAO の先頭に定義します。(DDL、DML の順序)
+        <ol>
+          <li>Create (INSERT INTO...)</li>
+          <li>Read (SELECT ...)</li>
+          <li>Update (UPDATE ...)</li>
+          <li>Delete (DELETE FROM ...)</li>
+        </ol>
+      </li>
+      <li>SQL インジェクションを防ぐため、原則的にプリペアードステートメントを使用して下さい。
+        <ul>
+          <li>ただし、IN 句や LIMIT 句など、一部のホルダではプリペアードステートメントを使用することはできません。インジェクションが発生しうるコードは必ず対象文字列のエスケープ処理を施して下さい。次のコードは典型的な SQL インジェクションの例です。
+            <dl>
+              <dt>PHP Code# LIMIT 句における SQL インジェクションの例</dt>
+              <dd class="lang_php"><code>// $limit はクライアントが送信した GET パラメータ<br />
+                public function find($limit)<br />
+                {<br />
+                &nbsp;&nbsp;$conn = $this-&gt;getConnection();<br />
+                <br />
+                &nbsp;&nbsp;// 開発者は $limit に数値が入ることを想定しているが、改竄したパラメータ '3; TRUNCATE yyy; #' を送信することで、テーブル内の全データがクリアすることも可能 <br />
+                &nbsp;&nbsp;// (実際に発行されるクエリは 'SELECT xxx FROM yyy LIMIT 3; TRUNCATE yyy; # OFFSET 0' となる)<br />
+                &nbsp;&nbsp;$sql = sprintf('SELECT xxx FROM yyy LIMIT %s OFFSET 0', $limit);<br />
+                <br />
+                &nbsp;&nbsp;// 改修例<br />
+                &nbsp;&nbsp;$sql = sprintf('SELECT xxx FROM yyy LIMIT %s OFFSET 0', $conn-&gt;escape($limit));<br />
+                <br />
+                &nbsp;&nbsp;$result = $conn-&gt;query($sql);<br />
+                &nbsp;&nbsp;... <br />
+                } </code></dd>
+            </dl>
+          </li>
+        </ul>
+      </li>
+      <li>カラムが定数値を持つ場合、クラス定数として名前を宣言すると良いでしょう。
+        <ul>
+          <li>例えば性別を表す gender_type というカラムが「1: 男性、2: 女性」という定数値を持つ場合、DAO の定数として GENDER_TYPE_MALE = 1、GENDER_TYPE_FEMALE = 2 を宣言しておくことで、開発者はフラグの論理名でカラムを参照することが可能になります。</li>
+        </ul>
+      </li>
+      <ul>
+        <ul>
+          <ul>
+          </ul>
+        </ul>
+      </ul>
+    </ul>
+    <h2><a id="variables" name="variables"></a>変数 </h2>
+    <ul>
+      <li>全ての変数は初めに初期化を行って下さい。初期化のし忘れは、バグの原因やパフォーマンスの低下に繋がります。</li>
+      <li>一行に 1 つの変数を宣言します。複数の変数をまとめて初期化するべきではありません。</li>
+    </ul>
+    <h3><a id="superGlobalVariables" name="superGlobalVariables"></a>スーパーグローバル変数 </h3>
+    <ul>
+      <li>PHP にあらかじめ定義されているスーパーグローバル変数 ($_GET、$_SERVER など) への直接アクセスは推奨されません。可能な限りフレームワークが提供するラッパークラスからアクセスして下さい。<br />
+      </li>
+    </ul>
+    <h3><a id="globalVariables" name="globalVariables"></a>グローバル変数 </h3>
+    <ul>
+      <li>グローバル変数の使用は禁止されています。<br />
+      </li>
+    </ul>
+    <h2><a id="exception" name="exception"></a>例外 </h2>
+    <ul>
+      <li>例外をスローする場合は、例外の内容に基づいて最も適したクラスを使うべきです。例えばリクエスト例外であれば、Delta_Exception ではなく Delta_RequestException を使用して下さい。</li>
+      <li>例外のコンストラクタには例外の内容を表すメッセージを渡すべきです。例外はロガーの設定によってファイルに書き込まれることもありますが、メッセージがないと、後でログを見返した際に何の例外を指しているのか分からなくなります。
+        <dl>
+          <dt>PHP Code# メソッドの宣言</dt>
+          <dd class="lang_php"><code>// 不適切な例外スロー<br />
+            throw new Delta_RequestException();<br />
+            <br />
+            //  適切な例外スロー <br />
+            throw new Delta_RequestException('不正なパスがリクエストされました。');<br />
+            </code></dd>
+        </dl>
+      </li>
+      <li>例外には次の種類があります。
+              <ul>
+                <li><a href="http://www.php.net/manual/ja/reserved.exceptions.php">Exception クラス</a> (PHP が定義する基底例外クラス)</li>
+                <li><a href="http://www.php.net/manual/ja/spl.exceptions.php">SPL 例外クラス</a></li>
+                <li>delta が提供する例外クラス
+                  <ul>
+                    <li>Delta_Exception: フレームワークの基底例外クラス</li>
+                    <li>Delta_*Exception: ビジネスロジック例外、スクリプトエラークラスなど</li>
+                  </ul>
+                </li>
+                <li>アプリケーション例外クラス: アプリケーション内で作成した独自例外クラス</li>
+              </ul>
+      </li>
+      <ul>
+        <ul>
+        </ul>
+      </ul>
+    </ul>
+    <h2><a id="etc" name="etc"></a>その他</h2>
+    <ul>
+      <li>使用するべきではない演算子、関数
+        <ul>
+          <li>@ 演算子</li>
+          <li>exit()</li>
+          <li>die() </li>
+        </ul>
+      </li>
+    </ul>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright 2011 DT, Inc. AllRight Reserved.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - delta の拡張 - アクションクラスの継承</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">delta の拡張 - アクションクラスの継承</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2008 年 3 月 11 日</p>
+    <h2>Hacks</h2>
+    <p>いくつかのアクションで共通した前処理を実行したい場合、どのようにコードを実装すれば良いでしょうか。一つには <a href="filter.html#packageFilter">パッケージフィルタ</a> を使って処理をフィルタリングする方法がありますが、ここで共通ロジックを通す親アクションクラスを作成し、その中で前処理を実行する方法を紹介します。</p>
+    <p><img src="../assets/images/diagram/class/override_action.png" alt="cd Delta_ActionForm" width="303" height="301" /></p>
+    <p>上記クラス図に例を示していますが、親アクションを作成する方式の場合、A〜C のアクションは独自に作成した MyAction クラスを継承する必要があります。フィルタと異なり既存のアクションに手を付け加える形になりますが、代わりに次のようなメリットがあります。</p>
+    <ul>
+      <li>Delta_Action クラスが持つメソッドをオーバーライドして、アクションの共通前処理を実装できる</li>
+      <li>Delta_Action#validate() メソッドによるビジネスロジックの検証、エラーハンドリングの共通化</li>
+      <li>抽象メソッドを作成し、子クラスでメソッドの実装を強制することが可能</li>
+    </ul>
+    <p>それでは具体的なサンプルコードを見ていきましょう。初めに親となる MyAction クラスを作成します。MyAction クラスは、全てのアクションのベースとなる Delta_Action を継承します。 </p>
+    <dl>
+      <dt>PHP Code# libs/wrapper/MyAction.php</dt>
+      <dd class="lang_php"><code>class MyAction extends Delta_Action {<br />
+        &nbsp;&nbsp;// MyAction を継承した全てのアクションで初めに実行したい処理を定義 <br />
+        &nbsp;&nbsp;public function initialize()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;parent::initialize();<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$generateId = IDGenerator::create(); <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getRequest()-&gt;setAttribute('generateId', $generateId);<br />
+        &nbsp;&nbsp;
+        }<br />
+        }<br />
+        </code></dd>
+    </dl>
+    <div class="note_container note_important">
+      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+      <div class="note_contents">
+        <p>initialize() メソッドを子クラスで継承する場合は、必ず親メソッド parent::initialize() を宣言して下さい。 親メソッドが呼びだされない場合は、予期しない動作が発生する可能性があります。 </p>
+      </div>
+    </div>
+    <p>次に MyAction を継承した子クラス A〜C を作成します。
+      子アクションは全て MyAction を継承するよう実装しています。 </p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/A_Action.php</dt>
+      <dd class="lang_php"><code>class A_Action extends MyAction <br />
+        {<br />
+        &nbsp;&nbsp;public function execute()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 親クラスの initialize() で設定した値を取得する <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$generateId = $this-&gt;getRequest()-&gt;getAttribute('generateId'); <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::NONE;<br />
+        &nbsp;&nbsp;}<br />
+        }</code></dd>
+    </dl>
+    <p>子クラスは initialize() メソッドが呼びだされた後に実行されるため、MyAction#initialize() でセットした値をリクエストから取得することが出来ます。</p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

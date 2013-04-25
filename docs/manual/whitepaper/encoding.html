@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - 出力エンコーディング形式を変更する</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - 出力エンコーディング形式を変更する</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2010 年 9 月 14 日</p>
+    <h2>携帯端末への対応</h2>
+    <p>PC と携帯、両方に対応するサイトを作る場合、ネックとなるのが文字コードの問題です。delta 自体はUTF-8 で書かれており、デフォルトの出力形式も UTF-8 を採用しています。しかし、携帯端末の中には UTF-8 の出力に対応していないキャリア (または機種) も存在するため、特定のキャリア用に出力形式を変更する必要が出てきます。ここでは、デフォルトのエンコーディングに UTF-8 を採用しつつ、特定のユーザエージェントのみ出力形式を変更する方法を解説します。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>このページにおける携帯端末は日本国内のキャリア DoCoMo、au、Softbank を指します。左記 3 キャリアは許可されたエンコーディング形式が Shift_JIS のみという前提で解説を進めます。(一部機種は UTF-8 の出力にも対応していますが、全機種の対応を考えるのであれば Shift_JIS を使うのが安全です) </p>
+      </div>
+    </div>
+    <p>初めに application.yml の設定を確認してみて下さい。&quot;default.charset&quot; には &quot;UTF-8&quot; という値が設定されている筈です。ここで設定されている形式は、クライアントからの入力、出力、及び内部エンコーディング (マルチバイト文字の変換等に使用されるエンコーディング) に適用されます。</p>
+    <dl>
+      <dt>YAML Code# config/application.yml</dt>
+      <dd class="lang_yaml"><code>default:<br />
+        &nbsp;&nbsp;charset: UTF-8 # デフォルトエンコーディング形式に UTF-8 を使用</code></dd>
+    </dl>
+    <p>通常は一貫したエンコーディング形式が望ましいため UTF-8で問題ありませんが、今回は携帯端末からのリクエスト、及びレスポンスは Shift_JIS に変換して処理する必要があります。クライアントがリクエストを送信してからレスポンスが返されるまでのエンコーディングの変換フローについては下表を参照して下さい。</p>
+    <table>
+      <colgroup>
+      <col width="5%" />
+      <col width="35%" />
+      <col width="40%" />
+      <col width="20%" />
+      </colgroup>
+      <tr>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">状態</th>
+        <th scope="col">エンコーディングタイプ</th>
+        <th scope="col">エンコーディング形式</th>
+      </tr>
+      <tr>
+        <th scope="row">1</th>
+        <td>携帯端末でフォームを表示する</td>
+        <td>出力エンコーディング</td>
+        <td>Shift_JIS</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>フォームから文字列「こんにちは」を送信</td>
+        <td>入力エンコーディング</td>
+        <td>Shift_JIS</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>delta がリクエストを解析</td>
+        <td>入力エンコーディングを内部エンコーディングに変換</td>
+        <td>Shift_JIS から UTF-8 に変換</td>
+      </tr>
+      <tr>
+        <th scope="row">4</th>
+        <td>アクションを実行 (応答メッセージ「初めまして」をテンプレートに出力)</td>
+        <td>内部エンコーディング</td>
+        <td>UTF-8</td>
+      </tr>
+      <tr>
+        <th scope="row">5</th>
+        <td>delta は応答データをクライアントに返却</td>
+        <td>内部エンコーディングを出力エンコーディングに変換</td>
+        <td>UTF-8 から Shift_JIS に変換</td>
+      </tr>
+      <tr>
+        <th scope="row">6</th>
+        <td>携帯端末に「初めまして」の文字列が表示される</td>
+        <td>出力エンコーディング</td>
+        <td>Shift_JIS</td>
+      </tr>
+    </table>
+    <p>何だかとても厄介なことをしてるように見えますが、ポイントとなるのは 3 のリクエスト解析と 5 の応答データを返却する部分です。要はロジックが実行されるよりも前に入力エンコーディングを内部エンコーディング (UTF-8) に変換し、出力が行われる直前に内部エンコーディング形式のデータを出力形式に変換すれば良いのです。delta には元々 3 と 5 の処理を行う機構が備わっているので、後は変換元 (先) のエンコーディング形式を指定する処理を加えれば問題は解決します。</p>
+    <p>エンコーディングの指定はロジックが実行されるよりも前に設定しておくべきなので、ここではフィルタを使って処理してみましょう。libs/filter の下に次のようなフィルタを作成して下さい。</p>
+    <dl>
+      <dt>PHP Code# libs/filter/MobileEncodingFilter.php</dt>
+      <dd class="lang_php"><code>class MobileEncodingFilter extends Delta_Filter<br />
+        {<br />
+        &nbsp;&nbsp;public function doFilter($chain)<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// 入力・出力エンコーディング形式の変更<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getRequest()-&gt;setInputEncoding('Shift_JIS');<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getResponse()-&gt;setOutputEncoding('Shift_JIS');<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;$chain-&gt;filterChain();<br />
+        &nbsp;&nbsp;}<br />
+        } </code></dd>
+    </dl>
+    <p>内容は至ってシンプルです。setInputEncoding() メソッドで入力エンコーディングを設定し、setOutputEncoding() メソッドで出力エンコーディングを設定します。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>絵文字の使用が想定される場合は &quot;Shift_JIS&quot; ではなく &quot;SJIS-win&quot; (cp932) を指定して下さい。&quot;Shift_JIS&quot; では絵文字の変換が失敗し、文字化けを起こします。 </p>
+      </div>
+    </div>
+    <p>最後に対象とするモジュールでフィルタを有効化しておきましょう。</p>
+    <dl>
+      <dt>YAML Code# modules/{module}/config/filter.yml</dt>
+      <dd class="lang_yaml"><code>mobileEncodingFilter:<br />
+        &nbsp;&nbsp;class: MobileEncodingFilter<br />
+        &nbsp;&nbsp;enable: TRUE</code></dd>
+    </dl>
+    <p>以上で設定は完了です。</p>
+    <h2>出力エンコーディングが変更されたか確認する</h2>
+    <p>それでは実際にエンコーディングの変更が有効になったか確認するためのアクションを作成してみましょう。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/SjisOutputAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        &nbsp;&nbsp;$this-&gt;getView()-&gt;setAttribute('text', 'UTF-8 で書かれています。');<br />
+        <br />
+        &nbsp;&nbsp;return Delta_View::SUCCESS;<br />
+        }</code></dd>
+    </dl>
+    <p>SjisOutputAction のエンコーディング形式は従来通り UTF-8 のままで問題ありません。</p>
+    <p>次に実際の出力を行なうテンプレートを作成します。</p>
+    <dl>
+      <dt>Template Code# modules/{module}/templates/sjis_output.php</dt>
+      <dd class="lang_template"><code>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;<br />
+        &lt;html lang=&quot;ja&quot; dir=&quot;ltr&quot;&gt;<br />
+        &lt;head&gt;<br />
+        &nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot;&gt;<br />
+        &nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=Shift_JIS&quot;&gt;<br />
+        &nbsp;&nbsp;&lt;title&gt;SjisOutput&lt;/title&gt;<br />
+        &lt;/head&gt;<br />
+        &lt;body&gt;<br />
+        &nbsp;&nbsp;&lt;h1&gt;&lt;?php echo $text ?&gt;&lt;/h1&gt;<br />
+        &lt;/body&gt;<br />
+        &lt;/html&gt; </code></dd>
+    </dl>
+    <div class="note_container note_important">
+      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+      <div class="note_contents">
+        <p>テンプレートファイルは Shift_JIS ではなく UTF-8 で記述する点に注意して下さい。</p>
+      </div>
+    </div>
+    <p>最後に携帯端末から SjisOutputAction にアクセスしてみましょう。文字化けせず「UTF-8 で書かれています。」と出力されていれば変換が成功しています。</p>
+    <p>下図は SjisOutput アクションを実行した際の HTTP レスポンスヘッダです。&quot;Content-Type&quot; の欄が &quot;text/html; charset=SJIS-win&quot; となっており、正しく Shift_JIS (SJIS-win) で出力されていることが分かります。</p>
+    <p><img src="../assets/images/screenshots/sjis_header.png" alt="" width="415" height="252" class="border" /></p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

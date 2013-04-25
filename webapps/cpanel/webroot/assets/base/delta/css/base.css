@@ -1,0 +1,263 @@
+/**
+ * Theme Name: Delta framework
+ * Author: Naomichi Yamakita
+ */
+
+@import url('kube.css');
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif !important;
+  color: #555;
+  font-size: 0.88em;
+  line-height: 1.8em;
+  border-top: 4px solid #87b854;
+}
+
+header .row, #contents, header h1 {
+  max-width: 960px;
+  margin: auto;
+}
+
+header h1 {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-bottom: 1px solid #555;
+}
+
+article a:link, article a:visited, article a:active {
+  color: #87b854;
+}
+
+#sidebar {
+}
+
+header {
+  margin-top: 2%;
+}
+
+h1 {
+  font-size: 1.6em;
+}
+
+h2 {
+  font-size: 1.4em;
+  padding-bottom: 1%;
+  border-bottom: 1px solid #9E9E9E;
+}
+
+h2 a:link, h2 a:visited, h2 a:active {
+  color: #555;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+dt {
+  border-bottom: 1px solid #B2B2B2;
+}
+
+.btn {
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.global-nav {
+  font-size: 0.88em;
+  float: right;
+}
+
+.global-nav .current {
+  color: #87b854;
+  font-weight: bold;
+}
+
+.front-nav {
+  background-color: #f5f5f5;
+  border-top: 1px solid #ebebea;
+  border-bottom: 1px solid #ebebea;
+}
+.front-nav ul {
+  max-width: 960px;
+  margin: auto;
+}
+
+.front-nav a {
+  padding: 1em;
+}
+
+.front-nav a:hover {
+  color: #fff !important;
+  background-color: #555 !important;
+}
+
+a:link, a:visited, a:active {
+  text-decoration: none;
+  color: #555;
+}
+
+a:hover {
+  color: #87b854 !important;
+  text-decoration: none !important;
+  transition-duration: 0.4s;
+  transition-timing-function: linear;
+}
+
+.current-menu-item {
+  background-color: #999;
+}
+
+.current-menu-item a:link, .current-menu-item a:visited, .current-menu-item a:active {
+  color: #fff !important;
+}
+
+.current_page_item a:link, .current_page_item a:visited, .current_page_item a:active {
+  color: #87b854;
+}
+
+footer {
+  margin-top: 2%;
+  color: #fff;
+  background-color: #353431;
+  border-top: 10px solid #ebebea;
+}
+
+footer a:link, footer a:visited, footer a:active {
+  color: #fff;
+}
+
+footer p {
+  width: 960px;
+  margin: auto;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.description {
+  font-size: 0.88em;
+  color: #999;
+}
+
+.meta {
+  text-align: right;
+  color: #999;
+  font-size: 0.88em;
+}
+
+blockquote p {
+  font-style: normal;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  border-bottom: 1px solid #C9C9C9;
+}
+
+th {
+  font-weight: bold;
+  text-align: center;
+}
+
+.source {
+  margin: 2% 0 2% 0;
+}
+
+.source code {
+  display: block;
+  padding: 1%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+}
+
+dd {
+  margin: 1% 0 1% 0;
+}
+
+.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code {
+  padding: 1%;
+  display: block;
+}
+
+.note_container {
+  margin-bottom: 2%;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+}
+.note_container ul, .note_container ol {
+  margin: 1% 2% 1% 8%;
+}
+.note_hint {
+  color: #224444;
+  background-color: #ddeeee;
+  border: 1px solid #224444;
+}
+.note_info {
+  color: #3d5214;
+  background-color: #d6ebad;
+  border: 1px solid #3d5214;
+}
+.note_important {
+  color: #561010;
+  background-color: #f7d4d4;
+  border: 1px solid #561010;
+}
+.note_bar {
+  float: left;
+  width: 40px;
+  text-align: center;
+  padding: 6px;
+}
+
+.note_contents p {
+  padding: 1em;
+  margin: 0;
+}
+
+.data {
+  margin-bottom: 1%;
+}
+
+.data li {
+  list-style: none;
+  padding: 1%;
+}
+
+.data li:not(:last-child), .data li:not(:last-child) {
+  border-bottom: 1px solid #cccccc;
+}
+
+.data li:first-child {
+  border-top: 1px solid #999999;
+}
+
+.data li:last-child {
+  border-bottom: 1px solid #999999;
+}
+
+.data_label {
+  font-weight: bold;
+  float: left;
+  width: 25%;
+}
+
+.data_content {
+  margin-left: 25%;
+}
+
+.data_content p, .data_content form {
+  margin: 0;
+}
+

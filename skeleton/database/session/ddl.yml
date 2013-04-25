@@ -1,0 +1,20 @@
+tables:
+  - name: delta_sessions
+    columns:
+      - name: session_id
+        type: varchar
+        length: 32
+        notNull: TRUE
+        primaryKey: TRUE
+      
+      - name: session_data
+        type: text
+        notNull: TRUE
+
+      - name: register_date
+        type: timestamp
+        notNull: TRUE
+     
+      - name: update_date
+        type: timestamp
+

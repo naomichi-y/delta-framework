@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - delta の拡張 - セッションハンドラの利用</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">delta の拡張 - セッションハンドラの利用</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2007 年 6 月 12 日</p>
+    <h2>Hacks</h2>
+    <p>delta はデフォルトでファイルベースのセッション管理を行いますが、memcached や データベースといった高速なストレージへハンドリングを変更することが可能です。セッションハンドラの宣言は、application.yml の session 属性で設定します。ここでは delta にあらかじめ用意されている Delta_APCSessionHandler を利用してみましょう。</p>
+    <dl>
+      <dt>YAML Code# config/application.yml</dt>
+      <dd class="lang_yaml"><code>...<br />
+        session:<br />
+        &nbsp;&nbsp;autoStart: TRUE<br />
+        <br />
+        &nbsp;&nbsp;# セッションハンドラの宣言。ここではハンドラクラスとして Delta_APCSessionHandler を利用するよう宣言 <br />
+        &nbsp;&nbsp;handler: Delta_APCSessionHandler<br />
+        </code></dd>
+    </dl>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>APCSessionHandler を利用するには、実行環境に APC がインストールされている必要があります。詳しくは APC のインストールサイトを参照して下さい。APC は <a href="http://pecl.php.net/package/APC">PECL</a> から入手可能です。 </p>
+      </div>
+    </div>
+    <p>以上の設定で、生成されるセッションは APC にハンドリングされるようになります。 </p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

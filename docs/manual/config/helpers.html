@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - 設定ファイル - global_helpers.yml</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div>
+    <h1 id="top">設定ファイル - global_helpers.yml</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2011 年 1 月 25 日</p>
+    <h2>ヘルパ設定ファイルの概要</h2>
+    <p>ヘルパ設定ファイルは、テンプレートで使用可能なヘルパクラスの基本動作を制御する設定ファイルです。(delta が提供するヘルパについては <a href="../whitepaper/helper.html">テンプレートで使用可能なヘルパ</a> を参照)</p>
+    <p>ヘルパには global_helpers.yml と helpers.yml の 2 種類があり、それぞれヘルパの適用範囲が異なります。</p>
+    <table>
+      <colgroup>
+      <col width="30%" />
+      <col width="50%" />
+      <col width="20%" />
+      </colgroup>
+      <tr>
+        <th scope="col">パス</th>
+        <th scope="col">説明</th>
+        <th scope="col">必須</th>
+      </tr>
+      <tr>
+        <td>config/global_helpers.yml</td>
+        <td>グローバル設定ファイル。アプリケーション全体に影響。</td>
+        <td>◯</td>
+      </tr>
+      <tr>
+        <td>modules/{module}/config/helpers.yml</td>
+        <td>単一モジュール設定ファイル。グローバル設定ファイルの内容は継承される。</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <p>ヘルパ設定ファイルは、アプリケーションの config ディレクトリに設置されています。</p>
+    <dl>
+      <dt>YAML Code# config/global_helpers.yml</dt>
+      <dd class="lang_yaml"><code>form: # ヘルパ ID<br />
+        &nbsp;&nbsp;class: Delta_FormHelper # ヘルパクラス名<br />
+        &nbsp;&nbsp;bind: TRUE<br />
+        ... </code></dd>
+    </dl>
+    <p>ヘルパ ID はテンプレートに割り当てるヘルパの識別子になります。上記例の場合、Delta_FormHelper のインスタンスは form という識別子でテンプレートに割り当てられます。従って、テンプレートからは次のようなコードでヘルパメソッドを呼び出すことができます。</p>
+    <dl>
+      <dt>Template  Code#</dt>
+      <dd class="lang_template"><code>&lt;?php echo $form-&gt;inputText('hello') ?&gt;</code></dd>
+    </dl>
+    <p>bind 属性はヘルパのインスタンスを自動的にテンプレートに割り当てるかどうかの指定です。bind が FALSE に指定されている場合は、テンプレートが読み込まれる前に手動でインスタンスの割り当てを行う必要があります。</p>
+    <h2>属性一覧</h2>
+    <p>次に global_helpers.yml (helpers.yml を含む) ファイルで設定可能な値の一覧を記します。</p>
+    <table>
+      <colgroup>
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="50%" />
+      </colgroup>
+      <tr>
+        <th colspan="2" scope="col">属性構成</th>
+        <th scope="col">デフォルト値</th>
+        <th scope="col">取り得る値</th>
+        <th scope="col">必須</th>
+        <th scope="col">説明</th>
+      </tr>
+      <tr>
+        <td scope="col">(ヘルパ ID)</td>
+        <td scope="col">&nbsp;</td>
+        <td scope="col">&nbsp;</td>
+        <td scope="col">(array)</td>
+        <td scope="col">FALSE</td>
+        <td scope="col">テンプレートに割り当てるヘルパの識別子。</td>
+      </tr>
+      <tr>
+        <td scope="col">&nbsp;</td>
+        <td scope="col">assign</td>
+        <td scope="col">&nbsp;</td>
+        <td scope="col">(string)</td>
+        <td scope="col">FALSE</td>
+        <td scope="col">テンプレートに割り当てる変数名。未指定の場合はヘルパ ID が変数名として使用される。</td>
+      </tr>
+      <tr>
+        <td scope="col">&nbsp;</td>
+        <td scope="col">bind</td>
+        <td scope="col">TRUE</td>
+        <td scope="col">(bool)</td>
+        <td scope="col">FALSE</td>
+        <td scope="col">ヘルパインスタンスを自動的にテンプレートに割り当てるかどうかの指定。</td>
+      </tr>
+      <tr>
+        <td scope="col">&nbsp;</td>
+        <td scope="col">class</td>
+        <td scope="col">&nbsp;</td>
+        <td scope="col">(string)</td>
+        <td scope="col">TRUE</td>
+        <td scope="col">ヘルパクラス名。</td>
+      </tr>
+    </table>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>ヘルパによって指定可能な属性は異なります。
+          詳しくはヘルパクラスのリファレンスを参照して下さい。 </p>
+      </div>
+    </div>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

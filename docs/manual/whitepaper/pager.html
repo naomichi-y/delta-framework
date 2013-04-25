@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - ページャによるナビゲーション実装</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - ページャによるナビゲーション実装</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2010 年 4 月30 日</p>
+    <h2>ページャの概要</h2>
+    <p>検索結果などの大量のデータを複数のページにわたって表示したい場合は、ページャ機能を使います。delta が提供するページャには、データベース (PDO) から取得したデータをページ分割する Delta_DatabasePager と、配列から構成されたデータをページ分割する Delta_ArrayPager があります。これらのクラスはページャの基本機能を持つ Delta_Pager 抽象クラスから派生しているため、殆どのメソッドは同じように使うことができます。また、分割されたデータをテンプレート上で表示するには、Delta_Pager::assivnView() メソッドでページャヘルパ (Delta_PagerHelper) をテンプレートに割り当てる必要があります。</p>
+    <p><img src="../assets/images/diagram/class/pager.png" alt="cd Delta_Pager" width="439" height="249" /></p>
+    <h2>Delta_Pager API ガイド</h2>
+    <p>Delta_Pager クラスの代表的なメソッドを紹介します。詳しくは <img alt="delta API" src="../assets/images/icons/api.gif" width="14" height="14" /> <a href="../../api/reference/pager/delta___pager.html">Delta_Pager</a> リファレンスを参照して下さい。</p>
+    <ul class="index">
+      <li><a href="#construct">__construct()</a></li>
+      <li><a href="#setPageLimit">setPageLimit()</a></li>
+      <li><a href="#getRecordSet">getRecordSet()</a></li>
+      <li><a href="#addQueryData">addQueryData()</a></li>
+      <li><a href="#setQueryDataFromForm">setQueryDataFromForm()</a></li>
+      <li><a href="#setActionName">setActionName()</a></li>
+      <li><a href="#assignView">assignView()</a></li>
+    </ul>
+    <h3><a name="construct" id="construct"></a>public function __construct()</h3>
+    <p>コンストラクタ。</p>
+    <dl>
+      <dt>PHP Code# </dt>
+      <dd class="lang_php"><code>// Delta_DatabasePager のインスタンスを生成<br />
+        $pager = Delta_DatabasePager::getInstance();<br />
+        <br />
+        // Delta_ArrayPager のインスタンスを生成<br />
+        $pager = Delta_ArrayPager::getInstance();</code></dd>
+    </dl>
+    <h3><a name="setPageLimit" id="setPageLimit"></a>public function setPageLimit($pageLimit, $adjustCount = FALSE)</h3>
+    <p>表示する最大ページ数に制限を設定します。<br />
+      このメソッドは、fetch() メソッドを実行するよりも前にコールする必要があります。 </p>
+    <dl>
+      <dt>PHP Code# </dt>
+      <dd class="lang_php"><code>// データ件数が 10 ページ以上にわたる場合も表示は 10 ページまでとする (データ総件数は実件数を表示)<br />
+        $pager-&gt;setPageLimit(10);</code></dd>
+    </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>adjustCount を TRUE に設定した場合、データの総件数表示は「1 ページ当たりの表示件数×pageLimit」となります。ページ数が pageLimit に満たない場合は実レコード数が表示されます。また、ユーザが故意に pageLimit 以降のページを GET パラメータに指定した場合は、ページ指定が不正となり強制的に 1 ページ目が表示されます。 </p>
+      </div>
+    </div>
+    <h3><a name="getRecordSet" id="getRecordSet"></a>public function getRecordSet()</h3>
+    <p>現在のページに割り当てられているレコードセットを取得します。</p>
+    <dl>
+      <dt>PHP Code# </dt>
+      <dd class="lang_php"><code>$recordSet = $pager-&gt;getRecordSet();<br />
+        <br />
+        // ページャから取得したレコードセットにデータを追加<br />
+        mt_srand();<br />
+        <br />
+        foreach ($recordSet as $index =&gt; &amp;$record) {<br />
+        &nbsp;&nbsp;$record['rand'] = mt_rand();<br />
+        } <br />
+        <br />
+        // レコードセットをページャに再セット <br />
+        $pager-&gt;setRecordSet($recordSet); </code></dd>
+    </dl>
+    <h3><a name="addQueryData" id="addQueryData"></a>public function addQueryData($name, $value = NULL)</h3>
+    <p>ナビゲーションリンク (「次ページ」や「前ページ」へのリンク) にクエリパラメータを追加します。</p>
+    <dl>
+      <dt>PHP Code# </dt>
+      <dd class="lang_php"><code>$pager-&gt;addQueryData('foo', '100');<br />
+        $pager-&gt;addQueryData('bar', ''); // value が NULL、または空文字の場合はクエリを追加しない<br />
+        $pager-&gt;addQueryData('baz', array('1', '2', '3')); チェックボックスのように 1 つのフィールドに複数の値を保持する形式も指定可能</code></dd>
+    </dl>
+    <p>上記のようなクエリパラメータを追加した場合、テンプレートからヘルパを介して「次ページ」へのリンクを生成すると次のようなパスが出力されます。</p>
+    <dl>
+      <dt>Template  Code#</dt>
+      <dd class="lang_template"><code>&lt;a href=&quot;&lt;?php echo $pager-&gt;getNextPagePath() ?&gt;&quot;&gt;次へ&lt;/a&gt;</code></dd>
+      <dt>HTML Code#</dt>
+      <dd class="lang_html"><code># &quot;%5B1%5D&quot; は配列表記を URL エンコードした形式<br />
+        &lt;a href=&quot;/searchList.do/page/2/foo/100/baz%5B0%5D/1/baz%5B1%5D/2/baz%5B2%5D/3&quot;&gt;次へ&lt;/a&gt;</code></dd>
+    </dl>
+    <h3><a name="setQueryDataFromForm" id="setQueryDataFromForm"></a>public function setQueryDataFromForm()</h3>
+    <p>ナビゲーションリンクのクエリパラメータに、フォームから取得した全ての値を追加します。</p>
+    <dl>
+      <dt>PHP Code# </dt>
+      <dd class="lang_php"><code>// $form-&gt;getFields() のデータが array('foo' =&gt; '100, 'bar' =&gt; '200', 'baz' =&gt; '300') の場合<br />
+        <br />
+        // フォームから取得した全ての値を再セット<br />
+        $pager-&gt;addQueryData('foo', '100);<br />
+        $pager-&gt;addQueryData('bar', '200);<br />
+        $pager-&gt;addQueryData('baz', '300);<br />
+        <br />
+        // 上記のコードは次のコードに置き換えられる<br />
+        $pager-&gt;addQueryDataFromForm();</code></dd>
+    </dl>
+    <h3><a name="setActionName" id="setActionName"></a>public function setActionName($actionName)</h3>
+    <p>ナビゲーションリンク用の基底アクションを設定します。基底アクションが未設定の場合は、最後に実行されたアクションがパスに用いられます。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code> $pager-&gt;setActionName('SearchResult');</code></dd>
+    </dl>
+    <p><code></code>上記のコードで基底アクションは SearchResult に設定されます。テンプレート上のパスがどのように表示されるか見てみましょう。</p>
+    <dl>
+      <dt>Template Code#</dt>
+      <dd class="lang_template"><code>&lt;a href=&quot;&lt;?php echo $pager-&gt;buildPath(2) ?&gt;&quot;&gt;2 ページを開く&lt;/a&gt;</code></dd>
+    </dl>
+    <p>Delta_PagerHelper::buildPath() メソッドは、指定されたページナンバーを元にリンクパスを生成します。</p>
+    <dl>
+      <dt>HTML Code#</dt>
+      <dd class="lang_html"><code>&lt;a href=&quot;/searchResult.do/page/2&quot;&gt;2 ページを開く&lt;/a&gt;</code></dd>
+    </dl>
+    <p>アクション名が camelCaps  + 拡張子を追加した形でパスに用いられていることが分かります。</p>
+    <h3><a name="assignView" id="assignView"></a>public function assignView()</h3>
+    <p>ページ分割したレコードセットをテンプレートから参照できるようページャヘルパを割り当てます。<br />
+      このメソッドは、ページャの最後の処理 (通常は fetch() メソッドより後) としてコールする必要があります。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>$pager-&gt;assivnView();</code></dd>
+    </dl>
+    <p>assignVIew() メソッドを実行することにより、テンプレートからは $pager を通してレコードセットにアクセスすることが出来るようになります。ヘルパの詳しい使用方法については <a href="../../api/reference/view.helper/delta___pager_helper.html">Delta_PagerHelper</a> の API を参照して下さい。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>テンプレートに割り当てられる変数名は global_helpers.yml (helpers.yml) で変更可能です。</p>
+      </div>
+    </div>
+    <h2>Delta_DatabasePager API ガイド</h2>
+    <p>Delta_DatabasePager クラスの代表的なメソッドを紹介します。詳しくは <img alt="delta API" src="../assets/images/icons/api.gif" width="14" height="14" /> <a href="../../api/reference/pager/delta___pager.html">Delta_DatabasePager</a> リファレンスを参照して下さい。</p>
+    <ul class="index">
+      <li><a href="#setFetchMode">setFetchMode()</a></li>
+      <li><a href="#setOptimizerHint">setOptimizerHint()</a></li>
+      <li><a href="#addSort">addSort()</a></li>
+      <li><a href="#fetch">fetch()</a></li>
+      <li><a href="#fetchStatement">fetchStatement()</a></li>
+    </ul>
+    <h3><a name="setFetchMode" id="setFetchMode"></a>public function setFetchMode($fetchMode, $fetchIndex = 0)</h3>
+    <p>レコードセットに含むデータの形式を設定します。フェッチモードが未設定の場合は、PDO::FETCH_BOTH が適用されます。<br />
+      このメソッドは fetch() または fetchStatement() メソッドを実行するよりも先にコールする必要があります。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code> $pager-&gt;setFetchMode(PDO::FETCH_NUM); // 0 から始まるカラム番号を添字とした配列で返す<br />
+        $pager-&gt;setFetchMode(PDO::FETCH_BOTH); // 0 から始まるカラム番号とカラム名で構成された配列を返す</code></dd>
+    </dl>
+    <div class="note_container note_hint">
+      <div class="note_bar"> <img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /> </div>
+      <div class="note_contents">
+        <p>setFetchMode() メソッドに指定可能な定数は <img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://www.php.net/manual/ja/pdostatement.fetch.php">PDOStatement::fetch()</a> のマニュアルを参照して下さい。</p>
+      </div>
+    </div>
+    <h3><a name="setOptimizerHint" id="setOptimizerHint"></a>public function setOptimizerHint($optimizerHint, $hintValue = NULL)</h3>
+    <p>クエリを発行する際にオプティマイザへヒントを与えます。データ構成や環境によってはパフォーマンスが向上する可能性があります。<br />
+      このメソッドは fetch() または fetchStatement() メソッドを実行するよりも先にコールする必要があります。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code> // レコード総数を取得する際に MySQL の FOUND_ROWS() 関数を使用する<br />
+        $pager-&gt;setOptimizerHint(Delta_DatabasePager::HINT_MYSQL_FOUND_ROWS);<br />
+        <br />
+        // レコード総数を取得する際の SELECT クエリを指定<br />
+        $pager-&gt;setOptimizerHint(Delta_DatabasePager::HINT_SELECT_COUNT_SQL, 'SELECT COUNT(member_id)');</code></dd>
+    </dl>
+    <div class="note_container note_important">
+      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+      <div class="note_contents">
+        <p>HINT_MYSQL_FOUND_ROWS と HINT_SELECT_COUNT_SQL を同時に指定することはできません。</p>
+      </div>
+    </div>
+    <h3><a name="addSort" id="addSort"></a>public function addSort($column, $type = Delta_Pager::SORT_ASCENDING, $priority = NULL)</h3>
+    <p>column キーによるソートを追加します。リクエストパラメータに含まれるソート指定は、addSort() の指定よりも優先されます。<br />
+      このメソッドは fetch() または fetchStatement() メソッドを実行するよりも先にコールする必要があります。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>// member_name カラムによる降順ソートを追加<br />
+        $pager-&gt;addSort('member_name', Delta_Pager::SORT_DESCENDING);<br />
+        <br />
+        // register_date カラムによる昇順ソートを追加 <br />
+        $pager-&gt;addSort('register_date');</code></dd>
+    </dl>
+    <p>ソートカラムは addSort() メソッドを通して複数指定可能です。上記のような指定の場合、実際に発行されるソートクエリは &quot;ORDER BY member_name DESC, register_date ASC&quot; のようになります。(MySQL の場合)</p>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>ヘルパを使うことで、ユーザがページ上からソートしたい項目を指定して並び替えるといった実装が可能になります。ユーザが指定したソートはリクエストパラメータに付加されますが、ページャに addSort() の指定がある場合は、リクエストパラメータに付加されているソートが優先されます。例えば addSort() で member_name を降順ソートした状態で、ユーザが member_id による昇順ソート指定を行った場合、発行されるクエリは &quot;ORDER BY member_id ASC, member_name DESC&quot; となります。</p>
+      </div>
+    </div>
+    <h3><a name="fetch" id="fetch"></a>public function fetch($preparedStatement, $pageInRecord = 10)</h3>
+    <p>プリペアードステートメントを発行してデータセットを取得します。取得したデータは getRecordSet() メソッドで取得可能です。</p>
+    <dl>
+      <dt>PHP Code# libs/dao/MembersDAO.php</dt>
+      <dd class="lang_php"><code>public function findAllToPager($statusType)<br />
+        {<br />
+        &nbsp;&nbsp;$conn = $this-&gt;getConnection();<br />
+        &nbsp;&nbsp;$sql = 'SELECT member_id, member_name, register_date '<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.'FROM members '<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.'WHERE status_type = :status_type';<br />
+        <br />
+        &nbsp;&nbsp;$pstmt = $conn-&gt;prepare($sql);<br />
+        &nbsp;&nbsp;$pstmt-&gt;bindParam(':status_type', $statusType);<br />
+        &nbsp;&nbsp;// $pstmt-&gt;execute(); // execute() は実行しない<br />
+        <br />
+        &nbsp;&nbsp;$pager = Delta_DatabasePager::getInstance();<br />
+        &nbsp;&nbsp;$pager-&gt;fetch($pstmt);<br />
+        <br />
+        &nbsp;&nbsp;return $pager;<br />
+        }</code></dd>
+    </dl>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/MemberSearchAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        </code><code>  $statusType = $this-&gt;getForm()-&gt;get('statusType');<br />
+        <br />
+          $membersDAO = Delta_DAOFactory::create('Members');<br />
+          $pager = $membersDAO-&gt;findAllToPager($statusType);<br />
+        <br />
+          // array(array('member_id' =&gt; 1, <br />
+          //             'member_name' =&gt; 'foo',<br />
+          //                'register_date' =&gt; '2010-04-29 12:00:00'),<br />
+          //       array('member_id' =&gt; 2,<br />
+          //             'member_name' =&gt; 'bar',<br />
+          //             'register_date' =&gt; '2010-04-29 13:00:00'),<br />
+          //       array('member_id' =&gt; 3,<br />
+          //             'member_name' =&gt; 'baz',<br />
+          //             'register_date' =&gt; '2010-04-29 14:00:00'));<br />
+          $recordSet = $pager-&gt;getRecordSet();<br />
+        <br />
+          // テンプレートにヘルパを割り当てる<br />
+          $pager-&gt;assignView();<br />
+        <br />
+          return Delta_View::SUCCESS; <br />
+        }</code></dd>
+    </dl>
+    <h3><a name="fetchStatement" id="fetchStatement"></a>public function fetchStatement($connection, $statement, $pageInRecord = 10)</h3>
+    <p>SQL ステートメントを発行してデータセットを取得します。取得したデータは getRecordSet() メソッドで取得可能です。</p>
+    <dl>
+      <dt>PHP Code# libs/dao/MembersDAO.class.ohp</dt>
+      <dd class="lang_php"><code>public function findAllToPager($statusType)<br />
+        {<br />
+        &nbsp;&nbsp;$conn = $this-&gt;getConnection();<br />
+        &nbsp;&nbsp;$sql = 'SELECT member_id, member_name, register_date '<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.'FROM members '<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.'WHERE status_type = ' . $conn-&gt;quote($statusType);<br />
+        <br />
+        &nbsp;&nbsp;$pager = Delta_DatabasePager::getInstance();<br />
+        &nbsp;&nbsp;$pager-&gt;fetchStatement($conn, $sql);<br />
+        <br />
+        &nbsp;&nbsp;return $pager;<br />
+        }</code></dd>
+    </dl>
+    <h2>Delta_ArrayPager API ガイド</h2>
+    <p>Delta_ArrayPager クラスの代表的なメソッドを紹介します。詳しくは <img alt="delta API" src="../assets/images/icons/api.gif" width="14" height="14" /> <a href="../../api/reference/pager/delta___array_pager.html">Delta_ArrayPager</a> リファレンスを参照して下さい。</p>
+    <ul class="index">
+      <li><a href="#fetch2">fetch()</a></li>
+      <li><a href="#setSort">setSort()</a></li>
+    </ul>
+    <h3><a name="fetch2" id="fetch2"></a>public function fetch($recordSet, $pageInRecord = 10)</h3>
+    <p>配列から構成されるレコードセットをページャに割り当てます。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        { <br />
+        &nbsp;&nbsp;$pager = Delta_ArrayPager::getInstance();<br />
+        <br />
+        &nbsp;&nbsp;$recordSet = array();<br />
+        &nbsp;&nbsp;$recordSet[0]['member_id'] = 1;<br />
+        &nbsp;&nbsp;$recordSet[0]['member_name'] = 'foo';<br />
+        &nbsp;&nbsp;$recordSet[0]['register_date'] = '2010-04-29 12:00:00';<br />
+        <br />
+        &nbsp;&nbsp;$recordSet[1]['member_id'] = 2;<br />
+        &nbsp;&nbsp;$recordSet[1]['member_name'] = 'bar';<br />
+        &nbsp;&nbsp;$recordSet[1]['register_date'] = '2010-04-29 13:00:00';<br />
+        <br />
+        &nbsp;&nbsp;$recordSet[2]['member_id'] = 3;<br />
+        &nbsp;&nbsp;$recordSet[2]['member_name'] = 'baz';<br />
+        &nbsp;&nbsp;$recordSet[2]['register_date'] = '2010-04-29 14:00:00';<br />
+        <br />
+        &nbsp;&nbsp;$pager-&gt;fetch($recordSet);<br />
+        <br />
+        &nbsp;&nbsp;// テンプレートにヘルパを割り当てる <br />
+        &nbsp;&nbsp;$pager-&gt;assignView(); <br />
+        <br />
+        &nbsp;&nbsp;return Delta_View::SUCCESS;<br />
+        } </code></dd>
+    </dl>
+    <h3><a name="setSort" id="setSort"></a>public function setSort($key, $type = self::SORT_ASCENDING)</h3>
+    <p>key によるソートを設定します。リクエストパラメータに含まれるソート指定は、addSort() の指定よりも優先されます<br />
+      このメソッドは fetch() メソッドを実行するよりも先にコールする必要があります。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>// member_id キーで昇順ソート<br />
+        $pager-&gt;setSort('member_id', Delta_Pager::SORT_ASCENDING);</code></dd>
+    </dl>
+    <div class="note_container note_important">
+      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+      <div class="note_contents">
+        <p>Delta_DatabasePager::addSort() メソッドと異なり、ソートキーを複数指定することはできません。 </p>
+      </div>
+    </div>
+    <h2>テンプレートからレコードセットを参照する</h2>
+    <p>fetch() (または fetchStatement()) メソッドでレコードセットを取得した後、assignView() メソッドでテンプレートにヘルパ ($pager) を割り当てることにより、テンプレートからはアクションや DAO クラスで生成したレコードセットを参照できるようになります。</p>
+    <p>次のコードはレコードセットをページ分割して表示するためのサンプルです。$pager には Delta_PagerHelper クラスのインスタンスが格納されています。</p>
+    <dl>
+      <dt>Template Code#</dt>
+      <dd class="lang_template"><code>&lt;?php if ($pager-&gt;hasRecord()): ?&gt; <br />
+        &nbsp;&nbsp;&lt;p&gt;&lt;?php echo $pager-&gt;getNavigationLabel() ?&gt;&lt;/p&gt;<br />
+        &nbsp;&nbsp;&lt;table&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;th&gt;会員ID&lt;/th&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;th&gt;会員名&lt;/th&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;th&gt;登録日&lt;/th&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php while ($current = $pager-&gt;next()): ?&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;?php echo $current['member_id'] ?&gt;&lt;/td&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;?php echo $current['member_name'] ?&gt;&lt;/td&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;?php echo $current['register_date'] ?&gt;&lt;/td&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php endwhile; ?&gt;<br />
+        &nbsp;&nbsp;&lt;/table&gt; <br />
+        &lt;?php endif; ?&gt; </code></dd>
+    </dl>
+    <p>Delta_PagerHelper::getNavigationLabel() メソッドは、データセットの総件数表示や次ページへのリンクといったナビゲーション用の HTML 一式を生成します。ナビゲーションラベルのフォーマットは global_helpers.yml (helpers.yml) を書き換えることで自由にカスタマイズすることができます。</p>
+    <p>ヘルパには他にも、各列名の右横にソート用リンクを追加して、ユーザがリンク押下時に対象カラムでソートするといった機能も備わっています。ヘルパに関する詳しい使用方法については <a href="../../api/reference/view.helper/delta___pager_helper.html">Delta_PagerHelper</a> の API を参照して下さい。</p>
+    <p><img src="../assets/images/screenshots/pager_helper_get_navigation_label.png" alt="" width="285" height="436" /> </p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

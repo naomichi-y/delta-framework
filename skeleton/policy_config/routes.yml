@@ -1,0 +1,13 @@
+*{type='array' required='true'}:
+  uri{required='true'}:
+  forward{type='array'}:
+    module:
+    action:
+  access{type='array'}:
+    allows{type='array' required='true' output='true'}:
+    denyForward{type='array'}:
+      module{required='true'}:
+      action{required='true'}:
+  parameters{type='array'}:
+  patterns{type='array'}:
+  attributes{type='array'}:

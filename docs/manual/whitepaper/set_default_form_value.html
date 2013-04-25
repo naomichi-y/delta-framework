@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - フォームのデフォルト値を設定する</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - フォームのデフォルト値を設定する</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2009 年 1 月 31 日</p>
+    <h2>Hacks</h2>
+    <p>フォームを表示する際に特定のフィールドへデフォルト値を格納しておきたい、あるいは空文字が送信された時にデフォルト値へ置き換えたいといった場合は、ビヘイビアファイルに form 属性を設定しておくと良いでしょう。コントローラは form 属性を見つけると、アクションを起動する前に指定されたフィールドへデフォルト値を格納します。 </p>
+    <dl>
+      <dt>YAML Code# modules/entry/behaviors/CustomerRegisterForm.yml</dt>
+      <dd class="lang_yaml"><code> form: <br />
+        &nbsp;&nbsp;customerName: foo </code></dd>
+      <dt>PHP Code# modules/entry/actions/CustomerRegisterFormAction.php</dt>
+      <dd class="lang_php"><code>public function execute()<br />
+        {<br />
+        &nbsp;&nbsp;// customerName フィールドがリクエストされていない (あるいは空文字が送信された) 場合は &quot;foo&quot; を返す <br />
+        &nbsp;&nbsp;$customerName = $this-&gt;getForm()-&gt;get('customerName');<br />
+        <br />
+        &nbsp;&nbsp;return Delta_View::SUCCESS; <br />
+        }</code></dd>
+      <dt>Template Code# modules/entry/templates/customer_register_form.php</dt>
+      <dd class="lang_template"> <code>&lt;?php echo $form-&gt;inputText('customerName'); ?&gt;</code></dd>
+    </dl>
+    <p>アクションを起動すると、customerName フィールドにはデフォルト値 &quot;foo&quot; が設定されるようになります。 </p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

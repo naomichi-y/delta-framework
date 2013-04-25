@@ -1,0 +1,16 @@
+div#container {
+  width: 96%;
+}
+
+div#header {
+  margin-top: 2%;
+}
+
+div#contents {
+  padding-top: 1%;
+}
+
+h1#fatal_error {
+  background-color: #990000;  
+}
+

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - 設定ファイル - base_dicon.yml</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">設定ファイル - base_dicon.yml </h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2011 年 5 月 6 日</p>
+    <h2>base_dicon.yml 設定ファイルの概要</h2>
+    <p>base_dicon.yml (ベースダイコンと読みます) は、DI コンテナによって管理されるコンポーネントの設定ファイルです。ファイルを開いてみると、base_dicon.yml にはあらかじめいくつかのコンポーネントが定義されていることが分かります。</p>
+    <dl>
+      <dt>YAML Code# config/base_dicon.yml</dt>
+      <dd class="lang_yaml"><code> componentNames:<br />
+        &nbsp;&nbsp;request:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpRequest <br />
+        <br />
+        &nbsp;&nbsp;response:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpResponse <br />
+        <br />
+        &nbsp;&nbsp;session:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpSession <br />
+        <br />
+        &nbsp;&nbsp;user:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_AuthorityUser <br />
+        <br />
+        &nbsp;&nbsp;form:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_ActionForm <br />
+        <br />
+        &nbsp;&nbsp;messages:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_ActionMessages <br />
+        <br />
+        &nbsp;&nbsp;database:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_DatabaseManager</code></dd>
+    </dl>
+    <p>componentNames 属性の配下にはいくつかのコンポーネントが定義されます。例えば、request コンポーネントの実体は Delta_HttpRequest オブジェクトのインスタンス、response コンポーネントの実体は Delta_HttpResponse オブジェクトのインスタンスといった具合です。delta では、あらかじめ定義されているこれらのコンポーネントを「コアコンポーネント」と呼んでいます。コアコンポーネントに関しては、class 属性を書き換えることでコンポーネント自体の機能を拡張することができます。</p>
+    <p>フレームワーク上でコンポーネントのインスタンスを取得するには、次のようなコードを記述します。</p>
+    <dl>
+      <dt>PHP Code# コンポーネントのオブジェクトインスタンスを取得する</dt>
+      <dd class="lang_php"><code> // DI コンテナファクトリからコンポーネントを取得<br />
+        $request = Delta_DIContainerFactory::getContainer()-&gt;getComponent('request');<br />
+        <br />
+        // あらかじめ base_dicon.yml に定義されたコンポーネントはエイリアスメソッドからアクセスすることも可能<br />
+        $request = Delta_DIContainerFactory::getContainer()-&gt;getComponent('request');<br />
+        <br />
+        // Delta_Object を継承したクラスからは $this-getRequest() でアクセスすることも可能 <br />
+        $request = $this-&gt;getRequest(); </code></dd>
+    </dl>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p><a href="../../api/reference/kernel.container/delta___di_container.html">Delta_DIContainer</a> のリファレンスも合わせて参照して下さい。</p>
+      </div>
+    </div>
+    <p>コンポーネントのインスタンスを取得する方法はいくつかありますが、最もオーソドックスなアクセス方法は $this-&gt;{コンポーネント名} でしょう。$this-&gt;{コンポーネント名} によるアクセスは、Delta_Object を継承したクラスから指定可能です。フレームワークが提供する殆どのクラス (例外を除く) は、Delta_Object がスーパークラスとなっています。アプリケーション内で独自のクラスを作成する場合も、Delta_Object を親クラスとすることで、$this-&gt;{コンポーネント名} によるコンポーネントの参照が可能となります。ただし、当然ながら static メソッド内から $this の参照はできないので、その場合は Delta_DIContainerFactory::getContainer() メソッドを使用して下さい。</p>
+    <h2>属性一覧</h2>
+    <p>次に base_dicon.yml ファイルで設定可能な値の一覧を記します。</p>
+    <table>
+      <colgroup>
+      <col width="10%" />
+      <col width="10%" />
+      <col width="15%" />
+      <col width="15%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="30%" />
+      </colgroup>
+      <tr>
+        <th colspan="3" scope="col">属性構成</th>
+        <th scope="col">デフォルト値</th>
+        <th scope="col">取り得る値</th>
+        <th scope="col">必須</th>
+        <th scope="col">説明</th>
+      </tr>
+      <tr>
+        <td colspan="3">componentNames</td>
+        <td>&nbsp;</td>
+        <td>(array)</td>
+        <td></td>
+        <td>コンポーネントセクション。</td>
+      </tr>
+      <tr>
+        <td rowspan="7">&nbsp;</td>
+        <td colspan="2">(コンポーネント名) (+) </td>
+        <td>&nbsp;</td>
+        <td>(string)</td>
+        <td>◯</td>
+        <td>コンポーネント名。</td>
+      </tr>
+      <tr>
+        <td rowspan="6">&nbsp;</td>
+        <td colspan="1">class</td>
+        <td>&nbsp;</td>
+        <td>(string)</td>
+        <td>◯</td>
+        <td>コンポーネントクラス名。</td>
+      </tr>
+      <tr>
+        <td colspan="1">constructor</td>
+        <td>&nbsp;</td>
+        <td>(array)</td>
+        <td></td>
+        <td><a href="../whitepaper/di_container.html#constructorInjection">コンストラクタインジェクション</a> の項を参照。</td>
+      </tr>
+      <tr>
+        <td colspan="1">setter</td>
+        <td>&nbsp;</td>
+        <td>(array)</td>
+        <td></td>
+        <td><a href="../whitepaper/di_container.html#setterInjection">セッターインジェクション</a> の項を参照。</td>
+      </tr>
+      <tr>
+        <td colspan="1">includes</td>
+        <td>&nbsp;</td>
+        <td>(array)</td>
+        <td></td>
+        <td>クラスを読み込むための静的参照パス。</td>
+      </tr>
+      <tr>
+        <td colspan="1">method</td>
+        <td>&nbsp;</td>
+        <td>(string)</td>
+        <td></td>
+        <td><a href="../whitepaper/di_container.html#methodInjection">メソッドインジェクション</a> の項を参照。</td>
+      </tr>
+      <tr>
+        <td colspan="1">instance</td>
+        <td>singleton</td>
+        <td>[singleton|prototype]</td>
+        <td></td>
+        <td><a href="../whitepaper/di_container.html#instance">インスタンスの管理</a> の項を参照。</td>
+      </tr>
+    </table>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>表内の (+) は、対象属性が複数回指定可能なことを表します。    </p>
+      </div>
+    </div>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

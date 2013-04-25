@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>delta - アプリケーション開発実践 Tips - セキュアアクションの作成</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+
+
+</head>
+<body>
+
+
+
+  <header>
+          <div class="row">
+        <div class="half">
+          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+           <!--#include virtual="/global_assets/content/navi.php" -->
+</div>
+</div> 
+    <h1 id="top">アプリケーション開発実践 Tips - セキュアアクションの作成</h1>
+  </header>
+  <div id="contents"><article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2006 年 7 月 21 日</p>
+    <h2>Hacks</h2>
+    <p>ショッピングカートの会員登録やクレジット決済など、個人情報の入力が必要となるフォームでは、通常 SSL を用いて送受信するデータを暗号化します。delta はアクションベースでのアプリケーション構築が前提となるため、処理する内容によっては、クライアントからのリクエストプロトコルが HTTPS の場合のみアクションを実行したいといった要件が発生する可能性があります。このような場合は、セキュアアクション機能を用いることで、アクション単位でのセキュリティ設定が可能になります。</p>
+    <p>アクションにセキュリティを設定する場合は、対象となるアクションの ビヘイビアファイルに safety 属性を追加します。</p>
+    <dl>
+      <dt>YAML Code# modules/{module}/behaviors/Secure.yml</dt>
+      <dd class="lang_yaml"><code># セキュアアクションの設定 (HTTPS 接続のみ許可)<br />
+        safety: <br />
+        &nbsp;&nbsp;access: secure <br />
+        <br />
+        view:<br />
+        &nbsp;&nbsp;success: secure<br />
+        &nbsp;&nbsp;# HTTP 接続を行った場合に表示するビュー<br />
+        &nbsp;&nbsp;safety_error: safety_error</code></dd>
+    </dl>
+    <p>以上の設定で、クライアントからのリクエストプロトコルが HTTPS の場合のみ、Secure アクションが処理されるようになります。また、safety 属性の値が secure に設定されてる状態で HTTP 接続を行った場合、対象アクションに定義された safetyErrorHandler() メソッドが実行されます。safetyErrorHandler() メソッドは表示するビューを返す必要があり (もちろん、他のアクションへフォワードすることも可能です)、対象アクションにメソッドが定義されていない場合は、デフォルトで Delta_View::SAFETY_ERROR ビューを返します。</p>
+    <dl>
+      <dt>PHP Code# modules/{module}/actions/SecureAction.php</dt>
+      <dd class="lang_php"><code>class SecureAction extends Delta_Action<br />
+        {<br />
+        &nbsp;&nbsp;// HTTPS 接続時に処理される<br />
+        &nbsp;&nbsp;public function execute()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::SUCCESS;<br />
+        &nbsp;&nbsp;}<br />
+        <br />
+        &nbsp;&nbsp;// HTTP 接続時に処理される<br />
+        &nbsp;&nbsp;public function safetyErrorHandler()<br />
+        &nbsp;&nbsp;{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;throw new SafetyException(); <br />
+        &nbsp;&nbsp;}<br />
+        }</code></dd>
+    </dl>
+    <p>safety 属性には、次のような値が設定できます。</p>
+    <table>
+      <colgroup>
+      <col width="20%" />
+      <col width="80%" />
+      </colgroup>
+      <tr>
+        <th scope="col">値</th>
+        <th scope="col">説明</th>
+      </tr>
+      <tr>
+        <td>secure</td>
+        <td>リクエストプロトコルが HTTPS の場合のみアクションを処理する。HTTP 接続が行われた場合は safetyErrorHandler() が発生する。 </td>
+      </tr>
+      <tr>
+        <td>unsecure</td>
+        <td>リクエストプロトコルが HTTP の場合のみアクションを処理する。HTTPS 接続が行われた場合は safetyErrorHandler() が発生する。</td>
+      </tr>
+      <tr>
+        <td>none</td>
+        <td>リクエストプロトコルが HTTP/HTTPS どちらの場合もアクションを処理する。(デフォルト)</td>
+      </tr>
+    </table>
+    <p>尚、対象アクションがセキュア (またはアンセキュア) であるかどうかのチェックは、アクションのプリフィルタが全て処理された後に検証されます。従って、アクションがアクセスプロトコルに反している場合でも、フィルタは処理されることに注意して下さい。</p>
+    <p class="right"><a href="#top">上へ</a></p>
+  </div>
+  </div><footer>
+    <p>Copyright &copy; delta framework project.</p>
+  </footer>
+
+</body>
+</html>

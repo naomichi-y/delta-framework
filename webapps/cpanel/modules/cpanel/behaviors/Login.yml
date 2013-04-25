@@ -1,0 +1,11 @@
+validate:
+  names:
+    loginPassword:
+      required: TRUE
+      requiredError: パスワードが未入力です。
+
+view:
+  success:
+    redirect: Home
+  error:
+    forward: LoginForm

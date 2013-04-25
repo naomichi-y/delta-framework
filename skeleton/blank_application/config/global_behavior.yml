@@ -1,0 +1,95 @@
+convert:
+  trimConverter:
+    names: @all
+    converters:
+      - class: Delta_TrimConverter
+
+validate:
+  validators:
+    commonCheckBoxValidator:
+      class: Delta_CheckBoxValidator
+      requiredMatch: '${REQUIRED_MATCH}'
+      requiredMatchError: '{%FIELD_NAME%}に{%REQUIRED_MATCH%}つチェックを付けて下さい。'
+      requiredMin: '${REQUIRED_MIN}'
+      requiredMinError: '{%FIELD_NAME%}は{%REQUIRED_MIN%}つ以上にチェックを付けて下さい。'
+      requiredMax: '${REQUIRED_MAX}'
+      requiredMaxError: '{%FIELD_NAME%}は{%REQUIRED_MAX%}つ以内でチェックを付けて下さい。'
+
+    commonCompareValidator:
+      class: Delta_CompareValidator
+      compareField1: '${COMPARE_FIELD1}'
+      compareField2: '${COMPARE_FIELD2}'
+      pattern: '${PATTERN}'
+      matchError: '{%COMPARE_FIELD_NAME1%}が合致していません。'
+      lessThanError: '{%COMPARE_FIELD_NAME2%}に{%COMPARE_FIELD_NAME1%}より小さい値が指定されています。'
+      moreThanError: '{%COMPARE_FIELD_NAME2%}に{%COMPARE_FIELD_NAME1%}より大きい値が指定されています。'
+
+    commonDateValidator:
+      class: Delta_DateValidator
+      yearField: '${YEAR_FIELD}'
+      monthField: '${MONTH_FIELD}'
+      dayField: '${DAY_FIELD}'
+      matchError: '日付の書式が不正です。'
+      allowPast: '${ALLOW_PAST}'
+      allowCurrent: '${ALLOW_CURRENT}'
+      allowFuture: '${ALLOW_FUTURE}'
+      allowError: '許可されない日付です。'
+
+    commonEMailValidator:
+      class: Delta_EMailValidator
+      matchError: '{%FIELD_NAME%}の書式が正しくありません。'
+      strict: FALSE
+      domainCheck: '${DOMAIN_CHECK}'
+
+    commonFileUploadValidator:
+      class: Delta_FileUploadValidator
+      required: '${REQUIRED}'
+      requiredError: '{%FIELD_NAME%}をアップロードして下さい。'
+      encodingError: 'フォームのエンコーディング形式が不正です。'
+      postError: 'フォームデータが不正です。'
+      mimeTypes: '${MIME_TYPES}'
+      mimeTypeError: '許可されないファイルタイプです。'
+      maxSize: '${MAX_SIZE}'
+      maxSizeError: 'アップロード可能なファイルサイズは{%MAX_SIZE%}までです。'
+      partialError: 'ファイルのアップロードが失敗しました。'
+      temporaryError: 'ファイルのアップロード先となる一時ディレクトリが見つかりません。'
+      writeError: 'ディスクへの描き込みに失敗しました。'
+      extensionError: 'PHP の拡張モジュールがファイルのアップロードを中止しました。'
+
+    commonLengthValidator:
+      class: Delta_LengthValidator
+      multibyte: '${MULTIBYTE}'
+      minLength: '${MIN_LENGTH}'
+      minLengthError: '{%FIELD_NAME%}は{%MIN_LENGTH%}文字以上入力して下さい。'
+      maxLength: '${MAX_LENGTH}'
+      maxLengthError: '{%FIELD_NAME%}は{%MAX_LENGTH%}文字以内で入力して下さい。'
+      matchLength: '${MATCH_LENGTH}'
+      matchLengthError: '{%FIELD_NAME%}は{%MATCH_LENGTH%}文字で入力して下さい。'
+
+    commonNumericValidator:
+      class: Delta_NumericValidator
+      matchError: '{%FIELD_NAME%}は数値で指定して下さい。'
+      float: '${FLOAT}'
+
+    commonRangeValidator:
+      class: Delta_RangeValidator
+      min: '${MIN}'
+      max: '${MAX}'
+      float: '${FLOAT}'
+      matchError: '{%FIELD_NAME%}は{%MIN%}～{%MAX%}の間の値を指定して下さい。'
+
+    commonRequiredValidator:
+      class: Delta_RequiredValidator
+      required: TRUE
+      requiredError: '{%FIELD_NAME%}が未入力です。'
+      whitespace: FALSE
+
+    commonTextareaValidator:
+      class: Delta_TextareaValidator
+      minRowSize: '${MIN_ROW_SIZE}'
+      minRowSizeError: '{%FIELD_NAME%}は{%MIN_ROW_SIZE%}行以上入力して下さい。'
+      maxRowSize: '${MAX_ROW_SIZE}'
+      maxRowSizeError: '{%FIELD_NAME%}は{%MAX_ROW_SIZE%}行以内で入力して下さい。'
+      matchRowSize: '${MATCH_ROW_SIZE}'
+      matchRowSizeError: '{%FIELD_NAME%}は{%MATCH_ROW_SIZE%}行で入力して下さい。'
+      ignoreBlankLine: FALSE
