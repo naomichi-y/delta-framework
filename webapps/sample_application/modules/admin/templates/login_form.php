@@ -14,7 +14,7 @@
       <h1>管理者認証</h1>
     </header>
     <div id="contents">
-      <p class="right"><?php echo $html->link('スタート画面に戻る', array('router' => 'moduleEntry', 'module' => 'sample-frontend')) ?></p>
+      <p class="right"><?php echo $html->link('スタート画面に戻る', array('router' => 'moduleEntry', 'module' => 'front')) ?></p>
       <?php echo $form->start('Login') ?>
         <p>管理者アカウントの ID/PW は admin/admin です。さっそくログインしてみましょう。</p>
         <?php echo $html->errors(FALSE) ?>

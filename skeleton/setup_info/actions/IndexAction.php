@@ -86,7 +86,7 @@ class IndexAction extends Delta_Action
     }
 
     // サンプルアプリケーションがインストールされているかチェック
-    if (in_array('sample-frontend', Delta_CoreUtils::getModuleNames())) {
+    if (in_array('front', Delta_CoreUtils::getModuleNames())) {
       $this->getView()->setAttribute('hasSampleApp', TRUE);
 
       if ($messages->hasError('database')) {

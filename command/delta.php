@@ -398,10 +398,10 @@ class Delta_CommandExecutor
       ."{config/application.yml}\n"
       ."module:\n"
       ."  entries:\n"
-      ."    sample-frontend:\n"
+      ."    front:\n"
       ."      default: Start\n"
       ."      unknown: Start\n"
-      ."    sample-backend:\n"
+      ."    admin:\n"
       ."      default: LoginForm\n"
       ."      unknown: LoginForm\n"
       ."%s",

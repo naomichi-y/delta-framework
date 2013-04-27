@@ -89,7 +89,7 @@
             <div class="data_content">
               <?php if (isset($hasSampleApp)): ?>
                 <?php if (!$html->hasError('sample')): ?>
-                  <?php echo $form->start(array('router' => 'moduleEntry', 'module' => 'sample-frontend', 'action' => 'Start')) ?>
+                  <?php echo $form->start(array('router' => 'moduleEntry', 'module' => 'sample-front', 'action' => 'Start')) ?>
                     <p><?php echo $form->inputSubmit('スタート', array('class' => 'btn')) ?></p>
                   <?php echo $form->close() ?>
                 <?php else: ?>
