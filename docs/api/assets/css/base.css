@@ -5,15 +5,32 @@
 
 @import url('kube.css');
 
+/**
+ * ****************************************************************
+ * タグの再定義
+ * ****************************************************************
+ */
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif !important;
   color: #555;
   font-size: 0.88em;
-  line-height: 1.8em;
   border-top: 4px solid #87b854;
 }
 
-header .row, #contents, header h1 {
+a:link, a:visited, a:active {
+  color: #87b854;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+header {
+  margin-top: 2%;
+}
+
+header .row, #contents, header h1, .sub-nav ul {
   max-width: 960px;
   margin: auto;
 }
@@ -24,29 +41,26 @@ header h1 {
   border-bottom: 1px solid #555;
 }
 
-article a:link, article a:visited, article a:active {
-  color: #87b854;
-}
-
-#sidebar {
-}
-
-header {
-  margin-top: 2%;
+header a:link, header a:visited, header a:active {
+  color: #555 !important;
 }
 
 h1 {
-  font-size: 1.6em;
+  font-size: 1.4em;
+  padding-bottom: 0.4%;
+}
+
+.half h1 {
+  border-bottom: none;
 }
 
 h2 {
-  font-size: 1.4em;
-  padding-bottom: 1%;
-  border-bottom: 1px solid #9E9E9E;
+  font-size: 1.2em;
+  padding-bottom: 0.4%;
 }
 
 h2 a:link, h2 a:visited, h2 a:active {
-  color: #555;
+  color: #555 !important;
 }
 
 h3 {
@@ -55,14 +69,38 @@ h3 {
 
 dt {
   border-bottom: 1px solid #B2B2B2;
+  padding: 0.4%;
 }
 
+footer {
+  color: #ccc;
+  background-color: #353431;
+  border-top: 10px solid #ebebea;
+}
+
+footer p {
+  width: 960px;
+  margin: auto;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+/**
+ * ****************************************************************
+ * kube.css のオーバーライド
+ * ****************************************************************
+ */
 .btn {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
 }
 
+/**
+ * ****************************************************************
+ * カスタムクラス (共通)
+ * ****************************************************************
+ */
 .global-nav {
   font-size: 0.88em;
   float: right;
@@ -73,65 +111,14 @@ dt {
   font-weight: bold;
 }
 
-.front-nav {
-  background-color: #f5f5f5;
-  border-top: 1px solid #ebebea;
-  border-bottom: 1px solid #ebebea;
-}
-.front-nav ul {
-  max-width: 960px;
-  margin: auto;
-}
-
-.front-nav a {
-  padding: 1em;
-}
-
-.front-nav a:hover {
-  color: #fff !important;
-  background-color: #555 !important;
-}
-
-a:link, a:visited, a:active {
-  text-decoration: none;
-  color: #555;
-}
-
-a:hover {
+.global-nav ul li a:active {
   color: #87b854 !important;
-  text-decoration: none !important;
+}
+
+.global-nav ul li a:hover {
+  color: #87b854 !important;
+  text-decoration: none;
   transition-duration: 0.4s;
-  transition-timing-function: linear;
-}
-
-.current-menu-item {
-  background-color: #999;
-}
-
-.current-menu-item a:link, .current-menu-item a:visited, .current-menu-item a:active {
-  color: #fff !important;
-}
-
-.current_page_item a:link, .current_page_item a:visited, .current_page_item a:active {
-  color: #87b854;
-}
-
-footer {
-  margin-top: 2%;
-  color: #fff;
-  background-color: #353431;
-  border-top: 10px solid #ebebea;
-}
-
-footer a:link, footer a:visited, footer a:active {
-  color: #fff;
-}
-
-footer p {
-  width: 960px;
-  margin: auto;
-  padding-top: 2%;
-  padding-bottom: 2%;
 }
 
 .center {
@@ -139,13 +126,97 @@ footer p {
 }
 
 .right {
+  font-size: 0.86em;
   text-align: right;
 }
+
+/**
+ * ****************************************************************
+ * カスタムクラス (delta-framework.org)
+ * ****************************************************************
+ */
 
 .description {
   font-size: 0.88em;
   color: #999;
 }
+
+sub-nav {
+  background-color: #f5f5f5;
+  border-top: 1px solid #ebebea;
+  border-bottom: 1px solid #ebebea;
+}
+
+.sub-nav a {
+  padding: 1em;
+}
+
+.sub-nav a:hover {
+  color: #fff !important;
+  background-color: #555 !important;
+  text-decoration: none !important;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (サンプルアプリケーション)
+ * ****************************************************************
+ */
+.success, .error {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  padding: 1%;
+  margin-bottom: 2%;
+}
+
+.success {
+  color: #006600;
+  background-color: #effeb9;
+  border: 1px solid #c1d779;
+}
+
+.error {
+  background-color: #f7d4d4;
+  color: #561010;
+  border: 1px solid #561010;
+}
+
+.success ul, .error ul {
+  margin-bottom: 0 !important;
+}
+
+.form_field {
+  margin: 2%;
+}
+
+.form_field > label {
+  display: block;
+}
+
+.form_field fieldset {
+  padding: 1%;
+}
+
+.field_error_message {
+  color: #900;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (cpanel)
+ * ****************************************************************
+ */
+.tablesorter th, .tablesorter td {
+  font-size: 1.1em !important;
+}
+
+.tablesorter thead tr .headerSortDown, .tablesorter thead tr .headerSortUp {
+  color: #555 !important;
+  background-color: #ccc !important;
+}
+
+/** 整理してない */
+
 
 .meta {
   text-align: right;
@@ -186,9 +257,16 @@ dd {
   margin: 1% 0 1% 0;
 }
 
+/**
+ * ****************************************************************
+ * カスタムCSS
+ * ****************************************************************
+ */
 .lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code {
   padding: 1%;
   display: block;
+  line-height: 150%;
+  font-size: 0.9em;
 }
 
 .note_container {
@@ -260,4 +338,5 @@ dd {
 .data_content p, .data_content form {
   margin: 0;
 }
+
 

@@ -24,8 +24,8 @@ $().ready( function () {
         <col width="10%" />
         <col width="10%" />
         <col width="10%" />
-        <col width="17%" />
-        <col width="12%" />
+        <col width="13%" />
+        <col width="14%" />
       </colgroup>
       <thead>
         <tr>

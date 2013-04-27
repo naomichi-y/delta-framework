@@ -2,7 +2,7 @@
  * context
  */
 
-div.delta_context {
+.delta_context {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 16px;
   color: #000000;
@@ -11,12 +11,12 @@ div.delta_context {
   font-size: 12px;
 }
 
-div.delta_context dd {
+.delta_context dd {
   margin: 10px 40px 10px 40px;
   border: none;
 }
 
-div.delta_context code {
+.delta_context code {
   font-family: "Courier New", Courier, monospace !important;
 }
 
@@ -24,28 +24,28 @@ div.delta_context code {
  * stack trace
  */
 
-dl.delta_exception_trigger_code {
+.delta_exception_trigger_code {
   margin-bottom: 2%;
   border: 1px solid #999999;
 }
 
-dl.delta_exception_trigger_code dt {
+.delta_exception_trigger_code dt {
   color: #ffffff;
   padding: 6px 10px 6px 10px;
   background-color: #999999;
 }
 
-dl.delta_exception_trigger_code dd {
+.delta_exception_trigger_code dd {
   background-color: #efefef;
   margin: 0;
 }
 
-dl.delta_stack_traces span.file_info {
+.delta_stack_traces .file_info {
   font-weight: normal;
   font-style: italic;
 }
 
-dl.delta_stack_traces dt {
+.delta_stack_traces dt {
   font-weight: bold;
   padding: 6px;
   cursor: pointer;
@@ -53,7 +53,7 @@ dl.delta_stack_traces dt {
   border: none;
 }
 
-div.delta_context dd.delta_code_inspector {
+.delta_context .delta_code_inspector {
   border: 1px solid #999999;
   padding: 0;
 }
@@ -61,7 +61,7 @@ div.delta_context dd.delta_code_inspector {
 /**
  * code inspector
  */
-dd.delta_code_inspector h2 {
+.delta_code_inspector h2 {
   font-size: 12px;
   padding: 6px;
   margin: 0;
@@ -70,21 +70,25 @@ dd.delta_code_inspector h2 {
   color: #ffffff;
 }
 
-p.delta_stack_trace {
+.delta_stack_trace {
   background-color: #efefef;
-  padding: 10px;
   margin: 0;
+}
+
+.delta_stack_trace code {
+  border: none;
+  background-color: transparent;
 }
 
 /**
  * dprint()
  */
-div.delta_dprint {
+.delta_dprint {
   margin: 20px;
   border: 1px solid #333333;
 }
 
-p.delta_dprint_title {
+.delta_dprint_title {
   padding: 6px;
   text-indent: 10px;
   background-color: #3C6C92;
@@ -92,19 +96,19 @@ p.delta_dprint_title {
   margin: 0;
 }
 
-div.delta_dprint_box {
+.delta_dprint_box {
   padding: 10px;
   height: 300px;
   overflow: auto;
 }
 
-div.delta_dprint_box dl.delta_dprint_detail dt {
+.delta_dprint_box .delta_dprint_detail dt {
   padding: 6px;
   margin-left: 20px;
   border-bottom: 1px solid #999999;
 }
 
-div.delta_dprint_box pre {
+.delta_dprint_box pre {
   background-color: #efefef;
   padding: 10px;
   -webkit-border-radius: 6px;
@@ -113,12 +117,12 @@ div.delta_dprint_box pre {
   overflow: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
-} 
+}
 
 /**
  * dtrace()
  */
-div.delta_dtrace {
+.delta_dtrace {
   display: none;
   color: red;
 }

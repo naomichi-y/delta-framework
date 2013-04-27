@@ -8,8 +8,6 @@
  * @link http://delta-framework.org/
  */
 
-require DELTA_LIBS_DIR . '/controller/Delta_FrontControllerDelegate.php';
-
 require DELTA_LIBS_DIR . '/controller/filter/Delta_Filter.php';
 require DELTA_LIBS_DIR . '/controller/filter/Delta_FilterManager.php';
 require DELTA_LIBS_DIR . '/controller/filter/Delta_FilterChain.php';
@@ -42,12 +40,6 @@ class Delta_FrontController extends Delta_Object
   private $_router;
 
   /**
-   * {@link Delta_FrontControllerDelegate} オブジェクト。
-   * @var Delta_FrontControllerDelegate
-   */
-  private $_delegate;
-
-  /**
    * 経路が確定しているかどうか。
    * @var bool
    */
@@ -61,20 +53,6 @@ class Delta_FrontController extends Delta_Object
   public function __construct()
   {
     $this->_config = Delta_Config::getApplication();
-
-    $delegateClassName = $this->_config->getString('controller.delegate');
-    $this->_delegate = call_user_func(array($delegateClassName, 'getInstance'));
-  }
-
-  /**
-   * コントローラのデリゲートオブジェクトを取得します。
-   *
-   * @return Delta_FrontControllerDelegateStack コントローラデリゲートのインスタンスを返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getDelegate()
-  {
-    return $this->_delegate;
   }
 
   /**
@@ -85,35 +63,36 @@ class Delta_FrontController extends Delta_Object
    */
   public function dispatch()
   {
-    // Delta_FrontControllerDelegate::initialize() を拡張したクラスから controller コンポーネントをコールされる可能性があるため、コンストラクタでは定義しない
-    $delegate = $this->getDelegate();
-    $delegate->initialize();
-
     $container = Delta_DIContainerFactory::getContainer();
     $container->getComponent('session')->initialize();
 
     $request = $container->getComponent('request');
     $request->initialize();
 
-    $container->getComponent('response')->initialize();
+    $response = $container->getComponent('response');
+    $response->initialize();
 
-    // Delta_FrontControllerDelegate::initialize() より先にコールしておく
-    // (例外が発生した場合、カスタム例外ハンドラ経由で Delta_FrontController::forward() がコールされる可能性があるため)
     $this->_router = $router = Delta_Router::getInstance();
 
     if ($router->connect()) {
       $container->getComponent('user')->initialize();
       $this->_isRouteResoleved = TRUE;
 
-      $delegate->dispatchEvent('startup');
+      $observer = $this->getObserver();
+      $observer->dispatchEvent('postRouteConnect');
 
       ob_start();
       $this->forward($this->_router->getEntryActionName());
       $buffer = ob_get_contents();
       ob_end_clean();
 
-      $arguments = array($buffer);
-      $delegate->dispatchEvent('dispatchResponse', $arguments);
+      if (!$response->isCommitted()) {
+        $arguments = array(&$buffer);
+        $observer->dispatchEvent('preOutput', $arguments);
+
+        $response->write($buffer);
+        $response->flush();
+      }
 
     } else {
       $message = sprintf('Request path was not found. [%s]', $request->getURI());

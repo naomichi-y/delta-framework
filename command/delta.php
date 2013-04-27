@@ -95,7 +95,7 @@ class Delta_CommandExecutor
     $command = $this->_input->getArgument('command');
     $this->declareAppRootDir($command);
 
-    Delta_BootLoader::run(Delta_BootLoader::BOOT_TYPE_COMMAND, Delta_BootLoader::CONFIG_TYPE_POLICY);
+    Delta_BootLoader::startDeltaCommand();
 
     switch ($command) {
       case 'add-action':

@@ -6,10 +6,14 @@
  * @link http://delta-framework.org/
  */
 
+ini_set('log_errors', 0);
+ini_set('display_errors', 0);
+
 /**
  * require files
  */
 require DELTA_LIBS_DIR . '/kernel/container/Delta_Object.php';
+require DELTA_LIBS_DIR . '/kernel/observer/Delta_KernelEventObserver.php';
 
 require DELTA_LIBS_DIR . '/kernel/loader/Delta_ClassLoader.php';
 require DELTA_LIBS_DIR . '/kernel/path/Delta_AppPathManager.php';
@@ -29,17 +33,17 @@ class Delta_BootLoader
   /**
    * 起動モード定数。(Web アプリケーション)
    */
-  const BOOT_TYPE_WEB = 1;
+  const BOOT_TYPE_WEB = 'web';
 
   /**
    * 起動モード定数。(コンソールアプリケーション)
    */
-  const BOOT_TYPE_CONSOLE = 2;
+  const BOOT_TYPE_CONSOLE = 'console';
 
   /**
    * 起動モード定数。(delta コマンド)
    */
-  const BOOT_TYPE_COMMAND = 3;
+  const BOOT_TYPE_COMMAND = 'command';
 
   /**
    * コンフィグ定数。(デフォルト)
@@ -61,40 +65,103 @@ class Delta_BootLoader
    */
   private static $_configType;
 
- /**
-   * ブートローダを起動します。
+  /**
+   * @var Delta_DIContainerFactory
+   */
+  private static $_container;
+
+  /**
+   * Web アプリケーションを開始します。
    *
-   * @param int $bootType ブートローダの起動モード。Delta_BootLoader::BOOT_TYPE_* 定数が指定可能。
-   * @param int $configType コンフィグの参照モード。Delta_BootLoader::CONFIG_TYPE_* 定数が指定可能。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function run($bootType = self::BOOT_TYPE_WEB, $configType = self::CONFIG_TYPE_DEFAULT)
+  public static function startWebApplication()
   {
-    // エラーメッセージは記録しない (Delta_ErrorHandler::invokeFatalError() で処理する)
-    ini_set('log_errors', 0);
+    self::$_bootType = self::BOOT_TYPE_WEB;
+    self::$_configType = self::CONFIG_TYPE_DEFAULT;
 
-    self::$_bootType = $bootType;
-    self::$_configType = $configType;
+    self::startApplication();
+    self::startEventObserver(self::BOOT_TYPE_WEB);
 
-    switch ($bootType) {
-      case self::BOOT_TYPE_WEB:
-        self::startApplication();
-        break;
+    self::$_container->getComponent('controller')->dispatch();
+  }
 
-      case self::BOOT_TYPE_CONSOLE:
-        self::startApplication();
-        break;
+  /**
+   * コントロールパネルを開始します。
+   *
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function startControlPanel()
+  {
+    self::$_bootType = self::BOOT_TYPE_WEB;
+    self::$_configType = self::CONFIG_TYPE_POLICY;
 
-      case self::BOOT_TYPE_COMMAND:
-        self::startCommand();
-        break;
+    self::startApplication();
+    self::startEventObserver(self::BOOT_TYPE_WEB);
+
+    // cpanel モジュールをクラスローダに追加
+    Delta_ClassLoader::addSearchPath(DELTA_ROOT_DIR . '/webapps/cpanel/libs');
+
+    // 設定ファイルの初期化
+    $appConfig = Delta_Config::getApplication();
+    $projectAppConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
+
+    $appConfig->set('database', $projectAppConfig->getArray('database'));
+    $appConfig->set('module', $projectAppConfig->getArray('module'), FALSE);
+    $appConfig->set('response.callback', 'none');
+
+    // モジュールディレクトリの設定
+    $path = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel';
+    Delta_Router::getInstance()->entryModuleRegister('cpanel', $path);
+
+    self::$_container->getComponent('controller')->dispatch();
+  }
+
+  /**
+   * コンソールアプリケーションを開始します。
+   *
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function startConsoleApplication()
+  {
+    self::$_bootType = self::BOOT_TYPE_CONSOLE;
+    self::$_configType = self::CONFIG_TYPE_DEFAULT;
+
+    self::startApplication();
+    self::startEventObserver(self::BOOT_TYPE_CONSOLE);
+
+    self::$_container->getComponent('console')->start();
+  }
+
+  /**
+   * delta コマンドを開始します。
+   *
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function startDeltaCommand()
+  {
+    self::$_bootType = self::BOOT_TYPE_COMMAND;
+    self::$_configType = self::CONFIG_TYPE_POLICY;
+
+    set_error_handler(array('Delta_ErrorHandler', 'handler'));
+    set_exception_handler(array('Delta_ExceptionHandler', 'handler'));
+
+    Delta_ClassLoader::initialize();
+    $manager = Delta_AppPathManager::getInstance();
+
+    if (defined('APP_ROOT_DIR')) {
+      $themeConfig = Delta_Config::getApplication()->get('theme');
+      $manager->initialize($themeConfig);
+
+    } else {
+      $manager->initialize();
     }
   }
 
   /**
    * ブートローダの起動モードを取得します。
    *
-   * @return int ブートローダの起動モードを返します。
+   * @return string ブートローダの起動モードを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public static function getBootType()
@@ -187,10 +254,6 @@ class Delta_BootLoader
    */
   private static function startApplication()
   {
-    // Fatal エラー発生時にエラーメッセージが出力されないよう抑制する
-    // (エラーメッセージは Delta_ErrorHandler::detectFatalError() が出力する)
-    ini_set('display_errors', 0);
-
     // エラー、例外ハンドラの登録
     set_error_handler(array('Delta_ErrorHandler', 'handler'));
     set_exception_handler(array('Delta_ExceptionHandler', 'handler'));
@@ -221,27 +284,29 @@ class Delta_BootLoader
     foreach ($autoloadConfig as $path) {
       Delta_ClassLoader::addSearchPath($path);
     }
+
+    self::$_container = Delta_DIContainerFactory::create();
   }
 
   /**
-   * delta コマンドモードを開始します。
+   * イベントオブザーバを開始します。
    *
+   * @param string $bootType
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private static function startCommand()
+  private static function startEventObserver($bootType)
   {
-    set_error_handler(array('Delta_ErrorHandler', 'handler'));
-    set_exception_handler(array('Delta_ExceptionHandler', 'handler'));
+    $observer = Delta_KernelEventObserver::getInstance();
+    $listeners = Delta_Config::getApplication()->get('observer.listeners');
 
-    Delta_ClassLoader::initialize();
-    $manager = Delta_AppPathManager::getInstance();
+    if ($listeners) {
+      foreach ($listeners as $listenerId => $attributes) {
+        $bootConfig = $attributes->get('boot');
 
-    if (defined('APP_ROOT_DIR')) {
-      $themeConfig = Delta_Config::getApplication()->get('theme');
-      $manager->initialize($themeConfig);
-
-    } else {
-      $manager->initialize();
+        if (in_array($bootType, explode(',', $bootConfig))) {
+          $observer->addEventListener($listenerId, $attributes);
+        }
+      }
     }
   }
 }

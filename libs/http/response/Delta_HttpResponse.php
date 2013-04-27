@@ -250,7 +250,7 @@ class Delta_HttpResponse extends Delta_Object
     ob_end_clean();
 
     $arguments = array($buffer);
-    $this->getController()->getDelegate()->dispatchEvent('dispatchResponse', $arguments);
+    $this->getObserver()->dispatchEvent('dispatchResponse', $arguments);
 
     die();
   }
@@ -746,7 +746,7 @@ class Delta_HttpResponse extends Delta_Object
     $this->_writeBuffer = $data;
     $this->_isWrite = FALSE;
 
-    // Delta_FrontControllerDelegate::outputBuffer() の動作に影響
+    // Delta_KernelEventObserver::outputBuffer() の動作に影響
     $this->_hasBinary = $isBinary;
   }
 

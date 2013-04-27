@@ -30,7 +30,7 @@
         <?php echo $form->inputCheckboxes('hobbies', $site->get('hobby'), NULL, array('label' => '趣味', 'required' => TRUE)); ?>
         <?php echo $form->textarea('message', array('rows' => 4, 'cols' => 60), array('label' => '自己紹介', 'required' => TRUE)); ?>
         <?php echo $form->inputFile('icon', array('size' => 40), array('label' => 'アイコン')) ?>
-        <p><?php echo $form->inputSubmit('確認') ?></p>
+        <p><?php echo $form->inputSubmit('確認', array('class' => 'btn')) ?></p>
       <?php echo $form->close() ?>
     </div>
     <footer>

@@ -21,7 +21,7 @@
         <div class="half">
            <!--#include virtual="/global_assets/content/navi.php" -->
 </div>
-</div> 
+</div>
     <h1 id="top">設定ファイル - application.yml</h1>
   </header>
   <div id="contents"><article>
@@ -99,24 +99,10 @@
         <td scope="col">&nbsp;</td>
       </tr>
       <tr>
-        <td rowspan="4" scope="col">controller</td>
+        <td rowspan="2" scope="col">controller</td>
         <td colspan="5" scope="col">&nbsp;</td>
         <td scope="col">&nbsp;</td>
         <td scope="col">コントローラの動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3" scope="col">delegate</td>
-        <td scope="col">Delta_FrontControllerDelegate</td>
-        <td scope="col">(string)</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">コントローラの処理を委譲するデリゲートクラス。詳しくは <a href="../../api/reference/controller/delta___front_controller_delegate.html">API</a> を参照。デリゲートクラス自身も Delta_FrontControllerDelegate を継承して拡張することが可能。</td>
-      </tr>
-      <tr>
-        <td colspan="3" scope="col">listener</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">(string)</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">デリゲートが提供するイベントポイントを拡張するためのリスナークラス。リスナークラスは Delta_ControllerListener インタフェースを実装する必要がある。</td>
       </tr>
       <tr>
         <td colspan="3" scope="col">detectUserAgent</td>
@@ -189,7 +175,7 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>&nbsp;</td>
+        <td>アプリケーションで有効なモジュールを定義。</td>
       </tr>
       <tr>
         <td>&nbsp;</td>
@@ -558,6 +544,36 @@
         <td>(string)</td>
         <td>◯</td>
         <td>40bit で構成されるアプリケーションの秘密鍵。<a href="../../api/reference/util.common/delta___string_utils.html#method_buildHash">Delta_StringUtils::buildHash()</a> や <a href="../../api/reference/util/delta___blowfish_cipher.html">Delta_BlowfishCipher</a> クラスの動作に影響する。</td>
+      </tr>
+      <tr>
+        <td rowspan="4">observer</td>
+        <td colspan="5">&nbsp;</td>
+        <td></td>
+        <td>カーネルイベントの定義。</td>
+      </tr>
+      <tr>
+        <td colspan="3">listeners</td>
+        <td>&nbsp;</td>
+        <td>(array)</td>
+        <td></td>
+        <td>リスナーの定義。</td>
+      </tr>
+      <tr>
+        <td rowspan="2">(+)</td>
+        <td>class</td>
+        <td>{listener_class}</td>
+        <td>&nbsp;</td>
+        <td>(string)</td>
+        <td></td>
+        <td>リスナークラス名。</td>
+      </tr>
+      <tr>
+        <td>boot</td>
+        <td>{mode_type}</td>
+        <td>web, console</td>
+        <td>(string)</td>
+        <td></td>
+        <td>リスナーを起動するモード。&quot;web&quot; は Web アプリケーション、&quot;console&quot; はコンソールアプリケーションでリスナーを起動する。カンマ区切りで &quot;web, console&quot; のように指定することも可能。</td>
       </tr>
       <tr>
         <td>project</td>

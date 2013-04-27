@@ -51,7 +51,7 @@
             </dd>
           <?php endif; ?>
         </dl>
-        <p class="center"><?php echo $form->inputSubmit('ファイルをデプロイする') ?></p>
+        <p class="center"><?php echo $form->inputSubmit('ファイルをデプロイする', array('class' => 'btn')) ?></p>
       <?php echo $form->close() ?>
     </div>
     <footer>

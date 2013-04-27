@@ -83,7 +83,9 @@ abstract class Delta_Validator extends Delta_Object
           }
         }
 
-        $holder->set($attributeName, $attributeValue);
+        if ($attributeValue !== NULL) {
+          $holder->set($attributeName, $attributeValue);
+        }
 
       } // end if
     } // end foreach

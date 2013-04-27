@@ -11,7 +11,7 @@
     <dd id="trace_point_detail_<?php echo $trace['traceId'] ?>" class="delta_code_inspector" style="display: none">
     <?php endif ?>
       <h2>Inspector code</h2>
-      <p class="delta_stack_trace"><?php echo $trace['code'] ?></p>
+      <p class="delta_stack_trace lang_php"><?php echo $trace['code'] ?></p>
     </dd>
     <?php endif ?>
   <?php endforeach ?>

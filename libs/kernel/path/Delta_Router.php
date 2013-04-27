@@ -91,12 +91,6 @@ class Delta_Router extends Delta_Object
   private $_actionUnknownForward = FALSE;
 
   /**
-   * {@link Delta_FrontControllerDelegate} オブジェクト。
-   * @var Delta_FrontControllerDelegate
-   */
-  private $_delegate;
-
-  /**
    * クエリ (PATH_INFO) の値セパレータ。
    * @var string
    */
@@ -238,9 +232,6 @@ class Delta_Router extends Delta_Object
    */
   public function connect()
   {
-    $controller = Delta_DIContainerFactory::getContainer()->getComponent('controller');
-    $this->_delegate = $controller->getDelegate();
-
     if ($this->_applicationConfig['action']['path'] !== 'camelCaps') {
       $this->_isCamelCaps = FALSE;
     }

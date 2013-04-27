@@ -1,9 +1,14 @@
 autoload{type='array' output='true'}:
 
 controller{type='array' output='true'}:
-  delegate{default='Delta_FrontControllerDelegate' output='true'}:
   listener{type='string'}:
   detectUserAgent{type='boolean' default='FALSE' output='true'}:
+
+observer{type='array' output='true'}:
+  listeners{type='array' output='true'}:
+    *{type='array' output='true'}:
+      class{output='true'}:
+      boot{default='web,console' output='true'}:
 
 htmlEscape{type='array' output='true'}:
   function{default='htmlspecialchars' output='true'}:

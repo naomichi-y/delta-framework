@@ -52,8 +52,8 @@
           </dd>
         </dl>
         <p class="center">
-          <?php echo $form->inputSubmit('修正', array('name' => 'dispatchMemberRegisterForm')) ?>
-          <?php echo $form->inputSubmit('登録', array('name' => 'dispatchMemberRegister')) ?>
+          <?php echo $form->inputSubmit('修正', array('name' => 'dispatchMemberRegisterForm', 'class' => 'btn')) ?>
+          <?php echo $form->inputSubmit('登録', array('name' => 'dispatchMemberRegister', 'class' => 'btn')) ?>
         </p>
         <?php echo $form->requestDataToInputHiddens() ?>
       <?php echo $form->close() ?>

@@ -685,9 +685,7 @@ textarea {
   position: relative;
   z-index: 2;
   font-family: 'Source Sans Pro', 'PT Sans', Arial, "Helvetica Neue", Helvetica, Tahoma, sans-serif;
-  /**
   height: 23px;
-  */
   border: 1px solid #ccc;
   margin: 0;
   padding: 1px 2px;

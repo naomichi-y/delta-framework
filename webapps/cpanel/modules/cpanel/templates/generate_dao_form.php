@@ -79,7 +79,7 @@
               </div>
             </li>
           </ul>
-          <p><?php echo $form->inputSubmit('作成', array('class' => 'btn')) ?></p>
+          <p class="center"><?php echo $form->inputSubmit('作成', array('class' => 'btn')) ?></p>
         <?php echo $form->close() ?>
       <?php endif ?>
     </div>

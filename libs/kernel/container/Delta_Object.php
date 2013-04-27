@@ -68,4 +68,15 @@ abstract class Delta_Object
 
     return $instance;
   }
+
+  /**
+   * カーネルオブザーバーのインスタンスを取得します。
+   *
+   * @return Delta_KernelEventObserver カーネルオブザーバーのインスタンスを返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getObserver()
+  {
+    return Delta_KernelEventObserver::getInstance();
+  }
 }

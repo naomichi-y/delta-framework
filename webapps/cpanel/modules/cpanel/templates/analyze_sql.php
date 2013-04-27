@@ -23,8 +23,8 @@ $().ready( function () {
         <col width="44%" />
         <col width="10%" />
         <col width="10%" />
-        <col width="16%" />
         <col width="12%" />
+        <col width="14%" />
       </colgroup>
       <thead>
         <tr>

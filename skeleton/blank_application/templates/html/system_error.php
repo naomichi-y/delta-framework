@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <title>システムエラー</title>
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/app_core.css" />
   </head>
   <body>
     <header>

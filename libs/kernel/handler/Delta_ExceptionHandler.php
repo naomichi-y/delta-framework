@@ -67,10 +67,8 @@ class Delta_ExceptionHandler
         $buffer = ob_get_contents();
         ob_end_clean();
 
-        $controller = Delta_DIContainerFactory::getContainer()->getComponent('controller');
-        $delegate = $controller->getDelegate();
         $arguments = array($buffer);
-        $delegate->dispatchEvent('dispatchResponse', $arguments);
+        Delta_KernelEventObserver::getInstance()->dispatchEvent('dispatchResponse', $arguments);
       }
 
     // 例外ハンドラ内で起こる全ての例外を捕捉
