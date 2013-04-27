@@ -57,6 +57,7 @@ h1 {
 h2 {
   font-size: 1.2em;
   padding-bottom: 0.4%;
+  border-bottom: 1px solid #ccc;
 }
 
 h2 a:link, h2 a:visited, h2 a:active {
@@ -64,7 +65,7 @@ h2 a:link, h2 a:visited, h2 a:active {
 }
 
 h3 {
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 dt {

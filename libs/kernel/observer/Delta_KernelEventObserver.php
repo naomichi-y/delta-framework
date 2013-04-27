@@ -9,7 +9,7 @@
  */
 
 /**
- * イベントリスナの管理と実行を行います。
+ * イベントリスナを制御します。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
