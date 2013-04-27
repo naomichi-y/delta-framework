@@ -158,6 +158,10 @@ footer p {
   text-decoration: none !important;
 }
 
+.sub-nav .current-menu-item {
+  background-color: #ccc;
+}
+
 /**
  * ****************************************************************
  * カスタムクラス (サンプルアプリケーション)
