@@ -73,6 +73,19 @@ dt {
   padding: 0.4%;
 }
 
+table {
+  width: 100%;
+}
+
+th, td {
+  border-bottom: 1px solid #C9C9C9;
+}
+
+th {
+  font-weight: bold;
+  text-align: center;
+}
+
 footer {
   color: #ccc;
   background-color: #353431;
@@ -167,6 +180,28 @@ footer p {
 
 /**
  * ****************************************************************
+ * カスタムクラス (manual.delta-framework.org)
+ * ****************************************************************
+ */
+
+.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code {
+  padding: 1%;
+  display: block;
+  line-height: 150%;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (api.delta-framework.org)
+ * ****************************************************************
+ */
+
+.collapsable li {
+  word-wrap: break-word;
+}
+
+/**
+ * ****************************************************************
  * カスタムクラス (サンプルアプリケーション)
  * ****************************************************************
  */
@@ -236,24 +271,14 @@ blockquote p {
   font-style: normal;
 }
 
-table {
-  width: 100%;
-}
 
-th, td {
-  border-bottom: 1px solid #C9C9C9;
-}
-
-th {
-  font-weight: bold;
-  text-align: center;
-}
 
 .source {
   margin: 2% 0 2% 0;
 }
 
 .source code {
+  line-height: 150%;
   display: block;
   padding: 1%;
   white-space: pre-wrap;
@@ -263,18 +288,6 @@ th {
 
 dd {
   margin: 1% 0 1% 0;
-}
-
-/**
- * ****************************************************************
- * カスタムCSS
- * ****************************************************************
- */
-.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code {
-  padding: 1%;
-  display: block;
-  line-height: 150%;
-  font-size: 0.9em;
 }
 
 .note_container {

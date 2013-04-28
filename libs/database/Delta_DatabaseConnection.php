@@ -304,7 +304,7 @@ class Delta_DatabaseConnection extends Delta_Object
    * @return bool トランザクションのロールバックに成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function rollBack()
+  public function rollback()
   {
     $result = FALSE;
 

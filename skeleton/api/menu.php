@@ -14,7 +14,7 @@
         <span><?php echo $package ?></span>
         <ul style="display: none;">
           <?php foreach ($names as $name => $attributes): ?>
-            <li><?php echo $html->link(Delta_StringUtils::truncateCenter($name, 26), $relativeAPIPath . $attributes['anchor'], array('title' => $name)) ?></li>
+            <li><?php echo $html->link($name, $relativeAPIPath . $attributes['anchor'], array('title' => $name)) ?></li>
           <?php endforeach ?>
         </ul>
       </li>
