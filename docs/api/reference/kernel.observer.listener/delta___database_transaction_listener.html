@@ -588,8 +588,8 @@
             <h3 id="description">Description</h3>
                           <div class="text">
 <a href="../kernel.observer.listener/delta___database_transaction_listener.html">データベーストランザクション</a> を制御するリスナです。
-リスナをアプリケーションに適用することで、アプリケーションロジックでのコミット制御 (BEGIN、COMMIT、ROLLBACK) が不要となり、プログラムが正常終了する時点で自動コミットが行われるようになります。
-プログラム中に例外 (またはエラー) が発生した場合は、全てのトランザクションがロールバックされます。
+リスナをアプリケーションに適用することで、アプリケーションロジック側でのコミット制御 (BEGIN、COMMIT、ROLLBACK) が不要となり、プログラムが正常終了する時点で自動コミットが行われるようになります。
+尚、プログラム中に例外 (またはエラー) が発生した場合は、全てのトランザクションがロールバックされます。
 </div>
 <div class="text">
 application.yml の設定例:
@@ -841,7 +841,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 28 Apr 2013 22:22:53 +0900<br />
+  <p>This document was generated on Sun, 28 Apr 2013 22:31:20 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
