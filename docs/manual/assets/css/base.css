@@ -64,6 +64,13 @@ h2 a:link, h2 a:visited, h2 a:active {
   color: #555 !important;
 }
 
+h2 a:hover {
+  text-decoration: none;
+  color: #87b854 !important;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;;
+}
+
 h3 {
   font-size: 1.2em;
 }
@@ -164,6 +171,10 @@ footer p {
  * カスタムクラス (delta-framework.org)
  * ****************************************************************
  */
+
+.gallery-icon {
+  border: none !important;
+}
 
 .meta {
   text-align: right;
