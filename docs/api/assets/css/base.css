@@ -86,6 +86,14 @@ th {
   text-align: center;
 }
 
+form {
+  margin-top: 2%;
+}
+
+textarea {
+  height: auto;
+}
+
 footer {
   color: #ccc;
   background-color: #353431;
@@ -225,8 +233,8 @@ div.success, div.error {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   padding: 1%;
+  margin-top: 2%;
   margin-bottom: 2%;
-  font-weight: bold;
   font-size: 1em;
 }
 
@@ -256,7 +264,7 @@ span.error {
 }
 
 .form_field {
-  margin: 2%;
+  margin-bottom: 2%;
 }
 
 .form_field > label {
@@ -284,6 +292,13 @@ span.error {
 .tablesorter thead tr .headerSortDown, .tablesorter thead tr .headerSortUp {
   color: #555 !important;
   background-color: #ccc !important;
+}
+
+.ui-tabs-nav {
+}
+
+.ui-widget {
+  font-size: 0.86em !important;
 }
 
 /** 整理してない */

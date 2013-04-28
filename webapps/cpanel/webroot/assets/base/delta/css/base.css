@@ -294,11 +294,8 @@ span.error {
   background-color: #ccc !important;
 }
 
-.ui-tabs-nav {
-}
-
-.ui-widget {
-  font-size: 0.86em !important;
+.ui-tabs-nav, .ui-widget-content {
+  font-size: 0.96em !important;
 }
 
 /** 整理してない */

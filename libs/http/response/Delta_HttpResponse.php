@@ -249,8 +249,11 @@ class Delta_HttpResponse extends Delta_Object
     $buffer = ob_get_contents();
     ob_end_clean();
 
-    $arguments = array($buffer);
+    $arguments = array(&$buffer);
     $this->getObserver()->dispatchEvent('preOutput', $arguments);
+
+    $this->write($buffer);
+    $this->flush();
 
     die();
   }

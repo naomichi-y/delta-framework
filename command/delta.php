@@ -275,9 +275,12 @@ class Delta_CommandExecutor
 
     if ($result) {
       // VCS の設定
-      $isCreateGitkeep = NULL;
       $message = 'Do you want to create a .gitkeep to empty directory? (Y/N)';
-      $isCreateGitkeep = $dialog->sendConfirm($message);
+      if ($dialog->sendConfirm($message)) {
+        $isCreateGitkeep = 'TRUE';
+      } else {
+        $isCreateGitkeep = 'FALSE';
+      }
 
       // スケルトンディレクトリのコピー
       $options = array('recursive' => TRUE, 'hidden' => TRUE);

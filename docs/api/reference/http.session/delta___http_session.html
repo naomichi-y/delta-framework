@@ -660,13 +660,6 @@ http.session
                                                   </td>
                         <td><a href="../http.session/delta___http_session.html">Delta_HttpSession</a></td>
                       </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method___destruct">__destruct()</a>                                                  </td>
-                        <td>
-                                                  </td>
-                        <td><a href="../http.session/delta___http_session.html">Delta_HttpSession</a></td>
-                      </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
@@ -703,6 +696,16 @@ http.session
                         <td>
                                                       <div class="text">
 セッションデータをストレージに書き込んで早期にセッションを終了します。
+</div>
+                                                  </td>
+                        <td><a href="../http.session/delta___http_session.html">Delta_HttpSession</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_finalize">finalize()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+セッションデータのファイナライズ処理を行います。
 </div>
                                                   </td>
                         <td><a href="../http.session/delta___http_session.html">Delta_HttpSession</a></td>
@@ -852,18 +855,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method___destruct">__destruct()</dt>
-                    <dd>
-                      <div class="source"><code>public void __destruct()</code></div>
-                                              <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
-                                                                                          <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                                                           <dt id="method_activate">activate()</dt>
                     <dd>
                       <div class="source"><code>public bool activate()</code></div>
@@ -950,6 +941,20 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <div class="text">
 セッションデータをストレージに書き込んで早期にセッションを終了します。
 セッションデータは同時書き込み防止のためロックされますが、セッションの変更を加えた最後の時点で本メソッドをコールすることで、AJAX やフレームセットを使用する場合のパフォーマンス改善が見込めます。
+</div>
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_finalize">finalize()</dt>
+                    <dd>
+                      <div class="source"><code>public void finalize()</code></div>
+                                              <div class="text">
+セッションデータのファイナライズ処理を行います。
 </div>
                                                                                           <ul class="note">
                                                                                                                                                                                 <li>Author: <div class="text">
@@ -1140,7 +1145,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 29 Apr 2013 03:11:19 +0900<br />
+  <p>This document was generated on Mon, 29 Apr 2013 03:58:50 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
