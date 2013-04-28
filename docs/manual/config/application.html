@@ -7,813 +7,808 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - 設定ファイル - application.yml</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div>
-    <h1 id="top">設定ファイル - application.yml</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2013 年 4 月 19 日</p>
-    <h2>application.yml の概要</h2>
-    <p>application.yml はアプリケーションの動作に関わる設定を管理します。</p>
-    <table>
-      <colgroup>
-      <col width="30%" />
-      <col width="50%" />
-      <col width="20%" />
-      </colgroup>
-      <tr>
-        <th scope="col">パス</th>
-        <th scope="col">説明</th>
-        <th scope="col">必須</th>
-      </tr>
-      <tr>
-        <td>config/application.yml</td>
-        <td>アプリケーション全体から参照できるファイル。</td>
-        <td>◯</td>
-      </tr>
-      <tr>
-        <td>config/application_{hostname}.yml</td>
-        <td><a href="../whitepaper/extend_yaml.html">ホスト拡張ファイル。</a></td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
-    <div class="note_container note_important">
-      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-      <div class="note_contents">
-        <p>application.yml には開発者がカスタムパラメータを定義するべきではありません。カスタムパラメータは <a href="site.html">site.yml</a> か、カスタム設定ファイル内に定義するべきです。</p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <h2>属性一覧</h2>
-    <p>application.yml で定義可能なパラメータは次の通りです。</p>
-    <table>
-      <colgroup>
-      <col width="8%" />
-      <col width="8%" />
-      <col width="8%" />
-      <col width="8%" />
-      <col width="10%" />
-      <col width="8%" />
-      <col width="8%" />
-      <col width="40%" />
-      </colgroup>
-      <tr>
-        <th colspan="4" scope="col">属性構成</th>
-        <th scope="col">デフォルト値</th>
-        <th scope="col">取り得る値</th>
-        <th scope="col">必須</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td colspan="4" scope="col">language</td>
-        <td scope="col">ja</td>
-        <td scope="col">(string)</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">アプリケーションが使用するデフォルト言語の指定。</td>
-      </tr>
-      <tr>
-        <td rowspan="2" scope="col">autoload</td>
-        <td colspan="3" scope="col">&nbsp;</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">(array)</td>
-        <td scope="col">&nbsp;</td>
-        <td rowspan="2" scope="col"><a href="#autoload">autoload</a> 項を参照</td>
-      </tr>
-      <tr>
-        <td colspan="3" scope="col">{autoload_id} (+)</td>
-        <td scope="col">{autoload_path}</td>
-        <td scope="col">(string)</td>
-        <td scope="col">&nbsp;</td>
-      </tr>
-      <tr>
-        <td rowspan="2" scope="col">controller</td>
-        <td colspan="5" scope="col">&nbsp;</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">コントローラの動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3" scope="col">detectUserAgent</td>
-        <td scope="col">FALSE</td>
-        <td scope="col">(bool)</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">ユーザエージェントの識別に関する指定。TRUE を指定した場合、<a href="../../api/reference/net.agent.adapter/delta___user_agent_adapter.html#method_getEncoding">入力 エンコーディングが自動判別</a> され、コンテンツのエンコードや <a href="../../api/reference/net.agent.adapter/delta___user_agent_adapter.html#method_getContentType">Content-Type ヘッダ</a> がエージェントに適合した形式で出力される。FALSE 指定時は&quot;encoding.default&quot; 属性で指定された値をデフォルトエンコードと見なす。</td>
-      </tr>
-      <tr>
-        <td rowspan="3">htmlEscape</td>
-        <td colspan="5">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><a href="../../api/reference/util.common/delta___string_utils.html#method_escape">HTML エスケープ</a> の動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">function</td>
-        <td>htmlspecialchars</td>
-        <td>htmlspecialchars, htmlentities</td>
-        <td>&nbsp;</td>
-        <td>HTML エスケープに使用する関数。</td>
-      </tr>
-      <tr>
-        <td colspan="3">flags</td>
-        <td>ENT_QUOTES</td>
-        <td>(string)</td>
-        <td>&nbsp;</td>
-        <td>HTMLエスケープに使用するフラグ。詳しくは <a href="http://php.net/manual/en/function.htmlentities.php">htmlentities()</a> 関数を参照。</td>
-      </tr>
-      <tr>
-        <td rowspan="16">module</td>
-        <td colspan="5">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>モジュールの動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">default (※1)</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>URI にモジュール名が含まれない場合に実行するデフォルトのモジュール。</td>
-      </tr>
-      <tr>
-        <td colspan="5">subdomain</td>
-        <td>&nbsp;</td>
-        <td><p>サブドメインをモジュール名に割り当てる。例えば foo.example.com というリクエストは foo モジュール、bar.example.com は bar モジュールを起動する。サブドメインが無い、またはサブドメインに該当するモジュールが見つからない場合はデフォルトモジュールを起動する。</p></td>
-      </tr>
-      <tr>
-        <td colspan="5">unknown (※1)</td>
-        <td>&nbsp;</td>
-        <td>実行対象のモジュールが存在しない場合に実行する代替モジュール、アクションの指定。未指定の場合は RuntimeException をスロー。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">&nbsp;</td>
-        <td colspan="2">module</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td>&nbsp;</td>
-        <td>実行するモジュール名。</td>
-      </tr>
-      <tr>
-        <td colspan="2">action</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td>&nbsp;</td>
-        <td>実行するアクション名。</td>
-      </tr>
-      <tr>
-        <td>entries</td>
-        <td colspan="2">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>アプリケーションで有効なモジュールを定義。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td colspan="2">{module_name}</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td>◯</td>
-        <td>モジュール名。アプリケーションで有効なモジュールは全て定義する必要がある。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>default (※1)</td>
-        <td>Index</td>
-        <td>(string)</td>
-        <td>&nbsp;</td>
-        <td>URI にアクション名が含まれない場合に実行するデフォルトのアクション。アクションが見つからない場合は &quot;module.entries.{module_name}.unknown&quot; 属性に指定されたアクションへフォワードする。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>enable</td>
-        <td>TRUE</td>
-        <td>(bool)</td>
-        <td>&nbsp;</td>
-        <td>モジュールの有効 (無効) 化指定。FALSE を指定した場合はモジュールが起動せず、RuntimeException をスロー。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>unknown (※1)</td>
-        <td>Index</td>
-        <td>(string)</td>
-        <td>&nbsp;</td>
-        <td>アクションが見つからない場合に実行するデフォルトのアクション。アクションが見つからない場合は RuntimeException をスロー。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td colspan="2">cpanel</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>コントロールパネルの動作を定義。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>default</td>
-        <td>LoginForm</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td rowspan="3">&quot;module.entries.{module_name} を参照。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>enable</td>
-        <td>TRUE</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>unknown</td>
-        <td>LoginForm</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>password</td>
-        <td>(create-project 時に設定される)</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>ログインパスワード。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">action</td>
-        <td colspan="5">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>アクションの動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">extension</td>
-        <td>.do</td>
-        <td>(string)</td>
-        <td>&nbsp;</td>
-        <td>アクションをリクエストする際に付加する拡張子。HelloAction に対する拡張子が &quot;.do&quot; の場合は &quot;hello.do&quot; がアクションパスとなる。&quot;&quot; (空文字) を指定することで拡張子を付けないよう設定することも可能。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">response</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>HTTP レスポンスの動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">callback</td>
-        <td>ob_gzhandler</td>
-        <td>(string)</td>
-        <td></td>
-        <td>レスポンスが出力される際にコールする関数。<br />
-          ※デフォルトでは &quot;<a href="http://php.net/manual/en/function.ob-gzhandler.php">ob_gzhandler</a>&quot; が指定されているため、gz エンコードされたデータをクライアントに返す。尚、この機能を利用するに辺り、PHP の zlib 拡張モジュールが有効化されている必要がある。<br />
-          ※コールバックを無効にしたい場合は &quot;none&quot; を指定する。</td>
-      </tr>
-      <tr>
-        <td rowspan="13">session</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>HTTP セッションの動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">name</td>
-        <td>PHPSESSID</td>
-        <td>(string)</td>
-        <td></td>
-        <td>セッション名。セッション ID をページ間で引き渡す際に使用します。</td>
-      </tr>
-      <tr>
-        <td colspan="3">autoStart</td>
-        <td>◯</td>
-        <td>(bool)</td>
-        <td></td>
-        <td>セッションの開始設定。セッションを使用しないアプリケーションでは FALSE を指定することで、アプリケーション全体のパフォーマンスが向上します。</td>
-      </tr>
-      <tr>
-        <td colspan="3">encrypt</td>
-        <td></td>
-        <td>(bool)</td>
-        <td></td>
-        <td><a href="#session_encrypt">session.encrypt</a> 項を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="3">handler</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>セッション開始時に実行するハンドラの指定。詳しくは <a href="../whitepaper/session_handler.html">delta の拡張 - セッションハンドラの利用</a> を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="3">cookieLifetime</td>
-        <td>0</td>
-        <td>(int)</td>
-        <td></td>
-        <td>Cookie の有効期限。(単位は秒) <br />
-          0 を指定時はブラウザを閉じるまで有効となる。</td>
-      </tr>
-      <tr>
-        <td colspan="3">cookiePath</td>
-        <td>/</td>
-        <td>(string)</td>
-        <td></td>
-        <td>Cookie の設定パス。</td>
-      </tr>
-      <tr>
-        <td colspan="3">cookieDomain</td>
-        <td></td>
-        <td>(string)</td>
-        <td></td>
-        <td>Cookie の有効ドメイン。</td>
-      </tr>
-      <tr>
-        <td colspan="3">cookieSecure</td>
-        <td></td>
-        <td>(bool)</td>
-        <td></td>
-        <td>SSL 通信時のみ Cookie を送信する場合は TRUE を指定。</td>
-      </tr>
-      <tr>
-        <td colspan="3">cookieHttpOnly</td>
-        <td></td>
-        <td>(bool)</td>
-        <td></td>
-        <td>クライアントスクリプト (JavaScript 等) から Cookie へのアクセスを拒否する場合は TRUE を指定。</td>
-      </tr>
-      <tr>
-        <td colspan="3">timeout</td>
-        <td>-1</td>
-        <td>(int)</td>
-        <td></td>
-        <td><p>セッションの有効時間。(単位は秒) 最終アクセス時刻より 'timeout' 秒を超えたリクエストが発生した場合、クライアントが保持する全てのデータを破棄する。PHP が持つ 'session.gc_maxlifetime' と異なり、モジュール単位での制御が可能。この時、'session.gc_divisor'、'session.gc_probability' の値は考慮されない。<br />
-            なお、0 以下の値が指定された場合はタイムアウト処理を行わない。
-            (PHP のガベージコレクションに依存する)</p></td>
-      </tr>
-      <tr>
-        <td colspan="3">store</td>
-        <td>transparent</td>
-        <td>(string)</td>
-        <td></td>
-        <td><ul>
-            <li>cookie: クライアントのセッション管理に Cookie を使用するよう強制する。セッション固定化攻撃に有効だが、Cookie をサポートしないエージェントの場合、セッション機能が働かないことになる。</li>
-            <li>transparent: クライアントが Cookie を受け付けない場合、セッション ID を URI に埋め込むよう制御する。</li>
-            <li>custom: セッションの保持方法をフレームワーク側で制御しない。(php.ini 等の設定に依存)</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td colspan="3">updateSpan</td>
-        <td>-1</td>
-        <td>(int)</td>
-        <td></td>
-        <td>セッション ID の自動更新間隔。(単位は秒)<br />
-          セッション ID を定期的に更新することで、セッション固定化攻撃 (Session Fixation) の対策を行います。デフォルト (-1) では自動更新を行いません。'store' 属性が 'transparent' または 'custom' (セッション ID を URI に埋め込む設定) の場合、セッション ID の自動更新は無効となります。</td>
-      </tr>
-      <tr>
-        <td rowspan="5">theme</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td><p>テーマを定義。詳しくは <a href="../whitepaper/theme.html">テーマ機能</a> を参照。</p></td>
-      </tr>
-      <tr>
-        <td>name</td>
-        <td colspan="2">&nbsp;</td>
-        <td>none</td>
-        <td>(string)</td>
-        <td></td>
-        <td>テーマ名。</td>
-      </tr>
-      <tr>
-        <td>domain</td>
-        <td colspan="2">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>テーマを適用するドメインとテーマを連想配列の形式で指定。ドメイン名は example.com 形式のほか、*.example.com 形式にも対応。(&quot;*.&quot; は example.com にもマッチする)</td>
-      </tr>
-      <tr>
-        <td>modules</td>
-        <td colspan="2">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>テーマを適用するモジュールリスト。&quot;*&quot; を指定した場合は全てのモジュールが対象となる。</td>
-      </tr>
-      <tr>
-        <td>extension</td>
-        <td colspan="2">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td><p>テーマ拡張ディレクトリ。指定したディレクトリもテーマの一部と見なす。指定可能な値は次の通り。</p>
-          <ul>
-            <li>data</li>
-            <li>modules.{module_name}.behaviors</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td rowspan="4">exception</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>例外発生時の動作を定義。詳しくは <a href="../whitepaper/exception_handler.html">例外のハンドリング</a> を参照。</td>
-      </tr>
-      <tr>
-        <td rowspan="3">(+)</td>
-        <td colspan="2">type</td>
-        <td>(例外クラス名)</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>捕捉する例外クラス名。</td>
-      </tr>
-      <tr>
-        <td colspan="2">delegate</td>
-        <td>(例外を委譲するクラス名)</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>捕捉した例外を委譲するクラス。(Delta_ExceptionDelegate の実装クラス)</td>
-      </tr>
-      <tr>
-        <td colspan="2">continue</td>
-        <td></td>
-        <td>(bool)</td>
-        <td></td>
-        <td>TRUE を指定した場合、例外のハンドリング後も次のハンドラへ処理を引渡します。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">error</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>エラー発生時の動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">catchLevel</td>
-        <td>&lt;?php echo E_ALL^E_NOTICE ?&gt;</td>
-        <td>(int)</td>
-        <td></td>
-        <td>エラーハンドラ (Delta_ErrorHandler) が捕捉するエラーレベルを指定。デフォルトでは E_NOTICE を除く全てのエラーがハンドリングされます。使用可能な定数については <img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://php.net/manual/ja/errorfunc.constants.php">定義済みの定数</a> を参照して下さい。<br />
-          PHP タグによる定数値の指定のほか、(非推奨ですが) 数値による指定も可能です。
-          <dl>
-            <dt>YAML Code#</dt>
-            <dd class="lang_yaml"><code>error:<br />
-              &nbsp;&nbsp;catchLevel: &lt;?php echo E_ALL ?&gt;</code></dd>
-          </dl></td>
-      </tr>
-      <tr>
-        <td rowspan="3">charset </td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>アプリケーションで使用する文字コードを定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">default</td>
-        <td>UTF-8</td>
-        <td>(string)</td>
-        <td></td>
-        <td><a href="#charset.default">charset.default</a> 項を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="3">mime</td>
-        <td>ISO-2022-JP</td>
-        <td>(string)</td>
-        <td></td>
-        <td>MIME エンコーディング形式。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">view</td>
-        <td colspan="3">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td></td>
-        <td>ビューの動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">extension</td>
-        <td>.php</td>
-        <td>(string)</td>
-        <td></td>
-        <td>テンプレートファイルの拡張子。</td>
-      </tr>
-      <tr>
-        <td rowspan="3">debug</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>デバッグ動作を定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">output</td>
-        <td></td>
-        <td>(bool)</td>
-        <td>◯</td>
-        <td>デバッグコードを出力するかどうかの設定。例外発生時のトレース表示や、Delta_DebugUtils::isDebug() 関数の動作に影響。セキュリティ上の観点から本番環境では FALSE を推奨。</td>
-      </tr>
-      <tr>
-        <td colspan="3">allows</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td><a href="../../api/reference/util.common/delta___debug_utils.html#method_output">Delta_DebugUtils::output()</a> 関数でメッセージ出力を許可する IP アドレス。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">php</td>
-        <td colspan="5"></td>
-        <td></td>
-        <td>PHP の動作を定義。</td>
-      </tr>
-      <tr>
-        <td>{ini_name} (+)</td>
-        <td colspan="2">{ini_value}</td>
-        <td>(php.ini の設定による) </td>
-        <td>(string)</td>
-        <td></td>
-        <td><p><a href="#php">php</a> 項を参照。</p></td>
-      </tr>
-      <tr>
-        <td colspan="4">secretKey</td>
-        <td>(create-project 時に設定される)</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>40bit で構成されるアプリケーションの秘密鍵。<a href="../../api/reference/util.common/delta___string_utils.html#method_buildHash">Delta_StringUtils::buildHash()</a> や <a href="../../api/reference/util/delta___blowfish_cipher.html">Delta_BlowfishCipher</a> クラスの動作に影響する。</td>
-      </tr>
-      <tr>
-        <td rowspan="3">observer</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>カーネルイベントの定義。</td>
-      </tr>
-      <tr>
-        <td colspan="3">listeners</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>リスナーの定義。</td>
-      </tr>
-      <tr>
-        <td>(+)</td>
-        <td>class</td>
-        <td>{listener_class}</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>リスナークラス名。</td>
-      </tr>
-      <tr>
-        <td>project</td>
-        <td colspan="5">&nbsp;</td>
-        <td></td>
-        <td>プロジェクト全般の動作を定義。</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>gitkeep</td>
-        <td colspan="2">&nbsp;</td>
-        <td>TRUE</td>
-        <td>(bool)</td>
-        <td></td>
-        <td>delta コマンド (add-theme、add-module) がアプリケーションに空のディレクトリを作成する際、.gitkeep (Git リポジトリで空ディレクトリを管理するためのダミーファイル) を設置するかどうか。</td>
-      </tr>
-    </table>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <ul>
-          <li>表内の (+) は、対象属性が複数回指定可能なことを表します。</li>
-          <li>※1: <a href="#defaultForward">モジュールやアクションが見つからない場合の動作</a> の項も参照して下さい。 </li>
-        </ul>
-      </div>
-    </div>
-    <h3><a name="autoload" id="autoload"></a>autoload</h3>
-    <p>Delta_ClassLoader が参照するクラスの自動読み込みパスを追加します。</p>
-    <dl>
-      <dt>YAML Code#</dt>
-      <dd class="lang_yaml"><code>autoload:<br />
-         &nbsp;&nbsp;# {autoload_id}: {autoload_path} 形式。{autoload_id} はパスを一意に識別する ID<br />
-        &nbsp;&nbsp;plugin: /var/lib/plguins<br />
-        &nbsp;&nbsp;extension: /var/lib/extensions </code></dd>
-    </dl>
-    <p>上記の設定により、例えば plugins ディレクトリ下にある Example.php へのパスが追加され、アクションクラスからはパスを指定することなくクラスを呼び出すことが可能になります。</p>
-    <h3><a name="session_encrypt" id="session_encrypt2"></a>session.encrypt</h3>
-    <p>TRUE を指定した場合、セッションデータの内容を暗号化します。</p>
-    <dl>
-      <dt>session.encrypt: FALSE の場合</dt>
-      <dd>Array ( <br />
-        &nbsp;&nbsp;[.properties] =&gt; Array ( ) <br />
-        &nbsp;&nbsp;[manager] =&gt; Array <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;[roles] =&gt; Array ( [0] =&gt; manager ) <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;[attributes] =&gt; Array ( <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[manager] =&gt; Managers Object ( <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_managerId:Managers:private] =&gt; 1 <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_loginId:Managers:private] =&gt; admin <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_loginPassword:Managers:private] =&gt; admin <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_managerName:Managers:private] =&gt; Administrator <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_registerDate:Managers:private] =&gt; 2010-04-20 17:52:42 <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_updateDate:Managers:private] =&gt; <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_deleteFlag:Managers:private] =&gt; 0 <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;)<br />
-        &nbsp;&nbsp;[flash] =&gt; Array ( ) <br />
-        &nbsp;&nbsp;)<br />
-        ) </dd>
-    </dl>
-    <dl>
-      <dt>session.encrypt: TRUE の場合</dt>
-      <dd>Array ( <br />
-        &nbsp;&nbsp;[.properties] =&gt; Array () <br />
-        &nbsp;&nbsp;[manager] =&gt; Array (<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;[roles] =&gt; Array ([0] =&gt; manager)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;[attributes] =&gt; Array (<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[manager] =&gt; gW9rbYR+w6CZyMur1IhraJ++IZbOWoZLNmNisM8SkpsydpHrHhKClb2hthJLGn6HPiHTUoGNln1Vls8bUlpqW2KZ... (省略)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;) <br />
-        &nbsp;&nbsp;[flash] =&gt; Array ()<br />
-        &nbsp;&nbsp;)<br />
-        ) </dd>
-    </dl>
-    <h3><a name="charset.default" id="charset.default"></a>charset.default</h3>
-    <p>アプリケーションのデフォルトエンコーディング形式を指定します。default で指定した形式は、内部・入力・出力エンコーディング (及び出力ヘッダ) にそれぞれ適用されます。また &quot;auto&quot; を指定することで、mbstring オプションによる個別のエンコーディング指定が可能となります。</p>
-    <dl>
-      <dt>YAML Code#</dt>
-      <dd class="lang_yaml"><code>default:<br />
-        &nbsp;&nbsp;charset: auto<br />
-        <br />
-        php:<br />
-        <code>&nbsp;&nbsp;mbstring.internal_encoding: UTF-8</code><br />
-        &nbsp;&nbsp;mbstring.http_input: Shift_JIS<br />
-        &nbsp;&nbsp;mbstring.http_output: Shift_JIS</code></dd>
-    </dl>
-    <div class="note_container note_important">
-      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-      <div class="note_contents">
-        <p>default に &quot;auto&quot; を指定する場合、mbstring.internal_encoding の指定は必須となります。オプションに &quot;pass&quot; や &quot;auto&quot;が指定されている場合は実行時にエラーが発生します。 </p>
-      </div>
-    </div>
-    <h3><a name="php" id="php"></a>php</h3>
-    <p>php.ini の設定をアプリケーションレベルで上書きします。</p>
-    <dl>
-      <dt>YAML Code</dt>
-      <dd class="lang_yaml"><code>php:<br />
-        &nbsp;&nbsp;error_log: &lt;?php echo APP_ROOT_DIR . '/logs/fatal_log'; ?&gt;<br />
-        &nbsp;&nbsp;display_errors: On<br />
-        &nbsp;&nbsp;max_execution_time: 30 </code></dd>
-    </dl>
-    <h2><a name="defaultForward" id="defaultForward"></a>モジュールやアクションが見つからない場合の動作</h2>
-    <p>リクエストされたモジュールやアクションが見つからない場合、ルータは設定ファイルに定義されたデフォルトモジュール (アクション) の起動を試みます。ルータが実行するマッチング処理は下表を参照して下さい。</p>
-    <div class="note_container note_important">
-      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-      <div class="note_contents">
-        <p>コンソールアプリケーションは対象外です。コンソールアプリケーションでアクションが見つからない場合はその場で例外が発生します。 </p>
-      </div>
-    </div>
-    <table>
-      <colgroup>
-      <col width="2%" />
-      <col width="2%" />
-      <col width="2%" />
-      <col width="2%" />
-      <col width="28%" />
-      <col width="16%" />
-      <col width="16%" />
-      <col width="32%" />
-      </colgroup>
-      <tr>
-        <th colspan="5" scope="col">&nbsp;</th>
-        <th scope="col">実行モジュール</th>
-        <th scope="col">実行アクション</th>
-        <th scope="col">結果</th>
-      </tr>
-      <tr>
-        <td colspan="5"><p>リクエスト URI が routes.yml のパターンにマッチする</p></td>
-        <td colspan="3">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td colspan="4">フォワード先のモジュールが指定されている</td>
-        <td colspan="3">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="3">フォワード先のアクション名の解析に成功</td>
-        <td>リクエストモジュール</td>
-        <td>リクエストアクション</td>
-        <td>リクエストされたアクションを起動</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="3">フォワード先のアクション名が不明 (URI にアクション名が含まれない)</td>
-        <td colspan="3">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="2">&quot;action.default&quot; アクションが存在する</td>
-        <td>リクエストモジュール</td>
-        <td>&quot;action.default&quot;</td>
-        <td>リクエストモジュールの default アクションを起動</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="2">&quot;action.default&quot; アクションが存在しない</td>
-        <td colspan="3">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&quot;action.unknown&quot; アクションが存在する</td>
-        <td>リクエストモジュール</td>
-        <td>&quot;action.unknown&quot;</td>
-        <td>リクエストモジュールの unknown アクションを起動</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&quot;action.unknown&quot; アクションが存在しない</td>
-        <td>-</td>
-        <td>-</td>
-        <td>例外が発生</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td colspan="4">フォワード先のモジュールが指定されていない</td>
-        <td colspan="3">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="3">&quot;action.entry&quot; モジュールが存在する</td>
-        <td>&quot;action.entry&quot;</td>
-        <td>リクエストアクション</td>
-        <td>&quot;action.entry&quot; モジュールのリクエストアクションが起動</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="3">&quot;action.entry&quot; モジュールが存在しない</td>
-        <td colspan="3">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="2">&quot;module.unknown.module&quot;モジュールが存在する</td>
-        <td colspan="3">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&quot;module.unknown.action&quot; アクションが存在する</td>
-        <td>&quot;module.unknown.module&quot;</td>
-        <td>&quot;module.unknown.action&quot;</td>
-        <td>デフォルトアクション (モジュール) を起動</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&quot;module.unknown.action&quot; アクションが存在しない</td>
-        <td>-</td>
-        <td>-</td>
-        <td>例外が発生</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td colspan="2">&quot;module.default.module&quot; モジュールが存在しない</td>
-        <td>-</td>
-        <td>-</td>
-        <td>例外が発生</td>
-      </tr>
-      <tr>
-        <td colspan="5">リクエスト URI が routes.yml のパターンにマッチしない</td>
-        <td colspan="3">(&quot;module.unknown.module&quot; モジュールを検索)</td>
-      </tr>
-    </table>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">設定ファイル - application.yml</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2013 年 4 月 19 日</p>
+  <h2>application.yml の概要</h2>
+  <p>application.yml はアプリケーションの動作に関わる設定を管理します。</p>
+  <table>
+    <colgroup>
+    <col width="30%" />
+    <col width="50%" />
+    <col width="20%" />
+    </colgroup>
+    <tr>
+      <th scope="col">パス</th>
+      <th scope="col">説明</th>
+      <th scope="col">必須</th>
+    </tr>
+    <tr>
+      <td>config/application.yml</td>
+      <td>アプリケーション全体から参照できるファイル。</td>
+      <td>◯</td>
+    </tr>
+    <tr>
+      <td>config/application_{hostname}.yml</td>
+      <td><a href="../whitepaper/extend_yaml.html">ホスト拡張ファイル。</a></td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
+      <p>application.yml には開発者がカスタムパラメータを定義するべきではありません。カスタムパラメータは <a href="site.html">site.yml</a> か、カスタム設定ファイル内に定義するべきです。</p>
+    </div>
+  </div>
+  <h2>属性一覧</h2>
+  <p>application.yml で定義可能なパラメータは次の通りです。</p>
+  <table>
+    <colgroup>
+    <col width="8%" />
+    <col width="8%" />
+    <col width="8%" />
+    <col width="8%" />
+    <col width="10%" />
+    <col width="8%" />
+    <col width="8%" />
+    <col width="40%" />
+    </colgroup>
+    <tr>
+      <th colspan="4" scope="col">属性構成</th>
+      <th scope="col">デフォルト値</th>
+      <th scope="col">取り得る値</th>
+      <th scope="col">必須</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td colspan="4" scope="col">language</td>
+      <td scope="col">ja</td>
+      <td scope="col">(string)</td>
+      <td scope="col">&nbsp;</td>
+      <td scope="col">アプリケーションが使用するデフォルト言語の指定。</td>
+    </tr>
+    <tr>
+      <td rowspan="2" scope="col">autoload</td>
+      <td colspan="3" scope="col">&nbsp;</td>
+      <td scope="col">&nbsp;</td>
+      <td scope="col">(array)</td>
+      <td scope="col">&nbsp;</td>
+      <td rowspan="2" scope="col"><a href="#autoload">autoload</a> 項を参照</td>
+    </tr>
+    <tr>
+      <td colspan="3" scope="col">{autoload_id} (+)</td>
+      <td scope="col">{autoload_path}</td>
+      <td scope="col">(string)</td>
+      <td scope="col">&nbsp;</td>
+    </tr>
+    <tr>
+      <td rowspan="2" scope="col">controller</td>
+      <td colspan="5" scope="col">&nbsp;</td>
+      <td scope="col">&nbsp;</td>
+      <td scope="col">コントローラの動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3" scope="col">detectUserAgent</td>
+      <td scope="col">FALSE</td>
+      <td scope="col">(bool)</td>
+      <td scope="col">&nbsp;</td>
+      <td scope="col">ユーザエージェントの識別に関する指定。TRUE を指定した場合、<a href="../../api/reference/net.agent.adapter/delta___user_agent_adapter.html#method_getEncoding">入力 エンコーディングが自動判別</a> され、コンテンツのエンコードや <a href="../../api/reference/net.agent.adapter/delta___user_agent_adapter.html#method_getContentType">Content-Type ヘッダ</a> がエージェントに適合した形式で出力される。FALSE 指定時は&quot;encoding.default&quot; 属性で指定された値をデフォルトエンコードと見なす。</td>
+    </tr>
+    <tr>
+      <td rowspan="3">htmlEscape</td>
+      <td colspan="5">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="../../api/reference/util.common/delta___string_utils.html#method_escape">HTML エスケープ</a> の動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">function</td>
+      <td>htmlspecialchars</td>
+      <td>htmlspecialchars, htmlentities</td>
+      <td>&nbsp;</td>
+      <td>HTML エスケープに使用する関数。</td>
+    </tr>
+    <tr>
+      <td colspan="3">flags</td>
+      <td>ENT_QUOTES</td>
+      <td>(string)</td>
+      <td>&nbsp;</td>
+      <td>HTMLエスケープに使用するフラグ。詳しくは <a href="http://php.net/manual/en/function.htmlentities.php">htmlentities()</a> 関数を参照。</td>
+    </tr>
+    <tr>
+      <td rowspan="16">module</td>
+      <td colspan="5">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>モジュールの動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">default (※1)</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>URI にモジュール名が含まれない場合に実行するデフォルトのモジュール。</td>
+    </tr>
+    <tr>
+      <td colspan="5">subdomain</td>
+      <td>&nbsp;</td>
+      <td><p>サブドメインをモジュール名に割り当てる。例えば foo.example.com というリクエストは foo モジュール、bar.example.com は bar モジュールを起動する。サブドメインが無い、またはサブドメインに該当するモジュールが見つからない場合はデフォルトモジュールを起動する。</p></td>
+    </tr>
+    <tr>
+      <td colspan="5">unknown (※1)</td>
+      <td>&nbsp;</td>
+      <td>実行対象のモジュールが存在しない場合に実行する代替モジュール、アクションの指定。未指定の場合は RuntimeException をスロー。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">&nbsp;</td>
+      <td colspan="2">module</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td>&nbsp;</td>
+      <td>実行するモジュール名。</td>
+    </tr>
+    <tr>
+      <td colspan="2">action</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td>&nbsp;</td>
+      <td>実行するアクション名。</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td colspan="2">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>アプリケーションで有効なモジュールを定義。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2">{module_name}</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td>◯</td>
+      <td>モジュール名。アプリケーションで有効なモジュールは全て定義する必要がある。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>default (※1)</td>
+      <td>Index</td>
+      <td>(string)</td>
+      <td>&nbsp;</td>
+      <td>URI にアクション名が含まれない場合に実行するデフォルトのアクション。アクションが見つからない場合は &quot;module.entries.{module_name}.unknown&quot; 属性に指定されたアクションへフォワードする。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>enable</td>
+      <td>TRUE</td>
+      <td>(bool)</td>
+      <td>&nbsp;</td>
+      <td>モジュールの有効 (無効) 化指定。FALSE を指定した場合はモジュールが起動せず、RuntimeException をスロー。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>unknown (※1)</td>
+      <td>Index</td>
+      <td>(string)</td>
+      <td>&nbsp;</td>
+      <td>アクションが見つからない場合に実行するデフォルトのアクション。アクションが見つからない場合は RuntimeException をスロー。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2">cpanel</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>コントロールパネルの動作を定義。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>default</td>
+      <td>LoginForm</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td rowspan="3">&quot;module.entries.{module_name} を参照。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>enable</td>
+      <td>TRUE</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>unknown</td>
+      <td>LoginForm</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>password</td>
+      <td>(create-project 時に設定される)</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>ログインパスワード。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">action</td>
+      <td colspan="5">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>アクションの動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">extension</td>
+      <td>.do</td>
+      <td>(string)</td>
+      <td>&nbsp;</td>
+      <td>アクションをリクエストする際に付加する拡張子。HelloAction に対する拡張子が &quot;.do&quot; の場合は &quot;hello.do&quot; がアクションパスとなる。&quot;&quot; (空文字) を指定することで拡張子を付けないよう設定することも可能。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">response</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>HTTP レスポンスの動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">callback</td>
+      <td>ob_gzhandler</td>
+      <td>(string)</td>
+      <td></td>
+      <td>レスポンスが出力される際にコールする関数。<br />
+        ※デフォルトでは &quot;<a href="http://php.net/manual/en/function.ob-gzhandler.php">ob_gzhandler</a>&quot; が指定されているため、gz エンコードされたデータをクライアントに返す。尚、この機能を利用するに辺り、PHP の zlib 拡張モジュールが有効化されている必要がある。<br />
+        ※コールバックを無効にしたい場合は &quot;none&quot; を指定する。</td>
+    </tr>
+    <tr>
+      <td rowspan="13">session</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>HTTP セッションの動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">name</td>
+      <td>PHPSESSID</td>
+      <td>(string)</td>
+      <td></td>
+      <td>セッション名。セッション ID をページ間で引き渡す際に使用します。</td>
+    </tr>
+    <tr>
+      <td colspan="3">autoStart</td>
+      <td>◯</td>
+      <td>(bool)</td>
+      <td></td>
+      <td>セッションの開始設定。セッションを使用しないアプリケーションでは FALSE を指定することで、アプリケーション全体のパフォーマンスが向上します。</td>
+    </tr>
+    <tr>
+      <td colspan="3">encrypt</td>
+      <td></td>
+      <td>(bool)</td>
+      <td></td>
+      <td><a href="#session_encrypt">session.encrypt</a> 項を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="3">handler</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>セッション開始時に実行するハンドラの指定。詳しくは <a href="../whitepaper/session_handler.html">delta の拡張 - セッションハンドラの利用</a> を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="3">cookieLifetime</td>
+      <td>0</td>
+      <td>(int)</td>
+      <td></td>
+      <td>Cookie の有効期限。(単位は秒) <br />
+        0 を指定時はブラウザを閉じるまで有効となる。</td>
+    </tr>
+    <tr>
+      <td colspan="3">cookiePath</td>
+      <td>/</td>
+      <td>(string)</td>
+      <td></td>
+      <td>Cookie の設定パス。</td>
+    </tr>
+    <tr>
+      <td colspan="3">cookieDomain</td>
+      <td></td>
+      <td>(string)</td>
+      <td></td>
+      <td>Cookie の有効ドメイン。</td>
+    </tr>
+    <tr>
+      <td colspan="3">cookieSecure</td>
+      <td></td>
+      <td>(bool)</td>
+      <td></td>
+      <td>SSL 通信時のみ Cookie を送信する場合は TRUE を指定。</td>
+    </tr>
+    <tr>
+      <td colspan="3">cookieHttpOnly</td>
+      <td></td>
+      <td>(bool)</td>
+      <td></td>
+      <td>クライアントスクリプト (JavaScript 等) から Cookie へのアクセスを拒否する場合は TRUE を指定。</td>
+    </tr>
+    <tr>
+      <td colspan="3">timeout</td>
+      <td>-1</td>
+      <td>(int)</td>
+      <td></td>
+      <td><p>セッションの有効時間。(単位は秒) 最終アクセス時刻より 'timeout' 秒を超えたリクエストが発生した場合、クライアントが保持する全てのデータを破棄する。PHP が持つ 'session.gc_maxlifetime' と異なり、モジュール単位での制御が可能。この時、'session.gc_divisor'、'session.gc_probability' の値は考慮されない。<br />
+          なお、0 以下の値が指定された場合はタイムアウト処理を行わない。
+          (PHP のガベージコレクションに依存する)</p></td>
+    </tr>
+    <tr>
+      <td colspan="3">store</td>
+      <td>transparent</td>
+      <td>(string)</td>
+      <td></td>
+      <td><ul>
+          <li>cookie: クライアントのセッション管理に Cookie を使用するよう強制する。セッション固定化攻撃に有効だが、Cookie をサポートしないエージェントの場合、セッション機能が働かないことになる。</li>
+          <li>transparent: クライアントが Cookie を受け付けない場合、セッション ID を URI に埋め込むよう制御する。</li>
+          <li>custom: セッションの保持方法をフレームワーク側で制御しない。(php.ini 等の設定に依存)</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td colspan="3">updateSpan</td>
+      <td>-1</td>
+      <td>(int)</td>
+      <td></td>
+      <td>セッション ID の自動更新間隔。(単位は秒)<br />
+        セッション ID を定期的に更新することで、セッション固定化攻撃 (Session Fixation) の対策を行います。デフォルト (-1) では自動更新を行いません。'store' 属性が 'transparent' または 'custom' (セッション ID を URI に埋め込む設定) の場合、セッション ID の自動更新は無効となります。</td>
+    </tr>
+    <tr>
+      <td rowspan="5">theme</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td><p>テーマを定義。詳しくは <a href="../whitepaper/theme.html">テーマ機能</a> を参照。</p></td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td colspan="2">&nbsp;</td>
+      <td>none</td>
+      <td>(string)</td>
+      <td></td>
+      <td>テーマ名。</td>
+    </tr>
+    <tr>
+      <td>domain</td>
+      <td colspan="2">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>テーマを適用するドメインとテーマを連想配列の形式で指定。ドメイン名は example.com 形式のほか、*.example.com 形式にも対応。(&quot;*.&quot; は example.com にもマッチする)</td>
+    </tr>
+    <tr>
+      <td>modules</td>
+      <td colspan="2">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>テーマを適用するモジュールリスト。&quot;*&quot; を指定した場合は全てのモジュールが対象となる。</td>
+    </tr>
+    <tr>
+      <td>extension</td>
+      <td colspan="2">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td><p>テーマ拡張ディレクトリ。指定したディレクトリもテーマの一部と見なす。指定可能な値は次の通り。</p>
+        <ul>
+          <li>data</li>
+          <li>modules.{module_name}.behaviors</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td rowspan="4">exception</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>例外発生時の動作を定義。詳しくは <a href="../whitepaper/exception_handler.html">例外のハンドリング</a> を参照。</td>
+    </tr>
+    <tr>
+      <td rowspan="3">(+)</td>
+      <td colspan="2">type</td>
+      <td>(例外クラス名)</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>捕捉する例外クラス名。</td>
+    </tr>
+    <tr>
+      <td colspan="2">delegate</td>
+      <td>(例外を委譲するクラス名)</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>捕捉した例外を委譲するクラス。(Delta_ExceptionDelegate の実装クラス)</td>
+    </tr>
+    <tr>
+      <td colspan="2">continue</td>
+      <td></td>
+      <td>(bool)</td>
+      <td></td>
+      <td>TRUE を指定した場合、例外のハンドリング後も次のハンドラへ処理を引渡します。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">error</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>エラー発生時の動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">catchLevel</td>
+      <td>&lt;?php echo E_ALL^E_NOTICE ?&gt;</td>
+      <td>(int)</td>
+      <td></td>
+      <td>エラーハンドラ (Delta_ErrorHandler) が捕捉するエラーレベルを指定。デフォルトでは E_NOTICE を除く全てのエラーがハンドリングされます。使用可能な定数については <img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://php.net/manual/ja/errorfunc.constants.php">定義済みの定数</a> を参照して下さい。<br />
+        PHP タグによる定数値の指定のほか、(非推奨ですが) 数値による指定も可能です。
+        <dl>
+          <dt>YAML Code#</dt>
+          <dd class="lang_yaml"><code>error:<br />
+            &nbsp;&nbsp;catchLevel: &lt;?php echo E_ALL ?&gt;</code></dd>
+        </dl></td>
+    </tr>
+    <tr>
+      <td rowspan="3">charset </td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>アプリケーションで使用する文字コードを定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">default</td>
+      <td>UTF-8</td>
+      <td>(string)</td>
+      <td></td>
+      <td><a href="#charset.default">charset.default</a> 項を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="3">mime</td>
+      <td>ISO-2022-JP</td>
+      <td>(string)</td>
+      <td></td>
+      <td>MIME エンコーディング形式。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">view</td>
+      <td colspan="3">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>ビューの動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">extension</td>
+      <td>.php</td>
+      <td>(string)</td>
+      <td></td>
+      <td>テンプレートファイルの拡張子。</td>
+    </tr>
+    <tr>
+      <td rowspan="3">debug</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>デバッグ動作を定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">output</td>
+      <td></td>
+      <td>(bool)</td>
+      <td>◯</td>
+      <td>デバッグコードを出力するかどうかの設定。例外発生時のトレース表示や、Delta_DebugUtils::isDebug() 関数の動作に影響。セキュリティ上の観点から本番環境では FALSE を推奨。</td>
+    </tr>
+    <tr>
+      <td colspan="3">allows</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td><a href="../../api/reference/util.common/delta___debug_utils.html#method_output">Delta_DebugUtils::output()</a> 関数でメッセージ出力を許可する IP アドレス。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">php</td>
+      <td colspan="5"></td>
+      <td></td>
+      <td>PHP の動作を定義。</td>
+    </tr>
+    <tr>
+      <td>{ini_name} (+)</td>
+      <td colspan="2">{ini_value}</td>
+      <td>(php.ini の設定による) </td>
+      <td>(string)</td>
+      <td></td>
+      <td><p><a href="#php">php</a> 項を参照。</p></td>
+    </tr>
+    <tr>
+      <td colspan="4">secretKey</td>
+      <td>(create-project 時に設定される)</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>40bit で構成されるアプリケーションの秘密鍵。<a href="../../api/reference/util.common/delta___string_utils.html#method_buildHash">Delta_StringUtils::buildHash()</a> や <a href="../../api/reference/util/delta___blowfish_cipher.html">Delta_BlowfishCipher</a> クラスの動作に影響する。</td>
+    </tr>
+    <tr>
+      <td rowspan="3">observer</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>カーネルイベントの定義。</td>
+    </tr>
+    <tr>
+      <td colspan="3">listeners</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>リスナーの定義。</td>
+    </tr>
+    <tr>
+      <td>(+)</td>
+      <td>class</td>
+      <td>{listener_class}</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>リスナークラス名。</td>
+    </tr>
+    <tr>
+      <td>project</td>
+      <td colspan="5">&nbsp;</td>
+      <td></td>
+      <td>プロジェクト全般の動作を定義。</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>gitkeep</td>
+      <td colspan="2">&nbsp;</td>
+      <td>TRUE</td>
+      <td>(bool)</td>
+      <td></td>
+      <td>delta コマンド (add-theme、add-module) がアプリケーションに空のディレクトリを作成する際、.gitkeep (Git リポジトリで空ディレクトリを管理するためのダミーファイル) を設置するかどうか。</td>
+    </tr>
+  </table>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <ul>
+        <li>表内の (+) は、対象属性が複数回指定可能なことを表します。</li>
+        <li>※1: <a href="#defaultForward">モジュールやアクションが見つからない場合の動作</a> の項も参照して下さい。 </li>
+      </ul>
+    </div>
+  </div>
+  <h3><a name="autoload" id="autoload"></a>autoload</h3>
+  <p>Delta_ClassLoader が参照するクラスの自動読み込みパスを追加します。</p>
+  <dl>
+    <dt>YAML Code#</dt>
+    <dd class="lang_yaml"><code>autoload:<br />
+      &nbsp;&nbsp;# {autoload_id}: {autoload_path} 形式。{autoload_id} はパスを一意に識別する ID<br />
+      &nbsp;&nbsp;plugin: /var/lib/plguins<br />
+      &nbsp;&nbsp;extension: /var/lib/extensions </code></dd>
+  </dl>
+  <p>上記の設定により、例えば plugins ディレクトリ下にある Example.php へのパスが追加され、アクションクラスからはパスを指定することなくクラスを呼び出すことが可能になります。</p>
+  <h3><a name="session_encrypt" id="session_encrypt2"></a>session.encrypt</h3>
+  <p>TRUE を指定した場合、セッションデータの内容を暗号化します。</p>
+  <dl>
+    <dt>session.encrypt: FALSE の場合</dt>
+    <dd>Array ( <br />
+      &nbsp;&nbsp;[.properties] =&gt; Array ( ) <br />
+      &nbsp;&nbsp;[manager] =&gt; Array <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;[roles] =&gt; Array ( [0] =&gt; manager ) <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;[attributes] =&gt; Array ( <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[manager] =&gt; Managers Object ( <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_managerId:Managers:private] =&gt; 1 <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_loginId:Managers:private] =&gt; admin <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_loginPassword:Managers:private] =&gt; admin <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_managerName:Managers:private] =&gt; Administrator <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_registerDate:Managers:private] =&gt; 2010-04-20 17:52:42 <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_updateDate:Managers:private] =&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[_deleteFlag:Managers:private] =&gt; 0 <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;)<br />
+      &nbsp;&nbsp;[flash] =&gt; Array ( ) <br />
+      &nbsp;&nbsp;)<br />
+      ) </dd>
+  </dl>
+  <dl>
+    <dt>session.encrypt: TRUE の場合</dt>
+    <dd>Array ( <br />
+      &nbsp;&nbsp;[.properties] =&gt; Array () <br />
+      &nbsp;&nbsp;[manager] =&gt; Array (<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;[roles] =&gt; Array ([0] =&gt; manager)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;[attributes] =&gt; Array (<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[manager] =&gt; gW9rbYR+w6CZyMur1IhraJ++IZbOWoZLNmNisM8SkpsydpHrHhKClb2hthJLGn6HPiHTUoGNln1Vls8bUlpqW2KZ... (省略)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;) <br />
+      &nbsp;&nbsp;[flash] =&gt; Array ()<br />
+      &nbsp;&nbsp;)<br />
+      ) </dd>
+  </dl>
+  <h3><a name="charset.default" id="charset.default"></a>charset.default</h3>
+  <p>アプリケーションのデフォルトエンコーディング形式を指定します。default で指定した形式は、内部・入力・出力エンコーディング (及び出力ヘッダ) にそれぞれ適用されます。また &quot;auto&quot; を指定することで、mbstring オプションによる個別のエンコーディング指定が可能となります。</p>
+  <dl>
+    <dt>YAML Code#</dt>
+    <dd class="lang_yaml"><code>default:<br />
+      &nbsp;&nbsp;charset: auto<br />
+      <br />
+      php:<br />
+      <code>&nbsp;&nbsp;mbstring.internal_encoding: UTF-8</code><br />
+      &nbsp;&nbsp;mbstring.http_input: Shift_JIS<br />
+      &nbsp;&nbsp;mbstring.http_output: Shift_JIS</code></dd>
+  </dl>
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
+      <p>default に &quot;auto&quot; を指定する場合、mbstring.internal_encoding の指定は必須となります。オプションに &quot;pass&quot; や &quot;auto&quot;が指定されている場合は実行時にエラーが発生します。 </p>
+    </div>
+  </div>
+  <h3><a name="php" id="php"></a>php</h3>
+  <p>php.ini の設定をアプリケーションレベルで上書きします。</p>
+  <dl>
+    <dt>YAML Code</dt>
+    <dd class="lang_yaml"><code>php:<br />
+      &nbsp;&nbsp;error_log: &lt;?php echo APP_ROOT_DIR . '/logs/fatal_log'; ?&gt;<br />
+      &nbsp;&nbsp;display_errors: On<br />
+      &nbsp;&nbsp;max_execution_time: 30 </code></dd>
+  </dl>
+  <h2><a name="defaultForward" id="defaultForward"></a>モジュールやアクションが見つからない場合の動作</h2>
+  <p>リクエストされたモジュールやアクションが見つからない場合、ルータは設定ファイルに定義されたデフォルトモジュール (アクション) の起動を試みます。ルータが実行するマッチング処理は下表を参照して下さい。</p>
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
+      <p>コンソールアプリケーションは対象外です。コンソールアプリケーションでアクションが見つからない場合はその場で例外が発生します。 </p>
+    </div>
+  </div>
+  <table>
+    <colgroup>
+    <col width="2%" />
+    <col width="2%" />
+    <col width="2%" />
+    <col width="2%" />
+    <col width="28%" />
+    <col width="16%" />
+    <col width="16%" />
+    <col width="32%" />
+    </colgroup>
+    <tr>
+      <th colspan="5" scope="col">&nbsp;</th>
+      <th scope="col">実行モジュール</th>
+      <th scope="col">実行アクション</th>
+      <th scope="col">結果</th>
+    </tr>
+    <tr>
+      <td colspan="5"><p>リクエスト URI が routes.yml のパターンにマッチする</p></td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="4">フォワード先のモジュールが指定されている</td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="3">フォワード先のアクション名の解析に成功</td>
+      <td>リクエストモジュール</td>
+      <td>リクエストアクション</td>
+      <td>リクエストされたアクションを起動</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="3">フォワード先のアクション名が不明 (URI にアクション名が含まれない)</td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="2">&quot;action.default&quot; アクションが存在する</td>
+      <td>リクエストモジュール</td>
+      <td>&quot;action.default&quot;</td>
+      <td>リクエストモジュールの default アクションを起動</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="2">&quot;action.default&quot; アクションが存在しない</td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&quot;action.unknown&quot; アクションが存在する</td>
+      <td>リクエストモジュール</td>
+      <td>&quot;action.unknown&quot;</td>
+      <td>リクエストモジュールの unknown アクションを起動</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&quot;action.unknown&quot; アクションが存在しない</td>
+      <td>-</td>
+      <td>-</td>
+      <td>例外が発生</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="4">フォワード先のモジュールが指定されていない</td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="3">&quot;action.entry&quot; モジュールが存在する</td>
+      <td>&quot;action.entry&quot;</td>
+      <td>リクエストアクション</td>
+      <td>&quot;action.entry&quot; モジュールのリクエストアクションが起動</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="3">&quot;action.entry&quot; モジュールが存在しない</td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="2">&quot;module.unknown.module&quot;モジュールが存在する</td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&quot;module.unknown.action&quot; アクションが存在する</td>
+      <td>&quot;module.unknown.module&quot;</td>
+      <td>&quot;module.unknown.action&quot;</td>
+      <td>デフォルトアクション (モジュール) を起動</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&quot;module.unknown.action&quot; アクションが存在しない</td>
+      <td>-</td>
+      <td>-</td>
+      <td>例外が発生</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td colspan="2">&quot;module.default.module&quot; モジュールが存在しない</td>
+      <td>-</td>
+      <td>-</td>
+      <td>例外が発生</td>
+    </tr>
+    <tr>
+      <td colspan="5">リクエスト URI が routes.yml のパターンにマッチしない</td>
+      <td colspan="3">(&quot;module.unknown.module&quot; モジュールを検索)</td>
+    </tr>
+  </table>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

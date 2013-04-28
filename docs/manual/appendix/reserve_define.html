@@ -7,76 +7,69 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - 付録 - 定義済み定数の一覧</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">付録 - 定義済み定数の一覧</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2010 年 4 月 16 日</p>
-    <h2>定数名と概要</h2>
-    <p>フレームワークが定義している定数の一覧を示します。全ての定数はプロジェクトディレクトリ内にある config/delta_env.php ファイルに定義されています。</p>
-    <table>
-              <colgroup>
-          <col width="20%" />
-          <col width="30%" />
-          <col width="50%" />
-          </colgroup>
-
-      <tr>
-        <th scope="col">定数名</th>
-        <th scope="col"> 説明 </th>
-        <th scope="col">定数値の例</th>
-      </tr>
-      <tr>
-        <td>DELTA_ROOT_DIR</td>
-        <td>delta パッケージディレクトリ</td>
-        <td>/var/repos/delta</td>
-      </tr>
-      <tr>
-        <td>DELTA_LIBS_DIR</td>
-        <td>delta クラスディレクトリ</td>
-        <td>/var/repos/delta/libs</td>
-      </tr>
-      <tr>
-        <td>APP_ROOT_DIR</td>
-        <td>アプリケーション (プロジェクト) ディレクトリ</td>
-        <td>/var/www/tutorial</td>
-      </tr>
-    </table>
-    <p>上記で挙げた定数はプロジェクト内のどこからでも参照することができます。</p>
-    <h2>APP_ROOT_DIR 定数によるファイルパス指定</h2>
-    <p>プロジェクトディレクトリ内のファイルを参照する場合は、基本的に Delta_FileUtils::readFile() メソッドを使用して下さい。readFile() メソッドは、絶対パス、または APP_ROOT_DIR からの相対パスを指定することができ、ファイルが存在しない場合は Delta_IOException をスローします。</p>
-    <dl>
-      <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>$contents = read_file('data/foo.csv');</code></dd>
-    </dl>
-    <p>上記コードは次のように記述することも可能です。file_get_contents() 関数は、ファイルが存在しない場合に上位レベルの例外である ErrorException をスローします。</p>
-    <dl>
-      <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>$path = APP_ROOT_DIR . '/data/foo.csv';<br />
-        $contents = file_get_contents($path);</code></dd>
-    </dl>
-    <p>どちらのコードが良いかは対象となるファイルによって異なります。コードのパフォーマンスとしては後者の方が上なので、ファイルが普遍的に存在するのであれば定数値を使用した方が良いでしょう。</p>
-    <p class="right"><a href="#top">上へ</a></p>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">付録 - 定義済み定数の一覧</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2010 年 4 月 16 日</p>
+  <h2>定数名と概要</h2>
+  <p>フレームワークが定義している定数の一覧を示します。全ての定数はプロジェクトディレクトリ内にある config/delta_env.php ファイルに定義されています。</p>
+  <table>
+    <colgroup>
+    <col width="20%" />
+    <col width="30%" />
+    <col width="50%" />
+    </colgroup>
+    <tr>
+      <th scope="col">定数名</th>
+      <th scope="col"> 説明 </th>
+      <th scope="col">定数値の例</th>
+    </tr>
+    <tr>
+      <td>DELTA_ROOT_DIR</td>
+      <td>delta パッケージディレクトリ</td>
+      <td>/var/repos/delta</td>
+    </tr>
+    <tr>
+      <td>DELTA_LIBS_DIR</td>
+      <td>delta クラスディレクトリ</td>
+      <td>/var/repos/delta/libs</td>
+    </tr>
+    <tr>
+      <td>APP_ROOT_DIR</td>
+      <td>アプリケーション (プロジェクト) ディレクトリ</td>
+      <td>/var/www/tutorial</td>
+    </tr>
+  </table>
+  <p>上記で挙げた定数はプロジェクト内のどこからでも参照することができます。</p>
+  <h2>APP_ROOT_DIR 定数によるファイルパス指定</h2>
+  <p>プロジェクトディレクトリ内のファイルを参照する場合は、基本的に Delta_FileUtils::readFile() メソッドを使用して下さい。readFile() メソッドは、絶対パス、または APP_ROOT_DIR からの相対パスを指定することができ、ファイルが存在しない場合は Delta_IOException をスローします。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$contents = read_file('data/foo.csv');</code></dd>
+  </dl>
+  <p>上記コードは次のように記述することも可能です。file_get_contents() 関数は、ファイルが存在しない場合に上位レベルの例外である ErrorException をスローします。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$path = APP_ROOT_DIR . '/data/foo.csv';<br />
+      $contents = file_get_contents($path);</code></dd>
+  </dl>
+  <p>どちらのコードが良いかは対象となるファイルによって異なります。コードのパフォーマンスとしては後者の方が上なので、ファイルが普遍的に存在するのであれば定数値を使用した方が良いでしょう。</p>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

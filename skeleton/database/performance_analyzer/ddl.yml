@@ -17,7 +17,7 @@ tables:
       - name: session_id
         type: varchar
         length: 48
-        notNull: TRUE
+        notNull: FALSE
 
       - name: request_path
         type: varchar

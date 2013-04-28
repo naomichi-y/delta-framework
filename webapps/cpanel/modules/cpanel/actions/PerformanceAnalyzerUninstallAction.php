@@ -7,7 +7,7 @@ class PerformanceAnalyzerUninstallAction extends Delta_Action
 {
   public function execute()
   {
-    $this->getController()->getDelegate()->removeEventListener('Delta_PerformanceListener');
+    $this->getObserver()->removeEventListener('Delta_PerformanceListener');
 
     $conn = $this->getDatabase()->getConnection();
     $command = $conn->getCommand();

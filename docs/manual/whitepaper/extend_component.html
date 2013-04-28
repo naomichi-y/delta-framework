@@ -7,70 +7,64 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - delta の拡張 - コアコンポーネントの拡張</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">delta の拡張 - コアコンポーネントの拡張</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2007 年 2 月 26 日</p>
-    <h2>Hacks</h2>
-    <p>delta が標準で実装しているコンポーネントには、クライアントからのリクエストを解析するリクエストクラスや、セッションを扱うユーザクラスがあります。これらは delta が動作するための必要最低限なコアコンポーネントとして定義されており、config/base_dicon.yml にて実装クラスが定義されています。 </p>
-    <dl>
-      <dt>YAML Code# config/base_dicon.yml</dt>
-      <dd class="lang_yaml"><code>componentNames:<br />
-        &nbsp;&nbsp;&nbsp;request:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpRequest<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;response:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpResponse<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;session:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpSession<br />
-        ... </code></dd>
-    </dl>
-    <p>&quot;class&quot; 属性に指定されている名前がコンポーネントの実装クラスです。一般的な Web アプリケーションであればコアクラスを変更することなくシステムを構築することが出来ますが、コンポーネントの機能を拡張したい場合はコアクラスを継承したオリジナルのクラスを作成すると良いでしょう。</p>
-    <p>ここでは例として、セッションコンポーネントを拡張した HttpSessionWrapper クラスを作ります。delta はコントローラの起動直後にセッションが開始されるため、セッション開始前に特定の処理を行っておきたい場合は、セッションコンストラクタが起動した時点で処理を設定する必要があります。</p>
-    <p>まず初めに、base_dicon.yml にて session のコアクラスに HttpSessionWrapper を使うよう設定します。</p>
-    <dl>
-      <dt>YAML Code# config/base_dicon.yml</dt>
-      <dd class="lang_yaml"><code> session:<br />
-        &nbsp;&nbsp;class: HttpSessionWrapper </code></dd>
-    </dl>
-    <p>次に Delta_HttpSession を継承した HttpSessionWrapper クラスを実装します。ファイルは libs 配下に設置しておくことで自動的に読み込まれます。</p>
-    <dl>
-      <dt>PHP Code# libs/components/HttpSessionWrapper.php</dt>
-      <dd class="lang_php"><code>class HttpSessionWrapper extends Delta_HttpSession<br />
-        {<br />
-        &nbsp;&nbsp;public function __construct()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;if ($this-&gt;getForm()-&gt;get('foo') == 'bar') {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session_name('foo');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-        &nbsp;&nbsp;}<br />
-        }</code></dd>
-    </dl>
-    <p>上記のコードでは、HttpSessionWrapper のコンストラクタでフォームの内容を判定し、条件にマッチした場合 session_name() 関数でセッション名を変更しています。セッション名はセッションが開始される前に宣言される必要があるため、コンストラクタ上で名前を設定しています。</p>
-    <p>尚、コンストラクタから DI コンテナを呼び出している通り、コンポーネント上から他のコンポーネントを呼び出すこともできます。 </p>
-    <p class="right"><a href="#top">上へ</a></p>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">delta の拡張 - コアコンポーネントの拡張</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2007 年 2 月 26 日</p>
+  <h2>Hacks</h2>
+  <p>delta が標準で実装しているコンポーネントには、クライアントからのリクエストを解析するリクエストクラスや、セッションを扱うユーザクラスがあります。これらは delta が動作するための必要最低限なコアコンポーネントとして定義されており、config/base_dicon.yml にて実装クラスが定義されています。 </p>
+  <dl>
+    <dt>YAML Code# config/base_dicon.yml</dt>
+    <dd class="lang_yaml"><code>componentNames:<br />
+      &nbsp;&nbsp;&nbsp;request:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpRequest<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;response:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpResponse<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;session:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpSession<br />
+      ... </code></dd>
+  </dl>
+  <p>&quot;class&quot; 属性に指定されている名前がコンポーネントの実装クラスです。一般的な Web アプリケーションであればコアクラスを変更することなくシステムを構築することが出来ますが、コンポーネントの機能を拡張したい場合はコアクラスを継承したオリジナルのクラスを作成すると良いでしょう。</p>
+  <p>ここでは例として、セッションコンポーネントを拡張した HttpSessionWrapper クラスを作ります。delta はコントローラの起動直後にセッションが開始されるため、セッション開始前に特定の処理を行っておきたい場合は、セッションコンストラクタが起動した時点で処理を設定する必要があります。</p>
+  <p>まず初めに、base_dicon.yml にて session のコアクラスに HttpSessionWrapper を使うよう設定します。</p>
+  <dl>
+    <dt>YAML Code# config/base_dicon.yml</dt>
+    <dd class="lang_yaml"><code> session:<br />
+      &nbsp;&nbsp;class: HttpSessionWrapper </code></dd>
+  </dl>
+  <p>次に Delta_HttpSession を継承した HttpSessionWrapper クラスを実装します。ファイルは libs 配下に設置しておくことで自動的に読み込まれます。</p>
+  <dl>
+    <dt>PHP Code# libs/components/HttpSessionWrapper.php</dt>
+    <dd class="lang_php"><code>class HttpSessionWrapper extends Delta_HttpSession<br />
+      {<br />
+      &nbsp;&nbsp;public function __construct()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;if ($this-&gt;getForm()-&gt;get('foo') == 'bar') {<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session_name('foo');<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;}<br />
+      }</code></dd>
+  </dl>
+  <p>上記のコードでは、HttpSessionWrapper のコンストラクタでフォームの内容を判定し、条件にマッチした場合 session_name() 関数でセッション名を変更しています。セッション名はセッションが開始される前に宣言される必要があるため、コンストラクタ上で名前を設定しています。</p>
+  <p>尚、コンストラクタから DI コンテナを呼び出している通り、コンポーネント上から他のコンポーネントを呼び出すこともできます。 </p>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

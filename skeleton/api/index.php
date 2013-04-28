@@ -8,7 +8,6 @@
     <title><?php echo $title ?></title>
     <link rel="stylesheet" type="text/css" href="assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.treeview.css" />
-    <!--#if expr="$HTTP_HOST = /delta-framework.org/" --><link rel="stylesheet" href="/global_assets/css/navi.css" type="text/css" media="screen" /><!--#endif -->
     <script src="assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="assets/js/jquery.treeview.js" type="text/javascript"></script>

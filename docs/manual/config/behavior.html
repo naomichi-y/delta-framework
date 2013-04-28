@@ -7,458 +7,452 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - 設定ファイル - 設定ファイル - globe_behavior.yml</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">設定ファイル - globe_behavior.yml</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2013 年 1 月 31 日</p>
-    <h2>ビヘイビア設定ファイルの概要</h2>
-    <p>ビヘイビアはアクションの動作設定ファイルで、バリデータの設定やコンバータ、表示するビュー (テンプレート) の関連付けを行います。ファイルの命名は対象とするアクション名と同じに設定する必要があります。例えば、アクション名が Greeting であれば、ビヘイビアのファイル名は &quot;Greetiing.yml&quot; になります。</p>
-    <dl>
-      <dt>ビヘイビアファイルの命名規則 </dt>
-      <dd>{アクション名}.yml</dd>
-    </dl>
-    <p>また、global_behavior.yml を定義すれば、全てのアクションビヘイビアは global_behavior.yml の設定を継承するようになります。これは、全てのアクションにおいて同じバリデータを設定したい場合などに有効でしょう。 それぞれのファイル設置場所は次の通りです。</p>
-    <table>
-      <colgroup>
-      <col width="30%" />
-      <col width="50%" />
-      <col width="20%" />
-      </colgroup>
-      <tr>
-        <th scope="col">パス</th>
-        <th scope="col">説明</th>
-        <th scope="col">必須</th>
-      </tr>
-      <tr>
-        <td>config/global_behavior.yml</td>
-        <td>グローバル設定ファイル。アプリケーション全体に影響。</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>modules/{module}/config/behavior.yml</td>
-        <td>単一モジュール設定ファイル。グローバル設定ファイルの内容は継承される。</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>modules/{module}/behaviors/{action}.yml</td>
-        <td>アクション設定ファイル。モジュール設定ファイルの内容は継承される。</td>
-        <td> (*1) </td>
-      </tr>
-    </table>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>アクションにおいてビューを返す場合は、ビヘイビアファイルにて表示するテンプレートを関連付ける必要があるため必須です。(global_behavior.yml にてビューが定義されている場合を除く)</p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <h2><a id="behaviorReference" name="behaviorReference"></a>属性一覧</h2>
-    <p>次に behavior (global_behavior.yml を含む) ファイルで設定可能な値の一覧を記します。</p>
-    <table>
-      <colgroup>
-      <col width="7%" />
-      <col width="7%" />
-      <col width="7%" />
-      <col width="7%" />
-      <col width="7%" />
-      <col width="7%" />
-      <col width="7%" />
-      <col width="7%" />
-      <col width="46%" />
-      </colgroup>
-      <tr>
-        <th colspan="5" scope="col">属性構成</th>
-        <th scope="col">デフォルト値</th>
-        <th scope="col">取り得る値</th>
-        <th scope="col">必須</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td colspan="5" scope="col">@ref</td>
-        <td scope="col">&nbsp;</td>
-        <td scope="col">(string)</td>
-        <td scope="col">FALSE</td>
-        <td scope="col"><a href="#ref">@ref 指示子</a> の項を参照。</td>
-      </tr>
-      <tr>
-        <td rowspan="3">safety</td>
-        <td colspan="4">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td></td>
-        <td>HTTP スキームセクション。</td>
-      </tr>
-      <tr>
-        <td colspan="4">@ref</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="4">access</td>
-        <td>none</td>
-        <td>[secure|unsecure|none]</td>
-        <td></td>
-        <td><a href="../whitepaper/secure_action.html">セキュアアクションの作成</a> の項を参照。</td>
-      </tr>
-      <tr>
-        <td rowspan="5">convert</td>
-        <td colspan="4">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>コンバータセクション。コンバータを使用する場合は必須。</td>
-      </tr>
-      <tr>
-        <td colspan="4">@ref</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="4">(ルール名) (+) </td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>コンバートセットの名前。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">&nbsp;</td>
-        <td colspan="3">names</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>対象フィールド名。複数ある場合はカンマ区切りで指定。&quot;.&quot; 区切りで配列フィールドを指定することも可能。<br />
-          @all 指示子を指定した場合は、全てのフィールドをコンバート対象とする。</td>
-      </tr>
-      <tr>
-        <td colspan="3">converters</td>
-        <td>&nbsp;</td>
-        <td>(array)<br /></td>
-        <td>◯</td>
-        <td>names に適用するコンバータのクラスやコンバートオプションを指定。
-          <dl>
-            <dt>YAML Code#</dt>
-            <dd class="lang_yaml"><code>convert: <br />
-              &nbsp;&nbsp;stringFormatConverter: <br />
-              &nbsp;&nbsp;&nbsp;&nbsp; names: customerName, mailAddress, birthYear, birthMonth, birthDay <br />
-              &nbsp;&nbsp;converters:<br />
-              &nbsp;&nbsp;&nbsp;&nbsp;- class: Delta_TrimConverter<br />
-              &nbsp;&nbsp;&nbsp; &nbsp; charList: ['-']</code></dd>
-          </dl></td>
-      </tr>
-      <tr>
-        <td rowspan="3">roles</td>
-        <td colspan="4">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>ユーザロールセクション。</td>
-      </tr>
-      <tr>
-        <td colspan="4">@ref</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="4">(ロール名)</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>該当アクションを実行するのに必要なロール。Delta_AuthorityUser::isCurrentActionAuthenticated() の動作に影響する。</td>
-      </tr>
-      <tr>
-        <td rowspan="24">validate</td>
-        <td colspan="4">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td></td>
-        <td>バリデータセクション。バリデータを使用する場合は必須。</td>
-      </tr>
-      <tr>
-        <td colspan="4">@ref</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="4">methods</td>
-        <td>get, post </td>
-        <td>[get|post]</td>
-        <td></td>
-        <td>アクションを実行する際にリクエストメソッドを判定する。複数のメソッドを許可する場合はカンマ区切りで指定。<br />
-          許可されないメソッドが実行された場合はバリデートエラー扱いとなり、Delta_Action#validateErrorHandler() メソッドがコールされる。</td>
-      </tr>
-      <tr>
-        <td colspan="4">methodsError</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>許可されないリクエストメソッドが実行された場合に通知するメッセージ。</td>
-      </tr>
-      <tr>
-        <td colspan="4">includes</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>バリデータのインクルード指定。
-          <dl>
-            <dt>YAML Code#</dt>
-            <dd class="lang_yaml"><code>validate:<br />
-&nbsp;&nbsp;includes:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;# Foo.yml を読み込む<br />
-&nbsp;&nbsp;&nbsp;&nbsp;- Foo<br />
+  </div>
+  <h1 id="top">設定ファイル - globe_behavior.yml</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2013 年 1 月 31 日</p>
+  <h2>ビヘイビア設定ファイルの概要</h2>
+  <p>ビヘイビアはアクションの動作設定ファイルで、バリデータの設定やコンバータ、表示するビュー (テンプレート) の関連付けを行います。ファイルの命名は対象とするアクション名と同じに設定する必要があります。例えば、アクション名が Greeting であれば、ビヘイビアのファイル名は &quot;Greetiing.yml&quot; になります。</p>
+  <dl>
+    <dt>ビヘイビアファイルの命名規則 </dt>
+    <dd>{アクション名}.yml</dd>
+  </dl>
+  <p>また、global_behavior.yml を定義すれば、全てのアクションビヘイビアは global_behavior.yml の設定を継承するようになります。これは、全てのアクションにおいて同じバリデータを設定したい場合などに有効でしょう。 それぞれのファイル設置場所は次の通りです。</p>
+  <table>
+    <colgroup>
+    <col width="30%" />
+    <col width="50%" />
+    <col width="20%" />
+    </colgroup>
+    <tr>
+      <th scope="col">パス</th>
+      <th scope="col">説明</th>
+      <th scope="col">必須</th>
+    </tr>
+    <tr>
+      <td>config/global_behavior.yml</td>
+      <td>グローバル設定ファイル。アプリケーション全体に影響。</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>modules/{module}/config/behavior.yml</td>
+      <td>単一モジュール設定ファイル。グローバル設定ファイルの内容は継承される。</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>modules/{module}/behaviors/{action}.yml</td>
+      <td>アクション設定ファイル。モジュール設定ファイルの内容は継承される。</td>
+      <td> (*1) </td>
+    </tr>
+  </table>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>アクションにおいてビューを返す場合は、ビヘイビアファイルにて表示するテンプレートを関連付ける必要があるため必須です。(global_behavior.yml にてビューが定義されている場合を除く)</p>
+    </div>
+  </div>
+  <h2><a id="behaviorReference" name="behaviorReference"></a>属性一覧</h2>
+  <p>次に behavior (global_behavior.yml を含む) ファイルで設定可能な値の一覧を記します。</p>
+  <table>
+    <colgroup>
+    <col width="7%" />
+    <col width="7%" />
+    <col width="7%" />
+    <col width="7%" />
+    <col width="7%" />
+    <col width="7%" />
+    <col width="7%" />
+    <col width="7%" />
+    <col width="46%" />
+    </colgroup>
+    <tr>
+      <th colspan="5" scope="col">属性構成</th>
+      <th scope="col">デフォルト値</th>
+      <th scope="col">取り得る値</th>
+      <th scope="col">必須</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td colspan="5" scope="col">@ref</td>
+      <td scope="col">&nbsp;</td>
+      <td scope="col">(string)</td>
+      <td scope="col">FALSE</td>
+      <td scope="col"><a href="#ref">@ref 指示子</a> の項を参照。</td>
+    </tr>
+    <tr>
+      <td rowspan="3">safety</td>
+      <td colspan="4">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>HTTP スキームセクション。</td>
+    </tr>
+    <tr>
+      <td colspan="4">@ref</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="4">access</td>
+      <td>none</td>
+      <td>[secure|unsecure|none]</td>
+      <td></td>
+      <td><a href="../whitepaper/secure_action.html">セキュアアクションの作成</a> の項を参照。</td>
+    </tr>
+    <tr>
+      <td rowspan="5">convert</td>
+      <td colspan="4">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>コンバータセクション。コンバータを使用する場合は必須。</td>
+    </tr>
+    <tr>
+      <td colspan="4">@ref</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="4">(ルール名) (+) </td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>コンバートセットの名前。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">&nbsp;</td>
+      <td colspan="3">names</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>対象フィールド名。複数ある場合はカンマ区切りで指定。&quot;.&quot; 区切りで配列フィールドを指定することも可能。<br />
+        @all 指示子を指定した場合は、全てのフィールドをコンバート対象とする。</td>
+    </tr>
+    <tr>
+      <td colspan="3">converters</td>
+      <td>&nbsp;</td>
+      <td>(array)<br /></td>
+      <td>◯</td>
+      <td>names に適用するコンバータのクラスやコンバートオプションを指定。
+        <dl>
+          <dt>YAML Code#</dt>
+          <dd class="lang_yaml"><code>convert: <br />
+            &nbsp;&nbsp;stringFormatConverter: <br />
+            &nbsp;&nbsp;&nbsp;&nbsp; names: customerName, mailAddress, birthYear, birthMonth, birthDay <br />
+            &nbsp;&nbsp;converters:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;- class: Delta_TrimConverter<br />
+            &nbsp;&nbsp;&nbsp; &nbsp; charList: ['-']</code></dd>
+        </dl></td>
+    </tr>
+    <tr>
+      <td rowspan="3">roles</td>
+      <td colspan="4">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>ユーザロールセクション。</td>
+    </tr>
+    <tr>
+      <td colspan="4">@ref</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="4">(ロール名)</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>該当アクションを実行するのに必要なロール。Delta_AuthorityUser::isCurrentActionAuthenticated() の動作に影響する。</td>
+    </tr>
+    <tr>
+      <td rowspan="24">validate</td>
+      <td colspan="4">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>バリデータセクション。バリデータを使用する場合は必須。</td>
+    </tr>
+    <tr>
+      <td colspan="4">@ref</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="4">methods</td>
+      <td>get, post </td>
+      <td>[get|post]</td>
+      <td></td>
+      <td>アクションを実行する際にリクエストメソッドを判定する。複数のメソッドを許可する場合はカンマ区切りで指定。<br />
+        許可されないメソッドが実行された場合はバリデートエラー扱いとなり、Delta_Action#validateErrorHandler() メソッドがコールされる。</td>
+    </tr>
+    <tr>
+      <td colspan="4">methodsError</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>許可されないリクエストメソッドが実行された場合に通知するメッセージ。</td>
+    </tr>
+    <tr>
+      <td colspan="4">includes</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>バリデータのインクルード指定。
+        <dl>
+          <dt>YAML Code#</dt>
+          <dd class="lang_yaml"><code>validate:<br />
+            &nbsp;&nbsp;includes:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;# Foo.yml を読み込む<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;- Foo<br />
             </code></dd>
         </dl></td>
-      </tr>
-      <tr>
-        <td rowspan="5">names</td>
-        <td colspan="3">(フィールド名) (+) </td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>検証するフィールド名。&quot;.&quot; 区切りで配列フィールドを指定することも可能。</td>
-      </tr>
-      <tr>
-        <td rowspan="4">&nbsp;</td>
-        <td colspan="2">required</td>
-        <td>&nbsp;</td>
-        <td>(bool)</td>
-        <td></td>
-        <td>対象フィールドに値が格納されているかどうかをチェックする。null、及び空文字はエラー扱いとなる。<br />
-          ただしフィールドの type 属性が &quot;file&quot; の項目に関しては、required (及び requiredError) の指定が無効となる。別途 Delta_FileUploadValidator を用いて検証すること。</td>
-      </tr>
-      <tr>
-        <td colspan="2">requiredError</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>フィールドに値が格納されていない場合に通知するメッセージ。</td>
-      </tr>
-      <tr>
-        <td colspan="2">validators</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td> 対象フィールドに対して実行する検証ルール名を指定。処理するルールが複数ある場合はカンマ区切りで指定。</td>
-      </tr>
-      <tr>
-        <td colspan="2">variables</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td><p>メッセージプレスホルダ (&quot;{%VARIABLE_KEY%}&quot;)において置換する文字列を指定。<br />
-            プレースホルダが複数ある場合は次のように記述する。</p>
-          <dl>
-            <dt>YAML Code#</dt>
-            <dd class="lang_yaml"><code>variables:<br />
-              &nbsp;&nbsp;- FIELD_NAME: 名前<br />
-              &nbsp;&nbsp;- MIN_SIZE: 8&nbsp;&nbsp; <br />
-              &nbsp;&nbsp;- MAX_SIZE: 16 </code></dd>
-          </dl></td>
-      </tr>
-      <tr>
-        <td colspan="4">conditions</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td></td>
-        <td>条件付きバリデータの定義。</td>
-      </tr>
-      <tr>
-        <td rowspan="8">&nbsp;</td>
-        <td colspan="3">(条件名) (+) </td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>条件名。</td>
-      </tr>
-      <tr>
-        <td rowspan="7">&nbsp;</td>
-        <td rowspan="2">groups</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>検証するフィールドセットを定義。groups 属性の下にはグループ化する names 属性を記述。(names 属性下のセットは validate.names 下と同じ)<br />
-          尚、現状ではグループ化されたセットの中での test 属性はサポートされていない。</td>
-      </tr>
-      <tr>
-        <td>requireRows</td>
-        <td>1</td>
-        <td>(int)</td>
-        <td></td>
-        <td>入力必須行数。</td>
-      </tr>
-      <tr>
-        <td colspan="2">test</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>条件テストコードの指定。test 属性は、names、test、validators 属性のいずれかとセットで指定する必要がある。</td>
-      </tr>
-      <tr>
-        <td colspan="2">testError</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td>test 条件にマッチしなかった場合のエラーメッセージ。</td>
-      </tr>
-      <tr>
-        <td colspan="2">names</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>validate.names 属性と同じ。</td>
-      </tr>
-      <tr>
-        <td colspan="2">validators</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>validate.names.validators 属性と同じ。</td>
-      </tr>
-      <tr>
-        <td colspan="2">variables</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>validate.names.variables 属性と同じ。 </td>
-      </tr>
-      <tr>
-        <td colspan="4">invokeMethod</td>
-        <td>FALSE</td>
-        <td>(bool)</td>
-        <td></td>
-        <td>Delta_Action::validate() メソッドの起動方法を指定。FALSE 指定時はビヘイビアに定義された検証ルールをパスすることで validate() メソッドが起動する (検証ルールにエラーが含まれる場合は validate() メソッドを起動しない)。
+    </tr>
+    <tr>
+      <td rowspan="5">names</td>
+      <td colspan="3">(フィールド名) (+) </td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>検証するフィールド名。&quot;.&quot; 区切りで配列フィールドを指定することも可能。</td>
+    </tr>
+    <tr>
+      <td rowspan="4">&nbsp;</td>
+      <td colspan="2">required</td>
+      <td>&nbsp;</td>
+      <td>(bool)</td>
+      <td></td>
+      <td>対象フィールドに値が格納されているかどうかをチェックする。null、及び空文字はエラー扱いとなる。<br />
+        ただしフィールドの type 属性が &quot;file&quot; の項目に関しては、required (及び requiredError) の指定が無効となる。別途 Delta_FileUploadValidator を用いて検証すること。</td>
+    </tr>
+    <tr>
+      <td colspan="2">requiredError</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>フィールドに値が格納されていない場合に通知するメッセージ。</td>
+    </tr>
+    <tr>
+      <td colspan="2">validators</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td> 対象フィールドに対して実行する検証ルール名を指定。処理するルールが複数ある場合はカンマ区切りで指定。</td>
+    </tr>
+    <tr>
+      <td colspan="2">variables</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td><p>メッセージプレスホルダ (&quot;{%VARIABLE_KEY%}&quot;)において置換する文字列を指定。<br />
+          プレースホルダが複数ある場合は次のように記述する。</p>
+        <dl>
+          <dt>YAML Code#</dt>
+          <dd class="lang_yaml"><code>variables:<br />
+            &nbsp;&nbsp;- FIELD_NAME: 名前<br />
+            &nbsp;&nbsp;- MIN_SIZE: 8&nbsp;&nbsp; <br />
+            &nbsp;&nbsp;- MAX_SIZE: 16 </code></dd>
+        </dl></td>
+    </tr>
+    <tr>
+      <td colspan="4">conditions</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>条件付きバリデータの定義。</td>
+    </tr>
+    <tr>
+      <td rowspan="8">&nbsp;</td>
+      <td colspan="3">(条件名) (+) </td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>条件名。</td>
+    </tr>
+    <tr>
+      <td rowspan="7">&nbsp;</td>
+      <td rowspan="2">groups</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>検証するフィールドセットを定義。groups 属性の下にはグループ化する names 属性を記述。(names 属性下のセットは validate.names 下と同じ)<br />
+        尚、現状ではグループ化されたセットの中での test 属性はサポートされていない。</td>
+    </tr>
+    <tr>
+      <td>requireRows</td>
+      <td>1</td>
+      <td>(int)</td>
+      <td></td>
+      <td>入力必須行数。</td>
+    </tr>
+    <tr>
+      <td colspan="2">test</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>条件テストコードの指定。test 属性は、names、test、validators 属性のいずれかとセットで指定する必要がある。</td>
+    </tr>
+    <tr>
+      <td colspan="2">testError</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td>test 条件にマッチしなかった場合のエラーメッセージ。</td>
+    </tr>
+    <tr>
+      <td colspan="2">names</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>validate.names 属性と同じ。</td>
+    </tr>
+    <tr>
+      <td colspan="2">validators</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>validate.names.validators 属性と同じ。</td>
+    </tr>
+    <tr>
+      <td colspan="2">variables</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>validate.names.variables 属性と同じ。 </td>
+    </tr>
+    <tr>
+      <td colspan="4">invokeMethod</td>
+      <td>FALSE</td>
+      <td>(bool)</td>
+      <td></td>
+      <td>Delta_Action::validate() メソッドの起動方法を指定。FALSE 指定時はビヘイビアに定義された検証ルールをパスすることで validate() メソッドが起動する (検証ルールにエラーが含まれる場合は validate() メソッドを起動しない)。
         TRUE 指定時は検証ルールでエラーが発生した際も validate() メソッドが起動する。</td>
-      </tr>
-      <tr>
-        <td colspan="4">validators</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td></td>
-        <td>バリデータルールセクション。</td>
-      </tr>
-      <tr>
-        <td rowspan="3">&nbsp;</td>
-        <td colspan="3">(ルール名) (+) </td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>検証ルール名。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">&nbsp;</td>
-        <td colspan="2">class</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>バリデータクラス名の指定。</td>
-      </tr>
-      <tr>
-        <td colspan="2">(属性)</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td>バリデータクラスの属性を指定。</td>
-      </tr>
-      <tr>
-        <td rowspan="3">view</td>
-        <td colspan="4">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td></td>
-        <td>ビューセクション。テンプレートを出力する場合は必須。</td>
-      </tr>
-      <tr>
-        <td colspan="4">@ref</td>
-        <td>&nbsp;</td>
-        <td>(string)</td>
-        <td></td>
-        <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
-      </tr>
-      <tr>
-        <td colspan="4">(ビューとテンプレートのマッピング設定)</td>
-        <td>&nbsp;</td>
-        <td>(array)</td>
-        <td></td>
-        <td><p>アクションの実行結果を表示するためのテンプレートを指定。テンプレートパスを指定できる他、別のアクションへのフォワード処理を定義することも可能。</p>
-          <dl>
-            <dt>YAML Code# テンプレートへのディスパッチ指定 (一般例) </dt>
-            <dd class="lang_yaml"><code>view:<br />
-              &nbsp;success: success<br />
-              &nbsp;error: foo/error</code></dd>
-          </dl>
-          <ul>
-            <li>上記例の場合、Delta_Action#execute() メソッドにて Delta_View::SUCCESS が返された場合は success.php (modules/{module}/templates ディレクトリからの相対パス)、Delta_View::ERROR が返された場合は foo/error.php が読み込まれるテンプレートになります。 </li>
-            <li>Delta_View::SUCCESS に対応する view 指定を省略した場合、アクション名のアンダースコア表記 + &quot;.php&quot; に変換したテンプレートが自動で読み込まれます。(アクション名が FooBarAction の場合、読み込まれるテンプレートファイルは foo_bar.php となる)</li>
-            <li>プロジェクトディレクトリ下の任意の場所にあるファイルを読み込みたい場合は、ファイルパスの先頭に &quot;@&quot; 指示子を指定して下さい。次の例の場合、テンプレートファイルは &quot;{APP_ROOT_DIR}/webroot/success.php&quot; から読み込まれます。</li>
-          </ul>
-          <dl>
-            <dt>YAML Code# テンプレートへのディスパッチ指定 (@指示子によるパスの相対指定) </dt>
-            <dd class="lang_yaml"><code>view:<br />
-              &nbsp;success: @webroot/success </code></dd>
-          </dl>
-          <p>アクションをフォワードする場合は forward 属性を使用して下さい。</p>
-          <dl>
-            <dt>YAML Code#</dt>
-            <dd class="lang_yaml"><code>view:<br />
-              &nbsp;&nbsp;success:<br />
-              &nbsp;&nbsp;
-              &nbsp;forward: Greeting<br />
-              &nbsp;&nbsp;
-              &nbsp;validate: FALSE </code></dd>
-          </dl>
-          <p>上記例の場合、アクションが Delta_View::SUCCESS を返すと、Greeting アクションへフォワードされます。&quot;validate&quot; 属性 (オプション) はフォワード先でバリデータを実行するかどうかを設定します。(デフォルトは TRUE) </td>
-      </tr>
-    </table>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
-      </div>
+    </tr>
+    <tr>
+      <td colspan="4">validators</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>バリデータルールセクション。</td>
+    </tr>
+    <tr>
+      <td rowspan="3">&nbsp;</td>
+      <td colspan="3">(ルール名) (+) </td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>検証ルール名。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">&nbsp;</td>
+      <td colspan="2">class</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>バリデータクラス名の指定。</td>
+    </tr>
+    <tr>
+      <td colspan="2">(属性)</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td>バリデータクラスの属性を指定。</td>
+    </tr>
+    <tr>
+      <td rowspan="3">view</td>
+      <td colspan="4">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>ビューセクション。テンプレートを出力する場合は必須。</td>
+    </tr>
+    <tr>
+      <td colspan="4">@ref</td>
+      <td>&nbsp;</td>
+      <td>(string)</td>
+      <td></td>
+      <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="4">(ビューとテンプレートのマッピング設定)</td>
+      <td>&nbsp;</td>
+      <td>(array)</td>
+      <td></td>
+      <td><p>アクションの実行結果を表示するためのテンプレートを指定。テンプレートパスを指定できる他、別のアクションへのフォワード処理を定義することも可能。</p>
+        <dl>
+          <dt>YAML Code# テンプレートへのディスパッチ指定 (一般例) </dt>
+          <dd class="lang_yaml"><code>view:<br />
+            &nbsp;success: success<br />
+            &nbsp;error: foo/error</code></dd>
+        </dl>
+        <ul>
+          <li>上記例の場合、Delta_Action#execute() メソッドにて Delta_View::SUCCESS が返された場合は success.php (modules/{module}/templates ディレクトリからの相対パス)、Delta_View::ERROR が返された場合は foo/error.php が読み込まれるテンプレートになります。 </li>
+          <li>Delta_View::SUCCESS に対応する view 指定を省略した場合、アクション名のアンダースコア表記 + &quot;.php&quot; に変換したテンプレートが自動で読み込まれます。(アクション名が FooBarAction の場合、読み込まれるテンプレートファイルは foo_bar.php となる)</li>
+          <li>プロジェクトディレクトリ下の任意の場所にあるファイルを読み込みたい場合は、ファイルパスの先頭に &quot;@&quot; 指示子を指定して下さい。次の例の場合、テンプレートファイルは &quot;{APP_ROOT_DIR}/webroot/success.php&quot; から読み込まれます。</li>
+        </ul>
+        <dl>
+          <dt>YAML Code# テンプレートへのディスパッチ指定 (@指示子によるパスの相対指定) </dt>
+          <dd class="lang_yaml"><code>view:<br />
+            &nbsp;success: @webroot/success </code></dd>
+        </dl>
+        <p>アクションをフォワードする場合は forward 属性を使用して下さい。</p>
+        <dl>
+          <dt>YAML Code#</dt>
+          <dd class="lang_yaml"><code>view:<br />
+            &nbsp;&nbsp;success:<br />
+            &nbsp;&nbsp;
+            &nbsp;forward: Greeting<br />
+            &nbsp;&nbsp;
+            &nbsp;validate: FALSE </code></dd>
+        </dl>
+        <p>上記例の場合、アクションが Delta_View::SUCCESS を返すと、Greeting アクションへフォワードされます。&quot;validate&quot; 属性 (オプション) はフォワード先でバリデータを実行するかどうかを設定します。(デフォルトは TRUE) </td>
+    </tr>
+  </table>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
-    <h3><a name="ref" id="ref"></a>@ref 指示子</h3>
-    <p>@ref 指示子を使うことで、他のビヘイビアに定義された値を参照することができます。</p>
-    <dl>
-      <dt>YAML Code# modules/{module}/behaviors/Foo.yml</dt>
-      <dd class="lang_yaml"><code># FooAction が起動した時は Bar.yml を参照<br />
-        @ref: Bar</code></dd>
-      <dt>YAML Code# modules/{module}/behaviors/Foo.yml</dt>
-      <dd class="lang_yaml"><code># 特定の属性に関してのみ他のビヘイビアを参照<br />
-        safety:<br />
-        &nbsp;&nbsp;@ref: Bar<br />
-        <br />
-        view:<br />
-        &nbsp;&nbsp;@ref: Baz</code></dd>
-    </dl>
-    <p>@ref が指定された場合、同一階層で定義されている全ての属性は無視されます。</p>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h3><a name="ref" id="ref"></a>@ref 指示子</h3>
+  <p>@ref 指示子を使うことで、他のビヘイビアに定義された値を参照することができます。</p>
+  <dl>
+    <dt>YAML Code# modules/{module}/behaviors/Foo.yml</dt>
+    <dd class="lang_yaml"><code># FooAction が起動した時は Bar.yml を参照<br />
+      @ref: Bar</code></dd>
+    <dt>YAML Code# modules/{module}/behaviors/Foo.yml</dt>
+    <dd class="lang_yaml"><code># 特定の属性に関してのみ他のビヘイビアを参照<br />
+      safety:<br />
+      &nbsp;&nbsp;@ref: Bar<br />
+      <br />
+      view:<br />
+      &nbsp;&nbsp;@ref: Baz</code></dd>
+  </dl>
+  <p>@ref が指定された場合、同一階層で定義されている全ての属性は無視されます。</p>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

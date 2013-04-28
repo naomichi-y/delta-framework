@@ -7,135 +7,130 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション開発実践 Tips - トランザクショントークン</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション開発実践 Tips - トランザクショントークン</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2011 年 2月 10 日</p>
-    <h2>トランザクショントークンとは</h2>
-    <p>会員登録のようなウィザード形式による画面遷移があるとします。</p>
-    <p><img src="../assets/images/diagram/transaction_token.png" alt="ウィザード形式の画面遷移" width="418" height="47" /></p>
-    <p>通常、ユーザは RegisterForm を経て RegisterConfirm、Register の順で画面を遷移します。しかしこの時、もし正当な順序で遷移が行われず、直接 Register アクションが起動されたらプログラムは正常に動作するでしょうか。</p>
-    <p>恐らく RegisterConfirm から送られてくる筈のデータが未送信のため、不正な動作が起こる筈です。<br />
-      ビヘイビアの設定によって、Register アクションの起動は POST リクエストが送信された場合のみに制御することも可能ですが、これでもまだ不十分です。悪意を持つユーザが Register アクションに直接 POST リクエストを送信する可能性があるためです。<br />
-      また、Register アクション上で画面をリロードすると、リロードした回数分、データが登録されることも予想されます。</p>
-    <p>これらの問題に対処する方法として、トランザクショントークンという仕組みが用意されています。<br />
-      トランザクショントークンの仕組みは次の通りです。</p>
-    <ol>
-      <li>一意のトークン ID を発行。ID をセッションに保持する。</li>
-      <li>発行した ID をフォームの hidden に保持し、次の画面に遷移。</li>
-      <li>フォームから送信されてきた ID とセッションに格納されている ID を比較。ID が一致していれば正しい遷移とみなす。</li>
-    </ol>
-    <h2>トランザクショントークン</h2>
-    <p>先ほどの遷移図を元に、実際にトランザクショントークンを導入してみましょう。</p>
-    <p>初めに遷移開始元となる RegisterForm アクション上でトークン ID を発行します。saveToken() メソッドは、SHA1 による 40 ビットのハッシュ値を生成し、発行した ID をユーザオブジェクト (Delta_AuthorityUser) に設定します。</p>
-    <dl>
-      <dt>PHP Code# actions/{module}/RegisterFormAction.php</dt>
-      <dd class="lang_php"><code> $this-&gt;getUser()-&gt;saveToken(); </code></dd>
-    </dl>
-    <p>RegisterForm、RegisterConfirm のビューにトークン ID を埋め込みます。トークン ID は Delta_FormHelper::close() メソッドを使うことで自動的に生成されます。</p>
-    <dl>
-      <dt>Template Code# templates/{module}/register_form.php</dt>
-      <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
-        &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('確認') ?&gt; <br />
-        &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
-    </dl>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>Delta_FormHelper::get('tokenId') で発行したトークン ID を取得することもできます。</p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <p>生成される HTML は次のようなコードになります。ここで tokenId に文字列が格納されますが、この値は saveToken() を実行する度に毎回新しい値が設定されます。</p>
-    <dl>
-      <dt>HTML Code#</dt>
-      <dd class="lang_html"><code>&lt;form action=&quot;/registerConfirm.do&quot; method=&quot;post&quot;&gt;<br />
-        &nbsp;&nbsp;&lt;input type=&quot;submit&quot; value=&quot;確認&quot; /&gt;<br />
-        &nbsp;&nbsp;&lt;input type=&quot;hidden&quot; name=&quot;tokenId&quot;   value=&quot;23fe1eb1bebe8739af0b5cddf7882300be346802&quot;/&gt;<br />
-        &lt;/form&gt;</code></dd>
-    </dl>
-    <p>RegisterConfirm も同様に実装します。RegisterForm から正常に遷移した場合は、前画面で発行したトークン ID が引き継がれます。もしこのページにダイレクトにアクセスした場合、tokenId の値は空になります。</p>
-    <dl>
-      <dt>Template Code# templates/{module}/register_confirm.php</dt>
-      <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
-        &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('登録') ?&gt; <br />
-        &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
-      <dt>HTML Code#</dt>
-      <dd class="lang_html"><code>&lt;form action=&quot;/register.do&quot; method=&quot;post&quot;&gt;<br />
-        &nbsp;&nbsp;&lt;input type=&quot;submit&quot; value=&quot;登録&quot; /&gt;<br />
-        <br />
-        &nbsp;&nbsp;&lt;!-- RegisterForm で生成した ID を引き続き保持する --&gt; <br />
-        &nbsp;&nbsp;&lt;input type=&quot;hidden&quot; name=&quot;tokenId&quot;   value=&quot;23fe1eb1bebe8739af0b5cddf7882300be346802&quot;/&gt;<br />
-        &lt;/form&gt;</code></dd>
-    </dl>
-    <p>「登録」ボタンを押下すると Register アクションに遷移します。Register アクションでは不正な画面遷移が行われていないか、フォームの二重送信が行われていないかのチェックを実装します。</p>
-    <dl>
-      <dt>PHP Code# modules/{module}/actions/RegisterAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        { <br />
-        &nbsp;&nbsp;$user = $this-&gt;getUser();<br /><br />
-        &nbsp;&nbsp;switch ($user-&gt;getTokenState()) {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// 画面遷移は正常に行われた<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;case Delta_AuthorityUser::TOKEN_VALID:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// 画面遷移が不正 (二重送信の可能性)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;case Delta_AuthorityUser::TOKEN_INVALID:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// トークン ID が存在しない<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;case Delta_AuthorityUser::TOKEN_WRONG:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
-        &nbsp;&nbsp;}<br />
-        <br />
-        &nbsp;&nbsp;// セッションに格納されているトークン ID を破棄<br />
-        &nbsp;&nbsp;$user-&gt;resetToken();</code><br />
-        <code>}</code></dd>
-    </dl>
-    <p>getTokenState() メソッドが返す定数は次の通りです。</p>
-    <table>
-      <colgroup>
-      <col width="30%" />
-      <col width="70%" />
-      </colgroup>
-      <tr>
-        <th scope="col">定数名</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td>Delta_AuthorityUser::TOKEN_VALID</td>
-        <td>トークンの状態は正常。トランザクションをコミットするには、resetToken() メソッドを使用します。(resetToken() メソッドを実行するとセッションに格納されているトークン ID は破棄されます)</td>
-      </tr>
-      <tr>
-        <td>Delta_AuthorityUser::TOKEN_INVALID</td>
-        <td>セッションに格納されているトークン ID とフォームから送信されてきた ID が異なる場合に発生。TOKEN_VALID が返された後で resetToken() を実行した場合、2 回目の呼び出し時は TOKEN_INVALID が返されます。</td>
-      </tr>
-      <tr>
-        <td>Delta_AuthorityUser::TOKEN_WRONG</td>
-        <td>セッションにトークン ID が格納されておらず、フォームからも ID が送信されなかった場合に発生。</td>
-      </tr>
-    </table>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">アプリケーション開発実践 Tips - トランザクショントークン</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2011 年 2月 10 日</p>
+  <h2>トランザクショントークンとは</h2>
+  <p>会員登録のようなウィザード形式による画面遷移があるとします。</p>
+  <p><img src="../assets/images/diagram/transaction_token.png" alt="ウィザード形式の画面遷移" width="418" height="47" /></p>
+  <p>通常、ユーザは RegisterForm を経て RegisterConfirm、Register の順で画面を遷移します。しかしこの時、もし正当な順序で遷移が行われず、直接 Register アクションが起動されたらプログラムは正常に動作するでしょうか。</p>
+  <p>恐らく RegisterConfirm から送られてくる筈のデータが未送信のため、不正な動作が起こる筈です。<br />
+    ビヘイビアの設定によって、Register アクションの起動は POST リクエストが送信された場合のみに制御することも可能ですが、これでもまだ不十分です。悪意を持つユーザが Register アクションに直接 POST リクエストを送信する可能性があるためです。<br />
+    また、Register アクション上で画面をリロードすると、リロードした回数分、データが登録されることも予想されます。</p>
+  <p>これらの問題に対処する方法として、トランザクショントークンという仕組みが用意されています。<br />
+    トランザクショントークンの仕組みは次の通りです。</p>
+  <ol>
+    <li>一意のトークン ID を発行。ID をセッションに保持する。</li>
+    <li>発行した ID をフォームの hidden に保持し、次の画面に遷移。</li>
+    <li>フォームから送信されてきた ID とセッションに格納されている ID を比較。ID が一致していれば正しい遷移とみなす。</li>
+  </ol>
+  <h2>トランザクショントークン</h2>
+  <p>先ほどの遷移図を元に、実際にトランザクショントークンを導入してみましょう。</p>
+  <p>初めに遷移開始元となる RegisterForm アクション上でトークン ID を発行します。saveToken() メソッドは、SHA1 による 40 ビットのハッシュ値を生成し、発行した ID をユーザオブジェクト (Delta_AuthorityUser) に設定します。</p>
+  <dl>
+    <dt>PHP Code# actions/{module}/RegisterFormAction.php</dt>
+    <dd class="lang_php"><code> $this-&gt;getUser()-&gt;saveToken(); </code></dd>
+  </dl>
+  <p>RegisterForm、RegisterConfirm のビューにトークン ID を埋め込みます。トークン ID は Delta_FormHelper::close() メソッドを使うことで自動的に生成されます。</p>
+  <dl>
+    <dt>Template Code# templates/{module}/register_form.php</dt>
+    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
+      &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('確認') ?&gt; <br />
+      &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
+  </dl>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>Delta_FormHelper::get('tokenId') で発行したトークン ID を取得することもできます。</p>
+    </div>
+  </div>
+  <p>生成される HTML は次のようなコードになります。ここで tokenId に文字列が格納されますが、この値は saveToken() を実行する度に毎回新しい値が設定されます。</p>
+  <dl>
+    <dt>HTML Code#</dt>
+    <dd class="lang_html"><code>&lt;form action=&quot;/registerConfirm.do&quot; method=&quot;post&quot;&gt;<br />
+      &nbsp;&nbsp;&lt;input type=&quot;submit&quot; value=&quot;確認&quot; /&gt;<br />
+      &nbsp;&nbsp;&lt;input type=&quot;hidden&quot; name=&quot;tokenId&quot;   value=&quot;23fe1eb1bebe8739af0b5cddf7882300be346802&quot;/&gt;<br />
+      &lt;/form&gt;</code></dd>
+  </dl>
+  <p>RegisterConfirm も同様に実装します。RegisterForm から正常に遷移した場合は、前画面で発行したトークン ID が引き継がれます。もしこのページにダイレクトにアクセスした場合、tokenId の値は空になります。</p>
+  <dl>
+    <dt>Template Code# templates/{module}/register_confirm.php</dt>
+    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
+      &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('登録') ?&gt; <br />
+      &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
+    <dt>HTML Code#</dt>
+    <dd class="lang_html"><code>&lt;form action=&quot;/register.do&quot; method=&quot;post&quot;&gt;<br />
+      &nbsp;&nbsp;&lt;input type=&quot;submit&quot; value=&quot;登録&quot; /&gt;<br />
+      <br />
+      &nbsp;&nbsp;&lt;!-- RegisterForm で生成した ID を引き続き保持する --&gt; <br />
+      &nbsp;&nbsp;&lt;input type=&quot;hidden&quot; name=&quot;tokenId&quot;   value=&quot;23fe1eb1bebe8739af0b5cddf7882300be346802&quot;/&gt;<br />
+      &lt;/form&gt;</code></dd>
+  </dl>
+  <p>「登録」ボタンを押下すると Register アクションに遷移します。Register アクションでは不正な画面遷移が行われていないか、フォームの二重送信が行われていないかのチェックを実装します。</p>
+  <dl>
+    <dt>PHP Code# modules/{module}/actions/RegisterAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      { <br />
+      &nbsp;&nbsp;$user = $this-&gt;getUser();<br />
+      <br />
+      &nbsp;&nbsp;switch ($user-&gt;getTokenState()) {<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// 画面遷移は正常に行われた<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;case Delta_AuthorityUser::TOKEN_VALID:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// 画面遷移が不正 (二重送信の可能性)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;case Delta_AuthorityUser::TOKEN_INVALID:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// トークン ID が存在しない<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;case Delta_AuthorityUser::TOKEN_WRONG:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br />
+      &nbsp;&nbsp;}<br />
+      <br />
+      &nbsp;&nbsp;// セッションに格納されているトークン ID を破棄<br />
+      &nbsp;&nbsp;$user-&gt;resetToken();<br>
+      } </code></dd>
+  </dl>
+  <p>getTokenState() メソッドが返す定数は次の通りです。</p>
+  <table>
+    <colgroup>
+    <col width="30%" />
+    <col width="70%" />
+    </colgroup>
+    <tr>
+      <th scope="col">定数名</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td>Delta_AuthorityUser::TOKEN_VALID</td>
+      <td>トークンの状態は正常。トランザクションをコミットするには、resetToken() メソッドを使用します。(resetToken() メソッドを実行するとセッションに格納されているトークン ID は破棄されます)</td>
+    </tr>
+    <tr>
+      <td>Delta_AuthorityUser::TOKEN_INVALID</td>
+      <td>セッションに格納されているトークン ID とフォームから送信されてきた ID が異なる場合に発生。TOKEN_VALID が返された後で resetToken() を実行した場合、2 回目の呼び出し時は TOKEN_INVALID が返されます。</td>
+    </tr>
+    <tr>
+      <td>Delta_AuthorityUser::TOKEN_WRONG</td>
+      <td>セッションにトークン ID が格納されておらず、フォームからも ID が送信されなかった場合に発生。</td>
+    </tr>
+  </table>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

@@ -1,231 +1,234 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta http-equiv="Content-Language" content="ja" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - 設定ファイル - routes.yml</title>
-    <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-<!--#if expr="$HTTP_HOST = /delta-framework.org/" --><link rel="stylesheet" href="/global_assets/css/navi.css" type="text/css" media="screen" /><!--#endif -->
-  </head>
-  <body>
-
-
-    <header>      <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> <h1 id="top">設定ファイル - routes.yml </h1>
-    </header>
-    <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-最終更新日: 2007 年 2 月 19 日</p>
-    <h2>ルータ設定ファイルの概要</h2>
-    <p>ルータを使用することで、Apache の Mod_Rewrite と同様のルーティングを YAML の設定ファイル (config/routes.yml) 上で管理することが可能になります。ルータには複数のルーティングを設定することができ、上から順に経路の解析が行われます。</p>
-<p>例えば、リクエストされる URI が /customer/foo や /customer/bar といった様にパラメータが可変する場合、次のようにルーティング経路を設定することで特定のアクションを実行することが可能になります。</p>
-    <dl>
-      <dt>YAML Code# config/routes.yml</dt>
-      <dd class="lang_yaml"><code>customerRouter:<br />
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">設定ファイル - routes.yml </h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2007 年 2 月 19 日</p>
+  <h2>ルータ設定ファイルの概要</h2>
+  <p>ルータを使用することで、Apache の Mod_Rewrite と同様のルーティングを YAML の設定ファイル (config/routes.yml) 上で管理することが可能になります。ルータには複数のルーティングを設定することができ、上から順に経路の解析が行われます。</p>
+  <p>例えば、リクエストされる URI が /customer/foo や /customer/bar といった様にパラメータが可変する場合、次のようにルーティング経路を設定することで特定のアクションを実行することが可能になります。</p>
+  <dl>
+    <dt>YAML Code# config/routes.yml</dt>
+    <dd class="lang_yaml"><code>customerRouter:<br />
       &nbsp;&nbsp;uri: /customer/:any<br />
       &nbsp;&nbsp;forward:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;module: entry<br />
-       &nbsp;&nbsp;&nbsp;&nbsp;action: CustomerRegisterForm </code></dd>
-    </dl>
-    <ul>
-      <li>customerRouter: 経路を一意に表すための名前です。他のルーティング経路名と重複しなければ、どのような名前を付けても構いません。 </li>
-      <li>uri: リクエスト URI にマッチするパターンです。&quot;:any&quot; はパラメータ変数を表しており、&quot;/customer/foo&quot; や &quot;/customer/bar&quot; といった URI にマッチします。また、&quot;:&quot; から始まる変数は、フィルタやアクション上でリクエスト値として値を取得することができます。(例: $request-&gt;getParameter('any') は &quot;foo&quot; を返します)</li>
-      <li>forward: &quot;uri&quot; のパターンにマッチする際にフォワードをかけるモジュール、アクション名を指定します。 </li>
-      </ul>
-    <p>次の例では、パラメータ変数に対し厳格なパスのチェックを行います。</p>
-    <dl>
-      <dt>YAML Code# config/routes.yml</dt>
-      <dd class="lang_yaml"><code>myBlogRouter:<br />
-        &nbsp;&nbsp;uri: /blog/:year/:month/:day<br />
-        &nbsp;&nbsp;forward:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;module: blog <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;action: ShowBlogEntry <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;action: CustomerRegisterForm </code></dd>
+  </dl>
+  <ul>
+    <li>customerRouter: 経路を一意に表すための名前です。他のルーティング経路名と重複しなければ、どのような名前を付けても構いません。 </li>
+    <li>uri: リクエスト URI にマッチするパターンです。&quot;:any&quot; はパラメータ変数を表しており、&quot;/customer/foo&quot; や &quot;/customer/bar&quot; といった URI にマッチします。また、&quot;:&quot; から始まる変数は、フィルタやアクション上でリクエスト値として値を取得することができます。(例: $request-&gt;getParameter('any') は &quot;foo&quot; を返します)</li>
+    <li>forward: &quot;uri&quot; のパターンにマッチする際にフォワードをかけるモジュール、アクション名を指定します。 </li>
+  </ul>
+  <p>次の例では、パラメータ変数に対し厳格なパスのチェックを行います。</p>
+  <dl>
+    <dt>YAML Code# config/routes.yml</dt>
+    <dd class="lang_yaml"><code>myBlogRouter:<br />
+      &nbsp;&nbsp;uri: /blog/:year/:month/:day<br />
+      &nbsp;&nbsp;forward:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;module: blog <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;action: ShowBlogEntry <br />
       &nbsp;&nbsp;  patterns:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;year: ^\d{4}$<br />
-&nbsp;&nbsp;&nbsp;&nbsp;month: ^\d\d$<br />
-&nbsp;&nbsp;&nbsp;&nbsp;day: ^\d\d$<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;year: ^\d{4}$<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;month: ^\d\d$<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;day: ^\d\d$<br />
       </code></dd>
-    </dl>
-    <p>myBlogRouter では、patterns 属性を指定して URI パターンに対するパスのチェックを行っています。patterns ではパラメータ変数ごとに正規表現でのチェックをかけることが可能で、上記の場合は year が 4 桁数値、month と day が 2 桁の数値であるかどうかの検証を行っています。 &quot;/blog/2007/01/01&quot; といったリクエスト URI にはマッチしますが、&quot;/blog/2007/01/x&quot; のような英字を含むパターンにはマッチしません。</p>
-    <p>パターンにマッチした場合は、blog/ShowBlogEntry アクションが実行されます。</p>
-    <dl>
-      <dt>PHP Code# modules/blog/ShowBlogEntryAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp;&nbsp;$request = $this-&gt;getRequest();<br /><br />
-        &nbsp;&nbsp;$year = $request()-&gt;getParameter('year'); // 2007 <br />
-        &nbsp;&nbsp;$month = $request()-&gt;getParameter('month');  // 01 <br />
-        &nbsp;&nbsp;$day = $request()-&gt;getParameter('day');  // 01 <br />
-        <br />
-        &nbsp;&nbsp;return Delta_View::SUCCESS;
-        <br />
-
+  </dl>
+  <p>myBlogRouter では、patterns 属性を指定して URI パターンに対するパスのチェックを行っています。patterns ではパラメータ変数ごとに正規表現でのチェックをかけることが可能で、上記の場合は year が 4 桁数値、month と day が 2 桁の数値であるかどうかの検証を行っています。 &quot;/blog/2007/01/01&quot; といったリクエスト URI にはマッチしますが、&quot;/blog/2007/01/x&quot; のような英字を含むパターンにはマッチしません。</p>
+  <p>パターンにマッチした場合は、blog/ShowBlogEntry アクションが実行されます。</p>
+  <dl>
+    <dt>PHP Code# modules/blog/ShowBlogEntryAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp;&nbsp;$request = $this-&gt;getRequest();<br />
+      <br />
+      &nbsp;&nbsp;$year = $request()-&gt;getParameter('year'); // 2007 <br />
+      &nbsp;&nbsp;$month = $request()-&gt;getParameter('month');  // 01 <br />
+      &nbsp;&nbsp;$day = $request()-&gt;getParameter('day');  // 01 <br />
+      <br />
+      &nbsp;&nbsp;return Delta_View::SUCCESS; <br />
       }</code></dd>
-    </dl>
-    <p>更にルーティング設定では、リクエストパラメータのデフォルト値を設定することも可能です。下記のサンプルコードを参照して下さい。</p>
-    <dl>
-      <dt>YAML Code# config/routes.yml</dt>
-      <dd class="lang_yaml"><code>loginRouter:<br />
-        &nbsp;&nbsp;uri: /auth/*<br />
-        &nbsp;&nbsp;forward:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;module: auth<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;action: LoginForm <br />
-        &nbsp;&nbsp;parameters:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;loginId: foo <br />
+  </dl>
+  <p>更にルーティング設定では、リクエストパラメータのデフォルト値を設定することも可能です。下記のサンプルコードを参照して下さい。</p>
+  <dl>
+    <dt>YAML Code# config/routes.yml</dt>
+    <dd class="lang_yaml"><code>loginRouter:<br />
+      &nbsp;&nbsp;uri: /auth/*<br />
+      &nbsp;&nbsp;forward:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;module: auth<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;action: LoginForm <br />
+      &nbsp;&nbsp;parameters:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;loginId: foo <br />
       </code></dd>
-    </dl>
-    <p>uri 属性に &quot;/auth/*&quot; と指定されていますが、これはリクエスト URI が &quot;/auth&quot;、&quot;/auth/foo&quot;、&quot;/auth/foo/bar&quot; といったパターンにマッチします。リクエスト URI が &quot;/auth/foo/bar&quot; の場合、アクション上で $request-&gt;getParameter('foo') の値を取得すると &quot;bar&quot; といった値が返されるでしょう。</p>
-    <p>また、新たに &quot;parameters&quot; という属性が追加されていますが、これは auth/LoginForm アクションが実行された際に付加するデフォルトのリクエストパラメータを表します。LoginForm アクション上で $request-&gt;getParameter('loginId') の値を取得すると &quot;foo&quot; を返すでしょう。但し、uri のパターンが &quot;/auth/:loginId&quot;、リクエスト URI が &quot;/auth/bar&quot; の場合は $request-&gt;getParameter('loginId') で &quot;bar&quot; を返します。これはリクエスト URI が parameters の値を上書きするためです。 </p>
-    <h2>デフォルトルーティング設定</h2>
-    <p>delta では従来、URI が &quot;/(モジュール名)/(アクション名)&quot; 形式でのリクエストを処理していました。もし現在のプロジェクトで古いタイプのルータを有効にしたい場合は、下記のコードを routes.yml に追加して下さい。 </p>
-    <dl>
-      <dt>YAML Code# config/routes.yml</dt>
-      <dd class="lang_yaml"><code>homepage:<br />
-         &nbsp;&nbsp;uri: / <br />
-        <br />
-        actionEntry:<br />
-        &nbsp;&nbsp;uri: /:action/*<br />
-        <br />
-        default:<br />
+  </dl>
+  <p>uri 属性に &quot;/auth/*&quot; と指定されていますが、これはリクエスト URI が &quot;/auth&quot;、&quot;/auth/foo&quot;、&quot;/auth/foo/bar&quot; といったパターンにマッチします。リクエスト URI が &quot;/auth/foo/bar&quot; の場合、アクション上で $request-&gt;getParameter('foo') の値を取得すると &quot;bar&quot; といった値が返されるでしょう。</p>
+  <p>また、新たに &quot;parameters&quot; という属性が追加されていますが、これは auth/LoginForm アクションが実行された際に付加するデフォルトのリクエストパラメータを表します。LoginForm アクション上で $request-&gt;getParameter('loginId') の値を取得すると &quot;foo&quot; を返すでしょう。但し、uri のパターンが &quot;/auth/:loginId&quot;、リクエスト URI が &quot;/auth/bar&quot; の場合は $request-&gt;getParameter('loginId') で &quot;bar&quot; を返します。これはリクエスト URI が parameters の値を上書きするためです。 </p>
+  <h2>デフォルトルーティング設定</h2>
+  <p>delta では従来、URI が &quot;/(モジュール名)/(アクション名)&quot; 形式でのリクエストを処理していました。もし現在のプロジェクトで古いタイプのルータを有効にしたい場合は、下記のコードを routes.yml に追加して下さい。 </p>
+  <dl>
+    <dt>YAML Code# config/routes.yml</dt>
+    <dd class="lang_yaml"><code>homepage:<br />
+      &nbsp;&nbsp;uri: / <br />
+      <br />
+      actionEntry:<br />
+      &nbsp;&nbsp;uri: /:action/*<br />
+      <br />
+      default:<br />
       &nbsp;&nbsp;uri: /:module/:action/*</code></dd>
-    </dl>
-    <h2>属性一覧</h2>
-    <p>次に router ファイルで設定可能な値の一覧を記します。</p>
-    <table>
-      <tr>
-        <th colspan="4" scope="col">属性構成</th>
-        <th scope="col">取り得る値</th>
-        <th scope="col">必須</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td rowspan="17">(ルーティング ID) (+) </td>
-        <td colspan="3">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>◯</td>
-        <td>任意のルート名。</td>
-      </tr>
-      <tr>
-        <td colspan="3">uri </td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>&quot;/&quot; から始まるルーティング URI のパターン。&quot;:&quot; を含むパスはリクエスト変数と見なされる。変数名には &quot;a-z、A-Z、0-9、-、_&quot; が使用可能。但し &quot;:module&quot;、&quot;:action&quot; は予約変数としてあらかじめ登録されている。</td>
-      </tr>
-      <tr>
-        <td colspan="3">forward</td>
-        <td>(array)</td>
-        <td></td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td rowspan="2">&nbsp;</td>
-        <td colspan="2">module</td>
-        <td>(string)</td>
-        <td></td>
-        <td>フォワード先のモジュール名。</td>
-      </tr>
-      <tr>
-        <td colspan="2">action</td>
-        <td>(string)</td>
-        <td></td>
-        <td>フォワード先のアクション名。</td>
-      </tr>
-      <tr>
-        <td colspan="3">access</td>
-        <td>(array)</td>
-        <td></td>
-        <td>アクセス許可の設定。</td>
-      </tr>
-      <tr>
-        <td rowspan="4">&nbsp;</td>
-        <td colspan="2">allows</td>
-        <td>(array)</td>
-        <td>◯</td>
-        <td>許可する IP アドレスリスト。&quot;192.168.0.1&quot;、&quot;192.168.&quot;、&quot;192.168.0.1/24&quot;、&quot;192.168.0.1-192.168.0.16&quot; といった書式に対応。</td>
-      </tr>
-      <tr>
-        <td colspan="2">denyForward</td>
-        <td>(array)</td>
-        <td></td>
-        <td>アクセスが許可されない場合に遷移するアクションの指定。未指定の場合はモジュールのデフォルトアクションへフォワード。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">&nbsp;</td>
-        <td>module</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>フォワード先のモジュール名。</td>
-      </tr>
-      <tr>
-        <td>action</td>
-        <td>(string)</td>
-        <td>◯</td>
-        <td>フォワード先のアクション名。</td>
-      </tr>
-      <tr>
-        <td colspan="3">packages</td>
-        <td>(array)</td>
-        <td></td>
-        <td>現在のルーティングに関連付けるパッケージ名。
-          <dl>
-            <dt>YAML Code#</dt>
-            <dd class="lang_yaml"><code>restrictEntry:<br />
-              &nbsp;&nbsp;uri: /restrict/:action<br />
-  &nbsp;&nbsp;packages:<br />
-  &nbsp;&nbsp;&nbsp;&nbsp;- entry:/restrict<br />
-  <br />
-              defaultEntry:<br />
-  &nbsp;&nbsp;uri: /:module/:action </code></dd>
-          </dl>
+  </dl>
+  <h2>属性一覧</h2>
+  <p>次に router ファイルで設定可能な値の一覧を記します。</p>
+  <table>
+    <tr>
+      <th colspan="4" scope="col">属性構成</th>
+      <th scope="col">取り得る値</th>
+      <th scope="col">必須</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td rowspan="17">(ルーティング ID) (+) </td>
+      <td colspan="3">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>任意のルート名。</td>
+    </tr>
+    <tr>
+      <td colspan="3">uri </td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>&quot;/&quot; から始まるルーティング URI のパターン。&quot;:&quot; を含むパスはリクエスト変数と見なされる。変数名には &quot;a-z、A-Z、0-9、-、_&quot; が使用可能。但し &quot;:module&quot;、&quot;:action&quot; は予約変数としてあらかじめ登録されている。</td>
+    </tr>
+    <tr>
+      <td colspan="3">forward</td>
+      <td>(array)</td>
+      <td></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td rowspan="2">&nbsp;</td>
+      <td colspan="2">module</td>
+      <td>(string)</td>
+      <td></td>
+      <td>フォワード先のモジュール名。</td>
+    </tr>
+    <tr>
+      <td colspan="2">action</td>
+      <td>(string)</td>
+      <td></td>
+      <td>フォワード先のアクション名。</td>
+    </tr>
+    <tr>
+      <td colspan="3">access</td>
+      <td>(array)</td>
+      <td></td>
+      <td>アクセス許可の設定。</td>
+    </tr>
+    <tr>
+      <td rowspan="4">&nbsp;</td>
+      <td colspan="2">allows</td>
+      <td>(array)</td>
+      <td>◯</td>
+      <td>許可する IP アドレスリスト。&quot;192.168.0.1&quot;、&quot;192.168.&quot;、&quot;192.168.0.1/24&quot;、&quot;192.168.0.1-192.168.0.16&quot; といった書式に対応。</td>
+    </tr>
+    <tr>
+      <td colspan="2">denyForward</td>
+      <td>(array)</td>
+      <td></td>
+      <td>アクセスが許可されない場合に遷移するアクションの指定。未指定の場合はモジュールのデフォルトアクションへフォワード。</td>
+    </tr>
+    <tr>
+      <td rowspan="2">&nbsp;</td>
+      <td>module</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>フォワード先のモジュール名。</td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>(string)</td>
+      <td>◯</td>
+      <td>フォワード先のアクション名。</td>
+    </tr>
+    <tr>
+      <td colspan="3">packages</td>
+      <td>(array)</td>
+      <td></td>
+      <td>現在のルーティングに関連付けるパッケージ名。
+        <dl>
+          <dt>YAML Code#</dt>
+          <dd class="lang_yaml"><code>restrictEntry:<br />
+            &nbsp;&nbsp;uri: /restrict/:action<br />
+            &nbsp;&nbsp;packages:<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;- entry:/restrict<br />
+            <br />
+            defaultEntry:<br />
+            &nbsp;&nbsp;uri: /:module/:action </code></dd>
+        </dl>
         <p>上記例の場合、restrictEntry は entry モジュールの restrict パッケージ (ディレクトリ) 下のアクションと関連付きます。パッケージはより上位に設定された関連付けを優先するため、defaultEntry は entry:/restrict を除いたパッケージからアクションを検索します。</p></td>
-      </tr>
-      <tr>
-        <td colspan="3">parameters</td>
-        <td rowspan="2">(array)</td>
-        <td rowspan="2">FALSE</td>
-        <td rowspan="2">デフォルトパラメータの設定。使用可能な文字の種類は [A-Z、a-z、_、-、.] の組み合わせ。 </td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>(key) (+) </td>
-        <td>(value) (+) </td>
-      </tr>
-      <tr>
-        <td colspan="3">patterns</td>
-        <td rowspan="2">(array)</td>
-        <td rowspan="2">FALSE</td>
-        <td rowspan="2">リクエスト変数のパターン。文字列の先頭と末尾は &quot;^$&quot;、または &quot;Az&quot; で囲う必要がある。(Perl 互換の正規表現が使用可能)</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>(key)   (+) </td>
-        <td>(value) (+) </td>
-      </tr>
-      <tr>
-        <td colspan="3">attributes</td>
-        <td rowspan="2">(array)</td>
-        <td rowspan="2">FALSE</td>
-        <td rowspan="2">リクエスト属性の設定。設定した値は $request-&gt;getAttribute() で取得可能。 </td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>(key)   (+) </td>
-        <td>(value) (+) </td>
-      </tr>
-    </table>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div><div class="note_contents"><p>表内の (+) は、対象属性が複数回指定可能なことを表します。    </p></div>
+    </tr>
+    <tr>
+      <td colspan="3">parameters</td>
+      <td rowspan="2">(array)</td>
+      <td rowspan="2">FALSE</td>
+      <td rowspan="2">デフォルトパラメータの設定。使用可能な文字の種類は [A-Z、a-z、_、-、.] の組み合わせ。 </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>(key) (+) </td>
+      <td>(value) (+) </td>
+    </tr>
+    <tr>
+      <td colspan="3">patterns</td>
+      <td rowspan="2">(array)</td>
+      <td rowspan="2">FALSE</td>
+      <td rowspan="2">リクエスト変数のパターン。文字列の先頭と末尾は &quot;^$&quot;、または &quot;Az&quot; で囲う必要がある。(Perl 互換の正規表現が使用可能)</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>(key)   (+) </td>
+      <td>(value) (+) </td>
+    </tr>
+    <tr>
+      <td colspan="3">attributes</td>
+      <td rowspan="2">(array)</td>
+      <td rowspan="2">FALSE</td>
+      <td rowspan="2">リクエスト属性の設定。設定した値は $request-&gt;getAttribute() で取得可能。 </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>(key)   (+) </td>
+      <td>(value) (+) </td>
+    </tr>
+  </table>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-    </div><footer><p>Copyright &copy; delta framework project.</p></footer>
-  </body>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
+</body>
 </html>

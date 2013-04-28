@@ -7,105 +7,99 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション開発実践 Tips - ビジネスロジックの実装</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション開発実践 Tips - ビジネスロジックの実装</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2007 年 8 月 24 日</p>
-    <h2>サービスクラスを作成する</h2>
-    <p>delta におけるビジネスロジック (MVC のモデル) の実装はサービスクラスが担当します。Web アプリケーションにおけるビジネスロジックは、一般的に次のような処理が考えられるでしょう。</p>
-    <ul>
-      <li>データの登録処理 (データベース更新、メールの送信等)</li>
-      <li>データベースから値を取得 (加工) する</li>
-      <li>データの変換処理</li>
-      <li>汎用的なユーティリティ機能の提供</li>
-    </ul>
-    <p>サービスクラスにはこれらのロジックを機能ごとにメソッドとして実装します。例えばショッピングカートを実装するための ShoppingCartService クラスは次のようなコードになるでしょう。</p>
-    <dl>
-      <dt>PHP Code# libs/service/ShoppingCartService.php</dt>
-      <dd class="lang_php"><code>class ShoppingCartService extends Delta_Service<br />
-        {<br />
-        &nbsp;&nbsp;/**<br />
-        &nbsp;&nbsp;&nbsp;* Delta_Service::initialize() をオーバーライド (任意)<br />
-        &nbsp;&nbsp;&nbsp;* このメソッドではサービスの初期化処理を行います<br />
-        &nbsp;&nbsp;&nbsp;* 各種ライブラリの読み込みやインスタンスの初期化を行なって下さい<br />
-        &nbsp;&nbsp;&nbsp;*/<br />
-        &nbsp;&nbsp;public function initialize()<br />
-        &nbsp;&nbsp;{...}<br />
-        <br />
-        &nbsp;&nbsp;/**<br />
-        &nbsp;&nbsp; * カートに商品を追加する<br />
-        &nbsp;&nbsp;&nbsp;*/<br />
-        &nbsp;&nbsp;public function addItem($item)<br />
-        &nbsp;&nbsp;{...}<br />
-        <br />
-        &nbsp;&nbsp;/**<br />
-        &nbsp;&nbsp;&nbsp;* カートに含まれる全ての商品を取得する<br />
-        &nbsp;&nbsp;&nbsp;*/<br />
-        &nbsp;&nbsp;public function getItems()<br />
-        &nbsp;&nbsp;{...}<br />
-        <br />
-        &nbsp;&nbsp;/**<br />
-        &nbsp;&nbsp;&nbsp;* カートを空にする<br />
-        &nbsp;&nbsp;&nbsp;*/<br />
-        &nbsp;&nbsp;public function reset()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// 他のサービスのインスタンスのメソッドを実行することもできます<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;get('User')-&gt;xxx();<br />
-        &nbsp; }<br />
-        } </code> </dd>
-    </dl>
-    <p>分かりやすくするためにシンプルな構成としましたが、サービスクラスの役割についてイメージは掴めたのではないでしょうか。</p>
-    <p>尚、サービスクラスを作成する上では、次のような制約があります。</p>
-    <ul>
-      <li>全てのサービスクラスは Delta_Service を継承する</li>
-      <li>サービスクラスは、{APP_ROOT_DIR}/libs/service 下に配置する</li>
-      <li>クラス名は {サービス名} + &quot;Service&quot; とする</li>
-    </ul>
-    <p>作成したクラスは、サービスコンポーネント (Delta_ServiceFactory) から取得することができます。</p>
-    <dl>
-      <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>$cart = Delta_ServiceFactory::get('ShoppingCart');<br />
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">アプリケーション開発実践 Tips - ビジネスロジックの実装</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2007 年 8 月 24 日</p>
+  <h2>サービスクラスを作成する</h2>
+  <p>delta におけるビジネスロジック (MVC のモデル) の実装はサービスクラスが担当します。Web アプリケーションにおけるビジネスロジックは、一般的に次のような処理が考えられるでしょう。</p>
+  <ul>
+    <li>データの登録処理 (データベース更新、メールの送信等)</li>
+    <li>データベースから値を取得 (加工) する</li>
+    <li>データの変換処理</li>
+    <li>汎用的なユーティリティ機能の提供</li>
+  </ul>
+  <p>サービスクラスにはこれらのロジックを機能ごとにメソッドとして実装します。例えばショッピングカートを実装するための ShoppingCartService クラスは次のようなコードになるでしょう。</p>
+  <dl>
+    <dt>PHP Code# libs/service/ShoppingCartService.php</dt>
+    <dd class="lang_php"><code>class ShoppingCartService extends Delta_Service<br />
+      {<br />
+      &nbsp;&nbsp;/**<br />
+      &nbsp;&nbsp;&nbsp;* Delta_Service::initialize() をオーバーライド (任意)<br />
+      &nbsp;&nbsp;&nbsp;* このメソッドではサービスの初期化処理を行います<br />
+      &nbsp;&nbsp;&nbsp;* 各種ライブラリの読み込みやインスタンスの初期化を行なって下さい<br />
+      &nbsp;&nbsp;&nbsp;*/<br />
+      &nbsp;&nbsp;public function initialize()<br />
+      &nbsp;&nbsp;{...}<br />
+      <br />
+      &nbsp;&nbsp;/**<br />
+      &nbsp;&nbsp; * カートに商品を追加する<br />
+      &nbsp;&nbsp;&nbsp;*/<br />
+      &nbsp;&nbsp;public function addItem($item)<br />
+      &nbsp;&nbsp;{...}<br />
+      <br />
+      &nbsp;&nbsp;/**<br />
+      &nbsp;&nbsp;&nbsp;* カートに含まれる全ての商品を取得する<br />
+      &nbsp;&nbsp;&nbsp;*/<br />
+      &nbsp;&nbsp;public function getItems()<br />
+      &nbsp;&nbsp;{...}<br />
+      <br />
+      &nbsp;&nbsp;/**<br />
+      &nbsp;&nbsp;&nbsp;* カートを空にする<br />
+      &nbsp;&nbsp;&nbsp;*/<br />
+      &nbsp;&nbsp;public function reset()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// 他のサービスのインスタンスのメソッドを実行することもできます<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;get('User')-&gt;xxx();<br />
+      &nbsp; }<br />
+      } </code> </dd>
+  </dl>
+  <p>分かりやすくするためにシンプルな構成としましたが、サービスクラスの役割についてイメージは掴めたのではないでしょうか。</p>
+  <p>尚、サービスクラスを作成する上では、次のような制約があります。</p>
+  <ul>
+    <li>全てのサービスクラスは Delta_Service を継承する</li>
+    <li>サービスクラスは、{APP_ROOT_DIR}/libs/service 下に配置する</li>
+    <li>クラス名は {サービス名} + &quot;Service&quot; とする</li>
+  </ul>
+  <p>作成したクラスは、サービスコンポーネント (Delta_ServiceFactory) から取得することができます。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$cart = Delta_ServiceFactory::get('ShoppingCart');<br />
       $cart-&gt;addItem($item);<br />
       <br />
       // Delta_Object を継承したクラスであれば、Delta_Object::getService() メソッドを使うことも可能<br />
       $cart = $this-&gt;getService('ShoppingCart');</code></dd>
-    </dl>
-    <p>サービスクラスは MVC のモデルに相当するため、V (ビュー) や C (コントローラ) のコードはロジックに含まれるべきではありません。例えば、サービスクラス内で HTTP リクエストを解析したり、セッションを操作するロジックを入れ込むことは好ましくありません。サービスクラスは Web アプリケーションの外 (例えばコンソールアプリケーション) からコールされる可能性もあります。</p>
-    <p>またモデルが請け負う仕事は、あくまでコントローラ (アクション) から渡されたデータを適切に処理・加工した上で結果を「コントローラに」返すことです。結果をビューに割り当てるのはコントローラの役割です。従ってモデルから直接ビューにデータを割り当てるといった実装も推奨されるものではありません。サービスを設計する上では、対象のロジックコードが MVC で分離できているか検証する必要があります。</p>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>サービスクラスはシステムのユースケース単位で作成することをお勧めします。例えば「買い物をする」というユースケースは ShoppingCartService、「会員を管理する」というユースケースであれば MemberService クラスでロジックを一元管理します。ユースケースとサービスをマッピングさせておくことで、将来的にシステムの変更が加わった際も、ロジックの修正が分かりやすくなるメリットがあります。</p>
-      </div>
+  </dl>
+  <p>サービスクラスは MVC のモデルに相当するため、V (ビュー) や C (コントローラ) のコードはロジックに含まれるべきではありません。例えば、サービスクラス内で HTTP リクエストを解析したり、セッションを操作するロジックを入れ込むことは好ましくありません。サービスクラスは Web アプリケーションの外 (例えばコンソールアプリケーション) からコールされる可能性もあります。</p>
+  <p>またモデルが請け負う仕事は、あくまでコントローラ (アクション) から渡されたデータを適切に処理・加工した上で結果を「コントローラに」返すことです。結果をビューに割り当てるのはコントローラの役割です。従ってモデルから直接ビューにデータを割り当てるといった実装も推奨されるものではありません。サービスを設計する上では、対象のロジックコードが MVC で分離できているか検証する必要があります。</p>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>サービスクラスはシステムのユースケース単位で作成することをお勧めします。例えば「買い物をする」というユースケースは ShoppingCartService、「会員を管理する」というユースケースであれば MemberService クラスでロジックを一元管理します。ユースケースとサービスをマッピングさせておくことで、将来的にシステムの変更が加わった際も、ロジックの修正が分かりやすくなるメリットがあります。</p>
     </div>
-    <div class="note_container note_important">
-      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-      <div class="note_contents">
-        <p>サービスクラスにはデータベースに低レベルでアクセスするコード (クエリの発行等) を含めるべきではありません。delta ではデータアクセスに DAO パターンを採用しています。データベースを操作する場合は、必ず DAO クラス (またはベンダーが提供する ORM フレームワーク) を経由してアクセスして下さい。(詳しくは API を参照)</p>
-      </div>
-    </div>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
+      <p>サービスクラスにはデータベースに低レベルでアクセスするコード (クエリの発行等) を含めるべきではありません。delta ではデータアクセスに DAO パターンを採用しています。データベースを操作する場合は、必ず DAO クラス (またはベンダーが提供する ORM フレームワーク) を経由してアクセスして下さい。(詳しくは API を参照)</p>
+    </div>
+  </div>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

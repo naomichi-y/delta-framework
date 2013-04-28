@@ -7,236 +7,231 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - フレームワーク入門 - delta のセットアップ</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-  <header>
-           <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div>
-    <h1 id="top">フレームワーク入門 - delta のセットアップ </h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2010 年 12 月 3 日</p>
-    <ul class="index">
-      <li><a href="#step1">Step 1: 環境設定 </a>
-        <ul>
-          <li><a href="#step1_php">PHP の設定</a> </li>
-          <li><a href="#step1_webServer">Web サーバの設定</a></li>
-          <li><a href="#step1_dbServer">DB サーバのインストール</a></li>
-        </ul>
-      </li>
-      <li><a href="#step2">Step 2: delta のインストール </a>
-        <ul>
-          <li><a href="#step2_command">delta コマンドにパスを通す</a></li>
-          <li><a href="#step2_project">プロジェクトの作成</a></li>
-        </ul>
-      </li>
-      <li><a href="#step3">Step3: アプリケーションの起動</a> </li>
-    </ul>
-    <h2><a id="step1" name="step1"></a>Step 1: 環境設定</h2>
-    <p>まずはフレームワークをインストールする前にソフトウェアの開発環境を整えましょう。</p>
-    <h3><a id="step1_php" name="step1_php"></a>PHP の設定 </h3>
-    <p>delta は PHP 5.3 以降で動作するフルスタック型のフレームワークです。次に示す PHP モジュールに依存しているため、モジュールがインストールされていない場合は組み込みが必要になります。各モジュールがインストールされているかどうかは phpinfo() 関数で確認して下さい。</p>
-    <table>
-      <colgroup>
-      <col width="20%" />
-      <col width="80%" />
-      </colgroup>
-      <tr>
-        <th scope="col">モジュール名</th>
-        <th scope="col">モジュールの概要</th>
-      </tr>
-      <tr>
-        <td scope="col">mbstring</td>
-        <td scope="col">PHP でマルチバイト文字列を扱う拡張モジュール。</td>
-      </tr>
-      <tr>
-        <td scope="col">SPL</td>
-        <td scope="col">Standard PHP Library。標準的な問題を解決するためのインタフェースやクラスを提供。(PHP 5.3 以降はデフォルトでコンパイル済み)</td>
-      </tr>
-      <tr>
-        <td scope="col">PDO</td>
-        <td scope="col">PHP Data Object。PHP からデータベースにアクセスするためのインタフェース、及びドライバを提供。(データベースを使用しない場合はインストール不要)</td>
-      </tr>
-    </table>
-    <p>モジュールがインストールされていない場合、下記の手順に従ってモジュールのインストールが必要になります。</p>
-    <dl>
-      <dt>Shell Code# configure (Linux 環境における静的インストールの例)</dt>
-      <dd class="lang_shell"><code>$ cd /usr/local/src/php-x.x.x<br />
-        $ make clean<br />
-        $ ./configure　--enable-mbstring --enable-spl --enable-pdo --with-pdo-mysql=/usr/local/mysql<br />
-        $ make<br />
-        $ make install </code></dd>
-    </dl>
-    <p>Windows 環境であれば php.ini ファイルでモジュールの追加が可能です。設定書き換え後は Web サーバを再起動して下さい。</p>
-    <dl>
-      <dt>Configration Code# php.ini (Windows 環境の例)</dt>
-      <dd class="lang_config"><code># コメントアウトを外してモジュールを有効化する<br />
-        extension=php_mbstring.dll<br />
-        extension=php_pdo.dll<br />
-        <br />
-        # 使用するデータベースに合ったドライバをロード <br />
-        extendson=php_pdo_mysql.dll </code></dd>
-    </dl>
-    <h3><a id="step1_webServer" name="step1_webServer"></a>Web サーバの設定</h3>
-    <p>フレームワークを動作させる上で推奨する Web サーバは Apache 2.2 以降です。Apache を利用する場合、mod_alias と mod_rewrite モジュールが有効化されている必要があります。インストールされていない場合は次の手順に従ってモジュールをインストールしておいて下さい。</p>
-    <dl>
-      <dt>Shell Code# mod_rewrite の静的インストール (Linux の場合)</dt>
-      <dd class="lang_shell"><code>$ cd /usr/local/src/httpd-x.x.x<br />
-        $ make clean<br />
-        $ ./configure --enable-rewrite --enable-alias<br />
-        $ make<br />
-        $ make install </code></dd>
-    </dl>
-    <p>Windows であれば httpd.conf ファイルから設定を変更することができます。設定書き換え後は Web サーバを再起動して下さい。</p>
-    <dl>
-      <dt>Configration Code# mod_rewrite を有効にする(Windows の場合)</dt>
-      <dd class="lang_config"><code># コメントアウトを外してモジュールを有効化する<br />
-        LoadModule alias_module modules/mod_alias.so<br />
-        LoadModule rewrite_module modules/mod_rewrite.so<br />
-        </code></dd>
-    </dl>
-    <h3><a id="step1_dbServer" name="step1_dbServer"></a>DB サーバのインストール (任意)</h3>
-    <p>フレームワークに付属するサンプルアプリケーションを動作させるには DB サーバが必要となります。特に必要となる設定はありませんが、クライアントプログラム (PDO) から接続する際のエンコードの指定だけは注意が必要です。delta はデフォルトエンコーディングに UTF-8 を使用しますが、DB サーバのデータベースエンコーディングに他のエンコードを使用している場合は文字コードの変換が必要となります。</p>
-    <p>データベースエンコーディングが UTF-8 以外の場合、MySQL であれば設定ファイル上で次のような指定が必要となるでしょう。</p>
-    <dl>
-      <dt>Shell Code# my.cnf の設定例</dt>
-      <dd><code>[mysqld]<br />
-        default-character-set=utf8<br />
-        <br />
-        # Web サーバと DB サーバが同じ場合 <br />
-        [client]<br />
-        default-character-set=utf8 </code></dd>
-    </dl>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <ul>
-          <li>エンコードの設定は使用する DB や環境によって変わります。詳しくはデータベースのマニュアルを参照して下さい。</li>
-          <li>可能な限り、クライアントエンコーディングとデータベースエンコーディングは統一しておくべきです。</li>
-        </ul>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <h2><a id="step2" name="step2">Step 2: delta のインストール </a></h2>
-    <p>初めに delta の最新版パッケージを Git リポジトリ (あるいはアーカイブリスト) から入手して下さい。ダウンロードしたパッケージには、delta のコアライブラリやプロジェクトのスケルトン、ドキュメント、API が含まれています。(以後コアパッケージと称します) 実際にアプリケーションを開発する際は、このパッケージとは別にプロジェクトディレクトリを作成し、その中でプログラムを組んでいきます。</p>
-    <p>コアパッケージは Web から参照されない場所に配置して下さい。フレームワークはライブラリという扱いなので、Linux であれば /var/repos/delta といったディレクトリに設置すると良いでしょう。</p>
-    <h3><a id="step2_command" name="step2_command">delta コマンドにパスを通す</a></h3>
-    <p>delta にはプロジェクトの作成やモジュールの追加を簡単に行うためのユーティリティコマンド (delta.php) が付属しています。コマンド自体は PHP スクリプトのため php を通して実行すれば良いのですが、パスを通すことでどこからでもコマンドが実行できるようになります。</p>
-    <p>コマンドにパスを通す場合、コアパッケージ内の次のファイルを OS のパスが通っている場所にコピーして下さい。</p>
-    <table>
-      <colgroup>
-      <col width="20%" />
-      <col width="80%" />
-      </colgroup>
-      <tr>
-        <th scope="col">OS</th>
-        <th scope="col">ファイルの場所</th>
-      </tr>
-      <tr>
-        <td scope="col">Windows</td>
-        <td scope="col">command/delta.bat</td>
-      </tr>
-      <tr>
-        <td scope="col">Linux </td>
-        <td scope="col">command/delta (sh) </td>
-      </tr>
-    </table>
-    <p>ファイルを設置したら delta.bat (あるいは delta) をエディタで開き、ソース内の &quot;@DELTA_HOME@&quot; と書かれた部分をコアパッケージの絶対パスに置き換えて下さい。</p>
-    <p>以上で設定は完了です。コンソール上で delta と打ち込むことで次のような結果が表示されるようになります。</p>
-    <dl>
-      <dt>Shell Code# delta コマンドの使用 (Linux) </dt>
-      <dd class="lang_shell"><code>$ delta<br />
-        Usage: <br />
-        &nbsp;&nbsp;delta [Options] <br />
-        <br />
-        Options:<br />
-&nbsp;&nbsp;add-action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add action to current module.<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you want to use a skeleton template,<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;please edit 'templates/html/skeleton.php'.<br />
-&nbsp;&nbsp;add-module        &nbsp;&nbsp;&nbsp;&nbsp;Add module to current project.<br />
-&nbsp;&nbsp;add-theme         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add theme to current project.<br />
-&nbsp;&nbsp;clear-cache       &nbsp;&nbsp;&nbsp;Clear the cache of all.<br />
-&nbsp;&nbsp;create-project    Create new project.<br />
-      &nbsp;&nbsp;...</code></dd>
-    </dl>
-    <p>モジュールの追加やキャッシュの削除に関しては、プロジェクト内のディレクトリであればどこからでも実行することができます。</p>
-    <h3><a id="step2_project" name="step2_project"></a>プロジェクトの作成</h3>
-    <p>それでは早速アプリケーションを格納するための入れ物であるプロジェクトを作成してみましょう。delta コマンドでプロジェクトを作成するには、&quot;create-project&quot; オプションを指定します。</p>
-    <dl>
-      <dt>Shell Code# プロジェクトの作成</dt>
-      <dd class="lang_shell"><code># 新規プロジェクトの作成<br />
-        $ delta create-project<br />
-        <br />
-        # プロジェクトのインストールディレクトリ (未指定時はカレントディレクトリがインストール先となる)<br />
-        &gt; Install path [/home/webapp]: /var/www<br />
-        <br />
-        # プロジェクト名 (未指定時はカレントディレクトリ &quot;webapp&quot; がプロジェクト名となる)<br />
-        &gt; Project name [webapp]: first_project <br />
-        <br />
-        # デフォルトモジュール名の指定<br />
-        &gt; Create default module name: hello<br />
-        <br />
-        # モジュールが first_project/modules/hello にインストールされた<br />
-        Creatte module successfully. [/var/www/first_project/modules/hello]<br />
-        <br />
-        # プロジェクトのインストール成功通知 <br />
-        Project installation is complete. [/var/www/first_project]<br />
-        <br />
-        # サンプルアプリケーションをインストールするかどうか <br />
-        &gt; Do you want to install the sample application? (Y/N): N<br />
-        </code></dd>
-    </dl>
-    <p>プロジェクトのインストールが完了したらプロジェクトディレクトリ (/var/www/first_project) に移動してみましょう。アプリケーションの骨組みとなる各種ディレクトリが作成されていることが分かります。</p>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>各ディレクトリの役割については <a href="../appendix/directory_tree.html">ディレクトリ構成</a> を参照して下さい。</p>
-      </div>
-    </div>
-    <h2><a id="step3" name="step3"></a>Step 3: アプリケーションの起動 </h2>
-    <p>最後に webroot ディレクトリを Web の公開ディレクトリとして設定します。</p>
-    <dl>
-      <dt>Configration Code# {httpd}/conf/extra/httpd-vhosts.conf (VirtualHost によるサイト設定) </dt>
-      <dd class="lang_config"><code>&lt;VirtualHost delta:80&gt;<br />
-        &nbsp;&nbsp;ServerName delta <br />
-        &nbsp;&nbsp;DocumentRoot &quot;/var/www/first_project/webroot&quot; <br />
-        <br />
-        &nbsp;&nbsp;Alias /assets/base {DELTA_ROOT_DIR}/webapps/cpanel/webroot/assets/base<br />
-        &lt;/VirtualHost&gt;</code></dd>
-    </dl>
-    <p>{DELTA_ROOT_DIR} の部分にはフレームワークをインストールしたディレクトリを指定して下さい。</p>
-    <p>全ての設定を書き換えたら Web サーバを再起動して下さい。ブラウザから &quot;http://delta/&quot; をリクエストするとインストール完了ページが表示されるようになります。</p>
-    <p><img src="../assets/images/screenshots/install_success.png" alt="" width="767" height="431" class="border" /></p>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>mod_rewrite が動作しない場合、<a href="../appendix/trouble_shooting.html#apacheAlias">.do を実行するとエラーが起きる</a> を参照して下さい。</p>
-      </div>
-    </div>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <ul>
-          <li>webroot は Web に公開される唯一のルートディレクトリです。css (カスケーディングスタイルシート) や js (JavaScript) といった静的ファイルは全てこのディレクトリ下 (webroot/assets 下を推奨) に設置する必要があります。 </li>
-          <li>cpanel は delta アプリケーションを管理するためのコントロールパネルです。主にクラスのひな形を作成したり、パフォーマンスを測定する機能を提供します。cpanel には &quot;http://{アプリケーションホスト名}/cpanel/&quot; でアクセスすることができます。</li>
-        </ul>
-      </div>
-    </div>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">フレームワーク入門 - delta のセットアップ </h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2010 年 12 月 3 日</p>
+  <ul class="index">
+    <li><a href="#step1">Step 1: 環境設定 </a>
+      <ul>
+        <li><a href="#step1_php">PHP の設定</a> </li>
+        <li><a href="#step1_webServer">Web サーバの設定</a></li>
+        <li><a href="#step1_dbServer">DB サーバのインストール</a></li>
+      </ul>
+    </li>
+    <li><a href="#step2">Step 2: delta のインストール </a>
+      <ul>
+        <li><a href="#step2_command">delta コマンドにパスを通す</a></li>
+        <li><a href="#step2_project">プロジェクトの作成</a></li>
+      </ul>
+    </li>
+    <li><a href="#step3">Step3: アプリケーションの起動</a> </li>
+  </ul>
+  <h2><a id="step1" name="step1"></a>Step 1: 環境設定</h2>
+  <p>まずはフレームワークをインストールする前にソフトウェアの開発環境を整えましょう。</p>
+  <h3><a id="step1_php" name="step1_php"></a>PHP の設定 </h3>
+  <p>delta は PHP 5.3 以降で動作するフルスタック型のフレームワークです。次に示す PHP モジュールに依存しているため、モジュールがインストールされていない場合は組み込みが必要になります。各モジュールがインストールされているかどうかは phpinfo() 関数で確認して下さい。</p>
+  <table>
+    <colgroup>
+    <col width="20%" />
+    <col width="80%" />
+    </colgroup>
+    <tr>
+      <th scope="col">モジュール名</th>
+      <th scope="col">モジュールの概要</th>
+    </tr>
+    <tr>
+      <td scope="col">mbstring</td>
+      <td scope="col">PHP でマルチバイト文字列を扱う拡張モジュール。</td>
+    </tr>
+    <tr>
+      <td scope="col">SPL</td>
+      <td scope="col">Standard PHP Library。標準的な問題を解決するためのインタフェースやクラスを提供。(PHP 5.3 以降はデフォルトでコンパイル済み)</td>
+    </tr>
+    <tr>
+      <td scope="col">PDO</td>
+      <td scope="col">PHP Data Object。PHP からデータベースにアクセスするためのインタフェース、及びドライバを提供。(データベースを使用しない場合はインストール不要)</td>
+    </tr>
+  </table>
+  <p>モジュールがインストールされていない場合、下記の手順に従ってモジュールのインストールが必要になります。</p>
+  <dl>
+    <dt>Shell Code# configure (Linux 環境における静的インストールの例)</dt>
+    <dd class="lang_shell"><code>$ cd /usr/local/src/php-x.x.x<br />
+      $ make clean<br />
+      $ ./configure　--enable-mbstring --enable-spl --enable-pdo --with-pdo-mysql=/usr/local/mysql<br />
+      $ make<br />
+      $ make install </code></dd>
+  </dl>
+  <p>Windows 環境であれば php.ini ファイルでモジュールの追加が可能です。設定書き換え後は Web サーバを再起動して下さい。</p>
+  <dl>
+    <dt>Configration Code# php.ini (Windows 環境の例)</dt>
+    <dd class="lang_config"><code># コメントアウトを外してモジュールを有効化する<br />
+      extension=php_mbstring.dll<br />
+      extension=php_pdo.dll<br />
+      <br />
+      # 使用するデータベースに合ったドライバをロード <br />
+      extendson=php_pdo_mysql.dll </code></dd>
+  </dl>
+  <h3><a id="step1_webServer" name="step1_webServer"></a>Web サーバの設定</h3>
+  <p>フレームワークを動作させる上で推奨する Web サーバは Apache 2.2 以降です。Apache を利用する場合、mod_alias と mod_rewrite モジュールが有効化されている必要があります。インストールされていない場合は次の手順に従ってモジュールをインストールしておいて下さい。</p>
+  <dl>
+    <dt>Shell Code# mod_rewrite の静的インストール (Linux の場合)</dt>
+    <dd class="lang_shell"><code>$ cd /usr/local/src/httpd-x.x.x<br />
+      $ make clean<br />
+      $ ./configure --enable-rewrite --enable-alias<br />
+      $ make<br />
+      $ make install </code></dd>
+  </dl>
+  <p>Windows であれば httpd.conf ファイルから設定を変更することができます。設定書き換え後は Web サーバを再起動して下さい。</p>
+  <dl>
+    <dt>Configration Code# mod_rewrite を有効にする(Windows の場合)</dt>
+    <dd class="lang_config"><code># コメントアウトを外してモジュールを有効化する<br />
+      LoadModule alias_module modules/mod_alias.so<br />
+      LoadModule rewrite_module modules/mod_rewrite.so<br />
+      </code></dd>
+  </dl>
+  <h3><a id="step1_dbServer" name="step1_dbServer"></a>DB サーバのインストール (任意)</h3>
+  <p>フレームワークに付属するサンプルアプリケーションを動作させるには DB サーバが必要となります。特に必要となる設定はありませんが、クライアントプログラム (PDO) から接続する際のエンコードの指定だけは注意が必要です。delta はデフォルトエンコーディングに UTF-8 を使用しますが、DB サーバのデータベースエンコーディングに他のエンコードを使用している場合は文字コードの変換が必要となります。</p>
+  <p>データベースエンコーディングが UTF-8 以外の場合、MySQL であれば設定ファイル上で次のような指定が必要となるでしょう。</p>
+  <dl>
+    <dt>Shell Code# my.cnf の設定例</dt>
+    <dd><code>[mysqld]<br />
+      default-character-set=utf8<br />
+      <br />
+      # Web サーバと DB サーバが同じ場合 <br />
+      [client]<br />
+      default-character-set=utf8 </code></dd>
+  </dl>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <ul>
+        <li>エンコードの設定は使用する DB や環境によって変わります。詳しくはデータベースのマニュアルを参照して下さい。</li>
+        <li>可能な限り、クライアントエンコーディングとデータベースエンコーディングは統一しておくべきです。</li>
+      </ul>
+    </div>
+  </div>
+  <h2><a id="step2" name="step2">Step 2: delta のインストール </a></h2>
+  <p>初めに delta の最新版パッケージを Git リポジトリ (あるいはアーカイブリスト) から入手して下さい。ダウンロードしたパッケージには、delta のコアライブラリやプロジェクトのスケルトン、ドキュメント、API が含まれています。(以後コアパッケージと称します) 実際にアプリケーションを開発する際は、このパッケージとは別にプロジェクトディレクトリを作成し、その中でプログラムを組んでいきます。</p>
+  <p>コアパッケージは Web から参照されない場所に配置して下さい。フレームワークはライブラリという扱いなので、Linux であれば /var/repos/delta といったディレクトリに設置すると良いでしょう。</p>
+  <h3><a id="step2_command" name="step2_command">delta コマンドにパスを通す</a></h3>
+  <p>delta にはプロジェクトの作成やモジュールの追加を簡単に行うためのユーティリティコマンド (delta.php) が付属しています。コマンド自体は PHP スクリプトのため php を通して実行すれば良いのですが、パスを通すことでどこからでもコマンドが実行できるようになります。</p>
+  <p>コマンドにパスを通す場合、コアパッケージ内の次のファイルを OS のパスが通っている場所にコピーして下さい。</p>
+  <table>
+    <colgroup>
+    <col width="20%" />
+    <col width="80%" />
+    </colgroup>
+    <tr>
+      <th scope="col">OS</th>
+      <th scope="col">ファイルの場所</th>
+    </tr>
+    <tr>
+      <td scope="col">Windows</td>
+      <td scope="col">command/delta.bat</td>
+    </tr>
+    <tr>
+      <td scope="col">Linux </td>
+      <td scope="col">command/delta (sh) </td>
+    </tr>
+  </table>
+  <p>ファイルを設置したら delta.bat (あるいは delta) をエディタで開き、ソース内の &quot;@DELTA_HOME@&quot; と書かれた部分をコアパッケージの絶対パスに置き換えて下さい。</p>
+  <p>以上で設定は完了です。コンソール上で delta と打ち込むことで次のような結果が表示されるようになります。</p>
+  <dl>
+    <dt>Shell Code# delta コマンドの使用 (Linux) </dt>
+    <dd class="lang_shell"><code>$ delta<br />
+      Usage: <br />
+      &nbsp;&nbsp;delta [Options] <br />
+      <br />
+      Options:<br />
+      &nbsp;&nbsp;add-action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add action to current module.<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you want to use a skeleton template,<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;please edit 'templates/html/skeleton.php'.<br />
+      &nbsp;&nbsp;add-module        &nbsp;&nbsp;&nbsp;&nbsp;Add module to current project.<br />
+      &nbsp;&nbsp;add-theme         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add theme to current project.<br />
+      &nbsp;&nbsp;clear-cache       &nbsp;&nbsp;&nbsp;Clear the cache of all.<br />
+      &nbsp;&nbsp;create-project    Create new project.<br />
+      &nbsp;&nbsp;...</code></dd>
+  </dl>
+  <p>モジュールの追加やキャッシュの削除に関しては、プロジェクト内のディレクトリであればどこからでも実行することができます。</p>
+  <h3><a id="step2_project" name="step2_project"></a>プロジェクトの作成</h3>
+  <p>それでは早速アプリケーションを格納するための入れ物であるプロジェクトを作成してみましょう。delta コマンドでプロジェクトを作成するには、&quot;create-project&quot; オプションを指定します。</p>
+  <dl>
+    <dt>Shell Code# プロジェクトの作成</dt>
+    <dd class="lang_shell"><code># 新規プロジェクトの作成<br />
+      $ delta create-project<br />
+      <br />
+      # プロジェクトのインストールディレクトリ (未指定時はカレントディレクトリがインストール先となる)<br />
+      &gt; Install path [/home/webapp]: /var/www<br />
+      <br />
+      # プロジェクト名 (未指定時はカレントディレクトリ &quot;webapp&quot; がプロジェクト名となる)<br />
+      &gt; Project name [webapp]: first_project <br />
+      <br />
+      # デフォルトモジュール名の指定<br />
+      &gt; Create default module name: hello<br />
+      <br />
+      # モジュールが first_project/modules/hello にインストールされた<br />
+      Creatte module successfully. [/var/www/first_project/modules/hello]<br />
+      <br />
+      # プロジェクトのインストール成功通知 <br />
+      Project installation is complete. [/var/www/first_project]<br />
+      <br />
+      # サンプルアプリケーションをインストールするかどうか <br />
+      &gt; Do you want to install the sample application? (Y/N): N<br />
+      </code></dd>
+  </dl>
+  <p>プロジェクトのインストールが完了したらプロジェクトディレクトリ (/var/www/first_project) に移動してみましょう。アプリケーションの骨組みとなる各種ディレクトリが作成されていることが分かります。</p>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>各ディレクトリの役割については <a href="../appendix/directory_tree.html">ディレクトリ構成</a> を参照して下さい。</p>
+    </div>
+  </div>
+  <h2><a id="step3" name="step3"></a>Step 3: アプリケーションの起動 </h2>
+  <p>最後に webroot ディレクトリを Web の公開ディレクトリとして設定します。</p>
+  <dl>
+    <dt>Configration Code# {httpd}/conf/extra/httpd-vhosts.conf (VirtualHost によるサイト設定) </dt>
+    <dd class="lang_config"><code>&lt;VirtualHost delta:80&gt;<br />
+      &nbsp;&nbsp;ServerName delta <br />
+      &nbsp;&nbsp;DocumentRoot &quot;/var/www/first_project/webroot&quot; <br />
+      <br />
+      &nbsp;&nbsp;Alias /assets/base {DELTA_ROOT_DIR}/webapps/cpanel/webroot/assets/base<br />
+      &lt;/VirtualHost&gt;</code></dd>
+  </dl>
+  <p>{DELTA_ROOT_DIR} の部分にはフレームワークをインストールしたディレクトリを指定して下さい。</p>
+  <p>全ての設定を書き換えたら Web サーバを再起動して下さい。ブラウザから &quot;http://delta/&quot; をリクエストするとインストール完了ページが表示されるようになります。</p>
+  <p><img src="../assets/images/screenshots/install_success.png" alt="" width="767" height="431" class="border" /></p>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>mod_rewrite が動作しない場合、<a href="../appendix/trouble_shooting.html#apacheAlias">.do を実行するとエラーが起きる</a> を参照して下さい。</p>
+    </div>
+  </div>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <ul>
+        <li>webroot は Web に公開される唯一のルートディレクトリです。css (カスケーディングスタイルシート) や js (JavaScript) といった静的ファイルは全てこのディレクトリ下 (webroot/assets 下を推奨) に設置する必要があります。 </li>
+        <li>cpanel は delta アプリケーションを管理するためのコントロールパネルです。主にクラスのひな形を作成したり、パフォーマンスを測定する機能を提供します。cpanel には &quot;http://{アプリケーションホスト名}/cpanel/&quot; でアクセスすることができます。</li>
+      </ul>
+    </div>
+  </div>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

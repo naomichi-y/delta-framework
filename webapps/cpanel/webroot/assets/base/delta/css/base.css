@@ -86,6 +86,14 @@ th {
   text-align: center;
 }
 
+form {
+  margin-top: 2%;
+}
+
+textarea {
+  height: auto;
+}
+
 footer {
   color: #ccc;
   background-color: #353431;
@@ -145,11 +153,27 @@ footer p {
   text-align: right;
 }
 
+.comment {
+  line-height: 100%;
+  color: #999;
+  font-size: 0.86em;
+}
+
 /**
  * ****************************************************************
  * カスタムクラス (delta-framework.org)
  * ****************************************************************
  */
+
+.meta {
+  text-align: right;
+  color: #999;
+  font-size: 0.88em;
+}
+
+.download {
+  margin-bottom: 6%;
+}
 
 .description {
   font-size: 0.88em;
@@ -184,7 +208,7 @@ footer p {
  * ****************************************************************
  */
 
-.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code {
+.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code, .lang_html code {
   padding: 1%;
   display: block;
   line-height: 150%;
@@ -205,31 +229,42 @@ footer p {
  * カスタムクラス (サンプルアプリケーション)
  * ****************************************************************
  */
-.success, .error {
+div.success, div.error {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   padding: 1%;
+  margin-top: 2%;
   margin-bottom: 2%;
+  font-size: 1em;
 }
 
-.success {
+div.success {
   color: #006600;
   background-color: #effeb9;
   border: 1px solid #c1d779;
 }
 
-.error {
+div.error {
   background-color: #f7d4d4;
   color: #561010;
   border: 1px solid #561010;
 }
 
-.success ul, .error ul {
+div.success ul, div.error ul {
   margin-bottom: 0 !important;
 }
 
+span.success, span.error {
+  margin: 0;
+}
+
+span.error {
+  color: #900;
+  font-weight: bold;
+}
+
 .form_field {
-  margin: 2%;
+  margin-bottom: 2%;
 }
 
 .form_field > label {
@@ -242,6 +277,7 @@ footer p {
 
 .field_error_message {
   color: #900;
+  font-weight: bold;
 }
 
 /**
@@ -258,14 +294,15 @@ footer p {
   background-color: #ccc !important;
 }
 
+.ui-tabs-nav {
+}
+
+.ui-widget {
+  font-size: 0.86em !important;
+}
+
 /** 整理してない */
 
-
-.meta {
-  text-align: right;
-  color: #999;
-  font-size: 0.88em;
-}
 
 blockquote p {
   font-style: normal;

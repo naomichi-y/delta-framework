@@ -7,120 +7,114 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション開発実践 Tips - ユーザ認証</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション開発実践 Tips - ユーザ認証</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2007 年 2 月 20 日</p>
-    <h2>Hacks</h2>
-    <p>ログイン認証を要するアプリケーションを構築する際、必要となる機能の 1 つがアクセス権限チェックです。delta はアクセス権の管理機能 (セキュリティロール機能) を持っており、アクションベースでのアクセス権限チェックを簡単に行うことができます。 ユーザ認証には、あらかじめ対象となる (権限で保護したい) アクションのビヘイビアに roles 属性でロールを定義しておく必要があります。</p>
-    <p>ここでは仮に、system モジュール の MemberList アクションを実行できるロールをスタッフ (staff) と管理者 (manager) にします。この時のビヘイビアファイルは次のようになります。</p>
-    <dl>
-      <dt>YAML Code# modules/system/behaviors/MemberList.yml</dt>
-      <dd class="lang_yaml"><code> # roles 属性の下には許可するロールを列挙する<br />
-        roles:<br />
-        &nbsp;&nbsp;- staff<br />
-        &nbsp;&nbsp;- manager<br />
-        </code></dd>
-    </dl>
-    <p>次にロールをチェックするメソッドを定義します。チェックメソッドはアクションが処理される前に実行されるのが好ましいので、ここではフィルタを使います。フィルタを使うもう一つの理由は、モジュール全体 (あるいはアプリケーション全体) に対しアクションの前処理、後処理を定義する点があります。</p>
-    <p>今回は entry モジュールのみにフィルタ処理を行いたいので、モジュールレベルのフィルタクラスを作成します。libs 下に AuthenticationFilter クラスを作成し、次のようなコードを定義して下さい。</p>
-    <dl>
-      <dt>PHP Code# libs/filter/AuthenticationFilter.php</dt>
-      <dd class="lang_php"><code>class AuthenticationFilter extends Delta_Filter<br />
-        {<br />
-        &nbsp;&nbsp;public function doFilter($chain)<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// ロールを満たしているかチェック&nbsp;&nbsp; <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;if ($this-&gt;getUser()-&gt;isCurrentActionAuthenticated(Delta_AuthorityUser::REQUIRED_ONE_ROLES)) {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$chain-&gt;filterChain();<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        } else {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getMessages()-&gt;add(Delta_ActionMessages::GLOBAL_MESSAGE, 'ログインを行って下さい。');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getController()-&gt;forward('LoginForm');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-        &nbsp;&nbsp;}<br />
-        } <br />
-        </code></dd>
-    </dl>
-    <p>次にフィルタの起動設定を記述します。</p>
-    <dl>
-      <dt>YAML Code# modules/entry/config/filter.yml</dt>
-      <dd class="lang_yaml"><code>authenticationFilter:<br />
-        &nbsp;&nbsp;class: AuthenticationFilter<br />
-        &nbsp;&nbsp;enable: TRUE </code></dd>
-    </dl>
-    <p>以上で設定は完了です。</p>
-    <p>AuthenticationFilter クラスを上から見ていきましょう。 初めに Delta_DIContainerFactory からコントローラ、メッセージ、ユーザのインスタンスオブジェクトを取得しています。次に、ユーザオブジェクトの isCurrentActionAuthenticated() メソッドで、処理しようとしているアクションのロールに対しユーザが持つロールが条件を満たしているかのチェックを行っています。isCurrentActionAuthenticated() メソッドは、ユーザロールがアクションロールを満たしていれば TRUE、満たしていない場合は FALSE を返します。 引数には REQUIRED_ONE_ROLES が指定されていますが、これはビヘイビアに記述されているロールのうち、どれか 1 つでもユーザがロールを保持していれば TRUE を返します。逆に全てのロールを満たしている条件を作りたい場合は、REQUIRED_ALL_ROLES を指定して下さい。(引数が未指定の場合は REQUIRED_ALL_ROLES になります)</p>
-    <p>ユーザがロールを満たしている場合は TRUE となり、対象のアクションが処理されます。逆に FALSE でロールエラーが発生した場合は、&quot;LoginForm&quot; アクションへのフォワードを行っています。ログインフォームはロールが不足している際にフォワードされるページなので、アクションビヘイビアにてロール属性は必ずなしに設定しておく必要があります。(ロールを設定してしまうと、フィルタとログインフォームとの間で無限ループが発生してしまいます)</p>
-    <h3>アクションロールに staff と manager が定義されている場合は isCurrentActionAuthenticated() メソッドの動作</h3>
-    <table>
-      <colgroup>
-      <col width="40%" />
-      <col width="20%" />
-      <col width="20%" />
-      <col width="20%" />
-      </colgroup>
-      <tr>
-        <th scope="col">値</th>
-        <th scope="col">ユーザロール: なし </th>
-        <th scope="col">ユーザロール: staff </th>
-        <th scope="col">ユーザロール: staff、manager</th>
-      </tr>
-      <tr>
-        <td>Delta_AuthorityUser::REQUIRED_ALL_ROLES</td>
-        <td>NG</td>
-        <td>NG</td>
-        <td>OK</td>
-      </tr>
-      <tr>
-        <td>Delta_AuthorityUser::REQUIRED_ONE_ROLES</td>
-        <td>NG</td>
-        <td>OK</td>
-        <td>OK</td>
-      </tr>
-    </table>
-    <h3>ユーザにロールを追加する方法</h3>
-    <p>ユーザにロールを追加する場合は、Delta_AuthorityUser#addRole($role) メソッドを使用します。通常は、ログインアクション等でユーザ認証が成功した際にロールを追加すると良いでしょう。 </p>
-    <dl>
-      <dt>PHP Code# modules/entry/actions/LoginAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp;&nbsp;$form = $this-&gt;getForm();<br />
-        &nbsp;&nbsp;$loginId = $form-&gt;get('loginId');<br />
-        &nbsp;&nbsp;$loginPassword = $form-&gt;get('loginPassword'); <br />
-        <br />
-        &nbsp;&nbsp;if (LoginService::login($loginId, $loginPassword) {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;# ログイン成功時に manager ロールを追加<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getUser()-&gt;addRole('manager');<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getResponse()-&gt;sendRedirect('Home');<br />
-        &nbsp;&nbsp;} <br />
-        <br />
-        &nbsp;&nbsp;return Delta_View::ERROR; <br />
-        } </code></dd>
-    </dl>
-    <p class="right"><a href="#top">上へ</a></p>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">アプリケーション開発実践 Tips - ユーザ認証</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2007 年 2 月 20 日</p>
+  <h2>Hacks</h2>
+  <p>ログイン認証を要するアプリケーションを構築する際、必要となる機能の 1 つがアクセス権限チェックです。delta はアクセス権の管理機能 (セキュリティロール機能) を持っており、アクションベースでのアクセス権限チェックを簡単に行うことができます。 ユーザ認証には、あらかじめ対象となる (権限で保護したい) アクションのビヘイビアに roles 属性でロールを定義しておく必要があります。</p>
+  <p>ここでは仮に、system モジュール の MemberList アクションを実行できるロールをスタッフ (staff) と管理者 (manager) にします。この時のビヘイビアファイルは次のようになります。</p>
+  <dl>
+    <dt>YAML Code# modules/system/behaviors/MemberList.yml</dt>
+    <dd class="lang_yaml"><code> # roles 属性の下には許可するロールを列挙する<br />
+      roles:<br />
+      &nbsp;&nbsp;- staff<br />
+      &nbsp;&nbsp;- manager<br />
+      </code></dd>
+  </dl>
+  <p>次にロールをチェックするメソッドを定義します。チェックメソッドはアクションが処理される前に実行されるのが好ましいので、ここではフィルタを使います。フィルタを使うもう一つの理由は、モジュール全体 (あるいはアプリケーション全体) に対しアクションの前処理、後処理を定義する点があります。</p>
+  <p>今回は entry モジュールのみにフィルタ処理を行いたいので、モジュールレベルのフィルタクラスを作成します。libs 下に AuthenticationFilter クラスを作成し、次のようなコードを定義して下さい。</p>
+  <dl>
+    <dt>PHP Code# libs/filter/AuthenticationFilter.php</dt>
+    <dd class="lang_php"><code>class AuthenticationFilter extends Delta_Filter<br />
+      {<br />
+      &nbsp;&nbsp;public function doFilter($chain)<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// ロールを満たしているかチェック&nbsp;&nbsp; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;if ($this-&gt;getUser()-&gt;isCurrentActionAuthenticated(Delta_AuthorityUser::REQUIRED_ONE_ROLES)) {<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$chain-&gt;filterChain();<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      } else {<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getMessages()-&gt;add(Delta_ActionMessages::GLOBAL_MESSAGE, 'ログインを行って下さい。');<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getController()-&gt;forward('LoginForm');<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;}<br />
+      } <br />
+      </code></dd>
+  </dl>
+  <p>次にフィルタの起動設定を記述します。</p>
+  <dl>
+    <dt>YAML Code# modules/entry/config/filter.yml</dt>
+    <dd class="lang_yaml"><code>authenticationFilter:<br />
+      &nbsp;&nbsp;class: AuthenticationFilter<br />
+      &nbsp;&nbsp;enable: TRUE </code></dd>
+  </dl>
+  <p>以上で設定は完了です。</p>
+  <p>AuthenticationFilter クラスを上から見ていきましょう。 初めに Delta_DIContainerFactory からコントローラ、メッセージ、ユーザのインスタンスオブジェクトを取得しています。次に、ユーザオブジェクトの isCurrentActionAuthenticated() メソッドで、処理しようとしているアクションのロールに対しユーザが持つロールが条件を満たしているかのチェックを行っています。isCurrentActionAuthenticated() メソッドは、ユーザロールがアクションロールを満たしていれば TRUE、満たしていない場合は FALSE を返します。 引数には REQUIRED_ONE_ROLES が指定されていますが、これはビヘイビアに記述されているロールのうち、どれか 1 つでもユーザがロールを保持していれば TRUE を返します。逆に全てのロールを満たしている条件を作りたい場合は、REQUIRED_ALL_ROLES を指定して下さい。(引数が未指定の場合は REQUIRED_ALL_ROLES になります)</p>
+  <p>ユーザがロールを満たしている場合は TRUE となり、対象のアクションが処理されます。逆に FALSE でロールエラーが発生した場合は、&quot;LoginForm&quot; アクションへのフォワードを行っています。ログインフォームはロールが不足している際にフォワードされるページなので、アクションビヘイビアにてロール属性は必ずなしに設定しておく必要があります。(ロールを設定してしまうと、フィルタとログインフォームとの間で無限ループが発生してしまいます)</p>
+  <h3>アクションロールに staff と manager が定義されている場合は isCurrentActionAuthenticated() メソッドの動作</h3>
+  <table>
+    <colgroup>
+    <col width="40%" />
+    <col width="20%" />
+    <col width="20%" />
+    <col width="20%" />
+    </colgroup>
+    <tr>
+      <th scope="col">値</th>
+      <th scope="col">ユーザロール: なし </th>
+      <th scope="col">ユーザロール: staff </th>
+      <th scope="col">ユーザロール: staff、manager</th>
+    </tr>
+    <tr>
+      <td>Delta_AuthorityUser::REQUIRED_ALL_ROLES</td>
+      <td>NG</td>
+      <td>NG</td>
+      <td>OK</td>
+    </tr>
+    <tr>
+      <td>Delta_AuthorityUser::REQUIRED_ONE_ROLES</td>
+      <td>NG</td>
+      <td>OK</td>
+      <td>OK</td>
+    </tr>
+  </table>
+  <h3>ユーザにロールを追加する方法</h3>
+  <p>ユーザにロールを追加する場合は、Delta_AuthorityUser#addRole($role) メソッドを使用します。通常は、ログインアクション等でユーザ認証が成功した際にロールを追加すると良いでしょう。 </p>
+  <dl>
+    <dt>PHP Code# modules/entry/actions/LoginAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp;&nbsp;$form = $this-&gt;getForm();<br />
+      &nbsp;&nbsp;$loginId = $form-&gt;get('loginId');<br />
+      &nbsp;&nbsp;$loginPassword = $form-&gt;get('loginPassword'); <br />
+      <br />
+      &nbsp;&nbsp;if (LoginService::login($loginId, $loginPassword) {<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;# ログイン成功時に manager ロールを追加<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getUser()-&gt;addRole('manager');<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getResponse()-&gt;sendRedirect('Home');<br />
+      &nbsp;&nbsp;} <br />
+      <br />
+      &nbsp;&nbsp;return Delta_View::ERROR; <br />
+      } </code></dd>
+  </dl>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

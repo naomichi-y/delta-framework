@@ -7,53 +7,47 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション設計実践 Tips - アクションディレクトリを階層化する</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション設計実践 Tips - アクションディレクトリを階層化する</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2010 年 1 月 22 日</p>
-    <h2>アクションのパッケージ化</h2>
-    <p>通常、作成したアクションクラスは下図のように  modules/{module}/actions (コンソールアクションの場合は console/actions) ディレクトリに配置する必要があります。</p>
-    <p><img src="../assets/images/diagram/action_package_1.png" alt="アクションディレクトリ下のクラス構成" width="248" height="285" /></p>
-    <p>このディレクトリ下にあるアクションはオートローダにより自動的にフレームワークにより読み込まれるのですが、クラス数が増えてくると途端に管理が厄介になります。<br />
-      こういった場合は機能ごとにディレクトリを作成し、アクションクラスの再配置を行いましょう。</p>
-    <p><img src="../assets/images/diagram/action_package_2.png" alt="アクションのパッケージ化" width="568" height="361" /></p>
-    <p>上記例を元に解説すると、HomeAction は actions の直下に配置、登録周りは register、更新周りは update、削除周りは delete といったように、機能ごとにディレクトリを作成してその中に該当するアクションを配置しています。<br />
-      オートローダは階層化されたディレクトリを解析し、リクエストに合致したアクションを読み込みます。delta ではこのようなアクションの階層化をパッケージ化と呼んでおり、パッケージごとに特定のフィルタを実行するといった機能も備わっています。(<a href="filter.html#packageFilter">フィルタを使う - パッケージフィルタ機能</a> の項を参照)</p>
-    <p>尚、アクションクラスの構成をパッケージ化した場合、対応するビヘイビアもアクションディレクトリと同様の構成に統一する必要があります。(コンソールアクションを除く)<br />
-      例えば、actions/register/ProfileRegisterFormAction.php に対応するビヘイビアは、behaviors/register/ProfileRegisterForm.yml となります。behaviors ディレクトリの直下にファイルを置いても参照されない点に注意して下さい。<br />
-    </p>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <ul>
-          <li>※1: パッケージは多重に階層化されたディレクトリにも対応します。</li>
-          <li>※2: アクションが所属するパッケージ名は、アクションクラス内から $this-&gt;getPackageName() メソッドをコールすることで取得可能です。(Delta_ActionStack::getInstance()-&gt;getLastEntry()-&gt;getPackageName() メソッドでも取得可能)</li>
-          <li>※3: 複数のパッケージ間で同一のアクション名が見つかった場合、どちらのファイルが読み込まれるかは保証されていません。</li>
-        </ul>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">アプリケーション設計実践 Tips - アクションディレクトリを階層化する</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2010 年 1 月 22 日</p>
+  <h2>アクションのパッケージ化</h2>
+  <p>通常、作成したアクションクラスは下図のように  modules/{module}/actions (コンソールアクションの場合は console/actions) ディレクトリに配置する必要があります。</p>
+  <p><img src="../assets/images/diagram/action_package_1.png" alt="アクションディレクトリ下のクラス構成" width="248" height="285" /></p>
+  <p>このディレクトリ下にあるアクションはオートローダにより自動的にフレームワークにより読み込まれるのですが、クラス数が増えてくると途端に管理が厄介になります。<br />
+    こういった場合は機能ごとにディレクトリを作成し、アクションクラスの再配置を行いましょう。</p>
+  <p><img src="../assets/images/diagram/action_package_2.png" alt="アクションのパッケージ化" width="568" height="361" /></p>
+  <p>上記例を元に解説すると、HomeAction は actions の直下に配置、登録周りは register、更新周りは update、削除周りは delete といったように、機能ごとにディレクトリを作成してその中に該当するアクションを配置しています。<br />
+    オートローダは階層化されたディレクトリを解析し、リクエストに合致したアクションを読み込みます。delta ではこのようなアクションの階層化をパッケージ化と呼んでおり、パッケージごとに特定のフィルタを実行するといった機能も備わっています。(<a href="filter.html#packageFilter">フィルタを使う - パッケージフィルタ機能</a> の項を参照)</p>
+  <p>尚、アクションクラスの構成をパッケージ化した場合、対応するビヘイビアもアクションディレクトリと同様の構成に統一する必要があります。(コンソールアクションを除く)<br />
+    例えば、actions/register/ProfileRegisterFormAction.php に対応するビヘイビアは、behaviors/register/ProfileRegisterForm.yml となります。behaviors ディレクトリの直下にファイルを置いても参照されない点に注意して下さい。<br />
+  </p>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <ul>
+        <li>※1: パッケージは多重に階層化されたディレクトリにも対応します。</li>
+        <li>※2: アクションが所属するパッケージ名は、アクションクラス内から $this-&gt;getPackageName() メソッドをコールすることで取得可能です。(Delta_ActionStack::getInstance()-&gt;getLastEntry()-&gt;getPackageName() メソッドでも取得可能)</li>
+        <li>※3: 複数のパッケージ間で同一のアクション名が見つかった場合、どちらのファイルが読み込まれるかは保証されていません。</li>
+      </ul>
+    </div>
+  </div>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

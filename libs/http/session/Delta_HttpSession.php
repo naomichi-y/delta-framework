@@ -44,6 +44,8 @@ class Delta_HttpSession extends Delta_Object
     if ($this->_config['autoStart']) {
       $this->activate();
     }
+
+    register_shutdown_function(array($this, 'finalize'));
   }
 
   /**
@@ -146,7 +148,7 @@ class Delta_HttpSession extends Delta_Object
   }
 
   /**
-   * セッションが開始されているかあチェックし、開始されていなければ例外をスローします。
+   * セッションが開始されているかチェックし、開始されていなければ例外をスローします。
    *
    * @return bool セッションが開始されている場合に TRUE を返します。
    * @throws RuntimeException セッションが開始されていない場合に発生。
@@ -293,17 +295,19 @@ class Delta_HttpSession extends Delta_Object
       $container = Delta_DIContainerFactory::getContainer();
 
       if ($container->hasComponent('user')) {
-        $container->getComponent('user')->__destruct();
+        $container->getComponent('user')->finalize();
       }
 
-      $this->__destruct();
+      $this->finalize();
     }
   }
 
   /**
+   * セッションデータのファイナライズ処理を行います。
+   *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __destruct()
+  public function finalize()
   {
     try {
       session_write_close();

@@ -7,319 +7,314 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - コーディング規約 - 命名規則</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">コーディング規約 - 命名規則</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2011 年 5 月 5 日</p>
-    <ul class="index">
-      <li><a href="#commonRule">共通規則</a> </li>
-      <li><a href="#class">クラス</a>
-        <ul>
-          <li><a href="#classNaming">クラスの命名規則</a></li>
-          <li><a href="#actionNaming">アクションクラス</a></li>
-          <li><a href="#exception">Exception クラス</a></li>
-          <li><a href="#const">クラス定数</a></li>
-        </ul>
-      </li>
-      <li><a href="#method">メソッド </a>
-        <ul>
-          <li><a href="#methodNaming">メソッドの命名規則</a></li>
-        </ul>
-      </li>
-      <li><a href="#functionNaming">関数の命名規則</a></li>
-      <li><a href="#variableName">変数名</a></li>
-      <li><a href="#template">テンプレート</a>
-        <ul>
-          <li><a href="#templateFileNaming">テンプレートファイルの命名規則</a></li>
-        </ul>
-      </li>
-    </ul>
-    <h2><a id="commonRule" name="commonRule"></a>共通規則</h2>
-    <p>クラス名・メソッド (関数) 名、変数名に共通する規則は次の通りです。</p>
-    <ul>
-      <li>PHP の予約語を使用するべきではありません。詳しくは <a href="http://php.net/manual/en/reserved.php">予約語の一覧</a> を参照して下さい。</li>
-      <li>使用可能な文字は半角英数、及びアンダースコアです。
-        <ul>
-          <li>メソッド名に限り、アンダースコアは使用するべきではありません。</li>
-          <li>数字を使用することはできますが、Register1、Register2 のような命名は極力避けるべきです。数字の接尾辞は内容が推測しにくい上、今後 1 と 2 の間に追加の処理が挟まれる可能性もあります。</li>
-        </ul>
-      </li>
-      <li>名前は原則的に英字から始める必要があります。
-        <ul>
-          <li>プライベート変数に関してはアンダースコアから始まります。</li>
-        </ul>
-      </li>
-      <li>名前は英単語から構成します。日本語 (ローマ字) の変数名は原則的に使用するべきではありません。 </li>
-      <li>対象となるクラスやメソッドを連想しやすい名前を付けるべきです。 </li>
-      <li>名前に一貫したポリシーを持たせて下さい。例えばプロフィールを更新するクラスを作成する場合、UpdateProfile とするか ProfileUpdate とするか、命名規則を統一しておくべきです。</li>
-      <li>略語の使用は極力控えて下さい。
-        <ul>
-          <li>名詞は地域や開発者によって略し方が異なる可能性があります。</li>
-          <li>略語を使用した場合、ソースコードの検索が困難になることがあります。</li>
-          <li>i18n、SOAP など、一般的に知られている単語はそのまま使用して下さい。</li>
-          <li>英語読みできない略語は使用するべきではありません。dir (directory)、conf (config) などは分かりますが、chk (check)、fmt (format) といった略語は推奨されません。</li>
-        </ul>
-      </li>
-      <li>間違った単語を使用しないよう気をつけて下さい。よくあるのは、regist という英語です。このような単語は存在しません。</li>
-      <li>クラス名、メソッド名、変数名などを命名する際は名前の対称性に注意して下さい。以下に例を示します。
-        <ul>
-          <li>add / remove</li>
-          <li>insert / delete</li>
-          <li>get/ set</li>
-          <li>start / stop</li>
-          <li>begin / end</li>
-          <li>send / receive</li>
-          <li>first / last</li>
-          <li>write / read</li>
-          <li>from / to</li>
-          <li>put / get</li>
-          <li>up / down</li>
-          <li>on / off</li>
-          <li>show / hide</li>
-          <li>open / close</li>
-          <li>source / destination</li>
-          <li>increment / decrement </li>
-          <li>lock / unlock</li>
-          <li>old / new</li>
-          <li>next / previous</li>
-        </ul>
-      </li>
-    </ul>
-    <h2><a id="class" name="class"></a>クラス</h2>
-    <h3><a id="classNaming" name="classNaming"></a>クラスの命名規則 </h3>
-    <ul>
-      <li>クラス名は PascalCase 方式で命名します。PascalCase は、各単語の 1 文字目を大文字とし、2 文字目以降を小文字に変換します。例えば対象が「Hello world」であれば、クラス名は「HelloWorld」となります。</li>
-      <li>クラスファイルの拡張子は &quot;.php&quot; で統一します。クラス名が HelloWorld の場合、ファイル名は HelloWorld.php となります。</li>
-    </ul>
-    <h3><a id="actionNaming" name="actionNaming"></a>アクションクラス </h3>
-    <ul>
-      <li>アクションファイルの接尾辞には &quot;Action&quot; を付加します。アクション名が HelloWorld の場合、実際のファイル名は HelloWorldAction.php となります。 </li>
-      <li>アクション名には、そのクラスの処理内容が分かるような名前を付けるべきです。
-        <table>
-          <colgroup>
-          <col width="20%" />
-          <col width="80%" />
-          </colgroup>
-          <tr>
-            <th scope="col">機能</th>
-            <th scope="col">命名の例</th>
-          </tr>
-          <tr>
-            <td>開始ページ</td>
-            <td>IndexAction</td>
-          </tr>
-          <tr>
-            <td>登録フォーム</td>
-            <td>{target}RegisterFormAction</td>
-          </tr>
-          <tr>
-            <td>登録確認フォーム</td>
-            <td>{target}RegisterConfirmAction</td>
-          </tr>
-          <tr>
-            <td>登録</td>
-            <td>{target}RegisterAction</td>
-          </tr>
-          <tr>
-            <td>更新フォーム</td>
-            <td>{target}EditFormAction</td>
-          </tr>
-          <tr>
-            <td>更新処理</td>
-            <td>{target}UpdateAction</td>
-          </tr>
-          <tr>
-            <td>一覧表示</td>
-            <td>{target}ListAction</td>
-          </tr>
-          <tr>
-            <td>データの読み込み</td>
-            <td>{target}ShowAction</td>
-          </tr>
-          <tr>
-            <td>ディスパッチャ</td>
-            <td>{target}DispatchAction</td>
-          </tr>
-        </table>
-        <br />
-      </li>
-    </ul>
-    <h3><a id="exception" name="exception"></a>Exception クラス</h3>
-    <ul>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">コーディング規約 - 命名規則</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2011 年 5 月 5 日</p>
+  <ul class="index">
+    <li><a href="#commonRule">共通規則</a> </li>
+    <li><a href="#class">クラス</a>
       <ul>
-        <li>例外クラスは接尾辞に Exception を付加して下さい。例外名が OutOfMemory の場合、クラス名は OutOfMemoryException とします。</li>
+        <li><a href="#classNaming">クラスの命名規則</a></li>
+        <li><a href="#actionNaming">アクションクラス</a></li>
+        <li><a href="#exception">Exception クラス</a></li>
+        <li><a href="#const">クラス定数</a></li>
       </ul>
-    </ul>
-    <h3><a id="const" name="const"></a>クラス定数</h3>
+    </li>
+    <li><a href="#method">メソッド </a>
+      <ul>
+        <li><a href="#methodNaming">メソッドの命名規則</a></li>
+      </ul>
+    </li>
+    <li><a href="#functionNaming">関数の命名規則</a></li>
+    <li><a href="#variableName">変数名</a></li>
+    <li><a href="#template">テンプレート</a>
+      <ul>
+        <li><a href="#templateFileNaming">テンプレートファイルの命名規則</a></li>
+      </ul>
+    </li>
+  </ul>
+  <h2><a id="commonRule" name="commonRule"></a>共通規則</h2>
+  <p>クラス名・メソッド (関数) 名、変数名に共通する規則は次の通りです。</p>
+  <ul>
+    <li>PHP の予約語を使用するべきではありません。詳しくは <a href="http://php.net/manual/en/reserved.php">予約語の一覧</a> を参照して下さい。</li>
+    <li>使用可能な文字は半角英数、及びアンダースコアです。
+      <ul>
+        <li>メソッド名に限り、アンダースコアは使用するべきではありません。</li>
+        <li>数字を使用することはできますが、Register1、Register2 のような命名は極力避けるべきです。数字の接尾辞は内容が推測しにくい上、今後 1 と 2 の間に追加の処理が挟まれる可能性もあります。</li>
+      </ul>
+    </li>
+    <li>名前は原則的に英字から始める必要があります。
+      <ul>
+        <li>プライベート変数に関してはアンダースコアから始まります。</li>
+      </ul>
+    </li>
+    <li>名前は英単語から構成します。日本語 (ローマ字) の変数名は原則的に使用するべきではありません。 </li>
+    <li>対象となるクラスやメソッドを連想しやすい名前を付けるべきです。 </li>
+    <li>名前に一貫したポリシーを持たせて下さい。例えばプロフィールを更新するクラスを作成する場合、UpdateProfile とするか ProfileUpdate とするか、命名規則を統一しておくべきです。</li>
+    <li>略語の使用は極力控えて下さい。
+      <ul>
+        <li>名詞は地域や開発者によって略し方が異なる可能性があります。</li>
+        <li>略語を使用した場合、ソースコードの検索が困難になることがあります。</li>
+        <li>i18n、SOAP など、一般的に知られている単語はそのまま使用して下さい。</li>
+        <li>英語読みできない略語は使用するべきではありません。dir (directory)、conf (config) などは分かりますが、chk (check)、fmt (format) といった略語は推奨されません。</li>
+      </ul>
+    </li>
+    <li>間違った単語を使用しないよう気をつけて下さい。よくあるのは、regist という英語です。このような単語は存在しません。</li>
+    <li>クラス名、メソッド名、変数名などを命名する際は名前の対称性に注意して下さい。以下に例を示します。
+      <ul>
+        <li>add / remove</li>
+        <li>insert / delete</li>
+        <li>get/ set</li>
+        <li>start / stop</li>
+        <li>begin / end</li>
+        <li>send / receive</li>
+        <li>first / last</li>
+        <li>write / read</li>
+        <li>from / to</li>
+        <li>put / get</li>
+        <li>up / down</li>
+        <li>on / off</li>
+        <li>show / hide</li>
+        <li>open / close</li>
+        <li>source / destination</li>
+        <li>increment / decrement </li>
+        <li>lock / unlock</li>
+        <li>old / new</li>
+        <li>next / previous</li>
+      </ul>
+    </li>
+  </ul>
+  <h2><a id="class" name="class"></a>クラス</h2>
+  <h3><a id="classNaming" name="classNaming"></a>クラスの命名規則 </h3>
+  <ul>
+    <li>クラス名は PascalCase 方式で命名します。PascalCase は、各単語の 1 文字目を大文字とし、2 文字目以降を小文字に変換します。例えば対象が「Hello world」であれば、クラス名は「HelloWorld」となります。</li>
+    <li>クラスファイルの拡張子は &quot;.php&quot; で統一します。クラス名が HelloWorld の場合、ファイル名は HelloWorld.php となります。</li>
+  </ul>
+  <h3><a id="actionNaming" name="actionNaming"></a>アクションクラス </h3>
+  <ul>
+    <li>アクションファイルの接尾辞には &quot;Action&quot; を付加します。アクション名が HelloWorld の場合、実際のファイル名は HelloWorldAction.php となります。 </li>
+    <li>アクション名には、そのクラスの処理内容が分かるような名前を付けるべきです。
+      <table>
+        <colgroup>
+        <col width="20%" />
+        <col width="80%" />
+        </colgroup>
+        <tr>
+          <th scope="col">機能</th>
+          <th scope="col">命名の例</th>
+        </tr>
+        <tr>
+          <td>開始ページ</td>
+          <td>IndexAction</td>
+        </tr>
+        <tr>
+          <td>登録フォーム</td>
+          <td>{target}RegisterFormAction</td>
+        </tr>
+        <tr>
+          <td>登録確認フォーム</td>
+          <td>{target}RegisterConfirmAction</td>
+        </tr>
+        <tr>
+          <td>登録</td>
+          <td>{target}RegisterAction</td>
+        </tr>
+        <tr>
+          <td>更新フォーム</td>
+          <td>{target}EditFormAction</td>
+        </tr>
+        <tr>
+          <td>更新処理</td>
+          <td>{target}UpdateAction</td>
+        </tr>
+        <tr>
+          <td>一覧表示</td>
+          <td>{target}ListAction</td>
+        </tr>
+        <tr>
+          <td>データの読み込み</td>
+          <td>{target}ShowAction</td>
+        </tr>
+        <tr>
+          <td>ディスパッチャ</td>
+          <td>{target}DispatchAction</td>
+        </tr>
+      </table>
+      <br />
+    </li>
+  </ul>
+  <h3><a id="exception" name="exception"></a>Exception クラス</h3>
+  <ul>
     <ul>
-      <li>定数名は英大文字・数字・アンダースコアの組み合わせで構成します。先頭は英字から始める必要があります。</li>
-      <li>定数名にはカテゴリを含めるべきです。例えばステータスの定数を作成するのであれば、ENABLE よりも、STATUS_ENABLE とするべきです。
-        <ul>
-          <li>カテゴリ名は定数の接頭辞として命名すると良いでしょう。IDE によっては名前を補完してくれるので、候補が見つけやすくなります。
-            <dl>
-              <dt>PHP Code# クラス定数の宣言</dt>
-              <dd class="lang_php"><code>class XXX extends Delta_Object<br />
-                {<br />
-                &nbsp;&nbsp;/**<br />
-                &nbsp;&nbsp; * 会員ステータス。(有効)<br />
-                &nbsp;&nbsp;&nbsp;*/ <br />
-                &nbsp;&nbsp;const STATUS_ENABLE = 1;<br />
-                <br />
-                &nbsp;&nbsp;/**<br />
-                &nbsp;&nbsp; * 会員ステータス。(無効)<br />
-                &nbsp;&nbsp;&nbsp;*/ <br />
-                &nbsp;&nbsp;const STATUS_DISABLE = 2;<br />
-                } </code></dd>
-            </dl>
-          </li>
-        </ul>
-      </li>
+      <li>例外クラスは接尾辞に Exception を付加して下さい。例外名が OutOfMemory の場合、クラス名は OutOfMemoryException とします。</li>
     </ul>
-    <h2><a id="method" name="method"></a>メソッド</h2>
-    <h3><a id="methodNaming" name="methodNaming"></a>メソッドの命名規則 </h3>
-    <ul>
-      <li>メソッド名は camelCaps 形式で命名します。camelCaps は、1 文字目を小文字とし、2 つ目以降の各単語の 1 文字目を大文字に変換します。例えば対象が「Hello world」であれば、メソッド名は「helloWorld」となります。</li>
-      <li>メソッド名に動詞を含める場合、名前は「動詞 + 名詞」の形式とします。(例: createPasswordHash 等)</li>
-      <li>ロジックの内容に適した名前をつけるべきです。例えばロジックの内部でセッションに値を格納している場合、getXXX() のような名前をつけるべきではありません。</li>
-      <li>以下にメソッド名の例を示します。
-        <table>
-          <colgroup>
-          <col width="20%" />
-          <col width="80%" />
-          </colgroup>
-          <tr>
-            <th scope="col">機能</th>
-            <th scope="col">命名の例</th>
-          </tr>
-          <tr>
-            <td>boolean 型の値を返す</td>
-            <td>isEnable()、canReadable()、hasContain()、isExists()</td>
-          </tr>
-          <tr>
-            <td>値を設定する</td>
-            <td>setXXX()</td>
-          </tr>
-          <tr>
-            <td>値を取得する</td>
-            <td>getXXX()</td>
-          </tr>
-          <tr>
-            <td>初期化に関するメソッド</td>
-            <td>initialize()、start()、setupXXX()</td>
-          </tr>
-          <tr>
-            <td>生成に関するメソッド</td>
-            <td>create()、build()、generate()</td>
-          </tr>
-          <tr>
-            <td>データを検索する</td>
-            <td>findAll()、find()、findByXXX()</td>
-          </tr>
-          <tr>
-            <td>データを登録する</td>
-            <td>save()、register()、insert()、add()</td>
-          </tr>
-          <tr>
-            <td>データを更新する</td>
-            <td>update()</td>
-          </tr>
-          <tr>
-            <td>データを変換する</td>
-            <td>convert()、toXXX()</td>
-          </tr>
-          <tr>
-            <td>データを破棄する</td>
-            <td>delete()、remove()、destroy()、dispose()</td>
-          </tr>
-        </table>
-      </li>
-    </ul>
-    <h2><a name="functionNaming" id="functionNaming"></a>関数の命名規則</h2>
-    <ul>
-      <li>(クラスを含まない) 関数から構成される PHP ファイルの名前は &quot;{ライブラリ名}.php&quot; とします。ファイル名は原則的に PascalCase 形式として下さい。</li>
-      <li>関数名は SnakeCase 形式で命名します。SnakeCase は、全ての単語を小文字とし、各単語間をアンダースコア (_) で区切ります。例えば対象が「Hello world」であれば、ファイル名は「hello_world」となります。</li>
-      <li>外部から操作されたくない関数名は、接頭辞としてアンダースコアを付けます。(※関数にアクセス修飾子の機能はありませんが、名前をアンダースコアから始めることにより、明示的に非公開関数を表します)</li>
-    </ul>
-    <h2><a id="variableName" name="variableName"></a>変数名</h2>
-    <ul>
-      <li>変数名は camelCaps 形式で統一します。
+  </ul>
+  <h3><a id="const" name="const"></a>クラス定数</h3>
+  <ul>
+    <li>定数名は英大文字・数字・アンダースコアの組み合わせで構成します。先頭は英字から始める必要があります。</li>
+    <li>定数名にはカテゴリを含めるべきです。例えばステータスの定数を作成するのであれば、ENABLE よりも、STATUS_ENABLE とするべきです。
+      <ul>
+        <li>カテゴリ名は定数の接頭辞として命名すると良いでしょう。IDE によっては名前を補完してくれるので、候補が見つけやすくなります。
+          <dl>
+            <dt>PHP Code# クラス定数の宣言</dt>
+            <dd class="lang_php"><code>class XXX extends Delta_Object<br />
+              {<br />
+              &nbsp;&nbsp;/**<br />
+              &nbsp;&nbsp; * 会員ステータス。(有効)<br />
+              &nbsp;&nbsp;&nbsp;*/ <br />
+              &nbsp;&nbsp;const STATUS_ENABLE = 1;<br />
+              <br />
+              &nbsp;&nbsp;/**<br />
+              &nbsp;&nbsp; * 会員ステータス。(無効)<br />
+              &nbsp;&nbsp;&nbsp;*/ <br />
+              &nbsp;&nbsp;const STATUS_DISABLE = 2;<br />
+              } </code></dd>
+          </dl>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <h2><a id="method" name="method"></a>メソッド</h2>
+  <h3><a id="methodNaming" name="methodNaming"></a>メソッドの命名規則 </h3>
+  <ul>
+    <li>メソッド名は camelCaps 形式で命名します。camelCaps は、1 文字目を小文字とし、2 つ目以降の各単語の 1 文字目を大文字に変換します。例えば対象が「Hello world」であれば、メソッド名は「helloWorld」となります。</li>
+    <li>メソッド名に動詞を含める場合、名前は「動詞 + 名詞」の形式とします。(例: createPasswordHash 等)</li>
+    <li>ロジックの内容に適した名前をつけるべきです。例えばロジックの内部でセッションに値を格納している場合、getXXX() のような名前をつけるべきではありません。</li>
+    <li>以下にメソッド名の例を示します。
+      <table>
+        <colgroup>
+        <col width="20%" />
+        <col width="80%" />
+        </colgroup>
+        <tr>
+          <th scope="col">機能</th>
+          <th scope="col">命名の例</th>
+        </tr>
+        <tr>
+          <td>boolean 型の値を返す</td>
+          <td>isEnable()、canReadable()、hasContain()、isExists()</td>
+        </tr>
+        <tr>
+          <td>値を設定する</td>
+          <td>setXXX()</td>
+        </tr>
+        <tr>
+          <td>値を取得する</td>
+          <td>getXXX()</td>
+        </tr>
+        <tr>
+          <td>初期化に関するメソッド</td>
+          <td>initialize()、start()、setupXXX()</td>
+        </tr>
+        <tr>
+          <td>生成に関するメソッド</td>
+          <td>create()、build()、generate()</td>
+        </tr>
+        <tr>
+          <td>データを検索する</td>
+          <td>findAll()、find()、findByXXX()</td>
+        </tr>
+        <tr>
+          <td>データを登録する</td>
+          <td>save()、register()、insert()、add()</td>
+        </tr>
+        <tr>
+          <td>データを更新する</td>
+          <td>update()</td>
+        </tr>
+        <tr>
+          <td>データを変換する</td>
+          <td>convert()、toXXX()</td>
+        </tr>
+        <tr>
+          <td>データを破棄する</td>
+          <td>delete()、remove()、destroy()、dispose()</td>
+        </tr>
+      </table>
+    </li>
+  </ul>
+  <h2><a name="functionNaming" id="functionNaming"></a>関数の命名規則</h2>
+  <ul>
+    <li>(クラスを含まない) 関数から構成される PHP ファイルの名前は &quot;{ライブラリ名}.php&quot; とします。ファイル名は原則的に PascalCase 形式として下さい。</li>
+    <li>関数名は SnakeCase 形式で命名します。SnakeCase は、全ての単語を小文字とし、各単語間をアンダースコア (_) で区切ります。例えば対象が「Hello world」であれば、ファイル名は「hello_world」となります。</li>
+    <li>外部から操作されたくない関数名は、接頭辞としてアンダースコアを付けます。(※関数にアクセス修飾子の機能はありませんが、名前をアンダースコアから始めることにより、明示的に非公開関数を表します)</li>
+  </ul>
+  <h2><a id="variableName" name="variableName"></a>変数名</h2>
+  <ul>
+    <li>変数名は camelCaps 形式で統一します。
+      <ul>
         <ul>
           <ul>
-            <ul>
-              <li>変数名は一貫した規則で命名します。例えば、memberProfile、member-profile、member-profile といった命名の乱れは好ましくありません。一貫しない名前はソースコードの可読性を下げ、検索・置換ツールを使う上での妨げとなります。</li>
-            </ul>
+            <li>変数名は一貫した規則で命名します。例えば、memberProfile、member-profile、member-profile といった命名の乱れは好ましくありません。一貫しない名前はソースコードの可読性を下げ、検索・置換ツールを使う上での妨げとなります。</li>
           </ul>
         </ul>
-      </li>
-      <li>長すぎる変数名を使用するべきではありません。</li>
-      <li>ループカウンタの変数名は、イディオムに従って i、j、k を使用して下さい。ただし、例外的に具体的な変数名を使用したほうが分かりやすい場合もあります。
-        <dl>
-          <dt>PHP Code# ループカウンタの変数名</dt>
-          <dd class="lang_php"><code>// 原則的なループ変数の宣言<br />
-            for ($i = 0; $i &lt; $j; $i++) {<br />
-            &nbsp;&nbsp;... <br />
-            }<br />
-            <br />
-            //
-            $length になるまで $pos (position) をインクリメント (i、j、k よりも分かりやすい)<br />
-            for ($pos = 0; $pos &lt; $length; $pos++) {<br />
-            &nbsp;&nbsp;...<br />
-            } </code></dd>
-        </dl>
-      </li>
-      <li>スコープが広い場所では、分かりやすい変数名をつけるべきです。
-        <dl>
-          <dt>PHP Code# 変数の宣言 (悪い例)</dt>
-          <dd class="lang_php"><code>// 何のフラグか分からない<br />
-            $flag = TRUE;<br />
-            <br />
-            // 何のカウンタか分からない <br />
-            $count = 0;<br />
-            <br />
-            // 何のパスか分からない <br />
-            $path = NULL; </code></dd>
-          <dt>PHP Code# 変数の宣言 (良い例)</dt>
-          <dd class="lang_php"><code>// 削除フラグであることが明確<br />
-            $deleteFlag = TRUE;<br />
-            <br />
-            // 削除数<br />
-            $deleteCount = 0;<br />
-            <br />
-            // 画像データのディレクトリパス<br />
-            $photoPash = '/var/www/data/photo'; </code> </dd>
-        </dl>
-      </li>
-      <li>スコープが狭い範囲の場合、一時的な変数名は短くても構いません。</li>
-      <li>使用済みの変数を (再初期化する等して) 他のロジックで使用するべきではありません。これはソースコードの理解のしやすさやリファクタリングに繋がります。</li>
-    </ul>
-    <h2><a id="template" name="template"></a>テンプレート</h2>
-    <h3> <a name="templateFileNaming" id="templateFileNaming"></a>テンプレートファイルの命名規則</h3>
-    <ul>
-      <li>テンプレートファイル名は snake_case 形式で命名します。拡張子はデフォルトで &quot;.php&quot; を付加して下さい。(application.yml で変更することも可能です)</li>
-      <li>テンプレートファイルの拡張子はプロジェクト内で統一するべきです。</li>
-      <li>モジュール内で共通して使うファイルは modules/{module}/templates/includes に配置して下さい。また、アプリケーション内で共通して使うファイルは templates/html 下に配置します。</li>
-    </ul>
-    <p class="right"><a href="#top">上へ</a></p>
-  </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+      </ul>
+    </li>
+    <li>長すぎる変数名を使用するべきではありません。</li>
+    <li>ループカウンタの変数名は、イディオムに従って i、j、k を使用して下さい。ただし、例外的に具体的な変数名を使用したほうが分かりやすい場合もあります。
+      <dl>
+        <dt>PHP Code# ループカウンタの変数名</dt>
+        <dd class="lang_php"><code>// 原則的なループ変数の宣言<br />
+          for ($i = 0; $i &lt; $j; $i++) {<br />
+          &nbsp;&nbsp;... <br />
+          }<br />
+          <br />
+          //
+          $length になるまで $pos (position) をインクリメント (i、j、k よりも分かりやすい)<br />
+          for ($pos = 0; $pos &lt; $length; $pos++) {<br />
+          &nbsp;&nbsp;...<br />
+          } </code></dd>
+      </dl>
+    </li>
+    <li>スコープが広い場所では、分かりやすい変数名をつけるべきです。
+      <dl>
+        <dt>PHP Code# 変数の宣言 (悪い例)</dt>
+        <dd class="lang_php"><code>// 何のフラグか分からない<br />
+          $flag = TRUE;<br />
+          <br />
+          // 何のカウンタか分からない <br />
+          $count = 0;<br />
+          <br />
+          // 何のパスか分からない <br />
+          $path = NULL; </code></dd>
+        <dt>PHP Code# 変数の宣言 (良い例)</dt>
+        <dd class="lang_php"><code>// 削除フラグであることが明確<br />
+          $deleteFlag = TRUE;<br />
+          <br />
+          // 削除数<br />
+          $deleteCount = 0;<br />
+          <br />
+          // 画像データのディレクトリパス<br />
+          $photoPash = '/var/www/data/photo'; </code> </dd>
+      </dl>
+    </li>
+    <li>スコープが狭い範囲の場合、一時的な変数名は短くても構いません。</li>
+    <li>使用済みの変数を (再初期化する等して) 他のロジックで使用するべきではありません。これはソースコードの理解のしやすさやリファクタリングに繋がります。</li>
+  </ul>
+  <h2><a id="template" name="template"></a>テンプレート</h2>
+  <h3> <a name="templateFileNaming" id="templateFileNaming"></a>テンプレートファイルの命名規則</h3>
+  <ul>
+    <li>テンプレートファイル名は snake_case 形式で命名します。拡張子はデフォルトで &quot;.php&quot; を付加して下さい。(application.yml で変更することも可能です)</li>
+    <li>テンプレートファイルの拡張子はプロジェクト内で統一するべきです。</li>
+    <li>モジュール内で共通して使うファイルは modules/{module}/templates/includes に配置して下さい。また、アプリケーション内で共通して使うファイルは templates/html 下に配置します。</li>
+  </ul>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

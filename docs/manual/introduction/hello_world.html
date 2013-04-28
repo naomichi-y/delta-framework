@@ -7,367 +7,361 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - フレームワーク入門 - Hello World!</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top"> フレームワーク入門 - Hello World!</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2011 年 4 月 26 日</p>
-    <p>このページでは、フレームワークを使った最もオーソドックスなプログラムの作成方法を紹介します。プログラムを作成するに辺り、初めにフレームワークが提供するモジュールとアクションの概念について把握しておく必要があります。 </p>
-    <ul class="index">
-      <li><a href="#moduleAndAction">モジュールとアクション</a></li>
-      <li><a href="#moduleDirectory">モジュールのディレクトリ構成</a></li>
-      <li><a href="#launchAction">アクションの起動</a></li>
-      <li><a href="#functionOfAction">アクションクラスの役割</a></li>
-      <li><a href="#functionOfBehavior">ビヘイビアの役割</a></li>
-      <li><a href="#functionOfTemplate">テンプレートの役割 </a></li>
-      <li><a href="#namingRules">ファイルの命名規則</a></li>
-    </ul>
-    <h2><a name="moduleAndAction" id="moduleAndAction"></a>モジュールとアクション</h2>
-    <p>モジュールはアプリケーションの部品を表します。通常、アプリケーションは複数のモジュールから構成されることが多く、モジュール単位で独立した機能を備えています。例えばショッピングサイトを見てみると、次のように機能を切り分けることができます。</p>
-    <table>
-      <colgroup>
-      <col width="20%" />
-      <col width="20%" />
-      <col width="60%" />
-      </colgroup>
-      <tr>
-        <th>モジュール</th>
-        <th>機能</th>
-        <th>アクション</th>
-      </tr>
-      <tr>
-        <td rowspan="3">利用者</td>
-        <td>会員登録</td>
-        <td><ul>
-            <li>登録フォーム</li>
-            <li>登録確認</li>
-            <li>登録完了</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td>商品を見る</td>
-        <td><ul>
-            <li>商品一覧</li>
-            <li>商品詳細</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td>商品を購入する</td>
-        <td><ul>
-            <li>カート確認</li>
-            <li>購入フォーム</li>
-            <li>購入確認</li>
-            <li>購入完了</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td rowspan="3">管理者</td>
-        <td>商品管理</td>
-        <td><ul>
-            <li>商品の検索</li>
-            <li>商品 (在庫) の編集</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td>会員管理</td>
-        <td><ul>
-            <li>会員の検索</li>
-            <li>会員情報の編集</li>
-            <li>会員情報の表示</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td>売上管理</td>
-        <td><ul>
-            <li>週間ビュー</li>
-            <li>月間ビュー</li>
-            <li>年間ビュー</li>
-          </ul></td>
-      </tr>
-    </table>
-    <p>ここで 2 つのモジュールが登場しました。ショッピングサイトを利用する「利用者」と、サイトを管理する「管理者」です。各モジュールはそれぞれ独立し、様々な機能 (delta ではアクションと呼びます) を提供します。アプリケーションを設計する上では、ユースケース図を書く場合もあると思いますが、アクターをモジュール、ユースケースをアクションと考えると分かりやすいかもしれません。</p>
-    <p>また、小規模アプリケーションの場合は 1 つのモジュールで事足りる場合もありますが、アプリケーションが発展し大規模化すると、アクション数が肥大化してプログラムのメンテナンスがし難くなることがあります。プログラムを設計する際は、モジュールとアクションの切り分けを心がけておいて下さい。</p>
-    <h2><a name="moduleDirectory" id="moduleDirectory"></a>モジュールのディレクトリ構成</h2>
-    <p><a href="setup.html">delta のセットアップ</a> で hello モジュールを作成したことを覚えてますか? 正しくモジュールが作成されていれば、プロジェクトディレクトリの modules 下に hello というディレクトリができている筈です。もしディレクトリが存在しない場合は、コンソール上で次のコマンドを実行して下さい。</p>
-    <dl>
-      <dt>Shell Code# モジュールの作成</dt>
-      <dd class="lang_shell"><code># プロジェクトディレクトリに移動<br />
-        cd /var/www <br />
-        <br />
-        # モジュールの追加<br />
-        $ delta add-module<br />
-        <br />
-        # 作成するモジュール名の指定<br />
-        &gt; Create module name: hello<br />
-        <br />
-        # モジュールの作成完了<br />
-        &gt; Create module successfully! [/var/www/modules/hello] </code></dd>
-    </dl>
-    <p>hello ディレクトリには次の 4 つのサブディレクトリが含まれています。</p>
-    <table border="1">
-      <colgroup>
-      <col width="20%" />
-      <col width="80%" />
-      </colgroup>
-      <tr>
-        <th>ディレクトリ名</th>
-        <th>役割</th>
-      </tr>
-      <tr>
-        <td>actions</td>
-        <td>プログラム (アクション) ファイルを配置。</td>
-      </tr>
-      <tr>
-        <td>behaviors</td>
-        <td>アクションに対応するビヘイビアを配置。</td>
-      </tr>
-      <tr>
-        <td>config</td>
-        <td>モジュールの設定ファイルを管理。</td>
-      </tr>
-      <tr>
-        <td>templates</td>
-        <td>プログラムを出力するテンプレートファイルを配置。</td>
-      </tr>
-    </table>
-    <p>このうち重要なのは、actions、behaviors、templates ディレクトリです。それぞれのディレクトリの使い方については後述します。</p>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>ディレクトリ構成の詳細については <a href="../appendix/directory_tree.html">ディレクトリ構成</a> を参照して下さい。</p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <p>次にアクションクラスを作成します。コンソールを立ち上げ、次のコマンドを入力して下さい。</p>
-    <dl>
-      <dt>Shell Code# アクションの作成</dt>
-      <dd class="lang_shell"><code>cd /var/www/modules/hello<br />
-        delta --add-action<br />
-        &gt; Package name [/] (e.g. foo/bar): <br />
-        &gt; Add action name: Greeting <br />
-        &gt; Create action: /var/www/modules/hello/actions/GreetingAction.php<br />
-        &gt; Create yaml: /var/www/modules/hello/behaviors/Greeting.yml<br />
-        &gt; Create template: /var/www/modules/hello/templates/greeting.php</code></dd>
-    </dl>
-    <p>今回は Greeting というアクションを作成しました。出力結果を見ると、クラスファイル以外にも behaviors ディレクトリ下に Greeting.yml ファイル、templates ディレクトリ下に greeting.php ファイルが作成されたことが分かります。</p>
-    <h2><a name="launchAction" id="launchAction"></a>アクションの起動</h2>
-    <p>それでは早速ブラウザを立ち上げて hello モジュールの Greeting アクションを起動してみましょう。モジュールの起動パスは次の通りです。</p>
-    <dl>
-      <dt>モジュールの起動パス</dt>
-      <dd>http://{host}/{module}/{camelCaps 形式のアクション名}{拡張子}<br />
-        http://{host}/hello/greeting.do </dd>
-    </dl>
-    <p>今回の例の場合、Greeting アクションのリクエストパスは /hello/greeting.do となります。原則的には、アクション名を camelCaps 形式に変換した名前がリクエスト時のパスに使用されます。また、デフォルトの拡張子は .do ですが、拡張子を変更したり、拡張子をそもそも外すことも可能です。</p>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>camelCaps 形式とは、変数名やメソッド名を決める時に 2 番目以降の単語の頭文字を大文字にする命名規約です。例えば &quot;Hello world&quot; の camelCaps 名は helloWorld となります。命名規則には他にも、先頭の英単語を大文字にするパスカルケース (HelloWorld)、アンダースコア形式で単語を連結するスネークケース (hello_world) といった規約が存在します。</p>
-      </div>
+  </div>
+  <h1 id="top"> フレームワーク入門 - Hello World!</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2011 年 4 月 26 日</p>
+  <p>このページでは、フレームワークを使った最もオーソドックスなプログラムの作成方法を紹介します。プログラムを作成するに辺り、初めにフレームワークが提供するモジュールとアクションの概念について把握しておく必要があります。 </p>
+  <ul class="index">
+    <li><a href="#moduleAndAction">モジュールとアクション</a></li>
+    <li><a href="#moduleDirectory">モジュールのディレクトリ構成</a></li>
+    <li><a href="#launchAction">アクションの起動</a></li>
+    <li><a href="#functionOfAction">アクションクラスの役割</a></li>
+    <li><a href="#functionOfBehavior">ビヘイビアの役割</a></li>
+    <li><a href="#functionOfTemplate">テンプレートの役割 </a></li>
+    <li><a href="#namingRules">ファイルの命名規則</a></li>
+  </ul>
+  <h2><a name="moduleAndAction" id="moduleAndAction"></a>モジュールとアクション</h2>
+  <p>モジュールはアプリケーションの部品を表します。通常、アプリケーションは複数のモジュールから構成されることが多く、モジュール単位で独立した機能を備えています。例えばショッピングサイトを見てみると、次のように機能を切り分けることができます。</p>
+  <table>
+    <colgroup>
+    <col width="20%" />
+    <col width="20%" />
+    <col width="60%" />
+    </colgroup>
+    <tr>
+      <th>モジュール</th>
+      <th>機能</th>
+      <th>アクション</th>
+    </tr>
+    <tr>
+      <td rowspan="3">利用者</td>
+      <td>会員登録</td>
+      <td><ul>
+          <li>登録フォーム</li>
+          <li>登録確認</li>
+          <li>登録完了</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>商品を見る</td>
+      <td><ul>
+          <li>商品一覧</li>
+          <li>商品詳細</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>商品を購入する</td>
+      <td><ul>
+          <li>カート確認</li>
+          <li>購入フォーム</li>
+          <li>購入確認</li>
+          <li>購入完了</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td rowspan="3">管理者</td>
+      <td>商品管理</td>
+      <td><ul>
+          <li>商品の検索</li>
+          <li>商品 (在庫) の編集</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>会員管理</td>
+      <td><ul>
+          <li>会員の検索</li>
+          <li>会員情報の編集</li>
+          <li>会員情報の表示</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>売上管理</td>
+      <td><ul>
+          <li>週間ビュー</li>
+          <li>月間ビュー</li>
+          <li>年間ビュー</li>
+        </ul></td>
+    </tr>
+  </table>
+  <p>ここで 2 つのモジュールが登場しました。ショッピングサイトを利用する「利用者」と、サイトを管理する「管理者」です。各モジュールはそれぞれ独立し、様々な機能 (delta ではアクションと呼びます) を提供します。アプリケーションを設計する上では、ユースケース図を書く場合もあると思いますが、アクターをモジュール、ユースケースをアクションと考えると分かりやすいかもしれません。</p>
+  <p>また、小規模アプリケーションの場合は 1 つのモジュールで事足りる場合もありますが、アプリケーションが発展し大規模化すると、アクション数が肥大化してプログラムのメンテナンスがし難くなることがあります。プログラムを設計する際は、モジュールとアクションの切り分けを心がけておいて下さい。</p>
+  <h2><a name="moduleDirectory" id="moduleDirectory"></a>モジュールのディレクトリ構成</h2>
+  <p><a href="setup.html">delta のセットアップ</a> で hello モジュールを作成したことを覚えてますか? 正しくモジュールが作成されていれば、プロジェクトディレクトリの modules 下に hello というディレクトリができている筈です。もしディレクトリが存在しない場合は、コンソール上で次のコマンドを実行して下さい。</p>
+  <dl>
+    <dt>Shell Code# モジュールの作成</dt>
+    <dd class="lang_shell"><code># プロジェクトディレクトリに移動<br />
+      cd /var/www <br />
+      <br />
+      # モジュールの追加<br />
+      $ delta add-module<br />
+      <br />
+      # 作成するモジュール名の指定<br />
+      &gt; Create module name: hello<br />
+      <br />
+      # モジュールの作成完了<br />
+      &gt; Create module successfully! [/var/www/modules/hello] </code></dd>
+  </dl>
+  <p>hello ディレクトリには次の 4 つのサブディレクトリが含まれています。</p>
+  <table border="1">
+    <colgroup>
+    <col width="20%" />
+    <col width="80%" />
+    </colgroup>
+    <tr>
+      <th>ディレクトリ名</th>
+      <th>役割</th>
+    </tr>
+    <tr>
+      <td>actions</td>
+      <td>プログラム (アクション) ファイルを配置。</td>
+    </tr>
+    <tr>
+      <td>behaviors</td>
+      <td>アクションに対応するビヘイビアを配置。</td>
+    </tr>
+    <tr>
+      <td>config</td>
+      <td>モジュールの設定ファイルを管理。</td>
+    </tr>
+    <tr>
+      <td>templates</td>
+      <td>プログラムを出力するテンプレートファイルを配置。</td>
+    </tr>
+  </table>
+  <p>このうち重要なのは、actions、behaviors、templates ディレクトリです。それぞれのディレクトリの使い方については後述します。</p>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>ディレクトリ構成の詳細については <a href="../appendix/directory_tree.html">ディレクトリ構成</a> を参照して下さい。</p>
     </div>
-    <h3>デフォルトモジュール</h3>
-    <p>先ほど紹介したアクションの起動方法ですが、実は次の形式でもアクションを起動させることができます。</p>
-    <dl>
-      <dt>Shell Code# デフォルトモジュールの起動</dt>
-      <dd><code>http://{host}/{camelCaps 形式のアクション名}{拡張子}<br />
-        http://{host}/greeting.do </code></dd>
-    </dl>
-    <p>これは、config/application.yml の module.entry 属性に hello という設定が記述されているためです。module.entry 属性は、リクエストパスにモジュール名が含まれていない場合に起動するデフォルトのモジュールを指定できます。delta では、このような動作を行なうモジュールをデフォルトモジュールと呼びます。</p>
-    <h2><a name="functionOfAction" id="functionOfAction"></a>アクションクラスの役割</h2>
-    <p>それでは先ほど --add-action で追加されたファイルを見てみましょう。</p>
-    <ul>
-      <li>modules/hello/actions/GreetingAction.php</li>
-      <li>modules/hello/behaviors/Greeting.yml</li>
-      <li>modules/hello/templates/greeting.php</li>
-    </ul>
-    <p>初めに GreetingAction.php を開いて下さい。</p>
-    <dl>
-      <dt>PHP Code# modules/hello/actions/GreetingAction.php</dt>
-      <dd class="lang_php"><code> class GreetingAction extends Delta_Action<br />
-        {<br />
-        &nbsp;&nbsp;public function execute()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::SUCCESS;<br />
-        &nbsp;&nbsp;}<br />
-        }</code></dd>
-    </dl>
-    <p>見ての通りのプログラムファイルです。このファイルに実際のプログラムを記述することになります。今後、アプリケーション開発者が最も時間を費やす部分ともいえるでしょう。</p>
-    <p>クラス名には GreetingAction が宣言されており、GreetingAction は Delta_Action を継承しています。これはアクションを作成する上での決まり事と考えて下さい。execute() は Greeting にリクエストが送信された際に実行されるメソッドであり、Delta_Action::execute() に定義されています。プログラムを書く際は、execute() メソッドをオーバーライドしてコードを記述して下さい。また、戻り値として Delta_View::SUCCESS を返していますが、これは execute() の処理が終わった後にどのテンプレートを返すか、という命令です。ここでは SUCCESS というビューを返すということだけ覚えておいて下さい。Delta_View はビューのインタフェースであり、SUCCESS 以外にも ERROR や NONE という定数が定義されています。</p>
-    <p>今回はプログラム学習でおきまりの Hello world! を試してみましょう。先ほどの execute() メソッド内に次のコードを追加して下さい。</p>
-    <dl>
-      <dt>PHP Code# modules/hello/actions/GreetingAction.php</dt>
-      <dd class="lang_php"><code> class GreetingAction extends Delta_Action<br />
-        {<br />
-        &nbsp;&nbsp;public function execute()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// 追加するコード<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getView()-&gt;setAttribute('hello', 'world!'); <br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::SUCCESS;<br />
-        &nbsp;&nbsp;}<br />
-        }</code></dd>
-    </dl>
-    <p>$this-&gt;getView() は、config/base_dicon.yml に定義されたコンポーネント (オブジェクトと捉えて下さい) を参照します。実際に base_dion.yml を見てみましょう。</p>
-    <dl>
-      <dt>YAML Code# config/base_dicon.yml</dt>
-      <dd class="lang_yaml"> <code>componentNames: <br />
-        &nbsp;&nbsp;request: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpRequest <br />
-        <br />
-        &nbsp;&nbsp;response: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpResponse <br />
-        <br />
-        &nbsp;&nbsp;session: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpSession <br />
-        <br />
-        &nbsp;&nbsp;user: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_AuthorityUser <br />
-        <br />
-        &nbsp;&nbsp;form: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_ActionForm <br />
-        <br />
-        &nbsp;&nbsp;messages: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_ActionMessages<br />
-        <br />
-        &nbsp;&nbsp;view: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_View<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;arguments:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Delta_BaseRenderer        <br />
-        <br />
-        &nbsp;&nbsp;database: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_DatabaseManager<br />
+  </div>
+  <p>次にアクションクラスを作成します。コンソールを立ち上げ、次のコマンドを入力して下さい。</p>
+  <dl>
+    <dt>Shell Code# アクションの作成</dt>
+    <dd class="lang_shell"><code>cd /var/www/modules/hello<br />
+      delta --add-action<br />
+      &gt; Package name [/] (e.g. foo/bar): <br />
+      &gt; Add action name: Greeting <br />
+      &gt; Create action: /var/www/modules/hello/actions/GreetingAction.php<br />
+      &gt; Create yaml: /var/www/modules/hello/behaviors/Greeting.yml<br />
+      &gt; Create template: /var/www/modules/hello/templates/greeting.php</code></dd>
+  </dl>
+  <p>今回は Greeting というアクションを作成しました。出力結果を見ると、クラスファイル以外にも behaviors ディレクトリ下に Greeting.yml ファイル、templates ディレクトリ下に greeting.php ファイルが作成されたことが分かります。</p>
+  <h2><a name="launchAction" id="launchAction"></a>アクションの起動</h2>
+  <p>それでは早速ブラウザを立ち上げて hello モジュールの Greeting アクションを起動してみましょう。モジュールの起動パスは次の通りです。</p>
+  <dl>
+    <dt>モジュールの起動パス</dt>
+    <dd>http://{host}/{module}/{camelCaps 形式のアクション名}{拡張子}<br />
+      http://{host}/hello/greeting.do </dd>
+  </dl>
+  <p>今回の例の場合、Greeting アクションのリクエストパスは /hello/greeting.do となります。原則的には、アクション名を camelCaps 形式に変換した名前がリクエスト時のパスに使用されます。また、デフォルトの拡張子は .do ですが、拡張子を変更したり、拡張子をそもそも外すことも可能です。</p>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>camelCaps 形式とは、変数名やメソッド名を決める時に 2 番目以降の単語の頭文字を大文字にする命名規約です。例えば &quot;Hello world&quot; の camelCaps 名は helloWorld となります。命名規則には他にも、先頭の英単語を大文字にするパスカルケース (HelloWorld)、アンダースコア形式で単語を連結するスネークケース (hello_world) といった規約が存在します。</p>
+    </div>
+  </div>
+  <h3>デフォルトモジュール</h3>
+  <p>先ほど紹介したアクションの起動方法ですが、実は次の形式でもアクションを起動させることができます。</p>
+  <dl>
+    <dt>Shell Code# デフォルトモジュールの起動</dt>
+    <dd><code>http://{host}/{camelCaps 形式のアクション名}{拡張子}<br />
+      http://{host}/greeting.do </code></dd>
+  </dl>
+  <p>これは、config/application.yml の module.entry 属性に hello という設定が記述されているためです。module.entry 属性は、リクエストパスにモジュール名が含まれていない場合に起動するデフォルトのモジュールを指定できます。delta では、このような動作を行なうモジュールをデフォルトモジュールと呼びます。</p>
+  <h2><a name="functionOfAction" id="functionOfAction"></a>アクションクラスの役割</h2>
+  <p>それでは先ほど --add-action で追加されたファイルを見てみましょう。</p>
+  <ul>
+    <li>modules/hello/actions/GreetingAction.php</li>
+    <li>modules/hello/behaviors/Greeting.yml</li>
+    <li>modules/hello/templates/greeting.php</li>
+  </ul>
+  <p>初めに GreetingAction.php を開いて下さい。</p>
+  <dl>
+    <dt>PHP Code# modules/hello/actions/GreetingAction.php</dt>
+    <dd class="lang_php"><code> class GreetingAction extends Delta_Action<br />
+      {<br />
+      &nbsp;&nbsp;public function execute()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::SUCCESS;<br />
+      &nbsp;&nbsp;}<br />
+      }</code></dd>
+  </dl>
+  <p>見ての通りのプログラムファイルです。このファイルに実際のプログラムを記述することになります。今後、アプリケーション開発者が最も時間を費やす部分ともいえるでしょう。</p>
+  <p>クラス名には GreetingAction が宣言されており、GreetingAction は Delta_Action を継承しています。これはアクションを作成する上での決まり事と考えて下さい。execute() は Greeting にリクエストが送信された際に実行されるメソッドであり、Delta_Action::execute() に定義されています。プログラムを書く際は、execute() メソッドをオーバーライドしてコードを記述して下さい。また、戻り値として Delta_View::SUCCESS を返していますが、これは execute() の処理が終わった後にどのテンプレートを返すか、という命令です。ここでは SUCCESS というビューを返すということだけ覚えておいて下さい。Delta_View はビューのインタフェースであり、SUCCESS 以外にも ERROR や NONE という定数が定義されています。</p>
+  <p>今回はプログラム学習でおきまりの Hello world! を試してみましょう。先ほどの execute() メソッド内に次のコードを追加して下さい。</p>
+  <dl>
+    <dt>PHP Code# modules/hello/actions/GreetingAction.php</dt>
+    <dd class="lang_php"><code> class GreetingAction extends Delta_Action<br />
+      {<br />
+      &nbsp;&nbsp;public function execute()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// 追加するコード<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getView()-&gt;setAttribute('hello', 'world!'); <br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return Delta_View::SUCCESS;<br />
+      &nbsp;&nbsp;}<br />
+      }</code></dd>
+  </dl>
+  <p>$this-&gt;getView() は、config/base_dicon.yml に定義されたコンポーネント (オブジェクトと捉えて下さい) を参照します。実際に base_dion.yml を見てみましょう。</p>
+  <dl>
+    <dt>YAML Code# config/base_dicon.yml</dt>
+    <dd class="lang_yaml"> <code>componentNames: <br />
+      &nbsp;&nbsp;request: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpRequest <br />
+      <br />
+      &nbsp;&nbsp;response: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpResponse <br />
+      <br />
+      &nbsp;&nbsp;session: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpSession <br />
+      <br />
+      &nbsp;&nbsp;user: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_AuthorityUser <br />
+      <br />
+      &nbsp;&nbsp;form: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_ActionForm <br />
+      <br />
+      &nbsp;&nbsp;messages: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_ActionMessages<br />
+      <br />
+      &nbsp;&nbsp;view: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_View<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;arguments:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Delta_BaseRenderer <br />
+      <br />
+      &nbsp;&nbsp;database: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_DatabaseManager<br />
       </code></dd>
-    </dl>
-    <p>componentNames にはアプリケーションから参照可能なコンポーネントが定義されています。先ほどの view も定義されており、&quot;class: Delta_View&quot; が記述があります。これは、「view コンポーネントは Delta_View クラスのオブジェクトインスタンス」であることを意味します。つまり、$this-&gt;getView()-&gt;setAttribute() は Delta_View::setAttribute() メソッドを呼び出しているということです。</p>
-    <p>$this-&gt;{component} によるコンポーネントの参照は、Delta_Action の親となる Delta_Object という抽象クラスによって実現されています。Delta_Object はフレームワークが提供する殆どのクラスの親となっているため、あらゆる場所からコンポーネントを参照することができます。</p>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>static メソッドからは $this を使ってのコンポーネント参照ができないので、Delta_DIContainerFactory クラスからコンポーネントを取得する必要があります。例えば view コンポーネントを取得したい場合のコードは Delta_DIContainerFactory::getContainer()-&gt;getComponent('view')、または getView() となります。詳しくは <a href="../../api/reference/kernel.container/delta___di_container.html">Delta_DIContainer クラス</a> を参照して下さい。</p>
-      </div>
+  </dl>
+  <p>componentNames にはアプリケーションから参照可能なコンポーネントが定義されています。先ほどの view も定義されており、&quot;class: Delta_View&quot; が記述があります。これは、「view コンポーネントは Delta_View クラスのオブジェクトインスタンス」であることを意味します。つまり、$this-&gt;getView()-&gt;setAttribute() は Delta_View::setAttribute() メソッドを呼び出しているということです。</p>
+  <p>$this-&gt;{component} によるコンポーネントの参照は、Delta_Action の親となる Delta_Object という抽象クラスによって実現されています。Delta_Object はフレームワークが提供する殆どのクラスの親となっているため、あらゆる場所からコンポーネントを参照することができます。</p>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>static メソッドからは $this を使ってのコンポーネント参照ができないので、Delta_DIContainerFactory クラスからコンポーネントを取得する必要があります。例えば view コンポーネントを取得したい場合のコードは Delta_DIContainerFactory::getContainer()-&gt;getComponent('view')、または getView() となります。詳しくは <a href="../../api/reference/kernel.container/delta___di_container.html">Delta_DIContainer クラス</a> を参照して下さい。</p>
     </div>
-    <p>少し話が脱線しましたが、Delta_View::setAttribute() はテンプレートに変数を割り当てるためのメソッドです。先の例では、hello という変数名で World! という文字列を割り当てたことになります。コードを設定したらファイルを保存して下さい。</p>
-    <h2><a name="functionOfBehavior" id="functionOfBehavior"></a>ビヘイビアの役割</h2>
-    <p>次に Greeting.yml ファイルを見てみましょう。ビヘイビアファイルは、アクションを出力するビューの制御や、フォームから入力されたデータを検証するために使用されるアクションのための設定ファイルです。</p>
-    <dl>
-      <dt>YAML Code# modules/hello/behaviors/Greeting.yml</dt>
-      <dd class="lang_yaml"><code>view:<br />
-        &nbsp;&nbsp;success: greeting # modules/hello/templates/greeting.php を参照</code></dd>
-    </dl>
-    <p>view という属性が定義されており、その下に success: greeting とあります。これは GreetingAction の結果をどのビューに返すか、という指定になります。先ほど GreetingAction の execute() メソッドで Delta_View::SUCCESS を返しましたが、これは view の success に対応しています。つまり、GreetingAction が Delta_View::SUCCESS を返した時は greeting.php をテンプレートとして使用するという意味になります。同様に、アクションが Delta_View::ERROR を返す場合は、view.error に定義されたファイルが参照されるようになります。原則として、Delta_View の定数名を小文字にした名前が view の属性にマッピングされていると考えて下さい。</p>
-    <p>また、アクションによっては条件によって返したいビューを変えたい場合がありますが、view 属性は複数のビューを定義することも可能です。次のコードを参照して下さい。</p>
-    <dl>
-      <dt>YAML Code# modules/hello/behaviors/Greeting.yml</dt>
-      <dd class="lang_yaml"><code>view:<br />
-        &nbsp;&nbsp;success: greeting # Delta_View::SUCCESS を返した際に表示するテンプレート<br />
-        &nbsp;&nbsp;error: error</code><code> # Delta_View::ERROR を返した際に表示するテンプレート</code></dd>
-    </dl>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>ここでは説明のために view 属性を定義していますが、Delta_View::SUCCESS を返すアクションでは、アクション名 (Greeting) とテンプレート名 (greeting) が同じ場合に view の定義を省略することができます。尚、後述しますが、アクション名はパスカルケース形式、テンプレート名はスネークケース形式の命名を利用します。view の定義を省略する場合、FooBar アクションに対応するテンプレート名は foo_bar となることに注意して下さい。</p>
-      </div>
+  </div>
+  <p>少し話が脱線しましたが、Delta_View::setAttribute() はテンプレートに変数を割り当てるためのメソッドです。先の例では、hello という変数名で World! という文字列を割り当てたことになります。コードを設定したらファイルを保存して下さい。</p>
+  <h2><a name="functionOfBehavior" id="functionOfBehavior"></a>ビヘイビアの役割</h2>
+  <p>次に Greeting.yml ファイルを見てみましょう。ビヘイビアファイルは、アクションを出力するビューの制御や、フォームから入力されたデータを検証するために使用されるアクションのための設定ファイルです。</p>
+  <dl>
+    <dt>YAML Code# modules/hello/behaviors/Greeting.yml</dt>
+    <dd class="lang_yaml"><code>view:<br />
+      &nbsp;&nbsp;success: greeting # modules/hello/templates/greeting.php を参照</code></dd>
+  </dl>
+  <p>view という属性が定義されており、その下に success: greeting とあります。これは GreetingAction の結果をどのビューに返すか、という指定になります。先ほど GreetingAction の execute() メソッドで Delta_View::SUCCESS を返しましたが、これは view の success に対応しています。つまり、GreetingAction が Delta_View::SUCCESS を返した時は greeting.php をテンプレートとして使用するという意味になります。同様に、アクションが Delta_View::ERROR を返す場合は、view.error に定義されたファイルが参照されるようになります。原則として、Delta_View の定数名を小文字にした名前が view の属性にマッピングされていると考えて下さい。</p>
+  <p>また、アクションによっては条件によって返したいビューを変えたい場合がありますが、view 属性は複数のビューを定義することも可能です。次のコードを参照して下さい。</p>
+  <dl>
+    <dt>YAML Code# modules/hello/behaviors/Greeting.yml</dt>
+    <dd class="lang_yaml"><code>view:<br />
+      &nbsp;&nbsp;success: greeting # Delta_View::SUCCESS を返した際に表示するテンプレート<br />
+      &nbsp;&nbsp;error: error</code><code> # Delta_View::ERROR を返した際に表示するテンプレート</code></dd>
+  </dl>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>ここでは説明のために view 属性を定義していますが、Delta_View::SUCCESS を返すアクションでは、アクション名 (Greeting) とテンプレート名 (greeting) が同じ場合に view の定義を省略することができます。尚、後述しますが、アクション名はパスカルケース形式、テンプレート名はスネークケース形式の命名を利用します。view の定義を省略する場合、FooBar アクションに対応するテンプレート名は foo_bar となることに注意して下さい。</p>
     </div>
-    <h2><a name="functionOfTemplate" id="functionOfTemplate"></a>テンプレートの役割</h2>
-    <blockquote>
-      <p>続いてアクションの結果を返すテンプレートを見てみましょう。</p>
-      <dl>
-        <dt>Template Code# modules/hello/templates/greeting.php</dt>
-        <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
-          &lt;html lang=&quot;ja&quot;&gt;<br>
-          &nbsp;&nbsp;&lt;head&gt;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Style-Type&quot; content=&quot;text/css&quot; /&gt;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Script-Type&quot; content=&quot;text/javascript&quot; /&gt;<br />
-          &nbsp;&nbsp;&lt;title&gt;Skeleton template&lt;/title&gt;<br />
-          &nbsp;&nbsp;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/assets/css/base.css&quot; /&gt;<br />
-          &nbsp;&nbsp;&lt;/head&gt;<br />
-          &nbsp;&nbsp;&lt;body&gt;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Skeleton template&lt;/h1&gt;<br />
-          &nbsp;&nbsp;&lt;/body&gt;<br />
-          &lt;/html&gt;</code> </dd>
-      </dl>
-      <p>php ファイルでは PHP タグが利用できます。ここでは先ほどアクションで割り当てた hello 変数を表示したいので、次の記述をコードに追加して下さい。</p>
-    </blockquote>
+  </div>
+  <h2><a name="functionOfTemplate" id="functionOfTemplate"></a>テンプレートの役割</h2>
+  <blockquote>
+    <p>続いてアクションの結果を返すテンプレートを見てみましょう。</p>
     <dl>
       <dt>Template Code# modules/hello/templates/greeting.php</dt>
-      <dd class="lang_template"><code>&lt;body&gt;<br />
-        &nbsp;&nbsp;&lt;h1&gt;Skeleton template&lt;/h1&gt;<br />
-        &nbsp;&nbsp;&lt;p&gt;&lt;?php echo $hello; ?&gt;&lt;/p&gt;<br />
-        &lt;/body&gt;</code></dd>
+      <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
+        &lt;html lang=&quot;ja&quot;&gt;<br>
+        &nbsp;&nbsp;&lt;head&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Style-Type&quot; content=&quot;text/css&quot; /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Script-Type&quot; content=&quot;text/javascript&quot; /&gt;<br />
+        &nbsp;&nbsp;&lt;title&gt;Skeleton template&lt;/title&gt;<br />
+        &nbsp;&nbsp;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/assets/css/base.css&quot; /&gt;<br />
+        &nbsp;&nbsp;&lt;/head&gt;<br />
+        &nbsp;&nbsp;&lt;body&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Skeleton template&lt;/h1&gt;<br />
+        &nbsp;&nbsp;&lt;/body&gt;<br />
+        &lt;/html&gt;</code> </dd>
     </dl>
-    <p>$this-&gt;getView()-&gt;setAttribute('hello', 'world!') で割り当てた変数は $hello で参照することができます。最後にブラウザを立ち上げ、hello モジュールを起動してみましょう。画面に World! の文字が表示されたら出力成功です。</p>
-    <p>今回は文字列を出力するだけの簡単な例でしたが、delta ではこのようにロジックをアクションに記述し、テンプレートでは割り当てた変数を展開、表示するという流れが開発の基本スタイルになります。アプリケーションの規模が大きくなると、テンプレートの編集にはプログラムが分からないデザイナや HTML コーダーが参加することもあります。アプリケーション開発者はこれらのスタッフが参加することも考慮し、テンプレートを極力シンプルに記述できるよう心がける必要があります。</p>
-    <h2><a name="namingRules" id="namingRules"></a>ファイルの命名規則</h2>
-    <p>ビヘイビアやテンプレートなどのファイル名は、それぞれ元となるアクション名に基づいて名前が決まります。delta コマンドでアクションを作成する場合は特に意識する必要がありませんが、手動で各種ファイルを作成したい場合は変換規則を覚えておくと良いでしょう。</p>
-    <table>
-      <colgroup>
-      <col width="20%" />
-      <col width="20%" />
-      <col width="60%" />
-      </colgroup>
-      <tr>
-        <th scope="col">対象</th>
-        <th scope="col">例</th>
-        <th scope="col">規則</th>
-      </tr>
-      <tr>
-        <td>アクション名</td>
-        <td>HelloWorld</td>
-        <td>パスカルケース形式。</td>
-      </tr>
-      <tr>
-        <td>アクションクラス名</td>
-        <td>HelloWorldAction</td>
-        <td>アクション名の末尾に &quot;Action&quot; を追加。</td>
-      </tr>
-      <tr>
-        <td>アクションクラスのファイル名</td>
-        <td>HelloWorldAction.php</td>
-        <td>アクションクラス名の末尾に &quot;.php&quot; を追加。</td>
-      </tr>
-      <tr>
-        <td>ビヘイビアのファイル名</td>
-        <td>HelloWorld.yml</td>
-        <td>アクション名に &quot;.yml&quot; を追加。</td>
-      </tr>
-      <tr>
-        <td>テンプレートのファイル名</td>
-        <td>hello_world.php</td>
-        <td>アクション名をスネークケース形式に変換。</td>
-      </tr>
-      <tr>
-        <td>リクエストパス</td>
-        <td>/{module}/helloWorld.do</td>
-        <td>アクション名を camelCaps 形式に変換。</td>
-      </tr>
-    </table>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>より詳しい情報は <a href="../standard/naming.html">命名規則</a> を参照して下さい。</p>
-      </div>
+    <p>php ファイルでは PHP タグが利用できます。ここでは先ほどアクションで割り当てた hello 変数を表示したいので、次の記述をコードに追加して下さい。</p>
+  </blockquote>
+  <dl>
+    <dt>Template Code# modules/hello/templates/greeting.php</dt>
+    <dd class="lang_template"><code>&lt;body&gt;<br />
+      &nbsp;&nbsp;&lt;h1&gt;Skeleton template&lt;/h1&gt;<br />
+      &nbsp;&nbsp;&lt;p&gt;&lt;?php echo $hello; ?&gt;&lt;/p&gt;<br />
+      &lt;/body&gt;</code></dd>
+  </dl>
+  <p>$this-&gt;getView()-&gt;setAttribute('hello', 'world!') で割り当てた変数は $hello で参照することができます。最後にブラウザを立ち上げ、hello モジュールを起動してみましょう。画面に World! の文字が表示されたら出力成功です。</p>
+  <p>今回は文字列を出力するだけの簡単な例でしたが、delta ではこのようにロジックをアクションに記述し、テンプレートでは割り当てた変数を展開、表示するという流れが開発の基本スタイルになります。アプリケーションの規模が大きくなると、テンプレートの編集にはプログラムが分からないデザイナや HTML コーダーが参加することもあります。アプリケーション開発者はこれらのスタッフが参加することも考慮し、テンプレートを極力シンプルに記述できるよう心がける必要があります。</p>
+  <h2><a name="namingRules" id="namingRules"></a>ファイルの命名規則</h2>
+  <p>ビヘイビアやテンプレートなどのファイル名は、それぞれ元となるアクション名に基づいて名前が決まります。delta コマンドでアクションを作成する場合は特に意識する必要がありませんが、手動で各種ファイルを作成したい場合は変換規則を覚えておくと良いでしょう。</p>
+  <table>
+    <colgroup>
+    <col width="20%" />
+    <col width="20%" />
+    <col width="60%" />
+    </colgroup>
+    <tr>
+      <th scope="col">対象</th>
+      <th scope="col">例</th>
+      <th scope="col">規則</th>
+    </tr>
+    <tr>
+      <td>アクション名</td>
+      <td>HelloWorld</td>
+      <td>パスカルケース形式。</td>
+    </tr>
+    <tr>
+      <td>アクションクラス名</td>
+      <td>HelloWorldAction</td>
+      <td>アクション名の末尾に &quot;Action&quot; を追加。</td>
+    </tr>
+    <tr>
+      <td>アクションクラスのファイル名</td>
+      <td>HelloWorldAction.php</td>
+      <td>アクションクラス名の末尾に &quot;.php&quot; を追加。</td>
+    </tr>
+    <tr>
+      <td>ビヘイビアのファイル名</td>
+      <td>HelloWorld.yml</td>
+      <td>アクション名に &quot;.yml&quot; を追加。</td>
+    </tr>
+    <tr>
+      <td>テンプレートのファイル名</td>
+      <td>hello_world.php</td>
+      <td>アクション名をスネークケース形式に変換。</td>
+    </tr>
+    <tr>
+      <td>リクエストパス</td>
+      <td>/{module}/helloWorld.do</td>
+      <td>アクション名を camelCaps 形式に変換。</td>
+    </tr>
+  </table>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>より詳しい情報は <a href="../standard/naming.html">命名規則</a> を参照して下さい。</p>
     </div>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

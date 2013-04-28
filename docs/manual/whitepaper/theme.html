@@ -7,166 +7,159 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - delta の拡張 - テーマ</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">delta の拡張 - テーマ機能</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2012 年 12 月 19 日</p>
-    <h2>テーマの概要</h2>
-<p>テーマは、Web アプリケーションの見た目 (レイアウト) を簡単に切り替えることができる機能です。この機能は 1 つの Web アプリケーションを複数のサイトに多展開したい場合に有用でしょう。</p>
-<h2>テーマ機能を有効にする</h2>
-<p>プロジェクトに新しいテーマを追加するには、&quot;delta add-theme&quot; コマンドを利用します。</p>
-<dl>
-  <dt>Shell Code#</dt>
-  <dd class="lang_shell"><code>$ delta add-theme<br />
-    <br />
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">delta の拡張 - テーマ機能</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2012 年 12 月 19 日</p>
+  <h2>テーマの概要</h2>
+  <p>テーマは、Web アプリケーションの見た目 (レイアウト) を簡単に切り替えることができる機能です。この機能は 1 つの Web アプリケーションを複数のサイトに多展開したい場合に有用でしょう。</p>
+  <h2>テーマ機能を有効にする</h2>
+  <p>プロジェクトに新しいテーマを追加するには、&quot;delta add-theme&quot; コマンドを利用します。</p>
+  <dl>
+    <dt>Shell Code#</dt>
+    <dd class="lang_shell"><code>$ delta add-theme<br />
+      <br />
       # テーマディレクトリの作成<br />
       &gt; Create theme directory. [/var/www/first_project/theme]:<br />
- &nbsp;&nbsp;- /var/www/first_project/theme<br />
- <br />
- # テーマ名の指定<br />
-&gt; Create theme name: bluesky <br />
-<br />
-# テーマ適用モジュールの指定 ('*' を指定した場合は全てのモジュールが対象となる)
-<br />
-&gt; Assign modules (e.g. front,backend,... or '*') : entry<br />
-$ Create files:   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/data   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/modules   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/modules/entry<br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/modules/entry/templates   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html<br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/http_error.php   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/maintenance.php   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/skeleton.php   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/system_error.php   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/mail   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets/css   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets/images   <br />
-&nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets/js <br />
-<br />
-$ Create theme is complete. <br />
-Please add settings to the file. <br />
-<br />
-# application.yml に追加する属性<br />
------------------------------------------------------------------------- <br />
-{config/application.yml} <br />
-theme:   <br />
-&nbsp;&nbsp;name: bluesky   <br />
-basePath: theme <br />
-modules:<br />
-&nbsp;&nbsp;- entry<br />
------------------------------------------------------------------------- <br />
-  </code></dd>
-</dl>
-<p>&quot;delta add-theme&quot; コマンドを実行すると、いくつかの質問が対話形式で進みます。今回はテーマ名を &quot;bluesky&quot;、テーマを割り当てるモジュールを entry に設定しました。実行ログを見ると分かりますが、デフォルトでテーマディレクトリは {APP_ROOT_DIR}/theme に作成されます。bluesky テーマを有効にするには、ログの最後に記載されている設定を application.yml に追加する必要があります。</p>
-<p>設定を追加したら準備完了です。ブラウザから entry モジュールを起動してみましょう。テンプレートが見つからないとエラーが出たらテーマの切り替えに成功しています。該当テンプレートを {APP_ROOT_DIR}/theme/bluesky/modules/entry/templates に設置すれば、新しいテーマファイルが適用されます。</p>
-<div class="note_container note_info">
-  <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-  <div class="note_contents">
-    <ul>
-      <li>テーマディレクトリはプロジェクトディレクトリの外部に設置することも可能です。この設定により、プロジェクトリポジトリとテーマリポジトリを分けて運用するといった構成が可能となります。</li>
-      <li>テーマの適用を一時的に無効にしたい場合は、application.yml の &quot;theme.name&quot; 値を &quot;none&quot; に設定して下さい。この設定により、フレームワークは従来通りのテンプレートパスを参照するようになります。</li>
-    </ul>
+      &nbsp;&nbsp;- /var/www/first_project/theme<br />
+      <br />
+      # テーマ名の指定<br />
+      &gt; Create theme name: bluesky <br />
+      <br />
+      # テーマ適用モジュールの指定 ('*' を指定した場合は全てのモジュールが対象となる) <br />
+      &gt; Assign modules (e.g. front,backend,... or '*') : entry<br />
+      $ Create files: <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/data <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/modules <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/modules/entry<br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/modules/entry/templates <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html<br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/http_error.php <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/maintenance.php <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/skeleton.php <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/html/system_error.php <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/templates/mail <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets/css <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets/images <br />
+      &nbsp;&nbsp;- /var/www/first_project/theme/bluesky/webroot/assets/js <br />
+      <br />
+      $ Create theme is complete. <br />
+      Please add settings to the file. <br />
+      <br />
+      # application.yml に追加する属性<br />
+      ------------------------------------------------------------------------ <br />
+      {config/application.yml} <br />
+      theme: <br />
+      &nbsp;&nbsp;name: bluesky <br />
+      basePath: theme <br />
+      modules:<br />
+      &nbsp;&nbsp;- entry<br />
+      ------------------------------------------------------------------------ <br />
+      </code></dd>
+  </dl>
+  <p>&quot;delta add-theme&quot; コマンドを実行すると、いくつかの質問が対話形式で進みます。今回はテーマ名を &quot;bluesky&quot;、テーマを割り当てるモジュールを entry に設定しました。実行ログを見ると分かりますが、デフォルトでテーマディレクトリは {APP_ROOT_DIR}/theme に作成されます。bluesky テーマを有効にするには、ログの最後に記載されている設定を application.yml に追加する必要があります。</p>
+  <p>設定を追加したら準備完了です。ブラウザから entry モジュールを起動してみましょう。テンプレートが見つからないとエラーが出たらテーマの切り替えに成功しています。該当テンプレートを {APP_ROOT_DIR}/theme/bluesky/modules/entry/templates に設置すれば、新しいテーマファイルが適用されます。</p>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <ul>
+        <li>テーマディレクトリはプロジェクトディレクトリの外部に設置することも可能です。この設定により、プロジェクトリポジトリとテーマリポジトリを分けて運用するといった構成が可能となります。</li>
+        <li>テーマの適用を一時的に無効にしたい場合は、application.yml の &quot;theme.name&quot; 値を &quot;none&quot; に設定して下さい。この設定により、フレームワークは従来通りのテンプレートパスを参照するようになります。</li>
+      </ul>
+    </div>
   </div>
-</div>
-<h2>テーマに含まれるファイル</h2>
-<p>テーマの対象となるファイルは次の通りです。<a href="../appendix/directory_tree.html#projectDirectory">プロジェクトのディレクトリ構成</a> も合わせて参照して下さい。</p>
-<ul>
-  <li>data</li>
-  <li>modules
-    <ul>
-      <li>{module_name}
-        <ul>
-          <li>templates</li>
+  <h2>テーマに含まれるファイル</h2>
+  <p>テーマの対象となるファイルは次の通りです。<a href="../appendix/directory_tree.html#projectDirectory">プロジェクトのディレクトリ構成</a> も合わせて参照して下さい。</p>
+  <ul>
+    <li>data</li>
+    <li>modules
+      <ul>
+        <li>{module_name}
+          <ul>
+            <li>templates</li>
           </ul>
-      </li>
+        </li>
       </ul>
-  </li>
-  <li>templates
-    <ul>
-      <li>html</li>
-      <li>mail</li>
-    </ul>
-  </li>
-  <li>webroot
-    <ul>
-      <li>assets </li>
+    </li>
+    <li>templates
+      <ul>
+        <li>html</li>
+        <li>mail</li>
       </ul>
-  </li>
+    </li>
+    <li>webroot
+      <ul>
+        <li>assets </li>
+      </ul>
+    </li>
   </ul>
-<div class="note_container note_info">
-  <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-  <div class="note_contents">
-    <ul>
-      <li>data ディレクトリはデフォルトで有効にはなりません。設定を有効にするには、application.yml の &quot;theme.extension&quot; に配列形式で &quot;data&quot; 属性を追加して下さい。  </li>
-      <li>テーマを有効にした場合、CSS やイメージといったリソースは {APP_ROOT_DIR}/theme/{theme_name}/webroot/assets 下に配置する必要があります。Web サーバの設定で公開ディレクトリは {APP_ROOT_DIR}/webroot のみに制御されているため、テーマディレクトリへのエイリアスを新たに追加する必要があります。(例えば、&quot;Alias /assets {APP_ROOT_DIR}/theme/{theme_name}/webroot/assets&quot; といった設定になるでしょう)</li>
-    </ul>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <ul>
+        <li>data ディレクトリはデフォルトで有効にはなりません。設定を有効にするには、application.yml の &quot;theme.extension&quot; に配列形式で &quot;data&quot; 属性を追加して下さい。 </li>
+        <li>テーマを有効にした場合、CSS やイメージといったリソースは {APP_ROOT_DIR}/theme/{theme_name}/webroot/assets 下に配置する必要があります。Web サーバの設定で公開ディレクトリは {APP_ROOT_DIR}/webroot のみに制御されているため、テーマディレクトリへのエイリアスを新たに追加する必要があります。(例えば、&quot;Alias /assets {APP_ROOT_DIR}/theme/{theme_name}/webroot/assets&quot; といった設定になるでしょう)</li>
+      </ul>
+    </div>
   </div>
-</div>
-<h2>ドメインと連携させる</h2>
-<p>アプリケーションを複数のドメインで運用し、それぞれのドメインで異なるテーマを適用させることができます。</p>
-<dl>
-  <dt>YAML Code# config/application.yml</dt>
-  <dd class="lang_yaml"> <code>theme:<br />
-&nbsp;&nbsp;name: default<br />
-&nbsp;&nbsp;domain:<br />
-&nbsp;&nbsp;&nbsp;&nbsp;delta-bluesky: bluesky<br />
-&nbsp;&nbsp;&nbsp;&nbsp;*.delta-darkgray: none</code></dd>
-</dl>
-<p>この設定は、次のルールに従いテーマを適用します。</p>
-<ol>
-  <li>ドメインが delta-bluesky であれば、 bluesky テーマを適用 (テーマが存在しない場合は例外をスロー)</li>
-  <li>ドメインが *.delta-darkgray (サブドメインは自由) であれば、テーマを適用しない</li>
-  <li>その他のドメインにマッチした場合は、default テーマを適用</li>
+  <h2>ドメインと連携させる</h2>
+  <p>アプリケーションを複数のドメインで運用し、それぞれのドメインで異なるテーマを適用させることができます。</p>
+  <dl>
+    <dt>YAML Code# config/application.yml</dt>
+    <dd class="lang_yaml"> <code>theme:<br />
+      &nbsp;&nbsp;name: default<br />
+      &nbsp;&nbsp;domain:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;delta-bluesky: bluesky<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;*.delta-darkgray: none</code></dd>
+  </dl>
+  <p>この設定は、次のルールに従いテーマを適用します。</p>
+  <ol>
+    <li>ドメインが delta-bluesky であれば、 bluesky テーマを適用 (テーマが存在しない場合は例外をスロー)</li>
+    <li>ドメインが *.delta-darkgray (サブドメインは自由) であれば、テーマを適用しない</li>
+    <li>その他のドメインにマッチした場合は、default テーマを適用</li>
   </ol>
-<h2>テーマのパスを取得する</h2>
-<p>テーマが有効な場合、テーマディレクトリのパスは Delta_AppPathManager クラスで取得することができます。</p>
-<dl>
-  <dt>PHP Code#</dt>
-  <dd class="lang_php"><code>// パスマネージャのインスタンスを取得<br />
-    $manager = Delta_AppPathManager::getInstance();<br />
-    <br />
-    // Delta_Object を継承したクラスであれば Delta_Object::getAppPathManager() でインスタンスを取得することも可能<br />
-    $manager = $this-&gt;getAppPathManager();<br />
-<br />
-    // '{APP_ROOT_DIR}/theme/{theme_name}/data'<br />
-    $path
-    = $manager-&gt;getDataPath();<br />
-    <br />
-    // '{APP_ROOT_DIR}/theme/{theme_name}/modules/entry/templates'<br />
-    $path = $manager-&gt;getModuleTemplatesPath('entry');<br />
-    <br />
-    // テーマが有効な状態か (有効であれば 1 を返す)<br />
-    $manager-&gt;getTheme()-&gt;isActive();<br />
-<br />
-    // 'bluesky' <br />
-    $manager-&gt;getTheme()-&gt;getThemeName();</code></dd>
-</dl>
-<p class="right"><a href="#top">上へ</a></p>
-  </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h2>テーマのパスを取得する</h2>
+  <p>テーマが有効な場合、テーマディレクトリのパスは Delta_AppPathManager クラスで取得することができます。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>// パスマネージャのインスタンスを取得<br />
+      $manager = Delta_AppPathManager::getInstance();<br />
+      <br />
+      // Delta_Object を継承したクラスであれば Delta_Object::getAppPathManager() でインスタンスを取得することも可能<br />
+      $manager = $this-&gt;getAppPathManager();<br />
+      <br />
+      // '{APP_ROOT_DIR}/theme/{theme_name}/data'<br />
+      $path
+      = $manager-&gt;getDataPath();<br />
+      <br />
+      // '{APP_ROOT_DIR}/theme/{theme_name}/modules/entry/templates'<br />
+      $path = $manager-&gt;getModuleTemplatesPath('entry');<br />
+      <br />
+      // テーマが有効な状態か (有効であれば 1 を返す)<br />
+      $manager-&gt;getTheme()-&gt;isActive();<br />
+      <br />
+      // 'bluesky' <br />
+      $manager-&gt;getTheme()-&gt;getThemeName();</code></dd>
+  </dl>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

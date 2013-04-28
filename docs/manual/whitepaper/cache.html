@@ -7,108 +7,102 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - その他の機能 - キャッシュの利用</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">その他の機能 - キャッシュの利用</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2009 年 2 月 10 日</p>
-    <h2>Hacks</h2>
-    <p>delta は各種キャッシュストレージへアクセスするための統一的な API を実装しています。それぞれのストレージへは Delta_CacheManager::getInstance() メソッドを通してアクセスすることができるため、将来的に利用するエンジンが変わったとしてもコードの変更は容易になります。<br />
-      次に示すクラスは、標準で利用可能なキャッシュエンジンの一覧になります。(Delta_FunctionCache、Delta_YAMLCache に関しては実装が特殊なため、Delta_CacheManager を通さず直接インスタンスを生成する必要があります)</p>
-    <table>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">その他の機能 - キャッシュの利用</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2009 年 2 月 10 日</p>
+  <h2>Hacks</h2>
+  <p>delta は各種キャッシュストレージへアクセスするための統一的な API を実装しています。それぞれのストレージへは Delta_CacheManager::getInstance() メソッドを通してアクセスすることができるため、将来的に利用するエンジンが変わったとしてもコードの変更は容易になります。<br />
+    次に示すクラスは、標準で利用可能なキャッシュエンジンの一覧になります。(Delta_FunctionCache、Delta_YAMLCache に関しては実装が特殊なため、Delta_CacheManager を通さず直接インスタンスを生成する必要があります)</p>
+  <table>
     <colgroup>
     <col width="20%" />
     <col width="20%" />
     <col width="60%" />
     </colgroup>
-      <tr>
-        <th scope="col">クラス名</th>
-        <th scope="col">定数名</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td>Delta_APCCache</td>
-        <td>Delta_CacheManager::CACHE_TYPE_APC</td>
-        <td>Alternative PHP Cache (APC) によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://pecl.php.net/package/apc">PECL 拡張モジュール APC</a> のインストールが必要) </td>
-      </tr>
-      <tr>
-        <td>Delta_EAcceleratorCache</td>
-        <td>Delta_CacheManager::CACHE_TYPE_EACCELERATOR</td>
-        <td>eAccelerator によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://eaccelerator.net/">eAccelerator</a> のインストールが必要) </td>
-      </tr>
-      <tr>
-        <td>Delta_FileCache</td>
-        <td>Delta_CacheManager::CACHE_TYPE_FILE</td>
-        <td>ファイルベースのキャッシング。デフォルトでは &quot;{APP_ROOT_DIR}/cache/file&quot; ディレクトリ下にキャッシュファイルが生成される。</td>
-      </tr>
-      <tr>
-        <td>Delta_FunctionCache</td>
-        <td>(N/A)</td>
-        <td>関数ベースのキャッシング。</td>
-      </tr>
-      <tr>
-        <td>Delta_MemcacheCache</td>
-        <td>Delta_CacheManager::CACHE_TYPE_MEMCACHE</td>
-        <td>memcached によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://www.danga.com/memcached/">memcached</a> がインストールされたサーバが必要) </td>
-      </tr>
-      <tr>
-        <td>Delta_XCacheCache</td>
-        <td>Delta_CacheManager::CACHE_TYPE_XCACHE</td>
-        <td>XCache によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://xcache.lighttpd.net/">XCache</a> のインストールが必要) </td>
-      </tr>
-      <tr>
-        <td>Delta_YAMLCache</td>
-        <td>(N/A)</td>
-        <td>YAML ファイルのキャッシング。デフォルトでは &quot;{APP_ROOT_DIR}/cache/yaml&quot; ディレクトリ下にキャッシュファイルが生成される。</td>
-      </tr>
-    </table>
-    <p>Delta_FileCache、Delta_YAMLCache に関しては、フレームワーク本体のキャッシュ機構にも利用されています。</p>
-    <h2>サンプルコード</h2>
-    <p>次にファイルキャッシュによるオブジェクトの格納と取得、削除のサンプルコードを示します。</p>
-    <dl>
-      <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp;&nbsp;$customersDAO = Delta_DAOFactory::create('Customers');<br />
-        &nbsp;&nbsp;$customers = $customersDAO-&gt;findAll();<br />
-        <br />
-        &nbsp;&nbsp;// ファイルキャッシュエンジンのインスタンスを取得<br />
-        &nbsp;&nbsp;$cache = Delta_CacheManager::getInstance(Delta_CacheManager::CACHE_TYPE_FILE);<br />
-        <br />
-        &nbsp;&nbsp;// キャッシュストレージに customers というキー名でオブジェクトを設定 <br />
-        &nbsp;&nbsp;$cache-&gt;set('customers', $customers);<br />
-        <br />
-        &nbsp;&nbsp;// キャッシュストレージから customers キーに対応する値を取得<br />
-        &nbsp;&nbsp;$customers = $cache-&gt;get('customers');<br />
-        <br />
-        &nbsp;&nbsp;// キャッシュストレージから customers キーを削除<br />
-        &nbsp;&nbsp;$customers = $cache-&gt;delete('customers');<br />
-        <br />
-        &nbsp;&nbsp;return Delta_View::SUCCESS; <br />
-        }</code></dd>
-    </dl>
-    <p>set() メソッドのオプション引数でキャッシュの有効期限、キーの名前空間等を設定することが可能です。</p>
-    <p class="right"><a href="#top">上へ</a></p>
-  </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+    <tr>
+      <th scope="col">クラス名</th>
+      <th scope="col">定数名</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td>Delta_APCCache</td>
+      <td>Delta_CacheManager::CACHE_TYPE_APC</td>
+      <td>Alternative PHP Cache (APC) によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://pecl.php.net/package/apc">PECL 拡張モジュール APC</a> のインストールが必要) </td>
+    </tr>
+    <tr>
+      <td>Delta_EAcceleratorCache</td>
+      <td>Delta_CacheManager::CACHE_TYPE_EACCELERATOR</td>
+      <td>eAccelerator によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://eaccelerator.net/">eAccelerator</a> のインストールが必要) </td>
+    </tr>
+    <tr>
+      <td>Delta_FileCache</td>
+      <td>Delta_CacheManager::CACHE_TYPE_FILE</td>
+      <td>ファイルベースのキャッシング。デフォルトでは &quot;{APP_ROOT_DIR}/cache/file&quot; ディレクトリ下にキャッシュファイルが生成される。</td>
+    </tr>
+    <tr>
+      <td>Delta_FunctionCache</td>
+      <td>(N/A)</td>
+      <td>関数ベースのキャッシング。</td>
+    </tr>
+    <tr>
+      <td>Delta_MemcacheCache</td>
+      <td>Delta_CacheManager::CACHE_TYPE_MEMCACHE</td>
+      <td>memcached によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://www.danga.com/memcached/">memcached</a> がインストールされたサーバが必要) </td>
+    </tr>
+    <tr>
+      <td>Delta_XCacheCache</td>
+      <td>Delta_CacheManager::CACHE_TYPE_XCACHE</td>
+      <td>XCache によるキャッシング。(<img src="../assets/images/icons/external.gif" alt="外部リンク" width="14" height="14" /> <a href="http://xcache.lighttpd.net/">XCache</a> のインストールが必要) </td>
+    </tr>
+    <tr>
+      <td>Delta_YAMLCache</td>
+      <td>(N/A)</td>
+      <td>YAML ファイルのキャッシング。デフォルトでは &quot;{APP_ROOT_DIR}/cache/yaml&quot; ディレクトリ下にキャッシュファイルが生成される。</td>
+    </tr>
+  </table>
+  <p>Delta_FileCache、Delta_YAMLCache に関しては、フレームワーク本体のキャッシュ機構にも利用されています。</p>
+  <h2>サンプルコード</h2>
+  <p>次にファイルキャッシュによるオブジェクトの格納と取得、削除のサンプルコードを示します。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp;&nbsp;$customersDAO = Delta_DAOFactory::create('Customers');<br />
+      &nbsp;&nbsp;$customers = $customersDAO-&gt;findAll();<br />
+      <br />
+      &nbsp;&nbsp;// ファイルキャッシュエンジンのインスタンスを取得<br />
+      &nbsp;&nbsp;$cache = Delta_CacheManager::getInstance(Delta_CacheManager::CACHE_TYPE_FILE);<br />
+      <br />
+      &nbsp;&nbsp;// キャッシュストレージに customers というキー名でオブジェクトを設定 <br />
+      &nbsp;&nbsp;$cache-&gt;set('customers', $customers);<br />
+      <br />
+      &nbsp;&nbsp;// キャッシュストレージから customers キーに対応する値を取得<br />
+      &nbsp;&nbsp;$customers = $cache-&gt;get('customers');<br />
+      <br />
+      &nbsp;&nbsp;// キャッシュストレージから customers キーを削除<br />
+      &nbsp;&nbsp;$customers = $cache-&gt;delete('customers');<br />
+      <br />
+      &nbsp;&nbsp;return Delta_View::SUCCESS; <br />
+      }</code></dd>
+  </dl>
+  <p>set() メソッドのオプション引数でキャッシュの有効期限、キーの名前空間等を設定することが可能です。</p>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

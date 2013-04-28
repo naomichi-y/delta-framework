@@ -23,8 +23,9 @@
         <p>config/application.yml に以下のコードを追加して下さい。</p>
         <div class="lang_yaml">
           <code>
-          controller:<br />
-          &nbsp;&nbsp;listener: Delta_PerformanceListener
+          observer:<br />
+          &nbsp;&nbsp;listeners:<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;- class: Delta_PerformanceListener
           </code>
         </div>
       <?php endif; ?>

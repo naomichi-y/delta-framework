@@ -7,355 +7,350 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - 付録 - ディレクトリ構成</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">付録 - ディレクトリ構成</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2012 年 12 月 20 日 </p>
-    <ul class="index">
-      <li> <a href="#frameworkDirectory">コアパッケージのディレクトリ構成</a></li>
-      <li><a href="#projectDirectory">プロジェクトのディレクトリ構成</a></li>
-    </ul>
-    <h2><a id="frameworkDirectory" name="frameworkDirectory"></a>コアパッケージのディレクトリ構成</h2>
-    <p>フレームワーク本体を含むコアパッケージには、クラスライブラリの他に各種ドキュメントやジェネレータ、ベンダープログラムを含んでいます。コアパッケージは Web から参照できる場所に配置するべきではありません。Linux 環境であれば /var/lib/delta などのディレクトリに配置することを推奨します。</p>
-    <p>下表はコアパッケージの主なディレクトリ・ファイル構成を示したものです。基本的に開発者が直接参照するディレクトリは docs ディレクトリのみとなるでしょう。</p>
-    <table>
-      <colgroup>
-      <col width="10%" />
-      <col width="20%" />
-      <col width="10%" />
-      <col width="60%" />
-      </colgroup>
-      <tr>
-        <th colspan="2" scope="col">ディレクトリ構成</th>
-        <th scope="col">パーミッション</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td rowspan="4">command</td>
-        <td>&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>各種ユーティリティコマンドを管理</td>
-      </tr>
-      <tr>
-        <td>delta</td>
-        <td class="center">&nbsp;</td>
-        <td>delta コマンドパス設定ファイル (Linux 用シェルスクリプト)</td>
-      </tr>
-      <tr>
-        <td>delta.bat</td>
-        <td class="center">&nbsp;</td>
-        <td>delta コマンドパス設定ファイル (Windows 用バッチファイル)</td>
-      </tr>
-      <tr>
-        <td>delta.php</td>
-        <td class="center">&nbsp;</td>
-        <td>delta コマンド本体</td>
-      </tr>
-      <tr>
-        <td rowspan="3">docs</td>
-        <td>&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>各種ドキュメントを管理</td>
-      </tr>
-      <tr>
-        <td><img src="../assets/images/icons/api.gif" alt="delta API" width="14" height="14" /> <a href="../../api/index.html"> api</a></td>
-        <td class="center">&nbsp;</td>
-        <td>API リファレンス</td>
-      </tr>
-      <tr>
-        <td>manual</td>
-        <td class="center">&nbsp;</td>
-        <td>マニュアル</td>
-      </tr>
-      <tr>
-        <td colspan="2">libs</td>
-        <td class="center">&nbsp;</td>
-        <td>クラスライブラリ (<a href="../../api/index.html">API</a> を参照)</td>
-      </tr>
-      <tr>
-        <td colspan="2">skeleton</td>
-        <td class="center">&nbsp;</td>
-        <td>プロジェクト用スケルトンファイルを管理</td>
-      </tr>
-      <tr>
-        <td rowspan="3">vendors</td>
-        <td>&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>フレームワークが使用するベンダーライブラリ</td>
-      </tr>
-      <tr>
-        <td>blowfish</td>
-        <td class="center">&nbsp;</td>
-        <td>blowfish 暗号ユーティリティ</td>
-      </tr>
-      <tr>
-        <td><a href="http://spyc.sourceforge.net/">spyc</a></td>
-        <td class="center">&nbsp;</td>
-        <td>YAML 解析ライブラリ</td>
-      </tr>
-      <tr>
-        <td colspan="2">webapps</td>
-        <td class="center">&nbsp;</td>
-        <td>cpanel やサンプルアプリケーションを管理</td>
-      </tr>
-      <tr>
-        <td colspan="2">VERSION</td>
-        <td class="center">&nbsp;</td>
-        <td>フレームワークのバージョンを記したファイル</td>
-      </tr>
-    </table>
-    <h2><a id="projectDirectory" name="projectDirectory"></a>プロジェクトのディレクトリ構成</h2>
-    <p>プロジェクト構成ディレクトリは、開発者が作成したアクションやコンポーネントを管理します。</p>
-    <table>
-      <colgroup>
-      <col width="10%" />
-      <col width="10%" />
-      <col width="10%" />
-      <col width="10%" />
-      <col width="60%" />
-      </colgroup>
-      <tr>
-        <th colspan="3" scope="col">ディレクトリ構成</th>
-        <th scope="col">パーミッション</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td rowspan="5">console</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>コンソールアプリケーションを管理</td>
-      </tr>
-      <tr>
-        <td colspan="2">commands</td>
-        <td class="center">&nbsp;</td>
-        <td>コマンドディレクトリ</td>
-      </tr>
-      <tr>
-        <td colspan="2">deltac</td>
-        <td class="center">&nbsp;</td>
-        <td>コマンド起動スクリプト (Linux)</td>
-      </tr>
-      <tr>
-        <td colspan="2">deltac.bat</td>
-        <td class="center">&nbsp;</td>
-        <td>コマンド起動スクリプト (Windows)</td>
-      </tr>
-      <tr>
-        <td colspan="2">deltac.php</td>
-        <td class="center">&nbsp;</td>
-        <td>コマンド起動スクリプト</td>
-      </tr>
-      <tr>
-        <td rowspan="4">cache</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">775</td>
-        <td>delta (及びベンダーライブラリ) が生成する各種キャッシュを格納</td>
-      </tr>
-      <tr>
-        <td colspan="2">file</td>
-        <td class="center">&nbsp;</td>
-        <td>クラスパスキャッシュディレクトリ</td>
-      </tr>
-      <tr>
-        <td colspan="2">templates</td>
-        <td class="center">&nbsp;</td>
-        <td>テンプレートキャッシュディレクトリ</td>
-      </tr>
-      <tr>
-        <td colspan="2">yaml</td>
-        <td class="center">&nbsp;</td>
-        <td>YAML キャッシュディレクトリ</td>
-      </tr>
-      <tr>
-        <td rowspan="8">config</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>アプリケーション設定情報を管理</td>
-      </tr>
-      <tr>
-        <td colspan="2"><a href="../config/base_dicon.html">base_dicon.yml</a></td>
-        <td class="center">&nbsp;</td>
-        <td>DI コンテナ設定ファイル</td>
-      </tr>
-      <tr>
-        <td colspan="2"><a href="../config/behavior.html">global_behaviors.yml</a><a href="../config/site.html"></a></td>
-        <td class="center">&nbsp;</td>
-        <td>ビヘイビア設定ファイル</td>
-      </tr>
-      <tr>
-        <td colspan="2"><a href="../config/application.html">application.yml</a></td>
-        <td class="center">&nbsp;</td>
-        <td>アプリケーション設定ファイル</td>
-      </tr>
-      <tr>
-        <td colspan="2"><a href="../config/helpers.html">global_helpers.yml</a></td>
-        <td class="center">&nbsp;</td>
-        <td>ヘルパ設定ファイル</td>
-      </tr>
-      <tr>
-        <td colspan="2">delta_env.php</td>
-        <td class="center">&nbsp;</td>
-        <td>環境設定ファイル</td>
-      </tr>
-      <tr>
-        <td colspan="2"><a href="../config/routes.html">routes.yml</a></td>
-        <td class="center">&nbsp;</td>
-        <td>ルータ設定ファイル</td>
-      </tr>
-      <tr>
-        <td colspan="2"><a href="../config/routes.html"></a><a href="../config/site.html">site.yml</a></td>
-        <td class="center">&nbsp;</td>
-        <td>サイト設定ファイル</td>
-      </tr>
-      <tr>
-        <td>data</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>アプリケーションが利用する各種データを管理 (data ディレクトリはユーザのプライベート写真など、web 公開ディレクトリに配置すべきではないデータを管理するためのディレクトリです)</td>
-      </tr>
-      <tr>
-        <td rowspan="6">templates</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>差し込みメールテンプレートやメンテナンステンプレートなど、アプリケーション全体から利用する可能性があるファイルを管理</td>
-      </tr>
-      <tr>
-        <td rowspan="4">html</td>
-        <td>http_error.php</td>
-        <td class="center">&nbsp;</td>
-        <td>HTTP ステータスエラーを出力するテンプレート</td>
-      </tr>
-      <tr>
-        <td><p>&nbsp;</p>
-        <p>maintenance.php</p></td>
-        <td class="center">&nbsp;</td>
-        <td>メンテナンス画面を出力するテンプレート</td>
-      </tr>
-      <tr>
-        <td>skeleton.php</td>
-        <td class="center">&nbsp;</td>
-        <td>delta add-action コマンドで使用される HTML テンプレート</td>
-      </tr>
-      <tr>
-        <td>system_error.php</td>
-        <td class="center">&nbsp;</td>
-        <td>例外が発生した際に出力するテンプレート (Delta_ExceptionOutputDelegate クラスで使用される)</td>
-      </tr>
-      <tr>
-        <td>mail</td>
-        <td>&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>メールテンプレート設置ディレクトリ。Delta_MailSender::setTemplate() メソッドで参照される</td>
-      </tr>
-      <tr>
-        <td>theme</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>テーマディレクトリ。詳しくは <a href="../whitepaper/theme.html">テーマ機能</a> を参照</td>
-      </tr>
-      <tr>
-        <td rowspan="4">libs</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>アプリケーションクラスライブラリ。開発者が作成した共有コンポーネントを配置する</td>
-      </tr>
-      <tr>
-        <td colspan="2">dao</td>
-        <td class="center">&nbsp;</td>
-        <td>Delta_DAO を継承した DAO クラスを管理</td>
-      </tr>
-      <tr>
-        <td colspan="2">entity</td>
-        <td class="center">&nbsp;</td>
-        <td>Delta_Entity を継承したエンティティクラスを管理</td>
-      </tr>
-      <tr>
-        <td colspan="2">service</td>
-        <td class="center">&nbsp;</td>
-        <td>Delta_Service を継承したサービスクラスを管理</td>
-      </tr>
-      <tr>
-        <td>logs</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">775</td>
-        <td>delta (及びベンダーライブラリ) が生成する各種ログを格納</td>
-      </tr>
-      <tr>
-        <td rowspan="5">modules</td>
-        <td rowspan="5">{module}(+)</td>
-        <td>&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>モジュールディレクトリ</td>
-      </tr>
-      <tr>
-        <td>actions</td>
-        <td class="center">&nbsp;</td>
-        <td>アクションクラスディレクトリ</td>
-      </tr>
-      <tr>
-        <td>behaviors</td>
-        <td class="center">&nbsp;</td>
-        <td>ビヘイビアディレクトリ</td>
-      </tr>
-      <tr>
-        <td>config</td>
-        <td class="center">&nbsp;</td>
-        <td>モジュール設定ディレクトリ</td>
-      </tr>
-      <tr>
-        <td>templates</td>
-        <td class="center">&nbsp;</td>
-        <td>テンプレートディレクトリ</td>
-      </tr>
-      <tr>
-        <td colspan="3">tmp</td>
-        <td class="center">775</td>
-        <td>一時生成ファイル格納ディレクトリ</td>
-      </tr>
-      <tr>
-        <td colspan="3">vendors</td>
-        <td class="center">&nbsp;</td>
-        <td>アプリケーションが必要とする外部ライブラリを格納</td>
-      </tr>
-      <tr>
-        <td rowspan="2">webroot</td>
-        <td colspan="2">&nbsp;</td>
-        <td class="center">&nbsp;</td>
-        <td>Web 公開ディレクトリ</td>
-      </tr>
-      <tr>
-        <td colspan="2">index.php</td>
-        <td class="center">&nbsp;</td>
-        <td>Web アプリケーション起動スクリプト</td>
-      </tr>
-    </table>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">付録 - ディレクトリ構成</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2012 年 12 月 20 日 </p>
+  <ul class="index">
+    <li> <a href="#frameworkDirectory">コアパッケージのディレクトリ構成</a></li>
+    <li><a href="#projectDirectory">プロジェクトのディレクトリ構成</a></li>
+  </ul>
+  <h2><a id="frameworkDirectory" name="frameworkDirectory"></a>コアパッケージのディレクトリ構成</h2>
+  <p>フレームワーク本体を含むコアパッケージには、クラスライブラリの他に各種ドキュメントやジェネレータ、ベンダープログラムを含んでいます。コアパッケージは Web から参照できる場所に配置するべきではありません。Linux 環境であれば /var/lib/delta などのディレクトリに配置することを推奨します。</p>
+  <p>下表はコアパッケージの主なディレクトリ・ファイル構成を示したものです。基本的に開発者が直接参照するディレクトリは docs ディレクトリのみとなるでしょう。</p>
+  <table>
+    <colgroup>
+    <col width="10%" />
+    <col width="20%" />
+    <col width="10%" />
+    <col width="60%" />
+    </colgroup>
+    <tr>
+      <th colspan="2" scope="col">ディレクトリ構成</th>
+      <th scope="col">パーミッション</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td rowspan="4">command</td>
+      <td>&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>各種ユーティリティコマンドを管理</td>
+    </tr>
+    <tr>
+      <td>delta</td>
+      <td class="center">&nbsp;</td>
+      <td>delta コマンドパス設定ファイル (Linux 用シェルスクリプト)</td>
+    </tr>
+    <tr>
+      <td>delta.bat</td>
+      <td class="center">&nbsp;</td>
+      <td>delta コマンドパス設定ファイル (Windows 用バッチファイル)</td>
+    </tr>
+    <tr>
+      <td>delta.php</td>
+      <td class="center">&nbsp;</td>
+      <td>delta コマンド本体</td>
+    </tr>
+    <tr>
+      <td rowspan="3">docs</td>
+      <td>&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>各種ドキュメントを管理</td>
+    </tr>
+    <tr>
+      <td><img src="../assets/images/icons/api.gif" alt="delta API" width="14" height="14" /> <a href="../../api/index.html"> api</a></td>
+      <td class="center">&nbsp;</td>
+      <td>API リファレンス</td>
+    </tr>
+    <tr>
+      <td>manual</td>
+      <td class="center">&nbsp;</td>
+      <td>マニュアル</td>
+    </tr>
+    <tr>
+      <td colspan="2">libs</td>
+      <td class="center">&nbsp;</td>
+      <td>クラスライブラリ (<a href="../../api/index.html">API</a> を参照)</td>
+    </tr>
+    <tr>
+      <td colspan="2">skeleton</td>
+      <td class="center">&nbsp;</td>
+      <td>プロジェクト用スケルトンファイルを管理</td>
+    </tr>
+    <tr>
+      <td rowspan="3">vendors</td>
+      <td>&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>フレームワークが使用するベンダーライブラリ</td>
+    </tr>
+    <tr>
+      <td>blowfish</td>
+      <td class="center">&nbsp;</td>
+      <td>blowfish 暗号ユーティリティ</td>
+    </tr>
+    <tr>
+      <td><a href="http://spyc.sourceforge.net/">spyc</a></td>
+      <td class="center">&nbsp;</td>
+      <td>YAML 解析ライブラリ</td>
+    </tr>
+    <tr>
+      <td colspan="2">webapps</td>
+      <td class="center">&nbsp;</td>
+      <td>cpanel やサンプルアプリケーションを管理</td>
+    </tr>
+    <tr>
+      <td colspan="2">VERSION</td>
+      <td class="center">&nbsp;</td>
+      <td>フレームワークのバージョンを記したファイル</td>
+    </tr>
+  </table>
+  <h2><a id="projectDirectory" name="projectDirectory"></a>プロジェクトのディレクトリ構成</h2>
+  <p>プロジェクト構成ディレクトリは、開発者が作成したアクションやコンポーネントを管理します。</p>
+  <table>
+    <colgroup>
+    <col width="10%" />
+    <col width="10%" />
+    <col width="10%" />
+    <col width="10%" />
+    <col width="60%" />
+    </colgroup>
+    <tr>
+      <th colspan="3" scope="col">ディレクトリ構成</th>
+      <th scope="col">パーミッション</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td rowspan="5">console</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>コンソールアプリケーションを管理</td>
+    </tr>
+    <tr>
+      <td colspan="2">commands</td>
+      <td class="center">&nbsp;</td>
+      <td>コマンドディレクトリ</td>
+    </tr>
+    <tr>
+      <td colspan="2">deltac</td>
+      <td class="center">&nbsp;</td>
+      <td>コマンド起動スクリプト (Linux)</td>
+    </tr>
+    <tr>
+      <td colspan="2">deltac.bat</td>
+      <td class="center">&nbsp;</td>
+      <td>コマンド起動スクリプト (Windows)</td>
+    </tr>
+    <tr>
+      <td colspan="2">deltac.php</td>
+      <td class="center">&nbsp;</td>
+      <td>コマンド起動スクリプト</td>
+    </tr>
+    <tr>
+      <td rowspan="4">cache</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">775</td>
+      <td>delta (及びベンダーライブラリ) が生成する各種キャッシュを格納</td>
+    </tr>
+    <tr>
+      <td colspan="2">file</td>
+      <td class="center">&nbsp;</td>
+      <td>クラスパスキャッシュディレクトリ</td>
+    </tr>
+    <tr>
+      <td colspan="2">templates</td>
+      <td class="center">&nbsp;</td>
+      <td>テンプレートキャッシュディレクトリ</td>
+    </tr>
+    <tr>
+      <td colspan="2">yaml</td>
+      <td class="center">&nbsp;</td>
+      <td>YAML キャッシュディレクトリ</td>
+    </tr>
+    <tr>
+      <td rowspan="8">config</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>アプリケーション設定情報を管理</td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="../config/base_dicon.html">base_dicon.yml</a></td>
+      <td class="center">&nbsp;</td>
+      <td>DI コンテナ設定ファイル</td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="../config/behavior.html">global_behaviors.yml</a><a href="../config/site.html"></a></td>
+      <td class="center">&nbsp;</td>
+      <td>ビヘイビア設定ファイル</td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="../config/application.html">application.yml</a></td>
+      <td class="center">&nbsp;</td>
+      <td>アプリケーション設定ファイル</td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="../config/helpers.html">global_helpers.yml</a></td>
+      <td class="center">&nbsp;</td>
+      <td>ヘルパ設定ファイル</td>
+    </tr>
+    <tr>
+      <td colspan="2">delta_env.php</td>
+      <td class="center">&nbsp;</td>
+      <td>環境設定ファイル</td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="../config/routes.html">routes.yml</a></td>
+      <td class="center">&nbsp;</td>
+      <td>ルータ設定ファイル</td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="../config/routes.html"></a><a href="../config/site.html">site.yml</a></td>
+      <td class="center">&nbsp;</td>
+      <td>サイト設定ファイル</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>アプリケーションが利用する各種データを管理 (data ディレクトリはユーザのプライベート写真など、web 公開ディレクトリに配置すべきではないデータを管理するためのディレクトリです)</td>
+    </tr>
+    <tr>
+      <td rowspan="6">templates</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>差し込みメールテンプレートやメンテナンステンプレートなど、アプリケーション全体から利用する可能性があるファイルを管理</td>
+    </tr>
+    <tr>
+      <td rowspan="4">html</td>
+      <td>http_error.php</td>
+      <td class="center">&nbsp;</td>
+      <td>HTTP ステータスエラーを出力するテンプレート</td>
+    </tr>
+    <tr>
+      <td><p>&nbsp;</p>
+        <p>maintenance.php</p></td>
+      <td class="center">&nbsp;</td>
+      <td>メンテナンス画面を出力するテンプレート</td>
+    </tr>
+    <tr>
+      <td>skeleton.php</td>
+      <td class="center">&nbsp;</td>
+      <td>delta add-action コマンドで使用される HTML テンプレート</td>
+    </tr>
+    <tr>
+      <td>system_error.php</td>
+      <td class="center">&nbsp;</td>
+      <td>例外が発生した際に出力するテンプレート (Delta_ExceptionOutputDelegate クラスで使用される)</td>
+    </tr>
+    <tr>
+      <td>mail</td>
+      <td>&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>メールテンプレート設置ディレクトリ。Delta_MailSender::setTemplate() メソッドで参照される</td>
+    </tr>
+    <tr>
+      <td>theme</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>テーマディレクトリ。詳しくは <a href="../whitepaper/theme.html">テーマ機能</a> を参照</td>
+    </tr>
+    <tr>
+      <td rowspan="4">libs</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>アプリケーションクラスライブラリ。開発者が作成した共有コンポーネントを配置する</td>
+    </tr>
+    <tr>
+      <td colspan="2">dao</td>
+      <td class="center">&nbsp;</td>
+      <td>Delta_DAO を継承した DAO クラスを管理</td>
+    </tr>
+    <tr>
+      <td colspan="2">entity</td>
+      <td class="center">&nbsp;</td>
+      <td>Delta_Entity を継承したエンティティクラスを管理</td>
+    </tr>
+    <tr>
+      <td colspan="2">service</td>
+      <td class="center">&nbsp;</td>
+      <td>Delta_Service を継承したサービスクラスを管理</td>
+    </tr>
+    <tr>
+      <td>logs</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">775</td>
+      <td>delta (及びベンダーライブラリ) が生成する各種ログを格納</td>
+    </tr>
+    <tr>
+      <td rowspan="5">modules</td>
+      <td rowspan="5">{module}(+)</td>
+      <td>&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>モジュールディレクトリ</td>
+    </tr>
+    <tr>
+      <td>actions</td>
+      <td class="center">&nbsp;</td>
+      <td>アクションクラスディレクトリ</td>
+    </tr>
+    <tr>
+      <td>behaviors</td>
+      <td class="center">&nbsp;</td>
+      <td>ビヘイビアディレクトリ</td>
+    </tr>
+    <tr>
+      <td>config</td>
+      <td class="center">&nbsp;</td>
+      <td>モジュール設定ディレクトリ</td>
+    </tr>
+    <tr>
+      <td>templates</td>
+      <td class="center">&nbsp;</td>
+      <td>テンプレートディレクトリ</td>
+    </tr>
+    <tr>
+      <td colspan="3">tmp</td>
+      <td class="center">775</td>
+      <td>一時生成ファイル格納ディレクトリ</td>
+    </tr>
+    <tr>
+      <td colspan="3">vendors</td>
+      <td class="center">&nbsp;</td>
+      <td>アプリケーションが必要とする外部ライブラリを格納</td>
+    </tr>
+    <tr>
+      <td rowspan="2">webroot</td>
+      <td colspan="2">&nbsp;</td>
+      <td class="center">&nbsp;</td>
+      <td>Web 公開ディレクトリ</td>
+    </tr>
+    <tr>
+      <td colspan="2">index.php</td>
+      <td class="center">&nbsp;</td>
+      <td>Web アプリケーション起動スクリプト</td>
+    </tr>
+  </table>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
+    </div>
+  </div>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

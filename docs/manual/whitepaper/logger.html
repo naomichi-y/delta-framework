@@ -7,210 +7,203 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション開発実践 Tips - メッセージのロギング</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション開発実践 Tips - メッセージのロギング</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2010 年 10 月 7 日</p>
-    <h2>ロガーの概要</h2>
-    <p>delta にはロギング機能が備わっており、プログラム上のデバッグポイントや警告、致命的なエラーを出力することが出来ます。出力先にはファイルや標準出力、メールでの送信等があり、これらをアペンダと呼びます。1 つのロギングポイントに対し複数のアペンダを設定することも可能ですので、例えば警告レベルのログはファイルへのロギングし、更にシステム管理者へメール通知するといったことも可能です。</p>
-    <p>次に標準で用意されているアペンダを記します。</p>
-    <table>
-      <colgroup>
-      <col width="30%" />
-      <col width="70%" />
-      </colgroup>
-      <tr>
-        <th scope="col">クラス名</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td><a href="../../api/reference/logger.appender/delta___logger_console_appender.html">Delta_LoggerConsoleAppender</a></td>
-        <td>標準出力に表示</td>
-      </tr>
-      <tr>
-        <td><a href="../../api/reference/logger.appender/delta___logger_file_appender.html">Delta_LoggerFileAppender</a></td>
-        <td>ファイルに出力</td>
-      </tr>
-      <tr>
-        <td><a href="../../api/reference/logger.appender/delta___logger_mail_appender.html">Delta_LoggerMailAppender</a></td>
-        <td>メールで送信</td>
-      </tr>
-      <tr>
-        <td><a href="../../api/reference/logger.appender/delta___logger_sapi_appender.html">Delta_LoggerSAPIAppender</a></td>
-        <td><p>SAPI に送信</p></td>
-      </tr>
-      <tr>
-        <td><a href="../../api/reference/logger.appender/delta___logger_socket_appender.html">Delta_LoggerSocketAppender</a></td>
-        <td>ソケットを介して送信</td>
-      </tr>
-      <tr>
-        <td><a href="../../api/reference/logger.appender/delta___logger_syslog_appender.html">Delta_LoggerSyslogAppender</a></td>
-        <td>SYSLOG に出力</td>
-      </tr>
-    </table>
-    <p>初めに site.yml にてログを出力するための設定を行います。</p>
-    <dl>
-      <dt>YAML Code# config/site.yml</dt>
-      <dd class="lang_yaml"><code>logger:<br />
-        &nbsp;&nbsp;# ログアペンダ ID (命名は自由)<br />
-        &nbsp;&nbsp;fileAppender:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerFileAppender<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;file: error.log<br />
-        <br />
-        &nbsp;&nbsp;mailAppender:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerMailAppender<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;mask: &lt;?php echo Delta_Logger::LOGGER_MASK_TRACE ?&gt;<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;to: admin@localhost<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;from: notice@localhost<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;mail:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;host: localhost</code></dd>
-    </dl>
-    <p>ロギング設定を管理するのが logger 属性です。上記サンプルコードの場合、fileAppender、mailAppender とありますが、これはそれぞれファイルへの書き込み、メールでのログの送信を定義しています。また、mailAppender には mask 属性がありますが、これはロギングする条件を指すビットマスク値になります。指定可能な値は下表を参照して下さい。 </p>
-    <table>
-      <colgroup>
-      <col width="30%" />
-      <col width="70%" />
-      </colgroup>
-      <tr>
-        <th scope="col">ログレベル</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td>Delta_Logger::LOGGER_MASK_TRACE</td>
-        <td>詳細なトレースを出力する</td>
-      </tr>
-      <tr>
-        <td>Delta_Logger::LOGGER_MASK_DEBUG</td>
-        <td>デバッグトレースを出力する</td>
-      </tr>
-      <tr>
-        <td>Delta_Logger::LOGGER_MASK_INFO</td>
-        <td>実運用上における情報ログを出力する</td>
-      </tr>
-      <tr>
-        <td>Delta_Logger::LOGGER_MASK_WARNING</td>
-        <td>警告レベルのログを出力する (処理は正常に終了) </td>
-      </tr>
-      <tr>
-        <td>Delta_Logger::LOGGER_MASK_ERROR</td>
-        <td>エラーが生じて処理が正常に完了しない場合 (異常終了) </td>
-      </tr>
-      <tr>
-        <td>Delta_Logger::LOGGER_MASK_FATAL</td>
-        <td>致命的なエラーが発生</td>
-      </tr>
-    </table>
-    <p>mask はその名の通りマスク値を指定できるので、警告レベル以上のログをロギングしたい場合は次のような指定になります。</p>
-    <dl>
-      <dt>YAML Code# config/application.yml</dt>
-      <dd class="lang_yaml"><code>logger:<br />
-        &nbsp;&nbsp;mailAppender:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerMailAppender<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;mask: &lt;?php echo Delta_Logger::LOGGER_MASK_WARNING^Delta_Logger::LOGGER_MASK_ERROR^Delta_Logger::LOGGER_MASK_FATAL ?&gt;</code><code></code></dd>
-    </dl>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>mask 属性が未指定の場合は全てのログをロギングします。</p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <p>続いて実際にロギングを行うアクションクラスを作成してみましょう。</p>
-    <dl>
-      <dt>PHP Code# modules/{module}/actions/LoggerClientAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp;&nbsp;$logger = Delta_Logger::getLogger(get_class());<br />
-        <br />
-        &nbsp;&nbsp;// ロギング<br />
-        &nbsp;&nbsp;$logger-&gt;fatal('fatal test!');<br />
-        <br />
-        &nbsp;&nbsp;// mask 値を満たしていないためロギングされない<br />
-        &nbsp;&nbsp;$logger-&gt;info('info test!'); <br />
-        <br />
-        &nbsp;&nbsp;return Delta_View::NONE; <br />
-        }</code></dd>
-    </dl>
-    <p>Delta_Logger::getLogger() の引数にはロギングするクラス名を指定しますが、通常は get_class() を設定すれば良いでしょう。 getLogger() は Logger のインスタンスオブジェクトを返します。Logger オブジェクトには info() や fatal() といったログレベルごとのメソッドが用意されているので、ロギングしたいポイントにてメソッドをコールして下さい。</p>
-    <h3><a name="commonAttributes" id="commonAttributes"></a>ログアペンダで利用可能な共通属性</h3>
-    <p>ログアペンダで利用可能な共通属性は下記の通りです。アペンダによってはログの送信先やログのローテート方法を指定することができます。詳しくは各クラスの API、またはマニュアルを参照して下さい。</p>
-    <table>
-
-      <colgroup>
-      <col width="10%" />
-      <col width="10%" />
-      <col width="10%" />
-      <col width="10%" />
-      <col width="50%" />
-      </colgroup>
-      <tr>
-        <th scope="col">属性</th>
-        <th scope="col">型</th>
-        <th scope="col">必須</th>
-        <th scope="col">デフォルト値</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td>class</td>
-        <td>string</td>
-        <td>◯</td>
-        <td>(アペンダにより異なる)</td>
-        <td>利用するアペンダのクラス名を指定。</td>
-      </tr>
-      <tr>
-        <td>mask</td>
-        <td>int</td>
-        <td></td>
-        <td>0</td>
-        <td>ロギングレベルのビットマスク値。デフォルトでは全てのログレベルを対象とする。</td>
-      </tr>
-      <tr>
-        <td>dateFormat</td>
-        <td>string</td>
-        <td></td>
-        <td>Y/m/d H:i:s</td>
-        <td>日時の出力フォーマット。使用可能な書式文字列は PHP の date() 関数を参照。</td>
-      </tr>
-      <tr>
-        <td>exception</td>
-        <td>string</td>
-        <td></td>
-        <td>simple</td>
-        <td><p>例外 (Exception) オブジェクトをロギングする場合の出力形式。</p>
-          <ul>
-            <li>simple: 例外内容をシンプルな 1 行形式のメッセージで出力。</li>
-            <li>trace: 例外のスタックトレースを文字列で出力。</li>
-          </ul></td>
-      </tr>
-      <tr>
-        <td>interval</td>
-        <td>int</td>
-        <td></td>
-        <td>0</td>
-        <td>同じ内容のメッセージが interval 秒以内に送信されようとした場合はロギング処理をスキップします。interval 秒以降に同じメッセージが送信された場合、スキップされたログの回数が取得可能です。</td>
-      </tr>
-    </table>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">アプリケーション開発実践 Tips - メッセージのロギング</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2010 年 10 月 7 日</p>
+  <h2>ロガーの概要</h2>
+  <p>delta にはロギング機能が備わっており、プログラム上のデバッグポイントや警告、致命的なエラーを出力することが出来ます。出力先にはファイルや標準出力、メールでの送信等があり、これらをアペンダと呼びます。1 つのロギングポイントに対し複数のアペンダを設定することも可能ですので、例えば警告レベルのログはファイルへのロギングし、更にシステム管理者へメール通知するといったことも可能です。</p>
+  <p>次に標準で用意されているアペンダを記します。</p>
+  <table>
+    <colgroup>
+    <col width="30%" />
+    <col width="70%" />
+    </colgroup>
+    <tr>
+      <th scope="col">クラス名</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td><a href="../../api/reference/logger.appender/delta___logger_console_appender.html">Delta_LoggerConsoleAppender</a></td>
+      <td>標準出力に表示</td>
+    </tr>
+    <tr>
+      <td><a href="../../api/reference/logger.appender/delta___logger_file_appender.html">Delta_LoggerFileAppender</a></td>
+      <td>ファイルに出力</td>
+    </tr>
+    <tr>
+      <td><a href="../../api/reference/logger.appender/delta___logger_mail_appender.html">Delta_LoggerMailAppender</a></td>
+      <td>メールで送信</td>
+    </tr>
+    <tr>
+      <td><a href="../../api/reference/logger.appender/delta___logger_sapi_appender.html">Delta_LoggerSAPIAppender</a></td>
+      <td><p>SAPI に送信</p></td>
+    </tr>
+    <tr>
+      <td><a href="../../api/reference/logger.appender/delta___logger_socket_appender.html">Delta_LoggerSocketAppender</a></td>
+      <td>ソケットを介して送信</td>
+    </tr>
+    <tr>
+      <td><a href="../../api/reference/logger.appender/delta___logger_syslog_appender.html">Delta_LoggerSyslogAppender</a></td>
+      <td>SYSLOG に出力</td>
+    </tr>
+  </table>
+  <p>初めに site.yml にてログを出力するための設定を行います。</p>
+  <dl>
+    <dt>YAML Code# config/site.yml</dt>
+    <dd class="lang_yaml"><code>logger:<br />
+      &nbsp;&nbsp;# ログアペンダ ID (命名は自由)<br />
+      &nbsp;&nbsp;fileAppender:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerFileAppender<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;file: error.log<br />
+      <br />
+      &nbsp;&nbsp;mailAppender:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerMailAppender<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;mask: &lt;?php echo Delta_Logger::LOGGER_MASK_TRACE ?&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;to: admin@localhost<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;from: notice@localhost<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;mail:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;host: localhost</code></dd>
+  </dl>
+  <p>ロギング設定を管理するのが logger 属性です。上記サンプルコードの場合、fileAppender、mailAppender とありますが、これはそれぞれファイルへの書き込み、メールでのログの送信を定義しています。また、mailAppender には mask 属性がありますが、これはロギングする条件を指すビットマスク値になります。指定可能な値は下表を参照して下さい。 </p>
+  <table>
+    <colgroup>
+    <col width="30%" />
+    <col width="70%" />
+    </colgroup>
+    <tr>
+      <th scope="col">ログレベル</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td>Delta_Logger::LOGGER_MASK_TRACE</td>
+      <td>詳細なトレースを出力する</td>
+    </tr>
+    <tr>
+      <td>Delta_Logger::LOGGER_MASK_DEBUG</td>
+      <td>デバッグトレースを出力する</td>
+    </tr>
+    <tr>
+      <td>Delta_Logger::LOGGER_MASK_INFO</td>
+      <td>実運用上における情報ログを出力する</td>
+    </tr>
+    <tr>
+      <td>Delta_Logger::LOGGER_MASK_WARNING</td>
+      <td>警告レベルのログを出力する (処理は正常に終了) </td>
+    </tr>
+    <tr>
+      <td>Delta_Logger::LOGGER_MASK_ERROR</td>
+      <td>エラーが生じて処理が正常に完了しない場合 (異常終了) </td>
+    </tr>
+    <tr>
+      <td>Delta_Logger::LOGGER_MASK_FATAL</td>
+      <td>致命的なエラーが発生</td>
+    </tr>
+  </table>
+  <p>mask はその名の通りマスク値を指定できるので、警告レベル以上のログをロギングしたい場合は次のような指定になります。</p>
+  <dl>
+    <dt>YAML Code# config/application.yml</dt>
+    <dd class="lang_yaml"><code>logger:<br />
+      &nbsp;&nbsp;mailAppender:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerMailAppender<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;mask: &lt;?php echo Delta_Logger::LOGGER_MASK_WARNING^Delta_Logger::LOGGER_MASK_ERROR^Delta_Logger::LOGGER_MASK_FATAL ?&gt;</code><code></code></dd>
+  </dl>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>mask 属性が未指定の場合は全てのログをロギングします。</p>
+    </div>
+  </div>
+  <p>続いて実際にロギングを行うアクションクラスを作成してみましょう。</p>
+  <dl>
+    <dt>PHP Code# modules/{module}/actions/LoggerClientAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp;&nbsp;$logger = Delta_Logger::getLogger(get_class());<br />
+      <br />
+      &nbsp;&nbsp;// ロギング<br />
+      &nbsp;&nbsp;$logger-&gt;fatal('fatal test!');<br />
+      <br />
+      &nbsp;&nbsp;// mask 値を満たしていないためロギングされない<br />
+      &nbsp;&nbsp;$logger-&gt;info('info test!'); <br />
+      <br />
+      &nbsp;&nbsp;return Delta_View::NONE; <br />
+      }</code></dd>
+  </dl>
+  <p>Delta_Logger::getLogger() の引数にはロギングするクラス名を指定しますが、通常は get_class() を設定すれば良いでしょう。 getLogger() は Logger のインスタンスオブジェクトを返します。Logger オブジェクトには info() や fatal() といったログレベルごとのメソッドが用意されているので、ロギングしたいポイントにてメソッドをコールして下さい。</p>
+  <h3><a name="commonAttributes" id="commonAttributes"></a>ログアペンダで利用可能な共通属性</h3>
+  <p>ログアペンダで利用可能な共通属性は下記の通りです。アペンダによってはログの送信先やログのローテート方法を指定することができます。詳しくは各クラスの API、またはマニュアルを参照して下さい。</p>
+  <table>
+    <colgroup>
+    <col width="10%" />
+    <col width="10%" />
+    <col width="10%" />
+    <col width="10%" />
+    <col width="50%" />
+    </colgroup>
+    <tr>
+      <th scope="col">属性</th>
+      <th scope="col">型</th>
+      <th scope="col">必須</th>
+      <th scope="col">デフォルト値</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td>class</td>
+      <td>string</td>
+      <td>◯</td>
+      <td>(アペンダにより異なる)</td>
+      <td>利用するアペンダのクラス名を指定。</td>
+    </tr>
+    <tr>
+      <td>mask</td>
+      <td>int</td>
+      <td></td>
+      <td>0</td>
+      <td>ロギングレベルのビットマスク値。デフォルトでは全てのログレベルを対象とする。</td>
+    </tr>
+    <tr>
+      <td>dateFormat</td>
+      <td>string</td>
+      <td></td>
+      <td>Y/m/d H:i:s</td>
+      <td>日時の出力フォーマット。使用可能な書式文字列は PHP の date() 関数を参照。</td>
+    </tr>
+    <tr>
+      <td>exception</td>
+      <td>string</td>
+      <td></td>
+      <td>simple</td>
+      <td><p>例外 (Exception) オブジェクトをロギングする場合の出力形式。</p>
+        <ul>
+          <li>simple: 例外内容をシンプルな 1 行形式のメッセージで出力。</li>
+          <li>trace: 例外のスタックトレースを文字列で出力。</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>interval</td>
+      <td>int</td>
+      <td></td>
+      <td>0</td>
+      <td>同じ内容のメッセージが interval 秒以内に送信されようとした場合はロギング処理をスキップします。interval 秒以降に同じメッセージが送信された場合、スキップされたログの回数が取得可能です。</td>
+    </tr>
+  </table>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

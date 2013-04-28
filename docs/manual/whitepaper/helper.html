@@ -7,98 +7,93 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - その他の機能 - テンプレートで使用可能なヘルパ</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">その他の機能 - テンプレートで使用可能なヘルパ</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2011 年 4 月 28 日</p>
-    <h2>使用可能なヘルパ変数</h2>
-    <p>テンプレートファイルでは次に示すヘルパ変数が使用可能です。ヘルパ変数にはあらかじめ、ヘルパクラスのインスタンスが割り当てられています。</p>
-    <table>
-          <colgroup>
-      <col width="20%" />
-      <col width="20%" />
-      <col width="60%" />
-</colgroup>
-      <tr>
-        <th scope="col">　テンプレート変数名</th>
-        <th scope="col">ヘルパクラス</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td>$date</td>
-        <td><a href="../../api/reference/view.helper/delta___date_helper.html">Delta_DateHelper</a></td>
-        <td>様々な形式で日付を表示する。</td>
-      </tr>
-      <tr>
-        <td>$form</td>
-        <td><a href="../../api/reference/view.helper/delta___form_helper.html">Delta_FormHelper</a></td>
-        <td>フォームを生成する。</td>
-      </tr>
-      <tr>
-        <td>$html</td>
-        <td><a href="../../api/reference/view.helper/delta___html_helper.html">Delta_HTMLHelper</a></td>
-        <td>リンクやメッセージボックスの生成を行う。</td>
-      </tr>
-      <tr>
-        <td>$pager</td>
-        <td><a href="../../api/reference/view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
-        <td>ページネーション機能を提供。</td>
-      </tr>
-      <tr>
-        <td>$request</td>
-        <td><a href="../../api/reference/view.helper/delta___request_helper.html">Delta_RequestHelper</a></td>
-        <td>リクエスト情報を取得する。</td>
-      </tr>
-      <tr>
-        <td>$site</td>
-        <td><a href="../../api/reference/view.helper/delta___site_helper.html">Delta_SIteHelper</a></td>
-        <td>サイトファイルからパラメータを取得する。</td>
-      </tr>
-      <tr>
-        <td>$user</td>
-        <td><a href="../../api/reference/view.helper/delta___user_helper.html">Delta_UserHelper</a></td>
-        <td>ユーザ情報を取得する。</td>
-      </tr>
-    </table>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-      <div class="note_contents">
-        <p>テンプレートに割り当てる変数名は変更することができます。詳しくは <a href="../config/helpers.html">設定ファイル - global_helpers.yml / helpers.yml</a> を参照して下さい。 </p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <h2>ヘルパメソッドの使用例</h2>
-    <p>ヘルパはテンプレートエンジンに依存せずに使用することができます。</p>
-    <dl>
-      <dt>Template Code: Delta_BaseRenderer 使用時</dt>
-      <dd class="lang_template"><code>&lt;p&gt;&lt;?php echo $form-&gt;inputText('nickname'); ?&gt;&lt;/p&gt;<br />
-        &lt;p&gt;&lt;?php echo $html-&gt;anchor('Login', 'manager/loginForm'); ?&gt;&lt;/p&gt;<br />
-        &lt;p&gt;&lt;?php echo $user-&gt;get('nickname'); ?&gt;&lt;/p&gt;</code></dd>
-      <dt>Template Code: Delta_SmartyRenderer 使用時</dt>
-      <dd class="lang_template"><code>&lt;p&gt;&lt;input type=&quot;text&quot; name=&quot;nickname&quot; value=&quot;{$form-&gt;get('nickname')}&quot;&gt;&lt;/p&gt;<br />
-        &lt;p&gt;{$html-&gt;anchor('Login', 'manager/loginForm')}&lt;/p&gt;<br />
-        &lt;p&gt;{$user-&gt;get('nickname')}&lt;/p&gt;</code></dd>
-    </dl>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">その他の機能 - テンプレートで使用可能なヘルパ</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2011 年 4 月 28 日</p>
+  <h2>使用可能なヘルパ変数</h2>
+  <p>テンプレートファイルでは次に示すヘルパ変数が使用可能です。ヘルパ変数にはあらかじめ、ヘルパクラスのインスタンスが割り当てられています。</p>
+  <table>
+    <colgroup>
+    <col width="20%" />
+    <col width="20%" />
+    <col width="60%" />
+    </colgroup>
+    <tr>
+      <th scope="col">　テンプレート変数名</th>
+      <th scope="col">ヘルパクラス</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td>$date</td>
+      <td><a href="../../api/reference/view.helper/delta___date_helper.html">Delta_DateHelper</a></td>
+      <td>様々な形式で日付を表示する。</td>
+    </tr>
+    <tr>
+      <td>$form</td>
+      <td><a href="../../api/reference/view.helper/delta___form_helper.html">Delta_FormHelper</a></td>
+      <td>フォームを生成する。</td>
+    </tr>
+    <tr>
+      <td>$html</td>
+      <td><a href="../../api/reference/view.helper/delta___html_helper.html">Delta_HTMLHelper</a></td>
+      <td>リンクやメッセージボックスの生成を行う。</td>
+    </tr>
+    <tr>
+      <td>$pager</td>
+      <td><a href="../../api/reference/view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
+      <td>ページネーション機能を提供。</td>
+    </tr>
+    <tr>
+      <td>$request</td>
+      <td><a href="../../api/reference/view.helper/delta___request_helper.html">Delta_RequestHelper</a></td>
+      <td>リクエスト情報を取得する。</td>
+    </tr>
+    <tr>
+      <td>$site</td>
+      <td><a href="../../api/reference/view.helper/delta___site_helper.html">Delta_SIteHelper</a></td>
+      <td>サイトファイルからパラメータを取得する。</td>
+    </tr>
+    <tr>
+      <td>$user</td>
+      <td><a href="../../api/reference/view.helper/delta___user_helper.html">Delta_UserHelper</a></td>
+      <td>ユーザ情報を取得する。</td>
+    </tr>
+  </table>
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
+      <p>テンプレートに割り当てる変数名は変更することができます。詳しくは <a href="../config/helpers.html">設定ファイル - global_helpers.yml / helpers.yml</a> を参照して下さい。 </p>
+    </div>
+  </div>
+  <h2>ヘルパメソッドの使用例</h2>
+  <p>ヘルパはテンプレートエンジンに依存せずに使用することができます。</p>
+  <dl>
+    <dt>Template Code: Delta_BaseRenderer 使用時</dt>
+    <dd class="lang_template"><code>&lt;p&gt;&lt;?php echo $form-&gt;inputText('nickname'); ?&gt;&lt;/p&gt;<br />
+      &lt;p&gt;&lt;?php echo $html-&gt;anchor('Login', 'manager/loginForm'); ?&gt;&lt;/p&gt;<br />
+      &lt;p&gt;&lt;?php echo $user-&gt;get('nickname'); ?&gt;&lt;/p&gt;</code></dd>
+    <dt>Template Code: Delta_SmartyRenderer 使用時</dt>
+    <dd class="lang_template"><code>&lt;p&gt;&lt;input type=&quot;text&quot; name=&quot;nickname&quot; value=&quot;{$form-&gt;get('nickname')}&quot;&gt;&lt;/p&gt;<br />
+      &lt;p&gt;{$html-&gt;anchor('Login', 'manager/loginForm')}&lt;/p&gt;<br />
+      &lt;p&gt;{$user-&gt;get('nickname')}&lt;/p&gt;</code></dd>
+  </dl>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

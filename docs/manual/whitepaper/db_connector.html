@@ -7,118 +7,114 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション開発実践 Tips - データベースとの連携</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション開発実践 Tips - データベースとの連携</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2013 年 1 月 7 日</p>
-    <h2>データベースへの接続</h2>
-    <p>delta はデータベースとの接続レイヤにデフォルトで PDO を利用します。ここでは最も簡単な接続設定の方法と、実際のサンプルコードを紹介します。</p>
-    <p>初めにデータベースへの接続情報を設定ファイル (application.yml) に定義しましょう。</p>
-    <dl>
-      <dt>YAML Code# config/application.yml</dt>
-      <dd class="lang_yaml"><code>database:<br />
-        &nbsp;&nbsp;default:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=localhost; dbname=delta'<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;user: foo<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;password: bar</code></dd>
-    </dl>
-    <p>&quot;database&quot; 下の &quot;default&quot; 属性 (データソース) は、接続先のデータベース情報になります。データソースは複数定義することができ、プログラム側から参照するデータベースを動的に切り換えることが可能です。</p>
-    <table>
-      <tr>
-        <th colspan="4" scope="col">属性構成</th>
-        <th scope="col">デフォルト値</th>
-        <th scope="col">必須</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td rowspan="6">database</td>
-        <td colspan="3">{データソース名} (+)</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>データソース名。</td>
-      </tr>
-      <tr>
-        <td rowspan="4">&nbsp;</td>
-        <td colspan="2">dsn</td>
-        <td>&nbsp;</td>
-        <td>◯</td>
-        <td>DSN 情報。</td>
-      </tr>
-      <tr>
-        <td colspan="2">user</td>
-        <td>&nbsp;</td>
-        <td>◯</td>
-        <td>接続ユーザ名。</td>
-      </tr>
-      <tr>
-        <td colspan="2">password</td>
-        <td>&nbsp;</td>
-        <td>◯</td>
-        <td>接続パスワード。</td>
-      </tr>
-      <tr>
-        <td colspan="2">options</td>
-        <td>&nbsp;</td>
-        <td></td>
-        <td>接続オプション。設定可能な値は <a href="http://php.net/manual/en/pdo.construct.php">PDO::__construct() の $driver_options</a> を参照</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>ATTR_PERSISTENT</td>
-        <td>◯</td>
-        <td></td>
-        <td>永続接続モード。</td>
-      </tr>
-    </table>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <p>実際の接続コードは次のようになります。</p>
-    <dl>
-      <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>// &quot;default&quot; データソースを参照<br />
-        $database = $this-&gt;getDatabase();<br /><br />
-        $conn = $database-&gt;getConnection();<br />
-        $resultSet = $conn-&gt;rawQuery('SELECT * FROM DUAL');<br />
-        $data = $resultSet-&gt;readAll();<br />
-        <br />
-        // 接続先情報を配列で定義<br />
-        $config = array();<br />
-        $config['dsn'] = 'mysql:host=localhost; dbname=delta';<br />
-        $config['user'] = 'foo';<br />
-        $config['password'] = 'bar';<br />
-        $config['persist'] = TRUE<br />
-        <br />
-        $conn = $database-&gt;getConnectionWithConfig($config);<br />
-        $resultSet = $conn-&gt;rawQuery('SELECT * FROM DUAL');<br />
-        $data = $resultSet-&gt;readAll();</code></dd>
-    </dl>
-    <p>Delta_DatabaseManager::getConnection() メソッドの引数にデータソースを指定することで、対応するデータベースへの接続オブジェクトを返します。引数を渡していない場合は &quot;default&quot; データソースが参照されます。</p>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">アプリケーション開発実践 Tips - データベースとの連携</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2013 年 1 月 7 日</p>
+  <h2>データベースへの接続</h2>
+  <p>delta はデータベースとの接続レイヤにデフォルトで PDO を利用します。ここでは最も簡単な接続設定の方法と、実際のサンプルコードを紹介します。</p>
+  <p>初めにデータベースへの接続情報を設定ファイル (application.yml) に定義しましょう。</p>
+  <dl>
+    <dt>YAML Code# config/application.yml</dt>
+    <dd class="lang_yaml"><code>database:<br />
+      &nbsp;&nbsp;default:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=localhost; dbname=delta'<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;user: foo<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;password: bar</code></dd>
+  </dl>
+  <p>&quot;database&quot; 下の &quot;default&quot; 属性 (データソース) は、接続先のデータベース情報になります。データソースは複数定義することができ、プログラム側から参照するデータベースを動的に切り換えることが可能です。</p>
+  <table>
+    <tr>
+      <th colspan="4" scope="col">属性構成</th>
+      <th scope="col">デフォルト値</th>
+      <th scope="col">必須</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td rowspan="6">database</td>
+      <td colspan="3">{データソース名} (+)</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>データソース名。</td>
+    </tr>
+    <tr>
+      <td rowspan="4">&nbsp;</td>
+      <td colspan="2">dsn</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>DSN 情報。</td>
+    </tr>
+    <tr>
+      <td colspan="2">user</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>接続ユーザ名。</td>
+    </tr>
+    <tr>
+      <td colspan="2">password</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>接続パスワード。</td>
+    </tr>
+    <tr>
+      <td colspan="2">options</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>接続オプション。設定可能な値は <a href="http://php.net/manual/en/pdo.construct.php">PDO::__construct() の $driver_options</a> を参照</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>ATTR_PERSISTENT</td>
+      <td>◯</td>
+      <td></td>
+      <td>永続接続モード。</td>
+    </tr>
+  </table>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
+    </div>
+  </div>
+  <p>実際の接続コードは次のようになります。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>// &quot;default&quot; データソースを参照<br />
+      $database = $this-&gt;getDatabase();<br />
+      <br />
+      $conn = $database-&gt;getConnection();<br />
+      $resultSet = $conn-&gt;rawQuery('SELECT * FROM DUAL');<br />
+      $data = $resultSet-&gt;readAll();<br />
+      <br />
+      // 接続先情報を配列で定義<br />
+      $config = array();<br />
+      $config['dsn'] = 'mysql:host=localhost; dbname=delta';<br />
+      $config['user'] = 'foo';<br />
+      $config['password'] = 'bar';<br />
+      $config['persist'] = TRUE<br />
+      <br />
+      $conn = $database-&gt;getConnectionWithConfig($config);<br />
+      $resultSet = $conn-&gt;rawQuery('SELECT * FROM DUAL');<br />
+      $data = $resultSet-&gt;readAll();</code></dd>
+  </dl>
+  <p>Delta_DatabaseManager::getConnection() メソッドの引数にデータソースを指定することで、対応するデータベースへの接続オブジェクトを返します。引数を渡していない場合は &quot;default&quot; データソースが参照されます。</p>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

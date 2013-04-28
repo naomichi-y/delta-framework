@@ -7,413 +7,407 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション開発実践 Tips - DI コンテナの利用</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション開発実践 Tips -  DI コンテナの利用</h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2007 年 12 月 5 日</p>
-    <div class="note_container note_important">
-      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-      <div class="note_contents">
-        <p>このドキュメントは delta 1.6 当時のものであり、最新バージョンとは内容が異なる可能性があります。ドキュメントが更新されるまでは API されることをお勧めします。 </p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <ul class="index">
-      <li><a href="#introduction">DI コンテナ概要</a></li>
-      <li><a href="#componentSetting">コンポーネントの設定と読み込み</a></li>
-      <li><a href="#setterInjection">セッターインジェクション</a></li>
-      <li><a href="#constructorInjection">コンストラクタインジェクション</a></li>
-      <li><a href="#methodInjection">メソッドインジェクション</a></li>
-      <li><a href="#instance">インスタンスの管理</a></li>
-    </ul>
-    <h2><a id="introduction" name="introduction"></a>DI コンテナ概要</h2>
-    <p>DI コンテナとは、Dependency Injection (依存性の注入) と呼ばれるデザインパターンの一種です。DI はコンポーネント間の依存関係を取り除くため、結果的に保守しやすいコードを書くことが出来るようになります。</p>
-    <p>例えばクラス A を利用するクラス B がある場合、クラス B はクラス A に「依存する」形になります。クラス A をクラス C に置き換えたい要望が出てきた場合、呼び出し元全てのプログラムを変更する必要が出てくるため、改修にはそれなりのコストを要します。しかしながら DI パターンで作成されたプログラムの場合、このようなコストは発生しません。</p>
-    <p>delta において DI を利用するには、クラス B が依存するコンポーネント (ここではクラス A) を base_dicon.yml (またはビヘイビア) に定義しておきます。設定ファイルに依存コンポーネントを定義しておくことで、実際にクラスが変更されたとしても、プログラムは何ら変更を加える必要がなくなるのです。<br />
-      もしここで呼び出すコンポーネントをクラス A から C に変更したい場合は、base_dicon.yml の定義を一行書き換えるだけで良いでしょう。delta はプログラム実行時に設定ファイルを解析し、呼び出すコンポーネントを確定・インスタンスを生成 (依存性の注入) します。</p>
-    <p>DI の仕組みは delta 自体にも利用されており、いくつかのコアコンポーネントは初めから base_dicon.yml に定義されています。コアコンポーネントは全てインタフェースにより実装されているため、元のクラスを拡張したり独自のコンポーネントに書き換えることも可能です。コンポーネントの拡張に関しては <a href="extend_component.html">コアコンポーネントの拡張</a> を参照して下さい。 </p>
-    <h2><a id="componentSetting" name="componentSetting"></a>コンポーネントの設定と読み込み</h2>
-    <p>それでは初めに最もオーソドックスなコンポーネントの設定と読み込み方法を解説します。サンプルコードを動かすために、次のファイルを追加する必要があります。</p>
-    <ul>
-      <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
-      <li>libs/components/GreetingEnglish.php: 英語で挨拶するクラス (components は任意のディレクトリです) </li>
-      <li>libs/components/GreetingJapanese.php: 日本語で挨拶するクラス</li>
-      <li>modules/{module}/action/GreetingClient.php: コンポーネントを起動するアクション</li>
-    </ul>
-    <p>前述の通りコンポーネントの設定は base_dicon.yml に定義しますが、グローバルビヘイビア、アクションビヘイビアに登録することも可能です。設定ファイル間でコンポーネント名が重複した場合は、「アクションビヘイビア &gt; グローバルビヘイビア &gt; base_dicon.yml」の順で設定がマージされます。 設定ファイルごとのコンポーネント呼び出し有効範囲は次の通りです。</p>
-    <table>
-      <colgroup>
-      <col width="30%" />
-      <col width="70%" />
-      </colgroup>
-      <tr>
-        <th scope="col">設定ファイルのパス</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td>config/base_dicon.yml</td>
-        <td rowspan="2">全てのクラスから呼び出し可能</td>
-      </tr>
-      <tr>
-        <td>config/global_behavior.yml</td>
-      </tr>
-      <tr>
-        <td>modules/{module}/behavior/{action}.yml</td>
-        <td>アクションビヘイビアと対になるアクションクラス、またはアクションクラスから読み込まれるライブラリからのみ呼び出し可能</td>
-      </tr>
-    </table>
-    <p>まず GreetingEnglish、GreetingJapanese クラスから作成しましょう。これらのクラスはその名の通り、各国語で挨拶をするためのメッセージクラスです。それぞれのクラスで getGreet() メソッドを定義し、挨拶文の文字列を返すよう実装します。</p>
-    <dl>
-      <dt>PHP Code# libs/components/GreetingEnglish.php</dt>
-      <dd class="lang_php"><code>class GreetingEnglish extends Delta_Object<br />
-        {<br />
-        &nbsp;&nbsp;public function getGreet()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return 'Hello world!'; <br />
-        &nbsp;&nbsp;}<br />
-        }</code></dd>
-      <dt>PHP Code# libs/components/GreetingJapanese.php</dt>
-      <dd class="lang_php"><code>class GreetingJapanese extends Delta_Object<br />
-        {<br />
-        &nbsp;&nbsp;public function getGreet()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return 'こんにちは!'; <br />
-        &nbsp;&nbsp;}<br />
-        }</code></dd>
-    </dl>
-    <p>次にグローバルビヘイビアで挨拶を行うコンポーネントを登録します。ここでは components 属性を定義し、DI コンポーネントの登録を行います。componentNams には複数のコンポーネントを登録出来ますが、ここでは greeting というコンポーネント名で GreetingEnglish クラスを設定 (インジェクション) しています。コンポーネント名は DIContainer からコンポーネントを呼び出す際の名前になります。 </p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingEnglish<br />
-        ... </code></dd>
-    </dl>
-    <p>以上でコンポーネントの登録は完了です。後は呼び出し元となるアクションクラスを作成しましょう。</p>
-    <dl>
-      <dt>PHP Code# modules/{module}/action/GreetingClientAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp;&nbsp;echo $this-&gt;greeting-&gt;getGreet();<br />
-        <br />
-        &nbsp; return Delta_View::NONE;<br />
-        }<br />
-        </code></dd>
-    </dl>
-    <p>getComponent() メソッドにはコンポーネント名を指定して下さい。今回であれば設定ファイルで定義した &quot;greeting&quot; がコンポーネント名になります。 </p>
-    <p>LoadGreeting アクションを実行すると、画面には「Hello world!」の文字列が表示されるでしょう。もしインジェクションするクラスを変えたいのであれば、アクションビヘイビアを次のように書き換えて下さい。</p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 日本語の挨拶を返すコンポーネントを設定        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingJapanese</code></dd>
-    </dl>
-    <p>もう一度 LoadGreeting アクションを実行すると、今度は「こんにちは!」を返すようになります。</p>
-    <p>実際のアプリケーション開発では、クレジット決済や Web サービス連動など、テスト環境で実行が難しい処理があるかもしれません。そのような場合は場合は当該するビジネスロジックをコンポーネント化し、テスト環境ではモックオブジェクトを使っての動作テストが行えるよう実装すると良いでしょう。</p>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>getComponent() で呼び出されるオブジェクトのインスタンス形式はシングルトンになります。(<a href="#instance">インスタンスの管理</a> 参照) </p>
-      </div>
-    </div>
-    <h2><a id="setterInjection" name="setterInjection"></a>セッターインジェクション</h2>
-    <p>セッターインジェクションは任意のコンポーネントを呼び出すと同時に、設定ファイルに定義されたセッターメソッドを実行、値をセットします。今回のサンプルコードは、Greeting クラスを拡張した GreetingSetterInjection クラスを作り、セッターインジェクションを通して文字列を自動設定、更にアクションを介してセットされた文字列を出力します。サンプルを動かすためには次のファイルを追加して下さい。</p>
-    <ul>
-      <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
-      <li>libs/components/GreetingSetterInjection.php: セッターインジェクション形式で挨拶を行うクラス</li>
-      <li>modules/{module}/action/GreetingSetterClientAction.php: コンポーネントを起動するアクション</li>
-    </ul>
-    <p>初めに global_behavior.yml でコンポーネントの登録を行います。 </p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;greet: 'Hello world'</code></dd>
-    </dl>
-    <p>今回新たに登場した &quot;setter&quot; 属性がセッターメソッドの指定箇所になります。&quot;setter&quot; 属性には複数のセッターを定義することが可能で、上記例の場合は「GreetingSetterInjection クラスの greet セッター (setGreet() メソッド) に文字列引数 &quot;Hello world&quot; を渡す」という意味になります。</p>
-    <p>また、文字列以外に DIContainer へ登録済みのコンポーネントを渡すことも可能です。コンポーネントを引数に渡す場合、セッター値の形式は &quot;${コンポーネント名}&quot; となります。delta にはあらかじめ &quot;request&quot; というコンポーネント (デフォルトの実装は Delta_HttpRequest) が登録されていますが、これをセッターに渡すには次のようなコードになります。</p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request: $request</code></dd>
-    </dl>
-    <p>当然ながらアプリケーション内で開発したコンポーネントを引数に渡すことも可能です。</p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Greeting <br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request: $greeting</code></dd>
-    </dl>
-    <p>この場合、&quot;setterGreeting&quot; よりも先に &quot;greeting&quot; コンポーネントが先に登録されている必要があります。この定義が逆になると例外エラーが発生します。</p>
-    <p>次に GreetingSetterInjection クラスを作成します。ここではセッターインジェクションの動作を確認したいので、挨拶を設定、取得する setter/getter メソッドを定義しましょう。setter/getter メソッドの命名は、&quot;set&quot; + &quot;setter&quot; 属性に設定した名前になります。&quot;setter&quot; 属性の 1 文字目は大文字に変換されるので注意して下さい。つまり &quot;setter&quot; セッターが &quot;greet&quot; であれば、実際のメソッド名は setGreet() になります。(ゲッターに関して制約はないですが、セッターと合わせておいた方が良いでしょう)</p>
-    <dl>
-      <dt>PHP Code# libs/components/GreetingSetterInjection.php</dt>
-      <dd class="lang_php"><code>class GreetingSetterInjection extends Delta_Object<br />
-        {<br />
-        &nbsp;&nbsp;private $_greet; <br />
-        <br />
-        &nbsp;&nbsp;public function setGreet(Greeting $greet)<br />
-        &nbsp;&nbsp;
-        {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet = $greet; <br />
-        &nbsp;&nbsp;
-        }<br />
-        <br />
-        &nbsp;&nbsp;public function getGreet()<br />
-        &nbsp;&nbsp;
-        {<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
-        &nbsp;&nbsp;
-        } <br />
-        }</code></dd>
-    </dl>
-    <p>以上でコンポーネントの作成は完了です。コンポーネントは DIContainer から呼び出された際に GreetingSettingInjection::setGreet() を実行し、 &quot;Hello&quot; という文字列をセットします。</p>
-    <p>それではメッセージがインジェクションされていることを確認するアクションを作成してみましょう。</p>
-    <dl>
-      <dt>PHP Code# modules/{module}/actions/GreetingSetterClientAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp;&nbsp;echo  $this-&gt;greeting-&gt;getGreet();<br />
-        <br />
-        &nbsp;&nbsp;return Delta_View::NONE; <br />
-        } </code></dd>
-    </dl>
-    <p>特に目新しいコードはない筈です。DIContainer から greeting コンポーネントを取得後、ゲッターメソッドでメッセージを出力すると、文字列 &quot;Hello world&quot; が返されます。    </p>
-    <dl>
-      <dt>PHP Code# libs/components/GreetingSetterInjection.php</dt>
-      <dd class="lang_php"><code>class GreetingSetterInjection extends Delta_Object<br />
-        {<br />
-        &nbsp;&nbsp;private $_greet; <br />
-        <br />
-        &nbsp;&nbsp;// マジックメソッドの定義<br />
-        &nbsp;&nbsp;public function __set($name, $value)<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;$name = $value; <br />
-        &nbsp;&nbsp;} <br />
-        <br />
-        &nbsp;&nbsp;public function getGreet()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
-        &nbsp;&nbsp;} <br />
-        }</code></dd>
-    </dl>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
-        <p>通常セッターとオートセッターの両方が指定されている場合は、通常セッターが優先されます。 </p>
-      </div>
-    </div>
-    <h2><a id="constructorInjection" name="constructorInjection"></a>コンストラクタインジェクション</h2>
-    <p>コンストラクタインジェクションは、コンポーネントの生成時にコンストラクタを使ってオブジェクトの初期化を設定します。設定方法はセッターインジェクションの時とほぼ同じです。サンプルコードを動かすために次のファイルを作成して下さい。</p>
-    <ul>
-      <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
-      <li>libs/components/GreetingConstructor.php: コンストラクタインジェクション形式で挨拶を行うクラス</li>
-      <li>modules/{module}/action/GreetingConstructorClientAction.php: コンポーネントを起動するクラス</li>
-    </ul>
-    <p>global_behavior.yml に挨拶を行うコンポーネントを登録します。</p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;greetingConstructor:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingConstructor<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- $request<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 'Your IP'</code></dd>
-    </dl>
-    <p>今回新たに登場した &quot;constructor&quot; 属性は、コンストラクタ引数を宣言しています。上記サンプルコードの場合は、「GreetingConstructor に 2 つの引数 (request コンポーネントと文字列 &quot;Your IP:&quot;) を渡す」という意味になります。もし &quot;constructor&quot; 属性が宣言されていない場合は、コンポーネント起動時にデフォルトコンストラクタが呼び出されます。</p>
-    <p>次にコンストラクタインジェクションを実装する GreetingConstructor クラスを作成します。</p>
-    <dl>
-      <dt>PHP Code# libs/components/GreetingConstructorInjection.php</dt>
-      <dd class="lang_php"><code>class GreetingConstructorInjection extends Delta_Object<br />
-        {<br />
-        &nbsp;&nbsp;private $_greet; <br />
-        <br />
-        &nbsp;&nbsp;public function __construct(HttpRequest $request, $greet, array $optional = array())<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet = sprintf('%s: %s', $greet, $request-&gt;getRemoteAddress()); <br />
-        &nbsp;&nbsp;} <br />
-        <br />
-        &nbsp;&nbsp;public function getGreet()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
-        &nbsp;&nbsp;} <br />
-        }</code></dd>
-    </dl>
-    <p>コンストラクタでは 2 つの引数を取り、Delta_Request::getRemoteAddress() メソッドによってクライアントの IP アドレスを取得、メンバ変数に結果を格納しています。(設定ファイルに定義した &quot;constructor&quot; パラメータとコンストラクタ引数の宣言が異なる場合、DIContainer は例外を発生させます)</p>
-    <p>それでは実際にコンストラクタインジェクションの動作を確認するアクションを作成してみましょう。</p>
-    <dl>
-      <dt>PHP Code# modules/{module}/actions/GreetingConstructorClientAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp; echo $this-&gt;greeting-&gt;getGreet();<br />
-        <br />
-        &nbsp;&nbsp;return Delta_View::NONE; <br />
-        }</code></dd>
-    </dl>
-    <p>アクションを実行すると、画面には &quot;Your IP: {リモートの IP アドレス}&quot; が表示されます。</p>
-    <h2><a id="methodInjection" name="methodInjection"></a>メソッドインジェクション</h2>
-    <p>メソッドインジェクションは、オブジェクトを生成する際に任意のメソッドを実行してインスタンスを初期化します。 クラスによってはインスタンス生成のために getInstance()、Initialize() などのメソッドを呼び出す必要があります。このような場合はコンストラクタインジェクションやセッターインジェクションで初期化することが出来ないため、メソッドインジェクションを使う形になります。</p>
-    <p>メソッドインジェクションのサンプルを動かすには次のファイルを作成して下さい。</p>
-    <ul>
-      <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
-      <li>libs/components/GreetingSetterInjection.php: セッターインジェクション形式で挨拶を行うクラス</li>
-      <li>libs/components/GreetingMethodInjection.php: メソッドインジェクション形式で挨拶を行うクラス</li>
-      <li>modules/{module}/action/GreetingMethodClientAction.php: コンポーネントを起動するクラス</li>
-    </ul>
-    <p>global_behavior.yml に挨拶を行うコンポーネントを登録します。</p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;appendHello:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter: <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;greet: 'Hello'<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;appendWorld:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        class: GreetingSetterInjection<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        setter:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        greet: 'world'<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;greetingMethod:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingMethodInjection<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- initialize:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- append: [$appendHello] <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- append: [$appendWorld] <br />
-        </code></dd>
-    </dl>
-    <p>ここでは、&quot;appendHello&quot;、&quot;appendWorld&quot;、&quot;greetingMethod&quot; という 3 つのコンポーネントを定義しました。そのうち上 2 つに関してはセッターインジェクションを使って文字列をセットしています。</p>
-    <ul>
-      <li>appendHello: GreetingSetterInjection::setGreet() メソッドに文字列 &quot;Hello&quot; を渡す</li>
-      <li>appendWorld: GreetingSetterInjection::setGreet() メソッドに文字列 &quot;world&quot; を渡す</li>
-    </ul>
-    <p>&quot;greetingMethod&quot; では &quot;method&quot; という新しい属性が出てきました。ここではオブジェクトを生成する際に実行するメソッドと引数を定義することが出来ます。</p>
-    <ul>
-      <li>greetingMethod: GreetingMethodInjection::initialize() メソッドを実行する</li>
-      <li>greetingMethod: GreetingMethodInjection::append() メソッドに &quot;appendHello&quot; コンポーネントを渡す</li>
-      <li>greetingMethod: GreetingMethodInjection::append() メソッドに &quot;appendWorld&quot; コンポーネントを渡す</li>
-    </ul>
-    <p>それでは DIContainer に登録したコンポーネントを見ていきましょう。 </p>
-    <dl>
-      <dt>PHP Code# libs/components/GreetingSetter<em>Injection</em>.php</dt>
-      <dd class="lang_php"><code>class GreetingSetterInjection  extends Delta_Object<br />
-        {<br />
-        &nbsp;&nbsp;private $_greet;<br />
-        <br />
-        &nbsp;&nbsp;public function setGreet(Greeting $greet)<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet = $greet; <br />
-        &nbsp;&nbsp;} <br />
-        <br />
-        &nbsp;&nbsp;public function getGreet()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
-        &nbsp;&nbsp;} <br />
-        }</code></dd>
-      <dt>PHP Code# libs/components/GreetingMethodInjection.php</dt>
-      <dd class="lang_php"><code>class GreetingMethodInjection  extends Delta_Object<br />
-        {<br />
-        &nbsp;&nbsp;private $_greet;<br />
-        <br />
-        &nbsp;&nbsp;public function initialize(array $optional = array())<br />
-&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;}<br />
-<br />
-        &nbsp;&nbsp;public function append(Greeting $greeting)<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet .= sprintf('%s ', $greeting-&gt;getGreet());<br />
-        &nbsp;&nbsp;}<br />
-        <br />
-        &nbsp;&nbsp;public function getGreet()<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;return trim($this-&gt;_greet);<br />
-        &nbsp;&nbsp;} <br />
-        }<br />
-        </code></dd>
-    </dl>
-    <p>GreetingMethodInjection クラスは、先の設定ファイルで定義した append() メソッドを実装し、引数にとった GreetingSetterInjection オブジェクトから挨拶文を取得、メンバ変数に文字列を追加しています。</p>
-    <p>それでは実際にメソッドインジェクションの動作を確認するアクションを作成してみましょう。</p>
-    <dl>
-      <dt>PHP Code# modules/{module}/actions/GreetingMethodClientAction.php</dt>
-      <dd class="lang_php"><code>public function execute()<br />
-        {<br />
-        &nbsp;&nbsp;echo $this-&gt;greeting-&gt;getGreet();<br />
-        <br />
-        &nbsp;&nbsp;return Delta_View::NONE; <br />
-        }</code></dd>
-    </dl>
-    <p>アクションを実行すると、画面には "Hello world " が表示されます。</p>
-    <h2><a id="instance" name="instance"></a>インスタンスの管理</h2>
-    <p>DI を使ってコンポーネントを呼び出すと、オブジェクトのインスタンスはデフォルトでシングルトンになります。インスタンス形式を変更したい場合は、&quot;instance&quot; 属性を設定ファイルに追加して下さい。インスタンスの管理はコンポーネント単位で指定することができます。</p>
-    <dl>
-      <dt>YAML Code# config/global_behavior.yml</dt>
-      <dd class="lang_yaml"><code>components:<br />
-        &nbsp;&nbsp;componentNames:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;greetingConstructor:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingConstructor<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance: prototype </code></dd>
-    </dl>
-    <p>&quot;instance&quot; 属性に指定可能な値は次の通りです。</p>
-    <table>
-      <colgroup>
-      <col width="20%" />
-      <col width="80%" />
-      </colgroup>
-      <tr>
-        <th scope="col">タイプ</th>
-        <th scope="col">説明</th>
-      </tr>
-      <tr>
-        <td scope="col">singleton (デフォルト) </td>
-        <td scope="col">Delta_DIContainerFactory::getContainer()-&gt;getComponent() を何回呼び出しても同じインスタンスが返ります</td>
-      </tr>
-      <tr>
-        <td scope="col">prototype</td>
-        <td scope="col">Delta_DIContainerFactory::getContainer()-&gt;getComponent() を呼び出す度に新しいインスタンスを返します </td>
-      </tr>
-    </table>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">アプリケーション開発実践 Tips -  DI コンテナの利用</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2007 年 12 月 5 日</p>
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
+      <p>このドキュメントは情報が整備されておらず、情報が古い可能性があります。ドキュメントは新しく書き換える予定です。</p>
+    </div>
+  </div>
+  <ul class="index">
+    <li><a href="#introduction">DI コンテナ概要</a></li>
+    <li><a href="#componentSetting">コンポーネントの設定と読み込み</a></li>
+    <li><a href="#setterInjection">セッターインジェクション</a></li>
+    <li><a href="#constructorInjection">コンストラクタインジェクション</a></li>
+    <li><a href="#methodInjection">メソッドインジェクション</a></li>
+    <li><a href="#instance">インスタンスの管理</a></li>
+  </ul>
+  <h2><a id="introduction" name="introduction"></a>DI コンテナ概要</h2>
+  <p>DI コンテナとは、Dependency Injection (依存性の注入) と呼ばれるデザインパターンの一種です。DI はコンポーネント間の依存関係を取り除くため、結果的に保守しやすいコードを書くことが出来るようになります。</p>
+  <p>例えばクラス A を利用するクラス B がある場合、クラス B はクラス A に「依存する」形になります。クラス A をクラス C に置き換えたい要望が出てきた場合、呼び出し元全てのプログラムを変更する必要が出てくるため、改修にはそれなりのコストを要します。しかしながら DI パターンで作成されたプログラムの場合、このようなコストは発生しません。</p>
+  <p>delta において DI を利用するには、クラス B が依存するコンポーネント (ここではクラス A) を base_dicon.yml (またはビヘイビア) に定義しておきます。設定ファイルに依存コンポーネントを定義しておくことで、実際にクラスが変更されたとしても、プログラムは何ら変更を加える必要がなくなるのです。<br />
+    もしここで呼び出すコンポーネントをクラス A から C に変更したい場合は、base_dicon.yml の定義を一行書き換えるだけで良いでしょう。delta はプログラム実行時に設定ファイルを解析し、呼び出すコンポーネントを確定・インスタンスを生成 (依存性の注入) します。</p>
+  <p>DI の仕組みは delta 自体にも利用されており、いくつかのコアコンポーネントは初めから base_dicon.yml に定義されています。コアコンポーネントは全てインタフェースにより実装されているため、元のクラスを拡張したり独自のコンポーネントに書き換えることも可能です。コンポーネントの拡張に関しては <a href="extend_component.html">コアコンポーネントの拡張</a> を参照して下さい。 </p>
+  <h2><a id="componentSetting" name="componentSetting"></a>コンポーネントの設定と読み込み</h2>
+  <p>それでは初めに最もオーソドックスなコンポーネントの設定と読み込み方法を解説します。サンプルコードを動かすために、次のファイルを追加する必要があります。</p>
+  <ul>
+    <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
+    <li>libs/components/GreetingEnglish.php: 英語で挨拶するクラス (components は任意のディレクトリです) </li>
+    <li>libs/components/GreetingJapanese.php: 日本語で挨拶するクラス</li>
+    <li>modules/{module}/action/GreetingClient.php: コンポーネントを起動するアクション</li>
+  </ul>
+  <p>前述の通りコンポーネントの設定は base_dicon.yml に定義しますが、グローバルビヘイビア、アクションビヘイビアに登録することも可能です。設定ファイル間でコンポーネント名が重複した場合は、「アクションビヘイビア &gt; グローバルビヘイビア &gt; base_dicon.yml」の順で設定がマージされます。 設定ファイルごとのコンポーネント呼び出し有効範囲は次の通りです。</p>
+  <table>
+    <colgroup>
+    <col width="30%" />
+    <col width="70%" />
+    </colgroup>
+    <tr>
+      <th scope="col">設定ファイルのパス</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td>config/base_dicon.yml</td>
+      <td rowspan="2">全てのクラスから呼び出し可能</td>
+    </tr>
+    <tr>
+      <td>config/global_behavior.yml</td>
+    </tr>
+    <tr>
+      <td>modules/{module}/behavior/{action}.yml</td>
+      <td>アクションビヘイビアと対になるアクションクラス、またはアクションクラスから読み込まれるライブラリからのみ呼び出し可能</td>
+    </tr>
+  </table>
+  <p>まず GreetingEnglish、GreetingJapanese クラスから作成しましょう。これらのクラスはその名の通り、各国語で挨拶をするためのメッセージクラスです。それぞれのクラスで getGreet() メソッドを定義し、挨拶文の文字列を返すよう実装します。</p>
+  <dl>
+    <dt>PHP Code# libs/components/GreetingEnglish.php</dt>
+    <dd class="lang_php"><code>class GreetingEnglish extends Delta_Object<br />
+      {<br />
+      &nbsp;&nbsp;public function getGreet()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return 'Hello world!'; <br />
+      &nbsp;&nbsp;}<br />
+      }</code></dd>
+    <dt>PHP Code# libs/components/GreetingJapanese.php</dt>
+    <dd class="lang_php"><code>class GreetingJapanese extends Delta_Object<br />
+      {<br />
+      &nbsp;&nbsp;public function getGreet()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return 'こんにちは!'; <br />
+      &nbsp;&nbsp;}<br />
+      }</code></dd>
+  </dl>
+  <p>次にグローバルビヘイビアで挨拶を行うコンポーネントを登録します。ここでは components 属性を定義し、DI コンポーネントの登録を行います。componentNams には複数のコンポーネントを登録出来ますが、ここでは greeting というコンポーネント名で GreetingEnglish クラスを設定 (インジェクション) しています。コンポーネント名は DIContainer からコンポーネントを呼び出す際の名前になります。 </p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingEnglish<br />
+      ... </code></dd>
+  </dl>
+  <p>以上でコンポーネントの登録は完了です。後は呼び出し元となるアクションクラスを作成しましょう。</p>
+  <dl>
+    <dt>PHP Code# modules/{module}/action/GreetingClientAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp;&nbsp;echo $this-&gt;greeting-&gt;getGreet();<br />
+      <br />
+      &nbsp; return Delta_View::NONE;<br />
+      }<br />
+      </code></dd>
+  </dl>
+  <p>getComponent() メソッドにはコンポーネント名を指定して下さい。今回であれば設定ファイルで定義した &quot;greeting&quot; がコンポーネント名になります。 </p>
+  <p>LoadGreeting アクションを実行すると、画面には「Hello world!」の文字列が表示されるでしょう。もしインジェクションするクラスを変えたいのであれば、アクションビヘイビアを次のように書き換えて下さい。</p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 日本語の挨拶を返すコンポーネントを設定 <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingJapanese</code></dd>
+  </dl>
+  <p>もう一度 LoadGreeting アクションを実行すると、今度は「こんにちは!」を返すようになります。</p>
+  <p>実際のアプリケーション開発では、クレジット決済や Web サービス連動など、テスト環境で実行が難しい処理があるかもしれません。そのような場合は場合は当該するビジネスロジックをコンポーネント化し、テスト環境ではモックオブジェクトを使っての動作テストが行えるよう実装すると良いでしょう。</p>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>getComponent() で呼び出されるオブジェクトのインスタンス形式はシングルトンになります。(<a href="#instance">インスタンスの管理</a> 参照) </p>
+    </div>
+  </div>
+  <h2><a id="setterInjection" name="setterInjection"></a>セッターインジェクション</h2>
+  <p>セッターインジェクションは任意のコンポーネントを呼び出すと同時に、設定ファイルに定義されたセッターメソッドを実行、値をセットします。今回のサンプルコードは、Greeting クラスを拡張した GreetingSetterInjection クラスを作り、セッターインジェクションを通して文字列を自動設定、更にアクションを介してセットされた文字列を出力します。サンプルを動かすためには次のファイルを追加して下さい。</p>
+  <ul>
+    <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
+    <li>libs/components/GreetingSetterInjection.php: セッターインジェクション形式で挨拶を行うクラス</li>
+    <li>modules/{module}/action/GreetingSetterClientAction.php: コンポーネントを起動するアクション</li>
+  </ul>
+  <p>初めに global_behavior.yml でコンポーネントの登録を行います。 </p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;greet: 'Hello world'</code></dd>
+  </dl>
+  <p>今回新たに登場した &quot;setter&quot; 属性がセッターメソッドの指定箇所になります。&quot;setter&quot; 属性には複数のセッターを定義することが可能で、上記例の場合は「GreetingSetterInjection クラスの greet セッター (setGreet() メソッド) に文字列引数 &quot;Hello world&quot; を渡す」という意味になります。</p>
+  <p>また、文字列以外に DIContainer へ登録済みのコンポーネントを渡すことも可能です。コンポーネントを引数に渡す場合、セッター値の形式は &quot;${コンポーネント名}&quot; となります。delta にはあらかじめ &quot;request&quot; というコンポーネント (デフォルトの実装は Delta_HttpRequest) が登録されていますが、これをセッターに渡すには次のようなコードになります。</p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request: $request</code></dd>
+  </dl>
+  <p>当然ながらアプリケーション内で開発したコンポーネントを引数に渡すことも可能です。</p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Greeting <br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request: $greeting</code></dd>
+  </dl>
+  <p>この場合、&quot;setterGreeting&quot; よりも先に &quot;greeting&quot; コンポーネントが先に登録されている必要があります。この定義が逆になると例外エラーが発生します。</p>
+  <p>次に GreetingSetterInjection クラスを作成します。ここではセッターインジェクションの動作を確認したいので、挨拶を設定、取得する setter/getter メソッドを定義しましょう。setter/getter メソッドの命名は、&quot;set&quot; + &quot;setter&quot; 属性に設定した名前になります。&quot;setter&quot; 属性の 1 文字目は大文字に変換されるので注意して下さい。つまり &quot;setter&quot; セッターが &quot;greet&quot; であれば、実際のメソッド名は setGreet() になります。(ゲッターに関して制約はないですが、セッターと合わせておいた方が良いでしょう)</p>
+  <dl>
+    <dt>PHP Code# libs/components/GreetingSetterInjection.php</dt>
+    <dd class="lang_php"><code>class GreetingSetterInjection extends Delta_Object<br />
+      {<br />
+      &nbsp;&nbsp;private $_greet; <br />
+      <br />
+      &nbsp;&nbsp;public function setGreet(Greeting $greet)<br />
+      &nbsp;&nbsp;
+      {<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet = $greet; <br />
+      &nbsp;&nbsp;
+      }<br />
+      <br />
+      &nbsp;&nbsp;public function getGreet()<br />
+      &nbsp;&nbsp;
+      {<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
+      &nbsp;&nbsp;
+      } <br />
+      }</code></dd>
+  </dl>
+  <p>以上でコンポーネントの作成は完了です。コンポーネントは DIContainer から呼び出された際に GreetingSettingInjection::setGreet() を実行し、 &quot;Hello&quot; という文字列をセットします。</p>
+  <p>それではメッセージがインジェクションされていることを確認するアクションを作成してみましょう。</p>
+  <dl>
+    <dt>PHP Code# modules/{module}/actions/GreetingSetterClientAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp;&nbsp;echo  $this-&gt;greeting-&gt;getGreet();<br />
+      <br />
+      &nbsp;&nbsp;return Delta_View::NONE; <br />
+      } </code></dd>
+  </dl>
+  <p>特に目新しいコードはない筈です。DIContainer から greeting コンポーネントを取得後、ゲッターメソッドでメッセージを出力すると、文字列 &quot;Hello world&quot; が返されます。 </p>
+  <dl>
+    <dt>PHP Code# libs/components/GreetingSetterInjection.php</dt>
+    <dd class="lang_php"><code>class GreetingSetterInjection extends Delta_Object<br />
+      {<br />
+      &nbsp;&nbsp;private $_greet; <br />
+      <br />
+      &nbsp;&nbsp;// マジックメソッドの定義<br />
+      &nbsp;&nbsp;public function __set($name, $value)<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;$name = $value; <br />
+      &nbsp;&nbsp;} <br />
+      <br />
+      &nbsp;&nbsp;public function getGreet()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
+      &nbsp;&nbsp;} <br />
+      }</code></dd>
+  </dl>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>通常セッターとオートセッターの両方が指定されている場合は、通常セッターが優先されます。 </p>
+    </div>
+  </div>
+  <h2><a id="constructorInjection" name="constructorInjection"></a>コンストラクタインジェクション</h2>
+  <p>コンストラクタインジェクションは、コンポーネントの生成時にコンストラクタを使ってオブジェクトの初期化を設定します。設定方法はセッターインジェクションの時とほぼ同じです。サンプルコードを動かすために次のファイルを作成して下さい。</p>
+  <ul>
+    <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
+    <li>libs/components/GreetingConstructor.php: コンストラクタインジェクション形式で挨拶を行うクラス</li>
+    <li>modules/{module}/action/GreetingConstructorClientAction.php: コンポーネントを起動するクラス</li>
+  </ul>
+  <p>global_behavior.yml に挨拶を行うコンポーネントを登録します。</p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;greetingConstructor:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingConstructor<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- $request<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 'Your IP'</code></dd>
+  </dl>
+  <p>今回新たに登場した &quot;constructor&quot; 属性は、コンストラクタ引数を宣言しています。上記サンプルコードの場合は、「GreetingConstructor に 2 つの引数 (request コンポーネントと文字列 &quot;Your IP:&quot;) を渡す」という意味になります。もし &quot;constructor&quot; 属性が宣言されていない場合は、コンポーネント起動時にデフォルトコンストラクタが呼び出されます。</p>
+  <p>次にコンストラクタインジェクションを実装する GreetingConstructor クラスを作成します。</p>
+  <dl>
+    <dt>PHP Code# libs/components/GreetingConstructorInjection.php</dt>
+    <dd class="lang_php"><code>class GreetingConstructorInjection extends Delta_Object<br />
+      {<br />
+      &nbsp;&nbsp;private $_greet; <br />
+      <br />
+      &nbsp;&nbsp;public function __construct(HttpRequest $request, $greet, array $optional = array())<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet = sprintf('%s: %s', $greet, $request-&gt;getRemoteAddress()); <br />
+      &nbsp;&nbsp;} <br />
+      <br />
+      &nbsp;&nbsp;public function getGreet()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
+      &nbsp;&nbsp;} <br />
+      }</code></dd>
+  </dl>
+  <p>コンストラクタでは 2 つの引数を取り、Delta_Request::getRemoteAddress() メソッドによってクライアントの IP アドレスを取得、メンバ変数に結果を格納しています。(設定ファイルに定義した &quot;constructor&quot; パラメータとコンストラクタ引数の宣言が異なる場合、DIContainer は例外を発生させます)</p>
+  <p>それでは実際にコンストラクタインジェクションの動作を確認するアクションを作成してみましょう。</p>
+  <dl>
+    <dt>PHP Code# modules/{module}/actions/GreetingConstructorClientAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp; echo $this-&gt;greeting-&gt;getGreet();<br />
+      <br />
+      &nbsp;&nbsp;return Delta_View::NONE; <br />
+      }</code></dd>
+  </dl>
+  <p>アクションを実行すると、画面には &quot;Your IP: {リモートの IP アドレス}&quot; が表示されます。</p>
+  <h2><a id="methodInjection" name="methodInjection"></a>メソッドインジェクション</h2>
+  <p>メソッドインジェクションは、オブジェクトを生成する際に任意のメソッドを実行してインスタンスを初期化します。 クラスによってはインスタンス生成のために getInstance()、Initialize() などのメソッドを呼び出す必要があります。このような場合はコンストラクタインジェクションやセッターインジェクションで初期化することが出来ないため、メソッドインジェクションを使う形になります。</p>
+  <p>メソッドインジェクションのサンプルを動かすには次のファイルを作成して下さい。</p>
+  <ul>
+    <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
+    <li>libs/components/GreetingSetterInjection.php: セッターインジェクション形式で挨拶を行うクラス</li>
+    <li>libs/components/GreetingMethodInjection.php: メソッドインジェクション形式で挨拶を行うクラス</li>
+    <li>modules/{module}/action/GreetingMethodClientAction.php: コンポーネントを起動するクラス</li>
+  </ul>
+  <p>global_behavior.yml に挨拶を行うコンポーネントを登録します。</p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;appendHello:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setter: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;greet: 'Hello'<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;appendWorld:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      class: GreetingSetterInjection<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      setter:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      greet: 'world'<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;greetingMethod:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingMethodInjection<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- initialize:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- append: [$appendHello] <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- append: [$appendWorld] <br />
+      </code></dd>
+  </dl>
+  <p>ここでは、&quot;appendHello&quot;、&quot;appendWorld&quot;、&quot;greetingMethod&quot; という 3 つのコンポーネントを定義しました。そのうち上 2 つに関してはセッターインジェクションを使って文字列をセットしています。</p>
+  <ul>
+    <li>appendHello: GreetingSetterInjection::setGreet() メソッドに文字列 &quot;Hello&quot; を渡す</li>
+    <li>appendWorld: GreetingSetterInjection::setGreet() メソッドに文字列 &quot;world&quot; を渡す</li>
+  </ul>
+  <p>&quot;greetingMethod&quot; では &quot;method&quot; という新しい属性が出てきました。ここではオブジェクトを生成する際に実行するメソッドと引数を定義することが出来ます。</p>
+  <ul>
+    <li>greetingMethod: GreetingMethodInjection::initialize() メソッドを実行する</li>
+    <li>greetingMethod: GreetingMethodInjection::append() メソッドに &quot;appendHello&quot; コンポーネントを渡す</li>
+    <li>greetingMethod: GreetingMethodInjection::append() メソッドに &quot;appendWorld&quot; コンポーネントを渡す</li>
+  </ul>
+  <p>それでは DIContainer に登録したコンポーネントを見ていきましょう。 </p>
+  <dl>
+    <dt>PHP Code# libs/components/GreetingSetter<em>Injection</em>.php</dt>
+    <dd class="lang_php"><code>class GreetingSetterInjection  extends Delta_Object<br />
+      {<br />
+      &nbsp;&nbsp;private $_greet;<br />
+      <br />
+      &nbsp;&nbsp;public function setGreet(Greeting $greet)<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet = $greet; <br />
+      &nbsp;&nbsp;} <br />
+      <br />
+      &nbsp;&nbsp;public function getGreet()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return $this-&gt;_greet; <br />
+      &nbsp;&nbsp;} <br />
+      }</code></dd>
+    <dt>PHP Code# libs/components/GreetingMethodInjection.php</dt>
+    <dd class="lang_php"><code>class GreetingMethodInjection  extends Delta_Object<br />
+      {<br />
+      &nbsp;&nbsp;private $_greet;<br />
+      <br />
+      &nbsp;&nbsp;public function initialize(array $optional = array())<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;}<br />
+      <br />
+      &nbsp;&nbsp;public function append(Greeting $greeting)<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;_greet .= sprintf('%s ', $greeting-&gt;getGreet());<br />
+      &nbsp;&nbsp;}<br />
+      <br />
+      &nbsp;&nbsp;public function getGreet()<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return trim($this-&gt;_greet);<br />
+      &nbsp;&nbsp;} <br />
+      }<br />
+      </code></dd>
+  </dl>
+  <p>GreetingMethodInjection クラスは、先の設定ファイルで定義した append() メソッドを実装し、引数にとった GreetingSetterInjection オブジェクトから挨拶文を取得、メンバ変数に文字列を追加しています。</p>
+  <p>それでは実際にメソッドインジェクションの動作を確認するアクションを作成してみましょう。</p>
+  <dl>
+    <dt>PHP Code# modules/{module}/actions/GreetingMethodClientAction.php</dt>
+    <dd class="lang_php"><code>public function execute()<br />
+      {<br />
+      &nbsp;&nbsp;echo $this-&gt;greeting-&gt;getGreet();<br />
+      <br />
+      &nbsp;&nbsp;return Delta_View::NONE; <br />
+      }</code></dd>
+  </dl>
+  <p>アクションを実行すると、画面には "Hello world " が表示されます。</p>
+  <h2><a id="instance" name="instance"></a>インスタンスの管理</h2>
+  <p>DI を使ってコンポーネントを呼び出すと、オブジェクトのインスタンスはデフォルトでシングルトンになります。インスタンス形式を変更したい場合は、&quot;instance&quot; 属性を設定ファイルに追加して下さい。インスタンスの管理はコンポーネント単位で指定することができます。</p>
+  <dl>
+    <dt>YAML Code# config/global_behavior.yml</dt>
+    <dd class="lang_yaml"><code>components:<br />
+      &nbsp;&nbsp;componentNames:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;greetingConstructor:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingConstructor<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance: prototype </code></dd>
+  </dl>
+  <p>&quot;instance&quot; 属性に指定可能な値は次の通りです。</p>
+  <table>
+    <colgroup>
+    <col width="20%" />
+    <col width="80%" />
+    </colgroup>
+    <tr>
+      <th scope="col">タイプ</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td scope="col">singleton (デフォルト) </td>
+      <td scope="col">Delta_DIContainerFactory::getContainer()-&gt;getComponent() を何回呼び出しても同じインスタンスが返ります</td>
+    </tr>
+    <tr>
+      <td scope="col">prototype</td>
+      <td scope="col">Delta_DIContainerFactory::getContainer()-&gt;getComponent() を呼び出す度に新しいインスタンスを返します </td>
+    </tr>
+  </table>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

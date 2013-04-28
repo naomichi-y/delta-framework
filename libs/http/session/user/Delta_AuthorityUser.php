@@ -120,6 +120,8 @@ class Delta_AuthorityUser extends Delta_Object
     }
 
     $this->_context['access'] = $currentTime;
+
+    register_shutdown_function(array($this, 'finalize'));
   }
 
   /**
@@ -503,11 +505,11 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * デストラクタ。
+   * ユーザデータのファイナライズ処理を行います。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __destruct()
+  public function finalize()
   {
     foreach ($this->_removeFlashList as $name => $attributes) {
       if (!$attributes['persist']) {

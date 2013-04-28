@@ -7,127 +7,121 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <title>delta - アプリケーション開発実践 Tips - フィルタを使う</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
-
-
 </head>
 <body>
-
-
-
-  <header>
-          <div class="row">
-        <div class="half">
-          <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a>
-        </div>
-        <div class="half">
-           <!--#include virtual="/global_assets/content/navi.php" -->
-</div>
-</div> 
-    <h1 id="top">アプリケーション開発実践 Tips - フィルタを使う </h1>
-  </header>
-  <div id="contents"><article>
-    <p class="right"><a href="../index.html">戻る</a><br />
-      最終更新日: 2007 年 12 月 5 日</p>
-    <div class="note_container note_important">
-      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-      <div class="note_contents">
-        <p>このドキュメントは delta 1.6 当時のものであり、最新バージョンとは内容が異なる可能性があります。ドキュメントが更新されるまでは API されることをお勧めします。 </p>
-      </div>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
-    <ul class="index">
-      <li><a href="#introduction">フィルタの概要</a></li>
-      <li><a href="#filterChain">フィルタチェインの実装</a></li>
-      <li><a href="#packageFilter">パッケージフィルタ機能</a></li>
-    </ul>
-    <h2><a id="introduction" name="introduction"></a>フィルタの概要</h2>
-    <p>フィルタはユーザからのリクエスト、及びレスポンスに対して、何らかの処理を行うオブジェクトです。Web アプリケーションを構築していると、次のような共通の処理が発生することがあります。</p>
-    <ul>
-      <li>ユーザの認証</li>
-      <li>ユーザ情報の取得 (ブラウザ、IP アドレスのチェックなど)</li>
-      <li>アクセスロギング</li>
-      <li>コンテンツタイプの変換</li>
-      <li>例外キャッチ</li>
-    </ul>
-    <p>これらの処理を全てのアクションに定義するのはあまりに非効率であり、また、メンテナンス性の低下に繋がります。この問題を解決するために使われるのがフィルタであり、一般的に Intercepting Filter と呼ばれるデザインパターンに当たります。</p>
-    <p>フィルタを定義する場合は、アプリケーションにおける共通処理を独立可能な単位に分けて下さい。例えば、共通の処理がログインチェックとロギングであれば、認証フィルタ、ロギングフィルタといったクラスを作成します。個々のフィルタでは、アクション同様 Delta_DIContainer からコンポーネントを取得することが出来るため、レスポンスに対する前処理、後処理を施すことが出来ます。</p>
-    <p>実際のフィルタ定義サンプルを示します。</p>
-    <dl>
-      <dt>YAML Code# modules/{module}/config/filters.yml</dt>
-      <dd class="lang_yaml"><code># システムメンテナンスフィルタ<br />
-        systemMaintenanceFilter:<br />
-        &nbsp;&nbsp;class: SystemMaintenanceFilter<br />
-        &nbsp;&nbsp;enable: TRUE</code></dd>
-    </dl>
-    <p>次にフィルタクラスを作成します。フィルタクラスは Delta_Filter 抽象クラスを実装していることに注目して下さい。</p>
-    <dl>
-      <dt>PHP Code# libs/SystemMaintenanceFilter.php</dt>
-      <dd class="lang_php"><code>class SystemMaintenanceFilter extends Delta_Filter<br />
-        {<br />
-        &nbsp;&nbsp;public function doFilter($chain)<br />
-        &nbsp;&nbsp;{<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// 前処理 (プレフィルタ) <br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// 次のフィルタ (アクション) へ移動 <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;$chain-&gt;filterChain();<br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;// 後処理 (ポストフィルタ) <br />
-        &nbsp;&nbsp;
-        }<br />
-        }<br />
-        </code></dd>
-    </dl>
-    <p>以上でフィルタの設定は完了です。今後は、モジュール内のアクションが起動するたびに SystemMaintenanceFilter#doFilter() メソッドが処理されるようになります。</p>
-    <h2><a id="filterChain" name="filterChain"></a>フィルタチェインの実装</h2>
-    <p>filters ファイルに複数のフィルタを定義することで、連鎖的にフィルタを処理することが可能です。例えば次のようなフィルタとアクションを定義したとします。</p>
-    <ul>
-      <li>ExampleFilter1 (config/global_filters.yml) </li>
-      <li>ExampleFilter2 (modules/{module}/config/filters.yml)</li>
-      <li>TargetAction (modules/{module}/actions/TargetAction.php) </li>
-    </ul>
-    <p>この時の処理の流れは次のようになります。(シーケンス図参照)</p>
-    <ol>
-      <li>コントローラは Delta_FilterManager を起動</li>
-      <li>Delta_FilterManager は filters ファイルを解析し、Delta_FilterChain オブジェクトを生成</li>
-      <li>Delta_FilterChain は ExampleFilter1#doFilter() メソッドを実行</li>
-      <li>ExampleFilter1 のプリフィルタを実行</li>
-      <li>filterChain() により次のフィルタを処理</li>
-      <li>Delta_FilterChain は ExampleFilter2#doFilter() メソッドを実行</li>
-      <li>ExampleFilter2 のプリフィルタを実行</li>
-      <li>filterChain() により次のフィルタ (フィルタがないためアクション) を実行</li>
-      <li>TargetAction を実行 (セキュリティチェック、コンバート、バリデータの実行など)</li>
-      <li>テンプレートの出力 (アクションフォワード時は次のアクションを処理。この時フィルタ遷移は 1 に移動する) </li>
-      <li>Delta_FilterChain は ExampleFilter2 のポストフィルタを実行</li>
-      <li>Delta_FilterChain は ExampleFilter1 のポストフィルタを実行 </li>
-    </ol>
-    <p><img src="../assets/images/diagram/sequence/filter.png" alt="sd Delta_Filter" width="712" height="541" /> </p>
-    <h2><a id="packageFilter" name="packageFilter"></a>パッケージフィルタ機能</h2>
-    <p>パッケージフィルタは、従来のフィルタ機能を拡張したアクションのパッケージ機能です。<br />
-      delta はアクションのディレクトリを自由に階層化することが出来ますが、パッケージフィルタを利用することで、アクションの階層単位でフィルタリング処理が可能になります。</p>
-    <dl>
-      <dt>ディレクトリ階層の例</dt>
-      <dd><code>- actions<br />
-        &nbsp;&nbsp;- PackageClient1Action.php<br />
-        &nbsp;&nbsp;- foo<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;- PackageClient2Action.php<br />
-        &nbsp;&nbsp;&nbsp; - bar<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- PackageClient3Action.php<br />
-        - filter:<br />
-        &nbsp;&nbsp;- filter.yml</code></dd>
-    </dl>
-    <dl>
-      <dt>YAML Code# modules/{module}/config/filter.yml</dt>
-      <dd class="lang_yaml"><code>foo:<br />
-        &nbsp;&nbsp;class: FooFilter <br />
-        &nbsp;&nbsp;enable: TRUE<br />
-        &nbsp;&nbsp;packages:<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;- {module}:foo/</code></dd>
-    </dl>
-    <p>packages 属性において &quot;{module}:foo&quot; ({module} は実際のモジュール名) を指定してますが、これは実行しようとしているアクションが modules/{module}/actions/foo パッケージの直下にある場合にフィルタを実行します。FooFilter は actions ディレクトリ直下の PackageClient1 や、foo/bar ディレクトリ下の PackageClient3 アクション起動時に処理を実行しません。foo パッケージ下全てのアクションを対象としたい場合は、&quot;{module}:foo/*&quot; のように最後をアスタリスクを付けて下さい。</p>
-    <p class="right"><a href="#top">上へ</a></p>
   </div>
-  </div><footer>
-    <p>Copyright &copy; delta framework project.</p>
-  </footer>
-
+  <h1 id="top">アプリケーション開発実践 Tips - フィルタを使う </h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2007 年 12 月 5 日</p>
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
+      <p>このドキュメントは情報が整備されておらず、情報が古い可能性があります。ドキュメントは新しく書き換える予定です。</p>
+    </div>
+  </div>
+  <ul class="index">
+    <li><a href="#introduction">フィルタの概要</a></li>
+    <li><a href="#filterChain">フィルタチェインの実装</a></li>
+    <li><a href="#packageFilter">パッケージフィルタ機能</a></li>
+  </ul>
+  <h2><a id="introduction" name="introduction"></a>フィルタの概要</h2>
+  <p>フィルタはユーザからのリクエスト、及びレスポンスに対して、何らかの処理を行うオブジェクトです。Web アプリケーションを構築していると、次のような共通の処理が発生することがあります。</p>
+  <ul>
+    <li>ユーザの認証</li>
+    <li>ユーザ情報の取得 (ブラウザ、IP アドレスのチェックなど)</li>
+    <li>アクセスロギング</li>
+    <li>コンテンツタイプの変換</li>
+    <li>例外キャッチ</li>
+  </ul>
+  <p>これらの処理を全てのアクションに定義するのはあまりに非効率であり、また、メンテナンス性の低下に繋がります。この問題を解決するために使われるのがフィルタであり、一般的に Intercepting Filter と呼ばれるデザインパターンに当たります。</p>
+  <p>フィルタを定義する場合は、アプリケーションにおける共通処理を独立可能な単位に分けて下さい。例えば、共通の処理がログインチェックとロギングであれば、認証フィルタ、ロギングフィルタといったクラスを作成します。個々のフィルタでは、アクション同様 Delta_DIContainer からコンポーネントを取得することが出来るため、レスポンスに対する前処理、後処理を施すことが出来ます。</p>
+  <p>実際のフィルタ定義サンプルを示します。</p>
+  <dl>
+    <dt>YAML Code# modules/{module}/config/filters.yml</dt>
+    <dd class="lang_yaml"><code># システムメンテナンスフィルタ<br />
+      systemMaintenanceFilter:<br />
+      &nbsp;&nbsp;class: SystemMaintenanceFilter<br />
+      &nbsp;&nbsp;enable: TRUE</code></dd>
+  </dl>
+  <p>次にフィルタクラスを作成します。フィルタクラスは Delta_Filter 抽象クラスを実装していることに注目して下さい。</p>
+  <dl>
+    <dt>PHP Code# libs/SystemMaintenanceFilter.php</dt>
+    <dd class="lang_php"><code>class SystemMaintenanceFilter extends Delta_Filter<br />
+      {<br />
+      &nbsp;&nbsp;public function doFilter($chain)<br />
+      &nbsp;&nbsp;{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// 前処理 (プレフィルタ) <br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// 次のフィルタ (アクション) へ移動 <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;$chain-&gt;filterChain();<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;// 後処理 (ポストフィルタ) <br />
+      &nbsp;&nbsp;
+      }<br />
+      }<br />
+      </code></dd>
+  </dl>
+  <p>以上でフィルタの設定は完了です。今後は、モジュール内のアクションが起動するたびに SystemMaintenanceFilter#doFilter() メソッドが処理されるようになります。</p>
+  <h2><a id="filterChain" name="filterChain"></a>フィルタチェインの実装</h2>
+  <p>filters ファイルに複数のフィルタを定義することで、連鎖的にフィルタを処理することが可能です。例えば次のようなフィルタとアクションを定義したとします。</p>
+  <ul>
+    <li>ExampleFilter1 (config/global_filters.yml) </li>
+    <li>ExampleFilter2 (modules/{module}/config/filters.yml)</li>
+    <li>TargetAction (modules/{module}/actions/TargetAction.php) </li>
+  </ul>
+  <p>この時の処理の流れは次のようになります。(シーケンス図参照)</p>
+  <ol>
+    <li>コントローラは Delta_FilterManager を起動</li>
+    <li>Delta_FilterManager は filters ファイルを解析し、Delta_FilterChain オブジェクトを生成</li>
+    <li>Delta_FilterChain は ExampleFilter1#doFilter() メソッドを実行</li>
+    <li>ExampleFilter1 のプリフィルタを実行</li>
+    <li>filterChain() により次のフィルタを処理</li>
+    <li>Delta_FilterChain は ExampleFilter2#doFilter() メソッドを実行</li>
+    <li>ExampleFilter2 のプリフィルタを実行</li>
+    <li>filterChain() により次のフィルタ (フィルタがないためアクション) を実行</li>
+    <li>TargetAction を実行 (セキュリティチェック、コンバート、バリデータの実行など)</li>
+    <li>テンプレートの出力 (アクションフォワード時は次のアクションを処理。この時フィルタ遷移は 1 に移動する) </li>
+    <li>Delta_FilterChain は ExampleFilter2 のポストフィルタを実行</li>
+    <li>Delta_FilterChain は ExampleFilter1 のポストフィルタを実行 </li>
+  </ol>
+  <p><img src="../assets/images/diagram/sequence/filter.png" alt="sd Delta_Filter" width="712" height="541" /> </p>
+  <h2><a id="packageFilter" name="packageFilter"></a>パッケージフィルタ機能</h2>
+  <p>パッケージフィルタは、従来のフィルタ機能を拡張したアクションのパッケージ機能です。<br />
+    delta はアクションのディレクトリを自由に階層化することが出来ますが、パッケージフィルタを利用することで、アクションの階層単位でフィルタリング処理が可能になります。</p>
+  <dl>
+    <dt>ディレクトリ階層の例</dt>
+    <dd class="lang_php"><code>- actions<br />
+      &nbsp;&nbsp;- PackageClient1Action.php<br />
+      &nbsp;&nbsp;- foo<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;- PackageClient2Action.php<br />
+      &nbsp;&nbsp;&nbsp; - bar<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- PackageClient3Action.php<br />
+      - filter:<br />
+      &nbsp;&nbsp;- filter.yml</code></dd>
+  </dl>
+  <dl>
+    <dt>YAML Code# modules/{module}/config/filter.yml</dt>
+    <dd class="lang_yaml"><code>foo:<br />
+      &nbsp;&nbsp;class: FooFilter <br />
+      &nbsp;&nbsp;enable: TRUE<br />
+      &nbsp;&nbsp;packages:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;- {module}:foo/</code></dd>
+  </dl>
+  <p>packages 属性において &quot;{module}:foo&quot; ({module} は実際のモジュール名) を指定してますが、これは実行しようとしているアクションが modules/{module}/actions/foo パッケージの直下にある場合にフィルタを実行します。FooFilter は actions ディレクトリ直下の PackageClient1 や、foo/bar ディレクトリ下の PackageClient3 アクション起動時に処理を実行しません。foo パッケージ下全てのアクションを対象としたい場合は、&quot;{module}:foo/*&quot; のように最後をアスタリスクを付けて下さい。</p>
+  <p class="right"><a href="#top">上へ</a></p>
+</div>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
 </body>
 </html>

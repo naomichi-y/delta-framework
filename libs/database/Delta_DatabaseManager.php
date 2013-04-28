@@ -183,7 +183,7 @@ class Delta_DatabaseManager extends Delta_Object
    */
   public function getConnection($namespace = self::CONNECT_DEFAULT_NAMESPACE)
   {
-    if (empty($this->_connections[$namespace]) || !$this->_connectionPool[$namespace]->isActive()) {
+    if (empty($this->_connections[$namespace]) || !$this->_connections[$namespace]->isActive()) {
       $key = sprintf('database.%s', $namespace);
       $databaseConfig = Delta_Config::getApplication()->get($key);
 
@@ -244,7 +244,7 @@ class Delta_DatabaseManager extends Delta_Object
   {
     $namespace = serialize(sprintf('_%s%s', $dsn, $user));
 
-    if (empty($this->_connections[$namespace]) || !$this->_connectionPool[$namespace]->isActive()) {
+    if (empty($this->_connections[$namespace]) || !$this->_connections[$namespace]->isActive()) {
       $connection = $this->createAdapter($dsn, $user, $password, $options);
       $connection->setNamespace($namespace);
 

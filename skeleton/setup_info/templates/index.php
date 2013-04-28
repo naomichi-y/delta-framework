@@ -23,7 +23,7 @@
             <div class="data_label">PHP のバージョン</div>
               <div class="data_content">
               <?php if (!$html->hasError('php')): ?>
-              <p>条件を満たしています。</p>
+              <p>条件を満たしています。(<?php echo phpversion() ?> &gt;= 5.3)</p>
               <?php else: ?>
               <p><?php echo $html->error('php') ?></p>
               <?php endif ?>
@@ -33,9 +33,9 @@
             <div class="data_label">デバッグモード</div>
               <div class="data_content">
               <?php if (Delta_DebugUtils::isDebug()): ?>
-                <p>有効状態です。</p>
+                <p>有効な状態です。</p>
               <?php else: ?>
-                <p>無効状態です。</p>
+                <p>無効な状態です。</p>
               <?php endif; ?>
               <p class="note">プロダクション環境では必ず設定を無効にして下さい。デバッグモードの設定は config/application.yml の 'debug.output' 属性で変更可能です。</p>
             </div>
