@@ -172,8 +172,19 @@ footer p {
  * ****************************************************************
  */
 
-.gallery-icon {
-  border: none !important;
+.gallery dt {
+  border-bottom: none;
+}
+
+.gallery-item {
+  float: left;
+  margin-top: 10px;
+  text-align: center;
+  width: 33%;
+}
+
+.gallery img {
+  border: 1px solid #ccc;
 }
 
 .meta {
