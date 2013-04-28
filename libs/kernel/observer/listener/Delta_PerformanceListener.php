@@ -39,6 +39,15 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
   }
 
   /**
+   * @see Delta_ApplicationEventListener::getBootMode()
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getBootMode()
+  {
+    return Delta_BootLoader::BOOT_MODE_WEB;
+  }
+
+  /**
    * コンストラクタ。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

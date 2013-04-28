@@ -33,17 +33,17 @@ class Delta_BootLoader
   /**
    * 起動モード定数。(Web アプリケーション)
    */
-  const BOOT_TYPE_WEB = 'web';
+  const BOOT_MODE_WEB = 1;
 
   /**
    * 起動モード定数。(コンソールアプリケーション)
    */
-  const BOOT_TYPE_CONSOLE = 'console';
+  const BOOT_MODE_CONSOLE = 2;
 
   /**
    * 起動モード定数。(delta コマンド)
    */
-  const BOOT_TYPE_COMMAND = 'command';
+  const BOOT_MODE_COMMAND = 4;
 
   /**
    * コンフィグ定数。(デフォルト)
@@ -58,7 +58,7 @@ class Delta_BootLoader
   /**
    * @var int
    */
-  private static $_bootType;
+  private static $_bootMode;
 
   /**
    * @var int
@@ -77,11 +77,11 @@ class Delta_BootLoader
    */
   public static function startWebApplication()
   {
-    self::$_bootType = self::BOOT_TYPE_WEB;
+    self::$_bootMode = self::BOOT_MODE_WEB;
     self::$_configType = self::CONFIG_TYPE_DEFAULT;
 
     self::startApplication();
-    self::startEventObserver(self::BOOT_TYPE_WEB);
+    self::startEventObserver(self::BOOT_MODE_WEB);
 
     self::$_container->getComponent('controller')->dispatch();
   }
@@ -93,11 +93,11 @@ class Delta_BootLoader
    */
   public static function startControlPanel()
   {
-    self::$_bootType = self::BOOT_TYPE_WEB;
+    self::$_bootMode = self::BOOT_MODE_WEB;
     self::$_configType = self::CONFIG_TYPE_POLICY;
 
     self::startApplication();
-    self::startEventObserver(self::BOOT_TYPE_WEB);
+    self::startEventObserver(self::BOOT_MODE_WEB);
 
     // cpanel モジュールをクラスローダに追加
     Delta_ClassLoader::addSearchPath(DELTA_ROOT_DIR . '/webapps/cpanel/libs');
@@ -124,11 +124,11 @@ class Delta_BootLoader
    */
   public static function startConsoleApplication()
   {
-    self::$_bootType = self::BOOT_TYPE_CONSOLE;
+    self::$_bootMode = self::BOOT_MODE_CONSOLE;
     self::$_configType = self::CONFIG_TYPE_DEFAULT;
 
     self::startApplication();
-    self::startEventObserver(self::BOOT_TYPE_CONSOLE);
+    self::startEventObserver(self::BOOT_MODE_CONSOLE);
 
     self::$_container->getComponent('console')->start();
   }
@@ -140,7 +140,7 @@ class Delta_BootLoader
    */
   public static function startDeltaCommand()
   {
-    self::$_bootType = self::BOOT_TYPE_COMMAND;
+    self::$_bootMode = self::BOOT_MODE_COMMAND;
     self::$_configType = self::CONFIG_TYPE_POLICY;
 
     set_error_handler(array('Delta_ErrorHandler', 'handler'));
@@ -164,9 +164,9 @@ class Delta_BootLoader
    * @return string ブートローダの起動モードを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function getBootType()
+  public static function getBootMode()
   {
-    return self::$_bootType;
+    return self::$_bootMode;
   }
 
   /**
@@ -177,7 +177,7 @@ class Delta_BootLoader
    */
   public static function isBootTypeWeb()
   {
-    if (self::getBootType() == self::BOOT_TYPE_WEB) {
+    if (self::getBootMode() == self::BOOT_MODE_WEB) {
       return TRUE;
     }
 
@@ -192,7 +192,7 @@ class Delta_BootLoader
    */
   public static function isBootTypeConsole()
   {
-    if (self::getBootType() == self::BOOT_TYPE_CONSOLE) {
+    if (self::getBootMode() == self::BOOT_MODE_CONSOLE) {
       return TRUE;
     }
 
@@ -207,7 +207,7 @@ class Delta_BootLoader
    */
   public static function isBootTypeCommand()
   {
-    if (self::getBootType() == self::BOOT_TYPE_COMMAND) {
+    if (self::getBootMode() == self::BOOT_MODE_COMMAND) {
       return TRUE;
     }
 
@@ -301,11 +301,7 @@ class Delta_BootLoader
 
     if ($listeners) {
       foreach ($listeners as $listenerId => $attributes) {
-        $bootConfig = $attributes->get('boot');
-
-        if (in_array($bootType, explode(',', $bootConfig))) {
-          $observer->addEventListener($listenerId, $attributes);
-        }
+        $observer->addEventListener($listenerId, $attributes);
       }
     }
   }

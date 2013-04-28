@@ -30,6 +30,15 @@ class Delta_WebApplicationEventListener extends Delta_ApplicationEventListener
   }
 
   /**
+   * @see Delta_ApplicationEventListener::getBootMode()
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getBootMode()
+  {
+    return Delta_BootLoader::BOOT_MODE_WEB;
+  }
+
+  /**
    * URI からルートが確定したタイミング (アクションのインスタンスが生成される前) で起動します。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

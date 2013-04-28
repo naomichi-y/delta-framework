@@ -68,7 +68,7 @@ class Delta_ExceptionHandler
         ob_end_clean();
 
         $arguments = array($buffer);
-        Delta_KernelEventObserver::getInstance()->dispatchEvent('dispatchResponse', $arguments);
+        Delta_KernelEventObserver::getInstance()->dispatchEvent('preOutput', $arguments);
       }
 
     // 例外ハンドラ内で起こる全ての例外を捕捉

@@ -250,7 +250,7 @@ class Delta_HttpResponse extends Delta_Object
     ob_end_clean();
 
     $arguments = array($buffer);
-    $this->getObserver()->dispatchEvent('dispatchResponse', $arguments);
+    $this->getObserver()->dispatchEvent('preOutput', $arguments);
 
     die();
   }

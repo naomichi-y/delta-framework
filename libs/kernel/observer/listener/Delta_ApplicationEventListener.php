@@ -9,8 +9,8 @@
  */
 
 /**
- * イベントリスナの抽象クラスです。
- * カスタムイベントリスナを作成する場合は、{@link Delta_WebApplicationEventListener}、または {@link Delta_ConsoleApplicationEventListener} を継承する必要があります。
+ * イベントリスナのための抽象クラスです。
+ * Web アプリケーション用カスタムイベントリスナを作成する場合は、{@link Delta_WebApplicationEventListener}、コンソールアプリケーション用カスタムイベントリスナを作成する場合は {@link Delta_ConsoleApplicationEventListener} を継承すると良いでしょう。
  * <code>
  * class CustomEventListener extends Delta_WebApplicationEventListener
  * {
@@ -36,8 +36,15 @@ abstract class Delta_ApplicationEventListener extends Delta_Object
    * @return array オブザーバに通知するイベントリストを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getListenEvents()
-  {}
+  abstract public function getListenEvents();
+
+  /**
+   * リスナの実行を許可する起動モードを取得します。
+   *
+   * @return array 起動モード定数 ({@link Delta_BootLoader::BOOT_MODE_WEB}、あるいは {@link Delta_BootLoader::BOOT_MODE_CONSOLE)} を返します。
+   *   Web とコンソール両方を許可する場合は、Delta_BootLoader::BOOT_MODE_WEB|Delta_BootLoader::BOOT_MODE_CONSOLE を返します。
+   */
+  abstract public function getBootMode();
 
   /**
    * イベントリスナのインスタンスが生成された直後に (アプリケーションが {@link Delta_BootLoader ブートローダ} によって初期化されるタイミングで) 起動します。

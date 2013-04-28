@@ -73,7 +73,7 @@ class Delta_KernelEventObserver extends Delta_Object
    *
    * @param string $listenerId イベントリスナ ID。
    * @param Delta_ParameterHolder イベントリスナ属性。
-   * @return bool イベントリスナの登録に成功した場合は TRUE、失敗した (アプリケーションの起動モードに反するイベントリスナが登録された) 場合は FALSE を返します。
+   * @return イベントリスナの登録に成功した場合は TRUE、失敗 (現在の起動モードと {@link Delta_ApplicationEventListener::getBootMode() リスナの起動モード} が異なる場合に FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function addEventListener($listenerId, Delta_ParameterHolder $holder)
@@ -83,11 +83,13 @@ class Delta_KernelEventObserver extends Delta_Object
     $className = $holder->get('class');
     $instance = new $className($holder);
 
-    if ($instance instanceof $this->_listener) {
+    $arrowBootMode = $instance->getBootMode();
+    $currentBootMode = Delta_BootLoader::getBootMode();
+
+    if ($arrowBootMode & $currentBootMode) {
       $this->_listeners[$listenerId] = $instance;
       $this->dispatchEvent('postCreateInstance');
 
-    } else {
       $result = TRUE;
     }
 
