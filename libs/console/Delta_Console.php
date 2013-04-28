@@ -61,6 +61,8 @@ class Delta_Console extends Delta_Object
       $input->validate($configure);
       $commandClass->execute();
 
+      $this->getObserver()->dispatchEvent('postProcess');
+
     } else {
       $this->showUsage();
     }

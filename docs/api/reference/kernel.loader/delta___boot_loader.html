@@ -130,6 +130,7 @@
                       <li><a href="../database/delta___database_manager.html" title="Delta_DatabaseManager">Delta_DatabaseManager</a></li>
                       <li><a href="../database/delta___database_result_set.html" title="Delta_DatabaseResultSet">Delta_DatabaseResultSet</a></li>
                       <li><a href="../database/delta___database_statement.html" title="Delta_DatabaseStatement">Delta_DatabaseStatement</a></li>
+                      <li><a href="../database/delta___database_transaction_controller.html" title="Delta_DatabaseTransactionController">Delta_Databa...nController</a></li>
                       <li><a href="../database/delta___record_object.html" title="Delta_RecordObject">Delta_RecordObject</a></li>
                   </ul>
       </li>
@@ -297,6 +298,7 @@
         <ul style="display: none;">
                       <li><a href="../kernel.observer.listener/delta___application_event_listener.html" title="Delta_ApplicationEventListener">Delta_Applic...entListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___console_application_event_listener.html" title="Delta_ConsoleApplicationEventListener">Delta_Consol...entListener</a></li>
+                      <li><a href="../kernel.observer.listener/delta___database_transaction_listener.html" title="Delta_DatabaseTransactionListener">Delta_Databa...ionListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___performance_listener.html" title="Delta_PerformanceListener">Delta_PerformanceListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___web_application_event_listener.html" title="Delta_WebApplicationEventListener">Delta_WebApp...entListener</a></li>
                   </ul>
@@ -636,7 +638,7 @@ kernel.loader
                   <th>Summary</th>
                 </tr>
                                   <tr>
-                    <td class="left"><a href="#constant_BOOT_TYPE_COMMAND">BOOT_TYPE_COMMAND</a></td>
+                    <td class="left"><a href="#constant_BOOT_MODE_COMMAND">BOOT_MODE_COMMAND</a></td>
                     <td class="left">
                                               <div class="text">
 起動モード定数。(delta コマンド)
@@ -644,7 +646,7 @@ kernel.loader
                                           </td>
                   </tr>
                                   <tr>
-                    <td class="left"><a href="#constant_BOOT_TYPE_CONSOLE">BOOT_TYPE_CONSOLE</a></td>
+                    <td class="left"><a href="#constant_BOOT_MODE_CONSOLE">BOOT_MODE_CONSOLE</a></td>
                     <td class="left">
                                               <div class="text">
 起動モード定数。(コンソールアプリケーション)
@@ -652,7 +654,7 @@ kernel.loader
                                           </td>
                   </tr>
                                   <tr>
-                    <td class="left"><a href="#constant_BOOT_TYPE_WEB">BOOT_TYPE_WEB</a></td>
+                    <td class="left"><a href="#constant_BOOT_MODE_WEB">BOOT_MODE_WEB</a></td>
                     <td class="left">
                                               <div class="text">
 起動モード定数。(Web アプリケーション)
@@ -697,7 +699,7 @@ kernel.loader
                   </tr>
                                                                                     <tr>
                                               <td>
-                                                      <a href="#method_getBootType">getBootType()</a>                                                  </td>
+                                                      <a href="#method_getBootMode">getBootMode()</a>                                                  </td>
                         <td>
                                                       <div class="text">
 ブートローダの起動モードを取得します。
@@ -800,25 +802,25 @@ Web アプリケーションを開始します。
 
                         <h3>Constant details</h3>
               <dl>
-                              <dt id="constant_BOOT_TYPE_COMMAND">BOOT_TYPE_COMMAND</dt>
+                              <dt id="constant_BOOT_MODE_COMMAND">BOOT_MODE_COMMAND</dt>
                 <dd>
-                  <div class="source"><code>BOOT_TYPE_COMMAND = &#039;command&#039;</code></div>
+                  <div class="source"><code>BOOT_MODE_COMMAND = 4</code></div>
                                       <div class="text">
 起動モード定数。(delta コマンド)
 </div>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
-                              <dt id="constant_BOOT_TYPE_CONSOLE">BOOT_TYPE_CONSOLE</dt>
+                              <dt id="constant_BOOT_MODE_CONSOLE">BOOT_MODE_CONSOLE</dt>
                 <dd>
-                  <div class="source"><code>BOOT_TYPE_CONSOLE = &#039;console&#039;</code></div>
+                  <div class="source"><code>BOOT_MODE_CONSOLE = 2</code></div>
                                       <div class="text">
 起動モード定数。(コンソールアプリケーション)
 </div>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
-                              <dt id="constant_BOOT_TYPE_WEB">BOOT_TYPE_WEB</dt>
+                              <dt id="constant_BOOT_MODE_WEB">BOOT_MODE_WEB</dt>
                 <dd>
-                  <div class="source"><code>BOOT_TYPE_WEB = &#039;web&#039;</code></div>
+                  <div class="source"><code>BOOT_MODE_WEB = 1</code></div>
                                       <div class="text">
 起動モード定数。(Web アプリケーション)
 </div>
@@ -845,9 +847,9 @@ Web アプリケーションを開始します。
             
                         <h3>Method details</h3>
               <dl>
-                                                      <dt id="method_getBootType">getBootType()</dt>
+                                                      <dt id="method_getBootMode">getBootMode()</dt>
                     <dd>
-                      <div class="source"><code>public static string getBootType()</code></div>
+                      <div class="source"><code>public static string getBootMode()</code></div>
                                               <div class="text">
 ブートローダの起動モードを取得します。
 </div>
@@ -1128,7 +1130,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 28 Apr 2013 03:33:54 +0900<br />
+  <p>This document was generated on Sun, 28 Apr 2013 22:22:53 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

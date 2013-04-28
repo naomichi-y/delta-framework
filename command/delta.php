@@ -283,6 +283,10 @@ class Delta_CommandExecutor
       $options = array('recursive' => TRUE, 'hidden' => TRUE);
       Delta_FileUtils::copyRecursive(DELTA_BLANK_APP_DIR, APP_ROOT_DIR, $options);
 
+      // deltac コマンドの実行権限付与
+      $path = APP_ROOT_DIR . '/console/deltac';
+      chmod($path, 0775);
+
       // .htaccessのコピー
       $sourcePath = DELTA_BLANK_APP_DIR . '/webroot/.htaccess';
       $destinationPath = APP_ROOT_DIR . '/webroot/.htaccess';

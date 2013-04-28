@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
-    <title>delta 1.1 API Reference - Delta_LogRotateDateBasedPolicy</title>
+    <title>delta 1.1 API Reference - Delta_DatabaseTransactionController</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
     <!--#if expr="$HTTP_HOST = /delta-framework.org/" --><link rel="stylesheet" href="/global_assets/css/navi.css" type="text/css" media="screen" /><!--#endif -->
@@ -577,7 +577,7 @@
           <article>
             <h2>
                               Class
-                            Delta_LogRotateDateBasedPolicy            </h2>
+                            Delta_DatabaseTransactionController            </h2>
             <p class="right">
               <a href="#description">Description</a> |
               <a href="#constants">Constants</a> |
@@ -587,7 +587,7 @@
 
             <h3 id="description">Description</h3>
                           <div class="text">
-Delta_LogRotateDateBasedPolicy のローテートを処理します。
+データベーストランザクションを管理します。
 </div>
                         <table summary="Description">
               <colgroup>
@@ -611,105 +611,36 @@ delta
                                                                                             <tr>
                       <th class="left">Package</th>
                       <td><div class="text">
-logger.rotator.policy
+database
 </div>
 </td>
                     </tr>
-                                                              <tr>
+                                                                                            <tr>
+                      <th class="left">Since</th>
+                      <td><div class="text">
+1.1
+</div>
+</td>
+                    </tr>
+                                                                                  <tr>
                 <th class="left">Inheritance</th>
                 <td>
-                  Delta_LogRotateDateBasedPolicy                                       &raquo; <a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
+                  Delta_DatabaseTransactionController                                       &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
               </tr>
                                           <tr>
                 <th class="left">Source file</th>
-                <td>/logger/rotator/policy/Delta_LogRotateDateBasedPolicy.php</td>
+                <td>/database/Delta_DatabaseTransactionController.php</td>
               </tr>
             </table>
             <p class="right"><a href="#top">To top</a></p>
 
             <h3 id="constants">Constants</h3>
-                          <table summary="Constants">
-                <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
-                </colgroup>
-                <tr>
-                  <th>Constnat</th>
-                  <th>Summary</th>
-                </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_PATTERN_DAILY">PATTERN_DAILY</a></td>
-                    <td class="left">
-                                              <div class="text">
-日次ローテート。
-</div>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_PATTERN_HOURLY">PATTERN_HOURLY</a></td>
-                    <td class="left">
-                                              <div class="text">
-毎時ローテート。
-</div>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_PATTERN_MONTHLY">PATTERN_MONTHLY</a></td>
-                    <td class="left">
-                                              <div class="text">
-月次ローテート。
-</div>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_PATTERN_WEEKLY">PATTERN_WEEKLY</a></td>
-                    <td class="left">
-                                              <div class="text">
-週次ローテート。
-</div>
-                                          </td>
-                  </tr>
-                              </table>
+                          <p>定義されている定数はありません。</p>
                         <p class="right"><a href="#">To top</a></p>
 
                           <h3 id="properties">Properties</h3>
-                                                <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
-                    <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
-                    </colgroup>
-                    <tr>
-                      <th>Property</th>
-                      <th>Type</th>
-                      <th>Summary</th>
-                      <th>Defined by</th>
-                    </tr>
-                                                                                            <tr class="inheritanceProperties">
-                                                  <td>
-                                                          <a href="../logger.rotator.policy/delta___log_rotate_policy.html#property__basePath">$_basePath</a>                                                      </td>
-                          <td>
-                                                          string                                                      </td>
-                          <td>
-                                                          <div class="text">
-オリジナルの出力パス。
-</div>
-                                                      </td>
-                          <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
-                        </tr>
-                                                                                                                                                            <tr>
-                                                  <td>
-                                                          <a href="#property__generation">$_generation</a>                                                      </td>
-                          <td>
-                                                          mixed                                                      </td>
-                          <td>
-                                                      </td>
-                          <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
-                        </tr>
-                                                            </table>
-                                            <p class="right"><a href="#top">To top</a></p>
+                              <p>公開されているプロパティはありません。</p>
+                            <p class="right"><a href="#top">To top</a></p>
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
@@ -726,16 +657,6 @@ logger.rotator.policy
                   </tr>
                                                                                     <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../logger.rotator.policy/delta___log_rotate_policy.html#method___construct">__construct()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-コンストラクタ。
-</div>
-                                                  </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -743,6 +664,13 @@ logger.rotator.policy
 </div>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_commit">commit()</a>                                                  </td>
+                        <td>
+                                                  </td>
+                        <td><a href="../database/delta___database_transaction_controller.html">Delta_DatabaseTransactionController</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -753,43 +681,6 @@ Delta_AppPathManager のインスタンスを取得します。
 </div>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../logger.rotator.policy/delta___log_rotate_policy.html#method_getBasePath">getBasePath()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-基底のログ出力パスを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getDatePattern">getDatePattern()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-ファイル名に付加する日付のフォーマットを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_date_based_policy.html">Delta_LogRotateDateBasedPolicy</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getExecutorClassName">getExecutorClassName()</a>                                                  </td>
-                        <td>
-                                                  </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../logger.rotator.policy/delta___log_rotate_policy.html#method_getGeneration">getGeneration()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-ローテートファイルの世代数を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -823,134 +714,42 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_getWritePath">getWritePath()</a>                                                  </td>
+                                                      <a href="#method_isActiveTransaction">isActiveTransaction()</a>                                                  </td>
                         <td>
                                                   </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
+                        <td><a href="../database/delta___database_transaction_controller.html">Delta_DatabaseTransactionController</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_setDatePattern">setDatePattern()</a>                                                  </td>
+                                                      <a href="#method_notify">notify()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-ファイル名に付加する日付のフォーマットを設定します。
+トランザクションコントローラに実行クエリを通知します。
 </div>
                                                   </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_date_based_policy.html">Delta_LogRotateDateBasedPolicy</a></td>
+                        <td><a href="../database/delta___database_transaction_controller.html">Delta_DatabaseTransactionController</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
+                                                                                                        <tr>
                                               <td>
-                                                      <a href="../logger.rotator.policy/delta___log_rotate_policy.html#method_setGeneration">setGeneration()</a>                                                  </td>
+                                                      <a href="#method_rollback">rollback()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
-ローテートファイルの世代数を設定します。
-</div>
                                                   </td>
-                        <td><a href="../logger.rotator.policy/delta___log_rotate_policy.html">Delta_LogRotatePolicy</a></td>
+                        <td><a href="../database/delta___database_transaction_controller.html">Delta_DatabaseTransactionController</a></td>
                       </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
-                        <h3>Constant details</h3>
-              <dl>
-                              <dt id="constant_PATTERN_DAILY">PATTERN_DAILY</dt>
-                <dd>
-                  <div class="source"><code>PATTERN_DAILY = &#039;Y-m-d&#039;</code></div>
-                                      <div class="text">
-日次ローテート。
-</div>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_PATTERN_HOURLY">PATTERN_HOURLY</dt>
-                <dd>
-                  <div class="source"><code>PATTERN_HOURLY = &#039;Y-m-d-H&#039;</code></div>
-                                      <div class="text">
-毎時ローテート。
-</div>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_PATTERN_MONTHLY">PATTERN_MONTHLY</dt>
-                <dd>
-                  <div class="source"><code>PATTERN_MONTHLY = &#039;Y-m&#039;</code></div>
-                                      <div class="text">
-月次ローテート。
-</div>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_PATTERN_WEEKLY">PATTERN_WEEKLY</dt>
-                <dd>
-                  <div class="source"><code>PATTERN_WEEKLY = &#039;Y-W&#039;</code></div>
-                                      <div class="text">
-週次ローテート。
-</div>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                            </dl>
             
-                        <h3>Property details</h3>
-              <dl>
-                                                                                                            <dt id="property__generation">$_generation</dt>
-                  <dd>
-                    <div class="source"><code>protected mixed $_generation = parent::GENERATION_UNLIMITED</code></div>
-                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
-                                                              <ul class="note">
-                        <li>
-                          Overrides:
-                          <div class="text"><a href="../logger.rotator.policy/delta___log_rotate_policy.html#property__generation">Delta_LogRotatePolicy::$_generation</a></div>
-                        </li>
-                      </ul>
-                                        <p class="right"><a href="#properties">To properties</a></p>
-                  </dd>
-                                            </dl>
             
                         <h3>Method details</h3>
               <dl>
-                                                                                                                                                                                              <dt id="method_getDatePattern">getDatePattern()</dt>
+                                                                                        <dt id="method_commit">commit()</dt>
                     <dd>
-                      <div class="source"><code>public string getDatePattern()</code></div>
-                                              <div class="text">
-ファイル名に付加する日付のフォーマットを取得します。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>string</td>
-                              <td>
-                                                                  <div class="text">
-ファイル名に付加する日付のフォーマットを返します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_getExecutorClassName">getExecutorClassName()</dt>
-                    <dd>
-                      <div class="source"><code>public void getExecutorClassName()</code></div>
+                      <div class="source"><code>public void commit()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
-                                                      <li>
-                              Overrides:
-                              <div class="text"><a href="../logger.rotator.policy/delta___log_rotate_policy.html#method_getExecutorClassName">Delta_LogRotatePolicy::getExecutorClassName()</a></div>
-                            </li>
                                                                                                                                                                                 <li>See: <div class="text">
-<a href="../logger.rotator.policy/delta___log_rotate_policy.html#method_getExecutorClassName">Delta_LogRotatePolicy::getExecutorClassName()</a>
+<a href="../database/delta___database_connection.html#method_commit">Delta_DatabaseConnection::commit()</a>
 </div>
 </li>
                                                                                                                                                                                                                                                 <li>Author: <div class="text">
@@ -960,17 +759,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                                                                <dt id="method_getWritePath">getWritePath()</dt>
+                                                                                                                                                                                                                <dt id="method_isActiveTransaction">isActiveTransaction()</dt>
                     <dd>
-                      <div class="source"><code>public void getWritePath()</code></div>
+                      <div class="source"><code>public void isActiveTransaction()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
-                                                      <li>
-                              Overrides:
-                              <div class="text"><a href="../logger.rotator.policy/delta___log_rotate_policy.html#method_getWritePath">Delta_LogRotatePolicy::getWritePath()</a></div>
-                            </li>
                                                                                                                                                                                 <li>See: <div class="text">
-<a href="../logger.rotator.policy/delta___log_rotate_policy.html#method_getWritePath">Delta_LogRotatePolicy::getWritePath()</a>
+<a href="../database/delta___database_connection.html#method_isActiveTransaction">Delta_DatabaseConnection::isActiveTransaction()</a>
 </div>
 </li>
                                                                                                                                                                                                                                                 <li>Author: <div class="text">
@@ -980,14 +775,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_setDatePattern">setDatePattern()</dt>
+                                                                        <dt id="method_notify">notify()</dt>
                     <dd>
-                      <div class="source"><code>public void setDatePattern($datePattern)</code></div>
+                      <div class="source"><code>public void notify($connection, $query)</code></div>
                                               <div class="text">
-ファイル名に付加する日付のフォーマットを設定します。
-Delta_LogRotateDateBasedPolicy::PATTERN_* 定数を指定、または <a href="http://www.php.net/function.date.php">date()</a> が識別可能なフォーマットを指定することができます。
-例えばファイル名が &#039;error&#039;、フォーマットが Delta_LogRotateDateBasedPolicy::PATTERN_DAILY の場合、出力対象のファイル名は &#039;error.1980-08-06&#039; となります。
-フォーマットが未指定の場合は日次ローテートが有効になります。
+トランザクションコントローラに実行クエリを通知します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1001,11 +793,20 @@ Delta_LogRotateDateBasedPolicy::PATTERN_* 定数を指定、または <a href="h
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$datePattern</td>
+                              <td>$connection</td>
+                              <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
+                              <td>
+                                                                  <div class="text">
+コネクションオブジェクト。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$query</td>
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-日付のフォーマット。
+実行クエリ。
 </div>
                                                               </td>
                             </tr>
@@ -1018,7 +819,23 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                  </dl>
+                                                                        <dt id="method_rollback">rollback()</dt>
+                    <dd>
+                      <div class="source"><code>public void rollback()</code></div>
+                                              <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>See: <div class="text">
+Delta_DatabaseConnection::rollback()
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                </dl>
                       </article>
         </div>
         <!-- /threequarter -->

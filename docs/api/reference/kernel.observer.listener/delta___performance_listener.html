@@ -130,6 +130,7 @@
                       <li><a href="../database/delta___database_manager.html" title="Delta_DatabaseManager">Delta_DatabaseManager</a></li>
                       <li><a href="../database/delta___database_result_set.html" title="Delta_DatabaseResultSet">Delta_DatabaseResultSet</a></li>
                       <li><a href="../database/delta___database_statement.html" title="Delta_DatabaseStatement">Delta_DatabaseStatement</a></li>
+                      <li><a href="../database/delta___database_transaction_controller.html" title="Delta_DatabaseTransactionController">Delta_Databa...nController</a></li>
                       <li><a href="../database/delta___record_object.html" title="Delta_RecordObject">Delta_RecordObject</a></li>
                   </ul>
       </li>
@@ -297,6 +298,7 @@
         <ul style="display: none;">
                       <li><a href="../kernel.observer.listener/delta___application_event_listener.html" title="Delta_ApplicationEventListener">Delta_Applic...entListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___console_application_event_listener.html" title="Delta_ConsoleApplicationEventListener">Delta_Consol...entListener</a></li>
+                      <li><a href="../kernel.observer.listener/delta___database_transaction_listener.html" title="Delta_DatabaseTransactionListener">Delta_Databa...ionListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___performance_listener.html" title="Delta_PerformanceListener">Delta_PerformanceListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___web_application_event_listener.html" title="Delta_WebApplicationEventListener">Delta_WebApp...entListener</a></li>
                   </ul>
@@ -670,6 +672,13 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_getBootMode">getBootMode()</a>                                                  </td>
+                        <td>
+                                                  </td>
+                        <td><a href="../kernel.observer.listener/delta___web_application_event_listener.html">Delta_WebApplicationEventListener</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_getListenEvents">getListenEvents()</a>                                                  </td>
                         <td>
                                                   </td>
@@ -707,11 +716,8 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_postCreateInstance">postCreateInstance()</a>                                                  </td>
+                                                      <a href="#method_postProcess">postProcess()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
-コンストラクタ。
-</div>
                                                   </td>
                         <td><a href="../kernel.observer.listener/delta___performance_listener.html">Delta_PerformanceListener</a></td>
                       </tr>
@@ -737,10 +743,20 @@ URI からルートが確定したタイミング (アクションのインス�
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_preShutdown">preShutdown()</a>                                                  </td>
+                                                      <a href="#method_preProcess">preProcess()</a>                                                  </td>
                         <td>
                                                   </td>
                         <td><a href="../kernel.observer.listener/delta___performance_listener.html">Delta_PerformanceListener</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="../kernel.observer.listener/delta___application_event_listener.html#method_preShutdown">preShutdown()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+プログラムがシャットダウンする直前 ({@link postProcess() よりも後) に起動します。
+</div>
+                                                  </td>
+                        <td><a href="../kernel.observer.listener/delta___application_event_listener.html">Delta_ApplicationEventListener</a></td>
                       </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
@@ -749,7 +765,27 @@ URI からルートが確定したタイミング (アクションのインス�
             
                         <h3>Method details</h3>
               <dl>
-                                                                                                                          <dt id="method_getListenEvents">getListenEvents()</dt>
+                                                                                                                          <dt id="method_getBootMode">getBootMode()</dt>
+                    <dd>
+                      <div class="source"><code>public void getBootMode()</code></div>
+                                              <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
+                                                                                          <ul class="note">
+                                                      <li>
+                              Overrides:
+                              <div class="text"><a href="../kernel.observer.listener/delta___web_application_event_listener.html#method_getBootMode">Delta_WebApplicationEventListener::getBootMode()</a></div>
+                            </li>
+                                                                                                                                                                                <li>See: <div class="text">
+<a href="../kernel.observer.listener/delta___application_event_listener.html#method_getBootMode">Delta_ApplicationEventListener::getBootMode()</a>
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_getListenEvents">getListenEvents()</dt>
                     <dd>
                       <div class="source"><code>public void getListenEvents()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
@@ -769,35 +805,17 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                              <dt id="method_postCreateInstance">postCreateInstance()</dt>
+                                                                                                                                                                              <dt id="method_postProcess">postProcess()</dt>
                     <dd>
-                      <div class="source"><code>public void postCreateInstance()</code></div>
-                                              <div class="text">
-コンストラクタ。
-</div>
-                                                                                          <ul class="note">
-                                                      <li>
-                              Overrides:
-                              <div class="text"><a href="../kernel.observer.listener/delta___performance_listener.html#method_postCreateInstance">Delta_PerformanceListener::postCreateInstance()</a></div>
-                            </li>
-                                                                                                                                                                                <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                            <dt id="method_preShutdown">preShutdown()</dt>
-                    <dd>
-                      <div class="source"><code>public void preShutdown()</code></div>
+                      <div class="source"><code>public void postProcess()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
                                                       <li>
                               Overrides:
-                              <div class="text"><a href="../kernel.observer.listener/delta___performance_listener.html#method_preShutdown">Delta_PerformanceListener::preShutdown()</a></div>
+                              <div class="text"><a href="../kernel.observer.listener/delta___performance_listener.html#method_postProcess">Delta_PerformanceListener::postProcess()</a></div>
                             </li>
                                                                                                                                                                                 <li>See: <div class="text">
-Delta_KernelEventObserver::terminate()
+Delta_KernelEventObserver::postProcess()
 </div>
 </li>
                                                                                                                                                                                                                                                 <li>Author: <div class="text">
@@ -807,7 +825,23 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                </dl>
+                                                                                                                                            <dt id="method_preProcess">preProcess()</dt>
+                    <dd>
+                      <div class="source"><code>public void preProcess()</code></div>
+                                              <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
+                                                                                          <ul class="note">
+                                                      <li>
+                              Overrides:
+                              <div class="text"><a href="../kernel.observer.listener/delta___performance_listener.html#method_preProcess">Delta_PerformanceListener::preProcess()</a></div>
+                            </li>
+                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                  </dl>
                       </article>
         </div>
         <!-- /threequarter -->
@@ -816,7 +850,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 28 Apr 2013 03:33:54 +0900<br />
+  <p>This document was generated on Sun, 28 Apr 2013 22:22:53 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

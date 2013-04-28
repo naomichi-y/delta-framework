@@ -44,6 +44,12 @@ class Delta_DatabaseConnection extends Delta_Object
   private $_namespace;
 
   /**
+   * トランザクションコントローラ。
+   * @var Delta_DatabaseTransactionController
+   */
+  private $_transactionController;
+
+  /**
    * トランザクションが有効状態にあるかどうか。
    * @var bool
    */
@@ -63,6 +69,46 @@ class Delta_DatabaseConnection extends Delta_Object
   {
     $this->_adapter = new PDO($dsn, $user, $password, $options);
     $this->_dsn = $dsn;
+  }
+
+  /**
+   * トランザクションコントローラを設定します。
+   *
+   * @param Delta_DatabaseTransactionController トランザクションコントローラ。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function setTransactionController(Delta_DatabaseTransactionController $transactionController)
+  {
+    $this->_transactionController = $transactionController;
+  }
+
+  /**
+   * トランザクションコントローラを取得します。
+   *
+   * @return Delta_DatabaseTransactionController トランザクションコントローラを返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getTransactionController()
+  {
+    return $this->_transactionController;
+  }
+
+  /**
+   * トランザクションコントローラが有効な状態にあるかどうかチェックします。
+   *
+   * @return bool トランザクションコントローラが有効な場合は TRUE、無効な場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function isActiveTransactionController()
+  {
+    if ($this->_transactionController === NULL) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
   /**

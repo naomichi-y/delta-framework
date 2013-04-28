@@ -130,6 +130,7 @@
                       <li><a href="reference/database/delta___database_manager.html" title="Delta_DatabaseManager">Delta_DatabaseManager</a></li>
                       <li><a href="reference/database/delta___database_result_set.html" title="Delta_DatabaseResultSet">Delta_DatabaseResultSet</a></li>
                       <li><a href="reference/database/delta___database_statement.html" title="Delta_DatabaseStatement">Delta_DatabaseStatement</a></li>
+                      <li><a href="reference/database/delta___database_transaction_controller.html" title="Delta_DatabaseTransactionController">Delta_Databa...nController</a></li>
                       <li><a href="reference/database/delta___record_object.html" title="Delta_RecordObject">Delta_RecordObject</a></li>
                   </ul>
       </li>
@@ -297,6 +298,7 @@
         <ul style="display: none;">
                       <li><a href="reference/kernel.observer.listener/delta___application_event_listener.html" title="Delta_ApplicationEventListener">Delta_Applic...entListener</a></li>
                       <li><a href="reference/kernel.observer.listener/delta___console_application_event_listener.html" title="Delta_ConsoleApplicationEventListener">Delta_Consol...entListener</a></li>
+                      <li><a href="reference/kernel.observer.listener/delta___database_transaction_listener.html" title="Delta_DatabaseTransactionListener">Delta_Databa...ionListener</a></li>
                       <li><a href="reference/kernel.observer.listener/delta___performance_listener.html" title="Delta_PerformanceListener">Delta_PerformanceListener</a></li>
                       <li><a href="reference/kernel.observer.listener/delta___web_application_event_listener.html" title="Delta_WebApplicationEventListener">Delta_WebApp...entListener</a></li>
                   </ul>
@@ -915,7 +917,7 @@ HTTP 認証を行うための抽象クラスです。
                                       </td>
                 </tr>
                                                               <tr>
-                  <td rowspan="6" id="package_database">database</td>
+                  <td rowspan="7" id="package_database">database</td>
                   <td><a href="reference/database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
                   <td>
                                         <div class="text">
@@ -952,6 +954,14 @@ HTTP 認証を行うための抽象クラスです。
                   <td>
                                         <div class="text">
 データベースステートメントを実行するクラスです。
+</div>
+                                      </td>
+                </tr>
+                                <tr>
+                  <td><a href="reference/database/delta___database_transaction_controller.html">Delta_DatabaseTransactionController</a></td>
+                  <td>
+                                        <div class="text">
+データベーストランザクションを管理します。
 </div>
                                       </td>
                 </tr>
@@ -1382,11 +1392,11 @@ PHP で発生するエラーを <a href="http://www.php.net/class.errorexception
                                       </td>
                 </tr>
                                                                               <tr>
-                  <td rowspan="4" id="package_kernel.observer.listener">kernel.observer.listener</td>
+                  <td rowspan="5" id="package_kernel.observer.listener">kernel.observer.listener</td>
                   <td><a href="reference/kernel.observer.listener/delta___application_event_listener.html">Delta_ApplicationEventListener</a></td>
                   <td>
                                         <div class="text">
-イベントリスナの抽象クラスです。
+イベントリスナのための抽象クラスです。
 </div>
                                       </td>
                 </tr>
@@ -1395,6 +1405,14 @@ PHP で発生するエラーを <a href="http://www.php.net/class.errorexception
                   <td>
                                         <div class="text">
 コンソールアプリケーションのためのイベントリスナです。
+</div>
+                                      </td>
+                </tr>
+                                <tr>
+                  <td><a href="reference/kernel.observer.listener/delta___database_transaction_listener.html">Delta_DatabaseTransactionListener</a></td>
+                  <td>
+                                        <div class="text">
+<a href="reference/kernel.observer.listener/delta___database_transaction_listener.html">データベーストランザクション</a> を制御するリスナです。
 </div>
                                       </td>
                 </tr>
@@ -2369,7 +2387,7 @@ Twig 描画クラスです。
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 28 Apr 2013 03:33:53 +0900<br />
+  <p>This document was generated on Sun, 28 Apr 2013 22:22:52 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

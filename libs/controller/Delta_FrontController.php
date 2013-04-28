@@ -94,6 +94,8 @@ class Delta_FrontController extends Delta_Object
         $response->flush();
       }
 
+      $observer->dispatchEvent('postProcess');
+
     } else {
       $message = sprintf('Request path was not found. [%s]', $request->getURI());
       throw new Delta_RequestException($message);

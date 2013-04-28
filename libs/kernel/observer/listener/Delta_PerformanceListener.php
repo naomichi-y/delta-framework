@@ -35,7 +35,7 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
    */
   public function getListenEvents()
   {
-    return array('postCreateInstance', 'preShutdown');
+    return array('preProcess', 'postProcess');
   }
 
   /**
@@ -48,11 +48,10 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
   }
 
   /**
-   * コンストラクタ。
-   *
+   * @param Delta_KernelEventObserver::preProcess()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function postCreateInstance()
+  public function preProcess()
   {
     $container = Delta_DIContainerFactory::getContainer();
 
@@ -64,10 +63,10 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
   }
 
   /**
-   * @see Delta_KernelEventObserver::terminate()
+   * @see Delta_KernelEventObserver::postProcess()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function preShutdown()
+  public function postProcess()
   {
     if ($this->_profiler) {
       $endTime = microtime(TRUE);

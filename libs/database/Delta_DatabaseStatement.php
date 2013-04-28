@@ -73,6 +73,12 @@ class Delta_DatabaseStatement extends Delta_Object
   private $_query;
 
   /**
+   * トランザクションコントローラ。
+   * @var Delta_DatabaseTransactionController
+   */
+  private $_transactionController;
+
+  /**
    * フェッチタイプ。
    * @var int
    */
@@ -113,6 +119,7 @@ class Delta_DatabaseStatement extends Delta_Object
   {
     $this->_connection = $connection;
     $this->_query = $query;
+    $this->_transactionController = $connection->getTransactionController();
   }
 
   /**
@@ -270,6 +277,11 @@ class Delta_DatabaseStatement extends Delta_Object
    */
   private function executeStatement(array $bindValues, $returnAffectedCount)
   {
+    // トランザクションコントローラへの通知
+    if ($this->_transactionController) {
+      $this->_transactionController->notify($this->_connection, $this->_query);
+    }
+
     // ステートメントにバインド変数が設定されているかチェック
     $hasBindVariables = FALSE;
 

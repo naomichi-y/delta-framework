@@ -75,6 +75,12 @@ class Delta_DatabaseManager extends Delta_Object
   protected $_connectionClassName = 'Delta_DatabaseConnection';
 
   /**
+   * トランザクションコントローラ。
+   * @var Delta_DatabaseTransactionController
+   */
+  private $_transactionController;
+
+  /**
    * 接続オプション。
    */
   private $_connectionOptions = array();
@@ -83,7 +89,7 @@ class Delta_DatabaseManager extends Delta_Object
    * コネクションプール。
    * @var array
    */
-  private $_connectionPool = array();
+  private $_connections = array();
 
   /**
    * 接続再試行回数。
@@ -102,6 +108,30 @@ class Delta_DatabaseManager extends Delta_Object
    * @var bool
    */
   private $_isActiveProfiler = FALSE;
+
+  /**
+   * トランザクションコントローラを設定します。
+   *
+   * @param Delta_DatabaseTransactionController トランザクションコントローラ。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function setTransactionController(Delta_DatabaseTransactionController $transactionController)
+  {
+    $this->_transactionController = $transactionController;
+  }
+
+  /**
+   * データベースマネージャが管理している全てのコネクションを取得します。
+   *
+   * @return array {@link Delta_DatabaseConnection コネクション} のリストを返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getConnections()
+  {
+    return $this->_connections;
+  }
 
   /**
    * application.yml に定義されたデータベース接続情報を取得します。
@@ -153,7 +183,7 @@ class Delta_DatabaseManager extends Delta_Object
    */
   public function getConnection($namespace = self::CONNECT_DEFAULT_NAMESPACE)
   {
-    if (empty($this->_connectionPool[$namespace]) || !$this->_connectionPool[$namespace]->isActive()) {
+    if (empty($this->_connections[$namespace]) || !$this->_connectionPool[$namespace]->isActive()) {
       $key = sprintf('database.%s', $namespace);
       $databaseConfig = Delta_Config::getApplication()->get($key);
 
@@ -189,10 +219,10 @@ class Delta_DatabaseManager extends Delta_Object
       $connection = $this->createAdapter($dsn, $user, $password, $optionsArray);
       $connection->setNamespace($namespace);
 
-      $this->_connectionPool[$namespace] = $connection;
+      $this->_connections[$namespace] = $connection;
     }
 
-    return $this->_connectionPool[$namespace];
+    return $this->_connections[$namespace];
   }
 
   /**
@@ -214,14 +244,14 @@ class Delta_DatabaseManager extends Delta_Object
   {
     $namespace = serialize(sprintf('_%s%s', $dsn, $user));
 
-    if (empty($this->_connectionPool[$namespace]) || !$this->_connectionPool[$namespace]->isActive()) {
+    if (empty($this->_connections[$namespace]) || !$this->_connectionPool[$namespace]->isActive()) {
       $connection = $this->createAdapter($dsn, $user, $password, $options);
       $connection->setNamespace($namespace);
 
-      $this->_connectionPool[$namespace] = $connection;
+      $this->_connections[$namespace] = $connection;
     }
 
-    return $this->_connectionPool[$namespace];
+    return $this->_connections[$namespace];
   }
 
   /**
@@ -251,6 +281,11 @@ class Delta_DatabaseManager extends Delta_Object
     while (TRUE) {
       try {
         $connection = new $this->_connectionClassName($dsn, $user, $password, $options);
+
+        if ($this->_transactionController) {
+          $connection->setTransactionController($this->_transactionController);
+        }
+
         break;
 
       } catch (PDOException $e) {
@@ -327,12 +362,12 @@ class Delta_DatabaseManager extends Delta_Object
    */
   public function closeAll()
   {
-    foreach ($this->_connectionPool as $namespace => $connection) {
+    foreach ($this->_connections as $namespace => $connection) {
       if ($connection->isActive()) {
         $connection->close();
       }
 
-      unset($this->_connectionPool[$namespace]);
+      unset($this->_connections[$namespace]);
     }
   }
 }

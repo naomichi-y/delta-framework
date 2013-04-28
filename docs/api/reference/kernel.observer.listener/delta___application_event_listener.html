@@ -130,6 +130,7 @@
                       <li><a href="../database/delta___database_manager.html" title="Delta_DatabaseManager">Delta_DatabaseManager</a></li>
                       <li><a href="../database/delta___database_result_set.html" title="Delta_DatabaseResultSet">Delta_DatabaseResultSet</a></li>
                       <li><a href="../database/delta___database_statement.html" title="Delta_DatabaseStatement">Delta_DatabaseStatement</a></li>
+                      <li><a href="../database/delta___database_transaction_controller.html" title="Delta_DatabaseTransactionController">Delta_Databa...nController</a></li>
                       <li><a href="../database/delta___record_object.html" title="Delta_RecordObject">Delta_RecordObject</a></li>
                   </ul>
       </li>
@@ -297,6 +298,7 @@
         <ul style="display: none;">
                       <li><a href="../kernel.observer.listener/delta___application_event_listener.html" title="Delta_ApplicationEventListener">Delta_Applic...entListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___console_application_event_listener.html" title="Delta_ConsoleApplicationEventListener">Delta_Consol...entListener</a></li>
+                      <li><a href="../kernel.observer.listener/delta___database_transaction_listener.html" title="Delta_DatabaseTransactionListener">Delta_Databa...ionListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___performance_listener.html" title="Delta_PerformanceListener">Delta_PerformanceListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___web_application_event_listener.html" title="Delta_WebApplicationEventListener">Delta_WebApp...entListener</a></li>
                   </ul>
@@ -585,14 +587,14 @@
 
             <h3 id="description">Description</h3>
                           <div class="text">
-イベントリスナの抽象クラスです。
-カスタムイベントリスナを作成する場合は、<a href="../kernel.observer.listener/delta___web_application_event_listener.html">Delta_WebApplicationEventListener</a>、または <a href="../kernel.observer.listener/delta___console_application_event_listener.html">Delta_ConsoleApplicationEventListener</a> を継承する必要があります。
+イベントリスナのための抽象クラスです。
+Web アプリケーション用カスタムイベントリスナを作成する場合は、<a href="../kernel.observer.listener/delta___web_application_event_listener.html">Delta_WebApplicationEventListener</a>、コンソールアプリケーション用カスタムイベントリスナを作成する場合は <a href="../kernel.observer.listener/delta___console_application_event_listener.html">Delta_ConsoleApplicationEventListener</a> を継承すると良いでしょう。
 <div class="source"><code>class CustomEventListener extends Delta_WebApplicationEventListener
 {
-  // &#039;postCreateInstance&#039; イベントを <a href="../kernel.observer/delta___kernel_event_observer.html">オブザーバ</a> に通知
+  // &#039;preProcess&#039; イベントを <a href="../kernel.observer/delta___kernel_event_observer.html">オブザーバ</a> に通知
   public function <a href="../kernel.observer.listener/delta___application_event_listener.html#method_getListenEvents">getListenEvents</a>()
   {
-    return array(&#039;postCreateInstance&#039;);
+    return array(&#039;preProcess&#039;);
   }
 }
 </code></div>
@@ -631,7 +633,7 @@ kernel.observer.listener
                                           <tr>
                 <th class="left">Subclasses</th>
                 <td>
-                  <a href="../kernel.observer.listener/delta___console_application_event_listener.html">Delta_ConsoleApplicationEventListener</a>, <a href="../kernel.observer.listener/delta___web_application_event_listener.html">Delta_WebApplicationEventListener</a>                </td>
+                  <a href="../kernel.observer.listener/delta___console_application_event_listener.html">Delta_ConsoleApplicationEventListener</a>, <a href="../kernel.observer.listener/delta___database_transaction_listener.html">Delta_DatabaseTransactionListener</a>, <a href="../kernel.observer.listener/delta___web_application_event_listener.html">Delta_WebApplicationEventListener</a>                </td>
               </tr>
                             <tr>
                 <th class="left">Source file</th>
@@ -683,6 +685,16 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_getBootMode">getBootMode()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+リスナの実行を許可する起動モードを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../kernel.observer.listener/delta___application_event_listener.html">Delta_ApplicationEventListener</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_getListenEvents">getListenEvents()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -723,7 +735,17 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_postCreateInstance">postCreateInstance()</a>                                                  </td>
+                                                      <a href="#method_postProcess">postProcess()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+フレームワークの処理が正常に終了する時点で起動します。
+</div>
+                                                  </td>
+                        <td><a href="../kernel.observer.listener/delta___application_event_listener.html">Delta_ApplicationEventListener</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_preProcess">preProcess()</a>                                                  </td>
                         <td>
                                                       <div class="text">
 イベントリスナのインスタンスが生成された直後に (アプリケーションが <a href="../kernel.loader/delta___boot_loader.html">ブートローダ</a> によって初期化されるタイミングで) 起動します。
@@ -736,7 +758,7 @@ Delta_AppPathManager のインスタンスを取得します。
                                                       <a href="#method_preShutdown">preShutdown()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-フレームワークの処理が完了する直前に起動します。
+プログラムがシャットダウンする直前 ({@link postProcess() よりも後) に起動します。
 </div>
                                                   </td>
                         <td><a href="../kernel.observer.listener/delta___application_event_listener.html">Delta_ApplicationEventListener</a></td>
@@ -748,9 +770,39 @@ Delta_AppPathManager のインスタンスを取得します。
             
                         <h3>Method details</h3>
               <dl>
-                                                                                                                          <dt id="method_getListenEvents">getListenEvents()</dt>
+                                                                                                                          <dt id="method_getBootMode">getBootMode()</dt>
                     <dd>
-                      <div class="source"><code>public array getListenEvents()</code></div>
+                      <div class="source"><code>abstract public array getBootMode()</code></div>
+                                              <div class="text">
+リスナの実行を許可する起動モードを取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                        <tr>
+                              <td>{return}</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+起動モード定数 (<a href="../kernel.loader/delta___boot_loader.html#constant_BOOT_MODE_WEB">Delta_BootLoader::BOOT_MODE_WEB</a>、あるいは Delta_BootLoader::BOOT_MODE_CONSOLE) を返します。
+  Web とコンソール両方を許可する場合は、Delta_BootLoader::BOOT_MODE_WEB|Delta_BootLoader::BOOT_MODE_CONSOLE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                          </table>
+                                                                  <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_getListenEvents">getListenEvents()</dt>
+                    <dd>
+                      <div class="source"><code>abstract public array getListenEvents()</code></div>
                                               <div class="text">
 <a href="../kernel.observer/delta___kernel_event_observer.html">オブザーバ</a> に通知するイベントリストを取得します。
 例えば &#039;Delta_KernelEventObserver::preOutput()&#039;) をイベントとしてオブザーバに追加したい場合は、array(&#039;preOutput&#039;) を返すようにします。
@@ -784,9 +836,23 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                              <dt id="method_postCreateInstance">postCreateInstance()</dt>
+                                                                                                                                                                              <dt id="method_postProcess">postProcess()</dt>
                     <dd>
-                      <div class="source"><code>public void postCreateInstance()</code></div>
+                      <div class="source"><code>public void postProcess()</code></div>
+                                              <div class="text">
+フレームワークの処理が正常に終了する時点で起動します。
+</div>
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_preProcess">preProcess()</dt>
+                    <dd>
+                      <div class="source"><code>public void preProcess()</code></div>
                                               <div class="text">
 イベントリスナのインスタンスが生成された直後に (アプリケーションが <a href="../kernel.loader/delta___boot_loader.html">ブートローダ</a> によって初期化されるタイミングで) 起動します。
 </div>
@@ -802,8 +868,8 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public void preShutdown()</code></div>
                                               <div class="text">
-フレームワークの処理が完了する直前に起動します。
-このメソッドはプログラム内で <a href="http://php.net/manual/function.exit.php">exit</a> を宣言した場合も実行される点に注意して下さい。
+プログラムがシャットダウンする直前 (<a href="../kernel.observer.listener/delta___application_event_listener.html#method_postProcess">よりも後) に起動します。
+プログラム内で {@link http://php.net/manual/function.exit.php exit</a> を宣言した場合も実行される点に注意して下さい。
 </div>
                                                                                           <ul class="note">
                                                                                                                                                                                 <li>Author: <div class="text">
@@ -822,7 +888,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 28 Apr 2013 03:33:54 +0900<br />
+  <p>This document was generated on Sun, 28 Apr 2013 22:22:53 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

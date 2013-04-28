@@ -130,6 +130,7 @@
                       <li><a href="../database/delta___database_manager.html" title="Delta_DatabaseManager">Delta_DatabaseManager</a></li>
                       <li><a href="../database/delta___database_result_set.html" title="Delta_DatabaseResultSet">Delta_DatabaseResultSet</a></li>
                       <li><a href="../database/delta___database_statement.html" title="Delta_DatabaseStatement">Delta_DatabaseStatement</a></li>
+                      <li><a href="../database/delta___database_transaction_controller.html" title="Delta_DatabaseTransactionController">Delta_Databa...nController</a></li>
                       <li><a href="../database/delta___record_object.html" title="Delta_RecordObject">Delta_RecordObject</a></li>
                   </ul>
       </li>
@@ -297,6 +298,7 @@
         <ul style="display: none;">
                       <li><a href="../kernel.observer.listener/delta___application_event_listener.html" title="Delta_ApplicationEventListener">Delta_Applic...entListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___console_application_event_listener.html" title="Delta_ConsoleApplicationEventListener">Delta_Consol...entListener</a></li>
+                      <li><a href="../kernel.observer.listener/delta___database_transaction_listener.html" title="Delta_DatabaseTransactionListener">Delta_Databa...ionListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___performance_listener.html" title="Delta_PerformanceListener">Delta_PerformanceListener</a></li>
                       <li><a href="../kernel.observer.listener/delta___web_application_event_listener.html" title="Delta_WebApplicationEventListener">Delta_WebApp...entListener</a></li>
                   </ul>
@@ -657,7 +659,7 @@ database
                                                       </td>
                           <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
                         </tr>
-                                                            </table>
+                                                                                                      </table>
                                             <p class="right"><a href="#top">To top</a></p>
             
             <h3 id="methods">Methods</h3>
@@ -835,6 +837,16 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_getTransactionController">getTransactionController()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+トランザクションコントローラを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_isActive">isActive()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -849,6 +861,16 @@ Delta_AppPathManager のインスタンスを取得します。
                         <td>
                                                       <div class="text">
 トランザクションが開始されているかチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_isActiveTransactionController">isActiveTransactionController()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+トランザクションコントローラが有効な状態にあるかどうかチェックします。
 </div>
                                                   </td>
                         <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
@@ -903,6 +925,16 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
                       </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_setTransactionController">setTransactionController()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+トランザクションコントローラを設定します。
+</div>
+                                                  </td>
+                        <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
+                      </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
@@ -917,7 +949,7 @@ Delta_AppPathManager のインスタンスを取得します。
 </div>
                                                             <p class="right"><a href="#properties">To properties</a></p>
                   </dd>
-                                            </dl>
+                                                                          </dl>
             
                         <h3>Method details</h3>
               <dl>
@@ -1348,7 +1380,46 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                              <dt id="method_isActive">isActive()</dt>
+                                                                                                                                                                              <dt id="method_getTransactionController">getTransactionController()</dt>
+                    <dd>
+                      <div class="source"><code>public Delta_DatabaseTransactionController getTransactionController()</code></div>
+                                              <div class="text">
+トランザクションコントローラを取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td><a href="../database/delta___database_transaction_controller.html">Delta_DatabaseTransactionController</a></td>
+                              <td>
+                                                                  <div class="text">
+トランザクションコントローラを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_isActive">isActive()</dt>
                     <dd>
                       <div class="source"><code>public bool isActive()</code></div>
                                               <div class="text">
@@ -1414,6 +1485,45 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                             </table>
                                                                     <ul class="note">
                                                                                                                                                                                                                                       <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_isActiveTransactionController">isActiveTransactionController()</dt>
+                    <dd>
+                      <div class="source"><code>public bool isActiveTransactionController()</code></div>
+                                              <div class="text">
+トランザクションコントローラが有効な状態にあるかどうかチェックします。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+トランザクションコントローラが有効な場合は TRUE、無効な場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
@@ -1627,6 +1737,24 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_setTransactionController">setTransactionController()</dt>
+                    <dd>
+                      <div class="source"><code>public void setTransactionController(Delta_DatabaseTransactionController $transactionController)</code></div>
+                                              <div class="text">
+トランザクションコントローラを設定します。
+</div>
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                 </dl>
                       </article>
         </div>
@@ -1636,7 +1764,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 28 Apr 2013 03:33:53 +0900<br />
+  <p>This document was generated on Sun, 28 Apr 2013 22:22:53 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

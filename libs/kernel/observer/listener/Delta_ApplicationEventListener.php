@@ -14,10 +14,10 @@
  * <code>
  * class CustomEventListener extends Delta_WebApplicationEventListener
  * {
- *   // 'postCreateInstance' イベントを {@link Delta_KernelEventObserver オブザーバ} に通知
+ *   // 'preProcess' イベントを {@link Delta_KernelEventObserver オブザーバ} に通知
  *   public function {@link getListenEvents}()
  *   {
- *     return array('postCreateInstance');
+ *     return array('preProcess');
  *   }
  * }
  * </code>
@@ -51,12 +51,20 @@ abstract class Delta_ApplicationEventListener extends Delta_Object
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function postCreateInstance()
+  public function preProcess()
   {}
 
   /**
-   * フレームワークの処理が完了する直前に起動します。
-   * このメソッドはプログラム内で {@link http://php.net/manual/function.exit.php exit} を宣言した場合も実行される点に注意して下さい。
+   * フレームワークの処理が正常に終了する時点で起動します。
+   *
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function postProcess()
+  {}
+
+  /**
+   * プログラムがシャットダウンする直前 ({@link postProcess() よりも後) に起動します。
+   * プログラム内で {@link http://php.net/manual/function.exit.php exit} を宣言した場合も実行される点に注意して下さい。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

@@ -88,7 +88,7 @@ class Delta_KernelEventObserver extends Delta_Object
 
     if ($arrowBootMode & $currentBootMode) {
       $this->_listeners[$listenerId] = $instance;
-      $this->dispatchEvent('postCreateInstance');
+      $this->dispatchEvent('preProcess');
 
       $result = TRUE;
     }
