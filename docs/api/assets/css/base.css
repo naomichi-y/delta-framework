@@ -68,9 +68,18 @@ h3 {
   font-size: 1.2em;
 }
 
+blockquote p {
+  font-style: normal;
+}
+
 dt {
   border-bottom: 1px solid #B2B2B2;
   padding: 0.4%;
+}
+
+th {
+  font-weight: bold;
+  text-align: center;
 }
 
 footer {
@@ -167,6 +176,16 @@ footer p {
 
 /**
  * ****************************************************************
+ * カスタムクラス (api.delta-framework.org)
+ * ****************************************************************
+ */
+
+.text {
+  margin-bottom: 2%;
+}
+
+/**
+ * ****************************************************************
  * カスタムクラス (サンプルアプリケーション)
  * ****************************************************************
  */
@@ -232,10 +251,6 @@ footer p {
   font-size: 0.88em;
 }
 
-blockquote p {
-  font-style: normal;
-}
-
 table {
   width: 100%;
 }
@@ -244,9 +259,9 @@ th, td {
   border-bottom: 1px solid #C9C9C9;
 }
 
-th {
-  font-weight: bold;
-  text-align: center;
+
+dd {
+  margin: 1% 0 1% 0;
 }
 
 .source {
@@ -254,6 +269,7 @@ th {
 }
 
 .source code {
+  line-height: 150%;
   display: block;
   padding: 1%;
   white-space: pre-wrap;
@@ -261,20 +277,10 @@ th {
   overflow: auto;
 }
 
-dd {
-  margin: 1% 0 1% 0;
-}
-
-/**
- * ****************************************************************
- * カスタムCSS
- * ****************************************************************
- */
 .lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code {
+  line-height: 150%;
   padding: 1%;
   display: block;
-  line-height: 150%;
-  font-size: 0.9em;
 }
 
 .note_container {
