@@ -64,6 +64,13 @@ h2 a:link, h2 a:visited, h2 a:active {
   color: #555 !important;
 }
 
+h2 a:hover {
+  text-decoration: none;
+  color: #87b854 !important;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;;
+}
+
 h3 {
   font-size: 1.2em;
 }
@@ -164,6 +171,21 @@ footer p {
  * カスタムクラス (delta-framework.org)
  * ****************************************************************
  */
+
+.gallery dt {
+  border-bottom: none;
+}
+
+.gallery-item {
+  float: left;
+  margin-top: 10px;
+  text-align: center;
+  width: 33%;
+}
+
+.gallery img {
+  border: 1px solid #ccc;
+}
 
 .meta {
   text-align: right;
@@ -294,8 +316,11 @@ span.error {
   background-color: #ccc !important;
 }
 
-.ui-tabs-nav, .ui-widget-content {
-  font-size: 0.96em !important;
+.ui-tabs-nav {
+}
+
+.ui-widget {
+  font-size: 0.86em !important;
 }
 
 /** 整理してない */
