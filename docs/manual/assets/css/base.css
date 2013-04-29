@@ -195,7 +195,8 @@ footer p {
 }
 
 #sidebar .info {
-  margin-bottom: 6%;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 #sidebar .info button {
