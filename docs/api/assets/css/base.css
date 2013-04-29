@@ -120,9 +120,9 @@ footer p {
  * ****************************************************************
  */
 .btn {
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
 }
 
 /**
@@ -197,6 +197,11 @@ footer p {
   margin-bottom: 6%;
 }
 
+.download button {
+  padding: 4% 16% 4% 16%;
+  line-height: 150%;
+}
+
 .description {
   font-size: 0.88em;
   color: #999;
@@ -252,8 +257,8 @@ footer p {
  * ****************************************************************
  */
 div.success, div.error {
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
   padding: 1%;
   margin-top: 2%;
   margin-bottom: 2%;
@@ -351,8 +356,8 @@ dd {
 
 .note_container {
   margin-bottom: 2%;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
 }
 .note_container ul, .note_container ol {
   margin: 1% 2% 1% 8%;
@@ -418,5 +423,3 @@ dd {
 .data_content p, .data_content form {
   margin: 0;
 }
-
-
