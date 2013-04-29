@@ -73,7 +73,11 @@ h2 a:hover {
 }
 
 h3 {
-  font-size: 1.2em;
+  font-size: 1em;
+}
+
+article {
+  margin-bottom: 6%;
 }
 
 dt {
