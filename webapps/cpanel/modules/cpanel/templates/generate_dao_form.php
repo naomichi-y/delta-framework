@@ -3,8 +3,6 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <title>DCP : DAO ジェネレータ</title>
     <?php echo $html->includeCSS('/assets/base/delta/css/base.css') ?>
     <?php echo $html->includeJS('/assets/base/jquery-ui-1.8.16.custom/js/jquery-1.6.2.min.js') ?>
