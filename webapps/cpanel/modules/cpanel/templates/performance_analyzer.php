@@ -3,8 +3,6 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <title>DCP : パフォーマンスアナライザ</title>
     <?php echo $html->includeCSS('/assets/base/jquery-ui-1.8.16.custom/css/smoothness/jquery-ui-1.8.16.custom.css') ?>
     <?php echo $html->includeCSS('/assets/base/tablesorter/style.css') ?>
