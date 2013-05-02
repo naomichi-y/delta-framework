@@ -57,6 +57,7 @@ class Delta_CheckBoxValidator extends Delta_Validator
     $size = sizeof($value);
     $message = NULL;
 
+    // 指定の数だけチェックが付いているか
     if ($holder->hasName('requiredMatch')) {
       if ($holder->getInt('requiredMatch') != $size) {
         $message = $holder->getString('requiredMatchError');
@@ -66,27 +67,35 @@ class Delta_CheckBoxValidator extends Delta_Validator
         }
       }
 
-    } else if ($holder->hasName('requiredMin')) {
-      if ($holder->getInt('requiredMin') > $size) {
-        $message = $holder->getString('requiredMinError');
-
-        if ($message === NULL) {
-          $message = sprintf('Check number does not satisfy. [%s]', $fieldName);
-        }
-      }
-
-    } else if ($holder->hasName('requiredMax')) {
-      if ($holder->getInt('requiredMax') < $size) {
-        $message = $holder->getString('requiredMaxError');
-
-        if ($message === NULL) {
-          $message = sprintf('Check number is beyond the upper limit. [%s]', $fieldName);
-        }
-      }
-
     } else {
-      $message = sprintf('\'requiredMatch\' or \'requiredMin\' or \'requiredMax\' validator attribute is undefined.');
-      throw new Delta_ConfigurationException($message);
+      $requiredMin = $holder->getInt('requiredMin');
+      $requiredMax = $holder->getInt('requiredMax');
+
+      // 最小チェック以上数を満たしているか
+      if ($requiredMin) {
+        if ($requiredMin > $size) {
+          $message = $holder->getString('requiredMinError');
+
+          if ($message === NULL) {
+            $message = sprintf('Check number does not satisfy. [%s]', $fieldName);
+          }
+        }
+      }
+
+      // 最大チェック数以下を満たしているか
+      if ($requiredMax) {
+        if ($requiredMax < $size) {
+          $message = $holder->getString('requiredMaxError');
+
+          if ($message === NULL) {
+            $message = sprintf('Check number is beyond the upper limit. [%s]', $fieldName);
+          }
+        }
+
+      } else {
+        $message = sprintf('\'requiredMatch\' or \'requiredMin\' or \'requiredMax\' validator attribute is undefined.');
+        throw new Delta_ConfigurationException($message);
+      }
     }
 
     if ($message) {
