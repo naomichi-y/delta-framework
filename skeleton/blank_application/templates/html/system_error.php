@@ -6,6 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>システムエラー</title>
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
   </head>
   <body>
     <header>

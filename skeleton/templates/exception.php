@@ -7,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
     <script type="text/javascript" src="/assets/base/require.js"></script>
     <script type="text/javascript" src="/assets/base/delta/js/code_inspector.js"></script>
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
   </head>
   <body>
     <header>

@@ -6,6 +6,9 @@
     <title><?php $isOutputDebug ? printf('%s: %s', $type, $message) : print($title); ?></title>
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/app_code_inspector.css" />
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
   </head>
   <body>
     <header>

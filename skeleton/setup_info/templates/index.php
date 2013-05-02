@@ -5,6 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>設定情報の確認</title>
     <?php echo $html->includeCSS('/assets/base/delta/css/base.css') ?>
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
   </head>
   <body>
     <header>
