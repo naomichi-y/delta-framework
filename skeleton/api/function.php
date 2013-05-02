@@ -10,6 +10,9 @@
     <script src="../../assets/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="../../assets/js/jquery.treeview.js" type="text/javascript"></script>
     <script src="../../assets/js/delta_api.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="../../assets/js/html5shiv.js"></script>
+    <![endif]-->
   </head>
   <body>
     <header>

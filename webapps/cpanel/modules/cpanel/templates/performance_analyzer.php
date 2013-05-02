@@ -13,6 +13,9 @@
     <?php echo $html->includeJS('/assets/base/jquery-ui-1.8.16.custom/development-bundle/external/jquery.cookie.js') ?>
     <?php echo $html->includeJS('/assets/base/tablesorter/jquery.tablesorter.min.js') ?>
     <?php echo $html->includeJS('/assets/base/delta/js/analyze.js') ?>
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
   </head>
 
   <body>

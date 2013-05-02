@@ -32,6 +32,9 @@
     });
     -->
     </script>
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
   </head>
   <body>
     <header>
