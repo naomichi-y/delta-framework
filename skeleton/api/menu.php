@@ -1,4 +1,4 @@
-<div id="sidetree">
+<nav>
   <div id="tree_header">
     <?php echo $html->link('Packages', $relativeIndexPath . 'index.html') ?> |
     <span id="tree_control">
@@ -20,4 +20,4 @@
       </li>
     <?php endforeach ?>
   </ul>
-</div>
+</nav>
