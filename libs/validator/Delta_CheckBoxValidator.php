@@ -91,8 +91,9 @@ class Delta_CheckBoxValidator extends Delta_Validator
             $message = sprintf('Check number is beyond the upper limit. [%s]', $fieldName);
           }
         }
+      }
 
-      } else {
+      if (!$requiredMin && !$requiredMax) {
         $message = sprintf('\'requiredMatch\' or \'requiredMin\' or \'requiredMax\' validator attribute is undefined.');
         throw new Delta_ConfigurationException($message);
       }
