@@ -76,13 +76,30 @@ h3 {
   font-size: 1em;
 }
 
+h3 a {
+  color: #555;
+}
+
+h3 a:hover {
+  color: #555;
+  text-decoration: none;
+}
+
 article {
   margin-bottom: 6%;
+}
+
+blockquote p {
+  font-style: normal;
 }
 
 dt {
   border-bottom: 1px solid #B2B2B2;
   padding: 0.4%;
+}
+
+dd {
+  margin: 1% 0 1% 0;
 }
 
 table {
@@ -247,6 +264,44 @@ footer p {
   line-height: 150%;
 }
 
+.note_container {
+  margin-bottom: 2%;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+}
+
+.note_container ul, .note_container ol {
+  margin: 1% 2% 1% 8%;
+}
+
+.note_hint {
+  color: #224444;
+  background-color: #ddeeee;
+  border: 1px solid #224444;
+}
+.note_info {
+  color: #3d5214;
+  background-color: #d6ebad;
+  border: 1px solid #3d5214;
+}
+.note_important {
+  color: #561010;
+  background-color: #f7d4d4;
+  border: 1px solid #561010;
+}
+
+.note_bar {
+  float: left;
+  width: 40px;
+  text-align: center;
+  padding: 6px;
+}
+
+.note_contents p {
+  padding: 1em;
+  margin: 0;
+}
+
 /**
  * ****************************************************************
  * カスタムクラス (api.delta-framework.org)
@@ -255,6 +310,40 @@ footer p {
 
 .collapsable li {
   word-wrap: break-word;
+}
+
+.source {
+  margin: 2% 0 2% 0;
+}
+
+.source code {
+  line-height: 150%;
+  display: block;
+  padding: 1%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (cpanel)
+ * ****************************************************************
+ */
+.tablesorter th, .tablesorter td {
+  font-size: 1.1em !important;
+}
+
+.tablesorter thead tr .headerSortDown, .tablesorter thead tr .headerSortUp {
+  color: #555 !important;
+  background-color: #ccc !important;
+}
+
+.ui-tabs-nav {
+}
+
+.ui-widget {
+  font-size: 0.86em !important;
 }
 
 /**
@@ -313,88 +402,6 @@ span.error {
   font-weight: bold;
 }
 
-/**
- * ****************************************************************
- * カスタムクラス (cpanel)
- * ****************************************************************
- */
-.tablesorter th, .tablesorter td {
-  font-size: 1.1em !important;
-}
-
-.tablesorter thead tr .headerSortDown, .tablesorter thead tr .headerSortUp {
-  color: #555 !important;
-  background-color: #ccc !important;
-}
-
-.ui-tabs-nav {
-}
-
-.ui-widget {
-  font-size: 0.86em !important;
-}
-
-/** 整理してない */
-
-
-blockquote p {
-  font-style: normal;
-}
-
-
-
-.source {
-  margin: 2% 0 2% 0;
-}
-
-.source code {
-  line-height: 150%;
-  display: block;
-  padding: 1%;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow: auto;
-}
-
-dd {
-  margin: 1% 0 1% 0;
-}
-
-.note_container {
-  margin-bottom: 2%;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-}
-.note_container ul, .note_container ol {
-  margin: 1% 2% 1% 8%;
-}
-.note_hint {
-  color: #224444;
-  background-color: #ddeeee;
-  border: 1px solid #224444;
-}
-.note_info {
-  color: #3d5214;
-  background-color: #d6ebad;
-  border: 1px solid #3d5214;
-}
-.note_important {
-  color: #561010;
-  background-color: #f7d4d4;
-  border: 1px solid #561010;
-}
-.note_bar {
-  float: left;
-  width: 40px;
-  text-align: center;
-  padding: 6px;
-}
-
-.note_contents p {
-  padding: 1em;
-  margin: 0;
-}
-
 .data {
   margin-bottom: 1%;
 }
@@ -429,3 +436,5 @@ dd {
 .data_content p, .data_content form {
   margin: 0;
 }
+
+
