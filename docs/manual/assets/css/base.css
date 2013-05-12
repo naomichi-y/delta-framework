@@ -63,7 +63,7 @@ h2 {
   border-bottom: 1px solid #ccc;
 }
 
-h2:link, h2:visited, h2:active {
+h2 a:link, h2 a:visited, h2 a:active {
   color: #555;
 }
 
