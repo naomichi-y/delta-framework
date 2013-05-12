@@ -63,7 +63,7 @@ h2 {
   border-bottom: 1px solid #ccc;
 }
 
-h2 a {
+h2:link, h2:visited, h2:active {
   color: #555;
 }
 
@@ -75,16 +75,6 @@ h2 a:hover {
 
 h3 {
   font-size: 1em;
-}
-
-h3 a {
-  color: #555;
-}
-
-h3 a:hover {
-  color: #555;
-  transition-duration: 0.6s;
-  transition-delay: ease-in-out;;
 }
 
 article {
