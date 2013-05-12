@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta http-equiv="Content-Language" content="ja" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
     <title><?php echo $title ?></title>
     <link rel="stylesheet" type="text/css" href="assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.treeview.css" />

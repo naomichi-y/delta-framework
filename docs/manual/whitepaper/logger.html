@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - アプリケーション開発実践 Tips - メッセージのロギング</title>
+<meta charset="UTF-8" />
+<title>delta - 基本的な機能 - メッセージのロギング</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top">アプリケーション開発実践 Tips - メッセージのロギング</h1>
+  <h1 id="top">基本的な機能 - メッセージのロギング</h1>
 </header>
 <div id="contents">
   <article>
@@ -145,7 +143,7 @@
       }</code></dd>
   </dl>
   <p>Delta_Logger::getLogger() の引数にはロギングするクラス名を指定しますが、通常は get_class() を設定すれば良いでしょう。 getLogger() は Logger のインスタンスオブジェクトを返します。Logger オブジェクトには info() や fatal() といったログレベルごとのメソッドが用意されているので、ロギングしたいポイントにてメソッドをコールして下さい。</p>
-  <h3><a name="commonAttributes" id="commonAttributes"></a>ログアペンダで利用可能な共通属性</h3>
+  <h3 id="commonAttributes">ログアペンダで利用可能な共通属性</h3>
   <p>ログアペンダで利用可能な共通属性は下記の通りです。アペンダによってはログの送信先やログのローテート方法を指定することができます。詳しくは各クラスの API、またはマニュアルを参照して下さい。</p>
   <table>
     <colgroup>
@@ -203,7 +201,7 @@
     </tr>
   </table>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

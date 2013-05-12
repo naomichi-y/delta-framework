@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - アプリケーション開発実践 Tips - DI コンテナの利用</title>
+<meta charset="UTF-8" />
+<title>delta - 基本的な機能 - DI コンテナの利用</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top">アプリケーション開発実践 Tips -  DI コンテナの利用</h1>
+  <h1 id="top">基本的な機能 -  DI コンテナの利用</h1>
 </header>
 <div id="contents">
   <article>
@@ -39,13 +37,13 @@
     <li><a href="#methodInjection">メソッドインジェクション</a></li>
     <li><a href="#instance">インスタンスの管理</a></li>
   </ul>
-  <h2><a id="introduction" name="introduction"></a>DI コンテナ概要</h2>
+  <h2 id="introduction">DI コンテナ概要</h2>
   <p>DI コンテナとは、Dependency Injection (依存性の注入) と呼ばれるデザインパターンの一種です。DI はコンポーネント間の依存関係を取り除くため、結果的に保守しやすいコードを書くことが出来るようになります。</p>
   <p>例えばクラス A を利用するクラス B がある場合、クラス B はクラス A に「依存する」形になります。クラス A をクラス C に置き換えたい要望が出てきた場合、呼び出し元全てのプログラムを変更する必要が出てくるため、改修にはそれなりのコストを要します。しかしながら DI パターンで作成されたプログラムの場合、このようなコストは発生しません。</p>
   <p>delta において DI を利用するには、クラス B が依存するコンポーネント (ここではクラス A) を base_dicon.yml (またはビヘイビア) に定義しておきます。設定ファイルに依存コンポーネントを定義しておくことで、実際にクラスが変更されたとしても、プログラムは何ら変更を加える必要がなくなるのです。<br />
     もしここで呼び出すコンポーネントをクラス A から C に変更したい場合は、base_dicon.yml の定義を一行書き換えるだけで良いでしょう。delta はプログラム実行時に設定ファイルを解析し、呼び出すコンポーネントを確定・インスタンスを生成 (依存性の注入) します。</p>
   <p>DI の仕組みは delta 自体にも利用されており、いくつかのコアコンポーネントは初めから base_dicon.yml に定義されています。コアコンポーネントは全てインタフェースにより実装されているため、元のクラスを拡張したり独自のコンポーネントに書き換えることも可能です。コンポーネントの拡張に関しては <a href="extend_component.html">コアコンポーネントの拡張</a> を参照して下さい。 </p>
-  <h2><a id="componentSetting" name="componentSetting"></a>コンポーネントの設定と読み込み</h2>
+  <h2 id="componentSetting">コンポーネントの設定と読み込み</h2>
   <p>それでは初めに最もオーソドックスなコンポーネントの設定と読み込み方法を解説します。サンプルコードを動かすために、次のファイルを追加する必要があります。</p>
   <ul>
     <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
@@ -132,7 +130,7 @@
       <p>getComponent() で呼び出されるオブジェクトのインスタンス形式はシングルトンになります。(<a href="#instance">インスタンスの管理</a> 参照) </p>
     </div>
   </div>
-  <h2><a id="setterInjection" name="setterInjection"></a>セッターインジェクション</h2>
+  <h2 id="setterInjection">セッターインジェクション</h2>
   <p>セッターインジェクションは任意のコンポーネントを呼び出すと同時に、設定ファイルに定義されたセッターメソッドを実行、値をセットします。今回のサンプルコードは、Greeting クラスを拡張した GreetingSetterInjection クラスを作り、セッターインジェクションを通して文字列を自動設定、更にアクションを介してセットされた文字列を出力します。サンプルを動かすためには次のファイルを追加して下さい。</p>
   <ul>
     <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
@@ -232,7 +230,7 @@
       <p>通常セッターとオートセッターの両方が指定されている場合は、通常セッターが優先されます。 </p>
     </div>
   </div>
-  <h2><a id="constructorInjection" name="constructorInjection"></a>コンストラクタインジェクション</h2>
+  <h2 id="constructorInjection">コンストラクタインジェクション</h2>
   <p>コンストラクタインジェクションは、コンポーネントの生成時にコンストラクタを使ってオブジェクトの初期化を設定します。設定方法はセッターインジェクションの時とほぼ同じです。サンプルコードを動かすために次のファイルを作成して下さい。</p>
   <ul>
     <li>config/global_behavior.yml: コンポーネント設定ファイル</li>
@@ -281,7 +279,7 @@
       }</code></dd>
   </dl>
   <p>アクションを実行すると、画面には &quot;Your IP: {リモートの IP アドレス}&quot; が表示されます。</p>
-  <h2><a id="methodInjection" name="methodInjection"></a>メソッドインジェクション</h2>
+  <h2 id="methodInjection">メソッドインジェクション</h2>
   <p>メソッドインジェクションは、オブジェクトを生成する際に任意のメソッドを実行してインスタンスを初期化します。 クラスによってはインスタンス生成のために getInstance()、Initialize() などのメソッドを呼び出す必要があります。このような場合はコンストラクタインジェクションやセッターインジェクションで初期化することが出来ないため、メソッドインジェクションを使う形になります。</p>
   <p>メソッドインジェクションのサンプルを動かすには次のファイルを作成して下さい。</p>
   <ul>
@@ -377,7 +375,7 @@
       }</code></dd>
   </dl>
   <p>アクションを実行すると、画面には "Hello world " が表示されます。</p>
-  <h2><a id="instance" name="instance"></a>インスタンスの管理</h2>
+  <h2 id="instance">インスタンスの管理</h2>
   <p>DI を使ってコンポーネントを呼び出すと、オブジェクトのインスタンスはデフォルトでシングルトンになります。インスタンス形式を変更したい場合は、&quot;instance&quot; 属性を設定ファイルに追加して下さい。インスタンスの管理はコンポーネント単位で指定することができます。</p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
@@ -407,7 +405,7 @@
     </tr>
   </table>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

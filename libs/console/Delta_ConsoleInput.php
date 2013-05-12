@@ -81,6 +81,8 @@ class Delta_ConsoleInput extends Delta_Object
       if ($this->_isBootTypeConsole) {
         $this->parseCoreArgumentsAndOptions($argv);
         $this->parseCommand();
+
+        array_shift($argv);
       }
 
       $this->parseCommandArgumentsAndOptions($argv);
@@ -344,7 +346,7 @@ class Delta_ConsoleInput extends Delta_Object
       return $this->_commandName;
     }
 
-    return substr($this->_commandName, strrpos($this->_commandName, 'Command'));
+    return substr($this->_commandName, 0, strrpos($this->_commandName, 'Command'));
   }
 
   /**

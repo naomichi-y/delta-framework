@@ -2,9 +2,7 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta charset="UTF-8" />
 <title>delta - コーディング規約 - コーディングスタイル</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
@@ -77,12 +75,12 @@
     <li><a href="#exception">例外</a></li>
     <li><a href="#etc">その他</a></li>
   </ul>
-  <h2><a id="phpFormat" name="phpFormat"></a>PHP の書式 </h2>
-  <h3><a id="encoding" name="encoding"></a>エンコーディング形式と改行コード</h3>
+  <h2 id="phpFormat">PHP の書式 </h2>
+  <h3 id="encoding">エンコーディング形式と改行コード</h3>
   <ul>
     <li>原則的にエンコーディングは UTF-8 (BOM なし)、改行コードは LF (Unix スタイル) で統一して下さい。Windows や Mac で開発する場合は改行コードを LF に変更する必要があります。</li>
   </ul>
-  <h3><a id="phpTag" name="phpTag"></a>PHP コードの開始と終わり</h3>
+  <h3 id="phpTag">PHP コードの開始と終わり</h3>
   <p>プログラムを記述するにあたり、標準的な次のタグを宣言する必要があります。</p>
   <dl>
     <dt>PHP Code# PHP タグの明示化</dt>
@@ -92,7 +90,7 @@
     <li>短縮型の &quot;&lt;?〜?&gt;&quot; は使用しないで下さい。OS や環境によってスクリプトが正しく認識されない可能性があります。</li>
     <li>プログラムが PHP 言語だけで構成される場合、ファイルの最終行で終了タグ (&quot;?&gt;&quot;) を含めるべきではありません。これは終了タグ以降にある空文字が出力されるのを防ぐ目的があります。</li>
   </ul>
-  <h3><a id="indent" name="indent"></a>インデント</h3>
+  <h3 id="indent">インデント</h3>
   <ul>
     <li>プログラムを読みやすくするため、適宜インデントを入れて下さい。</li>
     <li>インデントには 2 つの空白記号を使います。タブは環境によりサイズが異なるため使用するべきではありません。</li>
@@ -104,7 +102,7 @@
       &nbsp;&nbsp;$foo = 0; <br />
       }</code></dd>
   </dl>
-  <h3><a id="lineLimit" name="lineLimit"></a>1 行辺りの長さ</h3>
+  <h3 id="lineLimit">1 行辺りの長さ</h3>
   <ul>
     <li>プログラムコードにおける一行辺りの長さは 80 文字、長くても 120 文字程度に抑えるべきです。あまりに長いコードは、使用しているエディタによっては可読性が下がります。コードが長くなる場合は途中で降り返して下さい。
       <dl>
@@ -125,7 +123,7 @@
       </dl>
     </li>
   </ul>
-  <h3><a id="comment" name="comment"></a>コメント </h3>
+  <h3 id="comment">コメント </h3>
   <ul>
     <li>&quot;#&quot; (シャープ) 形式のコメントは使用するべきではありません。代わりにインラインブロック (&quot;//&quot;、あるいは &quot;/*〜*/&quot;) を使用して下さい。 </li>
     <li>全てのコメントは 1 つの空白を開けた後に初めて下さい。</li>
@@ -185,12 +183,12 @@
       </dl>
     </li>
   </ul>
-  <h3><a id="define" name="define"></a>定数</h3>
+  <h3 id="define">定数</h3>
   <ul>
     <li>複数のプログラムで使用する汎用パラメータは定数化しておくべきです。</li>
     <li>PHP 定数 (TRUE、FALSE、NULL など) の表記は大文字で統一して下さい。</li>
   </ul>
-  <h3><a name="operand" id="operand"></a>演算子</h3>
+  <h3 id="operand">演算子</h3>
   <ul>
     <li>演算子の前後には常に 1 つの余白記号を入れて下さい。
       <dl>
@@ -205,12 +203,12 @@
       </dl>
     </li>
   </ul>
-  <h2><a id="yamlFormat" name="yamlFormat"></a>YAML の書式 </h2>
-  <h3><a name="yamlAttribute" id="yamlAttribute"></a>属性</h3>
+  <h2 id="yamlFormat">YAML の書式 </h2>
+  <h3 id="yamlAttribute">属性</h3>
   <ul>
     <li>属性名は camelCaps 形式で統一します。</li>
   </ul>
-  <h3><a name="yamlValue" id="yamlValue"></a>値</h3>
+  <h3 id="yamlValue">値</h3>
   <ul>
     <li>文字列はシングルクォートで括ります。
       <ul>
@@ -220,8 +218,8 @@
       </ul>
     </li>
   </ul>
-  <h2><a id="stringAndArray" name="stringAndArray"></a>文字列と配列</h2>
-  <h3><a id="literal" name="literal"></a>文字列リテラル</h3>
+  <h2 id="stringAndArray">文字列と配列</h2>
+  <h3 id="literal">文字列リテラル</h3>
   <ul>
     <li>原則的にリテラル文字はシングルクォートで括る必要があります。ダブルクォートは内部に含まれる変数を展開するため、パフォーマンスの観点から通常は使用するべきではありません。</li>
     <li>シングルクォートを含む文字列の場合は例外的にダブルクォートの使用が許可されます。
@@ -244,7 +242,7 @@
           <br />
           // 文字列が長くなる場合は適宜改行する<br />
           $string = 'abcdefghijklmnopqrstuvwxyz'<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;</code><code>'ABCDEFGHIJKLMNOPQRSTUVWXYZ'<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;'ABCDEFGHIJKLMNOPQRSTUVWXYZ'<br />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;'0123456789';</code></dd>
       </dl>
     </li>
@@ -273,12 +271,11 @@
           $sql = 'UPDATE foo '<br />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'SET target_date = NOW(), '<br />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'bar = :bar '<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'WHERE id = :id';</code> <code><br />
-          </code></dd>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'WHERE id = :id';</code></dd>
       </dl>
     </li>
   </ul>
-  <h3><a id="array" name="array"></a>配列 </h3>
+  <h3 id="array">配列 </h3>
   <ul>
     <li>配列変数はあらかじめ array() で初期化しておく必要があります。</li>
     <li>配列に複数の要素を追加する場合、&quot;,&quot; (カンマ) の直後は 1 つの空白記号を入れて下さい。
@@ -289,7 +286,7 @@
           <br />
           // 要素数が多い場合は適宜改行する <br />
           $array = array(100, 200, 300,<br />
-          </code><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;400, 500, 600,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;400, 500, 600,<br />
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;700, 900, 000);<br />
           <br />
           // 連想配列は代入演算子の位置を揃える<br />
@@ -302,8 +299,8 @@
       </dl>
     </li>
   </ul>
-  <h2><a id="controlStructure" name="controlStructure"></a>制御構造</h2>
-  <h3><a id="controlStructureCommonStyle" name="controlStructureCommonStyle"></a>共通規則</h3>
+  <h2 id="controlStructure">制御構造</h2>
+  <h3 id="controlStructureCommonStyle">共通規則</h3>
   <ul>
     <li>条件括弧の前後には 1 つの空白記号を入れて下さい。</li>
     <li>条件開始の括弧 ({) は条件文と同じ行に定義してください。 </li>
@@ -330,7 +327,7 @@
       <br />
       $foo = 400;</code></dd>
   </dl>
-  <h3><a id="if" name="if">if 文</a></h3>
+  <h3 id="if">if 文</h3>
   <ul>
     <li>条件が複雑な場合は内括弧を使ったり、適切な場所で改行を入れるべきです。ただし可読性が下がるようであれば多少冗長になったとしても条件文を分けた方が良い場合もあります。</li>
     <li>&quot;elseif&quot; は使用するべきではありません。&quot;else if&quot; を使用して下さい。
@@ -360,14 +357,14 @@
         <dd class="lang_php"><code>// TRUE を返す<br />
           if ('0' == FALSE) {<br />
           }<br />
-          </code><code><br />
+          <br />
           // FALSE を返す<br />
           if ('0' === FALSE) {<br />
           }</code></dd>
       </dl>
     </li>
   </ul>
-  <h3><a id="for" name="for"></a>for 文</h3>
+  <h3 id="for">for 文</h3>
   <ul>
     <li>&quot;;&quot; (セミコロン) の後には 1 つの空白記号を入れて下さい。</li>
   </ul>
@@ -377,7 +374,7 @@
       &nbsp;&nbsp;... <br />
       }</code></dd>
   </dl>
-  <h3><a id="switch" name="switch">switch case </a> 文</h3>
+  <h3 id="switch">switch case </a> 文</h3>
   <ul>
     <li>case 文はインデントしてから開始します。</li>
     <li>default は必須です。特に処理がなければ break 文を入れて下さい。</li>
@@ -401,7 +398,7 @@
       }<br />
       </code></dd>
   </dl>
-  <h3><a id="template" name="template">テンプレートにおける記述形式</a></h3>
+  <h3 id="template">テンプレートにおける記述形式</h3>
   <ul>
     <li>テンプレートファイル限定で次のような制御構造も認められます。
       <dl>
@@ -426,8 +423,8 @@
       </dl>
     </li>
   </ul>
-  <h2><a id="class" name="class"></a>クラス</h2>
-  <h3><a id="defineClass" name="defineClass"></a>クラスの宣言 </h3>
+  <h2 id="class">クラス</h2>
+  <h3 id="defineClass">クラスの宣言 </h3>
   <ul>
     <li>インデントは OTBS (One true brace) 形式とします。
       <dl>
@@ -454,13 +451,13 @@
     <dd class="lang_php"><code>class HelloWorld extends Delta_Object<br />
       {}</code></dd>
   </dl>
-  <h3><a id="classConstantName" name="classConstantName"></a>クラス定数 </h3>
+  <h3 id="classConstantName">クラス定数 </h3>
   <ul>
     <li>クラス定数はクラス宣言の直後に定義します。(メンバ変数よりも先に宣言します)</li>
     <li>使用可能な文字は英大文字、数字、及び &quot;_&quot; (アンダーバー) になります。最初の文字は必ず英字で開始する必要があります。複数の単語を組み合わせる場合はアンダーバーで区切ります。</li>
     <li>クラス定数には &quot;{クラス名}::{定数名}&quot; の形式でアクセスします。&quot;::&quot; の前後に空白は含めません。 </li>
   </ul>
-  <h3><a id="defineClassMember" name="defineClassMember"></a>メンバ変数 </h3>
+  <h3 id="defineClassMember">メンバ変数 </h3>
   <ul>
     <li>var は使用するべきではありません。</li>
     <li>全てのメンバ変数にはアクセス修飾子 (public、private、protected) を付けます。 </li>
@@ -492,7 +489,7 @@
       &nbsp;&nbsp;}<br />
       }</code></dd>
   </dl>
-  <h3><a id="defineClassMethod" name="defineClassMethod"></a> メソッド (関数)</h3>
+  <h3 id="defineClassMethod"> メソッド (関数)</h3>
   <ul>
     <li>宣言
       <ul>
@@ -569,7 +566,7 @@
       &nbsp;&nbsp;{}<br />
       }</code></dd>
   </dl>
-  <h3><a id="dao" name="dao">DAO</a></h3>
+  <h3 id="dao">DAO</a></h3>
   <ul>
     <li>DAO のクラス内では CRUD の順序でメソッドを定義して下さい。CREATE や ALTER といったテーブルを制御するメソッドは DAO の先頭に定義します。(DDL、DML の順序)
       <ol>
@@ -615,22 +612,22 @@
       </ul>
     </ul>
   </ul>
-  <h2><a id="variables" name="variables"></a>変数 </h2>
+  <h2 id="variables">変数 </h2>
   <ul>
     <li>全ての変数は初めに初期化を行って下さい。初期化のし忘れは、バグの原因やパフォーマンスの低下に繋がります。</li>
     <li>一行に 1 つの変数を宣言します。複数の変数をまとめて初期化するべきではありません。</li>
   </ul>
-  <h3><a id="superGlobalVariables" name="superGlobalVariables"></a>スーパーグローバル変数 </h3>
+  <h3 id="superGlobalVariables">スーパーグローバル変数 </h3>
   <ul>
     <li>PHP にあらかじめ定義されているスーパーグローバル変数 ($_GET、$_SERVER など) への直接アクセスは推奨されません。可能な限りフレームワークが提供するラッパークラスからアクセスして下さい。<br />
     </li>
   </ul>
-  <h3><a id="globalVariables" name="globalVariables"></a>グローバル変数 </h3>
+  <h3 id="globalVariables">グローバル変数 </h3>
   <ul>
     <li>グローバル変数の使用は禁止されています。<br />
     </li>
   </ul>
-  <h2><a id="exception" name="exception"></a>例外 </h2>
+  <h2 id="exception">例外 </h2>
   <ul>
     <li>例外をスローする場合は、例外の内容に基づいて最も適したクラスを使うべきです。例えばリクエスト例外であれば、Delta_Exception ではなく Delta_RequestException を使用して下さい。</li>
     <li>例外のコンストラクタには例外の内容を表すメッセージを渡すべきです。例外はロガーの設定によってファイルに書き込まれることもありますが、メッセージがないと、後でログを見返した際に何の例外を指しているのか分からなくなります。
@@ -662,7 +659,7 @@
       </ul>
     </ul>
   </ul>
-  <h2><a id="etc" name="etc"></a>その他</h2>
+  <h2 id="etc">その他</h2>
   <ul>
     <li>使用するべきではない演算子、関数
       <ul>
@@ -673,7 +670,7 @@
     </li>
   </ul>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright 2011 DT, Inc. AllRight Reserved.</p>

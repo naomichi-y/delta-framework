@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta http-equiv="Content-Language" content="ja" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
     <title><?php $isOutputDebug ? printf('%s: %s', $type, $message) : print($title); ?></title>
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/app_code_inspector.css" />

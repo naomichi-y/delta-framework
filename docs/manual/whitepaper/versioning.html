@@ -2,9 +2,7 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta charset="UTF-8" />
 <title>delta - その他の機能 - バージョン管理システムの導入</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
@@ -26,7 +24,7 @@
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2007 年 12 月 3 日</p>
   <h2>Hacks</h2>
-  <p>アプリケーションを共同で開発する際、CVS (Concurrent Versions System) や SVN (Subversion) といったバージョン管理システムは必要不可欠です。ここではアプリケーションを運用する上で、リポジトリ上で管理する必要のないファイル・ディレクトリについて解説します。 </p>
+  <p>アプリケーションを共同で開発する際、Subverswion や Git といったバージョン管理システムは必要不可欠です。ここではアプリケーションを運用する上で、リポジトリ上で管理する必要のないファイル・ディレクトリについて解説します。 </p>
   <p>delta はクラスファイルやテンプレート、YAML といった設定ファイルの読み込みを高速化するため、アプリケーション内でキャッシュ・一時ファイルを作成します。これらのファイルはアプリケーションを実行するサーバ上に作成されていれば良いため、リポジトリで管理する必要はありません。これらのファイルはリポジトリへコミットせず、対象ディレクトリ自体をコミット拒否設定にしておくと良いでしょう。</p>
   <p>次にリポジトリで管理する必要のないファイル・ディレクトリの一覧を示します。</p>
   <table>
@@ -57,7 +55,7 @@
   </table>
   <p>バージョン管理システムごとのファイル無視設定については各種マニュアルを参照して下さい。</p>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

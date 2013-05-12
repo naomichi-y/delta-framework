@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta charset="UTF-8" />
+<title>delta - コンソールアプリケーションの作成</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<!--[if lt IE 9]>
+<script src="../assets/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">基本的な機能  - コンソールアプリケーションの作成</h1>
+</header>
+<div id="contents">
+  <article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2013 年 5 月 13 日</p>
+    <ul>
+      <li><a href="#helloWorld">コンソールで 'HelloWorld' を出力する</a></li>
+      <li><a href="#layout">出力レイアウト</a></li>
+      <li><a href="#argumentAndOption">引数とオプション</a></li>
+      <li><a href="#interactive">インタラクティブモード</a></li>
+      <li><a href="#silent">サイレントモード</a></li>
+    </ul>
+    <h2><a id="helloWorld"></a>コンソールで 'Hello World' を出力する </h2>
+    <p>delta は Web アプリケーションのほかに、コンソールで動作するアプリケーションを作成することができます。まず手始めにコマンドを実行することで HelloWorld を出力するプログラムを作成してみましょう。</p>
+    <p>新しいコマンドを作成するには、コンソールから 'delta add-command' と入力して下さい。</p>
+    <dl>
+      <dt>Shell Code#</dt>
+      <dd class="lang_shell"><code>delta add-command<br>
+        &gt; Add command name (e.g. '{package_name}/HelloWorld'): HelloWorld<br>
+        Create command is complete.<br>
+        - /var/www/first_project/console/commands/HelloWorldCommand.php </code></dd>
+    </dl>
+    <p>作成するコマンド名を HelloWorld と指定することで、{APP_ROOT_DIR}/console/commands/HelloWorldCommand.php が作成されました。</p>
+    <p>次にエディタで作成されたファイルを開いてみましょう。次のようなスケルトンコードを確認することができます。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>class HelloWorldCommand extends Delta_ConsoleCommand<br>
+        {<br>
+        &nbsp;&nbsp;public function execute()<br>
+        &nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;// Please write code here.<br>
+        &nbsp;&nbsp;}<br>
+        }</code></dd>
+    </dl>
+    <p>コメントアウトされた行を削除し、代わりにメッセージを出力するためのコードを記述します。 </p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>$this-&gt;getOutput()-&gt;writeLine('HelloWorld');</code> </dd>
+      <dd class="lang_php">
+        <p>以上で記述は終わりです。さっそくコマンドを実行してみましょう。コマンドを実行するには {APP_ROOT_DIR}/console/deltac にコマンド名を引数で渡す必要があります。適当なディレクトリから deltac コマンドを叩いてみましょう。</p>
+      </dd>
+      <dt>Shell Code#</dt>
+      <dd class="lang_shell"><code>./deltac HelloWorld</code></dd>
+      <dd class="lang_php">
+        <p>標準出力に 'HelloWorld' が出力されたらコマンドの実行は成功です。</p>
+        <div class="note_container note_hint">
+          <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+          <div class="note_contents">
+            <p>先ほど紹介したコードでは、メッセージを出力するために <a href="../../api/reference/console/delta___console_output.html#method_writeLine">Delta_ConsoleOutput::writeLine()</a> メソッドを使いました。このメソッドはメッセージの末尾に改行コードを付加した上で文字列を標準出力に出力します。メッセージを出力するだけであれば PHP 標準の echo や print でも事足りますが、writeLine() はオプション引数でメッセージのスタイル (色、強調表示) を指定したり、<a href="../../api/reference/console/delta___console_output.html#method_setWriteIndent">Delta_ConsoleOutput::setWriteIndent()</a> で指定されたインデント幅に影響を受けます。何らかの理由がない限りは、フレームワークが提供する出力メソッドを利用するべきです。</p>
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <p>'delta add-command' で作成したコマンドは、クラス名のサフィックスに 'Command' が付加される点に注意して下さい。コマンド名が 'HelloWorld' であればクラス名は 'HelloWorldCommand'、ファイル名は 'HelloWorldCommand.php' となります。また、全てのコマンドは <a href="../../api/reference/console/delta___console_command.html">Delta_ConsoleCommand</a> クラスを継承する必要があります。コマンドクラスは Web アプリケーション同様、手動でファイルを設置しても構いません。</p>
+    <p>コマンドは Web アプリケーションと似た形で作成することができますが、以下の点で違いがあることに注意して下さい。</p>
+    <ul>
+      <li>コマンドにはフィルタやビヘイビアが適用されない</li>
+      <li>モジュールの概念がない (全てのコマンドは console/commands 直下、または console/commands 下の階層化されたディレクトリ内にクラスを配置する必要がある) ※後述</li>
+    </ul>
+    <p>先ほどは commands ディレクトリ直下にコマンドを作成しましたが、commands/foo/bar/BazCommand.php のように階層化されたディレクトリ内に配置することも可能です。</p>
+    <dl>
+      <dt>Shell Code#</dt>
+      <dd class="lang_shell"><code>delta add-command<br>
+        &gt; Add command name (e.g. '{package_name}/HelloWorld'): foo/bar/Baz<br>
+        Create command is complete.<br>
+        - /var/www/first_project/console/commands/foo/bar/BazCommand.php</code></dd>
+    </dl>
+    <p>作成されたクラスを開き、メッセージを出力するためのコードを追加します。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>$this-&gt;getOutput()-&gt;writeLine($this-&gt;getInput()-&gt;getCommandName());</code></dd>
+    </dl>
+    <p>階層化されたディレクトリに配置されているコマンドを実行するには、'.' (ピリオド) 区切りでディレクトリ、コマンド名を指定します。</p>
+    <dl>
+      <dt>Shell Code#</dt>
+      <dd class="lang_shell"><code>./deltac foo.bar.Baz</code></dd>
+    </dl>
+    <p>コマンドを実行することで 'Baz' が出力されるでしょう。</p>
+    <div class="note_container note_hint">
+      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+      <div class="note_contents">
+        <p>autoload (application.yml) を使ってプロジェクトディレクトリの外部にあるコマンドを実行したい場合、オートロード ID を実行パスに付加する必要があります。例えば 'autoload.plugin: /var/repos/plugin' (コマンドを plguin/commands/HelloWorld.php に配置) といった宣言がある場合、コマンドの実行パスは 'plguin:commands.HelloWorld' となります。</p>
+      </div>
+    </div>
+    <h2><a id="layout"></a>出力レイアウト</h2>
+    <p>$this-&gt;getOutput() には出力を補佐するためのいくつかの便利なメソッドが提供されています。ここでは代表的なものを紹介します。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>$output = $this-&gt;getOutput();<br>
+        <br>
+        // 'Hello' (改行なし)<br>
+        $output-&gt;write('Hello');<br>
+        <br>
+        // 'Hello' (改行あり)<br>
+        $output-&gt;writeLine('Hello'); <br>
+        <br>
+        // インデント数を設定 <br>
+        $output-&gt;setWriteIndent(2);<br>
+        <br>
+        // '&nbsp;&nbsp;Hello'<br>
+        $output-&gt;write('Hello');<br>
+        $output-&gt;setWriteIndent(0);<br>
+        <br>
+        // PHP_EOL (改行コード) を 3 回出力 <br>
+        $output-&gt;writeBlankLines(3);<br>
+        <br>
+        // '------------------------------------------------------------------------------' (区切り線を出力)<br>
+        $output-&gt;writeSeparator()<br>
+        <br>
+        //
+        メッセージを出力する際に文字列に付加するプレフィックス、サフィックスの指定<br>
+        $output-&gt;setWriteFormat('[', ']'); <br>
+        <br>
+        // '[Hello]'<br>
+        $output-&gt;writeLine('Hello');<br>
+        <br>
+        // 標準エラーに 'Error' (改行なし) を出力 <br>
+        $output-&gt;setError('Error');<br>
+        <br>
+        // 標準エラーに 'Error' (改行あり) を出力<br>
+        $output-&gt;setErrorLine('Error'); <br>
+        </code> </dd>
+    </dl>
+    <p>出力するメッセージの前景色や背景色、表示スタイルを変更することもできます。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>$output = $this-&gt;getOutput();<br>
+        <br>
+        // 赤文字で出力<br>
+        $output-&gt;writeLine('HelloWorld', Delta_ANSIGraphic::FOREGROUND_RED);<br>
+        <br>
+        // 赤文字 + 強調で出力<br>
+        $output-&gt;writeLine('HelloWorld', Delta_ANSIGraphic::FOREGROUND_RED|Delta_ANSIGraphic::ATTRIBUTE_BOLD);<br>
+      </code>
+        <h2><a id="argumentAndOption"></a>引数とオプション</h2>
+        <p>コンソールアプリケーションではコマンドに引数やオプションを指定することができます。これは Linux コマンドの仕組みと似ています。</p>
+        <dl>
+          <dt>Shell Code#</dt>
+          <dd class="lang_shell"><code># 引数の指定<br>
+            ./deltac Parse arg1 arg2 arg3<br>
+            <br>
+            # オプションの指定<br>
+            ./deltac Parse --opt1 --opt2 --opt3=Hello<br>
+            <br>
+            # 引数とオプションの同時指定<br>
+            ./deltac Parse arg1 arg2 arg3 --opt1 --opt2 --opt3=Hello</code></dd>
+        </dl>
+        <div class="note_container note_hint">
+          <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+          <div class="note_contents">
+            <p>引数とオプションはそれぞれ任意の数のパラメータを指定することができます。引数名が '-' (ハイフン) を付けず宣言順序が固定なのに対し、オプション名は '-' (または '--') から始まり、宣言順序は決まりがありません。また '-{name}={value}' 形式で値を持つこともできます。</p>
+          </div>
+        </div>
+        <p>コマンドに渡されたオプションを取得するには、対象コマンドクラスに Delta_ConsoleCommand::configure() メソッドをオーバーライドする必要があります。</p>
+        <dl>
+          <dt>PHP Code#</dt>
+          <dd class="lang_php"><code>class ParseCommand extends Delta_ConsoleCommand<br>
+            { <br>
+            &nbsp;&nbsp;public function configure(Delta_ConsoleInputConfigure $configure)<br>
+            &nbsp;&nbsp;{<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$configure-&gt;addArgument('key1', Delta_ConsoleInputConfigure::INPUT_REQUIRED)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;addArgument('key2', Delta_ConsoleInputConfigure::INPUT_REQUIRED)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;addArgument('key3', Delta_ConsoleInputConfigure::INPUT_OPTIONAL)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;-&gt;addOption('arg1', Delta_ConsoleInputConfigure::OPTION_VALUE_NONE)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;addOption('arg2', Delta_ConsoleInputConfigure::OPTION_VALUE_NONE)<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;addOption('arg3', Delta_ConsoleInputConfigure::OPTION_VALUE_HAVE);<br>
+            &nbsp;&nbsp;}<br>
+            <br>
+            &nbsp;&nbsp;public function execute()<br>
+            &nbsp;&nbsp;{<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// 全ての引数を配列で取得<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// array('arg1', 'arg2', 'arg3'); <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getArguments();<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// TRUE<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;hasArgument('key2');<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// 'arg3' <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getArgument('key3');<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// 全てのオプションを配列で取得<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// array(opt1, 'opt2', 'opt3')<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getOptions();<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// TRUE<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;hasOption('opt2');<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// 'Hello'<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getOption('opt3');<br>
+            &nbsp;&nbsp;} <br>
+            } <br>
+          </code></dd>
+        </dl>
+        <p>configure() はオプションや引数の形式を制御するメソッドです。ここでは 1 つ目の引数を key1 (必須指定)、2 つ目の引数を key2 (必須指定)、3 つ目の引数を key3 (任意指定) と設定しました。もしコマンドに 2 つ以上の引数が指定されていない場合は configure() の設定に反するため例外 InvalidArgumentException がスローされます。 </p>
+        <p>引数を取得するには $this-&gt;getInput()-&gt;getArgument() や $this-&gt;getInput()-&gt;hasArgument() を使います。上記例では getArgument() の引数に 'key3' を指定しているため、3 つ目の引数 'arg3' が持つ値 'Hello' を返します。</p>
+        <p>オプションも同様に configure() で宣言しますが、addOption() の第 2 引数は、オプションが値を持つかどうかを設定します。ここでは opt3 が値を持つよう宣言していますので、'./deltac Parse --opt3=Hello' といった宣言が有効になります。</p>
+        <div class="note_container note_hint">
+          <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+          <div class="note_contents">
+            <p>オプションを宣言する場合、configure() のオーバーライドは必須ですが、引数の宣言時は必ずしも configure() をオーバーライドする必要はありません。ただし、オプションの形式が不正な場合は例外をスローすることができるため、原則的にはメソッドをオーバーライドしておくべきでしょう。尚、ここでは紹介しませんでしたが、<a href="../../api/reference/console/delta___console_input_configure.html#method_addOption">addOption()</a> は指定されたオプションの値が許可された文字列か判定するためのコールバック関数を指定することも可能です。</p>
+          </div>
+        </div>
+        <h2><a id="interactive"></a>インタラクティブモード</h2>
+        <p>コンソールアプリケーションでは対話式のコマンドを作成することもできます。まずは簡単な例を見てみましょう。</p>
+        <dl>
+          <dt>PHP Code#</dt>
+          <dd class="lang_php"><code>class InteractiveCommand extends Delta_ConsoleCommand<br>
+            { <br>
+            &nbsp;&nbsp;public function execute()<br>
+            &nbsp;&nbsp;{<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// Delta_ConsoleInputConfigure を取得<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$dialog = $this-&gt;getInput()-&gt;getDialog();<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// メッセージを出力する際に文字列に付加するプレフィックス、サフィックスの指定<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$dialog-&gt;setSendFormat('&gt; ', ': ');<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$name = $dialog-&gt;send('Your name'); <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getOutput()-&gt;writeLine('Your name is ' . $name);<br>
+            &nbsp;&nbsp;} <br>
+            } </code></dd>
+        </dl>
+        <p><a href="../../api/reference/console/delta___console_dialog.html">Delta_ConsoleDialog</a> クラスは対話式インタフェースを取得します。ここでは send() メソッドでメッセージを送信していますが、実際の出力結果がどうなっているか確認してみましょう。</p>
+        <dl>
+          <dt>Shell Code#</dt>
+          <dd class="lang_shell"><code>./deltac Interactive<br>
+            &gt; Your name: </code></dd>
+        </dl>
+        <p>メッセージが出力されると共に、カーソルが ':' の後にフォーカスされた状態となります。ここで試しに 'Foo' と入力してみて下さい。</p>
+        <dl>
+          <dt>Shell Code#</dt>
+          <dd class="lang_shell"><code>./deltac Interactive<br>
+            &gt; Your name: Foo<br>
+            Your name is Foo </code></dd>
+        </dl>
+        <p>’Your name is Foo' が返されたはずです。このようにインタラクティブモードを使うことで、対話式インタフェースを採用した柔軟なアプリケーションの作成が可能となります。</p>
+        <p>もう一つ例を見てみましょう。</p>
+        <dl>
+          <dt>PHP Code#</dt>
+          <dd class="lang_php"><code>class InteractiveCommand extends Delta_ConsoleCommand<br>
+            { <br>
+            &nbsp;&nbsp;public function execute()<br>
+            &nbsp;&nbsp;{<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$dialog = $this-&gt;getInput()-&gt;getDialog();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$dialog-&gt;setSendFormat('&gt; ', ': ');<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$result = $dialog-&gt;sendConfirm('Your ok? [yes/no]'); <br>
+            &nbsp;&nbsp;} <br>
+            } </code></dd>
+        </dl>
+        <p>ここでは質問を問いかけ、ユーザに yes、または no の入力を即しています。<a href="../../api/reference/console/delta___console_dialog.html#method_sendConfirm">sendConfirm()</a> はユーザからの入力値が 'Yes' や 'y'、'YES' といった文字列の場合に TRUE、'No' や 'n'、'NO' といった文字列の場合に FALSE を返します。(識別できない文字が入力された場合は、正しい値が入力されるまでメッセージを繰り返し表示します) 似たようなメソッドに <a href="../../api/reference/console/delta___console_dialog.html#method_sendChoice">sendChoice()</a> がありますが、こちらは複数の選択肢をユーザに与え、認められない文字が入力された場合はメッセージを繰り返し表示します。</p>
+        <h2 id="silent">サイレントモード</h2>
+        <p>サイレントモードを有効にすることで、コマンドから出力される全てのメッセージを非表示化することができます。サイレントモードを有効にするには、deltac のオプションに --sirent を付けるか、コマンドクラス内で <a href="../../api/reference/console/delta___console_output.html#method_setSilentMode">setSilentMode()</a> を有効化する必要があります。</p>
+        <dl>
+          <dt>Shell Code#</dt>
+          <dd class="lang_shell"><code>./deltac --silent HelloWorld</code></dd>
+          <dt>PHP Code#</dt>
+          <dd class="lang_php"><code>$output = $this-&gt;getOutput();<br>
+            // $output-&gt;setSilent(TRUE);<br>
+            <br>
+            // メッセージは出力されない <br>
+            $output-&gt;writeLine('HelloWorld');</code></dd>
+          <dd class="lang_php">
+            <p class="right"><a href="#top">上へ</a></p>
+          </dd>
+        </dl>
+      </dd>
+    </dl>
+  </article>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
+</body>
+</html>

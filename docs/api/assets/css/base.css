@@ -23,7 +23,9 @@ a:link, a:visited, a:active {
 }
 
 a:hover {
-  text-decoration: underline;
+  color: #555;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;
 }
 
 header {
@@ -61,24 +63,40 @@ h2 {
   border-bottom: 1px solid #ccc;
 }
 
-h2 a:link, h2 a:visited, h2 a:active {
-  color: #555 !important;
+h2 a {
+  color: #555;
 }
 
 h2 a:hover {
-  text-decoration: none;
-  color: #87b854 !important;
+  color: #87b854;
   transition-duration: 0.6s;
   transition-delay: ease-in-out;;
 }
 
 h3 {
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
-dt {
-  border-bottom: 1px solid #B2B2B2;
-  padding: 0.4%;
+h3 a {
+  color: #555;
+}
+
+h3 a:hover {
+  color: #555;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;;
+}
+
+article {
+  margin-bottom: 6%;
+}
+
+blockquote p {
+  font-style: normal;
+}
+
+dd {
+  margin: 1% 0 1% 0;
 }
 
 table {
@@ -102,6 +120,7 @@ textarea {
   height: auto;
 }
 
+
 footer {
   color: #ccc;
   background-color: #353431;
@@ -113,17 +132,6 @@ footer p {
   margin: auto;
   padding-top: 2%;
   padding-bottom: 2%;
-}
-
-/**
- * ****************************************************************
- * kube.css のオーバーライド
- * ****************************************************************
- */
-.btn {
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
-  border-radius: 6px;
 }
 
 /**
@@ -243,6 +251,48 @@ footer p {
   line-height: 150%;
 }
 
+.note_container {
+  margin-bottom: 2%;
+}
+
+.note_container ul, .note_container ol {
+  margin: 1% 2% 1% 8%;
+}
+
+.note_hint, .note_info, .note_important {
+  color: #fff;
+}
+
+.note_hint a, .note_info a, .note_important a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.note_hint {
+  background-color: #3498db;
+}
+.note_info {
+  background-color: #87b854;
+}
+.note_important {
+  background-color: #E8673C;
+}
+
+.note_bar {
+  float: left;
+  width: 40px;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.note_contents p {
+  padding: 2%;
+}
+
+.note_contents ul {
+  padding: 2% 0 2% 0;
+}
+
 /**
  * ****************************************************************
  * カスタムクラス (api.delta-framework.org)
@@ -253,60 +303,17 @@ footer p {
   word-wrap: break-word;
 }
 
-/**
- * ****************************************************************
- * カスタムクラス (サンプルアプリケーション)
- * ****************************************************************
- */
-div.success, div.error {
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  padding: 1%;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  font-size: 1em;
+.source {
+  margin: 2% 0 2% 0;
 }
 
-div.success {
-  color: #006600;
-  background-color: #effeb9;
-  border: 1px solid #c1d779;
-}
-
-div.error {
-  background-color: #f7d4d4;
-  color: #561010;
-  border: 1px solid #561010;
-}
-
-div.success ul, div.error ul {
-  margin-bottom: 0 !important;
-}
-
-span.success, span.error {
-  margin: 0;
-}
-
-span.error {
-  color: #900;
-  font-weight: bold;
-}
-
-.form_field {
-  margin-bottom: 2%;
-}
-
-.form_field > label {
+.source code {
+  line-height: 150%;
   display: block;
-}
-
-.form_field fieldset {
   padding: 1%;
-}
-
-.field_error_message {
-  color: #900;
-  font-weight: bold;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
 }
 
 /**
@@ -330,65 +337,56 @@ span.error {
   font-size: 0.86em !important;
 }
 
-/** 整理してない */
-
-
-blockquote p {
-  font-style: normal;
-}
-
-
-
-.source {
-  margin: 2% 0 2% 0;
-}
-
-.source code {
-  line-height: 150%;
-  display: block;
-  padding: 1%;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow: auto;
-}
-
-dd {
-  margin: 1% 0 1% 0;
-}
-
-.note_container {
+/**
+ * ****************************************************************
+ * カスタムクラス (サンプルアプリケーション)
+ * ****************************************************************
+ */
+div.success, div.error {
+  padding: 2%;
+  margin-top: 2%;
   margin-bottom: 2%;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-}
-.note_container ul, .note_container ol {
-  margin: 1% 2% 1% 8%;
-}
-.note_hint {
-  color: #224444;
-  background-color: #ddeeee;
-  border: 1px solid #224444;
-}
-.note_info {
-  color: #3d5214;
-  background-color: #d6ebad;
-  border: 1px solid #3d5214;
-}
-.note_important {
-  color: #561010;
-  background-color: #f7d4d4;
-  border: 1px solid #561010;
-}
-.note_bar {
-  float: left;
-  width: 40px;
-  text-align: center;
-  padding: 6px;
+  font-size: 1em;
 }
 
-.note_contents p {
-  padding: 1em;
+div.success {
+  color: #fff;
+  background-color: #87b854;
+}
+
+div.error {
+  background-color: #E8673C;
+  color: #fff;
+}
+
+div.success ul, div.error ul {
+  margin-bottom: 0 !important;
+}
+
+span.success, span.error {
   margin: 0;
+}
+
+span.error {
+  color: #E8673C;
+  font-weight: bold;
+}
+
+.form_field {
+  margin-bottom: 2%;
+}
+
+.form_field > label {
+  display: block;
+}
+
+.form_field fieldset {
+  padding: 1%;
+}
+
+.field_error_message {
+  color: #E8673C;
+  font-weight: bold;
 }
 
 .data {
@@ -425,3 +423,5 @@ dd {
 .data_content p, .data_content form {
   margin: 0;
 }
+
+

@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - アプリケーション開発実践 Tips - 入力値の検証 (バリデータ)</title>
+<meta charset="UTF-8" />
+<title>delta - 基本的な機能 - 入力値の検証 (バリデータ)</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top">アプリケーション開発実践 Tips - 入力値の検証 (バリデータ) </h1>
+  <h1 id="top">基本的な機能 - 入力値の検証 (バリデータ) </h1>
 </header>
 <div id="contents">
   <article>
@@ -36,7 +34,7 @@
     <li><a href="#validatorOverride">バリデータの作成</a></li>
     <li><a href="#businessLogic">ビジネスロジックの検証</a></li>
   </ul>
-  <h2><a id="introduction" name="introduction"></a>バリデータの概要</h2>
+  <h2 id="introduction">バリデータの概要</h2>
   <p>delta にはバリデータ機能が備わっており、設定ファイルに検証ルールを設定しておくことで、フォームから入力された値を自動的に検証することができます。バリデータ機能を利用することにより、アクションクラスから検証ロジックを取り除くことが可能になります。</p>
   <p>バリデータを使用するには、対象アクションのビヘイビアファイル (yml) に validator セクションを設定する必要があります。ビヘイビアの設定に関しては、<a href="../config/behavior.html">ビヘイビアリファレンス</a> を参照して下さい。ここでは最も基本的なバリデータである、データの未入力チェックを例にサンプルコードを示します。</p>
   <p>フォーム検証を行うに辺り、初めに HTML のデータ入力フォームを作成します。</p>
@@ -82,7 +80,7 @@
   </dl>
   <p>アクションクラスでは、通常処理される execute() メソッド以外に、validateErrorHandler() メソッドが定義されていることに注目して下さい。validateErrorHandler() は、バリデータによるエラーが発生した場合に処理されるメソッドです。ハンドラの戻り値には結果を返すビューを指定して下さい。validateErrorHandler() がコールされた場合、delta は execute() メソッドを処理せず、validateErrorHandler() の結果により次の処理を決定します。(対象となるアクションに validateErrorHandler() メソッドが定義されていない場合、基底 Delta_Action クラスに定義されている &quot;return Delta_View::ERROR&quot; が宣言されたと見なされます。) </p>
   <p>上記のサンプルコードでは、memberName フィールドが未指定の場合に、MemberRegisterForm アクションへのフォワード処理が実行され、その結果ユーザ側に「名前が未入力です。」というメッセージが表示されることになります。</p>
-  <h2><a id="validatorList" name="validatorList"></a>バリデータの種類</h2>
+  <h2 id="validatorList">バリデータの種類</h2>
   <p>次にデータの内容を検証するための、バリデータクラスを利用する方法を解説します。データの検証については、数値が指定範囲内にあるか、メールアドレスが有効なパターンであるかといったチェックが考えられますが、delta ではあらかじめ一般的によく使われるバリエータを標準で実装しています。(下表参照)</p>
   <table>
     <colgroup>
@@ -221,7 +219,7 @@
   <p>次に validate.validators 属性で、ルール名のリファレンス実体定義を行います。validate.validators では、validate.names.{name}.validators で宣言した 2 つのルールを定義しており、更にその中で class、mask、matchError といった属性を設定しています。class には、ルールに適用するクラス名 (上記表参照) を宣言し、その他の属性に関しては、バリデータで使用可能な属性を定義しています。</p>
   <p>サンプルコードでは、passwordMaskValidator に Delta_MaskValidator クラスが使用され、更にパスワードに許可する文字として mask 属性に指定した正規表現パターンを適用、パターンにマッチしなかった場合は matchError に定義したエラーが出力されることになります。バリデータクラスセクションで使用可能な属性の一覧は <img src="../assets/images/icons/api.gif" alt="delta API" width="14" height="14" /> <a href="../../api/index.html">API</a> のバリデータクラスを参照して下さい。 </p>
   <p>尚、1 つのフィールドに対して複数のルール検証を実行することが出来ますが、ルールが適用されるのは、validators に記述した順番の通りになります。また、validators チェックの途中でバリデートエラーが発生した場合、後に続く validators チェックは全て破棄されることに注意して下さい。</p>
-  <h2><a id="conditionValidator" name="conditionValidator"></a>条件付きバリデータ</h2>
+  <h2 id="conditionValidator">条件付きバリデータ</h2>
   <p>条件付きルール検証とは、「ある条件にマッチする場合のみ検証を行う」機能のことです。下記のサンプルコードを参照して下さい。</p>
   <dl>
     <dt>YAML Code# modules/behaviors/ConditionSample.yml</dt>
@@ -268,7 +266,7 @@
       <p>条件付きバリデータで発生したエラーは条件名に関連付きます。例えば上記サンプルコードで発生したエラーは $form-&gt;getFieldError('getRestrictCondition') として取得することができます。</p>
     </div>
   </div>
-  <h2><a id="groupingValidator" name="groupingValidator"></a>グルーピングバリデータ機能</h2>
+  <h2 id="groupingValidator">グルーピングバリデータ機能</h2>
   <p>例えば複数の商品を一括登録する機能が必要な場合、Web フォーム上には商品名や在庫数、定価といったフィールドが複数行並ぶインタフェースになることがあります。一括登録フォームのデザインは、固定行の場合もありますし、動的行のときもあります。このような場合、今までに解説したバリデータの使用方法では検証を行うことができません。</p>
   <p>バリデータは、このような静的・動的フィールドに対して検証を行うための、グルーピングバリデータ機能を実装しています。グルーピングバリデータ機能を利用することで、商品名や在庫数といったフィールドを 1 つの行と捉え、存在する全ての行に対してバリデータを行うことが可能になります。</p>
   <p>まず初めに入力フォームのテンプレートを作成します。今回は、行数が動的に変化する例を示しています。</p>
@@ -323,7 +321,7 @@
       </code></dd>
   </dl>
   <p>ここで、productRegisterCondition 属性の直下に groups  属性が定義されていることに注目して下さい。groups は、その下に定義された names 要素を 1 つの「行」として見なします。上記のサンプルコードの場合、&quot;productName&quot;、&quot;stock&quot;、&quot;comment&quot; のフィールドを 1 つの行と見なし、存在する全ての行に対して検証を行います。テンプレート上では 4 行が定義されているため、最大で 4 行×3 フィールドのバリデータが実行されることになります。</p>
-  <h2><a id="placeHolder" name="placeHolder"></a>プレースホルダ機能</h2>
+  <h2 id="placeHolder">プレースホルダ機能</h2>
   <p>プレースホルダ機能を利用することで、似たようなバリデータを 1 つにまとめることができます。このテクニックは、特に検証項目の多いページで有効です。</p>
   <p>下記にプレースホルダのサンプルコードを示します。</p>
   <dl>
@@ -359,7 +357,7 @@
       <p>commonLengthValidator.maxLength 属性では値が ${...} のように指定されていますが、    これは対象を文字列ではなく変数 (数値やブール型) として宣言することを意味します。</p>
     </div>
   </div>
-  <h2><a id="include" name="include"></a>バリデータのインクルード</h2>
+  <h2 id="include">バリデータのインクルード</h2>
   <p>バリデータのインクルード機能を利用することで、似たような検証ルールを繰り返す記述する手間を省くことができます。これは例えば、会員登録ページや会員更新ページなど、検証ルールが全く同じ (アクションが異なるものの、利用したいビヘイビアファイルが同じ) 場合に有効なテクニックです。</p>
   <dl>
     <dt>YAML Code# modules/{module}/behaviors/UpdateCustomer.yml</dt>
@@ -374,10 +372,10 @@
       &nbsp;&nbsp;names:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;password:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;required: TRUE<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requiredError: 'パスワードが未入力です。</code><code>'</code></dd>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;requiredError: 'パスワードが未入力です。'</code></dd>
   </dl>
   <p>上記のようなコードの場合、最初に起動するバリデータは SetAccount.yml になります。methods を含む全ての属性はインクルード先の定義が優先されます。また、インクルードするバリデータは、カンマ区切りで定義することで順次実行することが可能です。(&quot;SetAccount, SetAccount2,...&quot;) </p>
-  <h2><a id="disableValidator" name="disableValidator"></a>バリデータの無効化</h2>
+  <h2 id="disableValidator">バリデータの無効化</h2>
   <p>バリデータを使うことでアクションからデータ検証ロジックを外部に追い出すことが可能になりました。バリデータはアクションの execute() メソッドが処理される前に起動されますが、場合によっては特定の条件時のみビヘイビアに定義されている検証処理をスキップしたい場合が出てくるかもしれません。ここではバリデータの無効化についていくつかのノウハウを紹介します。</p>
   <div class="note_container note_hint">
     <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
@@ -434,7 +432,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;validate: FALSE </code></dd>
   </dl>
   <p>FooAction#execute() が Delta_View::SUCCESS を返すことで、フォワード先を Bar、バリデータを無効設定にしています。尚、テンプレートマッピング属性 (success) に forward を指定する場合、validate 属性の設定は任意です。指定が無い場合は TRUE となり、バリデータの実行が有効状態になります。</p>
-  <h2><a id="validatorOverride" name="validatorOverride"></a>バリデータの作成</h2>
+  <h2 id="validatorOverride">バリデータの作成</h2>
   <p>delta にはあらかじめ一般的によく使われるバリデータが用意されていますが、アプリケーションによってはシステム独自のバリデータが必要となることがあります。このような場合はバリデータクラスを作成して、システム内で汎用的に使い回せるよう実装してみましょう。</p>
   <p>バリデータクラスは次のようなコードになります。</p>
   <dl>
@@ -480,7 +478,7 @@
       <p>先のバリデータクラスでエラーが発生した際に Delta_ParameterHolder#getParameter() メソッドによるメッセージ呼び出しを行っていましたが、実際に出力されるメッセージは「FOO の書式が不正です。」となります。これはビヘイビアに従い foo フィールドをチェックした結果、message 変数内で FIELD_NAME を展開して出力しているためです。 </p>
     </div>
   </div>
-  <h2><a id="businessLogic" name="businessLogic"></a>ビジネスロジックの検証</h2>
+  <h2 id="businessLogic">ビジネスロジックの検証</h2>
   <p> リクエストされたデータに対する一般的な妥当性チェックは、ビヘイビアにルールを書くことでアクションクラスから切り離すことが出来ます。しかし、入力されたメールアドレスが既に登録済みでないかといったチェックは、通常データベースを参照する必要があるためビヘイビアに定義することは出来ません。かといってアクションの execute() メソッドに検証ロジックを書いてしまっては、本来アクションで実行するべき処理と検証ルールが混ざってしまい、ソースの可読性が下がってしまいます。このような場合は、Delta_Action#validate() メソッドを使用して下さい。validate() は、ビジネスロジックレベルでのデータ検証を行うためのメソッドです。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/BusinessLogicValidateAction.php </dt>
@@ -520,7 +518,7 @@
     </div>
   </div>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

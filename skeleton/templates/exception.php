@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta http-equiv="Content-Language" content="ja" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
     <title><?php echo get_class($exception) ?></title>
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
     <script type="text/javascript" src="/assets/base/require.js"></script>
