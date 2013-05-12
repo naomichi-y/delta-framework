@@ -147,8 +147,8 @@ class Delta_Config extends Delta_Object
   /**
    * アプリケーション設定ファイルを読み込みます。
    * ファイルは次の順でマージされます。(一番下が最優先)
-   *   1.config/application.yml
-   *   2.config/application_{hostname}.yml
+   *   o config/application.yml
+   *   o config/application_{hostname}.yml
    *
    * @return Delta_ParameterHolder ファイルに含まれる設定情報を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -213,8 +213,8 @@ class Delta_Config extends Delta_Object
   /**
    * フィルタ設定ファイルを読み込みます。
    * ファイルは次の順でマージされます。(一番下が最優先)
-   *   1.config/global_filters.yml
-   *   2.modules/{module_name}/config/filters.yml
+   *   o config/global_filters.yml
+   *   o modules/{module_name}/config/filters.yml
    *
    * @return Delta_ParameterHolder ファイルに含まれる設定情報を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -237,9 +237,9 @@ class Delta_Config extends Delta_Object
   /**
    * ビヘイビア設定ファイルを読み込みます。
    * ファイルは次の順でマージされます。(一番下が最優先)
-   *   1.config/global_behavior.yml
-   *   2.modules/{module_name}/config/behavior.yml
-   *   3.modules/{module_name}/behaviors/{action_name}.yml
+   *   o config/global_behavior.yml
+   *   o modules/{module_name}/config/behavior.yml
+   *   o modules/{module_name}/behaviors/{action_name}.yml
    *
    * @param bool $throw TRUE 指定時はアクションビヘイビアが見つからない場合に例外を発生させます。
    * @return Delta_ParameterHolder ファイルに含まれる設定情報を返します。
@@ -289,8 +289,8 @@ class Delta_Config extends Delta_Object
   /**
    * ヘルパ設定ファイルを読み込みます。
    * ファイルは次の順でマージされます。(一番下が最優先)
-   *   1.config/global_helpers.yml
-   *   2.modules/{module_name}/config/helpers.yml
+   *   o config/global_helpers.yml
+   *   o modules/{module_name}/config/helpers.yml
    *
    * @return Delta_ParameterHolder ファイルに含まれる設定情報を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -313,8 +313,8 @@ class Delta_Config extends Delta_Object
   /**
    * サイト設定ファイルを読み込みます。
    * ファイルは次の順でマージされます。(一番下が最優先)
-   *   1.config/site.yml
-   *   2.config/site_{hostname}.yml
+   *   o config/site.yml
+   *   o config/site_{hostname}.yml
    *
    * @return Delta_ParameterHolder ファイルに含まれる設定情報を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

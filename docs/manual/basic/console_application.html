@@ -188,25 +188,27 @@
             <br>
             &nbsp;&nbsp;public function execute()<br>
             &nbsp;&nbsp;{<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$input = $this-&gt;getInput();<br>
+<br>
             &nbsp;&nbsp;&nbsp;&nbsp;// 全ての引数を配列で取得<br>
             &nbsp;&nbsp;&nbsp;&nbsp;// array('arg1', 'arg2', 'arg3'); <br>
-            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getArguments();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$input-&gt;getArguments();<br>
             <br>
             &nbsp;&nbsp;&nbsp;&nbsp;// TRUE<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;hasArgument('key2');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$input-&gt;hasArgument('key2');<br>
             <br>
             &nbsp;&nbsp;&nbsp;&nbsp;// 'arg3' <br>
-            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getArgument('key3');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$input-&gt;getArgument('key3');<br>
             <br>
             &nbsp;&nbsp;&nbsp;&nbsp;// 全てのオプションを配列で取得<br>
             &nbsp;&nbsp;&nbsp;&nbsp;// array(opt1, 'opt2', 'opt3')<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getOptions();<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$input-&gt;getOptions();<br>
             <br>
             &nbsp;&nbsp;&nbsp;&nbsp;// TRUE<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;hasOption('opt2');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$input-&gt;hasOption('opt2');<br>
             <br>
             &nbsp;&nbsp;&nbsp;&nbsp;// 'Hello'<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getInput()-&gt;getOption('opt3');<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$input-&gt;getOption('opt3');<br>
             &nbsp;&nbsp;} <br>
             } <br>
           </code></dd>
