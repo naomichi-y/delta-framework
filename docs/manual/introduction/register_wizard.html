@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - フレームワーク入門 - 入力、確認、登録!</title>
+<meta charset="UTF-8" />
+<title>delta - 導入 - 入力、確認、登録!</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top"> フレームワーク入門 - 入力、確認、登録!</h1>
+  <h1 id="top"> 導入 - 入力、確認、登録!</h1>
 </header>
 <div id="contents">
   <article>
@@ -31,7 +29,7 @@
     <li><a href="#confirm">登録確認画面の作成</a></li>
     <li><a href="#done">登録完了画面の作成</a></li>
   </ul>
-  <h2><a name="form" id="form"></a>フォームの作成</h2>
+  <h2 id="form">フォームの作成</h2>
   <p>まず初めにユーザのデータを登録するためのフォームを作成しましょう。コンソールを立ち上げ、delta コマンドで Form アクションを作成して下さい。</p>
   <dl>
     <dt>Shell Code# アクションの作成</dt>
@@ -190,7 +188,7 @@
     </div>
   </div>
   <p>HTML で出力されたコードを眺めてみると、$form-&gt;start('Confirm') として作成した開始タグは /confirm.do というアクションに遷移させていることが分かります。ここで「確認」ボタンを押すと、Index アクションに遷移してしまいます。これは、Confirm アクションがないために起こる動作です。それでは Form 同様に、Confirm アクションの作成にとりかかりましょう。</p>
-  <h2><a name="confirm" id="confirm"></a>登録確認画面の作成</h2>
+  <h2 id="confirm">登録確認画面の作成</h2>
   <p>おなじみの delta コマンドで Confirm アクションを作成した後に、アクションクラスを開いて下さい。execute() メソッドに次のコードを記述します。</p>
   <dl>
     <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
@@ -311,7 +309,7 @@
   <p><img src="../assets/images/screenshots/form_confirm.png" alt="" width="86" height="304" /></p>
   <p>更に画面下部に用意された「修正」ボタンを押してみましょう。1 つ手前の入力フォームに戻りますが、先ほど入力した値が各フィールドに自動的にセットされていることが分かります。この時 Form ヘルパは、リクエストされたデータを解析し、フィールド名とマッチするリクエストデータがあれば自動的に送信された値をフィールドの初期値に設定します。つまり、開発者がフィールドごとに初期値の設定する必要はないのです。</p>
   <p> このように、フォームを作成する上で定型となる面倒な作業は全てヘルパが吸収してくれます。開発者や HTML コーダは、フレームワークが提供するヘルパを使いこなすことで、テンプレートの作成や修正にかかる時間を短縮することが可能となるでしょう。</p>
-  <h2><a name="done" id="done"></a>登録完了画面の作成</h2>
+  <h2 id="done">登録完了画面の作成</h2>
   <p>最後は登録完了画面の作成です。先ほど作成した確認画面に「登録」ボタンを追加しますが、HTML の性質上フォームには 1 つのアクションしか指定することができません。通常、ボタンごとに応じた動作を起こすには JavaScript 等のスクリプトを使う必要がありますが、delta では実行するアクションを選択するためのディスパッチャというアクションを挟むことで、ボタンに応じたアクションの切り替えを可能としています。</p>
   <p>初めにフォームの遷移先をディスパッチを行うアクション名に書き換えます。ここでは Dispatcher としました。</p>
   <dl>
@@ -395,7 +393,7 @@
   <p>$html-&gt;messages() メソッドは、メッセージコンポーネントに格納されたメッセージをリスト形式で出力するヘルパです。ファイルを保存したらアプリケーションを立ち上げてみて下さい。確認画面から完了画面に遷移できましたか? プログラムが正しく動作していれば、先ほどアクションで設定したメッセージが表示される筈です。</p>
   <p>ここでテンプレートに直にメッセージを書かなかったのには理由があります。今回はごく簡単なコードでしたが、実際に稼働するアプリケーションとなると、ビジネスロジックでエラーが発生したり、成功通知メッセージも条件によって変化することがあります。このような場合、出力メッセージをテンプレート上で切り替えていたのでは大変です。メッセージコンポーネントを使えばメッセージを外部ファイルで一元管理することもできますし、何よりヘルパを使って統一的なインタフェースでメッセージ管理が可能となります。アプリケーションを構築する上では、フレームワークが提供するコンポーネントをうまく使いこなすことがポイントとなるでしょう。</p>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

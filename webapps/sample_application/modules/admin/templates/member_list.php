@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta http-equiv="Content-Language" content="ja" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
     <title>会員一覧</title>
     <?php echo $html->includeCSS('/assets/base/delta/css/base.css') ?>
     <!--[if lt IE 9]>

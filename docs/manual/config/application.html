@@ -2,9 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta charset="UTF-8" />
 <title>delta - 設定ファイル - application.yml</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
@@ -312,7 +310,7 @@
       <td>&nbsp;</td>
       <td>(string)</td>
       <td></td>
-      <td>セッション開始時に実行するハンドラの指定。詳しくは <a href="../whitepaper/session_handler.html">delta の拡張 - セッションハンドラの利用</a> を参照。</td>
+      <td>セッション開始時に実行するハンドラの指定。詳しくは <a href="../whitepaper/session_handler.html">フレームワークの応用 - セッションハンドラの利用</a> を参照。</td>
     </tr>
     <tr>
       <td colspan="3">cookieLifetime</td>
@@ -590,7 +588,7 @@
       </ul>
     </div>
   </div>
-  <h3><a name="autoload" id="autoload"></a>autoload</h3>
+  <h3 id="autoload">autoload</h3>
   <p>Delta_ClassLoader が参照するクラスの自動読み込みパスを追加します。</p>
   <dl>
     <dt>YAML Code#</dt>
@@ -600,7 +598,7 @@
       &nbsp;&nbsp;extension: /var/lib/extensions </code></dd>
   </dl>
   <p>上記の設定により、例えば plugins ディレクトリ下にある Example.php へのパスが追加され、アクションクラスからはパスを指定することなくクラスを呼び出すことが可能になります。</p>
-  <h3><a name="session_encrypt" id="session_encrypt2"></a>session.encrypt</h3>
+  <h3 id="session_encrypt2">session.encrypt</h3>
   <p>TRUE を指定した場合、セッションデータの内容を暗号化します。</p>
   <dl>
     <dt>session.encrypt: FALSE の場合</dt>
@@ -636,7 +634,7 @@
       &nbsp;&nbsp;)<br />
       ) </dd>
   </dl>
-  <h3><a name="charset.default" id="charset.default"></a>charset.default</h3>
+  <h3 id="charset.default">charset.default</h3>
   <p>アプリケーションのデフォルトエンコーディング形式を指定します。default で指定した形式は、内部・入力・出力エンコーディング (及び出力ヘッダ) にそれぞれ適用されます。また &quot;auto&quot; を指定することで、mbstring オプションによる個別のエンコーディング指定が可能となります。</p>
   <dl>
     <dt>YAML Code#</dt>
@@ -654,7 +652,7 @@
       <p>default に &quot;auto&quot; を指定する場合、mbstring.internal_encoding の指定は必須となります。オプションに &quot;pass&quot; や &quot;auto&quot;が指定されている場合は実行時にエラーが発生します。 </p>
     </div>
   </div>
-  <h3><a name="php" id="php"></a>php</h3>
+  <h3 id="php">php</h3>
   <p>php.ini の設定をアプリケーションレベルで上書きします。</p>
   <dl>
     <dt>YAML Code</dt>
@@ -663,7 +661,7 @@
       &nbsp;&nbsp;display_errors: On<br />
       &nbsp;&nbsp;max_execution_time: 30 </code></dd>
   </dl>
-  <h2><a name="defaultForward" id="defaultForward"></a>モジュールやアクションが見つからない場合の動作</h2>
+  <h2 id="defaultForward">モジュールやアクションが見つからない場合の動作</h2>
   <p>リクエストされたモジュールやアクションが見つからない場合、ルータは設定ファイルに定義されたデフォルトモジュール (アクション) の起動を試みます。ルータが実行するマッチング処理は下表を参照して下さい。</p>
   <div class="note_container note_important">
     <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
@@ -808,7 +806,7 @@
     </tr>
   </table>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

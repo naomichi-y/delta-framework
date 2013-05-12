@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - フレームワーク入門 - delta のセットアップ</title>
+<meta charset="UTF-8" />
+<title>delta - 導入 - delta のセットアップ</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top">フレームワーク入門 - delta のセットアップ </h1>
+  <h1 id="top">導入 - delta のセットアップ </h1>
 </header>
 <div id="contents">
   <article>
@@ -41,9 +39,9 @@
     </li>
     <li><a href="#step3">Step3: アプリケーションの起動</a> </li>
   </ul>
-  <h2><a id="step1" name="step1"></a>Step 1: 環境設定</h2>
+  <h2 id="step1">Step 1: 環境設定</h2>
   <p>まずはフレームワークをインストールする前にソフトウェアの開発環境を整えましょう。</p>
-  <h3><a id="step1_php" name="step1_php"></a>PHP の設定 </h3>
+  <h3 id="step1_php">PHP の設定 </h3>
   <p>delta は PHP 5.3 以降で動作するフルスタック型のフレームワークです。次に示す PHP モジュールに依存しているため、モジュールがインストールされていない場合は組み込みが必要になります。各モジュールがインストールされているかどうかは phpinfo() 関数で確認して下さい。</p>
   <table>
     <colgroup>
@@ -86,7 +84,7 @@
       # 使用するデータベースに合ったドライバをロード <br />
       extendson=php_pdo_mysql.dll </code></dd>
   </dl>
-  <h3><a id="step1_webServer" name="step1_webServer"></a>Web サーバの設定</h3>
+  <h3 id="step1_webServer">Web サーバの設定</h3>
   <p>フレームワークを動作させる上で推奨する Web サーバは Apache 2.2 以降です。Apache を利用する場合、mod_alias と mod_rewrite モジュールが有効化されている必要があります。インストールされていない場合は次の手順に従ってモジュールをインストールしておいて下さい。</p>
   <dl>
     <dt>Shell Code# mod_rewrite の静的インストール (Linux の場合)</dt>
@@ -104,12 +102,12 @@
       LoadModule rewrite_module modules/mod_rewrite.so<br />
       </code></dd>
   </dl>
-  <h3><a id="step1_dbServer" name="step1_dbServer"></a>DB サーバのインストール (任意)</h3>
+  <h3 id="step1_dbServer">DB サーバのインストール (任意)</h3>
   <p>フレームワークに付属するサンプルアプリケーションを動作させるには DB サーバが必要となります。特に必要となる設定はありませんが、クライアントプログラム (PDO) から接続する際のエンコードの指定だけは注意が必要です。delta はデフォルトエンコーディングに UTF-8 を使用しますが、DB サーバのデータベースエンコーディングに他のエンコードを使用している場合は文字コードの変換が必要となります。</p>
   <p>データベースエンコーディングが UTF-8 以外の場合、MySQL であれば設定ファイル上で次のような指定が必要となるでしょう。</p>
   <dl>
     <dt>Shell Code# my.cnf の設定例</dt>
-    <dd><code>[mysqld]<br />
+    <dd class="lang_shell"><code>[mysqld]<br />
       default-character-set=utf8<br />
       <br />
       # Web サーバと DB サーバが同じ場合 <br />
@@ -125,10 +123,10 @@
       </ul>
     </div>
   </div>
-  <h2><a id="step2" name="step2">Step 2: delta のインストール </a></h2>
+  <h2 id="step2">Step 2: delta のインストール</h2>
   <p>初めに delta の最新版パッケージを Git リポジトリ (あるいはアーカイブリスト) から入手して下さい。ダウンロードしたパッケージには、delta のコアライブラリやプロジェクトのスケルトン、ドキュメント、API が含まれています。(以後コアパッケージと称します) 実際にアプリケーションを開発する際は、このパッケージとは別にプロジェクトディレクトリを作成し、その中でプログラムを組んでいきます。</p>
   <p>コアパッケージは Web から参照されない場所に配置して下さい。フレームワークはライブラリという扱いなので、Linux であれば /var/repos/delta といったディレクトリに設置すると良いでしょう。</p>
-  <h3><a id="step2_command" name="step2_command">delta コマンドにパスを通す</a></h3>
+  <h3 id="step2_command">delta コマンドにパスを通す</h3>
   <p>delta にはプロジェクトの作成やモジュールの追加を簡単に行うためのユーティリティコマンド (delta.php) が付属しています。コマンド自体は PHP スクリプトのため php を通して実行すれば良いのですが、パスを通すことでどこからでもコマンドが実行できるようになります。</p>
   <p>コマンドにパスを通す場合、コアパッケージ内の次のファイルを OS のパスが通っている場所にコピーして下さい。</p>
   <table>
@@ -168,7 +166,7 @@
       &nbsp;&nbsp;...</code></dd>
   </dl>
   <p>モジュールの追加やキャッシュの削除に関しては、プロジェクト内のディレクトリであればどこからでも実行することができます。</p>
-  <h3><a id="step2_project" name="step2_project"></a>プロジェクトの作成</h3>
+  <h3 id="step2_project">プロジェクトの作成</h3>
   <p>それでは早速アプリケーションを格納するための入れ物であるプロジェクトを作成してみましょう。delta コマンドでプロジェクトを作成するには、&quot;create-project&quot; オプションを指定します。</p>
   <dl>
     <dt>Shell Code# プロジェクトの作成</dt>
@@ -201,7 +199,7 @@
       <p>各ディレクトリの役割については <a href="../appendix/directory_tree.html">ディレクトリ構成</a> を参照して下さい。</p>
     </div>
   </div>
-  <h2><a id="step3" name="step3"></a>Step 3: アプリケーションの起動 </h2>
+  <h2 id="step3">Step 3: アプリケーションの起動 </h2>
   <p>最後に webroot ディレクトリを Web の公開ディレクトリとして設定します。</p>
   <dl>
     <dt>Configration Code# {httpd}/conf/extra/httpd-vhosts.conf (VirtualHost によるサイト設定) </dt>
@@ -231,7 +229,7 @@
     </div>
   </div>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

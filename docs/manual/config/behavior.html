@@ -2,9 +2,7 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta charset="UTF-8" />
 <title>delta - 設定ファイル - 設定ファイル - globe_behavior.yml</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
@@ -65,7 +63,7 @@
       <p>アクションにおいてビューを返す場合は、ビヘイビアファイルにて表示するテンプレートを関連付ける必要があるため必須です。(global_behavior.yml にてビューが定義されている場合を除く)</p>
     </div>
   </div>
-  <h2><a id="behaviorReference" name="behaviorReference"></a>属性一覧</h2>
+  <h2 id="behaviorReference">属性一覧</h2>
   <p>次に behavior (global_behavior.yml を含む) ファイルで設定可能な値の一覧を記します。</p>
   <table>
     <colgroup>
@@ -436,7 +434,7 @@
       <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
   </div>
-  <h3><a name="ref" id="ref"></a>@ref 指示子</h3>
+  <h3 id="ref">@ref 指示子</h3>
   <p>@ref 指示子を使うことで、他のビヘイビアに定義された値を参照することができます。</p>
   <dl>
     <dt>YAML Code# modules/{module}/behaviors/Foo.yml</dt>
@@ -452,7 +450,7 @@
   </dl>
   <p>@ref が指定された場合、同一階層で定義されている全ての属性は無視されます。</p>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

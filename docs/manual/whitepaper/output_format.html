@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - アプリケーション開発実践 Tips - さまざまな形式でデータを出力する</title>
+<meta charset="UTF-8" />
+<title>delta - 基本的な機能 - さまざまな形式でデータを出力する</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top">アプリケーション開発実践 Tips - さまざまな形式でデータを出力する</h1>
+  <h1 id="top">基本的な機能 - さまざまな形式でデータを出力する</h1>
 </header>
 <div id="contents">
   <article>
@@ -33,7 +31,7 @@
     <li><a href="#custom">Content-Type を直接指定する</a></li>
   </ul>
   <blockquote>
-    <h2><a name="json" id="json"></a>JSON 形式で出力</h2>
+    <h2 id="json">JSON 形式で出力</h2>
   </blockquote>
   <p>文字列や配列データを JSON 形式で出力してみましょう。JSON 形式で出力を行うには、Delta_HttpResponse::writeJSON() メソッドを使用します。</p>
   <dl>
@@ -58,7 +56,7 @@
       <p>writeXXX()、setDownloadData() 等のメソッドでデータを書き込んだ場合、後に続く全ての出力は無効となります。書き込んだデータを破棄するには Delta_HttpResponse::clear() メソッドを実行して下さい。</p>
     </div>
   </div>
-  <h2><a name="binary" id="binary"></a>バイナリ形式で出力</h2>
+  <h2 id="binary">バイナリ形式で出力</h2>
   <p>ファイルやデータベースから取得したバイナリデータを出力する場合は、Delta_HttpResponse::writeBinary() メソッドを使用すると良いでしょう。</p>
   <dl>
     <dt>PHP Code#</dt>
@@ -80,7 +78,7 @@
       }</code></dd>
   </dl>
   <p>上記コードの場合、ユーザが適切なロールを持っていれば非公開ディレクトリ内のイメージファイルをブラウザに出力します。</p>
-  <h2><a name="download" id="download"></a>ダウンロード形式で出力</h2>
+  <h2 id="download">ダウンロード形式で出力</h2>
   <p>指定したデータをクライアントに強制的にダウンロードさせるには Delta_HttpResponse::setDownloadData() メソッドを使用します。</p>
   <dl>
     <dt>PHP Code#</dt>
@@ -94,7 +92,7 @@
       &nbsp;	return Delta_View::NONE;<br />
       }</code></dd>
   </dl>
-  <h2><a name="custom" id="custom"></a>Content-Type を直接指定する</h2>
+  <h2 id="custom">Content-Type を直接指定する</h2>
   <p>これまで紹介した方法はアクション上で一般的な出力形式にデータを変換するものでしたが、アプリケーションの機能によっては XML 形式でデータを出力したい、またはテンプレートの出力結果をダウンロードさせたいといった場面も出てくるでしょう。こうした場合はレスポンス出力時のヘッダを直接指定することで対応することができます。次のコードを確認して下さい。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/CSVDownloadAction.php</dt>
@@ -117,7 +115,7 @@
   </dl>
   <p>サンプルコードらしく、割り当てられたコードを出力するだけの記述としました。出来上がったプログラムをブラウザから実行してみてください。ダウンロードダイアログが表示されましたか? それではファイルをダウンロードしてテキストエディタで開いてみましょう。想像される通り、中に書かれた文字列は hello となります。</p>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - アプリケーション開発実践 Tips - フィルタを使う</title>
+<meta charset="UTF-8" />
+<title>delta - 基本的な機能 - フィルタを使う</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top">アプリケーション開発実践 Tips - フィルタを使う </h1>
+  <h1 id="top">基本的な機能 - フィルタを使う </h1>
 </header>
 <div id="contents">
   <article>
@@ -36,7 +34,7 @@
     <li><a href="#filterChain">フィルタチェインの実装</a></li>
     <li><a href="#packageFilter">パッケージフィルタ機能</a></li>
   </ul>
-  <h2><a id="introduction" name="introduction"></a>フィルタの概要</h2>
+  <h2 id="introduction">フィルタの概要</h2>
   <p>フィルタはユーザからのリクエスト、及びレスポンスに対して、何らかの処理を行うオブジェクトです。Web アプリケーションを構築していると、次のような共通の処理が発生することがあります。</p>
   <ul>
     <li>ユーザの認証</li>
@@ -74,7 +72,7 @@
       </code></dd>
   </dl>
   <p>以上でフィルタの設定は完了です。今後は、モジュール内のアクションが起動するたびに SystemMaintenanceFilter#doFilter() メソッドが処理されるようになります。</p>
-  <h2><a id="filterChain" name="filterChain"></a>フィルタチェインの実装</h2>
+  <h2 id="filterChain">フィルタチェインの実装</h2>
   <p>filters ファイルに複数のフィルタを定義することで、連鎖的にフィルタを処理することが可能です。例えば次のようなフィルタとアクションを定義したとします。</p>
   <ul>
     <li>ExampleFilter1 (config/global_filters.yml) </li>
@@ -97,7 +95,7 @@
     <li>Delta_FilterChain は ExampleFilter1 のポストフィルタを実行 </li>
   </ol>
   <p><img src="../assets/images/diagram/sequence/filter.png" alt="sd Delta_Filter" width="712" height="541" /> </p>
-  <h2><a id="packageFilter" name="packageFilter"></a>パッケージフィルタ機能</h2>
+  <h2 id="packageFilter">パッケージフィルタ機能</h2>
   <p>パッケージフィルタは、従来のフィルタ機能を拡張したアクションのパッケージ機能です。<br />
     delta はアクションのディレクトリを自由に階層化することが出来ますが、パッケージフィルタを利用することで、アクションの階層単位でフィルタリング処理が可能になります。</p>
   <dl>
@@ -121,7 +119,7 @@
   </dl>
   <p>packages 属性において &quot;{module}:foo&quot; ({module} は実際のモジュール名) を指定してますが、これは実行しようとしているアクションが modules/{module}/actions/foo パッケージの直下にある場合にフィルタを実行します。FooFilter は actions ディレクトリ直下の PackageClient1 や、foo/bar ディレクトリ下の PackageClient3 アクション起動時に処理を実行しません。foo パッケージ下全てのアクションを対象としたい場合は、&quot;{module}:foo/*&quot; のように最後をアスタリスクを付けて下さい。</p>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

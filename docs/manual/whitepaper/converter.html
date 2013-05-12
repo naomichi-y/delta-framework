@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - アプリケーション開発実践 Tips - 入力値の変換 (コンバータ)</title>
+<meta charset="UTF-8" />
+<title>delta - 基本的な機能 - 入力値の変換 (コンバータ)</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top">アプリケーション開発実践 Tips - 入力値の変換 (コンバータ)</h1>
+  <h1 id="top">基本的な機能 - 入力値の変換 (コンバータ)</h1>
 </header>
 <div id="contents">
   <article>
@@ -30,7 +28,7 @@
     <li><a href="#converterList">コンバータの種類</a></li>
     <li><a href="#converterOverride">コンバータの作成</a></li>
   </ul>
-  <h2><a id="introduction" name="introduction"></a>入力値を変換する</h2>
+  <h2 id="introduction">入力値を変換する</h2>
   <p>コンバータは、クライアントから要求されたリクエスト内容を特定のデータ形式に変換する機能です。例えば HTML フォームから名前を入力させ、次の確認画面で名前を表示させたい場合、名前の前後に余計な空白があると次のアクションでも空白部分が保持されてしまいます。このような場合は、Delta_TrimConverter を利用することで問題を解決することが出来ます。下記のサンプルコードを参照して下さい。</p>
   <p>初めに、会員登録するためのアクション、及び HTML フォームを作成します。(アクションのコードはここでは省略)</p>
   <dl>
@@ -75,7 +73,7 @@
   </dl>
   <p>尚、コンバータは対象アクションのセキュリティチェック後、バリデータが実行される前に処理されます。従って、バリデータでエラーが発生した場合も、コンバートされたデータが保持されることに注意して下さい。</p>
   <p>上記のサンプルコードでも示していますが、コンバータ ID (commonConverter) 直下の属性 (names、converters) は、それぞれ複数のフィールド、クラスを定義することが可能です。names (フィールド名) の場合は &quot;,&quot; (カンマ) 区切り、コンバータクラスの場合は &quot;(クラス名):&quot; の形で宣言して下さい。これにより、1 つのコンバータ ID で複数フィールドに対し複数のコンバータを適用することが可能になります。 </p>
-  <h2><a id="converterList" name="converterList"></a>コンバータの種類</h2>
+  <h2 id="converterList"></a>コンバータの種類</h2>
   <p>delta Framework にはあらかじめいくつかのコンバータが用意されており、ビヘイビアファイルにクラスを定義するだけですぐにでも利用することが可能です。</p>
   <table>
     <colgroup>
@@ -136,7 +134,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace: '*'</code></dd>
   </dl>
   <p>各コンバータごとの属性の詳細に関しては <img src="../assets/images/icons/api.gif" alt="delta API" width="14" height="14" /> <a href="../../api/index.html">delta API</a> を参照して下さい。 </p>
-  <h2><a id="converterOverride" name="converterOverride"></a>コンバータの作成</h2>
+  <h2 id="converterOverride">コンバータの作成</h2>
   <p>実際にアプリケーションを開発していると、フレームワークが提供するコンバータでは対応できない変換ケースも出てきます。このような場合は、オリジナルのコンバータクラスを作成してみましょう。コンバータの作成方法はとても簡単です。Delta_Converter クラスを継承した独自のクラスを作成し、それをビヘイビア上で宣言するだけで良いのです。</p>
   <p>では初めにコンバータクラスを作成してみましょう。サンプルコードとして、リクエストされた日付形式 (YYYY、または YYYYMM、YYYYMMDD) に不足するフォーマット文字列を現在の日付でアペンドするコードを実装します。このコンバータは、現在が 2008 年 4 月 1 日だとして、&quot;2008&quot; がリクエストされた場合は &quot;20080401&quot;、&quot;200804&quot; がリクエストされた場合は &quot;20080401&quot; に変換する仕組みが必要となります。詳しくは次のコードを確認して下さい。</p>
   <dl>
@@ -216,7 +214,7 @@
       } </code></dd>
   </dl>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

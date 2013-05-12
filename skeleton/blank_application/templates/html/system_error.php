@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Language" content="ja" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
     <title>システムエラー</title>
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
     <!--[if lt IE 9]>

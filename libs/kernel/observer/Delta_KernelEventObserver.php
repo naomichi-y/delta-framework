@@ -116,7 +116,7 @@ class Delta_KernelEventObserver extends Delta_Object
    */
   public function getEventListeners()
   {
-    return $this->_config->getArray('observer.listeners');
+    return $this->_listeners;
   }
 
   /**

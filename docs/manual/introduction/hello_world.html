@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Language" content="ja" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<title>delta - フレームワーク入門 - Hello World!</title>
+<meta charset="UTF-8" />
+<title>delta - 導入 - Hello World!</title>
 <link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <!--[if lt IE 9]>
 <script src="../assets/js/html5shiv.js"></script>
@@ -19,7 +17,7 @@
       <!--#include virtual="/global_assets/content/navi.php" --> 
     </div>
   </div>
-  <h1 id="top"> フレームワーク入門 - Hello World!</h1>
+  <h1 id="top"> 導入 - Hello World!</h1>
 </header>
 <div id="contents">
   <article>
@@ -35,7 +33,7 @@
     <li><a href="#functionOfTemplate">テンプレートの役割 </a></li>
     <li><a href="#namingRules">ファイルの命名規則</a></li>
   </ul>
-  <h2><a name="moduleAndAction" id="moduleAndAction"></a>モジュールとアクション</h2>
+  <h2 id="moduleAndAction">モジュールとアクション</h2>
   <p>モジュールはアプリケーションの部品を表します。通常、アプリケーションは複数のモジュールから構成されることが多く、モジュール単位で独立した機能を備えています。例えばショッピングサイトを見てみると、次のように機能を切り分けることができます。</p>
   <table>
     <colgroup>
@@ -100,7 +98,7 @@
   </table>
   <p>ここで 2 つのモジュールが登場しました。ショッピングサイトを利用する「利用者」と、サイトを管理する「管理者」です。各モジュールはそれぞれ独立し、様々な機能 (delta ではアクションと呼びます) を提供します。アプリケーションを設計する上では、ユースケース図を書く場合もあると思いますが、アクターをモジュール、ユースケースをアクションと考えると分かりやすいかもしれません。</p>
   <p>また、小規模アプリケーションの場合は 1 つのモジュールで事足りる場合もありますが、アプリケーションが発展し大規模化すると、アクション数が肥大化してプログラムのメンテナンスがし難くなることがあります。プログラムを設計する際は、モジュールとアクションの切り分けを心がけておいて下さい。</p>
-  <h2><a name="moduleDirectory" id="moduleDirectory"></a>モジュールのディレクトリ構成</h2>
+  <h2 id="moduleDirectory">モジュールのディレクトリ構成</h2>
   <p><a href="setup.html">delta のセットアップ</a> で hello モジュールを作成したことを覚えてますか? 正しくモジュールが作成されていれば、プロジェクトディレクトリの modules 下に hello というディレクトリができている筈です。もしディレクトリが存在しない場合は、コンソール上で次のコマンドを実行して下さい。</p>
   <dl>
     <dt>Shell Code# モジュールの作成</dt>
@@ -162,7 +160,7 @@
       &gt; Create template: /var/www/modules/hello/templates/greeting.php</code></dd>
   </dl>
   <p>今回は Greeting というアクションを作成しました。出力結果を見ると、クラスファイル以外にも behaviors ディレクトリ下に Greeting.yml ファイル、templates ディレクトリ下に greeting.php ファイルが作成されたことが分かります。</p>
-  <h2><a name="launchAction" id="launchAction"></a>アクションの起動</h2>
+  <h2 id="launchAction">アクションの起動</h2>
   <p>それでは早速ブラウザを立ち上げて hello モジュールの Greeting アクションを起動してみましょう。モジュールの起動パスは次の通りです。</p>
   <dl>
     <dt>モジュールの起動パス</dt>
@@ -184,7 +182,7 @@
       http://{host}/greeting.do </code></dd>
   </dl>
   <p>これは、config/application.yml の module.entry 属性に hello という設定が記述されているためです。module.entry 属性は、リクエストパスにモジュール名が含まれていない場合に起動するデフォルトのモジュールを指定できます。delta では、このような動作を行なうモジュールをデフォルトモジュールと呼びます。</p>
-  <h2><a name="functionOfAction" id="functionOfAction"></a>アクションクラスの役割</h2>
+  <h2 id="functionOfAction">アクションクラスの役割</h2>
   <p>それでは先ほど --add-action で追加されたファイルを見てみましょう。</p>
   <ul>
     <li>modules/hello/actions/GreetingAction.php</li>
@@ -258,7 +256,7 @@
     </div>
   </div>
   <p>少し話が脱線しましたが、Delta_View::setAttribute() はテンプレートに変数を割り当てるためのメソッドです。先の例では、hello という変数名で World! という文字列を割り当てたことになります。コードを設定したらファイルを保存して下さい。</p>
-  <h2><a name="functionOfBehavior" id="functionOfBehavior"></a>ビヘイビアの役割</h2>
+  <h id="functionOfBehavior">ビヘイビアの役割</h2>
   <p>次に Greeting.yml ファイルを見てみましょう。ビヘイビアファイルは、アクションを出力するビューの制御や、フォームから入力されたデータを検証するために使用されるアクションのための設定ファイルです。</p>
   <dl>
     <dt>YAML Code# modules/hello/behaviors/Greeting.yml</dt>
@@ -279,7 +277,7 @@
       <p>ここでは説明のために view 属性を定義していますが、Delta_View::SUCCESS を返すアクションでは、アクション名 (Greeting) とテンプレート名 (greeting) が同じ場合に view の定義を省略することができます。尚、後述しますが、アクション名はパスカルケース形式、テンプレート名はスネークケース形式の命名を利用します。view の定義を省略する場合、FooBar アクションに対応するテンプレート名は foo_bar となることに注意して下さい。</p>
     </div>
   </div>
-  <h2><a name="functionOfTemplate" id="functionOfTemplate"></a>テンプレートの役割</h2>
+  <h2 id="functionOfTemplate">テンプレートの役割</h2>
   <blockquote>
     <p>続いてアクションの結果を返すテンプレートを見てみましょう。</p>
     <dl>
@@ -310,7 +308,7 @@
   </dl>
   <p>$this-&gt;getView()-&gt;setAttribute('hello', 'world!') で割り当てた変数は $hello で参照することができます。最後にブラウザを立ち上げ、hello モジュールを起動してみましょう。画面に World! の文字が表示されたら出力成功です。</p>
   <p>今回は文字列を出力するだけの簡単な例でしたが、delta ではこのようにロジックをアクションに記述し、テンプレートでは割り当てた変数を展開、表示するという流れが開発の基本スタイルになります。アプリケーションの規模が大きくなると、テンプレートの編集にはプログラムが分からないデザイナや HTML コーダーが参加することもあります。アプリケーション開発者はこれらのスタッフが参加することも考慮し、テンプレートを極力シンプルに記述できるよう心がける必要があります。</p>
-  <h2><a name="namingRules" id="namingRules"></a>ファイルの命名規則</h2>
+  <h2 id="namingRules">ファイルの命名規則</h2>
   <p>ビヘイビアやテンプレートなどのファイル名は、それぞれ元となるアクション名に基づいて名前が決まります。delta コマンドでアクションを作成する場合は特に意識する必要がありませんが、手動で各種ファイルを作成したい場合は変換規則を覚えておくと良いでしょう。</p>
   <table>
     <colgroup>
@@ -361,7 +359,7 @@
     </div>
   </div>
   <p class="right"><a href="#top">上へ</a></p>
-</div>
+</article>
 </div>
 <footer>
   <p>Copyright &copy; delta framework project.</p>

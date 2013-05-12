@@ -51,7 +51,7 @@ class Delta_Console extends Delta_Object
       $output = new Delta_ConsoleOutput();
       $configure = new Delta_ConsoleInputConfigure();
 
-      if ($input->hasOption('silent')) {
+      if ($input->hasCoreOption('silent')) {
         $output->setSilentMode(TRUE);
       }
 
