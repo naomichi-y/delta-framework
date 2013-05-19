@@ -758,8 +758,8 @@ class Delta_CommandExecutor
           $message = sprintf('Table already exists. [default.%s]', $table['name']);
           $this->_output->errorLine($message);
         }
-
       }
+
     } else {
       $this->_output->errorLine('Data source does not exists. [default]');
     }
