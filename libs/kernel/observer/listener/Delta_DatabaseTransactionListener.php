@@ -17,7 +17,8 @@
  * <code>
  * observer:
  *   listeners:
- *     - class: Delta_DatabaseTransactionListener
+ *     databaseTransactionListener:
+ *       class: Delta_DatabaseTransactionListener
  * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

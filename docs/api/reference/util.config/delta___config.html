@@ -1186,7 +1186,12 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static Delta_ConfigCustomHolder createCustomFile($path)</code></div>
                                               <div class="text">
 カスタム設定ファイルを作成します。
+ファイルは次の順でマージされます。(一番下が最優先)
 </div>
+<ul>
+<li>config/{custom_name}.yml</li>
+<li>config/{custom_name}_{hostname}.yml</li>
+</ul>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1285,9 +1290,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <div class="text">
 アプリケーション設定ファイルを読み込みます。
 ファイルは次の順でマージされます。(一番下が最優先)
-  1.config/application.yml
-  2.config/application_{hostname}.yml
 </div>
+<ul>
+<li>config/application.yml</li>
+<li>config/application_{hostname}.yml</li>
+</ul>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1376,10 +1383,12 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <div class="text">
 ビヘイビア設定ファイルを読み込みます。
 ファイルは次の順でマージされます。(一番下が最優先)
-  1.config/global_behavior.yml
-  2.modules/{module_name}/config/behavior.yml
-  3.modules/{module_name}/behaviors/{action_name}.yml
 </div>
+<ul>
+<li>config/global_behavior.yml</li>
+<li>modules/{module_name}/config/behavior.yml</li>
+<li>modules/{module_name}/behaviors/{action_name}.yml</li>
+</ul>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1508,9 +1517,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <div class="text">
 フィルタ設定ファイルを読み込みます。
 ファイルは次の順でマージされます。(一番下が最優先)
-  1.config/global_filters.yml
-  2.modules/{module_name}/config/filters.yml
 </div>
+<ul>
+<li>config/global_filters.yml</li>
+<li>modules/{module_name}/config/filters.yml</li>
+</ul>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1546,9 +1557,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <div class="text">
 ヘルパ設定ファイルを読み込みます。
 ファイルは次の順でマージされます。(一番下が最優先)
-  1.config/global_helpers.yml
-  2.modules/{module_name}/config/helpers.yml
 </div>
+<ul>
+<li>config/global_helpers.yml</li>
+<li>modules/{module_name}/config/helpers.yml</li>
+</ul>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1682,9 +1695,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <div class="text">
 サイト設定ファイルを読み込みます。
 ファイルは次の順でマージされます。(一番下が最優先)
-  1.config/site.yml
-  2.config/site_{hostname}.yml
 </div>
+<ul>
+<li>config/site.yml</li>
+<li>config/site_{hostname}.yml</li>
+</ul>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1723,7 +1738,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 13 May 2013 01:28:45 +0900<br />
+  <p>This document was generated on Mon, 20 May 2013 03:00:28 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

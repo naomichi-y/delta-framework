@@ -331,6 +331,9 @@ class Delta_Config extends Delta_Object
 
   /**
    * カスタム設定ファイルを作成します。
+   * ファイルは次の順でマージされます。(一番下が最優先)
+   *   o config/{custom_name}.yml
+   *   o config/{custom_name}_{hostname}.yml
    *
    * @param string $path APP_ROOT_DIR/config、または '@{path}' 形式の APP_ROOT_DIR から始まるパス。
    *   拡張子を付ける必要はありません。
@@ -611,7 +614,7 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_CUSTOM:
         if (is_file($path)) {
-          $config = $cache->get($path);
+          $config = $cache->get($path, NULL, TRUE);
         }
 
         break;

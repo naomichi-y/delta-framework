@@ -102,9 +102,22 @@ abstract class Delta_DAO extends Delta_Object
   }
 
   /**
-   * DAO が所属する名前空間を取得します。
+   * DAO が接続するデータベースの名前空間を設定します。
    *
-   * @return string DAO が所属する名前空間を返します。
+   * @param string $namespace データベースの名前空間。デフォルトの接続先は 'default' となります。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   * @since 1.1
+   */
+  public function setNamespace($namespace)
+  {
+    $this->_namespace = $namespace;
+  }
+
+  /**
+   * DAO が接続するデータベースの名前空間を取得します。
+   *
+   * @return string データベースの名前空間を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getNamespace()
   {
