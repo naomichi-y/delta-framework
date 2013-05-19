@@ -195,7 +195,8 @@ class Delta_SQLProfiler extends Delta_Object
     if (Delta_BootLoader::isBootTypeWeb()) {
       $report->moduleName = Delta_Router::getInstance()->getEntryModuleName();
       $report->actionName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
-    } else {
+
+    } else if (Delta_BootLoader::isBootTypeConsole()) {
       $console = Delta_DIContainerFactory::getContainer()->getComponent('console');
       $report->commandName = $console->getCommandName();
     }
