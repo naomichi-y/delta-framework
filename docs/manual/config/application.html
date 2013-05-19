@@ -279,7 +279,7 @@
         ※コールバックを無効にしたい場合は &quot;none&quot; を指定する。</td>
     </tr>
     <tr>
-      <td rowspan="13">session</td>
+      <td rowspan="14">session</td>
       <td colspan="5">&nbsp;</td>
       <td></td>
       <td>HTTP セッションの動作を定義。</td>
@@ -308,9 +308,16 @@
     <tr>
       <td colspan="3">handler</td>
       <td>&nbsp;</td>
-      <td>(string)</td>
+      <td>(array)</td>
       <td></td>
       <td>セッション開始時に実行するハンドラの指定。詳しくは <a href="../whitepaper/session_handler.html">フレームワークの応用 - セッションハンドラの利用</a> を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;</td>
+      <td>class</td>
+      <td>(string)</td>
+      <td></td>
+      <td>ハンドラクラス名。</td>
     </tr>
     <tr>
       <td colspan="3">cookieLifetime</td>

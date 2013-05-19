@@ -28,9 +28,10 @@ class Delta_APCSessionHandler extends Delta_Object
   /**
    * コンストラクタ。
    *
+   * @param Delta_ParameterHolder $config セッションハンドラ属性。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function __construct()
+  private function __construct(Delta_ParameterHolder $config)
   {
     $this->_lifetime = ini_get("session.gc_maxlifetime");
 
@@ -45,15 +46,16 @@ class Delta_APCSessionHandler extends Delta_Object
   /**
    * セッション管理を APC にハンドリングします。
    *
+   * @param Delta_ParameterHolder $config セッションハンドラ属性。
    * @return Delta_APCSessionHandler Delta_APCSessionHandler のインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function handler()
+  public static function handler(Delta_ParameterHolder $config)
   {
     static $instance;
 
     if ($instance === NULL) {
-      $instance = new Delta_APCSessionHandler();
+      $instance = new Delta_APCSessionHandler($config);
     }
 
     return $instance;
