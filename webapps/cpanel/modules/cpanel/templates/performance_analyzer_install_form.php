@@ -23,7 +23,25 @@
         DPA はビジネスロジックで必要とされる実行コストをグラフィカルに確認することができるため、アプリケーションを開発する上でボトルネックとなるロジックを見つけ出す際に非常に役立つでしょう。
       </p>
       <h2>インストール方法</h2>
-      <p>DPA を利用するには MySQL のデータベースが必要となります。接続情報を application.yml の 'database.default' に定義定した後、「インストール」ボタンを実行して下さい。</p>
+      <p>DPA を利用するにはデータベース (MySQL) の設定が必要となります。以下のコードを参考にパフォーマンスアナライザに必要な属性を config/application.yml に追記して下さい。</p>
+      <div class="lang_yaml">
+        <code>
+        # データベース接続情報<br />
+        database:<br />
+        &nbsp;&nbsp;default:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;dsn: "mysql:host=localhost; dbname={DB_NAME}; port={PORT}"<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;user: "{DB_USER}"<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;password: "{DB_PASSWORD}"<br /><br />
+        # パフォーマンスアナライザの設定<br />
+        observer:<br />
+        &nbsp;&nbsp;listeners:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;# リスナー ID (固定)<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;performanceListener:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_PerformanceListener<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;database: default
+        </code>
+      </div>
+      <p>ファイル更新後、「DPA をインストールする」ボタンを押してインストールを完了させましょう。</p>
       <?php echo $form->start('PerformanceAnalyzerInstall') ?>
         <p class="center"><?php echo $form->inputSubmit('DPA をインストールする', array('class' => 'btn')) ?></p>
       <?php echo $form->close() ?>

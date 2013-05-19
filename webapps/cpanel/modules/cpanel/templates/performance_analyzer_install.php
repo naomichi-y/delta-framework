@@ -20,19 +20,11 @@
       <?php echo $html->messages() ?>
       <?php echo $html->errors() ?>
       <?php if (!$html->hasError()): ?>
-        <h2>インストール後の設定</h2>
-        <p>config/application.yml に以下のコードを追加して下さい。</p>
-        <div class="lang_yaml">
-          <code>
-          observer:<br />
-          &nbsp;&nbsp;listeners:<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;- class: Delta_PerformanceListener
-          </code>
-        </div>
+        <p>以上で設定は完了です。今後はデータベースに送信されたクエリをパフォーマンスアナライザ画面から確認することができるようになります。</p>
+        <?php echo $form->start('PerformanceAnalyzer') ?>
+          <p class="center"><?php echo $form->inputSubmit('利用を開始する', array('class' => 'btn')) ?></p>
+        <?php echo $form->close() ?>
       <?php endif; ?>
-      <?php echo $form->start('PerformanceAnalyzer') ?>
-        <p class="center"><?php echo $form->inputSubmit('利用を開始する', array('class' => 'btn')) ?></p>
-      <?php echo $form->close() ?>
     </div>
     <footer>
       <?php $html->includeTemplate('includes/footer') ?>

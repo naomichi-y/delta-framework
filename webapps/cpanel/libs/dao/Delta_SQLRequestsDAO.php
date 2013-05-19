@@ -5,7 +5,7 @@
  *
  * @package libs.dao
  */
-class Delta_SQLRequestsDAO extends Delta_DAO
+class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
 {
   protected $_tableName = 'delta_sql_requests';
   protected $_primaryKeys = array('sql_request_id');

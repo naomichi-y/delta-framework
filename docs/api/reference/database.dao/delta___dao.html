@@ -773,7 +773,7 @@ database コンポーネントからコネクションオブジェクトを取�
                                                       <a href="#method_getNamespace">getNamespace()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-DAO が所属する名前空間を取得します。
+DAO が接続するデータベースの名前空間を取得します。
 </div>
                                                   </td>
                         <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
@@ -828,6 +828,16 @@ DAO が所属する名前空間を取得します。
                         <td>
                                                       <div class="text">
 レコードを登録します。
+</div>
+                                                  </td>
+                        <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_setNamespace">setNamespace()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+DAO が接続するデータベースの名前空間を設定します。
 </div>
                                                   </td>
                         <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
@@ -1060,7 +1070,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public string getNamespace()</code></div>
                                               <div class="text">
-DAO が所属する名前空間を取得します。
+DAO が接続するデータベースの名前空間を取得します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1073,17 +1083,23 @@ DAO が所属する名前空間を取得します。
                           <th>Type</th>
                           <th>Description</th>
                         </tr>
-                                                                                                                                                        <tr>
+                                                                                                                                                                                                          <tr>
                               <td>{return}</td>
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-DAO が所属する名前空間を返します。
+データベースの名前空間を返します。
 </div>
                                                               </td>
                             </tr>
-                                                                          </table>
-                                                                  <p class="right"><a href="#methods">To methods</a></p>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                                                           <dt id="method_getPrimaryKeys">getPrimaryKeys()</dt>
                     <dd>
@@ -1162,6 +1178,45 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_setNamespace">setNamespace()</dt>
+                    <dd>
+                      <div class="source"><code>public void setNamespace($namespace)</code></div>
+                                              <div class="text">
+DAO が接続するデータベースの名前空間を設定します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$namespace</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+データベースの名前空間。デフォルトの接続先は &#039;default&#039; となります。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_truncate">truncate()</dt>
                     <dd>
                       <div class="source"><code>public void truncate()</code></div>
@@ -1187,7 +1242,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 13 May 2013 01:28:44 +0900<br />
+  <p>This document was generated on Mon, 20 May 2013 03:00:27 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
