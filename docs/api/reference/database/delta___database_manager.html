@@ -596,7 +596,7 @@
 アプリケーション属性:
 <div class="source"><code># データベース設定
 database:
-  # 接続先の名前空間。<a href="../database/delta___database_manager.html#method_getConnection">Delta_DatabaseManager::getConnection()</a> メソッドで使用される標準の名前空間は <a href="../database/delta___database_manager.html#constant_CONNECT_DEFAULT_NAMESPACE">Delta_DatabaseManager::CONNECT_DEFAULT_NAMESPACE</a>。
+  # 接続先の名前空間。<a href="../database/delta___database_manager.html#method_getConnection">Delta_DatabaseManager::getConnection()</a> メソッドで使用される標準の名前空間は <a href="../database/delta___database_manager.html#constant_DEFAULT_DATASOURCE_ID">Delta_DatabaseManager::DEFAULT_DATASOURCE_ID</a>。
   {datasource}:
     # データソース名、または DSN。
     # (DSN については <a href="http://www.php.net/pdo.construct.php">PDO::__construct()</a> メソッドも参照)
@@ -683,7 +683,7 @@ database
                   <th>Summary</th>
                 </tr>
                                   <tr>
-                    <td class="left"><a href="#constant_CONNECT_DEFAULT_NAMESPACE">CONNECT_DEFAULT_NAMESPACE</a></td>
+                    <td class="left"><a href="#constant_DEFAULT_DATASOURCE_ID">DEFAULT_DATASOURCE_ID</a></td>
                     <td class="left">
                                               <div class="text">
 データベース接続に使用するデフォルトの名前空間。
@@ -818,7 +818,7 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_getNamespaceInfo">getNamespaceInfo()</a>                                                  </td>
+                                                      <a href="#method_getDataSourceInfo">getDataSourceInfo()</a>                                                  </td>
                         <td>
                                                       <div class="text">
 application.yml に定義されたデータベース接続情報を取得します。
@@ -911,9 +911,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
 
                         <h3>Constant details</h3>
               <dl>
-                              <dt id="constant_CONNECT_DEFAULT_NAMESPACE">CONNECT_DEFAULT_NAMESPACE</dt>
+                              <dt id="constant_DEFAULT_DATASOURCE_ID">DEFAULT_DATASOURCE_ID</dt>
                 <dd>
-                  <div class="source"><code>CONNECT_DEFAULT_NAMESPACE = &#039;default&#039;</code></div>
+                  <div class="source"><code>DEFAULT_DATASOURCE_ID = &#039;default&#039;</code></div>
                                       <div class="text">
 データベース接続に使用するデフォルトの名前空間。
 </div>
@@ -1068,7 +1068,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                                                           <dt id="method_getConnection">getConnection()</dt>
                     <dd>
-                      <div class="source"><code>public Delta_DatabaseStatement getConnection($namespace = self::CONNECT_DEFAULT_NAMESPACE)</code></div>
+                      <div class="source"><code>public Delta_DatabaseStatement getConnection($dataSourceId = self::DEFAULT_DATASOURCE_ID)</code></div>
                                               <div class="text">
 データベース接続オブジェクトを取得します。
 特定の接続環境下でのみ接続オプションを変更したい場合は、<a href="../database/delta___database_manager.html#method_setConnectionOptions">setConnectionOptions()</a> メソッドを利用して下さい。
@@ -1085,12 +1085,12 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$namespace</td>
+                              <td>$dataSourceId</td>
                               <td>mixed</td>
                               <td>
                                                                   <div class="text">
-接続するデータベースの名前空間 (application.yml の &#039;database&#039; 属性下で定義した ID)。
-  未指定の場合は <a href="../database/delta___database_manager.html#constant_CONNECT_DEFAULT_NAMESPACE">Delta_DatabaseManager::CONNECT_DEFAULT_NAMESPACE</a> の名前空間に指定された接続情報が使用される。
+データソース ID (application.yml の &#039;database&#039; 属性下で定義した ID)。
+  未指定の場合は <a href="../database/delta___database_manager.html#constant_DEFAULT_DATASOURCE_ID">Delta_DatabaseManager::DEFAULT_DATASOURCE_ID</a> の名前空間に指定された接続情報が使用される。
 </div>
                                                               </td>
                             </tr>
@@ -1228,9 +1228,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_getNamespaceInfo">getNamespaceInfo()</dt>
+                                                                        <dt id="method_getDataSourceInfo">getDataSourceInfo()</dt>
                     <dd>
-                      <div class="source"><code>public array getNamespaceInfo($namespace = self::CONNECT_DEFAULT_NAMESPACE)</code></div>
+                      <div class="source"><code>public array getDataSourceInfo($dataSourceId = self::DEFAULT_DATASOURCE_ID)</code></div>
                                               <div class="text">
 application.yml に定義されたデータベース接続情報を取得します。
 </div>
@@ -1246,11 +1246,11 @@ application.yml に定義されたデータベース接続情報を取得しま�
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$namespace</td>
+                              <td>$dataSourceId</td>
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-参照するデータベースの名前空間。
+参照対象のデータソース ID。
 </div>
                                                               </td>
                             </tr>
@@ -1380,7 +1380,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_setConnectionOptions">setConnectionOptions()</dt>
                     <dd>
-                      <div class="source"><code>public void setConnectionOptions($namespace, array $options)</code></div>
+                      <div class="source"><code>public void setConnectionOptions($dataSourceId, array $options)</code></div>
                                               <div class="text">
 データベースに接続する際のオプションを設定します。
 このメソッドは <a href="../database/delta___database_manager.html#method_getConnection">getConnection()</a> メソッドを実行する前に呼び出す必要があります。
@@ -1390,8 +1390,8 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 $this-&gt;getDatabase()-&gt;setConnectionOptions(&#039;default&#039;, array(PDO::ATTR_PERSISTENT =&gt; TRUE));
 $conn = $this-&gt;getDatabase()-&gt;getConnection();
 </code></div>
-application.yml の &#039;database.{namespace}.options&#039; に同じ属性が定義されてる場合は、オプション値が上書きされます。
-(options に指定していない値は、&#039;database.{namespace}.options&#039; に定義された値が有効となります)
+application.yml の &#039;database.{dataSourceId}.options&#039; に同じ属性が定義されてる場合は、オプション値が上書きされます。
+(options に指定していない値は、&#039;database.{dataSourceId}.options&#039; に定義された値が有効となります)
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1405,11 +1405,11 @@ application.yml の &#039;database.{namespace}.options&#039; に同じ属性が�
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$namespace</td>
+                              <td>$dataSourceId</td>
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-接続するデータベースの名前空間。
+データソース ID。
 </div>
                                                               </td>
                             </tr>
@@ -1459,7 +1459,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 20 May 2013 03:00:27 +0900<br />
+  <p>This document was generated on Mon, 20 May 2013 07:06:06 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

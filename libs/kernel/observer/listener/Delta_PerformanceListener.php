@@ -66,21 +66,21 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    * @since 1.1
    */
-  public static function getDatabaseNamespace()
+  public static function getDataSourceId()
   {
     $listenersConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION)->get('observer.listeners');
-    $databaseNamespace = FALSE;
+    $dataSourceId = FALSE;
 
     if ($listenersConfig) {
       foreach ($listenersConfig as $listenerId => $attributes) {
         if ($listenerId === 'performanceListener') {
-          $databaseNamespace = $attributes->get('database', 'default');
+          $dataSourceId = $attributes->get('dataSource', Delta_DatabaseManager::DEFAULT_DATASOURCE_ID);
           break;
         }
       }
     }
 
-    return $databaseNamespace;
+    return $dataSourceId;
   }
 
   /**

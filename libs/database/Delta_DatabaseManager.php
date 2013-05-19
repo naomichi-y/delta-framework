@@ -17,7 +17,7 @@
  * <code>
  * # データベース設定
  * database:
- *   # 接続先の名前空間。{@link Delta_DatabaseManager::getConnection()} メソッドで使用される標準の名前空間は {@link Delta_DatabaseManager::CONNECT_DEFAULT_NAMESPACE}。
+ *   # 接続先の名前空間。{@link Delta_DatabaseManager::getConnection()} メソッドで使用される標準の名前空間は {@link Delta_DatabaseManager::DEFAULT_DATASOURCE_ID}。
  *   {datasource}:
  *     # データソース名、または DSN。
  *     # (DSN については {@link PDO::__construct()} メソッドも参照)
@@ -66,7 +66,7 @@ class Delta_DatabaseManager extends Delta_Object
    * データベース接続に使用するデフォルトの名前空間。
    * @var string
    */
-  const CONNECT_DEFAULT_NAMESPACE = 'default';
+  const DEFAULT_DATASOURCE_ID = 'default';
 
   /**
    * コネクションクラス名。
@@ -136,14 +136,14 @@ class Delta_DatabaseManager extends Delta_Object
   /**
    * application.yml に定義されたデータベース接続情報を取得します。
    *
-   * @param string $namespace 参照するデータベースの名前空間。
+   * @param string $dataSourceId 参照対象のデータソース ID。
    * @return array データベースの接続情報を配列形式で返します。
    *   指定された名前空間の定義が見つからない場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getNamespaceInfo($namespace = self::CONNECT_DEFAULT_NAMESPACE)
+  public function getDataSourceInfo($dataSourceId = self::DEFAULT_DATASOURCE_ID)
   {
-    $key = sprintf('database.%s', $namespace);
+    $key = sprintf('database.%s', $dataSourceId);
     $info = Delta_Config::getApplication()->getArray($key);
 
     return $info;
@@ -158,33 +158,33 @@ class Delta_DatabaseManager extends Delta_Object
    * $this->getDatabase()->setConnectionOptions('default', array(PDO::ATTR_PERSISTENT => TRUE));
    * $conn = $this->getDatabase()->getConnection();
    * </code>
-   * application.yml の 'database.{namespace}.options' に同じ属性が定義されてる場合は、オプション値が上書きされます。
-   * (options に指定していない値は、'database.{namespace}.options' に定義された値が有効となります)
+   * application.yml の 'database.{dataSourceId}.options' に同じ属性が定義されてる場合は、オプション値が上書きされます。
+   * (options に指定していない値は、'database.{dataSourceId}.options' に定義された値が有効となります)
    *
-   * @param string $namespace 接続するデータベースの名前空間。
+   * @param string $dataSourceId データソース ID。
    * @param array $options 接続オプションのリスト。
    *   指定可能な値は {@link PDO::__construct()} の $driver_options で指定可能な値と同じ。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setConnectionOptions($namespace, array $options)
+  public function setConnectionOptions($dataSourceId, array $options)
   {
-    $this->_connectionOptions[$namespace] = $options;
+    $this->_connectionOptions[$dataSourceId] = $options;
   }
 
   /**
    * データベース接続オブジェクトを取得します。
    * 特定の接続環境下でのみ接続オプションを変更したい場合は、{@link setConnectionOptions()} メソッドを利用して下さい。
    *
-   * @param mixed $namespace 接続するデータベースの名前空間 (application.yml の 'database' 属性下で定義した ID)。
-   *   未指定の場合は {@link Delta_DatabaseManager::CONNECT_DEFAULT_NAMESPACE} の名前空間に指定された接続情報が使用される。
+   * @param mixed $dataSourceId データソース ID (application.yml の 'database' 属性下で定義した ID)。
+   *   未指定の場合は {@link Delta_DatabaseManager::DEFAULT_DATASOURCE_ID} の名前空間に指定された接続情報が使用される。
    * @throws Delta_ParseException データソースが読み込めない場合に発生。
    * @return Delta_DatabaseStatement Delta_DatabaseStatement のインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getConnection($namespace = self::CONNECT_DEFAULT_NAMESPACE)
+  public function getConnection($dataSourceId = self::DEFAULT_DATASOURCE_ID)
   {
-    if (empty($this->_connections[$namespace]) || !$this->_connections[$namespace]->isActive()) {
-      $key = sprintf('database.%s', $namespace);
+    if (empty($this->_connections[$dataSourceId]) || !$this->_connections[$dataSourceId]->isActive()) {
+      $key = sprintf('database.%s', $dataSourceId);
       $databaseConfig = Delta_Config::getApplication()->get($key);
 
       if ($databaseConfig === NULL) {
@@ -210,19 +210,19 @@ class Delta_DatabaseManager extends Delta_Object
       }
 
       // 接続オプションのオーバーライド
-      if (isset($this->_connectionOptions[$namespace])) {
-        foreach ($this->_connectionOptions[$namespace] as $name => $value) {
+      if (isset($this->_connectionOptions[$dataSourceId])) {
+        foreach ($this->_connectionOptions[$dataSourceId] as $name => $value) {
           $optionsArray[$name] = $value;
         }
       }
 
       $connection = $this->createAdapter($dsn, $user, $password, $optionsArray);
-      $connection->setNamespace($namespace);
+      $connection->setDataSourceId($dataSourceId);
 
-      $this->_connections[$namespace] = $connection;
+      $this->_connections[$dataSourceId] = $connection;
     }
 
-    return $this->_connections[$namespace];
+    return $this->_connections[$dataSourceId];
   }
 
   /**
@@ -242,16 +242,16 @@ class Delta_DatabaseManager extends Delta_Object
       PDO::ATTR_PERSISTENT => TRUE,
     ))
   {
-    $namespace = serialize(sprintf('_%s%s', $dsn, $user));
+    $dataSourceId = serialize(sprintf('_%s%s', $dsn, $user));
 
-    if (empty($this->_connections[$namespace]) || !$this->_connections[$namespace]->isActive()) {
+    if (empty($this->_connections[$dataSourceId]) || !$this->_connections[$dataSourceId]->isActive()) {
       $connection = $this->createAdapter($dsn, $user, $password, $options);
-      $connection->setNamespace($namespace);
+      $connection->setDataSourceId($dataSourceId);
 
-      $this->_connections[$namespace] = $connection;
+      $this->_connections[$dataSourceId] = $connection;
     }
 
-    return $this->_connections[$namespace];
+    return $this->_connections[$dataSourceId];
   }
 
   /**
@@ -362,12 +362,12 @@ class Delta_DatabaseManager extends Delta_Object
    */
   public function closeAll()
   {
-    foreach ($this->_connections as $namespace => $connection) {
+    foreach ($this->_connections as $dataSourceId => $connection) {
       if ($connection->isActive()) {
         $connection->close();
       }
 
-      unset($this->_connections[$namespace]);
+      unset($this->_connections[$dataSourceId]);
     }
   }
 }

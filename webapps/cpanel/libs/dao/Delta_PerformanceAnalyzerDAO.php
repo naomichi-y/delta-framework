@@ -9,7 +9,7 @@ class Delta_PerformanceAnalyzerDAO extends Delta_DAO
 {
   public function __construct()
   {
-    $namespace = Delta_PerformanceListener::getDatabaseNamespace();
-    $this->setNamespace($namespace);
+    $dataSourceId = Delta_PerformanceListener::getDataSourceId();
+    $this->setDataSourceId($dataSourceId);
   }
 }

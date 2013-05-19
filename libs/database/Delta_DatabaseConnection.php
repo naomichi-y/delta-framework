@@ -38,10 +38,10 @@ class Delta_DatabaseConnection extends Delta_Object
   private $_dsn;
 
   /**
-   * データベースの名前空間。
+   * 参照するデータソース ID。
    * @var string
    */
-  private $_namespace;
+  private $_dataSourceId;
 
   /**
    * トランザクションコントローラ。
@@ -112,26 +112,25 @@ class Delta_DatabaseConnection extends Delta_Object
   }
 
   /**
-   * コネクションの名前空間を設定します。
-   * {@link Delta_DatabaseManager::getConnection()} メソッドでコネクション生成時に、適切な名前が割り当てられます。
+   * コネクションが参照するデータソース ID を設定します。
    *
-   * @param string $namespace コネクションの名前空間を設定します。
+   * @param string $namespace コネクションが参照するデータソース ID。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setNamespace($namespace)
+  public function setDataSourceId($dataSourceId)
   {
-    $this->_namespace = $namespace;
+    $this->_dataSourceId = $dataSourceId;
   }
 
   /**
-   * コネクションの名前空間を取得します。
+   * コネクションが参照するデータソース ID を取得します。
    *
-   * @return string コネクションの名前空間を返します。
+   * @return string コネクションが参照するデータソース ID を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getNamespace()
+  public function getDataSourceId()
   {
-    return $this->_namespace;
+    return $this->_dataSourceId;
   }
 
   /**

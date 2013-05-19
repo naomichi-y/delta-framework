@@ -19,15 +19,9 @@
 abstract class Delta_DAO extends Delta_Object
 {
   /**
-   * データソース名。(既定値は Delta_DatabaseManager::DEFAULT_NAMESPACE)
-   * @var string
-   */
-  private $_dataSource = Delta_DatabaseManager::CONNECT_DEFAULT_NAMESPACE;
-
-  /**
    * 名前空間。
    */
-  protected $_namespace = 'default';
+  protected $_dataSourceId = Delta_DatabaseManager::DEFAULT_DATASOURCE_ID;
 
   /**
    * テーブル名。
@@ -46,7 +40,7 @@ abstract class Delta_DAO extends Delta_Object
    * このメソッドは可変引数を受け取ることができます。
    * 全ての引数は {@link Delta_DatabaseManager::getConnection()} メソッドに渡されます。
    *
-   * @param $dataSource 未指定の場合、{@link getNamespace()} で取得した名前空間のデータベースが参照される。
+   * @param string $dataSource 未指定の場合、{@link getDataSource()} で返されるデータソースが参照される。
    * @see Delta_DatabaseManager::getConnection()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -55,7 +49,7 @@ abstract class Delta_DAO extends Delta_Object
     $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
 
     if ($dataSource === NULL) {
-      return $database->getConnection($this->getNamespace());
+      return $database->getConnection($this->getDataSourceId());
     }
 
     return $database->getConnection($dataSource);
@@ -102,26 +96,27 @@ abstract class Delta_DAO extends Delta_Object
   }
 
   /**
-   * DAO が接続するデータベースの名前空間を設定します。
+   * DAO が参照するデータソース ID を設定します。
+   * 未指定の場合は 'default' (application.yml に定義された 'database.default') のデータベースを参照します。
    *
-   * @param string $namespace データベースの名前空間。デフォルトの接続先は 'default' となります。
+   * @param string $dataSourceId DAO が参照するデータソース ID。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    * @since 1.1
    */
-  public function setNamespace($namespace)
+  public function setDataSourceId($dataSourceId)
   {
-    $this->_namespace = $namespace;
+    $this->_dataSourceId = $dataSourceId;
   }
 
   /**
-   * DAO が接続するデータベースの名前空間を取得します。
+   * DAO が参照するデータソース ID を取得します。
    *
-   * @return string データベースの名前空間を返します。
+   * @return string DAO が参照するデータソース ID を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getNamespace()
+  public function getDataSourceId()
   {
-    return $this->_namespace;
+    return $this->_dataSourceId;
   }
 
   /**

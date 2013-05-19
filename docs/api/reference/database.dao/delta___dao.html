@@ -646,9 +646,9 @@ database.dao
                       <th>Summary</th>
                       <th>Defined by</th>
                     </tr>
-                                                                                                                                      <tr>
+                                                                                            <tr>
                                                   <td>
-                                                          <a href="#property__namespace">$_namespace</a>                                                      </td>
+                                                          <a href="#property__dataSourceId">$_dataSourceId</a>                                                      </td>
                           <td>
                                                           mixed                                                      </td>
                           <td>
@@ -770,10 +770,10 @@ database コンポーネントからコネクションオブジェクトを取�
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_getNamespace">getNamespace()</a>                                                  </td>
+                                                      <a href="#method_getDataSourceId">getDataSourceId()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-DAO が接続するデータベースの名前空間を取得します。
+DAO が参照するデータソース ID を取得します。
 </div>
                                                   </td>
                         <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
@@ -834,10 +834,10 @@ DAO が接続するデータベースの名前空間を取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_setNamespace">setNamespace()</a>                                                  </td>
+                                                      <a href="#method_setDataSourceId">setDataSourceId()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-DAO が接続するデータベースの名前空間を設定します。
+DAO が参照するデータソース ID を設定します。
 </div>
                                                   </td>
                         <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
@@ -855,9 +855,9 @@ DAO が接続するデータベースの名前空間を設定します。
             
                         <h3>Property details</h3>
               <dl>
-                                                                              <dt id="property__namespace">$_namespace</dt>
+                                                <dt id="property__dataSourceId">$_dataSourceId</dt>
                   <dd>
-                    <div class="source"><code>protected mixed $_namespace = &#039;default&#039;</code></div>
+                    <div class="source"><code>protected mixed $_dataSourceId = Delta_DatabaseManager::DEFAULT_DATASOURCE_ID</code></div>
                                           <div class="text">
 名前空間。
 </div>
@@ -1019,8 +1019,29 @@ database コンポーネントからコネクションオブジェクトを取�
 このメソッドは可変引数を受け取ることができます。
 全ての引数は <a href="../database/delta___database_manager.html#method_getConnection">Delta_DatabaseManager::getConnection()</a> メソッドに渡されます。
 </div>
-                                                                                          <ul class="note">
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$dataSource</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+未指定の場合、getDataSource() で返されるデータソースが参照される。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>See: <div class="text">
 <a href="../database/delta___database_manager.html#method_getConnection">Delta_DatabaseManager::getConnection()</a>
 </div>
 </li>
@@ -1066,11 +1087,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_getNamespace">getNamespace()</dt>
+                                                                        <dt id="method_getDataSourceId">getDataSourceId()</dt>
                     <dd>
-                      <div class="source"><code>public string getNamespace()</code></div>
+                      <div class="source"><code>public string getDataSourceId()</code></div>
                                               <div class="text">
-DAO が接続するデータベースの名前空間を取得します。
+DAO が参照するデータソース ID を取得します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1088,7 +1109,7 @@ DAO が接続するデータベースの名前空間を取得します。
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-データベースの名前空間を返します。
+DAO が参照するデータソース ID を返します。
 </div>
                                                               </td>
                             </tr>
@@ -1178,11 +1199,12 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_setNamespace">setNamespace()</dt>
+                                                                        <dt id="method_setDataSourceId">setDataSourceId()</dt>
                     <dd>
-                      <div class="source"><code>public void setNamespace($namespace)</code></div>
+                      <div class="source"><code>public void setDataSourceId($dataSourceId)</code></div>
                                               <div class="text">
-DAO が接続するデータベースの名前空間を設定します。
+DAO が参照するデータソース ID を設定します。
+未指定の場合は &#039;default&#039; (application.yml に定義された &#039;database.default&#039;) のデータベースを参照します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1196,11 +1218,11 @@ DAO が接続するデータベースの名前空間を設定します。
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$namespace</td>
+                              <td>$dataSourceId</td>
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-データベースの名前空間。デフォルトの接続先は &#039;default&#039; となります。
+DAO が参照するデータソース ID。
 </div>
                                                               </td>
                             </tr>
@@ -1242,7 +1264,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 20 May 2013 03:00:27 +0900<br />
+  <p>This document was generated on Mon, 20 May 2013 07:06:06 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

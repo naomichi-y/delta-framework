@@ -8,14 +8,14 @@ class PerformanceAnalyzerInstallAction extends Delta_Action
   public function execute()
   {
     // リスナが宣言されているかチェック
-    $databaseNamespace = Delta_PerformanceListener::getDatabaseNamespace();
+    $dataSourceId = Delta_PerformanceListener::getDataSourceId();
 
-    if ($databaseNamespace) {
-      $key = 'database.' . $databaseNamespace;
+    if ($dataSourceId) {
+      $key = 'database.' . $dataSourceId;
       $config = Delta_Config::getApplication();
 
       if (!$config->hasName($key)) {
-        $message = sprintf('config/application.yml にデータベース属性 \'database.%s\' が定義されていません。', $databaseNamespace);
+        $message = sprintf('config/application.yml にデータベース属性 \'database.%s\' が定義されていません。', $dataSourceId);
         $this->getMessages()->addError($message);
 
         return Delta_View::ERROR;
@@ -25,7 +25,7 @@ class PerformanceAnalyzerInstallAction extends Delta_Action
       $data = Delta_Config::getCustomFile($path)->toArray();
 
       try {
-        $command = $this->getDatabase()->getConnection($databaseNamespace)->getCommand();
+        $command = $this->getDatabase()->getConnection($dataSourceId)->getCommand();
 
         foreach ($data['tables'] as $table) {
           $command->createTable($table);

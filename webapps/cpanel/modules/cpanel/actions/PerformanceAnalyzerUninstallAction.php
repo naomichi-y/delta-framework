@@ -8,8 +8,9 @@ class PerformanceAnalyzerUninstallAction extends Delta_Action
   public function execute()
   {
     $this->getObserver()->removeEventListener('Delta_PerformanceListener');
+    $dataSourceId = Delta_PerformanceListener::getDataSourceId();
 
-    $conn = $this->getDatabase()->getConnection();
+    $conn = $this->getDatabase()->getConnection($dataSourceId);
     $command = $conn->getCommand();
     $daos = array('Delta_ActionRequestsDAO', 'Delta_SQLRequestsDAO');
 

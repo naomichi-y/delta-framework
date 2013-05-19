@@ -36,8 +36,16 @@ class Delta_DatabaseCache extends Delta_Cache
    */
   public function __construct()
   {
+    $cacheConfig = Delta_Config::getApplication()->get('cache.database');
+
+    if ($cacheConfig) {
+      $dataSourceId = $cacheConfig->get('dataSource', Delta_DatabaseManager::DEFAULT_DATASOURCE_ID);
+    } else {
+      $dataSourceId = Delta_DatabaseManager::DEFAULT_DATASOURCE_ID;
+    }
+
     $container = Delta_DIContainerFactory::getContainer();
-    $this->_connection = $container->getComponent('database')->getConnection();
+    $this->_connection = $container->getComponent('database')->getConnection($dataSourceId);
   }
 
   /**

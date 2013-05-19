@@ -18,10 +18,10 @@ class AnalyzeSettingFormAction extends Delta_Action
     $view->setAttribute('endDate', $endDate);
 
     // データサイズの取得
-    $databaseNamespace = Delta_PerformanceListener::getDatabaseNamespace();
+    $dataSourceId = Delta_PerformanceListener::getDataSourceId();
     $tableNames = array('delta_action_requests', 'delta_sql_requests');
     $dataList = array();
-    $command = $this->getDatabase()->getConnection($databaseNamespace)->getCommand();
+    $command = $this->getDatabase()->getConnection($dataSourceId)->getCommand();
 
     foreach ($tableNames as $tableName) {
       $dataList[$tableName] = array(
