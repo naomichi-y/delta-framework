@@ -20,7 +20,16 @@
 class Delta_DatabaseSessionHandler extends Delta_Object
 {
   /**
-   * {@link Delta_DatabaseConnection} オブジェクト。
+   * @var Delta_DatabaseManager
+   */
+  private $_database;
+
+  /**
+   * @var string
+   */
+  private $_databaseNamespace;
+
+  /**
    * @var Delta_DatabaseConnection
    */
   private $_connection;
@@ -30,8 +39,11 @@ class Delta_DatabaseSessionHandler extends Delta_Object
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function __construct()
+  private function __construct(Delta_ParameterHolder $config)
   {
+    $this->_database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+    $this->_databaseNamespace = $config->get('database', 'default');
+
     session_set_save_handler(
       array($this, 'open'),
       array($this, 'close'),
@@ -45,15 +57,16 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   /**
    * セッション管理をデータベースにハンドリングします。
    *
+   * @param Delta_ParameterHolder $config セッションハンドラ属性。
    * @return Delta_DatabaseSessionHandler Delta_DatabaseSessionHandler のインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function handler()
+  public static function handler(Delta_ParameterHolder $config)
   {
     static $instance;
 
     if ($instance === NULL) {
-      $instance = new Delta_DatabaseSessionHandler();
+      $instance = new Delta_DatabaseSessionHandler($config);
     }
 
     return $instance;
@@ -69,8 +82,8 @@ class Delta_DatabaseSessionHandler extends Delta_Object
    */
   public function open($savePath, $sessionName)
   {
-    $container = Delta_DIContainerFactory::getContainer();
-    $this->_connection = $container->getComponent('database')->getConnection();
+    $this->_database->getProfiler()->stop();
+    $this->_connection = $this->_database->getConnection($this->_databaseNamespace);
 
     return TRUE;
   }
@@ -84,6 +97,8 @@ class Delta_DatabaseSessionHandler extends Delta_Object
    */
   public function close()
   {
+    $this->_database->getProfiler()->start();
+
     return TRUE;
   }
 

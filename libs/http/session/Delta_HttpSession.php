@@ -22,7 +22,7 @@ class Delta_HttpSession extends Delta_Object
 {
   /**
    * セッション属性。
-   * @var array
+   * @var Delta_ParameterHolder
    */
   private $_config;
 
@@ -39,9 +39,9 @@ class Delta_HttpSession extends Delta_Object
    */
   public function initialize()
   {
-    $this->_config = Delta_Config::getApplication()->get('session')->toArray();
+    $this->_config = Delta_Config::getApplication()->get('session');
 
-    if ($this->_config['autoStart']) {
+    if ($this->_config->getBoolean('autoStart')) {
       $this->activate();
     }
 
@@ -74,7 +74,7 @@ class Delta_HttpSession extends Delta_Object
     $config = $this->_config;
 
     // セッション維持方法の取得
-    switch ($config['store']) {
+    switch ($config->get('store')) {
       case 'transparent':
         ini_set('session.use_cookies', 1);
         ini_set('session.use_only_cookies', 1);
@@ -92,7 +92,7 @@ class Delta_HttpSession extends Delta_Object
     }
 
     // 有効期限の設定
-    $timeout = $config['timeout'];
+    $timeout = $config->getInt('timeout');
 
     if ($timeout > 0) {
       $lifetime = ini_get('session.gc_maxlifetime');
@@ -118,21 +118,25 @@ class Delta_HttpSession extends Delta_Object
     ini_set('session.hash_function', 'sha-256');
 
     // セッション名の変更
-    session_name($config['name']);
+    session_name($config->get('name'));
 
     // Cookie の制御
-    $lifetime = $config['cookieLifetime'];
-    $path = $config['cookiePath'];
-    $domain = $config['cookieDomain'];
-    $secure = $config['cookieSecure'];
-    $httpOnly = $config['cookieHttpOnly'];
+    $lifetime = $config->get('cookieLifetime');
+    $path = $config->get('cookiePath');
+    $domain = $config->get('cookieDomain');
+    $secure = $config->getBoolean('cookieSecure');
+    $httpOnly = $config->getBoolean('cookieHttpOnly');
 
     session_set_cookie_params($lifetime, $path, $domain, $secure, $httpOnly);
 
     // セッションハンドラの起動
-    if (isset($handler)) {
+    $handlerConfig = $config->get('handler');
+
+    if ($handlerConfig) {
+      $handlerClass = $handlerConfig->get('class');
+
       ini_set('session.save_handler', 'user');
-      call_user_func(array($handler, 'handler'));
+      call_user_func_array(array($handlerClass, 'handler'), array($handlerConfig));
     }
 
     session_cache_limiter('none');

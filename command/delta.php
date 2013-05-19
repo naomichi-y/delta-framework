@@ -276,6 +276,7 @@ class Delta_CommandExecutor
     if ($result) {
       // VCS の設定
       $message = 'Do you want to create a .gitkeep to empty directory? (Y/N)';
+
       if ($dialog->sendConfirm($message)) {
         $isCreateGitkeep = 'TRUE';
       } else {
@@ -695,73 +696,114 @@ class Delta_CommandExecutor
 
   private function executeInstallDatabaseCache()
   {
-    if ($this->createTable('cache/ddl.yml')) {
-      $message = sprintf("Create database cache is complete.\n"
+    $databaseNamespace = $this->getInstallDatabaseNamespace();
+
+    if ($this->createTable('cache/ddl.yml', $databaseNamespace)) {
+      $separator = $this->_output->getSeparator();
+
+      $message = sprintf("Create database cache is complete.\n\n"
+        ."Please add settings to the file.\n"
+        ."%s"
+        ."{config/application.yml}\n"
+        ."cache:\n"
+        ."  databaseCache:\n"
+        ."    database: %s\n"
+        ."%s\n"
         ."Use:\n"
         ."%s"
         ."\$cache = Delta_CacheManager::getInstance(Delta_CacheManager::CACHE_TYPE_DATABASE);\n"
         ."\$cache->set('foo', \$data);\n"
-        ."\$echo cache->get('foo');\n"
+        ."echo cache->get('foo');\n"
         ."%s",
-        $this->_output->getSeparator(),
-        $this->_output->getSeparator());
+        $separator,
+        $databaseNamespace,
+        $separator,
+        $separator,
+        $separator);
       $this->_output->write($message);
     }
   }
 
   private function executeInstallDatabaseSession()
   {
-    if ($this->createTable('session/ddl.yml')) {
-      $message = sprintf("Create database session is complete.\n"
+    $databaseNamespace = $this->getInstallDatabaseNamespace();
+
+    if ($this->createTable('session/ddl.yml', $databaseNamespace)) {
+      $separator = $this->_output->getSeparator();
+
+      $message = sprintf("Create database session is complete.\n\n"
         ."Please add settings to the file.\n"
         ."%s"
         ."{config/application.yml}\n"
         ."session:\n"
-        ."  handler: Delta_DatabaseSessionHandler\n"
+        ."  handler:\n"
+        ."    class: Delta_DatabaseSessionHandler\n"
+        ."    database: %s\n"
         ."%s",
-      $this->_output->getSeparator(),
-      $this->_output->getSeparator());
+      $separator,
+      $databaseNamespace,
+      $separator);
 
       $this->_output->write($message);
     }
   }
 
-  private function createTable($path)
+  private function getInstallDatabaseNamespace()
   {
-    $path = sprintf('%s/database/%s', DELTA_SKELETON_DIR, $path);
-    $data = Spyc::YAMLLoad($path);
+    $databaseNamespace = $this->_input->getDialog()->send('Install namespace of database. [default]');
 
-    Delta_DIContainerFactory::create();
+    if (strlen($databaseNamespace) == 0) {
+      $databaseNamespace = 'default';
+    }
 
-    $appConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
-    $connectConfig = $appConfig->get('database.default');
+    return $databaseNamespace;
+  }
+
+  private function createTable($path, $databaseNamespace)
+  {
     $result = FALSE;
+    $appConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
 
-    if ($connectConfig) {
-      $dsn = $connectConfig->get('dsn');
-      $user = $connectConfig->get('user');
-      $password = $connectConfig->get('password');
+    $key = 'database.' . $databaseNamespace;
+    $connectConfig = $appConfig->get($key);
 
-      $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
-      $conn = $database->getConnectionWithConfig($dsn, $user, $password);
-      $command = $conn->getCommand();
-
-      foreach ($data['tables'] as $table) {
-        if (!$command->isExistTable($table['name'])) {
-          $command->createTable($table);
-
-          $message = sprintf("Create table default.%s.", $table['name']);
-          $this->_output->writeLine($message);
-          $result = TRUE;
-
-        } else {
-          $message = sprintf('Table already exists. [default.%s]', $table['name']);
-          $this->_output->errorLine($message);
-        }
-      }
+    if (!$connectConfig) {
+      $message = sprintf('Definition of database can\'t be found. [%s]', $databaseNamespace);
+      $this->_output->errorLine($message);
 
     } else {
-      $this->_output->errorLine('Data source does not exists. [default]');
+      // テーブルの作成
+      $path = sprintf('%s/database/%s', DELTA_SKELETON_DIR, $path);
+      $data = Spyc::YAMLLoad($path);
+
+      Delta_DIContainerFactory::create();
+
+      if ($connectConfig) {
+        $dsn = $connectConfig->get('dsn');
+        $user = $connectConfig->get('user');
+        $password = $connectConfig->get('password');
+
+        $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+        $conn = $database->getConnectionWithConfig($dsn, $user, $password);
+        $command = $conn->getCommand();
+
+        foreach ($data['tables'] as $table) {
+          if (!$command->isExistTable($table['name'])) {
+            $command->createTable($table);
+
+            $message = sprintf("Create table %s.%s.", $databaseNamespace, $table['name']);
+            $this->_output->writeLine($message);
+            $result = TRUE;
+
+          } else {
+            $message = sprintf('Table already exists. [%s.%s]', $databaseNamespace, $table['name']);
+            $this->_output->errorLine($message);
+          }
+        }
+
+      } else {
+        $this->_output->errorLine('Data source does not exists. [default]');
+      }
     }
 
     return $result;
