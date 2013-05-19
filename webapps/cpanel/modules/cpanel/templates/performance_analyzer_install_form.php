@@ -38,7 +38,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;# リスナー ID (固定)<br />
         &nbsp;&nbsp;&nbsp;&nbsp;performanceListener:<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_PerformanceListener<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;database: default
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dataSource: default
         </code>
       </div>
       <p>ファイル更新後、「DPA をインストールする」ボタンを押してインストールを完了させましょう。</p>

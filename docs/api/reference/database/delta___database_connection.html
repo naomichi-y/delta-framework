@@ -777,6 +777,16 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_getDataSourceId">getDataSourceId()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+コネクションが参照するデータソース ID を取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_getDriverName">getDriverName()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -791,16 +801,6 @@ Delta_AppPathManager のインスタンスを取得します。
                         <td>
                                                       <div class="text">
 最後に挿入したレコードの ID、またはシーケンスの値を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getNamespace">getNamespace()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-コネクションの名前空間を取得します。
 </div>
                                                   </td>
                         <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
@@ -917,10 +917,10 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_setNamespace">setNamespace()</a>                                                  </td>
+                                                      <a href="#method_setDataSourceId">setDataSourceId()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-コネクションの名前空間を設定します。
+コネクションが参照するデータソース ID を設定します。
 </div>
                                                   </td>
                         <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
@@ -1264,6 +1264,41 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_getDataSourceId">getDataSourceId()</dt>
+                    <dd>
+                      <div class="source"><code>public string getDataSourceId()</code></div>
+                                              <div class="text">
+コネクションが参照するデータソース ID を取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+コネクションが参照するデータソース ID を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_getDriverName">getDriverName()</dt>
                     <dd>
                       <div class="source"><code>public string getDriverName()</code></div>
@@ -1339,41 +1374,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                             </table>
                                                                     <ul class="note">
                                                                                                                                                                                                                                                                                             <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_getNamespace">getNamespace()</dt>
-                    <dd>
-                      <div class="source"><code>public string getNamespace()</code></div>
-                                              <div class="text">
-コネクションの名前空間を取得します。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>string</td>
-                              <td>
-                                                                  <div class="text">
-コネクションの名前空間を返します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
@@ -1701,12 +1701,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_setNamespace">setNamespace()</dt>
+                                                                        <dt id="method_setDataSourceId">setDataSourceId()</dt>
                     <dd>
-                      <div class="source"><code>public void setNamespace($namespace)</code></div>
+                      <div class="source"><code>public void setDataSourceId($dataSourceId)</code></div>
                                               <div class="text">
-コネクションの名前空間を設定します。
-<a href="../database/delta___database_manager.html#method_getConnection">Delta_DatabaseManager::getConnection()</a> メソッドでコネクション生成時に、適切な名前が割り当てられます。
+コネクションが参照するデータソース ID を設定します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1724,7 +1723,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-コネクションの名前空間を設定します。
+コネクションが参照するデータソース ID。
 </div>
                                                               </td>
                             </tr>
@@ -1764,7 +1763,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 20 May 2013 03:00:27 +0900<br />
+  <p>This document was generated on Mon, 20 May 2013 07:06:06 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

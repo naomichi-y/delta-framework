@@ -58,8 +58,11 @@ class Delta_CommandExecutor
 
   private function declareAppRootDir($command)
   {
+    $result = FALSE;
+
     switch ($command) {
       case 'create-project':
+        $result = TRUE;
         break;
 
       case 'add-action':
@@ -74,6 +77,7 @@ class Delta_CommandExecutor
         $appRootDir = $this->findAppRootDir($this->_currentPath);
 
         if ($appRootDir) {
+          $result = TRUE;
           define('APP_ROOT_DIR', $appRootDir);
         }
 
@@ -85,84 +89,93 @@ class Delta_CommandExecutor
       case 'help':
       case 'install-path':
       case 'version':
+        $result = TRUE;
         define('APP_ROOT_DIR', NULL);
+
         break;
     }
+
+    return $result;
   }
 
   public function execute()
   {
     $command = $this->_input->getArgument('command');
-    $this->declareAppRootDir($command);
+    $result = $this->declareAppRootDir($command);
 
-    Delta_BootLoader::startDeltaCommand();
+    if ($result) {
+      Delta_BootLoader::startDeltaCommand();
 
-    switch ($command) {
-      case 'add-action':
-        $this->executeAddAction();
-        break;
+      switch ($command) {
+        case 'add-action':
+          $this->executeAddAction();
+          break;
 
-      case 'add-command':
-        $this->executeAddCommand();
-        break;
+        case 'add-command':
+          $this->executeAddCommand();
+          break;
 
-      case 'add-module':
-        $this->executeAddModule();
-        break;
+        case 'add-module':
+          $this->executeAddModule();
+          break;
 
-      case 'add-theme':
-        $this->executeAddTheme();
-        break;
+        case 'add-theme':
+          $this->executeAddTheme();
+          break;
 
-      case 'clear-cache':
-      case 'cc':
-        $this->executeClearCache();
-        break;
+        case 'clear-cache':
+        case 'cc':
+          $this->executeClearCache();
+          break;
 
-      case 'create-project':
-        $this->executeCreateProject();
-        break;
+        case 'create-project':
+          $this->executeCreateProject();
+          break;
 
-      case 'compress':
-        $this->executeCompress();
-        break;
+        case 'compress':
+          $this->executeCompress();
+          break;
 
-      // フレームワーク開発者用
-      case 'deploy':
-        $this->executeDeploy();
-        break;
+        // フレームワーク開発者用
+        case 'deploy':
+          $this->executeDeploy();
+          break;
 
-      case 'generate-api':
-        $this->executeGenerateAPI();
-        break;
+        case 'generate-api':
+          $this->executeGenerateAPI();
+          break;
 
-      case 'help':
-        $this->executeHelp();
-        break;
+        case 'help':
+          $this->executeHelp();
+          break;
 
-      case 'install-database-cache':
-        $this->executeInstallDatabaseCache();
-        break;
+        case 'install-database-cache':
+          $this->executeInstallDatabaseCache();
+          break;
 
-      case 'install-database-session':
-        $this->executeInstallDatabaseSession();
-        break;
+        case 'install-database-session':
+          $this->executeInstallDatabaseSession();
+          break;
 
-      case 'install-path':
-        $this->executeInstallPath();
-        break;
+        case 'install-path':
+          $this->executeInstallPath();
+          break;
 
-      case 'install-sample':
-        $this->executeInstallSample();
-        break;
+        case 'install-sample':
+          $this->executeInstallSample();
+          break;
 
-      case 'version':
-        $this->executeVersion();
-        break;
+        case 'version':
+          $this->executeVersion();
+          break;
+      }
 
-      default:
-        $this->executeHelp();
-        break;
+    } else {
+      $message = sprintf('Unknown command. [%s]', $command);
+      $this->_output->errorLine($message);
+      $this->_output->writeBlankLines(1);
+
+      $this->executeHelp();
     }
   }
 
@@ -696,9 +709,9 @@ class Delta_CommandExecutor
 
   private function executeInstallDatabaseCache()
   {
-    $databaseNamespace = $this->getInstallDatabaseNamespace();
+    $dataSourceId = $this->getInstallDataSourceId();
 
-    if ($this->createTable('cache/ddl.yml', $databaseNamespace)) {
+    if ($this->createTable('cache/ddl.yml', $dataSourceId)) {
       $separator = $this->_output->getSeparator();
 
       $message = sprintf("Create database cache is complete.\n\n"
@@ -706,17 +719,17 @@ class Delta_CommandExecutor
         ."%s"
         ."{config/application.yml}\n"
         ."cache:\n"
-        ."  databaseCache:\n"
-        ."    database: %s\n"
+        ."  database:\n"
+        ."    dataSource: %s\n"
         ."%s\n"
         ."Use:\n"
         ."%s"
         ."\$cache = Delta_CacheManager::getInstance(Delta_CacheManager::CACHE_TYPE_DATABASE);\n"
         ."\$cache->set('foo', \$data);\n"
-        ."echo cache->get('foo');\n"
+        ."echo \$cache->get('foo');\n"
         ."%s",
         $separator,
-        $databaseNamespace,
+        $dataSourceId,
         $separator,
         $separator,
         $separator);
@@ -726,9 +739,9 @@ class Delta_CommandExecutor
 
   private function executeInstallDatabaseSession()
   {
-    $databaseNamespace = $this->getInstallDatabaseNamespace();
+    $dataSourceId = $this->getInstallDataSourceId();
 
-    if ($this->createTable('session/ddl.yml', $databaseNamespace)) {
+    if ($this->createTable('session/ddl.yml', $dataSourceId)) {
       $separator = $this->_output->getSeparator();
 
       $message = sprintf("Create database session is complete.\n\n"
@@ -738,37 +751,37 @@ class Delta_CommandExecutor
         ."session:\n"
         ."  handler:\n"
         ."    class: Delta_DatabaseSessionHandler\n"
-        ."    database: %s\n"
+        ."    dataSource: %s\n"
         ."%s",
       $separator,
-      $databaseNamespace,
+      $dataSourceId,
       $separator);
 
       $this->_output->write($message);
     }
   }
 
-  private function getInstallDatabaseNamespace()
+  private function getInstallDataSourceId()
   {
-    $databaseNamespace = $this->_input->getDialog()->send('Install namespace of database. [default]');
+    $dataSourceId = $this->_input->getDialog()->send('Install namespace of database. [default]');
 
-    if (strlen($databaseNamespace) == 0) {
-      $databaseNamespace = 'default';
+    if (strlen($dataSourceId) == 0) {
+      $dataSourceId = 'default';
     }
 
-    return $databaseNamespace;
+    return $dataSourceId;
   }
 
-  private function createTable($path, $databaseNamespace)
+  private function createTable($path, $dataSourceId)
   {
     $result = FALSE;
     $appConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
 
-    $key = 'database.' . $databaseNamespace;
+    $key = 'database.' . $dataSourceId;
     $connectConfig = $appConfig->get($key);
 
     if (!$connectConfig) {
-      $message = sprintf('Definition of database can\'t be found. [%s]', $databaseNamespace);
+      $message = sprintf('Definition of database can\'t be found. [%s]', $dataSourceId);
       $this->_output->errorLine($message);
 
     } else {
@@ -791,12 +804,12 @@ class Delta_CommandExecutor
           if (!$command->isExistTable($table['name'])) {
             $command->createTable($table);
 
-            $message = sprintf("Create table %s.%s.", $databaseNamespace, $table['name']);
+            $message = sprintf("Create table %s.%s.", $dataSourceId, $table['name']);
             $this->_output->writeLine($message);
             $result = TRUE;
 
           } else {
-            $message = sprintf('Table already exists. [%s.%s]', $databaseNamespace, $table['name']);
+            $message = sprintf('Table already exists. [%s.%s]', $dataSourceId, $table['name']);
             $this->_output->errorLine($message);
           }
         }

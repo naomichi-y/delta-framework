@@ -27,7 +27,7 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   /**
    * @var string
    */
-  private $_databaseNamespace;
+  private $_dataSourceId;
 
   /**
    * @var Delta_DatabaseConnection
@@ -42,7 +42,7 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   private function __construct(Delta_ParameterHolder $config)
   {
     $this->_database = Delta_DIContainerFactory::getContainer()->getComponent('database');
-    $this->_databaseNamespace = $config->get('database', 'default');
+    $this->_dataSourceId = $config->get('dataSource', Delta_DatabaseManager::DEFAULT_DATASOURCE_ID);
 
     session_set_save_handler(
       array($this, 'open'),
@@ -83,7 +83,7 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   public function open($savePath, $sessionName)
   {
     $this->_database->getProfiler()->stop();
-    $this->_connection = $this->_database->getConnection($this->_databaseNamespace);
+    $this->_connection = $this->_database->getConnection($this->_dataSourceId);
 
     return TRUE;
   }

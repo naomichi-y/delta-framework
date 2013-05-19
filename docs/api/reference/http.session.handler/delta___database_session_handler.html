@@ -884,7 +884,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                                                                                                                                                                 <dt id="method_handler">handler()</dt>
                     <dd>
-                      <div class="source"><code>public static Delta_DatabaseSessionHandler handler()</code></div>
+                      <div class="source"><code>public static Delta_DatabaseSessionHandler handler(Delta_ParameterHolder $config)</code></div>
                                               <div class="text">
 セッション管理をデータベースにハンドリングします。
 </div>
@@ -899,7 +899,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                           <th>Type</th>
                           <th>Description</th>
                         </tr>
-                                                                                                                                                                                                          <tr>
+                                                                                                          <tr>
+                              <td>$config</td>
+                              <td><a href="../util/delta___parameter_holder.html">Delta_ParameterHolder</a></td>
+                              <td>
+                                                                  <div class="text">
+セッションハンドラ属性。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
                               <td>{return}</td>
                               <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                               <td>
@@ -910,7 +919,7 @@ Delta_DatabaseSessionHandler のインスタンスを返します。
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
@@ -1077,7 +1086,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 20 May 2013 03:00:27 +0900<br />
+  <p>This document was generated on Mon, 20 May 2013 07:06:07 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

@@ -9,11 +9,11 @@ class PerformanceAnalyzerAction extends Delta_Action
   {
     // パフォーマンスアナライザがインストールされているかチェック
     $config = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
-    $databaseNamespace = Delta_PerformanceListener::getDatabaseNamespace();
+    $dataSourceId = Delta_PerformanceListener::getDataSourceId();
     $hasInstall = FALSE;
 
-    if ($databaseNamespace) {
-      $command = $this->getDatabase()->getConnection($databaseNamespace)->getCommand();
+    if ($dataSourceId) {
+      $command = $this->getDatabase()->getConnection($dataSourceId)->getCommand();
       $tableName = Delta_DAOFactory::create('Delta_ActionRequests')->getTableName();
 
       if ($command->isExistTable($tableName)) {
