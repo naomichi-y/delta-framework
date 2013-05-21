@@ -63,14 +63,14 @@
       <dd class="lang_shell"><code>./deltac HelloWorld</code></dd>
       <dd class="lang_php">
         <p>標準出力に 'HelloWorld' が出力されたらコマンドの実行は成功です。</p>
-        <div class="note_container note_hint">
-          <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-          <div class="note_contents">
-            <p>先ほど紹介したコードでは、メッセージを出力するために <a href="../../api/reference/console/delta___console_output.html#method_writeLine">Delta_ConsoleOutput::writeLine()</a> メソッドを使いました。このメソッドはメッセージの末尾に改行コードを付加した上で文字列を標準出力に出力します。メッセージを出力するだけであれば PHP 標準の echo や print でも事足りますが、writeLine() はオプション引数でメッセージのスタイル (色、強調表示) を指定したり、<a href="../../api/reference/console/delta___console_output.html#method_setWriteIndent">Delta_ConsoleOutput::setWriteIndent()</a> で指定されたインデント幅に影響を受けます。何らかの理由がない限りは、フレームワークが提供する出力メソッドを利用するべきです。</p>
-          </div>
-        </div>
       </dd>
     </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>先ほど紹介したコードでは、メッセージを出力するために <a href="../../api/reference/console/delta___console_output.html#method_writeLine">Delta_ConsoleOutput::writeLine()</a> メソッドを使いました。このメソッドはメッセージの末尾に改行コードを付加した上で文字列を標準出力に出力します。メッセージを出力するだけであれば PHP 標準の echo や print でも事足りますが、writeLine() はオプション引数でメッセージのスタイル (色、強調表示) を指定したり、<a href="../../api/reference/console/delta___console_output.html#method_setWriteIndent">Delta_ConsoleOutput::setWriteIndent()</a> で指定されたインデント幅に影響を受けます。何らかの理由がない限りは、フレームワークが提供する出力メソッドを利用するべきです。</p>
+      </div>
+    </div>
     <p>'delta add-command' で作成したコマンドは、クラス名のサフィックスに 'Command' が付加される点に注意して下さい。コマンド名が 'HelloWorld' であればクラス名は 'HelloWorldCommand'、ファイル名は 'HelloWorldCommand.php' となります。また、全てのコマンドは <a href="../../api/reference/console/delta___console_command.html">Delta_ConsoleCommand</a> クラスを継承する必要があります。コマンドクラスは Web アプリケーション同様、手動でファイルを設置しても構いません。</p>
     <p>コマンドは Web アプリケーションと似た形で作成することができますが、以下の点で違いがあることに注意して下さい。</p>
     <ul>
@@ -96,8 +96,8 @@
       <dd class="lang_shell"><code>./deltac foo.bar.Baz</code></dd>
     </dl>
     <p>コマンドを実行することで 'Baz' が出力されるでしょう。</p>
-    <div class="note_container note_hint">
-      <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
       <div class="note_contents">
         <p>autoload (application.yml) を使ってプロジェクトディレクトリの外部にあるコマンドを実行したい場合、オートロード ID を実行パスに付加する必要があります。例えば 'autoload.plugin: /var/repos/plugin' (コマンドを plguin/commands/HelloWorld.php に配置) といった宣言がある場合、コマンドの実行パスは 'plguin:commands.HelloWorld' となります。</p>
       </div>
@@ -165,8 +165,8 @@
             # 引数とオプションの同時指定<br>
             ./deltac Parse arg1 arg2 arg3 --opt1 --opt2 --opt3=Hello</code></dd>
         </dl>
-        <div class="note_container note_hint">
-          <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+        <div class="note_container note_info">
+          <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
           <div class="note_contents">
             <p>引数とオプションはそれぞれ任意の数のパラメータを指定することができます。引数名が '-' (ハイフン) を付けず宣言順序が固定なのに対し、オプション名は '-' (または '--') から始まり、宣言順序は決まりがありません。また '-{name}={value}' 形式で値を持つこともできます。</p>
           </div>
@@ -216,8 +216,8 @@
         <p>configure() はオプションや引数の形式を制御するメソッドです。ここでは 1 つ目の引数を key1 (必須指定)、2 つ目の引数を key2 (必須指定)、3 つ目の引数を key3 (任意指定) と設定しました。もしコマンドに 2 つ以上の引数が指定されていない場合は configure() の設定に反するため例外 InvalidArgumentException がスローされます。 </p>
         <p>引数を取得するには $this-&gt;getInput()-&gt;getArgument() や $this-&gt;getInput()-&gt;hasArgument() を使います。上記例では getArgument() の引数に 'key3' を指定しているため、3 つ目の引数 'arg3' が持つ値 'Hello' を返します。</p>
         <p>オプションも同様に configure() で宣言しますが、addOption() の第 2 引数は、オプションが値を持つかどうかを設定します。ここでは opt3 が値を持つよう宣言していますので、'./deltac Parse --opt3=Hello' といった宣言が有効になります。</p>
-        <div class="note_container note_hint">
-          <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+        <div class="note_container note_info">
+          <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
           <div class="note_contents">
             <p>オプションを宣言する場合、configure() のオーバーライドは必須ですが、引数の宣言時は必ずしも configure() をオーバーライドする必要はありません。ただし、オプションの形式が不正な場合は例外をスローすることができるため、原則的にはメソッドをオーバーライドしておくべきでしょう。尚、ここでは紹介しませんでしたが、<a href="../../api/reference/console/delta___console_input_configure.html#method_addOption">addOption()</a> は指定されたオプションの値が許可された文字列か判定するためのコールバック関数を指定することも可能です。</p>
           </div>
