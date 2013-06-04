@@ -133,8 +133,8 @@ class Delta_HTMLHelper extends Delta_Helper
     $path = $this->buildAssetPath($path, 'js', $extra);
 
     $defaults = array();
-    $defaults['src'] = $path;
     $defaults['type'] = 'text/javascript';
+    $defaults['src'] = $path;
 
     $parameters = self::constructParameters($attributes, $defaults);
     $attributes = self::buildTagAttribute($parameters, FALSE);
