@@ -117,7 +117,7 @@ class Delta_HTMLEscapeObjectDecorator extends Delta_HTMLEscapeDecorator implemen
       return Delta_StringUtils::escape($this->_data->$propertyName);
 
     } else {
-      $message = sprintf('Property does not exist. [%s::%s()]', get_class($this->_data), $propertyName);
+      $message = sprintf('Property does not exist. [%s::$%s]', get_class($this->_data), $propertyName);
       throw new RuntimeException($message);
     }
   }
