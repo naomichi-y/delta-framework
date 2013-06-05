@@ -1096,6 +1096,16 @@ URI に含まれる PATH_INFO パラメータを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_hasCookie">hasCookie()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+指定した Cookie がクライアントに設定されているかどうかチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../http.request/delta___http_request.html">Delta_HttpRequest</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_hasError">hasError()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -2732,6 +2742,54 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_hasCookie">hasCookie()</dt>
+                    <dd>
+                      <div class="source"><code>public bool hasCookie($name)</code></div>
+                                              <div class="text">
+指定した Cookie がクライアントに設定されているかどうかチェックします。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$name</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+チェック対象の Cookie 名。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                    <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+Cookie がクライアントに設定されている場合は TRUE、設定されていない場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_hasError">hasError()</dt>
                     <dd>
                       <div class="source"><code>public bool hasError()</code></div>
@@ -3367,7 +3425,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 20 May 2013 07:06:06 +0900<br />
+  <p>This document was generated on Wed, 05 Jun 2013 20:14:56 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
