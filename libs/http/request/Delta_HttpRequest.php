@@ -1048,6 +1048,19 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
+   * 指定した Cookie がクライアントに設定されているかどうかチェックします。
+   *
+   * @param string $name チェック対象の Cookie 名。
+   * @return bool Cookie がクライアントに設定されている場合は TRUE、設定されていない場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function hasCookie($name)
+  {
+    return isset($_COOKIE[$name]);
+  }
+
+  /**
    * クライアントから送信された Cookie を取得します。
    *
    * @param string $name 取得する Cookie 名。
