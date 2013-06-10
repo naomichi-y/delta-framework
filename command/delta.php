@@ -170,11 +170,14 @@ class Delta_CommandExecutor
           break;
       }
 
-    } else {
+    } else if (strlen($command)) {
       $message = sprintf('Unknown command. [%s]', $command);
       $this->_output->errorLine($message);
       $this->_output->writeBlankLines(1);
 
+      $this->executeHelp();
+
+    } else {
       $this->executeHelp();
     }
   }
