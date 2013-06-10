@@ -333,7 +333,8 @@ class Delta_HTMLHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_ActionMessages::add()} メソッドによって追加された全てのメッセージを HTML のリスト形式で取得します。
+   * {@link Delta_ActionMessages::add()} メソッドで追加された全てのメッセージを HTML タグを含む形式で取得します。
+   * このメソッドはメッセージが複数含まれる場合にリスト形式の HTML を返します。
    *
    * @param mixed $attributes リストタグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @return string メッセージを HTML のリスト形式で返します。メッセージが未登録の場合は NULL を返します。
@@ -342,7 +343,7 @@ class Delta_HTMLHelper extends Delta_Helper
   public function messages($attributes = array('class' => 'success'))
   {
     if ($this->_messages->hasMessage()) {
-      return $this->buildMessageList($this->_messages->getList(), $attributes);
+      return $this->buildMessageTag($this->_messages->getList(), $attributes);
     }
 
     return NULL;
@@ -378,7 +379,8 @@ class Delta_HTMLHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_ActionMessages::addError()} メソッドによって追加された全てのエラーメッセージを HTML のリスト形式で取得します。
+   * {@link Delta_ActionMessages::addError()} メソッドで追加された全てのエラーメッセージを HTML タグを含む形式で取得します。
+   * このメソッドはメッセージが複数含まれる場合にリスト形式の HTML を返します。
    *
    * @param bool $fieldError {@link Delta_ActionMessages::addFieldError()} メソッドで追加されたフィールドエラーメッセージを同時に出力する場合は TRUE を指定。
    * @param mixed $attributes リストタグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
@@ -399,7 +401,7 @@ class Delta_HTMLHelper extends Delta_Helper
     }
 
     if (sizeof($errorList)) {
-      return $this->buildMessageList($errorList, $attributes);
+      return $this->buildMessageTag($errorList, $attributes);
     }
 
     return NULL;
@@ -426,18 +428,25 @@ class Delta_HTMLHelper extends Delta_Helper
    * @return string
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function buildMessageList($messages, $attributes)
+  private function buildMessageTag($messages, $attributes)
   {
     $buffer = NULL;
     $attributes = self::buildTagAttribute($attributes, FALSE);
 
-    $buffer = '<div' . $attributes . ">\n<ul>\n";
+    if (sizeof($messages) > 1) {
+      $buffer = sprintf("<div%s>\n<ul>\n", $attributes);
 
-    foreach ($messages as $message) {
-      $buffer .= '<li>' . Delta_StringUtils::escape($message) . "</li>\n";
+      foreach ($messages as $message) {
+        $buffer .= sprintf("<li>%s</li>\n", Delta_StringUtils::escape($message));
+      }
+
+      $buffer .= "</ul>\n</div>\n";
+
+    } else {
+      $buffer = sprintf("<div %s>\n%s</div>\n",
+        $attributes,
+        Delta_StringUtils::escape($messages[0]));
     }
-
-    $buffer .= "</ul>\n</div>\n";
 
     return $buffer;
   }
