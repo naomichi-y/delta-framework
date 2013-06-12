@@ -78,7 +78,7 @@ abstract class Delta_DatabaseCommand extends Delta_Object
    * @return bool テーブルが存在する場合は TRUE、存在しない場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function isExistTable($tableName)
+  public function existsTable($tableName)
   {
     return in_array($tableName, $this->getTables());
   }
@@ -117,7 +117,7 @@ abstract class Delta_DatabaseCommand extends Delta_Object
    * @return bool フィールドが存在する場合は TRUE、存在しない場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function isExistField($tableName, $fieldName)
+  public function existsField($tableName, $fieldName)
   {
     return in_array($fieldName, $this->getFields($tableName));
   }
@@ -296,7 +296,7 @@ abstract class Delta_DatabaseCommand extends Delta_Object
    */
   public function dropTable($tableName)
   {
-    if ($this->isExistTable($tableName)) {
+    if ($this->existsTable($tableName)) {
       $query = sprintf('DROP TABLE %s', $tableName);
       $this->_connection->createStatement($query)->execute();
     }
@@ -429,9 +429,6 @@ abstract class Delta_DatabaseCommand extends Delta_Object
    */
   public function insert($tableName, array $data, $name = NULL)
   {
-    $names = array_keys($data);
-    $values = array_values($data);
-
     $names = array();
     $values = array();
 
@@ -524,6 +521,60 @@ abstract class Delta_DatabaseCommand extends Delta_Object
   }
 
   /**
+   * レコードを更新します。
+   *
+   * @param string $tableName 更新対象のテーブル名。
+   * @param array $data 更新対象のフィールド名と更新値で構成される連想配列。
+   * @param array $where 更新条件のフィールド名と条件値で構成される連想配列。
+   * @return int 作用したレコード数を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function update($tableName, array $data = array(), array $where = array())
+  {
+    if (sizeof($data)) {
+      $updateQuery = NULL;
+
+      // 更新カラム
+      foreach ($data as $name => $value) {
+        if (!is_object($value)) {
+          $value = $this->_connection->quote($value);
+        }
+
+        if ($updateQuery) {
+          $updateQuery .= ', ';
+        }
+
+        $updateQuery .= sprintf('%s = %s', $name, $value);
+      }
+
+      // 更新条件
+      $whereQuery = NULL;
+
+      if (sizeof($where)) {
+        foreach ($where as $name => $value) {
+          if ($whereQuery) {
+            $whereQuery .= 'AND ';
+          }
+
+          $whereQuery .= sprintf('%s = %s ', $name, $value);
+        }
+
+        $whereQuery = ' WHERE ' . rtrim($whereQuery);
+
+      } else {
+        $updateQuery = rtrim($updateQuery);
+      }
+
+      $query = sprintf('UPDATE %s SET %s%s', $tableName, $updateQuery, $whereQuery);
+    }
+
+    $stmt = $this->_connection->createStatement($query);
+
+    return $stmt->execute();
+  }
+
+  /**
    * 値で構成される配列データを SQL エスケープします。
    *
    * @param array $array 値の配列。
@@ -533,9 +584,7 @@ abstract class Delta_DatabaseCommand extends Delta_Object
   public function quoteValues(array $array)
   {
     array_walk($array, function(&$value, $name) {
-      if (is_object($value)) {
-        $valeu = $value;
-      } else {
+      if (!is_object($value)) {
         $value = $this->_connection->quote($value);
       }
     });

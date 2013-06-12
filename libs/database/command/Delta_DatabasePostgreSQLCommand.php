@@ -48,7 +48,7 @@ class Delta_DatabasePostgreSQLCommand extends Delta_DatabaseCommand
   {
     $result = FALSE;
 
-    if ($this->isExistTable($tableName)) {
+    if ($this->existsTable($tableName)) {
       $query = 'SELECT pg_table_size(:table_name)';
 
       $stmt = $this->_connection->createStatement($query);

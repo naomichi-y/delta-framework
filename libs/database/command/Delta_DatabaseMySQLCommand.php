@@ -44,7 +44,7 @@ class Delta_DatabaseMySQLCommand extends Delta_DatabaseCommand
   {
     $result = FALSE;
 
-    if ($this->isExistTable($tableName)) {
+    if ($this->existsTable($tableName)) {
       $query = 'SHOW TABLE STATUS LIKE :table_name';
 
       $stmt = $this->_connection->createStatement($query);

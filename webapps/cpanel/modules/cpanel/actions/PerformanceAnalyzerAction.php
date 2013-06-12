@@ -16,7 +16,7 @@ class PerformanceAnalyzerAction extends Delta_Action
       $command = $this->getDatabase()->getConnection($dataSourceId)->getCommand();
       $tableName = Delta_DAOFactory::create('Delta_ActionRequests')->getTableName();
 
-      if ($command->isExistTable($tableName)) {
+      if ($command->existsTable($tableName)) {
         $hasInstall = TRUE;
       }
     }

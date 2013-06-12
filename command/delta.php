@@ -812,7 +812,7 @@ class Delta_CommandExecutor
         $command = $conn->getCommand();
 
         foreach ($data['tables'] as $table) {
-          if (!$command->isExistTable($table['name'])) {
+          if (!$command->existsTable($table['name'])) {
             $command->createTable($table);
 
             $message = sprintf("Create table %s.%s.", $dataSourceId, $table['name']);
