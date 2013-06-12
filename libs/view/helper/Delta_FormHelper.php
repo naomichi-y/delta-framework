@@ -827,8 +827,8 @@ class Delta_FormHelper extends Delta_Helper
    * // 出力されるタグ:
    * <div class="form_field">
    *   <span class="field_element">
-   *     <input type="checkbox" value="yes" name="agreement[]" id="agreement" />
-   *     <label for="agreement">同意する</label>
+   *     <input type="checkbox" value="yes" name="agreement" id="agreement" />
+   *     <label for="agreement">Agreement</label>
    *   </span>
    *   // チェック状態とは別に、フィールド自体が送信されたかどうかを判別するための隠しフィールドが自動生成される
    *   <input type="hidden" name="_agreement" value="on" id="_agreement" />
@@ -1674,7 +1674,11 @@ class Delta_FormHelper extends Delta_Helper
           $itemAttributes = self::constructParameters($attributes, $defaults);
 
           if ($type == 'checkbox') {
-            $itemAttributes['name'] = $itemAttributes['name'] . '[]';
+            if ($single) {
+              $itemAttributes['name'] = $itemAttributes['name'];
+            } else {
+              $itemAttributes['name'] = $itemAttributes['name'] . '[]';
+            }
           }
 
           // チェックボックス要素の ID は 'フィールド名 + 要素値' の文字列を使う
