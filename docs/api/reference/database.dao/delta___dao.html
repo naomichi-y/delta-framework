@@ -849,6 +849,16 @@ DAO が参照するデータソース ID を設定します。
                                                   </td>
                         <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
                       </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_update">update()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+レコードを更新します。
+</div>
+                                                  </td>
+                        <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
+                      </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
@@ -1255,6 +1265,55 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_update">update()</dt>
+                    <dd>
+                      <div class="source"><code>public int update(Delta_DatabaseEntity $entity)</code></div>
+                                              <div class="text">
+レコードを更新します。
+更新条件には <a href="../database.dao/delta___dao.html#method_getPrimaryKeys">テーブルのプライマリキー</a> (AND) が使用されます。
+<div class="source"><code>$usersDAO = Delta_DAOFactory::create(&#039;Users&#039;);
+$entity = $usersDAO-&gt;createEntity();
+$entity-&gt;userId = 100;
+$entity-&gt;username = &#039;foo&#039;
+$entity-&gt;lastLoginDate = new Delta_DatabaseExpression(&#039;NOW()&#039;);
+
+// &quot;UPDATE user SET username = &#039;foo&#039;, last_login_date = NOW() WHERE user_id = :user_id&quot;
+$usersDAO-&gt;update($entity);
+</code></div>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+作用したレコード数を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                 </dl>
                       </article>
         </div>
@@ -1264,7 +1323,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Wed, 12 Jun 2013 21:43:18 +0900<br />
+  <p>This document was generated on Thu, 13 Jun 2013 01:43:13 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
