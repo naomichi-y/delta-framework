@@ -753,6 +753,26 @@ database.command
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_existsField">existsField()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+テーブルに指定したフィールドが存在するかどうかチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../database.command/delta___database_command.html">Delta_DatabaseCommand</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_existsTable">existsTable()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+指定したテーブルが存在するかどうかチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../database.command/delta___database_command.html">Delta_DatabaseCommand</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_expression">expression()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -903,26 +923,6 @@ CSV データをテーブルにインポートします。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_existsField">existsField()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-テーブルに指定したフィールドが存在するかどうかチェックします。
-</div>
-                                                  </td>
-                        <td><a href="../database.command/delta___database_command.html">Delta_DatabaseCommand</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_existsTable">existsTable()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-指定したテーブルが存在するかどうかチェックします。
-</div>
-                                                  </td>
-                        <td><a href="../database.command/delta___database_command.html">Delta_DatabaseCommand</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
                                                       <a href="#method_quoteValues">quoteValues()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -937,6 +937,16 @@ CSV データをテーブルにインポートします。
                         <td>
                                                       <div class="text">
 テーブルに含まれる全てのデータを削除します。
+</div>
+                                                  </td>
+                        <td><a href="../database.command/delta___database_command.html">Delta_DatabaseCommand</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_update">update()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+レコードを更新します。
 </div>
                                                   </td>
                         <td><a href="../database.command/delta___database_command.html">Delta_DatabaseCommand</a></td>
@@ -1252,6 +1262,94 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </div>
 </li>
                                                                                                                                                                                                   </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_existsField">existsField()</dt>
+                    <dd>
+                      <div class="source"><code>public bool existsField($tableName, $fieldName)</code></div>
+                                              <div class="text">
+テーブルに指定したフィールドが存在するかどうかチェックします。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$tableName</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+チェック対象のテーブル名。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$fieldName</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+チェック対象のフィールド名。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+フィールドが存在する場合は TRUE、存在しない場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_existsTable">existsTable()</dt>
+                    <dd>
+                      <div class="source"><code>public bool existsTable($tableName)</code></div>
+                                              <div class="text">
+指定したテーブルが存在するかどうかチェックします。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+テーブルが存在する場合は TRUE、存在しない場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                         <dt id="method_expression">expression()</dt>
@@ -1767,94 +1865,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_existsField">existsField()</dt>
-                    <dd>
-                      <div class="source"><code>public bool existsField($tableName, $fieldName)</code></div>
-                                              <div class="text">
-テーブルに指定したフィールドが存在するかどうかチェックします。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$tableName</td>
-                              <td>string</td>
-                              <td>
-                                                                  <div class="text">
-チェック対象のテーブル名。
-</div>
-                                                              </td>
-                            </tr>
-                                                        <tr>
-                              <td>$fieldName</td>
-                              <td>string</td>
-                              <td>
-                                                                  <div class="text">
-チェック対象のフィールド名。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <div class="text">
-フィールドが存在する場合は TRUE、存在しない場合は FALSE を返します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_existsTable">existsTable()</dt>
-                    <dd>
-                      <div class="source"><code>public bool existsTable($tableName)</code></div>
-                                              <div class="text">
-指定したテーブルが存在するかどうかチェックします。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <div class="text">
-テーブルが存在する場合は TRUE、存在しない場合は FALSE を返します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                         <dt id="method_quoteValues">quoteValues()</dt>
                     <dd>
                       <div class="source"><code>public SQL quoteValues(array $array)</code></div>
@@ -1935,6 +1945,72 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_update">update()</dt>
+                    <dd>
+                      <div class="source"><code>public int update($tableName, array $data = array(), array $where = array())</code></div>
+                                              <div class="text">
+レコードを更新します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$tableName</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+更新対象のテーブル名。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$data</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+更新対象のフィールド名と更新値で構成される連想配列。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$where</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+更新条件のフィールド名と条件値で構成される連想配列。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                    <tr>
+                              <td>{return}</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+作用したレコード数を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                 </dl>
                       </article>
         </div>
@@ -1944,7 +2020,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Wed, 12 Jun 2013 21:43:18 +0900<br />
+  <p>This document was generated on Thu, 13 Jun 2013 01:43:13 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
