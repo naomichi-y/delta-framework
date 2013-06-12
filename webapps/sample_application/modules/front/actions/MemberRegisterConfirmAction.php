@@ -23,7 +23,7 @@ class MemberRegisterConfirmAction extends Delta_Action
 
     $membersDAO = Delta_DAOFactory::create('Members');
 
-    if ($membersDAO->isExistMailAddress($mailAddress)) {
+    if ($membersDAO->existsMailAddress($mailAddress)) {
       $this->getMessages()->addFieldError('mailAddress', '指定されたメールアドレスは使用できません。');
 
       return FALSE;

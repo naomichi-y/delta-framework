@@ -191,6 +191,44 @@ abstract class Delta_DAO extends Delta_Object
   }
 
   /**
+   * レコードを更新します。
+   * 更新条件には {@link Delta_DAO::getPrimaryKeys() テーブルのプライマリキー} (AND) が使用されます。
+   * <code>
+   * $usersDAO = Delta_DAOFactory::create('Users');
+   * $entity = $usersDAO->createEntity();
+   * $entity->userId = 100;
+   * $entity->username = 'foo'
+   * $entity->lastLoginDate = new Delta_DatabaseExpression('NOW()');
+   *
+   * // "UPDATE user SET username = 'foo', last_login_date = NOW() WHERE user_id = :user_id"
+   * $usersDAO->update($entity);
+   * </code>
+   *
+   * @param Delta_DatabaseEntity 更新対象のエンティティオブジェクト。
+   * @return int 作用したレコード数を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function update(Delta_DatabaseEntity $entity)
+  {
+    $tableName = $this->getTableName();
+    $fields = $entity->toArray();
+
+    $data = array();
+    $where = array();
+
+    foreach ($fields as $name => $value) {
+      if (in_array($name, $this->_primaryKeys)) {
+        $where[$name] = $value;
+      } else if ($value !== NULL) {
+        $data[$name] = $value;
+      }
+    }
+
+    return $this->getConnection()->getCommand()->update($tableName, $data, $where);
+  }
+
+  /**
    * 全レコード数を取得します。
    *
    * @return int 全レコード数を返します。

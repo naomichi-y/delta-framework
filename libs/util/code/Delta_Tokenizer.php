@@ -541,7 +541,7 @@ class Delta_Tokenizer extends Delta_Object
 
         $tags = $this->splitDocumentTags($buffer);
 
-        if (Delta_ArrayUtils::isExistKeyWithExpect($tags, array('param', 'return'))) {
+        if (Delta_ArrayUtils::existsKeyWithExpect($tags, array('param', 'return'))) {
           $attributes['hasExtraTag'] = TRUE;
         }
 

@@ -17,7 +17,7 @@ class PerformanceAnalyzerUninstallAction extends Delta_Action
     foreach ($daos as $dao) {
       $tableName = Delta_DAOFactory::create($dao)->getTableName();
 
-      if ($command->isExistTable($tableName)) {
+      if ($command->existsTable($tableName)) {
         $command->dropTable($tableName);
       }
     }

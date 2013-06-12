@@ -50,7 +50,7 @@ class Delta_ArrayUtils
    * @return bool expects 以外のキーが存在する場合は TRUE、存在しない場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function isExistKeyWithExpect(array $array, $expects)
+  public static function existsKeyWithExpect(array $array, $expects)
   {
     $exists = FALSE;
     $expects = (array) $expects;
@@ -74,7 +74,7 @@ class Delta_ArrayUtils
    * @return bool search が存在する場合は TRUE、存在しない場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function isExistValueInArray($search, array $array)
+  public static function existsValueInArray($search, array $array)
   {
     foreach ($array as $key) {
       if (strcasecmp($search, $key) === 0) {

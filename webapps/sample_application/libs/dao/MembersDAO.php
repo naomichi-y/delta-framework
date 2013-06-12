@@ -11,7 +11,7 @@ class MembersDAO extends Delta_DAO
   protected $_tableName = 'members';
   protected $_primaryKeys = array('member_id');
 
-  public function isExistMailAddress($mailAddress)
+  public function existsMailAddress($mailAddress)
   {
     $conn = $this->getConnection();
     $sql = 'SELECT member_id '
