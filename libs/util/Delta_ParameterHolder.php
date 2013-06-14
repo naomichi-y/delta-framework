@@ -267,7 +267,9 @@ class Delta_ParameterHolder extends Delta_Object implements Iterator, ArrayAcces
    *
    * @param string $name 対象とするキー名。
    * @param mixed $alternative 値が存在しない場合に返す代替値。
-   * @return mixed キー名に対応する値を返します。
+   * @return mixed キーが持つ値を返します。
+   *   このメソッドは値が配列で構成される場合に新しい {@link Delta_ParameterHolder} オブジェクト、スカラー値を持つ場合は実値を返す点に注意して下さい。
+   *   データを特定の型で取得するには {@link getArray()} や {@link getString()} を利用するべきです。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function get($name, $alternative = NULL)
