@@ -62,6 +62,7 @@ class Delta_FileUtils
         return $path;
       }
 
+    } else {
       $path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
       $realPath = realpath($path);
 

@@ -1493,8 +1493,11 @@ class Delta_FormHelper extends Delta_Helper
     $extra = self::constructParameters($extra);
     $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
 
+    $html = $this->_currentView->getHelperManager()->getHelper('html');
+    $imagePath = $html->buildAssetPath($source, 'image', array('absolute' => $absolute));
+
     $defaults = array();
-    $defaults['src'] = Delta_HTMLHelper::buildAssetPath($source, 'image', $absolute);
+    $defaults['src'] = $imagePath;
     $defaults['value'] = '';
 
     $attributes = self::constructParameters($attributes, $defaults);

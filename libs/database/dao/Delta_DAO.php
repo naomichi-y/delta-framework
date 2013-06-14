@@ -1,3 +1,5 @@
+
+
 <?php
 /**
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -150,7 +152,7 @@ abstract class Delta_DAO extends Delta_Object
    * @param mixed $array カラム名をキーとしてレコード値を格納した連想配列、または {@link Delta_RecordObject} クラスのインスタンス。
    * @return Delta_Entity {@link Delta_Entity} を実装したエンティティオブジェクトのインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   * @deprecated 1.16.0 で破棄予定
+   * @deprecated 将来的に破棄予定。
    */
   public function arrayToEntity($array)
   {
@@ -172,6 +174,31 @@ abstract class Delta_DAO extends Delta_Object
     }
 
     return $entity;
+  }
+
+  /**
+   * {@link Delta_DatabaseCriteria クライテリア} で利用するスコープを定義します。
+   *
+   * @param Delta_DatabaseCriteriaScopes $scopes スコープオブジェクト。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function scopes(Delta_DatabaseCriteriaScopes $scopes)
+  {}
+
+  /**
+   * クライテリアオブジェクトを生成します。
+   *
+   * @return Delta_DatabaseCriteria クライテリアオブジェクトを返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function createCriteria()
+  {
+    $scopes = new Delta_DatabaseCriteriaScopes();
+    $this->scopes($scopes);
+
+    return new Delta_DatabaseCriteria($this->getConnection(), $this->_tableName, $this->_primaryKeys, $scopes);
   }
 
   /**
@@ -206,6 +233,7 @@ abstract class Delta_DAO extends Delta_Object
    *
    * @param Delta_DatabaseEntity 更新対象のエンティティオブジェクト。
    * @return int 作用したレコード数を返します。
+   * @throws RuntimeException プライマリキーの値が未指定の場合に発生。
    * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -219,7 +247,15 @@ abstract class Delta_DAO extends Delta_Object
 
     foreach ($fields as $name => $value) {
       if (in_array($name, $this->_primaryKeys)) {
+        if ($value === NULL) {
+          $message = sprintf('Primary key value is not specified. [%s::$%s]',
+            get_class($this->createEntity()),
+            Delta_StringUtils::convertCamelCase($name));
+          throw new RuntimeException($message);
+        }
+
         $where[$name] = $value;
+
       } else if ($value !== NULL) {
         $data[$name] = $value;
       }
@@ -249,3 +285,5 @@ abstract class Delta_DAO extends Delta_Object
     $this->getConnection()->getCommand()->truncate($tableName);
   }
 }
+
+
