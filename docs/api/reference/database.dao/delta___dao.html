@@ -145,6 +145,14 @@
       </li>
           <li class="expandable">
         <div class="hitarea expandable-hitarea"></div>
+        <span>database.criteria</span>
+        <ul style="display: none;">
+                      <li><a href="../database.criteria/delta___database_criteria.html" title="Delta_DatabaseCriteria">Delta_DatabaseCriteria</a></li>
+                      <li><a href="../database.criteria/delta___database_criteria_scopes.html" title="Delta_DatabaseCriteriaScopes">Delta_DatabaseCriteriaScopes</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
         <span>database.dao</span>
         <ul style="display: none;">
                       <li><a href="../database.dao/delta___dao.html" title="Delta_DAO">Delta_DAO</a></li>
@@ -720,6 +728,16 @@ database.dao
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_createCriteria">createCriteria()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+クライテリアオブジェクトを生成します。
+</div>
+                                                  </td>
+                        <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_createEntity">createEntity()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -834,6 +852,16 @@ DAO が参照するデータソース ID を取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_scopes">scopes()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+<a href="../database.criteria/delta___database_criteria.html">クライテリア</a> で利用するスコープを定義します。
+</div>
+                                                  </td>
+                        <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_setDataSourceId">setDataSourceId()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -936,7 +964,46 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </div>
 </li>
                                                                                                                                                                                                                                                 <li>Deprecated: <div class="text">
-1.16.0 で破棄予定
+将来的に破棄予定。
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_createCriteria">createCriteria()</dt>
+                    <dd>
+                      <div class="source"><code>public Delta_DatabaseCriteria createCriteria()</code></div>
+                                              <div class="text">
+クライテリアオブジェクトを生成します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                              <td>
+                                                                  <div class="text">
+クライテリアオブジェクトを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
                                                                                                                                             </ul>
@@ -1209,6 +1276,45 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_scopes">scopes()</dt>
+                    <dd>
+                      <div class="source"><code>public void scopes(Delta_DatabaseCriteriaScopes $scopes)</code></div>
+                                              <div class="text">
+<a href="../database.criteria/delta___database_criteria.html">クライテリア</a> で利用するスコープを定義します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$scopes</td>
+                              <td><a href="../database.criteria/delta___database_criteria_scopes.html">Delta_DatabaseCriteriaScopes</a></td>
+                              <td>
+                                                                  <div class="text">
+スコープオブジェクト。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_setDataSourceId">setDataSourceId()</dt>
                     <dd>
                       <div class="source"><code>public void setDataSourceId($dataSourceId)</code></div>
@@ -1292,7 +1398,7 @@ $usersDAO-&gt;update($entity);
                           <th>Type</th>
                           <th>Description</th>
                         </tr>
-                                                                                                                                                                                                                                                            <tr>
+                                                                                                                                                                                                                                                                                                              <tr>
                               <td>{return}</td>
                               <td>int</td>
                               <td>
@@ -1301,9 +1407,13 @@ $usersDAO-&gt;update($entity);
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                              </table>
+                                                                                                                                                                                                                                </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Since: <div class="text">
+                                                                                                                                                                                                                                      <li>Throws: <div class="text">
+RuntimeException プライマリキーの値が未指定の場合に発生。
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Since: <div class="text">
 1.1
 </div>
 </li>
@@ -1323,7 +1433,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 13 Jun 2013 01:43:13 +0900<br />
+  <p>This document was generated on Sat, 15 Jun 2013 04:25:14 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

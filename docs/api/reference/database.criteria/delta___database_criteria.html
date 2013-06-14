@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta charset="UTF-8" />
-    <title>delta 1.1 API Reference - Delta_ImageUploader</title>
+    <title>delta 1.1 API Reference - Delta_DatabaseCriteria</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
     <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
@@ -585,7 +585,7 @@
           <article>
             <h2>
                               Class
-                            Delta_ImageUploader            </h2>
+                            Delta_DatabaseCriteria            </h2>
             <p class="right">
               <a href="#description">Description</a> |
               <a href="#constants">Constants</a> |
@@ -595,7 +595,70 @@
 
             <h3 id="description">Description</h3>
                           <div class="text">
-イメージファイルのアップロード機能を提供します。
+クライテリアはレコードの抽出条件をスコープとして管理し、SQL を書くことなくシンプルにデータを取得するメソッドを提供します。
+<div class="source"><code>class UsersDAO extends Delta_DAO
+{
+  // DAO クラスにクライテリアで利用する抽出条件 (スコープ) を宣言
+  public function <a href="../database.dao/delta___dao.html#method_scopes">scopes</a>(Delta_DatabaseCriteriaScopes $scopes) {
+    // 抽出条件を配列形式で指定
+    $scopes-&gt;add(&#039;condition1&#039;,
+       array(
+         // キーに指定可能な値は <a href="../database.criteria/delta___database_criteria_scopes.html#method_add">Delta_DatabaseCriteriaScopes::add()</a> メソッドを参照
+         // キーが持つ値にはデータの抽出条件 (SQL の WHERE 句) を書くことができる
+         &#039;where&#039; =&gt; &#039;track_id = 200&#039;
+       )
+    );
+
+    // 抽出条件をクロージャ形式で指定 (条件文に任意の値を指定することができる)
+    $scopes-&gt;add(&#039;condition2&#039;,
+      function($registerDate) {
+        return array(
+         &#039;where&#039; =&gt; &quot;register_date = $registerDate&quot;,
+         &#039;order&#039; =&gt; &#039;user_id DESC&#039;
+        );
+      )
+    }
+  }
+}
+
+// クライテリアオブジェクトの取得
+$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
+
+&#039;SELECT * FROM users&#039;
+$criteira-&gt;getQuery();
+$records = $criteira-&gt;findAll();
+
+// レコード件数の表示
+$records-&gt;count();
+
+// プライマリキー制約でレコードを抽出
+$criteria-&gt;setPrimaryKeyValue(100);
+
+// &#039;SELECT * FROM users WHERE user_id = 100
+$criteria-&gt;getQuery();
+$criteria-&gt;find()-&gt;user_id;
+
+// &#039;condition1&#039; でレコードを取得する
+// &#039;SELECT * FROM users WHERE track_id = 200&#039;
+$criteria-&gt;add(&#039;condition1&#039;)-&gt;getQuery();
+
+// &#039;condition2&#039; でレコードを取得する
+$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
+
+// 抽出条件は第 2 引数に配列形式で指定
+$criteria-&gt;add(&#039;condition2&#039;, array(date(&#039;Y-m-d&#039;));
+
+// &#039;SELECT * FROM users WHERE register_date = &#039;XXXX-XX-XX&#039; ORDER BY user_id DESC
+$criteria-&gt;getQuery();
+
+// 複数のスコープを繋げて 1 つのクエリとすることも可能
+// &quot;SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = &#039;XXXX-XX-XX&#039; ORDER BY user_id DESC&quot;
+$criteria-&gt;setPrimaryKeyValue(100)
+  -&gt;add(&#039;condition1&#039;)
+  -&gt;add(&#039;condition2&#039;, array(date(&#039;Y-m-d&#039;)))
+  -&gt;getQuery();
+</code></div>
+<i>現在のところ、クライテリアはリレーションには対応していません。
 </div>
                         <table summary="Description">
               <colgroup>
@@ -619,18 +682,18 @@ delta
                                                                                             <tr>
                       <th class="left">Package</th>
                       <td><div class="text">
-util.image
+database.criteria
 </div>
 </td>
                     </tr>
                                                               <tr>
                 <th class="left">Inheritance</th>
                 <td>
-                  Delta_ImageUploader                                       &raquo; <a href="../util/delta___file_uploader.html">Delta_FileUploader</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
+                  Delta_DatabaseCriteria                                       &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
               </tr>
                                           <tr>
                 <th class="left">Source file</th>
-                <td>/util/image/Delta_ImageUploader.php</td>
+                <td>/database/criteria/Delta_DatabaseCriteria.php</td>
               </tr>
             </table>
             <p class="right"><a href="#top">To top</a></p>
@@ -656,15 +719,15 @@ util.image
                     <th>Summary</th>
                     <th>Defined by</th>
                   </tr>
-                                                                                    <tr class="inheritanceMethods">
+                                                                                    <tr>
                                               <td>
-                                                      <a href="../util/delta___file_uploader.html#method___construct">__construct()</a>                                                  </td>
+                                                      <a href="#method___construct">__construct()</a>                                                  </td>
                         <td>
                                                       <div class="text">
 コンストラクタ。
 </div>
                                                   </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -676,15 +739,75 @@ util.image
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
+                                                                                                        <tr>
                                               <td>
-                                                      <a href="../util/delta___file_uploader.html#method_deploy">deploy()</a>                                                  </td>
+                                                      <a href="#method_add">add()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-アップロードされたファイルを保存します。
+クライテリアにスコープを追加します。
 </div>
                                                   </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                      </tr>
+                                                                                                                                              <tr>
+                                              <td>
+                                                      <a href="#method_count">count()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+条件に一致するレコードの件数を取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_exists">exists()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+条件に一致するレコードが存在するかどうかチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_find">find()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+条件に一致するレコードを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_findAll">findAll()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+条件に一致する全てのレコードを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_findFirst">findFirst()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+プライマリキー制約を元に先頭行のレコードを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_findLast">findLast()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+プライマリキー制約を元に最終行のレコードを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -696,74 +819,7 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileExtension">getFileExtension()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの拡張子を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileInfo">getFileInfo()</a>                                                  </td>
-                        <td>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileName">getFileName()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの名前を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileSize">getFileSize()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの容量を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileSuffix">getFileSuffix()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの拡張子を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getImage">getImage()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルのイメージオブジェクトを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util.image/delta___image_uploader.html">Delta_ImageUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getMIMEType">getMIMEType()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの MIME タイプを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
+                                                                                                                                              <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
@@ -772,6 +828,16 @@ Delta_AppPathManager のインスタンスを取得します。
 </div>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_getQuery">getQuery()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+クライテリアが生成したクエリを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -793,55 +859,15 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getStatus">getStatus()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルのステータスコードを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getTemporaryFilePath">getTemporaryFilePath()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの一時ファイル名を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_hasUpload">hasUpload()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-ファイルがアップロードされているかどうかチェックします。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_isUpload">isUpload()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-ファイルが正常にアップロードされているかどうかチェックします。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_setImageEngine">setImageEngine()</a>                                                  </td>
+                                                      <a href="#method_setPrimaryKeyValue">setPrimaryKeyValue()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-イメージエンジンを設定します。
+クライテリアにプライマリキーのレコード抽出条件制約を設定します。
 </div>
                                                   </td>
-                        <td><a href="../util.image/delta___image_uploader.html">Delta_ImageUploader</a></td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
                       </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
@@ -850,11 +876,11 @@ Delta_AppPathManager のインスタンスを取得します。
             
                         <h3>Method details</h3>
               <dl>
-                                                                                                                                                                                                                                                                                                                                                                        <dt id="method_getImage">getImage()</dt>
+                                                      <dt id="method___construct">__construct()</dt>
                     <dd>
-                      <div class="source"><code>public Delta_Image getImage($adjustOrientation = TRUE)</code></div>
+                      <div class="source"><code>public void __construct(Delta_DatabaseConnection $connection, $tableName, array $primaryKeys = array(), Delta_DatabaseCriteriaScopes $scopes = NULL)</code></div>
                                               <div class="text">
-アップロードされたファイルのイメージオブジェクトを取得します。
+コンストラクタ。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -868,39 +894,358 @@ Delta_AppPathManager のインスタンスを取得します。
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$adjustOrientation</td>
-                              <td>bool</td>
+                              <td>$connection</td>
+                              <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
                               <td>
                                                                   <div class="text">
-<a href="../util.image/delta___image_delegate.html#method_createOriginalImageFromFile">Delta_ImageDelegate::createOriginalImageFromFile()</a> メソッドを参照。
+コネクションオブジェクト。
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td><a href="../util.image/delta___image.html">Delta_Image</a></td>
+                                                        <tr>
+                              <td>$tableName</td>
+                              <td>string</td>
                               <td>
                                                                   <div class="text">
-Delta_Image のインスタンスを返します。
+テーブル名。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$scopes</td>
+                              <td><a href="../database.criteria/delta___database_criteria_scopes.html">Delta_DatabaseCriteriaScopes</a></td>
+                              <td>
+                                                                  <div class="text">
+スコープオブジェクト。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                          <dt id="method_add">add()</dt>
+                    <dd>
+                      <div class="source"><code>public void add($scopeName, array $variables = array())</code></div>
+                                              <div class="text">
+クライテリアにスコープを追加します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$scopeName</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+スコープ名。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$variables</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+スコープに割り当てる変数のリスト。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                          <dt id="method_count">count()</dt>
+                    <dd>
+                      <div class="source"><code>public int count()</code></div>
+                                              <div class="text">
+条件に一致するレコードの件数を取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+レコードの件数を返します。
 </div>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                                                                                                                                                                                                        <dt id="method_setImageEngine">setImageEngine()</dt>
+                                                                        <dt id="method_exists">exists()</dt>
                     <dd>
-                      <div class="source"><code>public void setImageEngine($imageEngine)</code></div>
+                      <div class="source"><code>public bool exists()</code></div>
                                               <div class="text">
-イメージエンジンを設定します。
-このメソッドは、<a href="../util.image/delta___image_uploader.html#method_getImage">getImage()</a> メソッドでイメージオブジェクトを取得する前に呼び出す必要があります。
-特に指定がない場合は GD エンジンが使用されます。
+条件に一致するレコードが存在するかどうかチェックします。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+レコードが存在する場合は TRUE、存在しない場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_find">find()</dt>
+                    <dd>
+                      <div class="source"><code>public Delta_RecordObject find()</code></div>
+                                              <div class="text">
+条件に一致するレコードを取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td><a href="../database/delta___record_object.html">Delta_RecordObject</a></td>
+                              <td>
+                                                                  <div class="text">
+条件に一致するレコードオブジェクトを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_findAll">findAll()</dt>
+                    <dd>
+                      <div class="source"><code>public array findAll()</code></div>
+                                              <div class="text">
+条件に一致する全てのレコードを取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+条件に一致する全てのレコードを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_findFirst">findFirst()</dt>
+                    <dd>
+                      <div class="source"><code>public Delta_RecordObject findFirst()</code></div>
+                                              <div class="text">
+プライマリキー制約を元に先頭行のレコードを取得します。
+</div>
+<div class="text">
+$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
+</div>
+<div class="text">
+<div class="source"><code>// &#039;SELECT * FROM users ORDER BY user_id ASC LIMIT 1 OFFSET 0&#039;
+$criteria-&gt;findFirst()-&gt;getQuery();
+</code></div>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td><a href="../database/delta___record_object.html">Delta_RecordObject</a></td>
+                              <td>
+                                                                  <div class="text">
+先頭行のレコードを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_findLast">findLast()</dt>
+                    <dd>
+                      <div class="source"><code>public Delta_RecordObject findLast()</code></div>
+                                              <div class="text">
+プライマリキー制約を元に最終行のレコードを取得します。
+</div>
+<div class="text">
+<div class="source"><code>$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
+
+// &#039;SELECT * FROM users ORDER BY user_id DESC LIMIT 1 OFFSET 0&#039;
+$criteria-&gt;findLast()-&gt;getQuery();
+</code></div>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td><a href="../database/delta___record_object.html">Delta_RecordObject</a></td>
+                              <td>
+                                                                  <div class="text">
+最終行のレコードを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                                                                                              <dt id="method_getQuery">getQuery()</dt>
+                    <dd>
+                      <div class="source"><code>public string getQuery()</code></div>
+                                              <div class="text">
+クライテリアが生成したクエリを取得します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+クライテリアが生成したクエリを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                                                            <dt id="method_setPrimaryKeyValue">setPrimaryKeyValue()</dt>
+                    <dd>
+                      <div class="source"><code>public void setPrimaryKeyValue($primaryKeyValue)</code></div>
+                                              <div class="text">
+クライテリアにプライマリキーのレコード抽出条件制約を設定します。
+<div class="source"><code>$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
+
+// プライマリキーが持つ値
+$criteria-&gt;setPrimaryKeyValue(100);
+
+// &#039;SELECT * FROM user_id WHERE user_id = 100&#039;
+$criteria-&gt;getQuery();
+</code></div>
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -914,21 +1259,18 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$imageEngine</td>
-                              <td>int</td>
+                              <td>$primaryKeyValue</td>
+                              <td>mixed</td>
                               <td>
                                                                   <div class="text">
-Delta_Factory::IMAGE_ENGINE_* 定数を指定。
+Delta_DAO::getPrimaryKyes() が持つ値。
+  プライマリキーが複数フィールドで構成される場合は配列形式で値を指定。
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
+                                                                                                                                                                                                                                                                                                                                                                                        </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Throw: <div class="text">
-Delta_UnsupportedException PHP がイメージエンジンをサポートしていない場合に発生。
-</div>
-</li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
@@ -944,7 +1286,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 15 Jun 2013 04:25:15 +0900<br />
+  <p>This document was generated on Sat, 15 Jun 2013 04:25:14 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

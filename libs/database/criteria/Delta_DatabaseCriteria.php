@@ -9,22 +9,22 @@
  */
 
 /**
- * クライテリアはレコードの抽出条件をスコープとして管理し、SQL を書くことなくデータを取得するメソッドを提供します。
+ * クライテリアはレコードの抽出条件をスコープとして管理し、SQL を書くことなくシンプルにデータを取得するメソッドを提供します。
  * <code>
  * class UsersDAO extends Delta_DAO
  * {
  *   // DAO クラスにクライテリアで利用する抽出条件 (スコープ) を宣言
- *   public function scopes(Delta_DatabaseCriteriaScopes $scopes) {
+ *   public function {@link Delta_DAO::scopes() scopes}(Delta_DatabaseCriteriaScopes $scopes) {
  *     // 抽出条件を配列形式で指定
  *     $scopes->add('condition1',
  *        array(
- *          // 値には SQL のコードを書くことが可能
  *          // キーに指定可能な値は {@link Delta_DatabaseCriteriaScopes::add()} メソッドを参照
+ *          // キーが持つ値にはデータの抽出条件 (SQL の WHERE 句) を書くことができる
  *          'where' => 'track_id = 200'
  *        )
  *     );
  *
- *     // 抽出条件をクロージャ形式で指定 (条件文に任意の値を指定可能)
+ *     // 抽出条件をクロージャ形式で指定 (条件文に任意の値を指定することができる)
  *     $scopes->add('condition2',
  *       function($registerDate) {
  *         return array(
@@ -54,30 +54,24 @@
  * $criteria->find()->user_id;
  *
  * // 'condition1' でレコードを取得する
- * $criteria->add('condition1');
- *
  * // 'SELECT * FROM users WHERE track_id = 200'
- * $criteria->getQuery();
+ * $criteria->add('condition1')->getQuery();
  *
  * // 'condition2' でレコードを取得する
  * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
  *
- * // 条件は第 2 引数に配列形式で指定
+ * // 抽出条件は第 2 引数に配列形式で指定
  * $criteria->add('condition2', array(date('Y-m-d'));
  *
  * // 'SELECT * FROM users WHERE register_date = 'XXXX-XX-XX' ORDER BY user_id DESC
  * $criteria->getQuery();
  *
- * // 1 行目の user_id フィールドを取得する
- * $criteria->find()->user_id;
- *
  * // 複数のスコープを繋げて 1 つのクエリとすることも可能
+ * // "SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = 'XXXX-XX-XX' ORDER BY user_id DESC"
  * $criteria->setPrimaryKeyValue(100)
  *   ->add('condition1')
- *   ->add('condition2', array(date('Y-m-d')));
- *
- * // "SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = 'XXXX-XX-XX' ORDER BY user_id DESC"
- * $criteria->getQuery();
+ *   ->add('condition2', array(date('Y-m-d')))
+ *   ->getQuery();
  * </code>
  * <i>現在のところ、クライテリアはリレーションには対応していません。
  *
@@ -359,8 +353,10 @@ class Delta_DatabaseCriteria extends Delta_Object
    *
    * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
    *
+   * <code>
    * // 'SELECT * FROM users ORDER BY user_id ASC LIMIT 1 OFFSET 0'
    * $criteria->findFirst()->getQuery();
+   * </code>
    *
    * @return Delta_RecordObject 先頭行のレコードを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -373,10 +369,12 @@ class Delta_DatabaseCriteria extends Delta_Object
   /**
    * プライマリキー制約を元に最終行のレコードを取得します。
    *
+   * <code>
    * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
    *
    * // 'SELECT * FROM users ORDER BY user_id DESC LIMIT 1 OFFSET 0'
    * $criteria->findLast()->getQuery();
+   * </code>
    *
    * @return Delta_RecordObject 最終行のレコードを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta charset="UTF-8" />
-    <title>delta 1.1 API Reference - Delta_ImageUploader</title>
+    <title>delta 1.1 API Reference - Delta_DatabaseCriteriaScopes</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
     <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
@@ -585,7 +585,7 @@
           <article>
             <h2>
                               Class
-                            Delta_ImageUploader            </h2>
+                            Delta_DatabaseCriteriaScopes            </h2>
             <p class="right">
               <a href="#description">Description</a> |
               <a href="#constants">Constants</a> |
@@ -595,7 +595,7 @@
 
             <h3 id="description">Description</h3>
                           <div class="text">
-イメージファイルのアップロード機能を提供します。
+Delta_Database_Criteria で利用するスコープを定義します。
 </div>
                         <table summary="Description">
               <colgroup>
@@ -619,18 +619,25 @@ delta
                                                                                             <tr>
                       <th class="left">Package</th>
                       <td><div class="text">
-util.image
+database.criteria
 </div>
 </td>
                     </tr>
-                                                              <tr>
+                                                                                            <tr>
+                      <th class="left">Since</th>
+                      <td><div class="text">
+1.1
+</div>
+</td>
+                    </tr>
+                                                                                  <tr>
                 <th class="left">Inheritance</th>
                 <td>
-                  Delta_ImageUploader                                       &raquo; <a href="../util/delta___file_uploader.html">Delta_FileUploader</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
+                  Delta_DatabaseCriteriaScopes                                       &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
               </tr>
                                           <tr>
                 <th class="left">Source file</th>
-                <td>/util/image/Delta_ImageUploader.php</td>
+                <td>/database/criteria/Delta_DatabaseCriteriaScopes.php</td>
               </tr>
             </table>
             <p class="right"><a href="#top">To top</a></p>
@@ -658,16 +665,6 @@ util.image
                   </tr>
                                                                                     <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../util/delta___file_uploader.html#method___construct">__construct()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-コンストラクタ。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -676,15 +673,15 @@ util.image
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
+                                                                                                        <tr>
                                               <td>
-                                                      <a href="../util/delta___file_uploader.html#method_deploy">deploy()</a>                                                  </td>
+                                                      <a href="#method_add">add()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-アップロードされたファイルを保存します。
+スコープを追加します。
 </div>
                                                   </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
+                        <td><a href="../database.criteria/delta___database_criteria_scopes.html">Delta_DatabaseCriteriaScopes</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -695,73 +692,6 @@ Delta_AppPathManager のインスタンスを取得します。
 </div>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileExtension">getFileExtension()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの拡張子を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileInfo">getFileInfo()</a>                                                  </td>
-                        <td>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileName">getFileName()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの名前を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileSize">getFileSize()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの容量を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getFileSuffix">getFileSuffix()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの拡張子を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getImage">getImage()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルのイメージオブジェクトを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util.image/delta___image_uploader.html">Delta_ImageUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getMIMEType">getMIMEType()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの MIME タイプを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -783,6 +713,16 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_getScopes">getScopes()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+登録されている全てのスコープを取得します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria_scopes.html">Delta_DatabaseCriteriaScopes</a></td>
+                      </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
@@ -793,56 +733,6 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getStatus">getStatus()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルのステータスコードを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_getTemporaryFilePath">getTemporaryFilePath()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-アップロードされたファイルの一時ファイル名を取得します。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_hasUpload">hasUpload()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-ファイルがアップロードされているかどうかチェックします。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../util/delta___file_uploader.html#method_isUpload">isUpload()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-ファイルが正常にアップロードされているかどうかチェックします。
-</div>
-                                                  </td>
-                        <td><a href="../util/delta___file_uploader.html">Delta_FileUploader</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_setImageEngine">setImageEngine()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-イメージエンジンを設定します。
-</div>
-                                                  </td>
-                        <td><a href="../util.image/delta___image_uploader.html">Delta_ImageUploader</a></td>
-                      </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
@@ -850,11 +740,11 @@ Delta_AppPathManager のインスタンスを取得します。
             
                         <h3>Method details</h3>
               <dl>
-                                                                                                                                                                                                                                                                                                                                                                        <dt id="method_getImage">getImage()</dt>
+                                                                                        <dt id="method_add">add()</dt>
                     <dd>
-                      <div class="source"><code>public Delta_Image getImage($adjustOrientation = TRUE)</code></div>
+                      <div class="source"><code>public Delta_DatabaseCriteriaScopes add($scopeName, $condition)</code></div>
                                               <div class="text">
-アップロードされたファイルのイメージオブジェクトを取得します。
+スコープを追加します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -868,20 +758,42 @@ Delta_AppPathManager のインスタンスを取得します。
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$adjustOrientation</td>
-                              <td>bool</td>
+                              <td>$scopeName</td>
+                              <td>string</td>
                               <td>
                                                                   <div class="text">
-<a href="../util.image/delta___image_delegate.html#method_createOriginalImageFromFile">Delta_ImageDelegate::createOriginalImageFromFile()</a> メソッドを参照。
+スコープ名。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$condition</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+データの抽出条件を配列、またはクロージャ形式で指定。
+  抽出条件に指定可能なキーは次の通り。
+</div>
+<ul>
+<li>select: &#039;SELECT&#039; 句。参照するフィールドを指定。未指定時は全てのカラムが取得対象となる。</li>
+<li>where: &#039;WHERE&#039; 句。抽出条件を指定。
+複数のスコープを add() で追加した場合、&#039;where&#039; は &#039;AND&#039; 条件で結合されます。</li>
+<li>group: &#039;GROUP BY&#039; 句。フィールドのグループ条件を指定。</li>
+<li>having: &#039;HAVING&#039; 句。集計対象の条件を指定。</li>
+<li>order: &#039;ORDER BY&#039; 句。ソート条件を指定。</li>
+<li>limit: &#039;LIMIT&#039; 句。レコードの取得開始位置を指定。</li>
+<li>offset: &#039;OFFSET&#039; 句。レコードの取得数を指定。</li>
+</ul>
+<div class="text">複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。(&#039;where&#039; 以外)
 </div>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
-                              <td><a href="../util.image/delta___image.html">Delta_Image</a></td>
+                              <td><a href="../database.criteria/delta___database_criteria_scopes.html">Delta_DatabaseCriteriaScopes</a></td>
                               <td>
                                                                   <div class="text">
-Delta_Image のインスタンスを返します。
+オブジェクト自身を返します。
 </div>
                                                               </td>
                             </tr>
@@ -894,13 +806,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                                                                                                                                                                                                        <dt id="method_setImageEngine">setImageEngine()</dt>
+                                                                                                                                                                              <dt id="method_getScopes">getScopes()</dt>
                     <dd>
-                      <div class="source"><code>public void setImageEngine($imageEngine)</code></div>
+                      <div class="source"><code>public array getScopes()</code></div>
                                               <div class="text">
-イメージエンジンを設定します。
-このメソッドは、<a href="../util.image/delta___image_uploader.html#method_getImage">getImage()</a> メソッドでイメージオブジェクトを取得する前に呼び出す必要があります。
-特に指定がない場合は GD エンジンが使用されます。
+登録されている全てのスコープを取得します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -913,29 +823,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                           <th>Type</th>
                           <th>Description</th>
                         </tr>
-                                                                                                          <tr>
-                              <td>$imageEngine</td>
-                              <td>int</td>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>array</td>
                               <td>
                                                                   <div class="text">
-Delta_Factory::IMAGE_ENGINE_* 定数を指定。
+登録されている全てのスコープを返します。
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
+                                                                                                                            </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Throw: <div class="text">
-Delta_UnsupportedException PHP がイメージエンジンをサポートしていない場合に発生。
-</div>
-</li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
-                                                                                                                                                                                                  </ul>
+                                                                                                                                            </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                </dl>
+                                                                                  </dl>
                       </article>
         </div>
         <!-- /threequarter -->
@@ -944,7 +850,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 15 Jun 2013 04:25:15 +0900<br />
+  <p>This document was generated on Sat, 15 Jun 2013 04:25:14 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
