@@ -88,17 +88,20 @@ class Delta_SQLPreparedStatementParser extends Delta_Object
    */
   public function buildExpandBindingQuery()
   {
-    $preparedStatement = str_replace('"', '\'', $this->_query);
-    $type = $this->getPlaceHolderType($preparedStatement);
+    $type = $this->getPlaceHolderType($this->_query);
 
-    if ($type == self::PLACE_HOLDER_TYPE_NAME) {
-      $rawStatement = $this->bindByParameterName($preparedStatement, $this->_bindVariables);
+    switch ($type) {
+      case self::PLACE_HOLDER_TYPE_NAME:
+        $rawQuery = $this->bindByParameterName($this->_query, $this->_bindVariables);
+        break;
 
-    } else if ($type == self::PLACE_HOLDER_TYPE_ID) {
-      $rawStatement = $this->bindByInterrogation($preparedStatement, $this->_bindVariables);
+      case self::PLACE_HOLDER_TYPE_ID:
+        $rawQuery = $this->bindByInterrogation($this->_query, $this->_bindVariables);
+        break;
 
-    } else {
-      $rawStatement = $preparedStatement;
+      default:
+        $rawQuery = $this->_query;
+        break;
     }
 
     return $rawStatement;

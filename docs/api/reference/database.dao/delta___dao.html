@@ -748,6 +748,16 @@ database.dao
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_delete">delete()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+レコードを削除します。
+</div>
+                                                  </td>
+                        <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_formToEntity">formToEntity()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -772,16 +782,6 @@ Delta_AppPathManager のインスタンスを取得します。
                         <td>
                                                       <div class="text">
 database コンポーネントからコネクションオブジェクトを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getCount">getCount()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-全レコード数を取得します。
 </div>
                                                   </td>
                         <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
@@ -845,7 +845,7 @@ DAO が参照するデータソース ID を取得します。
                                                       <a href="#method_insert">insert()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-レコードを登録します。
+レコードを挿入します。
 </div>
                                                   </td>
                         <td><a href="../database.dao/delta___dao.html">Delta_DAO</a></td>
@@ -1053,6 +1053,59 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_delete">delete()</dt>
+                    <dd>
+                      <div class="source"><code>public int delete($primaryKeyValue)</code></div>
+                                              <div class="text">
+レコードを削除します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$primaryKeyValue</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+削除対象とするプライマリキーの値を指定。
+  プライマリキーが複数フィールドで構成される場合は配列形式で値を指定。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                      <tr>
+                              <td>{return}</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+作用したレコード数を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Throws: <div class="text">
+RuntimeException プライマリキーの値が未指定の場合に発生。
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_formToEntity">formToEntity()</dt>
                     <dd>
                       <div class="source"><code>public Delta_Entity formToEntity()</code></div>
@@ -1129,41 +1182,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_getCount">getCount()</dt>
-                    <dd>
-                      <div class="source"><code>public int getCount()</code></div>
-                                              <div class="text">
-全レコード数を取得します。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>int</td>
-                              <td>
-                                                                  <div class="text">
-全レコード数を返します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                         <dt id="method_getDataSourceId">getDataSourceId()</dt>
                     <dd>
                       <div class="source"><code>public string getDataSourceId()</code></div>
@@ -1235,7 +1253,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public int insert(Delta_DatabaseEntity $entity)</code></div>
                                               <div class="text">
-レコードを登録します。
+レコードを挿入します。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1262,8 +1280,8 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>int</td>
                               <td>
                                                                   <div class="text">
-最後に挿入された行の ID を返します。
-  詳しくは <a href="http://www.php.net/pdo.lastinsertid.php">PDO::lastInsertId()</a> のマニュアルを参照して下さい。
+最後に挿入されたレコードの ID を返します。
+  詳しくは <a href="http://www.php.net/pdo.lastinsertid.php">PDO::lastInsertId()</a> を参照して下さい。
 </div>
                                                               </td>
                             </tr>
@@ -1398,7 +1416,16 @@ $usersDAO-&gt;update($entity);
                           <th>Type</th>
                           <th>Description</th>
                         </tr>
-                                                                                                                                                                                                                                                                                                              <tr>
+                                                                                                          <tr>
+                              <td>$entity</td>
+                              <td><a href="../database.entity/delta___database_entity.html">Delta_DatabaseEntity</a></td>
+                              <td>
+                                                                  <div class="text">
+更新対象のエンティティオブジェクト。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                      <tr>
                               <td>{return}</td>
                               <td>int</td>
                               <td>
@@ -1409,7 +1436,7 @@ $usersDAO-&gt;update($entity);
                             </tr>
                                                                                                                                                                                                                                 </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Throws: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Throws: <div class="text">
 RuntimeException プライマリキーの値が未指定の場合に発生。
 </div>
 </li>
@@ -1433,7 +1460,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 15 Jun 2013 04:25:14 +0900<br />
+  <p>This document was generated on Mon, 17 Jun 2013 01:04:39 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

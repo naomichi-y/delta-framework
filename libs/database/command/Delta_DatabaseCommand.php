@@ -575,6 +575,33 @@ abstract class Delta_DatabaseCommand extends Delta_Object
   }
 
   /**
+   * レコードを削除します。
+   *
+   * @param string $tableName 削除対象のテーブル名。
+   * @param array $where 削除条件をフィールド名と条件値で構成した連想配列。(AND 条件)
+   * @return int 作用したレコード数を返します。
+   * @since 1.1
+   */
+  public function delete($tableName, array $where = array())
+  {
+    $query = 'DELETE FROM ' . $tableName;
+
+    if (sizeof($where)) {
+      $query .= ' WHERE ';
+
+      foreach ($where as $name => $value) {
+        $query .= sprintf('%s = %s AND ', $name, $value);
+      }
+
+      $query = rtrim($query, 'AND ');
+    }
+
+    $stmt = $this->_connection->createStatement($query);
+
+    return $stmt->execute();
+  }
+
+  /**
    * 値で構成される配列データを SQL エスケープします。
    *
    * @param array $array 値の配列。

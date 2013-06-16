@@ -741,6 +741,16 @@ database.command
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_delete">delete()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+レコードを削除します。
+</div>
+                                                  </td>
+                        <td><a href="../database.command/delta___database_command.html">Delta_DatabaseCommand</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_dropIndex">dropIndex()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -1191,6 +1201,59 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </div>
 </li>
                                                                                                                                                                                                   </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_delete">delete()</dt>
+                    <dd>
+                      <div class="source"><code>public int delete($tableName, array $where = array())</code></div>
+                                              <div class="text">
+レコードを削除します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$tableName</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+削除対象のテーブル名。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$where</td>
+                              <td>array</td>
+                              <td>
+                                                                  <div class="text">
+削除条件をフィールド名と条件値で構成した連想配列。(AND 条件)
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+作用したレコード数を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                            </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                         <dt id="method_dropIndex">dropIndex()</dt>
@@ -2028,7 +2091,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 15 Jun 2013 04:25:13 +0900<br />
+  <p>This document was generated on Mon, 17 Jun 2013 01:04:39 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
