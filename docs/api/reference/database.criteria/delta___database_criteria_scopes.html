@@ -776,13 +776,14 @@ Delta_AppPathManager のインスタンスを取得します。
 </div>
 <ul>
 <li>select: &#039;SELECT&#039; 句。参照するフィールドを指定。未指定時は全てのカラムが取得対象となる。</li>
+<li>from: &#039;&#039;FROM&#039; 句。テーブル名を指定。未指定の場合は <a href="../database.dao/delta___dao.html#method_getTableName">Delta_DAO::getTableName()</a> が参照される。</li>
 <li>where: &#039;WHERE&#039; 句。抽出条件を指定。
 複数のスコープを add() で追加した場合、&#039;where&#039; は &#039;AND&#039; 条件で結合されます。</li>
 <li>group: &#039;GROUP BY&#039; 句。フィールドのグループ条件を指定。</li>
 <li>having: &#039;HAVING&#039; 句。集計対象の条件を指定。</li>
 <li>order: &#039;ORDER BY&#039; 句。ソート条件を指定。</li>
-<li>limit: &#039;LIMIT&#039; 句。レコードの取得開始位置を指定。</li>
-<li>offset: &#039;OFFSET&#039; 句。レコードの取得数を指定。</li>
+<li>limit: &#039;LIMIT&#039; 句。レコードの取得数を指定。</li>
+<li>offset: &#039;OFFSET&#039; 句。レコードの取得開始位置を指定。</li>
 </ul>
 <div class="text">複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。(&#039;where&#039; 以外)
 </div>
@@ -850,7 +851,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 15 Jun 2013 04:25:14 +0900<br />
+  <p>This document was generated on Mon, 17 Jun 2013 01:04:39 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

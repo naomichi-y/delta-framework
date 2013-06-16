@@ -9,22 +9,22 @@
  */
 
 /**
- * クライテリアはレコードの抽出条件をスコープとして管理し、SQL を書くことなくシンプルにデータを取得するメソッドを提供します。
+ * クライテリアはレコードの抽出条件をスコープとして管理し、SQL を書くことなくデータを取得するメソッドを提供します。
  * <code>
  * class UsersDAO extends Delta_DAO
  * {
  *   // DAO クラスにクライテリアで利用する抽出条件 (スコープ) を宣言
- *   public function {@link Delta_DAO::scopes() scopes}(Delta_DatabaseCriteriaScopes $scopes) {
+ *   public function scopes(Delta_DatabaseCriteriaScopes $scopes) {
  *     // 抽出条件を配列形式で指定
  *     $scopes->add('condition1',
  *        array(
+ *          // 値には SQL のコードを書くことが可能
  *          // キーに指定可能な値は {@link Delta_DatabaseCriteriaScopes::add()} メソッドを参照
- *          // キーが持つ値にはデータの抽出条件 (SQL の WHERE 句) を書くことができる
  *          'where' => 'track_id = 200'
  *        )
  *     );
  *
- *     // 抽出条件をクロージャ形式で指定 (条件文に任意の値を指定することができる)
+ *     // 抽出条件をクロージャ形式で指定 (条件文に任意の値を指定可能)
  *     $scopes->add('condition2',
  *       function($registerDate) {
  *         return array(
@@ -54,24 +54,30 @@
  * $criteria->find()->user_id;
  *
  * // 'condition1' でレコードを取得する
+ * $criteria->add('condition1');
+ *
  * // 'SELECT * FROM users WHERE track_id = 200'
- * $criteria->add('condition1')->getQuery();
+ * $criteria->getQuery();
  *
  * // 'condition2' でレコードを取得する
  * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
  *
- * // 抽出条件は第 2 引数に配列形式で指定
+ * // 条件は第 2 引数に配列形式で指定
  * $criteria->add('condition2', array(date('Y-m-d'));
  *
  * // 'SELECT * FROM users WHERE register_date = 'XXXX-XX-XX' ORDER BY user_id DESC
  * $criteria->getQuery();
  *
+ * // 1 行目の user_id フィールドを取得する
+ * $criteria->find()->user_id;
+ *
  * // 複数のスコープを繋げて 1 つのクエリとすることも可能
- * // "SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = 'XXXX-XX-XX' ORDER BY user_id DESC"
  * $criteria->setPrimaryKeyValue(100)
  *   ->add('condition1')
- *   ->add('condition2', array(date('Y-m-d')))
- *   ->getQuery();
+ *   ->add('condition2', array(date('Y-m-d')));
+ *
+ * // "SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = 'XXXX-XX-XX' ORDER BY user_id DESC"
+ * $criteria->getQuery();
  * </code>
  * <i>現在のところ、クライテリアはリレーションには対応していません。
  *
@@ -122,6 +128,7 @@ class Delta_DatabaseCriteria extends Delta_Object
    */
   private $_conditions = array(
     'select' => '*',
+    'from' => NULL,
     'where' => array(),
     'group' => NULL,
     'having' => NULL,
@@ -166,6 +173,7 @@ class Delta_DatabaseCriteria extends Delta_Object
    *
    * @param mixed $primaryKeyValue {@link Delta_DAO::getPrimaryKyes() プライマリキー} が持つ値。
    *   プライマリキーが複数フィールドで構成される場合は配列形式で値を指定。
+   * @return Delta_DatabaseCriteria クライテリアオブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function setPrimaryKeyValue($primaryKeyValue)
@@ -177,10 +185,27 @@ class Delta_DatabaseCriteria extends Delta_Object
   }
 
   /**
+   * レコードの取得範囲を設定します。
+   *
+   * @param int $limit レコードの取得数。
+   * @param int $offset レコードの取得開始位置。
+   * @return Delta_DatabaseCriteria クライテリアオブジェクトを返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function setRange($limit, $offset = 0)
+  {
+    $this->_conditions['limit'] = $limit;
+    $this->_conditions['offset'] = $offset;
+
+    return $this;
+  }
+
+  /**
    * 参照クエリを構築します。
    *
    * @param array conditions 抽出条件を含む配列。
    * @return string 構築した参照クエリを返します。
+   * @throws RuntimeException プライマリキーが未定義の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function buildSelectQuery(array $conditions)
@@ -189,7 +214,11 @@ class Delta_DatabaseCriteria extends Delta_Object
     $query = 'SELECT ' . $conditions['select'];
 
     // 'FROM' 句の生成
-    $query .= ' FROM ' . $this->_tableName;
+    if ($conditions['from'] !== NULL) {
+      $query .= ' FROM ' . $conditions['from'];
+    } else {
+      $query .= ' FROM ' . $this->_tableName;
+    }
 
     // 'WHERE' 句の生成
     if ($this->_primaryKeyConstraint) {
@@ -353,10 +382,8 @@ class Delta_DatabaseCriteria extends Delta_Object
    *
    * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
    *
-   * <code>
    * // 'SELECT * FROM users ORDER BY user_id ASC LIMIT 1 OFFSET 0'
    * $criteria->findFirst()->getQuery();
-   * </code>
    *
    * @return Delta_RecordObject 先頭行のレコードを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -369,12 +396,10 @@ class Delta_DatabaseCriteria extends Delta_Object
   /**
    * プライマリキー制約を元に最終行のレコードを取得します。
    *
-   * <code>
    * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
    *
    * // 'SELECT * FROM users ORDER BY user_id DESC LIMIT 1 OFFSET 0'
    * $criteria->findLast()->getQuery();
-   * </code>
    *
    * @return Delta_RecordObject 最終行のレコードを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -433,6 +458,7 @@ class Delta_DatabaseCriteria extends Delta_Object
    *
    * @param string $scopeName スコープ名。
    * @param array $variables スコープに割り当てる変数のリスト。
+   * @return Delta_DatabaseCriteria クライテリアオブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function add($scopeName, array $variables = array())
@@ -452,6 +478,11 @@ class Delta_DatabaseCriteria extends Delta_Object
     // 'select' の取得
     if (isset($scope['select']) && strlen($scope['select'])) {
       $this->_conditions['select'] = $scope['select'];
+    }
+
+    // 'select' の取得
+    if (isset($scope['from']) && strlen($scope['from'])) {
+      $this->_conditions['from'] = $scope['from'];
     }
 
     // 'where' の取得

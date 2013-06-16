@@ -1,5 +1,3 @@
-
-
 <?php
 /**
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -202,19 +200,16 @@ abstract class Delta_DAO extends Delta_Object
   }
 
   /**
-   * レコードを登録します。
+   * レコードを挿入します。
    *
    * @param Delta_Entity $entity データベースに登録するエンティティ。
-   * @return int 最後に挿入された行の ID を返します。
-   *   詳しくは {@link PDO::lastInsertId()} のマニュアルを参照して下さい。
+   * @return int 最後に挿入されたレコードの ID を返します。
+   *   詳しくは {@link PDO::lastInsertId()} を参照して下さい。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function insert(Delta_DatabaseEntity $entity)
   {
-    $tableName = $this->getTableName();
-    $data = $entity->toArray();
-
-    return $this->getConnection()->getCommand()->insert($tableName, $data);
+    return $this->getConnection()->getCommand()->insert($this->getTableName(), $entity->toArray());
   }
 
   /**
@@ -231,7 +226,7 @@ abstract class Delta_DAO extends Delta_Object
    * $usersDAO->update($entity);
    * </code>
    *
-   * @param Delta_DatabaseEntity 更新対象のエンティティオブジェクト。
+   * @param Delta_DatabaseEntity $entity 更新対象のエンティティオブジェクト。
    * @return int 作用したレコード数を返します。
    * @throws RuntimeException プライマリキーの値が未指定の場合に発生。
    * @since 1.1
@@ -265,14 +260,51 @@ abstract class Delta_DAO extends Delta_Object
   }
 
   /**
-   * 全レコード数を取得します。
+   * レコードを削除します。
    *
-   * @return int 全レコード数を返します。
+   * @param mixed $primaryKeyValue 削除対象とするプライマリキーの値を指定。
+   *   プライマリキーが複数フィールドで構成される場合は配列形式で値を指定。
+   * @return int 作用したレコード数を返します。
+   * @throws RuntimeException プライマリキーの値が未指定の場合に発生。
+   * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getCount()
+  public function delete($primaryKeyValue)
   {
-    return $this->getConnection()->getCommand()->getRecordCount($this->getTableName());
+    $valueSize = sizeof($primaryKeyValue);
+    $primaryKeySize = sizeof($this->_primaryKeys);
+    $hasError = FALSE;
+
+    if ($primaryKeySize == 0) {
+      $message = sprintf('Primary key is undefined. [%s::$_primaryKeys]', get_class($this));
+      throw new RuntimeException($message);
+    }
+
+    $where = array();
+
+    if (is_array($primaryKeyValue)) {
+      if ($valueSize != $primaryKeySize) {
+        $hasError = TRUE;
+      }
+
+      for ($i = 0; $i < $primaryKeySize; $i++) {
+        $where[$this->_primaryKeys[$i]] = $primaryKeyValue[$i];
+      }
+
+    } else {
+      if ($primaryKeySize > 1) {
+        $hasError = TRUE;
+      }
+
+      $where[$this->_primaryKeys[0]] = $primaryKeyValue;
+    }
+
+    if ($hasError) {
+      $message = 'Does not match the number of primary key and values.';
+      throw new InvalidArgumentException($message);
+    }
+
+    return $this->getConnection()->getCommand()->delete($this->getTableName(), $where);
   }
 
   /**
@@ -285,5 +317,3 @@ abstract class Delta_DAO extends Delta_Object
     $this->getConnection()->getCommand()->truncate($tableName);
   }
 }
-
-

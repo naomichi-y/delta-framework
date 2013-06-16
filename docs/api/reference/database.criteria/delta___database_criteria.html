@@ -595,21 +595,21 @@
 
             <h3 id="description">Description</h3>
                           <div class="text">
-クライテリアはレコードの抽出条件をスコープとして管理し、SQL を書くことなくシンプルにデータを取得するメソッドを提供します。
+クライテリアはレコードの抽出条件をスコープとして管理し、SQL を書くことなくデータを取得するメソッドを提供します。
 <div class="source"><code>class UsersDAO extends Delta_DAO
 {
   // DAO クラスにクライテリアで利用する抽出条件 (スコープ) を宣言
-  public function <a href="../database.dao/delta___dao.html#method_scopes">scopes</a>(Delta_DatabaseCriteriaScopes $scopes) {
+  public function scopes(Delta_DatabaseCriteriaScopes $scopes) {
     // 抽出条件を配列形式で指定
     $scopes-&gt;add(&#039;condition1&#039;,
        array(
+         // 値には SQL のコードを書くことが可能
          // キーに指定可能な値は <a href="../database.criteria/delta___database_criteria_scopes.html#method_add">Delta_DatabaseCriteriaScopes::add()</a> メソッドを参照
-         // キーが持つ値にはデータの抽出条件 (SQL の WHERE 句) を書くことができる
          &#039;where&#039; =&gt; &#039;track_id = 200&#039;
        )
     );
 
-    // 抽出条件をクロージャ形式で指定 (条件文に任意の値を指定することができる)
+    // 抽出条件をクロージャ形式で指定 (条件文に任意の値を指定可能)
     $scopes-&gt;add(&#039;condition2&#039;,
       function($registerDate) {
         return array(
@@ -639,24 +639,30 @@ $criteria-&gt;getQuery();
 $criteria-&gt;find()-&gt;user_id;
 
 // &#039;condition1&#039; でレコードを取得する
+$criteria-&gt;add(&#039;condition1&#039;);
+
 // &#039;SELECT * FROM users WHERE track_id = 200&#039;
-$criteria-&gt;add(&#039;condition1&#039;)-&gt;getQuery();
+$criteria-&gt;getQuery();
 
 // &#039;condition2&#039; でレコードを取得する
 $criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
 
-// 抽出条件は第 2 引数に配列形式で指定
+// 条件は第 2 引数に配列形式で指定
 $criteria-&gt;add(&#039;condition2&#039;, array(date(&#039;Y-m-d&#039;));
 
 // &#039;SELECT * FROM users WHERE register_date = &#039;XXXX-XX-XX&#039; ORDER BY user_id DESC
 $criteria-&gt;getQuery();
 
+// 1 行目の user_id フィールドを取得する
+$criteria-&gt;find()-&gt;user_id;
+
 // 複数のスコープを繋げて 1 つのクエリとすることも可能
-// &quot;SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = &#039;XXXX-XX-XX&#039; ORDER BY user_id DESC&quot;
 $criteria-&gt;setPrimaryKeyValue(100)
   -&gt;add(&#039;condition1&#039;)
-  -&gt;add(&#039;condition2&#039;, array(date(&#039;Y-m-d&#039;)))
-  -&gt;getQuery();
+  -&gt;add(&#039;condition2&#039;, array(date(&#039;Y-m-d&#039;)));
+
+// &quot;SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = &#039;XXXX-XX-XX&#039; ORDER BY user_id DESC&quot;
+$criteria-&gt;getQuery();
 </code></div>
 <i>現在のところ、クライテリアはリレーションには対応していません。
 </div>
@@ -869,6 +875,16 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
                       </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_setRange">setRange()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+レコードの取得範囲を設定します。
+</div>
+                                                  </td>
+                        <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                      </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
@@ -931,7 +947,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                                                           <dt id="method_add">add()</dt>
                     <dd>
-                      <div class="source"><code>public void add($scopeName, array $variables = array())</code></div>
+                      <div class="source"><code>public Delta_DatabaseCriteria add($scopeName, array $variables = array())</code></div>
                                               <div class="text">
 クライテリアにスコープを追加します。
 </div>
@@ -964,13 +980,22 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                              <td>
+                                                                  <div class="text">
+クライテリアオブジェクトを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
-                                                                                                                                                                                                  </ul>
+                                                                                                                                            </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                                                           <dt id="method_count">count()</dt>
@@ -1123,9 +1148,8 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 $criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
 </div>
 <div class="text">
-<div class="source"><code>// &#039;SELECT * FROM users ORDER BY user_id ASC LIMIT 1 OFFSET 0&#039;
+// &#039;SELECT * FROM users ORDER BY user_id ASC LIMIT 1 OFFSET 0&#039;
 $criteria-&gt;findFirst()-&gt;getQuery();
-</code></div>
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1163,11 +1187,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 プライマリキー制約を元に最終行のレコードを取得します。
 </div>
 <div class="text">
-<div class="source"><code>$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
-
+$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
+</div>
+<div class="text">
 // &#039;SELECT * FROM users ORDER BY user_id DESC LIMIT 1 OFFSET 0&#039;
 $criteria-&gt;findLast()-&gt;getQuery();
-</code></div>
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1235,7 +1259,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                                                                                             <dt id="method_setPrimaryKeyValue">setPrimaryKeyValue()</dt>
                     <dd>
-                      <div class="source"><code>public void setPrimaryKeyValue($primaryKeyValue)</code></div>
+                      <div class="source"><code>public Delta_DatabaseCriteria setPrimaryKeyValue($primaryKeyValue)</code></div>
                                               <div class="text">
 クライテリアにプライマリキーのレコード抽出条件制約を設定します。
 <div class="source"><code>$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
@@ -1268,13 +1292,75 @@ Delta_DAO::getPrimaryKyes() が持つ値。
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                              <td>
+                                                                  <div class="text">
+クライテリアオブジェクトを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
-                                                                                                                                                                                                  </ul>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_setRange">setRange()</dt>
+                    <dd>
+                      <div class="source"><code>public Delta_DatabaseCriteria setRange($limit, $offset = 0)</code></div>
+                                              <div class="text">
+レコードの取得範囲を設定します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$limit</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+レコードの取得数。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$offset</td>
+                              <td>int</td>
+                              <td>
+                                                                  <div class="text">
+レコードの取得開始位置。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td><a href="../database.criteria/delta___database_criteria.html">Delta_DatabaseCriteria</a></td>
+                              <td>
+                                                                  <div class="text">
+クライテリアオブジェクトを返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                 </dl>
@@ -1286,7 +1372,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 15 Jun 2013 04:25:14 +0900<br />
+  <p>This document was generated on Mon, 17 Jun 2013 01:04:39 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
