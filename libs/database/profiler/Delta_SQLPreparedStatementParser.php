@@ -104,7 +104,7 @@ class Delta_SQLPreparedStatementParser extends Delta_Object
         break;
     }
 
-    return $rawStatement;
+    return $rawQuery;
   }
 
   /**
