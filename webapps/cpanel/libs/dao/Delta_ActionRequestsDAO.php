@@ -101,7 +101,7 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
     return $data;
   }
 
-  public function delete($moduleName, $actionName)
+  public function deleteByModuleAndAction($moduleName, $actionName)
   {
     $conn = $this->getConnection();
     $sql = 'DELETE mar, msr FROM delta_action_requests mar, delta_sql_requests msr '
