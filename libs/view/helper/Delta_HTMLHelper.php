@@ -445,7 +445,7 @@ class Delta_HTMLHelper extends Delta_Helper
     } else {
       $buffer = sprintf("<div %s>\n%s</div>\n",
         $attributes,
-        Delta_StringUtils::escape($messages[0]));
+        Delta_StringUtils::escape(current($messages)));
     }
 
     return $buffer;

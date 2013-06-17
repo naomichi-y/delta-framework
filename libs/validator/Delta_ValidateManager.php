@@ -437,46 +437,48 @@ class Delta_ValidateManager extends Delta_Object
    */
   private function parseStatement($statement)
   {
-    $start = strpos($statement, '`');
-    $end = strrpos($statement, '`');
-    $test = substr($statement, $start + 1, $end - 1);
+    $codeElements = explode(' ', trim($statement, '`'));
+    $code = NULL;
 
-    $fields = $this->_form->getFields();
-    $element = explode(' ', $test);
-    $append = NULL;
+    foreach ($codeElements as $element) {
+      if (preg_match('/^(!)?(notEmpty:)?([\w\.\[\]]+)$/', $element, $matches)) {
 
-    foreach ($element as $statementValue) {
-      if (preg_match('/^(!)?(notEmpty:)?([\w\.\[\]]+)$/', $statementValue, $matches)) {
-        $fieldValue = Delta_ArrayUtils::find($fields, $matches[3]);
-
-        // 'notEmpty:' check
+        // テストコードに 'notEmpty:' 指示子が指定されている
         if ($matches[2]) {
           $result = 0;
 
-          if (strlen($fieldValue)) {
+          $value = $this->_form->get($matches[3]);
+
+          if (strlen($value)) {
             $result = 1;
           }
 
+          // 否定演算子が付加されている
           if ($matches[1]) {
-            $result = !$result;
+            if ($result) {
+              $result = 0;
+            } else {
+              $result = 1;
+            }
           }
 
-          $append .= $result;
+          $code .= $result;
 
         } else {
-          if (strlen($fieldValue) == 0) {
-            $append .= '\'\'';
+          // 変数名と一致するフィールドが存在する場合
+          if ($this->_form->hasName($matches[3])) {
+            $code .= sprintf('%s\'%s\'', $matches[1], $this->_form->get($matches[3]));
           } else {
-            $append .= $matches[1] . '\'' . $fieldValue . '\'';
+            $code .= sprintf('\'%s\'', $element);
           }
         }
 
       } else {
-        $append .= $statementValue;
+        $code .= $element;
       }
     }
 
-    $code = sprintf('$result = (bool) (%s);', $append);
+    $code = sprintf('$result = (bool) (%s);', $code);
     eval($code);
 
     return $result;

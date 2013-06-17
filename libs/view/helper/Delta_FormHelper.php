@@ -822,7 +822,7 @@ class Delta_FormHelper extends Delta_Helper
 
   /**
    * 1 つの要素を持つ checkbox フィールドを生成します。
-   * メソッドの使い方は {@link inputCheckbox()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
+   * メソッドの使い方は {@link inputCheckboxes()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
    * <code>
    * // 出力されるタグ:
    * <div class="form_field">
