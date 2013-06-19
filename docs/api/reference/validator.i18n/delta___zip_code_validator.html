@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta charset="UTF-8" />
-    <title>delta 1.1 API Reference - Delta_HttpAuthenticationFilter</title>
+    <title>delta 1.1 API Reference - Delta_ZipCodeValidator</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
     <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
@@ -586,8 +586,8 @@
         <div class="threequarter">
           <article>
             <h2>
-                              Abstract class
-                            Delta_HttpAuthenticationFilter            </h2>
+                              Class
+                            Delta_ZipCodeValidator            </h2>
             <p class="right">
               <a href="#description">Description</a> |
               <a href="#constants">Constants</a> |
@@ -597,22 +597,40 @@
 
             <h3 id="description">Description</h3>
                           <div class="text">
-HTTP 認証を行うための抽象クラスです。
-HTTP 認証は Apache モジュールとして実行した時のみ有効です。CGI 版では利用できません。
+郵便番号が日本式のフォーマットとして正しいかどうか検証します。
 </div>
+<div class="text">
+ビヘイビアファイルの設定例:
+<div class="source"><code>validate:
+  {validator_id}:
+    # バリデータクラス名。
+    class: Delta_ZipCodeValidator
+
+    # 対象とする国。(現在は &#039;jp&#039; のみ対応)
+    country: jp
+
+    # フィールド 1
+    number1:
+
+    # フィールド 2
+    number2:
+
+    # ハイフンを許可するか (&#039;number*&#039; を指定した場合は無効)
+    hyphnate: TRUE
+
+    # 郵便番号の書式が不正な場合に通知するメッセージ。
+    zipCodeError: {default_message}
+</code></div>
+</div>
+<ul>
+<li>&#039;number*&#039; が未指定の場合は、{validator_id} フィールドを用いた検証が実行されます。</li>
+</ul>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
                 <col width="80%" />
               </colgroup>
                                                                                         <tr>
-                      <th class="left">Link</th>
-                      <td><div class="text">
-<a href="http://www.ietf.org/rfc/rfc2617.txt">HTTP Authentication: Basic and Digest Access Authentication</a>
-</div>
-</td>
-                    </tr>
-                                                                                                                <tr>
                       <th class="left">Author</th>
                       <td><div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
@@ -629,23 +647,18 @@ delta
                                                                                             <tr>
                       <th class="left">Package</th>
                       <td><div class="text">
-controller.filter
+validator.i18n
 </div>
 </td>
                     </tr>
                                                               <tr>
                 <th class="left">Inheritance</th>
                 <td>
-                  Delta_HttpAuthenticationFilter                                       &raquo; <a href="../controller.filter/delta___filter.html">Delta_Filter</a> &raquo; <a href="../kernel.container/delta___di_controller.html">Delta_DIController</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
+                  Delta_ZipCodeValidator                                       &raquo; <a href="../validator/delta___validator.html">Delta_Validator</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
               </tr>
                                           <tr>
-                <th class="left">Subclasses</th>
-                <td>
-                  <a href="../controller.filter/delta___basic_authentication_filter.html">Delta_BasicAuthenticationFilter</a>, <a href="../controller.filter/delta___digest_authentication_filter.html">Delta_DigestAuthenticationFilter</a>                </td>
-              </tr>
-                            <tr>
                 <th class="left">Source file</th>
-                <td>/controller/filter/Delta_HttpAuthenticationFilter.php</td>
+                <td>/validator/Delta_ZipCodeValidator.php</td>
               </tr>
             </table>
             <p class="right"><a href="#top">To top</a></p>
@@ -671,21 +684,42 @@ controller.filter
                     </tr>
                                                                                             <tr class="inheritanceProperties">
                                                   <td>
-                                                          <a href="../controller.filter/delta___filter.html#property__filterId">$_filterId</a>                                                      </td>
+                                                          <a href="../validator/delta___validator.html#property__holder">$_holder</a>                                                      </td>
                           <td>
-                                                          string                                                      </td>
+                                                          mixed                                                      </td>
                           <td>
                                                       </td>
-                          <td><a href="../controller.filter/delta___filter.html">Delta_Filter</a></td>
+                          <td><a href="../validator/delta___validator.html">Delta_Validator</a></td>
                         </tr>
                                                                                                                   <tr class="inheritanceProperties">
                                                   <td>
-                                                          <a href="../controller.filter/delta___filter.html#property__holder">$_holder</a>                                                      </td>
+                                                          <a href="../validator/delta___validator.html#property__messages">$_messages</a>                                                      </td>
                           <td>
-                                                          <a href="../util/delta___parameter_holder.html">Delta_ParameterHolder</a>                                                      </td>
+                                                          mixed                                                      </td>
                           <td>
                                                       </td>
-                          <td><a href="../controller.filter/delta___filter.html">Delta_Filter</a></td>
+                          <td><a href="../validator/delta___validator.html">Delta_Validator</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__patterns">$_patterns</a>                                                      </td>
+                          <td>
+                                                          array                                                      </td>
+                          <td>
+                                                          <div class="text">
+国別のハイフンを含む郵便番号パターン、ハイフンを含まない郵便番号パターンリスト。
+</div>
+                                                      </td>
+                          <td><a href="../validator.i18n/delta___zip_code_validator.html">Delta_ZipCodeValidator</a></td>
+                        </tr>
+                                                                                                                  <tr class="inheritanceProperties">
+                                                  <td>
+                                                          <a href="../validator/delta___validator.html#property__validatorId">$_validatorId</a>                                                      </td>
+                          <td>
+                                                          mixed                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../validator/delta___validator.html">Delta_Validator</a></td>
                         </tr>
                                                             </table>
                                             <p class="right"><a href="#top">To top</a></p>
@@ -705,13 +739,13 @@ controller.filter
                   </tr>
                                                                                     <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../controller.filter/delta___filter.html#method___construct">__construct()</a>                                                  </td>
+                                                      <a href="../validator/delta___validator.html#method___construct">__construct()</a>                                                  </td>
                         <td>
                                                       <div class="text">
 コンストラクタ。
 </div>
                                                   </td>
-                        <td><a href="../controller.filter/delta___filter.html">Delta_Filter</a></td>
+                        <td><a href="../validator/delta___validator.html">Delta_Validator</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -723,45 +757,15 @@ controller.filter
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_authenticateCancel">authenticateCancel()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-認証失敗時の処理を実装します。
-</div>
-                                                  </td>
-                        <td><a href="../controller.filter/delta___http_authentication_filter.html">Delta_HttpAuthenticationFilter</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_authenticateFailure">authenticateFailure()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-認証失敗時に実行する処理を実装します。
-</div>
-                                                  </td>
-                        <td><a href="../controller.filter/delta___http_authentication_filter.html">Delta_HttpAuthenticationFilter</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_authenticateSuccess">authenticateSuccess()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-認証成功時に実行する処理を実装します。
-</div>
-                                                  </td>
-                        <td><a href="../controller.filter/delta___http_authentication_filter.html">Delta_HttpAuthenticationFilter</a></td>
-                      </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../controller.filter/delta___filter.html#method_doFilter">doFilter()</a>                                                  </td>
+                                                      <a href="../validator/delta___validator.html#method_buildParameterHolder">buildParameterHolder()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-フィルタの動作を実装します。
+バリデータ属性を構築します。
 </div>
                                                   </td>
-                        <td><a href="../controller.filter/delta___filter.html">Delta_Filter</a></td>
+                        <td><a href="../validator/delta___validator.html">Delta_Validator</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -775,56 +779,6 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getConsole">getConsole()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-コンソール (console) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getController">getController()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-コントローラ (controller) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getDatabase">getDatabase()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-データベース (database) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getForm">getForm()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-フォーム (form) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getMessages">getMessages()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-メッセージ (messages) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -832,16 +786,6 @@ Delta_AppPathManager のインスタンスを取得します。
 </div>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getRealm">getRealm()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-レルムを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../controller.filter/delta___http_authentication_filter.html">Delta_HttpAuthenticationFilter</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -855,26 +799,6 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getRequest">getRequest()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-リクエスト (request) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getResponse">getResponse()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-レスポンス (response) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
                                                       <div class="text">
@@ -883,59 +807,58 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
+                                                                                                        <tr>
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getSession">getSession()</a>                                                  </td>
+                                                      <a href="#method_isValid">isValid()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-セッション (session) コンポーネントを取得します。
+郵便番号の形式が正当なものであるかどうかチェックします。
 </div>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../validator.i18n/delta___zip_code_validator.html">Delta_ZipCodeValidator</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getUser">getUser()</a>                                                  </td>
+                                                      <a href="../validator/delta___validator.html#method_sendError">sendError()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-ユーザ (user) コンポーネントを取得します。
+<a href="../validator.i18n/delta___zip_code_validator.html#method_validate">validate()</a> メソッドで発生したエラーを <a href="../message/delta___action_messages.html">メッセージオブジェクト</a> に送信します。
 </div>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getView">getView()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-ビュー (view) コンポーネントを取得します。
-</div>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../validator/delta___validator.html">Delta_Validator</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_showLoginPrompt">showLoginPrompt()</a>                                                  </td>
+                                                      <a href="#method_validate">validate()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
-ログインプロンプトを表示します。
-</div>
                                                   </td>
-                        <td><a href="../controller.filter/delta___http_authentication_filter.html">Delta_HttpAuthenticationFilter</a></td>
+                        <td><a href="../validator.i18n/delta___zip_code_validator.html">Delta_ZipCodeValidator</a></td>
                       </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
             
+                        <h3>Property details</h3>
+              <dl>
+                                                                                                            <dt id="property__patterns">$_patterns</dt>
+                  <dd>
+                    <div class="source"><code>protected static array $_patterns = array(
+    &#039;jp&#039; =&gt; array(&#039;/^\d{3}-\d{4}$/&#039;, &#039;/^\d{7}$/&#039;, )
+  )</code></div>
+                                          <div class="text">
+国別のハイフンを含む郵便番号パターン、ハイフンを含まない郵便番号パターンリスト。
+</div>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                          </dl>
             
                         <h3>Method details</h3>
               <dl>
-                                                                                                                          <dt id="method_authenticateCancel">authenticateCancel()</dt>
+                                                                                                                                                                                                                                                                                                    <dt id="method_isValid">isValid()</dt>
                     <dd>
-                      <div class="source"><code>public void authenticateCancel(Delta_FilterChain $chain)</code></div>
+                      <div class="source"><code>public static bool isValid($value, $hyphnate = TRUE)</code></div>
                                               <div class="text">
-認証失敗時の処理を実装します。
-メソッドがオーバーライドされていない場合、HTTP ステータスコード 401 (Unauthorized) を出力して処理を停止します。
+郵便番号の形式が正当なものであるかどうかチェックします。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -949,159 +872,55 @@ Delta_AppPathManager のインスタンスを取得します。
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$chain</td>
-                              <td><a href="../controller.filter/delta___filter_chain.html">Delta_FilterChain</a></td>
-                              <td>
-                                                                  <div class="text">
-フィルタチェインのインスタンス。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_authenticateFailure">authenticateFailure()</dt>
-                    <dd>
-                      <div class="source"><code>public void authenticateFailure(Delta_FilterChain $chain)</code></div>
-                                              <div class="text">
-認証失敗時に実行する処理を実装します。
-メソッドがオーバーライドされていない場合は、<a href="../controller.filter/delta___http_authentication_filter.html#method_showLoginPrompt">showLoginPrompt()</a> メソッドが実行されます。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$chain</td>
-                              <td><a href="../controller.filter/delta___filter_chain.html">Delta_FilterChain</a></td>
-                              <td>
-                                                                  <div class="text">
-フィルタチェインのインスタンス。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_authenticateSuccess">authenticateSuccess()</dt>
-                    <dd>
-                      <div class="source"><code>public void authenticateSuccess(Delta_FilterChain $chain)</code></div>
-                                              <div class="text">
-認証成功時に実行する処理を実装します。
-メソッドがオーバーライドされていない場合は、次のフィルタが実行されます。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$chain</td>
-                              <td><a href="../controller.filter/delta___filter_chain.html">Delta_FilterChain</a></td>
-                              <td>
-                                                                  <div class="text">
-フィルタチェインのインスタンス。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                                                                                                                                                                                                                                        <dt id="method_getRealm">getRealm()</dt>
-                    <dd>
-                      <div class="source"><code>public string getRealm()</code></div>
-                                              <div class="text">
-レルムを取得します。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
+                              <td>$value</td>
                               <td>string</td>
                               <td>
                                                                   <div class="text">
-レルムを返します。デフォルトではモジュール名を返します。
+チェック対象の郵便番号。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$hyphnate</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+ハイフンを許可するかどうか。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+郵便番号の形式が正当なものかどうかを TRUE/FALSE で返します。
 </div>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                                                                                                                                                                      <dt id="method_showLoginPrompt">showLoginPrompt()</dt>
+                                                                                                          <dt id="method_validate">validate()</dt>
                     <dd>
-                      <div class="source"><code>abstract public void showLoginPrompt(Delta_FilterChain $chain)</code></div>
-                                              <div class="text">
-ログインプロンプトを表示します。
+                      <div class="source"><code>public void validate($fieldName, $value, array $variables = array())</code></div>
+                                              <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
+                                                                                          <ul class="note">
+                                                      <li>
+                              Overrides:
+                              <div class="text"><a href="../validator.i18n/delta___zip_code_validator.html#method_validate">Delta_ZipCodeValidator::validate()</a></div>
+                            </li>
+                                                                                                                                                                                <li>See: <div class="text">
+<a href="../validator/delta___validator.html#method_validate">Delta_Validator::validate()</a>
 </div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$chain</td>
-                              <td><a href="../controller.filter/delta___filter_chain.html">Delta_FilterChain</a></td>
-                              <td>
-                                                                  <div class="text">
-フィルタチェインのインスタンス。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
@@ -1117,7 +936,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 20 Jun 2013 01:48:24 +0900<br />
+  <p>This document was generated on Thu, 20 Jun 2013 01:48:26 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

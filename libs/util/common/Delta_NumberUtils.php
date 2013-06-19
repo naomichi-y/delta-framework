@@ -85,7 +85,7 @@ class Delta_NumberUtils
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public static function buildRandomFloat($min, $max) {
-     return ($min + lcg_value() * (abs($max - $min)));
+     return ($min + lcg_value() * abs($max - $min));
   }
 
   /**
@@ -233,5 +233,43 @@ class Delta_NumberUtils
     }
 
     return $realSize;
+  }
+
+  /**
+   * 指定した確率で TRUE を取得します。
+   * <code>
+   * // 30% の確率で TRUE を返す
+   * Delta_NumberUtils::lot(30);
+   * </code>
+   *
+   * @param mixed $rate 0〜100 の確率。整数、または浮動小数点数を指定可能。
+   * @return bool 確率にヒットした場合は TRUE、ヒットしなかった場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function lot($rate)
+  {
+    $result = FALSE;
+
+    if (is_int($rate)) {
+      $value = mt_rand(1, 100);
+
+    } else {
+      // 0.000...〜101.000...
+      $value = self::buildRandomFloat(0, 101);
+
+      $precision = strlen(substr($rate, strpos($rate, '.') + 1));
+      $value = (float) self::roundDown($value, $precision);
+
+      if ($value > 100) {
+        $value = 100;
+      }
+    }
+
+    if ($value <= $rate) {
+      $result = TRUE;
+    }
+
+    return $result;
   }
 }

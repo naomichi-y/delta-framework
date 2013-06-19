@@ -2,7 +2,7 @@
 /**
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
- * @package validator
+ * @package validator.i18n
  * @copyright Copyright (c) delta framework project.
  * @license GNU GPL v3+
  * @link http://delta-framework.org/
@@ -21,13 +21,13 @@
  *     # 対象とする国。(現在は 'jp' のみ対応)
  *     country: jp
  *
- *     # 市外局番
+ *     # 電話番号フィールド 1
  *     number1:
  *
- *     # 市内
+ *     # 電話番号フィールド 2
  *     number2:
  *
- *     # 加入者番号
+ *     # 電話番号フィールド 3
  *     number3:
  *
  *     # ハイフンを許可するか ('number*' を指定した場合は無効)
@@ -37,10 +37,11 @@
  *     phoneNumberError: {default_message}
  * </code>
  * o 'number*' が未指定の場合は、{validator_id} フィールドを用いた検証が実行されます。
+ * o 現在のところ、国際番号はサポートしていません。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
- * @package validator
+ * @package validator.i18n
  */
 
 class Delta_PhoneNumberValidator extends Delta_Validator
@@ -49,8 +50,8 @@ class Delta_PhoneNumberValidator extends Delta_Validator
    * 国別のハイフンを含む電話番号パターン、ハイフンを含まない電話番号パターンリスト。
    * @var array
    */
-  protected static $_patterns = array(
-    'ja' => array('/^\d{1,5}-\d{1,5}-\d{1,5}$/', '/^\d{10,11}$/')
+  private static $_patterns = array(
+    'jp' => array('/^\d{1,5}-\d{1,5}-\d{1,5}$/', '/^\d{10,11}$/')
   );
 
   /**
@@ -63,13 +64,31 @@ class Delta_PhoneNumberValidator extends Delta_Validator
    */
   public static function isValid($value, $hyphnate = TRUE)
   {
+    $numberLength = strlen($value);
+    $result = NULL;
+
     if ($hyphnate) {
-      $pattern = self::$_patterns['ja'][0];
+      if ($numberLength != 12 && $numberLength != 13) {
+        $result = FALSE;
+      }
     } else {
-      $pattern = self::$_patterns['ja'][1];
+      // 固定電話 (10 桁)、携帯電話 (11 桁) の長さチェック
+      if ($numberLength != 10 && $numberLength != 11) {
+        $result = FALSE;
+      }
     }
 
-    return preg_match($pattern, $value);
+    if ($result === NULL) {
+      if ($hyphnate) {
+        $pattern = self::$_patterns['jp'][0];
+      } else {
+        $pattern = self::$_patterns['jp'][1];
+      }
+
+      $result = preg_match($pattern, $value);
+    }
+
+    return $result;
   }
 
   /**
@@ -84,6 +103,7 @@ class Delta_PhoneNumberValidator extends Delta_Validator
     $number1 = $form->get($holder->getString('number1'));
     $number2 = $form->get($holder->getString('number2'));
     $number3 = $form->get($holder->getString('number3'));
+
     $hyphnate = $holder->getBoolean('hyphnate', FALSE);
 
     if (strlen($number1 . $number2 . $number3)) {

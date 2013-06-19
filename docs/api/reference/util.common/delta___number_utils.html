@@ -514,7 +514,6 @@
                       <li><a href="../validator/delta___length_validator.html" title="Delta_LengthValidator">Delta_LengthValidator</a></li>
                       <li><a href="../validator/delta___mask_validator.html" title="Delta_MaskValidator">Delta_MaskValidator</a></li>
                       <li><a href="../validator/delta___numeric_validator.html" title="Delta_NumericValidator">Delta_NumericValidator</a></li>
-                      <li><a href="../validator/delta___phone_number_validator.html" title="Delta_PhoneNumberValidator">Delta_PhoneNumberValidator</a></li>
                       <li><a href="../validator/delta___range_validator.html" title="Delta_RangeValidator">Delta_RangeValidator</a></li>
                       <li><a href="../validator/delta___required_validator.html" title="Delta_RequiredValidator">Delta_RequiredValidator</a></li>
                       <li><a href="../validator/delta___sequence_string_validator.html" title="Delta_SequenceStringValidator">Delta_SequenceStringValidator</a></li>
@@ -523,13 +522,14 @@
                       <li><a href="../validator/delta___url_validator.html" title="Delta_URLValidator">Delta_URLValidator</a></li>
                       <li><a href="../validator/delta___validate_manager.html" title="Delta_ValidateManager">Delta_ValidateManager</a></li>
                       <li><a href="../validator/delta___validator.html" title="Delta_Validator">Delta_Validator</a></li>
-                      <li><a href="../validator/delta___zip_code_validator.html" title="Delta_ZipCodeValidator">Delta_ZipCodeValidator</a></li>
                   </ul>
       </li>
           <li class="expandable">
         <div class="hitarea expandable-hitarea"></div>
         <span>validator.i18n</span>
         <ul style="display: none;">
+                      <li><a href="../validator.i18n/delta___phone_number_validator.html" title="Delta_PhoneNumberValidator">Delta_PhoneNumberValidator</a></li>
+                      <li><a href="../validator.i18n/delta___zip_code_validator.html" title="Delta_ZipCodeValidator">Delta_ZipCodeValidator</a></li>
                       <li><a href="../validator.i18n/delta___required_jp_validator.html" title="Delta_RequiredJpValidator">Delta_RequiredJpValidator</a></li>
                       <li><a href="../validator.i18n/delta___string_jp_validator.html" title="Delta_StringJpValidator">Delta_StringJpValidator</a></li>
                       <li><a href="../validator.i18n/delta___vendor_character_validator.html" title="Delta_VendorCharacterValidator">Delta_VendorCharacterValidator</a></li>
@@ -723,6 +723,16 @@ util.common
                         <td>
                                                       <div class="text">
 ファイルサイズを読みやすい形式に変換します。
+</div>
+                                                  </td>
+                        <td><a href="../util.common/delta___number_utils.html">Delta_NumberUtils</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_lot">lot()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+指定した確率で TRUE を取得します。
 </div>
                                                   </td>
                         <td><a href="../util.common/delta___number_utils.html">Delta_NumberUtils</a></td>
@@ -941,6 +951,57 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_lot">lot()</dt>
+                    <dd>
+                      <div class="source"><code>public static bool lot($rate)</code></div>
+                                              <div class="text">
+指定した確率で TRUE を取得します。
+<div class="source"><code>// 30% の確率で TRUE を返す
+Delta_NumberUtils::lot(30);
+</code></div>
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$rate</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+0〜100 の確率。整数、または浮動小数点数を指定可能。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                    <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+確率にヒットした場合は TRUE、ヒットしなかった場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_realBytes">realBytes()</dt>
                     <dd>
                       <div class="source"><code>public static int realBytes($fileSize)</code></div>
@@ -1153,7 +1214,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 17 Jun 2013 20:02:16 +0900<br />
+  <p>This document was generated on Thu, 20 Jun 2013 01:48:26 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

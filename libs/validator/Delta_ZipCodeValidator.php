@@ -2,7 +2,7 @@
 /**
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
- * @package validator
+ * @package validator.i18n
  * @copyright Copyright (c) delta framework project.
  * @license GNU GPL v3+
  * @link http://delta-framework.org/
@@ -21,10 +21,10 @@
  *     # 対象とする国。(現在は 'jp' のみ対応)
  *     country: jp
  *
- *     # 郵便番号上三桁
+ *     # フィールド 1
  *     number1:
  *
- *     # 郵便番号下四桁
+ *     # フィールド 2
  *     number2:
  *
  *     # ハイフンを許可するか ('number*' を指定した場合は無効)
@@ -37,7 +37,7 @@
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
- * @package validator
+ * @package validator.i18n
  */
 
 class Delta_ZipCodeValidator extends Delta_Validator
@@ -47,7 +47,7 @@ class Delta_ZipCodeValidator extends Delta_Validator
    * @var array
    */
   protected static $_patterns = array(
-    'ja' => array('/^\d{3}-\d{4}$/', '/^\d{7}$/', )
+    'jp' => array('/^\d{3}-\d{4}$/', '/^\d{7}$/', )
   );
 
   /**
@@ -61,9 +61,9 @@ class Delta_ZipCodeValidator extends Delta_Validator
   public static function isValid($value, $hyphnate = TRUE)
   {
     if ($hyphnate) {
-      $pattern = self::$_patterns['ja'][0];
+      $pattern = self::$_patterns['jp'][0];
     } else {
-      $pattern = self::$_patterns['ja'][1];
+      $pattern = self::$_patterns['jp'][1];
     }
 
     return preg_match($pattern, $value);
