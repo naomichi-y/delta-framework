@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta charset="UTF-8" />
+<title>delta - 基本的な機能 - データベース連携</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<!--[if lt IE 9]>
+<script src="../assets/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">基本的な機能 - データベース連携</h1>
+</header>
+<div id="contents">
+  <article>
+  <p class="right"><a href="../index.html">戻る</a><br />
+    最終更新日: 2013 年 6 月 17 日</p>
+  <ul>
+    <li><a href="#connect">データベースへの接続</a></li>
+    <li><a href="#query">クエリの発行</a></li>
+    <li><a href="#prepared_statement">クエリの発行 (プリペアードステートメント)</a></li>
+    <li><a href="#dao">データアクセスオブジェクト</a></li>
+    </ul>
+<h2><a id="connect"></a>データベースへの接続</h2>
+<p>一般的な Web アプリケーションであれば、データベースと連携してデータを参照したり更新することが多いはずです。delta にはデータアクセスを手助けするための PDO ラッパーコンポーネントが提供されています。まず手始めに、データベースの接続情報を設定ファイルに定義するところから始めましょう。</p>
+  <dl>
+    <dt>YAML Code# config/application.yml</dt>
+    <dd class="lang_yaml"><code>database:<br>
+        &nbsp;&nbsp;default:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=localhost; dbname=delta'<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;user: foo<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;password: bar</code></dd>
+</dl>
+  <p>'database' 以下の属性がデータベースの設定情報となります。'default' はあらかじめ用意されたデータソース ID となり、複数のデータソースが定義できる仕組みとなっています。  もしあなたが構築するシステムがレプリケーションを必要とする場合、次のように複数のデータソースを定義するべきでしょう。</p>
+  <dl>
+    <dt>YAML Code# config/application.yml</dt>
+    <dd class="lang_yaml"><code>database:<br>
+      &nbsp;&nbsp;default:<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=localhost; dbname=delta'<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;user: foo<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;password: bar<br>
+      <br>
+      &nbsp;&nbsp;slave:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=slave; dbname=delta'<br>
+&nbsp;&nbsp;&nbsp; user: foo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;password: bar<br>
+    </code></dd>
+  </dl>
+  <p>設定ファイルに定義可能な属性は次の通りです。</p>
+  <table>
+    <tr>
+      <th colspan="4" scope="col">属性構成</th>
+      <th scope="col">デフォルト値</th>
+      <th scope="col">必須</th>
+      <th scope="col">説明</th>
+    </tr>
+    <tr>
+      <td rowspan="6">database</td>
+      <td colspan="3">{データソース ID} (+)</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>データソース ID。</td>
+    </tr>
+    <tr>
+      <td rowspan="4">&nbsp;</td>
+      <td colspan="2">dsn</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>DSN 情報。詳しくは <a href="http://www.php.net/manual/en/pdo.construct.php">PDO::__construct()</a> を参照。</td>
+    </tr>
+    <tr>
+      <td colspan="2">user</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>ユーザ名。</td>
+    </tr>
+    <tr>
+      <td colspan="2">password</td>
+      <td>&nbsp;</td>
+      <td>◯</td>
+      <td>パスワード。</td>
+    </tr>
+    <tr>
+      <td colspan="2">options</td>
+      <td>&nbsp;</td>
+      <td></td>
+      <td>接続オプション。指定可能な値は <a href="http://php.net/manual/en/pdo.construct.php">PDO::__construct() の $driver_options</a> を参照</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>PDO::ATTR_PERSISTENT</td>
+      <td>TRUE</td>
+      <td></td>
+      <td>永続接続モード。</td>
+    </tr>
+</table>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
+    </div>
+  </div>
+  <p>それでは早速プログラムからデータベースに接続してみましょう。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>// Delta_DIController::getConnection()  (アクションやフィルタからコール可能)<br>
+      $database = $this-&gt;getDatabase();<br />
+      <br />
+      // コネクションを取得 ('default' データソースに接続)<br>
+      $conn = $database-&gt;getConnection();<br>
+      <br>
+      // 'slave' データソースに接続
+<br>
+      $conn = $database-&gt;getConnection('slave');</code></dd>
+  </dl>
+  <p>データベースに接続するには getConnection() メソッドを利用します。getConnection() はデフォルトで 'default' に定義されたデータソースを参照しますが、引数に ID を指定することで任意のデータベースに接続することも可能です。</p>
+  <p>また、あまり利用する機会は多くないかもしれませんが、データソースをプログラム上で構築することもできます。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$config = array();<br />
+      $config['dsn'] = 'mysql:host=localhost; dbname=delta';<br />
+      $config['user'] = 'foo';<br />
+      $config['password'] = 'bar';<br>
+      <br />
+      $database = $this-&gt;getDatabase();<br />
+      $conn = $database-&gt;getConnectionWithConfig($config);</code></dd>
+  </dl>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>データベースコンポーネントの実体は <a href="../../api/reference/database/delta___database_manager.html">Delta_DatabaseManager</a> であり、config/base_diocn.yml により DI ベースで管理されています。</p>
+    </div>
+  </div>
+  <h2><a id="query"></a>クエリの発行</h2>
+  <p>データベースに接続することはできたので、次にクエリを発行してみましょう。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$conn = $this-&gt;getDatabase()-&gt;getConnection();<br>
+      $resultSet = $conn-&gt;rawQuery('SELECT user_id FROM users');<br>
+      <br>
+      // 一行ずつレコードを参照
+      <br>
+      while ($record = $resultSet-&gt;read()) {<br>
+      &nbsp;&nbsp;// レコードオブジェクトから user_id を取得<br>
+      &nbsp;&nbsp;// 100<br>
+      &nbsp;&nbsp;$userId =      $record-&gt;user_id;<br>
+<br>
+&nbsp;&nbsp;// レコードオブジェクトを配列に変換 <br>
+&nbsp;&nbsp;// array('user_id' =&gt; 100)<br>
+&nbsp;&nbsp;$array = $record-&gt;toArray();<br>
+      }<br>
+      <br>
+      // 全てのレコードを取得<br>
+      $array = $resultSet-&gt;readAll();</code></dd>
+  </dl>
+  <p>Delta_DatabaseConnection::rawQuery() メソッドは参照型のクエリを発行し、レコードセットの集合体となる <a href="../../api/reference/database/delta___database_result_set.html">Delta_DatabaseRessultSet</a> オブジェクトを返します。read() はその名の通り 1 件のレコードを読み込み、レコードデータを <a href="../../api/reference/database/delta___record_object.html">Delta_RecordObject</a> として返します。SELECT で取得したフィールドデータは Delta_RecordObject の public プロパティにセットされるため、$record-&gt;{field_name} の形式で参照することができます。  </p>
+  <p>Delta_DatabaseResultSet クラスにはレコードを取得するための様々なメソッドが用意されており、例えば readAllByHash() を使えばキーと値から構成される連想配列データを取得することができます。これは例えば HTML の &lt;select&gt; 要素を作る際に役立つでしょう。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$conn = $this-&gt;getDatabase()-&gt;getConnection();<br>
+      $resultSet = $conn-&gt;rawQuery('SELECT user_id, username FROM users');<br>
+      <br>
+      // user_id をキー名、usernaem を値とする連想配列を返す<br>
+      // array(array(1 =&gt; 'foo', 2 =&gt; 'bar', 3 =&gt; 'baz'))<br>
+      $array = $resultSet-&gt;readAllByHash();</code></dd>
+  </dl>
+  <p>ここではシンプルなクエリを紹介しましたが、条件文を伴うより現実的なクエリを発行する場合は、次に紹介するプリペアードステートメントを利用するべきです。  </p>
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
+      <p>rawQuery() メソッドに指定する条件文の値は必要に応じてプログラマがエスケープ処理を施す必要があります。エスケープメソッドとして <a href="../../api/reference/database/delta___database_connection.html#method_quote">Delta_DatabaseConnection::quote()</a> が提供されていますが、rawQuery() との組み合わせは非推奨です。このメソッドはシンプルなクエリの発行のみに利用するべきです。</p>
+    </div>
+  </div>
+  <h2><a name="prepared_statement" id="preparedStatement"></a>クエリの発行 (プリペアードステートメント)</h2>
+  <p>安全なクエリの発行方法として、データベースコンポーネントはプリペアードステートメントをサポートしています。次のコードを見てみましょう。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$conn = $this-&gt;getDatabase()-&gt;getConnection();<br>
+      $query = 'SELECT user_id FROM users WHERE user_id = :user_id';<br>
+      <br>
+      $stmt = $conn-&gt;createStatement($query);<br>
+      $stmt-&gt;bindParam(':user_id', 100);
+      <br>
+      $resultSet = $stmt-&gt;executeQuery();<br>
+    </code></dd>
+  </dl>
+  <p>Delta_DatabaseConnection::createStatement() は引数に渡したクエリからステートメントオブジェクト <a href="../../api/reference/database/delta___database_statement.html">Dleta_DatabaseStatement</a> を生成します。ここではクエリの条件として 'user_id = :user_id' を指定しました。値のバインドは bindParam() (または bindValue()) で行うことができます。今回は 100 を指定したので、実際に発行されるクエリは 'SELECT user_id FROM uses WHERE user_id = 100' といった形式になります。executeQuery() の戻り値は rawQuery() と同じ Delta_DatabaseResultSet オブジェクトのため、後のレコード操作は先ほどと同じ形式になるでしょう。</p>
+  <p>更新系クエリの発行も基本的には同じです。</p>
+  <dl>
+    <dt>PHP Code#</dt>
+    <dd class="lang_php"><code>$conn = $this-&gt;getDatabase()-&gt;getConnection();<br>
+      $query = 'INSERT INTO users(username, birth_date, blood_type) values(:username, :birth_date, :blood_type)';<br>
+      <br>
+      $stmt = $conn-&gt;createStatement($query);<br>
+      $stmt-&gt;bindParam(':username', 'foo');<br>
+      $stmt-&gt;bindParam(':birth_date', '1980-08-06');<br>
+      $stmt-&gt;bindParam(':blood_type', 'A');
+      <br>
+      $affectedRows = $stmt-&gt;execute();</code></dd>
+  </dl>
+  <p>execute() は作用したレコード件数を返すメソッドです。</p>
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
+      <p>プリペアードステートメントは名前付きバインド変数のほか、'?' を用いた疑問符形式もサポートしています。詳しくは API を参照して下さい。</p>
+      </div>
+  </div>
+  <h2><a name="dao" id="dao_entity"></a>データアクセスオブジェクト</h2>
+  <p>データベースコンポーネントはデータアクセスの手段として、DAO パターンを採用した DAO オブジェクトを提供しています。DAO パターンに関する説明はここでは省略しますが、コントロールパネルを用いて DAO クラスを自動的に生成したり、SQL を書かずしてデータを取得する便利な機能が提供されています。</p>
+  <p>DAO を使うには初めに DAO クラスを定義するところから始めます。先ほど説明した通り、クラスは自動生成することができます。delta のコントロールパネルを開き、DAO ジェネレータを起動して下さい。アプリケーション設定ファイルに正しくデータベースの記述があれば、テーブル一覧が表示されるはずです。</p>
+  <p><img src="../assets/images/screenshots/dao_form.png" width="397" height="283"></p>
+<p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p class="right"><a href="#top">上へ</a></p>
+</article>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
+</body>
+</html>

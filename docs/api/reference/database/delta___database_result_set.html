@@ -514,7 +514,6 @@
                       <li><a href="../validator/delta___length_validator.html" title="Delta_LengthValidator">Delta_LengthValidator</a></li>
                       <li><a href="../validator/delta___mask_validator.html" title="Delta_MaskValidator">Delta_MaskValidator</a></li>
                       <li><a href="../validator/delta___numeric_validator.html" title="Delta_NumericValidator">Delta_NumericValidator</a></li>
-                      <li><a href="../validator/delta___phone_number_validator.html" title="Delta_PhoneNumberValidator">Delta_PhoneNumberValidator</a></li>
                       <li><a href="../validator/delta___range_validator.html" title="Delta_RangeValidator">Delta_RangeValidator</a></li>
                       <li><a href="../validator/delta___required_validator.html" title="Delta_RequiredValidator">Delta_RequiredValidator</a></li>
                       <li><a href="../validator/delta___sequence_string_validator.html" title="Delta_SequenceStringValidator">Delta_SequenceStringValidator</a></li>
@@ -523,13 +522,14 @@
                       <li><a href="../validator/delta___url_validator.html" title="Delta_URLValidator">Delta_URLValidator</a></li>
                       <li><a href="../validator/delta___validate_manager.html" title="Delta_ValidateManager">Delta_ValidateManager</a></li>
                       <li><a href="../validator/delta___validator.html" title="Delta_Validator">Delta_Validator</a></li>
-                      <li><a href="../validator/delta___zip_code_validator.html" title="Delta_ZipCodeValidator">Delta_ZipCodeValidator</a></li>
                   </ul>
       </li>
           <li class="expandable">
         <div class="hitarea expandable-hitarea"></div>
         <span>validator.i18n</span>
         <ul style="display: none;">
+                      <li><a href="../validator.i18n/delta___phone_number_validator.html" title="Delta_PhoneNumberValidator">Delta_PhoneNumberValidator</a></li>
+                      <li><a href="../validator.i18n/delta___zip_code_validator.html" title="Delta_ZipCodeValidator">Delta_ZipCodeValidator</a></li>
                       <li><a href="../validator.i18n/delta___required_jp_validator.html" title="Delta_RequiredJpValidator">Delta_RequiredJpValidator</a></li>
                       <li><a href="../validator.i18n/delta___string_jp_validator.html" title="Delta_StringJpValidator">Delta_StringJpValidator</a></li>
                       <li><a href="../validator.i18n/delta___vendor_character_validator.html" title="Delta_VendorCharacterValidator">Delta_VendorCharacterValidator</a></li>
@@ -1300,7 +1300,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_readAllByHash">readAllByHash()</dt>
                     <dd>
-                      <div class="source"><code>public array readAllByHash($key, $value)</code></div>
+                      <div class="source"><code>public array readAllByHash($key = NULL, $value = NULL)</code></div>
                                               <div class="text">
 結果セットから key と value で構成される連想配列データを取得します。
 </div>
@@ -1321,6 +1321,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <div class="text">
 連想配列のキーとするフィールド名。
+  未指定の場合は 1 番目のフィールドをキーとして取得。
 </div>
                                                               </td>
                             </tr>
@@ -1330,6 +1331,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <div class="text">
 連想配列の値とするフィールド名。
+  value が指定されてる場合は同じキー名が値となり、未指定の場合は 2 番目のフィールドを値として取得する。
 </div>
                                                               </td>
                             </tr>
@@ -1516,7 +1518,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 17 Jun 2013 20:02:15 +0900<br />
+  <p>This document was generated on Thu, 20 Jun 2013 01:48:24 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

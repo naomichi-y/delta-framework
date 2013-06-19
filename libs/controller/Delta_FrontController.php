@@ -64,13 +64,19 @@ class Delta_FrontController extends Delta_Object
   public function dispatch()
   {
     $container = Delta_DIContainerFactory::getContainer();
-    $container->getComponent('session')->initialize();
 
+    // リクエストコンポーネントの初期化
     $request = $container->getComponent('request');
     $request->initialize();
 
+    // レスポンスコンポーネントの初期化
     $response = $container->getComponent('response');
     $response->initialize();
+
+    // セッションコンポーネントの初期化
+    // (Delta_DatabaseSessionHandler で DB エラーを検知した場合はレスポンスにエラーが出力されるため、先に request、response コンポーネントを初期化しておく)
+    $session = $container->getComponent('session');
+    $session->initialize();
 
     $this->_router = $router = Delta_Router::getInstance();
 
