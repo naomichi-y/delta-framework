@@ -387,6 +387,7 @@ class Delta_CommandExecutor
         foreach ($files as $file) {
           unlink($file);
         }
+
       } else {
         $file = APP_ROOT_DIR . '/modules/.gitkeep';
         unlink($file);

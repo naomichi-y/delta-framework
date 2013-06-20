@@ -1939,6 +1939,8 @@ $attributes = array(&#039;class&#039; =&gt; &#039;field&#039;, &#039;title&#039;
 <ul>
 <li>escape: label に指定された文字列をエスケープするかどうか。規定値は TRUE。</li>
 <li>absolute: 相対パスを絶対パスに変換します。</li>
+<li>secure: URI スキームの指定。詳しくは Delta_RouteResolver::buildRequestPath() を参照。既定値は NULL。
+  (secure オプション指定時は absolute 属性は TRUE と見なされる)</li>
 <li>query: パスに追加するクエリパラメータを連想配列形式で指定。</li>
 </ul>
                                                               </td>
@@ -2155,7 +2157,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 20 Jun 2013 20:48:39 +0900<br />
+  <p>This document was generated on Thu, 20 Jun 2013 23:46:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

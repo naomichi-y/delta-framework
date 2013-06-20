@@ -667,7 +667,7 @@ class Delta_Router extends Delta_Object
           $scheme = 'http://';
         }
 
-        $path = $cheme . $this->_request->getHost() . $path;
+        $path = $scheme . $this->_request->getHost() . $path;
       }
 
       return $path;
