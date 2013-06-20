@@ -111,6 +111,8 @@ class Delta_FormHelper extends Delta_Helper
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @param mixed $extra タグの出力オプション。
    *   - absolute: TRUE を指定した場合、path を絶対パスに変換する。
+   *   - secure: URI スキームの指定。詳しくは {@link Delta_Router::buildRequestPath()} を参照。
+   *       (secure オプション指定時は absolute 属性は TRUE と見なされる)
    *   - query: 追加のクエリパラメータを連想配列形式で指定。
    * @return string 生成したタグを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -118,11 +120,18 @@ class Delta_FormHelper extends Delta_Helper
   public function start($path = NULL, $attributes = array(), $extra = array())
   {
     $extra = parent::constructParameters($extra);
-    $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
+    $secure = Delta_ArrayUtils::find($extra, 'secure');
+
+    if ($secure === NULL) {
+      $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
+    } else {
+      $absolute =  TRUE;
+    }
+
     $queryData = Delta_ArrayUtils::find($extra, 'query', array());
 
     $defaults = array();
-    $defaults['action'] = $this->buildRequestPath($path, $queryData, $absolute);
+    $defaults['action'] = $this->buildRequestPath($path, $queryData, $absolute, $secure);
     $defaults['method'] = 'post';
 
     $attributes = self::constructParameters($attributes, $defaults);

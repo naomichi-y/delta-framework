@@ -592,7 +592,8 @@ class Delta_Router extends Delta_Object
    * @param array $holders 'uri' 属性にバインドする変数。array(':module' => 'entry', ':action' => 'Start') のように複数指定可能。
    * @param array $pathInfo {@link buildPathInfo()} メソッドを参照。
    * @param bool $encode TRUE を指定した場合は queries の URL エンコードを行います。
-   * @param bool $absolute 絶対パスを返す場合は TRUE、相対パスを返す場合は FALSE を指定。
+   * @param bool $absolute {buildRequestPath()} メソッドを参照。
+   * @param bool $secure {buildRequestPath()} メソッドを参照。
    * @return string 生成したアクションのパスを返します。
    * @throws Delta_ConfigurationException 指定したルーティング名が存在しない、または必要なバインド変数が holders に含まれていない場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -601,7 +602,8 @@ class Delta_Router extends Delta_Object
     array $holders = array(),
     array $pathInfo = array(),
     $encode = TRUE,
-    $absolute = FALSE)
+    $absolute = FALSE,
+    $secure = NULL)
   {
     if (isset($this->_routerConfig[$routerName]['uri'])) {
       $parts = explode('/', $this->_routerConfig[$routerName]['uri']);
@@ -657,7 +659,15 @@ class Delta_Router extends Delta_Object
       }
 
       if ($absolute) {
-        $path = $this->_request->getScheme() . '://' . $this->_request->getHost() . $path;
+        if ($secure === NULL) {
+          $scheme = $this->_request->getScheme() . '://';
+        } else if ($secure === TRUE) {
+          $scheme = 'https://';
+        } else {
+          $scheme = 'http://';
+        }
+
+        $path = $cheme . $this->_request->getHost() . $path;
       }
 
       return $path;
@@ -759,12 +769,16 @@ class Delta_Router extends Delta_Object
    *   </code>
    *   尚、path が未指定の場合は現在実行しているアクション名がそのままパスとして使用される。
    * @param array $queryData path に追加する GET パラメータ。
-   * @param bool $absolute 絶対パスに変換する場合は TRUE、相対パスに変換する場合は FALSE を指定。
+   * @param bool $absolute 絶対パスを返す場合は TRUE、相対パスを返す場合は FALSE を指定。
+   * @secure bool $secure URL スキームの形式。
+   *   o TRUE: 'https' 形式に変換
+   *   o FALSE: 'http' 形式に変換
+   *   o NULL: 変換を行わない
    * @return string URL エンコードされたリクエストパスを返します。
    * @see Delta_Router::setIgnoreAppendGUID()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function buildRequestPath($path = NULL, array $queryData = array(), $absolute = FALSE)
+  public function buildRequestPath($path = NULL, array $queryData = array(), $absolute = FALSE, $secure = NULL)
   {
     $entry = array();
     $pathInfo = array();
@@ -833,7 +847,8 @@ class Delta_Router extends Delta_Object
       $this->_holders,
       $pathInfo,
       TRUE,
-      $absolute);
+      $absolute,
+      $secure);
 
     $path .= $anchorPoint;
 

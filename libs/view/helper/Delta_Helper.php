@@ -124,10 +124,11 @@ abstract class Delta_Helper extends Delta_DIController
    * @param mixed $path {@link Delta_Router::buildRequestPath()} メソッドを参照。
    * @param array $queryData {@link Delta_Router::buildRequestPath()} メソッドを参照。
    * @param bool $absolute {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   * @param bool $secure {@link Delta_Router::buildRequestPath()} メソッドを参照。
    * @return string {@link Delta_Router::buildRequestPath()} メソッドを参照。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function buildRequestPath($path, $queryData, $absolute = FALSE)
+  public function buildRequestPath($path, $queryData, $absolute = FALSE, $secure = NULL)
   {
     if (self::$_baseRouter !== NULL) {
       if (is_array($path)) {
@@ -140,7 +141,7 @@ abstract class Delta_Helper extends Delta_DIController
       }
     }
 
-    return $this->_router->buildRequestPath($path, $queryData, $absolute);
+    return $this->_router->buildRequestPath($path, $queryData, $absolute, $secure);
   }
 
   /**

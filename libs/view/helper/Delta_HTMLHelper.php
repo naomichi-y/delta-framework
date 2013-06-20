@@ -545,10 +545,16 @@ class Delta_HTMLHelper extends Delta_Helper
   public function link($label = NULL, $path = NULL, $attributes = array(), $extra = array())
   {
     $extra = self::constructParameters($extra);
-    $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
     $queryData = Delta_ArrayUtils::find($extra, 'query', array());
+    $secure = Delta_ArrayUtils::find($extra, 'secure');
 
-    $path = $this->buildRequestPath($path, $queryData, $absolute);
+    if ($secure === NULL) {
+      $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
+    } else {
+      $absolute = TRUE;
+    }
+
+    $path = $this->buildRequestPath($path, $queryData, $absolute, $secure);
     $buffer = $this->baseLink($label, $path, $attributes, $extra);
 
     return $buffer;

@@ -1069,7 +1069,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                                                           <dt id="method_buildRequestPath">buildRequestPath()</dt>
                     <dd>
-                      <div class="source"><code>public string buildRequestPath($path, $queryData, $absolute = FALSE)</code></div>
+                      <div class="source"><code>public string buildRequestPath($path, $queryData, $absolute = FALSE, $secure = NULL)</code></div>
                                               <div class="text">
 <a href="../view.helper/delta___helper.html#method_setBasePathRouter">setBasePathRouter()</a> メソッドで設定したルータを用いてリクエストパスを生成します。
 </div>
@@ -1104,6 +1104,15 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                             </tr>
                                                         <tr>
                               <td>$absolute</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+<a href="../kernel.path.router/delta___router.html#method_buildRequestPath">Delta_Router::buildRequestPath()</a> メソッドを参照。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$secure</td>
                               <td>bool</td>
                               <td>
                                                                   <div class="text">
@@ -1343,7 +1352,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 20 Jun 2013 01:48:27 +0900<br />
+  <p>This document was generated on Thu, 20 Jun 2013 20:48:39 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
