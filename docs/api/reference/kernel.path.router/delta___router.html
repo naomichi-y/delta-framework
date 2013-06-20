@@ -896,7 +896,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_buildBaseRoutingPath">buildBaseRoutingPath()</dt>
                     <dd>
-                      <div class="source"><code>public string buildBaseRoutingPath($routerName, array $holders = array(), array $pathInfo = array(), $encode = TRUE, $absolute = FALSE)</code></div>
+                      <div class="source"><code>public string buildBaseRoutingPath($routerName, array $holders = array(), array $pathInfo = array(), $encode = TRUE, $absolute = FALSE, $secure = NULL)</code></div>
                                               <div class="text">
 ルーティング名からパスを生成します。
 </div>
@@ -952,7 +952,16 @@ TRUE を指定した場合は queries の URL エンコードを行います。
                               <td>bool</td>
                               <td>
                                                                   <div class="text">
-絶対パスを返す場合は TRUE、相対パスを返す場合は FALSE を指定。
+{buildRequestPath()} メソッドを参照。
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$secure</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+{buildRequestPath()} メソッドを参照。
 </div>
                                                               </td>
                             </tr>
@@ -1034,7 +1043,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_buildRequestPath">buildRequestPath()</dt>
                     <dd>
-                      <div class="source"><code>public string buildRequestPath($path = NULL, array $queryData = array(), $absolute = FALSE)</code></div>
+                      <div class="source"><code>public string buildRequestPath($path = NULL, array $queryData = array(), $absolute = FALSE, $secure = NULL)</code></div>
                                               <div class="text">
 指定されたパスを Web からアクセス可能なリクエストパスの形式に変換します。
 </div>
@@ -1090,11 +1099,11 @@ path に追加する GET パラメータ。
                               <td>bool</td>
                               <td>
                                                                   <div class="text">
-絶対パスに変換する場合は TRUE、相対パスに変換する場合は FALSE を指定。
+絶対パスを返す場合は TRUE、相対パスを返す場合は FALSE を指定。
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                                                                    <tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <tr>
                               <td>{return}</td>
                               <td>string</td>
                               <td>
@@ -1105,7 +1114,16 @@ URL エンコードされたリクエストパスを返します。
                             </tr>
                                                                                                                                                                               </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>See: <div class="text">
+                                                                                                                                                                                                                                      <li>Secure: <div class="text">
+bool $secure URL スキームの形式。
+</div>
+<ul>
+<li>TRUE: &#039;https&#039; 形式に変換</li>
+<li>FALSE: &#039;http&#039; 形式に変換</li>
+<li>NULL: 変換を行わない</li>
+</ul>
+</li>
+                                                                                                                                                                                                                                                                                                      <li>See: <div class="text">
 Delta_Router::setIgnoreAppendGUID()
 </div>
 </li>
@@ -1453,7 +1471,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 20 Jun 2013 01:48:25 +0900<br />
+  <p>This document was generated on Thu, 20 Jun 2013 20:48:37 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
