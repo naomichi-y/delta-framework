@@ -537,6 +537,8 @@ class Delta_HTMLHelper extends Delta_Helper
    * @param array $extra タグの出力オプション。
    *   - escape: label に指定された文字列をエスケープするかどうか。規定値は TRUE。
    *   - absolute: 相対パスを絶対パスに変換します。
+   *   - secure: URI スキームの指定。詳しくは {@link Delta_RouteResolver::buildRequestPath()} を参照。既定値は NULL。
+   *       (secure オプション指定時は absolute 属性は TRUE と見なされる)
    *   - query: パスに追加するクエリパラメータを連想配列形式で指定。
    * @return string 生成したリンクタグを返します。
    * @see Delta_Router::buildRequestPath()
