@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta http-equiv="Content-Language" content="ja" />
-    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>設定情報の確認</title>
     <?php echo $html->includeCSS('/assets/base/delta/css/base.css') ?>
     <!--[if lt IE 9]>
@@ -76,7 +76,7 @@
             <div class="data_label">コントロールパネル</div>
             <div class="data_content">
               <?php if (!$html->hasError('cpanel')): ?>
-                <?php echo $form->start(array('router' => 'moduleEntry', 'module' => 'cpanel', 'action' => 'LoginForm')) ?>
+                <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'cpanel', 'action' => 'LoginForm')) ?>
                   <p><?php echo $form->inputSubmit('起動', array('class' => 'btn')) ?></p>
                   <p class="note">ログインパスワードは config/application.yml の 'module.entries.cpanel.password' 属性を参照して下さい。</p>
                 <?php echo $form->close() ?>
@@ -90,7 +90,7 @@
             <div class="data_content">
               <?php if (isset($hasSampleApp)): ?>
                 <?php if (!$html->hasError('sample')): ?>
-                  <?php echo $form->start(array('router' => 'moduleEntry', 'module' => 'front', 'action' => 'Start')) ?>
+                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'front', 'action' => 'Start')) ?>
                     <p><?php echo $form->inputSubmit('スタート', array('class' => 'btn')) ?></p>
                   <?php echo $form->close() ?>
                 <?php else: ?>

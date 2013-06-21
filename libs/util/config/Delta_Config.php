@@ -197,17 +197,17 @@ class Delta_Config extends Delta_Object
    */
   public static function getRoutes()
   {
-    if (empty(self::$_gets['router'])) {
+    if (empty(self::$_gets['routes'])) {
       if (Delta_BootLoader::isConfigTypeDefault()) {
         $config = self::getArray(self::TYPE_DEFAULT_ROUTES);
       } else {
         $config = self::getPolicy(self::TYPE_POLICY_ROUTES);
       }
 
-      self::$_gets['router'] = new Delta_ParameterHolder($config, TRUE);
+      self::$_gets['routes'] = new Delta_ParameterHolder($config, TRUE);
     }
 
-    return self::$_gets['router'];
+    return self::$_gets['routes'];
   }
 
   /**
@@ -248,10 +248,9 @@ class Delta_Config extends Delta_Object
    */
   public static function getBehavior($actionName = NULL, $throw = FALSE)
   {
-    $moduleName = Delta_Router::getInstance()->getEntryModuleName();
-
     if ($actionName === NULL) {
-      $actionName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
     }
 
     if (empty(self::$_gets['behavior'])) {
@@ -429,10 +428,16 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_MODULE_FILTERS:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $path = sprintf('%s%sconfig%sfilters.yml',
-            Delta_Router::getInstance()->getEntryModulePath(),
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR);
+          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+
+          if ($route) {
+            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());
+
+            $path = sprintf('%s%sconfig%sfilters.yml',
+              $modulePath,
+              DIRECTORY_SEPARATOR,
+              DIRECTORY_SEPARATOR);
+          }
         }
 
         break;
@@ -447,17 +452,24 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_MODULE_BEHAVIOR:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $path = sprintf('%s%sconfig%sbehavior.yml',
-            Delta_Router::getInstance()->getEntryModulePath(),
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR);
+          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+
+          if ($route) {
+            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());
+
+            $path = sprintf('%s%sconfig%sbehavior.yml',
+              $modulePath,
+              DIRECTORY_SEPARATOR,
+              DIRECTORY_SEPARATOR);
+          }
         }
 
         break;
 
       case self::TYPE_DEFAULT_ACTION_BEHAVIOR:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $basePath = dirname(Delta_ActionStack::getInstance()->getLastEntry()->getBehaviorPath());
+          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+          $basePath = dirname($route->getForwardStack()->getLast()->getAction()->getBehaviorPath());
           $path = Delta_AppPathManager::buildAbsolutePath($basePath, $include, '.yml');
         }
 
@@ -473,10 +485,16 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_MODULE_HELPERS:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $path = sprintf('%s%sconfig%shelpers.yml',
-            Delta_Router::getInstance()->getEntryModulePath(),
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR);
+          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+
+          if ($route) {
+            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());
+
+            $path = sprintf('%s%sconfig%shelpers.yml',
+              $modulePath,
+              DIRECTORY_SEPARATOR,
+              DIRECTORY_SEPARATOR);
+          }
         }
 
         break;

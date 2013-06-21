@@ -110,10 +110,6 @@ class Delta_BootLoader
     $appConfig->set('module', $projectAppConfig->getArray('module'), FALSE);
     $appConfig->set('response.callback', 'none');
 
-    // モジュールディレクトリの設定
-    $path = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel';
-    Delta_Router::getInstance()->entryModuleRegister('cpanel', $path);
-
     self::$_container->getComponent('controller')->dispatch();
   }
 

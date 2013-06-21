@@ -63,6 +63,12 @@ class Delta_HttpRequest extends Delta_Object
   const AUTH_TYPE_DIGEST = 'DIGEST';
 
   /**
+   * ルート情報。
+   * @var Delta_Route
+   */
+  private $_route = FALSE;
+
+  /**
    * アプリケーション設定属性。
    * @var Delta_ParameterHolder
    */
@@ -85,12 +91,6 @@ class Delta_HttpRequest extends Delta_Object
    * @var array
    */
   private $_postData = array();
-
-  /**
-   * PATH_INFO パラメータ。
-   * @var array
-   */
-  private $_pathInfoData = array();
 
   /**
    * リクエスト属性。
@@ -645,16 +645,28 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
-   * URI に含まれる PATH_INFO パラメータをリクエストオブジェクトに設定します。
+   * リクエストされたルート情報を設定します。
    *
-   * @param array $pathInfo リクエストオブジェクトに設定する PATH_INFO パラメータ。
+   * @param Delta_Route $route リクエストルート。
+   * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setPathInfo($pathInfo)
+  public function setRoute(Delta_Route $route)
   {
-    foreach ($pathInfo as $name => $value) {
-      $this->_pathInfoData[$name] = $value;
-    }
+    $this->_route = $route;
+  }
+
+  /**
+   * リクエストされたルート情報を取得します。
+   *
+   * @return Delta_Route リクエストされたルート情報を返します。
+   *   ルートが未確定の場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getRoute()
+  {
+    return $this->_route;
   }
 
   /**
@@ -668,7 +680,7 @@ class Delta_HttpRequest extends Delta_Object
    */
   public function getPathInfo($name = NULL, $alternative = NULL, $emptyToAlternative = TRUE)
   {
-    return $this->getRequestValue($this->_pathInfoData, $name, $alternative, $emptyToAlternative);
+    return $this->getRequestValue($this->_route->getBindings(), $name, $alternative, $emptyToAlternative);
   }
 
   /**
@@ -680,7 +692,9 @@ class Delta_HttpRequest extends Delta_Object
    */
   public function hasPathInfo($name)
   {
-    return isset($this->_pathInfoData[$name]);
+    $bindings = $this->_route->getBindings();
+
+    return isset($bindings[$name]);
   }
 
   /**
@@ -750,7 +764,7 @@ class Delta_HttpRequest extends Delta_Object
     static $parameters = NULL;
 
     if ($parameters === NULL) {
-      $parameters = $this->_queryData + $this->_postData + $this->_pathInfoData;
+      $parameters = $this->_queryData + $this->_postData + $this->_route->getBindings();
     }
 
     return $parameters;
@@ -1048,6 +1062,19 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
+   * 指定した Cookie がクライアントに設定されているかどうかチェックします。
+   *
+   * @param string $name チェック対象の Cookie 名。
+   * @return bool Cookie がクライアントに設定されている場合は TRUE、設定されていない場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function hasCookie($name)
+  {
+    return isset($_COOKIE[$name]);
+  }
+
+  /**
    * クライアントから送信された Cookie を取得します。
    *
    * @param string $name 取得する Cookie 名。
@@ -1060,6 +1087,18 @@ class Delta_HttpRequest extends Delta_Object
     $value = $this->getRequestValue($_COOKIE, $name, $alternative, FALSE);
 
     return $this->escapeXSS($value, $this->_inputEncoding);
+  }
+
+  /**
+   * クライアントから送信された全ての Cookie を取得します。
+   *
+   * @return array クライアントから送信された全ての Cookie を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getCookies()
+  {
+    return $this->escapeXSS($_COOKIE);
   }
 
   /**

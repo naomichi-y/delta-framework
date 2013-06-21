@@ -12,8 +12,9 @@ class ControlPanelFilter extends Delta_Filter
       $this->getResponse()->write('SUCCESS');
 
     } else {
-      $currentAction = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
-      $unAuthorizedActions = array('LoginForm', 'Login');
+      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $currentAction = $route->getForwardStack()->getLast()->getAction()->getActionName();
+      $unAuthorizedActions = array('LoginForm', 'Login', 'ModuleConnectTest');
 
       if (in_array($currentAction, $unAuthorizedActions)) {
         $chain->filterChain();

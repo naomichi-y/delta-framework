@@ -170,7 +170,7 @@ abstract class Delta_Pager extends Delta_Object
     $container = Delta_DIContainerFactory::getContainer();
 
     $this->_request = $container->getComponent('request');
-    $this->_actionName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+    $this->_actionName = $this->_request->getRoute()->getForwardStack()->getLast()->getActionName();
 
     $this->_cipher = new Delta_BlowfishCipher();
     $this->_cipher->setInitializationVector('pager');

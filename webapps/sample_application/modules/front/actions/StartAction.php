@@ -17,7 +17,7 @@ class StartAction extends Delta_Action
     $isCreate = FALSE;
 
     foreach ($data['tables'] as $table) {
-      if (!$command->isExistTable($table['name'])) {
+      if (!$command->existsTable($table['name'])) {
         $command->createTable($table);
         $isCreate = TRUE;
       }

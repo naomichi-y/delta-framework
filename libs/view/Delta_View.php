@@ -371,7 +371,7 @@ class Delta_View extends Delta_Object
   /**
    * 出力対象のテンプレートパスを設定します。
    *
-   * @param string $path 出力対象のファイルパス。
+   * @param string $templatePath 出力対象のファイルパス。
    *   {@link Delta_AppPathManager::getModuleTemplatesPath() 現在有効なテンプレートディレクトリ} から相対パスでファイルを指定。
    *   例えば admin モジュールで path に 'greeting' を指定した場合、出力対象のファイルパスは {APP_ROOT_DIR}/modules/admin/templates/greeting.php' となる。(コンソール環境から実行した場合は APP_ROOT_DIR からの相対パスとなる)
    *   指定可能なパス形式については {@link Delta_AppPathManager::buildAbsolutePath()} を参照。
@@ -379,10 +379,15 @@ class Delta_View extends Delta_Object
    */
   public function setTemplatePath($templatePath)
   {
+    $basePath = NULL;
+
     if (Delta_BootLoader::isBootTypeWeb()) {
       $extension = Delta_Config::getApplication()->getString('view.extension');
-      $moduleName = Delta_Router::getInstance()->getEntryModuleName();
-      $basePath = $this->getAppPathManager()->getModuleTemplatesPath($moduleName);
+      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+
+      if ($route) {
+        $basePath = $this->getAppPathManager()->getModuleTemplatesPath($route->getModuleName());
+      }
 
     } else {
       $basePath = APP_ROOT_DIR;

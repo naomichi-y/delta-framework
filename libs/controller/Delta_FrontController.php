@@ -13,7 +13,10 @@ require DELTA_LIBS_DIR . '/controller/filter/Delta_FilterManager.php';
 require DELTA_LIBS_DIR . '/controller/filter/Delta_FilterChain.php';
 
 require DELTA_LIBS_DIR . '/controller/action/Delta_Action.php';
-require DELTA_LIBS_DIR . '/controller/action/Delta_ActionStack.php';
+
+require DELTA_LIBS_DIR . '/kernel/path/Delta_Forward.php';
+require DELTA_LIBS_DIR . '/kernel/path/Delta_ForwardStack.php';
+require DELTA_LIBS_DIR . '/kernel/router/Delta_RouteResolver.php';
 
 /**
  * Web アプリケーションのためのフロントエンドコントローラ機能を提供します。
@@ -34,16 +37,28 @@ class Delta_FrontController extends Delta_Object
   private $_config;
 
   /**
-   * {@link Delta_Router} オブジェクト。
-   * @var Delta_Router
+   *{@link Delta_AppPathManager} オブジェクト。
+   * @var Delta_AppPathManager
    */
-  private $_router;
+  private $_pathManager;
 
   /**
-   * 経路が確定しているかどうか。
-   * @var bool
+   * {@link Delta_RouteResolver} オブジェクト。
+   * @var Delta_RouteResolver
    */
-  private $_isRouteResoleved = FALSE;
+  private $_resolver;
+
+  /**
+   * ルートオブジェクト。
+   * @var Delta_Route
+   */
+  private $_route;
+
+  /**
+   * ロード済みアクションリスト。
+   * @var array
+   */
+  private $_loadActions = array();
 
   /**
    * コンストラクタ。
@@ -53,6 +68,7 @@ class Delta_FrontController extends Delta_Object
   public function __construct()
   {
     $this->_config = Delta_Config::getApplication();
+    $this->_pathManager = Delta_AppPathManager::getInstance();
   }
 
   /**
@@ -64,25 +80,33 @@ class Delta_FrontController extends Delta_Object
   public function dispatch()
   {
     $container = Delta_DIContainerFactory::getContainer();
-    $container->getComponent('session')->initialize();
 
+    // リクエストコンポーネントの初期化
     $request = $container->getComponent('request');
     $request->initialize();
 
+    // レスポンスコンポーネントの初期化
     $response = $container->getComponent('response');
     $response->initialize();
 
-    $this->_router = $router = Delta_Router::getInstance();
+    // セッションコンポーネントの初期化
+    // (Delta_DatabaseSessionHandler で DB エラーを検知した場合はレスポンスにエラーが出力されるため、先に request、response コンポーネントを初期化しておく)
+    $session = $container->getComponent('session');
+    $session->initialize();
 
-    if ($router->connect()) {
+    $this->_resolver = Delta_RouteResolver::getInstance();
+
+    if ($route = $this->_resolver->connect()) {
+      $request->setRoute($route);
+      $this->_route = $route;
+
       $container->getComponent('user')->initialize();
-      $this->_isRouteResoleved = TRUE;
 
       $observer = $this->getObserver();
       $observer->dispatchEvent('postRouteConnect');
 
       ob_start();
-      $this->forward($this->_router->getEntryActionName());
+      $this->forward($route->getActionName());
       $buffer = ob_get_contents();
       ob_end_clean();
 
@@ -102,70 +126,99 @@ class Delta_FrontController extends Delta_Object
     }
   }
 
-  /**
-   * 実行対象のアクションをコントローラに読み込みます。
-   *
-   * @param string $actionName 実行対象のアクション名。
-   * @param string &$packageName アクションのパッケージ名が格納される。
-   * @param string &$actionPath アクションのファイルパスが格納される。
-   * @param string &$behaviorPath ビヘイビアのファイルパスが格納される。
-   * @return bool アクションの読み込みに成功したかどうかを TRUE/FALSE で返します。
-   * @throws RuntimeException リクエスト経路 (モジュール) が未確定の状態でメソッドがコールされた場合に発生。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private function loadAction($actionName, &$packageName, &$actionPath, &$behaviorPath)
+  private function attachModule($moduleName)
   {
-    static $loaded = array();
+    $modulePath = FALSE;
 
-    if (!$this->_isRouteResoleved) {
-      throw new RuntimeException('Routing is not established for HTTP request.');
-    }
+    if ($moduleName === 'cpanel') {
+      $modulePath = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel';
+      $this->_pathManager->addModulePath('cpanel', $modulePath);
 
-    if (in_array($actionName, $loaded)) {
-      return TRUE;
-    }
-
-    $actionClassName = $actionName . 'Action';
-
-    $modulePath = $this->_router->getEntryModulePath();
-    $moduleName = $this->_router->getEntryModuleName();
-
-    $searchBasePath = $modulePath . '/actions';
-    $actionPath = $searchBasePath . DIRECTORY_SEPARATOR . $actionClassName . '.php';
-
-    // アクションクラスの静的読み込み
-    if (is_file($actionPath)) {
-      $packageName = $moduleName . ':/';
-      $behaviorPath = $this->getAppPathManager()->getModuleBehaviorsPath($moduleName, $actionName . '.yml');
-
-    // アクションクラスの動的読み込み
     } else {
-      $actionPath = Delta_ClassLoader::findPath($actionClassName, $searchBasePath);
+      $modulePath = $this->_pathManager->getModulePath($moduleName);
+    }
 
-      if ($actionPath !== FALSE) {
-        $relativePath = substr($actionPath, strpos($actionPath, 'actions') + 7);
-        $deepPath = str_replace("\\", '/', dirname(substr($relativePath, 1)));
-        $packageName = $moduleName . ':' . $deepPath;
+    if (!is_dir($modulePath)) {
+      $modulePath = FALSE;
+    }
 
-        $behaviorPath = sprintf('%s%s%s.yml', $deepPath, DIRECTORY_SEPARATOR, $actionName);
-        $behaviorPath = $this->getAppPathManager()->getModuleBehaviorsPath($moduleName, $behaviorPath);
+    return $modulePath;
+  }
 
-      } else {
-        $packageName = FALSE;
+  public function getUnknownModuleForward()
+  {
+    $unknownForward = FALSE;
 
-        return FALSE;
+    $unknownConfig = $this->_config->get('module.unknown');
+    $moduleName = $unknownConfig->get('module');
+    $actionName = $unknownConfig->get('action');
+
+    if ($moduleName) {
+      $modulePath = $this->_pathManager->getModulePath($moduleName);
+
+      if (is_dir($modulePath)) {
+        $unknownForward = new Delta_Forward($moduleName, $actionName);
       }
     }
 
-    if (!$this->_router->isAllowRestrict($packageName)) {
-      $packageName = FALSE;
-      return FALSE;
+    return $unknownForward;
+  }
+
+  private function attachAction($actionName, $moduleName, $modulePath, $validate)
+  {
+    $action = FALSE;
+
+    if (!isset($this->_loadActions[$actionName])) {
+      $actionClassName = $actionName . 'Action';
+      $searchBasePath = $modulePath . '/actions';
+      $actionPath = Delta_ClassLoader::findPath($actionClassName, $searchBasePath);
+
+      if ($actionPath !== FALSE) {
+        $actionRelativePath = substr($actionPath, strpos($actionPath, 'actions') + 7);
+        $packagePath = dirname(substr($actionRelativePath, 1));
+
+        if (DIRECTORY_SEPARATOR === "\\") {
+          $packageName = str_replace("\\", '/', $padckagePath);
+        } else {
+          $packageName = $packagePath;
+        }
+
+        if ($packageName === '.') {
+          $packageName = $moduleName . ':/';
+          $behaviorRelativePath = $actionName . '.yml';
+
+        } else {
+          $packageName = $moduleName . ':' . $packageName;
+          $behaviorRelativePath = sprintf('%s%s%s.yml', $packagePath, DIRECTORY_SEPARATOR, $actionName);
+        }
+
+        if ($this->_resolver->isAllowPackage($packageName)) {
+          require $actionPath;
+
+          // アクションクラスの生成
+          $actionClass = $actionName . 'Action';
+          $behaviorPath = $this->_pathManager->getModuleBehaviorsPath($moduleName, $behaviorRelativePath);
+
+          $action = new $actionClass($actionPath, $behaviorPath);
+          $action->setPackageName($packageName);
+          $action->setValidate($validate);
+
+          $forward = new Delta_Forward($moduleName, $actionName);
+          $forward->setAction($action);
+          $this->_route->getForwardStack()->add($forward);
+
+          $config = Delta_Config::getBehavior($actionName);
+          $action->setRoles($config->getArray('roles'));
+        }
+
+        $this->_loadActions[$actionName] = $action;
+      }
+
+    } else {
+      $action = $this->_loadActions[$actionName];
     }
 
-    require $actionPath;
-    $loaded[] = $actionName;
-
-    return TRUE;
+    return $action;
   }
 
   /**
@@ -176,31 +229,41 @@ class Delta_FrontController extends Delta_Object
    */
   public function forward($actionName, $validate = TRUE)
   {
-    $packageName = NULL;
-    $actionPath = NULL;
-    $behaviorPath = NULL;
+    $moduleName = $this->_route->getModuleName();
 
-    if ($this->loadAction($actionName, $packageName, $actionPath, $behaviorPath)) {
-      // リクエストされたアクション名が小文字から始まる場合、$actionName は小文字から始まる
-      $actionClass = $actionName . 'Action';
+    if ($modulePath = $this->attachModule($moduleName)) {
+      $action = $this->attachAction($actionName, $moduleName, $modulePath, $validate);
 
-      $action = new $actionClass($actionPath, $behaviorPath);
-      $action->setPackageName($packageName);
-      $action->setValidate($validate);
+      if ($action) {
+        Delta_FilterManager::getInstance()->doFilters();
 
-      Delta_ActionStack::getInstance()->addEntry($action);
+      } else {
+        $key = sprintf('module.entries.%s.unknown', $moduleName);
+        $actionName = $this->_config->get($key);
+        $action = $this->attachAction($actionName, $moduleName, $modulePath, $validate);
 
-      // ビヘイビアに定義されているコンポーネントをコンテナに設定
-      // $actionName->getActionName() で参照する YAML の文字構成をアクション名と合わせる
-      $config = Delta_Config::getBehavior($action->getActionName());
-
-      // アクションロールの設定
-      $action->setRoles($config->getArray('roles'));
-
-      Delta_FilterManager::getInstance()->doFilters();
+        if ($action) {
+          $message = sprintf('\'%s\' action can\'t be found in \'%s module.', $actionName, $moduleName);
+          throw new Delta_ForwardException($message);
+        }
+      }
 
     } else {
-      $this->forward($this->_router->getUnknownForward());
+      $unknownForward = $this->getUnknownModuleForward();
+      $moduleName = $unknownForward->getModuleName();
+
+      if ($modulePath = $this->attachModule($moduleName)) {
+        $actionName = $unknownForward->getActionName();
+
+        if ($action = $this->attachAction($actionName, $moduleName, $modulePath, $validate)) {
+          // @todo
+        } else {
+          // @todo
+        }
+      } else {
+        $message = sprintf('Module directory is not found. [%s]', $moduleName);
+        throw new Delta_ForwardException($message);
+      }
     }
   }
 }

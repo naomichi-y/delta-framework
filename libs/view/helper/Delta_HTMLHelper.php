@@ -133,8 +133,8 @@ class Delta_HTMLHelper extends Delta_Helper
     $path = $this->buildAssetPath($path, 'js', $extra);
 
     $defaults = array();
-    $defaults['src'] = $path;
     $defaults['type'] = 'text/javascript';
+    $defaults['src'] = $path;
 
     $parameters = self::constructParameters($attributes, $defaults);
     $attributes = self::buildTagAttribute($parameters, FALSE);
@@ -333,7 +333,8 @@ class Delta_HTMLHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_ActionMessages::add()} メソッドによって追加された全てのメッセージを HTML のリスト形式で取得します。
+   * {@link Delta_ActionMessages::add()} メソッドで追加された全てのメッセージを HTML タグを含む形式で取得します。
+   * このメソッドはメッセージが複数含まれる場合にリスト形式の HTML を返します。
    *
    * @param mixed $attributes リストタグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @return string メッセージを HTML のリスト形式で返します。メッセージが未登録の場合は NULL を返します。
@@ -342,7 +343,7 @@ class Delta_HTMLHelper extends Delta_Helper
   public function messages($attributes = array('class' => 'success'))
   {
     if ($this->_messages->hasMessage()) {
-      return $this->buildMessageList($this->_messages->getList(), $attributes);
+      return $this->buildMessageTag($this->_messages->getList(), $attributes);
     }
 
     return NULL;
@@ -378,7 +379,8 @@ class Delta_HTMLHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_ActionMessages::addError()} メソッドによって追加された全てのエラーメッセージを HTML のリスト形式で取得します。
+   * {@link Delta_ActionMessages::addError()} メソッドで追加された全てのエラーメッセージを HTML タグを含む形式で取得します。
+   * このメソッドはメッセージが複数含まれる場合にリスト形式の HTML を返します。
    *
    * @param bool $fieldError {@link Delta_ActionMessages::addFieldError()} メソッドで追加されたフィールドエラーメッセージを同時に出力する場合は TRUE を指定。
    * @param mixed $attributes リストタグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
@@ -399,7 +401,7 @@ class Delta_HTMLHelper extends Delta_Helper
     }
 
     if (sizeof($errorList)) {
-      return $this->buildMessageList($errorList, $attributes);
+      return $this->buildMessageTag($errorList, $attributes);
     }
 
     return NULL;
@@ -426,18 +428,25 @@ class Delta_HTMLHelper extends Delta_Helper
    * @return string
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function buildMessageList($messages, $attributes)
+  private function buildMessageTag($messages, $attributes)
   {
     $buffer = NULL;
     $attributes = self::buildTagAttribute($attributes, FALSE);
 
-    $buffer = '<div' . $attributes . ">\n<ul>\n";
+    if (sizeof($messages) > 1) {
+      $buffer = sprintf("<div%s>\n<ul>\n", $attributes);
 
-    foreach ($messages as $message) {
-      $buffer .= '<li>' . Delta_StringUtils::escape($message) . "</li>\n";
+      foreach ($messages as $message) {
+        $buffer .= sprintf("<li>%s</li>\n", Delta_StringUtils::escape($message));
+      }
+
+      $buffer .= "</ul>\n</div>\n";
+
+    } else {
+      $buffer = sprintf("<div %s>\n%s</div>\n",
+        $attributes,
+        Delta_StringUtils::escape(current($messages)));
     }
-
-    $buffer .= "</ul>\n</div>\n";
 
     return $buffer;
   }
@@ -519,7 +528,7 @@ class Delta_HTMLHelper extends Delta_Helper
    * リンクタグを生成します。
    *
    * @param string $label リンクのラベル。未指定の場合は path がラベルとして扱われます。
-   * @param mixed $path リンク先のパス。指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   * @param mixed $path リンク先のパス。指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param mixed $attributes タグに追加する属性。
    *   <code>
    *   // タグに 'class'、'title' 属性を追加
@@ -528,18 +537,26 @@ class Delta_HTMLHelper extends Delta_Helper
    * @param array $extra タグの出力オプション。
    *   - escape: label に指定された文字列をエスケープするかどうか。規定値は TRUE。
    *   - absolute: 相対パスを絶対パスに変換します。
+   *   - secure: URI スキームの指定。詳しくは {@link Delta_Router::buildRequestPath()} を参照。既定値は NULL。
+   *       (secure オプション指定時は absolute 属性は TRUE と見なされる)
    *   - query: パスに追加するクエリパラメータを連想配列形式で指定。
    * @return string 生成したリンクタグを返します。
-   * @see Delta_Router::buildRequestPath()
+   * @see Delta_RouteResolver::buildRequestPath()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function link($label = NULL, $path = NULL, $attributes = array(), $extra = array())
   {
     $extra = self::constructParameters($extra);
-    $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
     $queryData = Delta_ArrayUtils::find($extra, 'query', array());
+    $secure = Delta_ArrayUtils::find($extra, 'secure');
 
-    $path = $this->buildRequestPath($path, $queryData, $absolute);
+    if ($secure === NULL) {
+      $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
+    } else {
+      $absolute = TRUE;
+    }
+
+    $path = $this->buildRequestPath($path, $queryData, $absolute, $secure);
     $buffer = $this->baseLink($label, $path, $attributes, $extra);
 
     return $buffer;
@@ -586,7 +603,7 @@ class Delta_HTMLHelper extends Delta_Helper
    * @param string $cushionPath クッションパス。
    *   文字列中に外部の URI が含まれる場合、直接アンカーを張るのではなく、クッションページに遷移させることが可能。
    *   クッションページには遷移先の URI が '?uri={URI}' 形式で付加される。
-   *   指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   *   指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @return string 変換後の文字列を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -642,7 +659,7 @@ class Delta_HTMLHelper extends Delta_Helper
    * イメージタグを生成します。
    * このメソッドは、extra オプション 'ignoreCache' を TRUE に指定しない限り、ファイルが存在するかどうかのチェックは行いません。
    *
-   * @param mixed $path 画像のパス。指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   * @param mixed $path 画像のパス。指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @param mixed $extra オプション属性。{@link buildAssetPath()} メソッドを参照。
    * @return string 生成したイメージタグを返します。

@@ -47,25 +47,14 @@ class Delta_RequestHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_Router::getEntryModuleName()} のエイリアスメソッドです。
+   * {@link Delta_HttpRequest::getRoute()} のエイリアスメソッドです。
    *
    * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getModuleName()
+  public function getRoute()
   {
-    return Delta_Router::getInstance()->getEntryModuleName();
-  }
-
-  /**
-   * {@link Delta_Action::getActionName()} のエイリアスメソッドです。
-   *
-   * @since 1.1
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getActionName()
-  {
-    return Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+    return $this->getRequest()->getRoute();
   }
 
   /**

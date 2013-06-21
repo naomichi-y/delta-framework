@@ -94,7 +94,7 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
       $reporter = Delta_SQLProfiler::getInstance();
 
       try {
-        $router = Delta_Router::getInstance();
+        $router = Delta_RouteResolver::getInstance();
         $processTime = Delta_NumberUtils::roundDown($endTime - $this->_startTime, 3);
 
         $container = Delta_DIContainerFactory::getContainer();
@@ -107,12 +107,15 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
         }
 
         // ActionRequest の生成
+        $request = $container->getComponent('request');
+        $route = $request->getRoute();
+
         $report = array(
           'hostname' => php_uname('n'),
           'sessionId' => $sessionId,
-          'requestPath' => $container->getComponent('request')->getURI(FALSE),
-          'moduleName' => $router->getEntryModuleName(),
-          'actionName' => $router->getEntryActionName(),
+          'requestPath' => $request->getURI(FALSE),
+          'moduleName' => $route->getModuleName(),
+          'actionName' => $route->getActionName(),
           'selectCount' => $reporter->getSelectCount(),
           'insertCount' => $reporter->getInsertCount(),
           'updateCount' => $reporter->getUpdateCount(),

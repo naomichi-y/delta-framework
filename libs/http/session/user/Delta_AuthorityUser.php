@@ -78,16 +78,18 @@ class Delta_AuthorityUser extends Delta_Object
    */
   public function initialize()
   {
+    $container = Delta_DIContainerFactory::getContainer();
+
     $sessionConfig = Delta_Config::getApplication()->get('session');
     $encrypt = $sessionConfig->getBoolean('encrypt');
-    $session = Delta_DIContainerFactory::getContainer()->getComponent('session');
+    $session = $container->getComponent('session');
 
     if ($encrypt) {
       $this->_cipher = new Delta_BlowfishCipher();
       $this->_cipher->setInitializationVector('user');
     }
 
-    $this->_namespace = Delta_Router::getInstance()->getEntryModuleName();
+    $this->_namespace = $container->getComponent('request')->getRoute()->getModuleName();
     $this->_context = &$session->getContext($this->_namespace);
 
     $currentTime = $_SERVER['REQUEST_TIME'];
@@ -400,7 +402,8 @@ class Delta_AuthorityUser extends Delta_Object
    */
   public function isCurrentActionAuthenticated($requiredRole = self::REQUIRED_ALL_ROLES)
   {
-    $actionRoles = Delta_ActionStack::getInstance()->getLastEntry()->getRoles();
+    $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+    $actionRoles = $route->getForwardStack()->getLast()->getAction()->getRoles();
     $userRoles = $this->_context['roles'];
 
     if ($actionRoles) {

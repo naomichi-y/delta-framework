@@ -36,7 +36,8 @@ class Delta_ActionFilter extends Delta_Filter
    */
   public function doFilter(Delta_FilterChain $chain)
   {
-    $action = Delta_ActionStack::getInstance()->getLastEntry();
+    $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+    $action = $route->getForwardStack()->getLast()->getAction();
     $action->initialize();
 
     if ($this->isSafety()) {
@@ -146,7 +147,8 @@ class Delta_ActionFilter extends Delta_Filter
 
       if (!$hasDispatch) {
         if ($dispatchView === Delta_View::SUCCESS) {
-          $actionName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+          $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
           $template = Delta_StringUtils::convertSnakeCase($actionName);
 
           $view = $this->getView();

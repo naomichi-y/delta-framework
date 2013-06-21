@@ -107,10 +107,12 @@ class Delta_FormHelper extends Delta_Helper
    * start() メソッドで開始したフォームは {@link close()} メソッドで閉じるようにして下さい。
    *
    * @param string $path フォームの送信先。
-   *   指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   *   指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @param mixed $extra タグの出力オプション。
    *   - absolute: TRUE を指定した場合、path を絶対パスに変換する。
+   *   - secure: URI スキームの指定。詳しくは {@link Delta_RouteResolver::buildRequestPath()} を参照。既定値は NULL。
+   *       (secure オプション指定時は absolute 属性は TRUE と見なされる)
    *   - query: 追加のクエリパラメータを連想配列形式で指定。
    * @return string 生成したタグを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -118,11 +120,18 @@ class Delta_FormHelper extends Delta_Helper
   public function start($path = NULL, $attributes = array(), $extra = array())
   {
     $extra = parent::constructParameters($extra);
-    $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
+    $secure = Delta_ArrayUtils::find($extra, 'secure');
+
+    if ($secure === NULL) {
+      $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
+    } else {
+      $absolute =  TRUE;
+    }
+
     $queryData = Delta_ArrayUtils::find($extra, 'query', array());
 
     $defaults = array();
-    $defaults['action'] = $this->buildRequestPath($path, $queryData, $absolute);
+    $defaults['action'] = $this->buildRequestPath($path, $queryData, $absolute, $secure);
     $defaults['method'] = 'post';
 
     $attributes = self::constructParameters($attributes, $defaults);
@@ -822,13 +831,13 @@ class Delta_FormHelper extends Delta_Helper
 
   /**
    * 1 つの要素を持つ checkbox フィールドを生成します。
-   * メソッドの使い方は {@link inputCheckbox()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
+   * メソッドの使い方は {@link inputCheckboxes()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
    * <code>
    * // 出力されるタグ:
    * <div class="form_field">
    *   <span class="field_element">
-   *     <input type="checkbox" value="yes" name="agreement[]" id="agreement" />
-   *     <label for="agreement">同意する</label>
+   *     <input type="checkbox" value="yes" name="agreement" id="agreement" />
+   *     <label for="agreement">Agreement</label>
    *   </span>
    *   // チェック状態とは別に、フィールド自体が送信されたかどうかを判別するための隠しフィールドが自動生成される
    *   <input type="hidden" name="_agreement" value="on" id="_agreement" />
@@ -1493,8 +1502,11 @@ class Delta_FormHelper extends Delta_Helper
     $extra = self::constructParameters($extra);
     $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
 
+    $html = $this->_currentView->getHelperManager()->getHelper('html');
+    $imagePath = $html->buildAssetPath($source, 'image', array('absolute' => $absolute));
+
     $defaults = array();
-    $defaults['src'] = Delta_HTMLHelper::buildAssetPath($source, 'image', $absolute);
+    $defaults['src'] = $imagePath;
     $defaults['value'] = '';
 
     $attributes = self::constructParameters($attributes, $defaults);
@@ -1674,7 +1686,11 @@ class Delta_FormHelper extends Delta_Helper
           $itemAttributes = self::constructParameters($attributes, $defaults);
 
           if ($type == 'checkbox') {
-            $itemAttributes['name'] = $itemAttributes['name'] . '[]';
+            if ($single) {
+              $itemAttributes['name'] = $itemAttributes['name'];
+            } else {
+              $itemAttributes['name'] = $itemAttributes['name'] . '[]';
+            }
           }
 
           // チェックボックス要素の ID は 'フィールド名 + 要素値' の文字列を使う

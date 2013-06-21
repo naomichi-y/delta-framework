@@ -170,11 +170,14 @@ class Delta_CommandExecutor
           break;
       }
 
-    } else {
+    } else if (strlen($command)) {
       $message = sprintf('Unknown command. [%s]', $command);
       $this->_output->errorLine($message);
       $this->_output->writeBlankLines(1);
 
+      $this->executeHelp();
+
+    } else {
       $this->executeHelp();
     }
   }
@@ -291,9 +294,9 @@ class Delta_CommandExecutor
       $message = 'Do you want to create a .gitkeep to empty directory? (Y/N)';
 
       if ($dialog->sendConfirm($message)) {
-        $isCreateGitkeep = 'TRUE';
+        $isCreateGitkeep = TRUE;
       } else {
-        $isCreateGitkeep = 'FALSE';
+        $isCreateGitkeep = FALSE;
       }
 
       // スケルトンディレクトリのコピー
@@ -345,7 +348,15 @@ class Delta_CommandExecutor
       $contents = str_replace('"{%MODULE.ENTRY%}"', $moduleName, $contents);
       $contents = str_replace('"{%MODULE.UNKNOWN%}"', $moduleName, $contents);
       $contents = str_replace('"{%MODULE.ENTRIES.INIT%}"', $moduleName, $contents);
-      $contents = str_replace('"{%REPOSITORY.GITKEEP%}"', $isCreateGitkeep, $contents);
+
+      if ($isCreateGitkeep) {
+        $replaceGitKeep = 'TRUE';
+      } else {
+        $replaceGitKeep = 'FALSE';
+      }
+
+      $contents = str_replace('"{%REPOSITORY.GITKEEP%}"',  $replaceGitKeep, $contents);
+
       file_put_contents($path, $contents);
 
       // 設定情報確認アクションのコピー
@@ -376,6 +387,7 @@ class Delta_CommandExecutor
         foreach ($files as $file) {
           unlink($file);
         }
+
       } else {
         $file = APP_ROOT_DIR . '/modules/.gitkeep';
         unlink($file);
@@ -801,7 +813,7 @@ class Delta_CommandExecutor
         $command = $conn->getCommand();
 
         foreach ($data['tables'] as $table) {
-          if (!$command->isExistTable($table['name'])) {
+          if (!$command->existsTable($table['name'])) {
             $command->createTable($table);
 
             $message = sprintf("Create table %s.%s.", $dataSourceId, $table['name']);

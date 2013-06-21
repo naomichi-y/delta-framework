@@ -107,7 +107,7 @@ class Delta_Logger extends Delta_Object
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public static function getLogger($className, $readConfig = TRUE)
- {
+  {
     if ($readConfig) {
       static $instance;
 

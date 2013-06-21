@@ -250,6 +250,8 @@ class Delta_DatabaseResultSet extends Delta_Object implements Iterator
    */
   private function findRecordValue($record, $key)
   {
+    $result = FALSE;
+
     // フィールド名検索
     if (is_string($key)) {
       if (isset($record[$key])) {
@@ -315,15 +317,29 @@ class Delta_DatabaseResultSet extends Delta_Object implements Iterator
    * 結果セットから key と value で構成される連想配列データを取得します。
    *
    * @param mixed $key 連想配列のキーとするフィールド名。
+   *   未指定の場合は 1 番目のフィールドをキーとして取得。
    * @param mixed $value 連想配列の値とするフィールド名。
+   *   value が指定されてる場合は同じキー名が値となり、未指定の場合は 2 番目のフィールドを値として取得する。
    * @return array key と value で構成される連想配列データを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function readAllByHash($key, $value)
+  public function readAllByHash($key = NULL, $value = NULL)
   {
     $hash = array();
 
     while ($record = $this->read()) {
+      if ($key === NULL) {
+        $key = 0;
+
+        if ($value === NULL) {
+          $value = 1;
+        }
+      }
+
+      if ($value === NULL) {
+        $value = $key;
+      }
+
       $hashKey = $this->findRecordValue($record, $key);
       $hashValue = $this->findRecordValue($record, $value);
 

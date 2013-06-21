@@ -257,7 +257,8 @@ class Delta_CoreUtils
           DIRECTORY_SEPARATOR)
       );
 
-      $gitkeep = Delta_Config::getApplication()->get('project')->get('gitkeep');
+      $config = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
+      $gitkeep = $config->get('project.gitkeep');
 
       foreach ($createList as $path) {
         Delta_FileUtils::createDirectoryRecursive($path, 0755, TRUE);

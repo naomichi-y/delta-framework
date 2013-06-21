@@ -20,8 +20,6 @@ require DELTA_LIBS_DIR . '/cache/Delta_YAMLCache.php';
 require DELTA_LIBS_DIR . '/kernel/container/Delta_DIContainer.php';
 require DELTA_LIBS_DIR . '/kernel/container/Delta_DIContainerFactory.php';
 
-require DELTA_LIBS_DIR . '/kernel/path/Delta_Router.php';
-
 require DELTA_LIBS_DIR . '/util/Delta_ParameterHolder.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_ArrayUtils.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_CommonUtils.php';

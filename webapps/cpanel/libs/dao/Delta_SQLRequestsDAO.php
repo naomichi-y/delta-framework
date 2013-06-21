@@ -322,7 +322,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
     return $resultSet->readFirst();
   }
 
-  public function delete($statementHash)
+  public function deleteByStatementHash($statementHash)
   {
     $conn = $this->getConnection();
     $sql = 'DELETE msr FROM delta_action_requests mar, delta_sql_requests msr '

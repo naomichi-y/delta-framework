@@ -198,7 +198,8 @@ class Delta_CSVWriter extends Delta_FileWriter {
   public function download($fileName = NULL)
   {
     if ($fileName === NULL) {
-      $fileName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName() . '.csv';
+      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $fileName = $route->getForwardStack()->getLast()->getAction()->getActionName() . '.csv';
     }
 
     $contentType = sprintf('text/csv; charset=%s; header=%s',

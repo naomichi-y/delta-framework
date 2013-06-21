@@ -150,7 +150,7 @@ abstract class Delta_DAO extends Delta_Object
    * @param mixed $array カラム名をキーとしてレコード値を格納した連想配列、または {@link Delta_RecordObject} クラスのインスタンス。
    * @return Delta_Entity {@link Delta_Entity} を実装したエンティティオブジェクトのインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   * @deprecated 1.16.0 で破棄予定
+   * @deprecated 将来的に破棄予定。
    */
   public function arrayToEntity($array)
   {
@@ -175,30 +175,136 @@ abstract class Delta_DAO extends Delta_Object
   }
 
   /**
-   * レコードを登録します。
+   * {@link Delta_DatabaseCriteria クライテリア} で利用するスコープを定義します。
+   *
+   * @param Delta_DatabaseCriteriaScopes $scopes スコープオブジェクト。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function scopes(Delta_DatabaseCriteriaScopes $scopes)
+  {}
+
+  /**
+   * クライテリアオブジェクトを生成します。
+   *
+   * @return Delta_DatabaseCriteria クライテリアオブジェクトを返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function createCriteria()
+  {
+    $scopes = new Delta_DatabaseCriteriaScopes();
+    $this->scopes($scopes);
+
+    return new Delta_DatabaseCriteria($this->getConnection(), $this->_tableName, $this->_primaryKeys, $scopes);
+  }
+
+  /**
+   * レコードを挿入します。
    *
    * @param Delta_Entity $entity データベースに登録するエンティティ。
-   * @return int 最後に挿入された行の ID を返します。
-   *   詳しくは {@link PDO::lastInsertId()} のマニュアルを参照して下さい。
+   * @return int 最後に挿入されたレコードの ID を返します。
+   *   詳しくは {@link PDO::lastInsertId()} を参照して下さい。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function insert(Delta_DatabaseEntity $entity)
   {
-    $tableName = $this->getTableName();
-    $data = $entity->toArray();
-
-    return $this->getConnection()->getCommand()->insert($tableName, $data);
+    return $this->getConnection()->getCommand()->insert($this->getTableName(), $entity->toArray());
   }
 
   /**
-   * 全レコード数を取得します。
+   * レコードを更新します。
+   * 更新条件には {@link Delta_DAO::getPrimaryKeys() テーブルのプライマリキー} (AND) が使用されます。
+   * <code>
+   * $usersDAO = Delta_DAOFactory::create('Users');
+   * $entity = $usersDAO->createEntity();
+   * $entity->userId = 100;
+   * $entity->username = 'foo'
+   * $entity->lastLoginDate = new Delta_DatabaseExpression('NOW()');
    *
-   * @return int 全レコード数を返します。
+   * // "UPDATE user SET username = 'foo', last_login_date = NOW() WHERE user_id = :user_id"
+   * $usersDAO->update($entity);
+   * </code>
+   *
+   * @param Delta_DatabaseEntity $entity 更新対象のエンティティオブジェクト。
+   * @return int 作用したレコード数を返します。
+   * @throws RuntimeException プライマリキーの値が未指定の場合に発生。
+   * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getCount()
+  public function update(Delta_DatabaseEntity $entity)
   {
-    return $this->getConnection()->getCommand()->getRecordCount($this->getTableName());
+    $tableName = $this->getTableName();
+    $fields = $entity->toArray();
+
+    $data = array();
+    $where = array();
+
+    foreach ($fields as $name => $value) {
+      if (in_array($name, $this->_primaryKeys)) {
+        if ($value === NULL) {
+          $message = sprintf('Primary key value is not specified. [%s::$%s]',
+            get_class($this->createEntity()),
+            Delta_StringUtils::convertCamelCase($name));
+          throw new RuntimeException($message);
+        }
+
+        $where[$name] = $value;
+
+      } else if ($value !== NULL) {
+        $data[$name] = $value;
+      }
+    }
+
+    return $this->getConnection()->getCommand()->update($tableName, $data, $where);
+  }
+
+  /**
+   * レコードを削除します。
+   *
+   * @param mixed $primaryKeyValue 削除対象とするプライマリキーの値を指定。
+   *   プライマリキーが複数フィールドで構成される場合は配列形式で値を指定。
+   * @return int 作用したレコード数を返します。
+   * @throws RuntimeException プライマリキーの値が未指定の場合に発生。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function delete($primaryKeyValue)
+  {
+    $valueSize = sizeof($primaryKeyValue);
+    $primaryKeySize = sizeof($this->_primaryKeys);
+    $hasError = FALSE;
+
+    if ($primaryKeySize == 0) {
+      $message = sprintf('Primary key is undefined. [%s::$_primaryKeys]', get_class($this));
+      throw new RuntimeException($message);
+    }
+
+    $where = array();
+
+    if (is_array($primaryKeyValue)) {
+      if ($valueSize != $primaryKeySize) {
+        $hasError = TRUE;
+      }
+
+      for ($i = 0; $i < $primaryKeySize; $i++) {
+        $where[$this->_primaryKeys[$i]] = $primaryKeyValue[$i];
+      }
+
+    } else {
+      if ($primaryKeySize > 1) {
+        $hasError = TRUE;
+      }
+
+      $where[$this->_primaryKeys[0]] = $primaryKeyValue;
+    }
+
+    if ($hasError) {
+      $message = 'Does not match the number of primary key and values.';
+      throw new InvalidArgumentException($message);
+    }
+
+    return $this->getConnection()->getCommand()->delete($this->getTableName(), $where);
   }
 
   /**

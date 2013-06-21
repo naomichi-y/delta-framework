@@ -388,31 +388,40 @@ class Delta_HttpRequestSender extends Delta_Object
   }
 
   /**
-   * 登録されている Cookie を削除します。
+   * 設定されている全ての Cookie を削除します。
    *
-   * @param string $name 削除対象の Cookie 名。未指定の場合は登録済みの全ての Cookie を削除します。
    * @return Delta_HttpRequestSender Delta_HttpRequestSender オブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function clearCookie($name = NULL)
+  public function clearCookie()
   {
-    if ($name === NULL) {
-      $this->clearHeader('Cookie');
+    $this->removeHeader('Cookie');
 
-    } else {
-      $headers = explode(';', $this->_headers['Cookie']);
-      $buffer = NULL;
+    return $this;
+  }
 
-      foreach ($headers as $header) {
-        $header = trim($header);
+  /**
+   * 設定されている特定の Cookie を削除します。
+   *
+   * @param string $name 削除対象の Cookie 名。
+   * @return Delta_HttpRequestSender Delta_HttpRequestSender オブジェクトを返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function removeCookie($name)
+  {
+    $headers = explode(';', $this->_headers['Cookie']);
+    $buffer = NULL;
 
-        if (strpos($header, $name . '=') !== 0) {
-          $buffer .= $header . '; ';
-        }
+    foreach ($headers as $header) {
+      $header = trim($header);
+
+      if (strpos($header, $name . '=') !== 0) {
+        $buffer .= $header . '; ';
       }
-
-      $this->_headers['Cookie'] = $buffer;
     }
+
+    $this->_headers['Cookie'] = $buffer;
 
     return $this;
   }
@@ -421,7 +430,7 @@ class Delta_HttpRequestSender extends Delta_Object
    * サーバに送信する HTTP ヘッダを追加します。
    *
    * @param string $name HTTP ヘッダ名。
-   * @param mixed $value HTTP ヘッダ値。既に同一のヘッダが登録されている場合は値が上書きされます。
+   * @param mixed $value HTTP ヘッダ値。既に同一のヘッダが設定されている場合は値が上書きされます。
    * @return Delta_HttpRequestSender Delta_HttpRequestSender オブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -433,25 +442,33 @@ class Delta_HttpRequestSender extends Delta_Object
   }
 
   /**
-   * 登録されているヘッダを削除します。
+   * 設定されている全てのヘッダを削除します。
    *
-   * @param string $name 削除対象のヘッダ名。未指定の場合は登録済みの全てのヘッダを削除します。
    * @return Delta_HttpRequestSender Delta_HttpRequestSender オブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function clearHeader($name = NULL)
   {
-    if ($name === NULL) {
-      $this->_headers = array();
-      $userAgent = ini_get('user_agent');
+    $this->_headers = array();
+    $userAgent = ini_get('user_agent');
 
-      if (strlen($userAgent) == 0) {
-        $userAgent = 'PHP';
-      }
+    if (strlen($userAgent) == 0) {
+      $userAgent = 'PHP';
+    }
 
-      $this->setUserAgent($userAgent);
+    $this->setUserAgent($userAgent);
+  }
 
-    } else {
+  /**
+   * 設定されている特定のヘッダを削除します。
+   *
+   * @param string $name 削除対象のヘッダ名。
+   * @return Delta_HttpRequestSender Delta_HttpRequestSender オブジェクトを返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function removeHeader($name)
+  {
+    if (isset($this->_headers[$name])) {
       unset($this->_headers[$name]);
     }
 
@@ -490,9 +507,9 @@ class Delta_HttpRequestSender extends Delta_Object
   }
 
   /**
-   * 登録されているリクエストパラメータを削除します。
+   * 設定されているリクエストパラメータを削除します。
    *
-   * @param string $name 削除対象のパラメータ名。未指定の場合は登録済みの全てのパラメータを削除します。
+   * @param string $name 削除対象のパラメータ名。未指定の場合は設定済みの全てのパラメータを削除します。
    * @return Delta_HttpRequestSender Delta_HttpRequestSender オブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -537,9 +554,9 @@ class Delta_HttpRequestSender extends Delta_Object
   }
 
   /**
-   * 登録されているファイルデータを削除します。
+   * 設定されているファイルデータを削除します。
    *
-   * @param string $name 削除対象のパラメータ名。未指定の場合は登録済みの全てのファイルを削除します。
+   * @param string $name 削除対象のパラメータ名。未指定の場合は設定済みの全てのファイルを削除します。
    * @return Delta_HttpRequestSender Delta_HttpRequestSender オブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

@@ -51,7 +51,7 @@
  *     denyCardError: {default_message}
  * </code>
  *
- * o 'number*' が未指定の場合は、バリデータ参照元のフィールド名で検証が行われます。
+ * o 'number*' が未指定の場合は、{validator_id} フィールドを用いた検証が実行されます。
  * o 'number{1-4}' は内部で文字列として結合されます。従って、1 つのフィールドにカード番号をまとめて入力することも可能です。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

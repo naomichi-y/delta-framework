@@ -43,14 +43,14 @@ class IndexAction extends Delta_Action
     }
 
     // mod_rewrite の動作チェック
-    if ($request->getPathInfo('check') === 'rewrite') {
+    if ($request->getRoute()->getRouteName() === 'rewriteTestRoute') {
       $this->getResponse()->write('SUCCESS');
 
       return Delta_View::NONE;
 
     } else {
-      $path = array('action' => $this->getActionName(), 'check' => 'rewrite');
-      $requestUrl = Delta_Router::getInstance()->buildRequestPath($path, array(), TRUE);
+      $path = array('route' => 'rewriteTestRoute');
+      $requestUrl = Delta_RouteResolver::getInstance()->buildRequestPath($path, array(), TRUE);
 
       try {
         if (file_get_contents($requestUrl) !== 'SUCCESS') {
@@ -73,7 +73,7 @@ class IndexAction extends Delta_Action
     // cpanel の動作チェック
     if (!$request->getParameter('check')) {
       // cpanel のパスは固定なので Delta_Router::buildRequestPath() 経由でパスを算出しない
-      $requestUrl = 'http://' . $request->getEnvironment('HTTP_HOST') . '/cpanel/loginForm.do/check/available';
+      $requestUrl = 'http://' . $request->getEnvironment('HTTP_HOST') . '/cpanelTest';
 
       try {
         if (file_get_contents($requestUrl) !== 'SUCCESS') {

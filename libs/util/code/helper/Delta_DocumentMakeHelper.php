@@ -128,7 +128,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
    * @return bool
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function isExistClassName($string)
+  private function existsClassName($string)
   {
     if (isset($this->_indexes['class'][$string]) || in_array($string, $this->_internalClasses)) {
       return TRUE;
@@ -277,7 +277,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
     // 要素の解析順序は http://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_tags.see.pkg.html を参照
 
     // クラスへのリンク
-    if ($this->isExistClassName($element)) {
+    if ($this->existsClassName($element)) {
       $value = $this->linkClass($element, $label);
 
     // ファイルへのリンク

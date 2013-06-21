@@ -25,6 +25,8 @@
  *   - {@link write()}
  *   - {@link writeBinary()}
  *   - {@link writeJSON()}
+ *   - {@link removeCookie()}
+ *   - {@link removeHeader()}
  *   - {@link setDownloadData()}
  *
  * 例えば {@link setHeader()} メソッドはクライアントに HTTP ヘッダを送信しますが、setHeader() の直後で exit() をコールした場合、ヘッダはクライアントに送信されないことになります。
@@ -368,14 +370,28 @@ class Delta_HttpResponse extends Delta_Object
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function clearHeader($name = NULL)
+  public function clearHeader()
   {
-    if ($name === NULL) {
-      $this->_headers = array();
+    $this->_headers = array();
+  }
 
-    } else {
+  /**
+   * レスポンスオブジェクトに設定されている特定のヘッダを削除します。
+   *
+   * @param string $name 削除対象のヘッダ名。
+   * @return string $name ヘッダの削除が成功した場合は TRUE、失敗した (ヘッダが存在しない) 場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function removeHeader($name)
+  {
+    if (isset($this->_headers[$name])) {
       unset($this->_headers[$name]);
+
+      return TRUE;
     }
+
+    return FALSE;
   }
 
   /**
@@ -457,7 +473,7 @@ class Delta_HttpResponse extends Delta_Object
    * {@link sendRedirect()} の項も合わせて参照して下さい。
    *
    * @param string $path リダイレクト先のアクション名。
-   *   指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   *   指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param array $queryData リダイレクト URI に追加する GET パラメータを連想配列形式で指定。
    * @param bool $appendSessionId クエリにセッション ID を追加している場合、リダイレクト先のアクションに ID を引き継ぐかどうかを指定。
    * @throws Delta_RequestException ルーティング経路が確定していない状態でメソッドをコールした場合に発生。
@@ -465,7 +481,7 @@ class Delta_HttpResponse extends Delta_Object
    */
   public function sendRedirectAction($path, array $queryData = array(), $appendSessionId = TRUE)
   {
-    $router = Delta_Router::getInstance();
+    $router = Delta_RouteResolver::getInstance();
     $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
 
     if ($router->getEntryRouterName() === NULL) {
@@ -584,29 +600,33 @@ class Delta_HttpResponse extends Delta_Object
   }
 
   /**
-   * クライアントが保持している Cookie を削除します。
+   * クライアントが保持している全ての Cookie を削除します。
    *
-   * @param string $name 削除対象の Cookie 名。未指定時はクライアントが保持している全ての Cookie を削除します。
-   * @return bool 削除が成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function clearCookie($name = NULL)
+  public function clearCookie()
   {
-    if ($name === NULL) {
-      foreach ($_COOKIE as $name => $value) {
-        unset($_COOKIE[$name]);
-        $this->addCookie($name, NULL, -1);
-      }
+    foreach ($_COOKIE as $name => $value) {
+      unset($_COOKIE[$name]);
+      $this->addCookie($name, NULL, -1);
+    }
+  }
+
+  /**
+   * クライアントが保持している特定の Cookie を削除します。
+   *
+   * @param string $name 削除対象の Cookie 名。
+   * @return string $name Cookie の削除が成功した場合は TRUE、失敗した (Cookie が存在しない) 場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function removeCookie($name)
+  {
+    if (isset($_COOKIE[$name])) {
+      unset($_COOKIE[$name]);
+      $this->addCookie($name, NULL, -1);
 
       return TRUE;
-
-    } else {
-      if (isset($_COOKIE[$name])) {
-        unset($_COOKIE[$name]);
-        $this->addCookie($name, NULL, -1);
-
-        return TRUE;
-      }
     }
 
     return FALSE;
@@ -740,7 +760,9 @@ class Delta_HttpResponse extends Delta_Object
   public function setDownloadData($data, $name = NULL, $isBinary = FALSE)
   {
     if ($name === NULL) {
-      $name = Delta_StringUtils::convertCamelCase(Delta_ActionStack::getInstance()->getLastEntry()->getActionName());
+      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
+      $name = Delta_StringUtils::convertCamelCase($actionName);
     }
 
     $this->setContentType('application/octet-stream');
