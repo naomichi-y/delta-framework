@@ -617,6 +617,8 @@ Delta_HttpResponse が提供するいくつかのメソッドは、<a href="../h
 <li><a href="../http.response/delta___http_response.html#method_write">write()</a></li>
 <li><a href="../http.response/delta___http_response.html#method_writeBinary">writeBinary()</a></li>
 <li><a href="../http.response/delta___http_response.html#method_writeJSON">writeJSON()</a></li>
+<li><a href="../http.response/delta___http_response.html#method_removeCookie">removeCookie()</a></li>
+<li><a href="../http.response/delta___http_response.html#method_removeHeader">removeHeader()</a></li>
 <li><a href="../http.response/delta___http_response.html#method_setDownloadData">setDownloadData()</a></li>
 </ul>
 <div class="text">例えば <a href="../http.response/delta___http_response.html#method_setHeader">setHeader()</a> メソッドはクライアントに HTTP ヘッダを送信しますが、setHeader() の直後で exit() をコールした場合、ヘッダはクライアントに送信されないことになります。
@@ -715,7 +717,7 @@ http.response
                                                       <a href="#method_clearCookie">clearCookie()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-クライアントが保持している Cookie を削除します。
+クライアントが保持している全ての Cookie を削除します。
 </div>
                                                   </td>
                         <td><a href="../http.response/delta___http_response.html">Delta_HttpResponse</a></td>
@@ -886,6 +888,26 @@ Delta_AppPathManager のインスタンスを取得します。
                         <td>
                                                       <div class="text">
 出力バッファが書き込み可能な状態にあるかどうかチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../http.response/delta___http_response.html">Delta_HttpResponse</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_removeCookie">removeCookie()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+クライアントが保持している特定の Cookie を削除します。
+</div>
+                                                  </td>
+                        <td><a href="../http.response/delta___http_response.html">Delta_HttpResponse</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_removeHeader">removeHeader()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+レスポンスオブジェクトに設定されている特定のヘッダを削除します。
 </div>
                                                   </td>
                         <td><a href="../http.response/delta___http_response.html">Delta_HttpResponse</a></td>
@@ -1139,51 +1161,21 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_clearCookie">clearCookie()</dt>
                     <dd>
-                      <div class="source"><code>public bool clearCookie($name = NULL)</code></div>
+                      <div class="source"><code>public void clearCookie()</code></div>
                                               <div class="text">
-クライアントが保持している Cookie を削除します。
+クライアントが保持している全ての Cookie を削除します。
 </div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$name</td>
-                              <td>string</td>
-                              <td>
-                                                                  <div class="text">
-削除対象の Cookie 名。未指定時はクライアントが保持している全ての Cookie を削除します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <div class="text">
-削除が成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
-                                                                                                                                            </ul>
+                                                                                                                                                                                                  </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                         <dt id="method_clearHeader">clearHeader()</dt>
                     <dd>
-                      <div class="source"><code>public void clearHeader($name = NULL)</code></div>
+                      <div class="source"><code>public void clearHeader()</code></div>
                                               <div class="text">
 レスポンスオブジェクトに設定されている全てのヘッダを削除します。
 </div>
@@ -1608,6 +1600,102 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                             </table>
                                                                     <ul class="note">
                                                                                                                                                                                                                                       <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_removeCookie">removeCookie()</dt>
+                    <dd>
+                      <div class="source"><code>public string removeCookie($name)</code></div>
+                                              <div class="text">
+クライアントが保持している特定の Cookie を削除します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$name</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+削除対象の Cookie 名。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                    <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+$name Cookie の削除が成功した場合は TRUE、失敗した (Cookie が存在しない) 場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_removeHeader">removeHeader()</dt>
+                    <dd>
+                      <div class="source"><code>public string removeHeader($name)</code></div>
+                                              <div class="text">
+レスポンスオブジェクトに設定されている特定のヘッダを削除します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$name</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+削除対象のヘッダ名。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                    <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+$name ヘッダの削除が成功した場合は TRUE、失敗した (ヘッダが存在しない) 場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Since: <div class="text">
+1.1
+</div>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
@@ -2210,7 +2298,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 20 Jun 2013 23:46:18 +0900<br />
+  <p>This document was generated on Fri, 21 Jun 2013 15:49:33 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

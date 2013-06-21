@@ -313,6 +313,14 @@ footer p {
   padding: 2% 0 2% 0;
 }
 
+.float_right {
+  float: right;
+ }
+
+.clear {
+  clear: both;
+}
+
 /**
  * ****************************************************************
  * カスタムクラス (api.delta-framework.org)

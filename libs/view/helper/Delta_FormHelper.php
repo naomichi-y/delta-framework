@@ -111,7 +111,7 @@ class Delta_FormHelper extends Delta_Helper
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @param mixed $extra タグの出力オプション。
    *   - absolute: TRUE を指定した場合、path を絶対パスに変換する。
-   *   - secure: URI スキームの指定。詳しくは {@link Delta_Router::buildRequestPath()} を参照。
+   *   - secure: URI スキームの指定。詳しくは {@link Delta_Router::buildRequestPath()} を参照。既定値は NULL。
    *       (secure オプション指定時は absolute 属性は TRUE と見なされる)
    *   - query: 追加のクエリパラメータを連想配列形式で指定。
    * @return string 生成したタグを返します。

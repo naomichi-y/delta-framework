@@ -126,7 +126,7 @@ class Delta_MailPart extends Delta_Object
    */
   public function addHeader($name, $value)
   {
-    $this->clearHeader($name);
+    $this->removeHeader($name);
     $this->_headers[$name] = $value;
   }
 
@@ -137,7 +137,7 @@ class Delta_MailPart extends Delta_Object
    * @return bool ヘッダの削除に成功した場合は TRUE、ヘッダが存在しなかった場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function clearHeader($name)
+  public function removeHeader($name)
   {
     $headers = &$this->_headers;
 

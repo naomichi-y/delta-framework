@@ -751,16 +751,6 @@ MIME パートを追加します。
                                                   </td>
                         <td><a href="../net.mail/delta___mail_part.html">Delta_MailPart</a></td>
                       </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_clearHeader">clearHeader()</a>                                                  </td>
-                        <td>
-                                                      <div class="text">
-指定したヘッダを削除します。
-</div>
-                                                  </td>
-                        <td><a href="../net.mail/delta___mail_part.html">Delta_MailPart</a></td>
-                      </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
@@ -937,6 +927,16 @@ MIME パートリストを取得します。
                         <td>
                                                       <div class="text">
 メッセージが MIME 構成かチェックします。
+</div>
+                                                  </td>
+                        <td><a href="../net.mail/delta___mail_part.html">Delta_MailPart</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_removeHeader">removeHeader()</a>                                                  </td>
+                        <td>
+                                                      <div class="text">
+指定したヘッダを削除します。
 </div>
                                                   </td>
                         <td><a href="../net.mail/delta___mail_part.html">Delta_MailPart</a></td>
@@ -1177,50 +1177,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public void buildPart($width)</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                         <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_clearHeader">clearHeader()</dt>
-                    <dd>
-                      <div class="source"><code>public bool clearHeader($name)</code></div>
-                                              <div class="text">
-指定したヘッダを削除します。
-</div>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$name</td>
-                              <td>string</td>
-                              <td>
-                                                                  <div class="text">
-削除対象のヘッダ名。大文字小文字は区別されません。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <div class="text">
-ヘッダの削除に成功した場合は TRUE、ヘッダが存在しなかった場合は FALSE を返します。
-</div>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                                                           <dt id="method_getAttachmentFiles">getAttachmentFiles()</dt>
                     <dd>
@@ -1754,6 +1710,50 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_removeHeader">removeHeader()</dt>
+                    <dd>
+                      <div class="source"><code>public bool removeHeader($name)</code></div>
+                                              <div class="text">
+指定したヘッダを削除します。
+</div>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$name</td>
+                              <td>string</td>
+                              <td>
+                                                                  <div class="text">
+削除対象のヘッダ名。大文字小文字は区別されません。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+ヘッダの削除に成功した場合は TRUE、ヘッダが存在しなかった場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</div>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_setBody">setBody()</dt>
                     <dd>
                       <div class="source"><code>public void setBody($body)</code></div>
@@ -2017,7 +2017,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 20 Jun 2013 23:46:18 +0900<br />
+  <p>This document was generated on Fri, 21 Jun 2013 15:49:33 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
