@@ -505,7 +505,7 @@ class Delta_MailSender extends Delta_Object {
 
     } else {
       $this->_hasBcc = NULL;
-      $this->_part->clearHeader($recipientType);
+      $this->_part->removeHeader($recipientType);
     }
 
     return $this;
@@ -951,8 +951,8 @@ class Delta_MailSender extends Delta_Object {
 
       $latestSendData = $this->buildHeader() . $this->_options->getString('linefeed') . $body;
 
-      $part->clearHeader('To');
-      $part->clearHeader('Subject');
+      $part->removeHeader('To');
+      $part->removeHeader('Subject');
 
       $header = $this->buildHeader();
 
