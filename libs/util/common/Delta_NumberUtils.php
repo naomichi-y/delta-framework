@@ -251,23 +251,23 @@ class Delta_NumberUtils
   {
     $result = FALSE;
 
-    if (is_int($rate)) {
-      $value = mt_rand(1, 100);
-
-    } else {
-      // 0.000...〜101.000...
-      $value = self::buildRandomFloat(0, 101);
-
-      $precision = strlen(substr($rate, strpos($rate, '.') + 1));
-      $value = (float) self::roundDown($value, $precision);
-
-      if ($value > 100) {
-        $value = 100;
-      }
-    }
-
-    if ($value <= $rate) {
+    if ($rate == 100) {
       $result = TRUE;
+
+    } else if ($rate > 0) {
+      if (is_int($rate)) {
+        $value = mt_rand(1, 100);
+
+      } else {
+        $value = self::buildRandomFloat(0, 100);
+
+        $precision = strlen(substr($rate, strpos($rate, '.') + 1));
+        $value = (float) self::roundDown($value, $precision);
+      }
+
+      if ($value <= $rate) {
+        $result = TRUE;
+      }
     }
 
     return $result;
