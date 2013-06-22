@@ -1076,6 +1076,18 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
+   * クライアントから送信された全ての Cookie を取得します。
+   *
+   * @return array クライアントから送信された全ての Cookie を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getCookies()
+  {
+    return $this->escapeXSS($_COOKIE);
+  }
+
+  /**
    * クライアントから要求されたスキーム ('http'、または 'https') を取得します。
    *
    * @return string クライアントから要求されたスキームを返します。
