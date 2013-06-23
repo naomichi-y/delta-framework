@@ -622,50 +622,9 @@
     }
   }
 }
-
-// クライテリアオブジェクトの取得
-$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
-
-&#039;SELECT * FROM users&#039;
-$criteira-&gt;getQuery();
-$records = $criteira-&gt;findAll();
-
-// レコード件数の表示
-$records-&gt;count();
-
-// プライマリキー制約でレコードを抽出
-$criteria-&gt;setPrimaryKeyValue(100);
-
-// &#039;SELECT * FROM users WHERE user_id = 100
-$criteria-&gt;getQuery();
-$criteria-&gt;find()-&gt;user_id;
-
-// &#039;condition1&#039; でレコードを取得する
-$criteria-&gt;add(&#039;condition1&#039;);
-
-// &#039;SELECT * FROM users WHERE track_id = 200&#039;
-$criteria-&gt;getQuery();
-
-// &#039;condition2&#039; でレコードを取得する
-$criteria = Delta_DAOFactory::create(&#039;Users&#039;)-&gt;createCriteria();
-
-// 条件は第 2 引数に配列形式で指定
-$criteria-&gt;add(&#039;condition2&#039;, array(date(&#039;Y-m-d&#039;));
-
-// &#039;SELECT * FROM users WHERE register_date = &#039;XXXX-XX-XX&#039; ORDER BY user_id DESC
-$criteria-&gt;getQuery();
-
-// 1 行目の user_id フィールドを取得する
-$criteria-&gt;find()-&gt;user_id;
-
-// 複数のスコープを繋げて 1 つのクエリとすることも可能
-$criteria-&gt;setPrimaryKeyValue(100)
-  -&gt;add(&#039;condition1&#039;)
-  -&gt;add(&#039;condition2&#039;, array(date(&#039;Y-m-d&#039;)));
-
-// &quot;SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = &#039;XXXX-XX-XX&#039; ORDER BY user_id DESC&quot;
-$criteria-&gt;getQuery();
 </code></div>
+</div>
+<div class="text">
 <i>現在のところ、クライテリアはリレーションには対応していません。
 </div>
                         <table summary="Description">
@@ -1374,7 +1333,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Fri, 21 Jun 2013 15:49:32 +0900<br />
+  <p>This document was generated on Mon, 24 Jun 2013 02:53:12 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
