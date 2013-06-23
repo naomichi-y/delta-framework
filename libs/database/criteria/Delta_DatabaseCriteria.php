@@ -35,50 +35,8 @@
  *     }
  *   }
  * }
- *
- * // クライテリアオブジェクトの取得
- * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
- *
- * 'SELECT * FROM users'
- * $criteira->getQuery();
- * $records = $criteira->findAll();
- *
- * // レコード件数の表示
- * $records->count();
- *
- * // プライマリキー制約でレコードを抽出
- * $criteria->setPrimaryKeyValue(100);
- *
- * // 'SELECT * FROM users WHERE user_id = 100
- * $criteria->getQuery();
- * $criteria->find()->user_id;
- *
- * // 'condition1' でレコードを取得する
- * $criteria->add('condition1');
- *
- * // 'SELECT * FROM users WHERE track_id = 200'
- * $criteria->getQuery();
- *
- * // 'condition2' でレコードを取得する
- * $criteria = Delta_DAOFactory::create('Users')->createCriteria();
- *
- * // 条件は第 2 引数に配列形式で指定
- * $criteria->add('condition2', array(date('Y-m-d'));
- *
- * // 'SELECT * FROM users WHERE register_date = 'XXXX-XX-XX' ORDER BY user_id DESC
- * $criteria->getQuery();
- *
- * // 1 行目の user_id フィールドを取得する
- * $criteria->find()->user_id;
- *
- * // 複数のスコープを繋げて 1 つのクエリとすることも可能
- * $criteria->setPrimaryKeyValue(100)
- *   ->add('condition1')
- *   ->add('condition2', array(date('Y-m-d')));
- *
- * // "SELECT * FROM users WHERE user_id = 100 AND track_id = 200 AND register_date = 'XXXX-XX-XX' ORDER BY user_id DESC"
- * $criteria->getQuery();
  * </code>
+ *
  * <i>現在のところ、クライテリアはリレーションには対応していません。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
