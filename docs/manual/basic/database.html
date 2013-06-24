@@ -303,9 +303,8 @@
         &nbsp;&nbsp;'registerDate' =&gt; new Delta_DatabaseExpression('NOW()')<br>
         ) <br>
         <br>
-        $entity = new UsersEntity($array);<br>
-        <br>
         $usersDAO = Delta_DAOFactory::create('Users'); <br>
+        $entity = $usersDAO-&gt;createEntity($array);<br>
         $usersDAO-&gt;insert($entity); </code></dd>
     </dl>
     <p>次にレコードの更新方法を見てみましょう。</p>
@@ -391,7 +390,7 @@
       <dd class="lang_php"><code>class UsersDAO extends Delta_DAO<br>
         {<br>
         &nbsp;&nbsp;// Delta_DAO::scopes() <br>
-        &nbsp;&nbsp;public function scopes(Delta_CriteriaScopes $scopes)<br>
+        &nbsp;&nbsp;public function scopes(Delta_DatabaseCriteriaScopes $scopes)<br>
         &nbsp; {<br>
         &nbsp;&nbsp;&nbsp;&nbsp;$scopes-&gt;add(<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'bloodType', <br>
@@ -402,7 +401,7 @@
         &nbsp;&nbsp;}<br>
         } </code></dd>
     </dl>
-    <p>まず初めに Delta_DAO::scopes() メソッドをオーバーライドし、Delta_CriteriaScopes オブジェクトにデータ取得条件をスコープとして追加します。ここでは 'bloodType' という条件名で、 array('where' =&gt; 'blood_type = 100') を定義しました。早速このスコープを呼び出してみましょう。</p>
+    <p>まず初めに Delta_DAO::scopes() メソッドをオーバーライドし、Delta_DatabaseCriteriaScopes オブジェクトにデータ取得条件をスコープとして追加します。ここでは 'bloodType' という条件名で、 array('where' =&gt; 'blood_type = 100') を定義しました。早速このスコープを呼び出してみましょう。</p>
     <dl>
       <dt>PHP Code#</dt>
       <dd class="lang_php"><code>// 'SELECT * FROM users WHERE blood_type = 1'<br>
@@ -424,7 +423,7 @@
       <dt>PHP Code#</dt>
       <dd class="lang_php"><code>class UsersDAO extends Delta_DAO<br>
         {<br>
-        &nbsp;&nbsp;public function scopes(Delta_CriteriaScopes $scopes)<br>
+        &nbsp;&nbsp;public function scopes(Delta_DatabaseCriteriaScopes $scopes)<br>
         &nbsp; {<br>
         &nbsp;&nbsp;&nbsp;&nbsp;$scopes-&gt;add(<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'bloodType', <br>
@@ -457,7 +456,7 @@
       <dt>PHP Code#</dt>
       <dd class="lang_php"><code>class UsersDAO extends Delta_DAO<br>
         {<br>
-        &nbsp;&nbsp;public function scopes(Delta_CriteriaScopes $scopes)<br>
+        &nbsp;&nbsp;public function scopes(Delta_DatabaseCriteriaScopes $scopes)<br>
         &nbsp; {<br>
         &nbsp;&nbsp;&nbsp;&nbsp;$scopes-&gt;add(<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'bloodType', <br>

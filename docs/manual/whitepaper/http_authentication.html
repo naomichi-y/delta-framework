@@ -127,9 +127,10 @@
       &nbsp;&nbsp;&nbsp;&nbsp;}<br />
       <br />
       &nbsp;&nbsp;&nbsp;&nbsp;// 存在しない場合は認証失敗<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;return FALSE; </code><br />
-      <code>&nbsp;&nbsp;</code>}<br />
-      }</dd>
+      &nbsp;&nbsp;&nbsp;&nbsp;return FALSE;<br>
+      &nbsp;&nbsp;}<br>
+      }
+      </code></dd>
   </dl>
   <p>getPassword() メソッドは、Delta_DigestAuthenticationFilter に定義された抽象メソッドです。このメソッドは認証ダイアログから送信されたユーザ名を引数に取り、ユーザ名に対応するパスワードを返すよう実装します。Basic 認証の時とは認証実装メソッドが異なるので注意して下さい。</p>
   <p>次にフィルタ適用ルールを定義します。</p>

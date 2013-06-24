@@ -50,7 +50,7 @@
     <dt>YAML Code# config/global_properties.yml</dt>
     <dd class="lang_yaml"><code>language:<br />
       &nbsp;&nbsp;php: 5<br />
-      </code><code>&nbsp;&nbsp;perl: 5<br />
+      &nbsp;&nbsp;perl: 5<br />
       &nbsp;&nbsp;ruby: 1</code></dd>
   </dl>
   <p>language の下の属性が &quot;-&quot; (ハイフン) の代わりに &quot;(名前):(値)&quot; の形式になりました。PHP のコードで表すとこのようにになります。</p>
@@ -70,7 +70,7 @@
       &nbsp;&nbsp;php:<br />
       &nbsp; &nbsp;&nbsp;version: 5<br />
       &nbsp;&nbsp;&nbsp;&nbsp;skill: 'としても詳しい' <br />
-      </code><code>&nbsp;&nbsp;perl: 5<br />
+      &nbsp;&nbsp;perl: 5<br />
       &nbsp;&nbsp;&nbsp;&nbsp;version: 5<br />
       &nbsp;&nbsp;&nbsp;&nbsp;skill: 'コードを読めます'<br />
       &nbsp;&nbsp;ruby:<br />
@@ -80,7 +80,12 @@
   <p>基本的に覚えることはこれだけです。YAML で設定した値は Delta_Config クラスでプログラム上に読み込むことが可能です。 </p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang_php"><code>$config = Delta_Config::loadProperties();</code></dd>
+    <dd class="lang_php"><code>$config = Delta_Config::getApplication();<br>
+      <br>
+      // '5'
+<br>
+      $language = $config-&gt;get('language.php.version');
+    </code></dd>
   </dl>
   <h3>PHP タグを使う</h3>
   <p>delta の YAML 拡張として、設定ファイルの中で PHP タグを使うことができます。</p>
