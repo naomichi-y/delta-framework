@@ -557,6 +557,10 @@ abstract class Delta_DatabaseCommand extends Delta_Object
             $whereQuery .= 'AND ';
           }
 
+          if (!is_object($value)) {
+            $value = $this->_connection->quote($value);
+          }
+
           $whereQuery .= sprintf('%s = %s ', $name, $value);
         }
 
@@ -590,6 +594,10 @@ abstract class Delta_DatabaseCommand extends Delta_Object
       $query .= ' WHERE ';
 
       foreach ($where as $name => $value) {
+        if (!is_object($value)) {
+          $value = $this->_connection->quote($value);
+        }
+
         $query .= sprintf('%s = %s AND ', $name, $value);
       }
 

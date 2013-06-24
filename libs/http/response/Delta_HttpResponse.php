@@ -20,12 +20,10 @@
  *   - {@link sendRedirectAction()}
  *   - {@link sendRedirect()}
  *   - {@link addCookie()}
- *   - {@link clearCookie()}
  *   - {@link setContentType()}
  *   - {@link write()}
  *   - {@link writeBinary()}
  *   - {@link writeJSON()}
- *   - {@link removeCookie()}
  *   - {@link removeHeader()}
  *   - {@link setDownloadData()}
  *

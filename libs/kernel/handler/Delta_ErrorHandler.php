@@ -166,6 +166,10 @@ class Delta_ErrorHandler
 
       $require($variables, $path);
 
+      // SAPI のログ出力ハンドラにメッセージを送信
+      $message = sprintf('%s: %s [%s#Line: %s]', $title, $message, $file, $line);
+      error_log($message, 4);
+
     } else {
       $buffer = sprintf("%s: %s\n"
         ."  Type: %s\n"
@@ -175,11 +179,6 @@ class Delta_ErrorHandler
       $output = new Delta_ConsoleOutput();
       $output->errorLine($buffer);
     }
-
-
-    // php.ini で設定された error_log にメッセージを送信する
-    $message = sprintf("%s: %s [%s#Line: %s]", $title, $message, $file, $line);
-    error_log($message, 0);
 
     die();
   }
