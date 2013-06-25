@@ -161,7 +161,7 @@ class Delta_DatabaseCriteria extends Delta_Object
   /**
    * 参照クエリを構築します。
    *
-   * @param array conditions 抽出条件を含む配列。
+   * @param array $conditions 抽出条件を含む配列。
    * @return string 構築した参照クエリを返します。
    * @throws RuntimeException プライマリキーが未定義の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

@@ -253,7 +253,6 @@ class Delta_ImageGDDelegate extends Delta_ImageDelegate
    * @param int $width
    * @param int $height
    * @param int $fillColor
-   * @param resource
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function saveTransparent($image, $width = NULL, $height = NULL, $fillColor = NULL)

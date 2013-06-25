@@ -589,7 +589,7 @@ class Delta_HttpRequest extends Delta_Object
    * このメソッドは、'?id=100&id=200' のようにパラメータ名が同じデータを配列形式として取得したい場合に有効です。
    * また、リクエストが JSON (Content-Type が 'application/json') 形式の場合は、デコードした結果を返します。
    *
-   * @param string リクエストメソッドの形式。{@link Delta_HttpRequest::HTTP_GET}、{@link Delta_HttpRequest::HTTP_POST} のいずれかを指定。
+   * @param string $method リクエストメソッドの形式。{@link Delta_HttpRequest::HTTP_GET}、{@link Delta_HttpRequest::HTTP_POST} のいずれかを指定。
    * @return Delta_ParameterHolder パラメータホルダのインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

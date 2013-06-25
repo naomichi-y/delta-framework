@@ -201,7 +201,7 @@ class Delta_RecordObject extends Delta_Object implements ArrayAccess
   /**
    * レコードオブジェクトが持つ全てのフィールドデータを配列形式に変換します。
    *
-   * @param bool フィールド名を camelCaps 形式に変換する場合は TRUE を指定。
+   * @param bool $nameToCamelCaps フィールド名を camelCaps 形式に変換する場合は TRUE を指定。
    * @return array レコードオブジェクトが持つ全てのフィールドデータを配列形式で返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

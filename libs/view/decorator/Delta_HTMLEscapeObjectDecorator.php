@@ -47,7 +47,7 @@ class Delta_HTMLEscapeObjectDecorator extends Delta_HTMLEscapeDecorator implemen
   /**
    * コンストラクタ。
    *
-   * @param object 対象とするオブジェクトデータ。
+   * @param object $object 対象とするオブジェクトデータ。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function __construct($object)

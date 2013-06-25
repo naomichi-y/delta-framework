@@ -30,6 +30,7 @@ class Delta_Tokenizer extends Delta_Object
 
   const REPORT_NOTICE = 'NOTICE';
   const REPORT_WARNING = 'WARNING';
+  const REPORT_ERROR = 'ERROR';
 
   /**
    * @var string
@@ -450,7 +451,7 @@ class Delta_Tokenizer extends Delta_Object
 
             } else {
               $message = '@' . $line;
-              $this->addError($this->_docBlock[2], self::REPORT_WARNING, trim($message));
+              $this->addError($this->_docBlock[2], self::REPORT_ERROR, trim($message));
             }
 
             break;

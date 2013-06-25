@@ -18,17 +18,17 @@
 abstract class Delta_Validator extends Delta_Object
 {
   /**
-   * @param string
+   * @var string
    */
   protected $_validatorId;
 
   /**
-   * @param Delta_ParameterHolder
+   * @var Delta_ParameterHolder
    */
   protected $_holder;
 
   /**
-   * @param Delta_ActionMessages
+   * @var Delta_ActionMessages
    */
   protected $_messages;
 
@@ -37,7 +37,7 @@ abstract class Delta_Validator extends Delta_Object
    *
    * @param string $validatorId バリデータ ID。
    * @param Delta_ParameterHolder $holder パラメータホルダ。
-   * @param Delta_ActionMessages エラーメッセージを追加するメッセージオブジェクト。
+   * @param Delta_ActionMessages $messages エラーメッセージを追加するメッセージオブジェクト。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function __construct($validatorId, Delta_ParameterHolder $holder, Delta_ActionMessages $messages)
