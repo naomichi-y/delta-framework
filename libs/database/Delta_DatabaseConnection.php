@@ -74,7 +74,7 @@ class Delta_DatabaseConnection extends Delta_Object
   /**
    * トランザクションコントローラを設定します。
    *
-   * @param Delta_DatabaseTransactionController トランザクションコントローラ。
+   * @param Delta_DatabaseTransactionController $transactionController トランザクションコントローラ。
    * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

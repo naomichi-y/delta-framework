@@ -254,7 +254,7 @@ abstract class Delta_Action extends Delta_DIController
   }
 
   /**
-   * @param string
+   * @param string $packageName
    * @param array $patterns
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

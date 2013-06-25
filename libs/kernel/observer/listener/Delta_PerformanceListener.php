@@ -48,7 +48,7 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
   }
 
   /**
-   * @param Delta_KernelEventObserver::preProcess()
+   * @see Delta_KernelEventObserver::preProcess()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function preProcess()

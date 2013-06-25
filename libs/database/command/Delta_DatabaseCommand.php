@@ -29,7 +29,7 @@ abstract class Delta_DatabaseCommand extends Delta_Object
   /**
    * コンストラクタ。
    *
-   * @param Delta_DatabaseConnection Delta_DatabaseConnection オブジェクト。
+   * @param Delta_DatabaseConnection $connection Delta_DatabaseConnection オブジェクト。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function __construct(Delta_DatabaseConnection $connection)
@@ -74,7 +74,7 @@ abstract class Delta_DatabaseCommand extends Delta_Object
   /**
    * 指定したテーブルが存在するかどうかチェックします。
    *
-   * @param string チェック対象のテーブル名。
+   * @param string $tableName チェック対象のテーブル名。
    * @return bool テーブルが存在する場合は TRUE、存在しない場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -532,6 +532,8 @@ abstract class Delta_DatabaseCommand extends Delta_Object
    */
   public function update($tableName, array $data = array(), array $where = array())
   {
+    $result = FALSE;
+
     if (sizeof($data)) {
       $updateQuery = NULL;
 
@@ -571,11 +573,12 @@ abstract class Delta_DatabaseCommand extends Delta_Object
       }
 
       $query = sprintf('UPDATE %s SET %s%s', $tableName, $updateQuery, $whereQuery);
+      $stmt = $this->_connection->createStatement($query);
+
+      $result = $stmt->execute();
     }
 
-    $stmt = $this->_connection->createStatement($query);
-
-    return $stmt->execute();
+    return $result;
   }
 
   /**

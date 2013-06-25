@@ -127,7 +127,7 @@ class Delta_DIContainer
    * DI コンテナにコンポーネントを追加します。
    *
    * @param string $componentName コンポーネント名。
-   * @param object コンポーネントオブジェクト。
+   * @param object $component コンポーネントオブジェクト。
    * @return bool コンポーネントの追加に成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -145,7 +145,7 @@ class Delta_DIContainer
   /**
    * コンストラクタインジェクションを実行します。
    *
-   * @param ReflectionClass コンポーネントのリフレクションクラス。
+   * @param ReflectionClass $reflection コンポーネントのリフレクションクラス。
    * @param string $className コンポーネントクラス名。
    * @param array $arguments コンストラクタ引数。
    * @return object コンポーネントオブジェクトを返します。
@@ -207,8 +207,8 @@ class Delta_DIContainer
   /**
    * セッターインジェクションを実行します。
    *
-   * @param ReflectionClass コンポーネントのリフレクションクラス。
-   * @param object コンポーネントオブジェクト。
+   * @param ReflectionClass $reflection コンポーネントのリフレクションクラス。
+   * @param object $component コンポーネントオブジェクト。
    * @param array $arguments セッダー引数。
    * @throws InvalidArgumentException メソッド引数が不正な場合に発生。
    * @throws RuntimeException メソッドが未定義の場合に発生。
@@ -247,8 +247,8 @@ class Delta_DIContainer
   /**
    * メソッドインジェクションを実行します。
    *
-   * @param ReflectionClass コンポーネントのリフレクションクラス。
-   * @param object コンポーネントオブジェクト。
+   * @param ReflectionClass $reflection コンポーネントのリフレクションクラス。
+   * @param object $component コンポーネントオブジェクト。
    * @param array $methods メソッドリスト。
    * @throws RuntimeException メソッドが未定義の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -317,7 +317,7 @@ class Delta_DIContainer
   /**
    * コンポーネントが持つメソッドにアクセス可能かチェックします。
    *
-   * @param ReflectionClass コンポーネントのリフレクションクラス。
+   * @param ReflectionClass $reflection コンポーネントのリフレクションクラス。
    * @param string $methodName チェック対象のメソッド名。
    * @throws RuntimeException メソッドのアクセス修飾子が private、または protected の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -352,7 +352,6 @@ class Delta_DIContainer
       if ($attributes) {
         $component = $this->componentRegister($componentName, $attributes);
 
-      // import 属性の参照
       } else {
         $className = ucfirst($componentName);
         $classPath = Delta_ClassLoader::findPath($className);

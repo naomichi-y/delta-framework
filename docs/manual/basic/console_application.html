@@ -102,6 +102,12 @@
         <p>autoload (application.yml) を使ってプロジェクトディレクトリの外部にあるコマンドを実行したい場合、オートロード ID を実行パスに付加する必要があります。例えば 'autoload.plugin: /var/repos/plugin' (コマンドを plguin/commands/HelloWorld.php に配置) といった宣言がある場合、コマンドの実行パスは 'plguin:commands.HelloWorld' となります。</p>
       </div>
     </div>
+    <div class="note_container note_important">
+      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+      <div class="note_contents">
+        <p>Linux 環境で Web アプリケーションにコンソールコマンドを組み込む場合、実行ユーザの権限によってパーミッションエラーが発生する可能性がある点に注意が必要です。例えば Web サーバ (ユーザ: apache) が 644 で作成したファイルは、コンソールコマンド (ユーザ: console) から編集することはできません。このような問題を回避するには、ファイルのパーミッションを適切に付与するか、ユーザの umask を変更するといった対応が必要となります。</p>
+      </div>
+    </div>
     <h2><a id="layout"></a>出力レイアウト</h2>
     <p>$this-&gt;getOutput() には出力を補佐するためのいくつかの便利なメソッドが提供されています。ここでは代表的なものを紹介します。</p>
     <dl>

@@ -78,7 +78,7 @@ class Delta_CodeInspector extends Delta_Object
   /**
    *
    *
-   * @param string descriptionFormat
+   * @param string $descriptionFormat
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function setDescriptionFormat($descriptionFormat)

@@ -98,7 +98,7 @@ class Delta_ActionForm extends Delta_Object
    * フィールド名と値で構成される連想配列をフォームフィールドとして設定します。
    *
    * @param array $fields フィールド名と値で構成される連想配列データ。
-   * @param bool フォームオブジェクトに同じ値が登録されている場合、値を上書きするかどうか。
+   * @param bool $override フォームオブジェクトに同じ値が登録されている場合、値を上書きするかどうか。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function setFields(array $fields, $override = TRUE)

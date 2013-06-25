@@ -220,7 +220,7 @@ class Delta_ConsoleInput extends Delta_Object
   /**
    * オプション文字列をキーと値で構成される配列に変換します。
    *
-   * @param string オプション文字列。
+   * @param string $option オプション文字列。
    * @return array オプションのキーと値で構成される配列を返します。
    *   オプションが値を持たない場合、配列値には FALSE が格納されます。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
