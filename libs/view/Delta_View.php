@@ -203,7 +203,7 @@ class Delta_View extends Delta_Object
    */
   public function getHelperManager()
   {
-    return $_helperManager;
+    return $this->_helperManager;
   }
 
   /**
