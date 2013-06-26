@@ -77,9 +77,14 @@ class Delta_DatabaseCriteria extends Delta_Object
   private $_parimaryValues = array();
 
   /**
-   * @var Delta_DatabaseCriteriaScopes
+   * @var array
    */
   private $_scopes;
+
+  /**
+   * @var array
+   */
+  private $_callbacks = array();
 
   /**
    * @var array
@@ -94,6 +99,11 @@ class Delta_DatabaseCriteria extends Delta_Object
     'limit' => NULL,
     'offset' => NULL
   );
+
+  /**
+   * @var array
+   */
+  private $_callbackes = array();
 
   /**
    * コンストラクタ。
@@ -331,8 +341,16 @@ class Delta_DatabaseCriteria extends Delta_Object
 
     $query = $this->buildSelectQuery($conditions);
     $rs = $this->_connection->rawQuery($query);
+    $record = $rs->read();
 
-    return $rs->read();
+    // ディスクロージャの実行
+    if (sizeof($this->_callbacks)) {
+      foreach ($this->_callbacks as $callback) {
+        $callback($record);
+      }
+    }
+
+    return $record;
   }
 
   /**
@@ -388,8 +406,16 @@ class Delta_DatabaseCriteria extends Delta_Object
 
     $query = $this->buildSelectQuery($conditions);
     $rs = $this->_connection->rawQuery($query);
+    $record = $rs->read();
 
-    return $rs->read();
+    // ディスクロージャの実行
+    if (sizeof($this->_callbacks)) {
+      foreach ($this->_callbacks as $callback) {
+        $callback($record);
+      }
+    }
+
+    return $record;
   }
 
   /**
@@ -404,8 +430,20 @@ class Delta_DatabaseCriteria extends Delta_Object
     $rs = $this->_connection->rawQuery($query);
     $records = array();
 
-    while ($record = $rs->read()) {
-      $records[] = $record;
+    // ディスクロージャの実行
+    if (sizeof($this->_callbacks)) {
+      while ($record = $rs->read()) {
+        foreach ($this->_callbacks as $callback) {
+          $callback($record);
+        }
+
+        $records[] = $record;
+      }
+
+    } else {
+      while ($record = $rs->read()) {
+        $records[] = $record;
+      }
     }
 
     return $records;
@@ -426,8 +464,13 @@ class Delta_DatabaseCriteria extends Delta_Object
       throw new Delta_ConfigurationException($message);
     }
 
-    $scope = $this->_scopes[$scopeName];
+    $scope = $this->_scopes[$scopeName][0];
 
+    if ($this->_scopes[$scopeName][1] !== NULL) {
+      $this->_callbacks[] = $this->_scopes[$scopeName][1];
+    }
+
+    // スコープにクロージャが設定されてる場合は関数を実行
     if (is_object($scope)) {
       $variables = $this->_connection->getCommand()->quoteValues($variables);
       $scope = call_user_func_array($scope, $variables);

@@ -40,12 +40,29 @@ class Delta_DatabaseCriteriaScopes extends Delta_Object
    *   o limit: 'LIMIT' 句。レコードの取得数を指定。
    *   o offset: 'OFFSET' 句。レコードの取得開始位置を指定。
    *   複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。('where' 以外)
+   * @param mixed $callback {@link Delta_DatabaseCriteria#find()} や {@link Delta_DatabaseCriteira::findAll()} メソッドで返されるレコードを加工するためのコールバック関数。
+   *   <code>
+   *   $scopes->add(
+   *     'custom',
+   *     NULL,
+   *     function($record) {
+   *       // レコードが持つ foo、bar の値を加算して baz フィールドに格納
+   *       $record->baz = $record->foo + $record->bar;
+   *     }
+   *   );
+   *
+   *   $usersDAO = Delta_DAOFactory::create('Users');
+   *   $record = $usersDAO->createCriteria()->find();
+   *
+   *   // 'foo' + 'bar' の加算値が格納されている
+   *   $record->baz;
+   *   </code>
    * @return Delta_DatabaseCriteriaScopes オブジェクト自身を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function add($scopeName, $condition)
+  public function add($scopeName, $condition, $callback = NULL)
   {
-    $this->_scopes[$scopeName] = $condition;
+    $this->_scopes[$scopeName] = array($condition, $callback);
 
     return $this;
   }

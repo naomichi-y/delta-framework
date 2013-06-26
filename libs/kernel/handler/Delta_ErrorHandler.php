@@ -89,9 +89,7 @@ class Delta_ErrorHandler
    */
   public static function invokeFatalError($type, $message, $file, $line)
   {
-    if (ob_get_length()) {
-      ob_clean();
-    }
+    ob_end_clean();
 
     $title = 'Detected application error!';
     $errorTypes = array(
@@ -122,25 +120,14 @@ class Delta_ErrorHandler
         header('HTTP/1.0 500 Internal Server Error');
       }
 
-      try {
-        $isOutputDebug = Delta_DebugUtils::isDebug();
-      } catch (Exception $e) {
-        $isOutputDebug = TRUE;
-      }
+      if (ini_get('display_errors')) {
+        $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
+        $options = array('format' => array('target' => $line));
 
-      // DI コンポーネントが初期化されていない可能性があるため、Delta_BaseRenderer は使用しない
-      $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
-      $options = array('format' => array('target' => $line));
-
-      $variables = array(
-        'isOutputDebug' => $isOutputDebug,
-        'title' => Delta_StringUtils::escape($title)
-      );
-
-      if ($isOutputDebug) {
-        $variables += array(
+        $variables = array(
+          'title' => htmlentities($title),
           'type' => $errorTypes[$type],
-          'message' => Delta_StringUtils::escape($message),
+          'message' => htmlentities($message),
           'file' => $file,
           'line' => $line,
         );
@@ -157,14 +144,14 @@ class Delta_ErrorHandler
             $variables['code'] = Delta_DebugUtils::syntaxHighlight($registry->get('parseCode')->getCode(), $options);
           }
         }
+
+        $require = function($variables, $path) {
+          extract($variables);
+          require $path;
+        };
+
+        $require($variables, $path);
       }
-
-      $require = function($variables, $path) {
-        extract($variables);
-        require $path;
-      };
-
-      $require($variables, $path);
 
       // SAPI のログ出力ハンドラにメッセージを送信
       $message = sprintf('%s: %s [%s#Line: %s]', $title, $message, $file, $line);

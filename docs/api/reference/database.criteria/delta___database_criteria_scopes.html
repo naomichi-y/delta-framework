@@ -744,7 +744,7 @@ Delta_AppPathManager のインスタンスを取得します。
               <dl>
                                                                                         <dt id="method_add">add()</dt>
                     <dd>
-                      <div class="source"><code>public Delta_DatabaseCriteriaScopes add($scopeName, $condition)</code></div>
+                      <div class="source"><code>public Delta_DatabaseCriteriaScopes add($scopeName, $condition, $callback = NULL)</code></div>
                                               <div class="text">
 スコープを追加します。
 </div>
@@ -788,6 +788,30 @@ Delta_AppPathManager のインスタンスを取得します。
 <li>offset: &#039;OFFSET&#039; 句。レコードの取得開始位置を指定。</li>
 </ul>
 <div class="text">複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。(&#039;where&#039; 以外)
+</div>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$callback</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <div class="text">
+Delta_DatabaseCriteria#find() や Delta_DatabaseCriteira::findAll() メソッドで返されるレコードを加工するためのコールバック関数。
+  <div class="source"><code>$scopes-&gt;add(
+  &#039;custom&#039;,
+  NULL,
+  function($record) {
+    // レコードが持つ foo、bar の値を加算して baz フィールドに格納
+    $record-&gt;baz = $record-&gt;foo + $record-&gt;bar;
+  }
+);
+
+$usersDAO = Delta_DAOFactory::create(&#039;Users&#039;);
+$record = $usersDAO-&gt;createCriteria()-&gt;find();
+
+// &#039;foo&#039; + &#039;bar&#039; の加算値が格納されている
+$record-&gt;baz;
+</code></div>
 </div>
                                                               </td>
                             </tr>
@@ -853,7 +877,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Tue, 25 Jun 2013 22:23:54 +0900<br />
+  <p>This document was generated on Thu, 27 Jun 2013 02:35:17 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
