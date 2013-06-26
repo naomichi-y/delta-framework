@@ -53,4 +53,4 @@ project:
 
 php:
   error_log: <?php echo APP_ROOT_DIR . '/logs/fatal_error.log' ?>
-
+  display_errors: On

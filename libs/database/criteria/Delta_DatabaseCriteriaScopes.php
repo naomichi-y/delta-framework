@@ -40,7 +40,7 @@ class Delta_DatabaseCriteriaScopes extends Delta_Object
    *   o limit: 'LIMIT' 句。レコードの取得数を指定。
    *   o offset: 'OFFSET' 句。レコードの取得開始位置を指定。
    *   複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。('where' 以外)
-   * @param mixed $callback {@link Delta_DatabaseCriteria#find()} や {@link Delta_DatabaseCriteira::findAll()} メソッドで返されるレコードを加工するためのコールバック関数。
+   * @param mixed $callback {@link Delta_DatabaseCriteria::find()} や {@link Delta_DatabaseCriteria::findAll()} メソッドで返されるレコードを加工するためのコールバック関数。
    *   <code>
    *   $scopes->add(
    *     'custom',
