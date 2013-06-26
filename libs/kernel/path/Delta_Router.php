@@ -625,12 +625,13 @@ class Delta_Router extends Delta_Object
               $path .= $this->actionToRequestFile($actionName);
             }
 
-          } else if (isset($holders[$parts[$i]])) {
-            $path .= $holders[$parts[$i]];
-
           } else if (isset($pathInfo[$parts[$i]])) {
             $path .= $pathInfo[$parts[$i]];
             unset($pathInfo[$parts[$i]]);
+
+          } else if (isset($holders[$parts[$i]])) {
+            $path .= $holders[$parts[$i]];
+
 
           } else {
             $message = sprintf('"%s" router includes "%s", please set the holder attribute.',
