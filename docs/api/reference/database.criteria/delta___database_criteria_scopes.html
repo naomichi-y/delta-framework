@@ -775,19 +775,23 @@ Delta_AppPathManager のインスタンスを取得します。
                                                                   <div class="text">
 データの抽出条件を配列、またはクロージャ形式で指定。
   抽出条件に指定可能なキーは次の通り。
-</div>
-<ul>
-<li>select: &#039;SELECT&#039; 句。参照するフィールドを指定。未指定時は全てのカラムが取得対象となる。</li>
-<li>from: &#039;&#039;FROM&#039; 句。テーブル名を指定。未指定の場合は <a href="../database.dao/delta___dao.html#method_getTableName">Delta_DAO::getTableName()</a> が参照される。</li>
-<li>where: &#039;WHERE&#039; 句。抽出条件を指定。
-複数のスコープを add() で追加した場合、&#039;where&#039; は &#039;AND&#039; 条件で結合されます。</li>
-<li>group: &#039;GROUP BY&#039; 句。フィールドのグループ条件を指定。</li>
-<li>having: &#039;HAVING&#039; 句。集計対象の条件を指定。</li>
-<li>order: &#039;ORDER BY&#039; 句。ソート条件を指定。</li>
-<li>limit: &#039;LIMIT&#039; 句。レコードの取得数を指定。</li>
-<li>offset: &#039;OFFSET&#039; 句。レコードの取得開始位置を指定。</li>
-</ul>
-<div class="text">複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。(&#039;where&#039; 以外)
+  <ul>
+    <li>select: &#039;SELECT&#039; 句。参照するフィールドを指定。未指定時は全てのカラムが取得対象となる。</li>
+    <li>from: &#039;&#039;FROM&#039; 句。テーブル名を指定。未指定の場合は <a href="../database.dao/delta___dao.html#method_getTableName">Delta_DAO::getTableName()</a> が参照される。</li>
+    <li>where: &#039;WHERE&#039; 句。抽出条件を指定。</li>
+    <li>複数のスコープを add() で追加した場合、&#039;where&#039; は &#039;AND&#039; 条件で結合されます。</li>
+    <li>group: &#039;GROUP BY&#039; 句。フィールドのグループ条件を指定。</li>
+    <li>having: &#039;HAVING&#039; 句。集計対象の条件を指定。</li>
+    <li>order: &#039;ORDER BY&#039; 句。ソート条件を指定。</li>
+    <li>limit: &#039;LIMIT&#039; 句。レコードの取得数を指定。</li>
+    <li>offset: &#039;OFFSET&#039; 句。レコードの取得開始位置を指定。</li>
+    <li>options: その他のオプションを配列形式で指定。
+      <ul>
+        <li>assocKey: <a href="../database.criteria/delta___database_criteria.html#method_findAll">Delta_DatabaseCriteria::findAll()</a> メソッドでレコードを返す際の配列キーを指定したフィールド値とする。</li>
+      </ul>
+    </li>
+  </ul>
+  複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。(&#039;where&#039; 以外)
 </div>
                                                               </td>
                             </tr>
@@ -796,7 +800,7 @@ Delta_AppPathManager のインスタンスを取得します。
                               <td>mixed</td>
                               <td>
                                                                   <div class="text">
-Delta_DatabaseCriteria#find() や Delta_DatabaseCriteira::findAll() メソッドで返されるレコードを加工するためのコールバック関数。
+<a href="../database.criteria/delta___database_criteria.html#method_find">Delta_DatabaseCriteria::find()</a> や <a href="../database.criteria/delta___database_criteria.html#method_findAll">Delta_DatabaseCriteria::findAll()</a> メソッドで返されるレコードを加工するためのコールバック関数。
   <div class="source"><code>$scopes-&gt;add(
   &#039;custom&#039;,
   NULL,
@@ -877,7 +881,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 27 Jun 2013 02:35:17 +0900<br />
+  <p>This document was generated on Thu, 27 Jun 2013 18:36:12 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
