@@ -90,7 +90,9 @@ class Delta_ErrorHandler
   public static function invokeFatalError($type, $message, $file, $line)
   {
     // PHP が出力する Fatal error メッセージを破棄
-    ob_end_clean();
+    if (ob_get_length()) {
+      ob_end_clean();
+    }
 
     if (Delta_BootLoader::isBootTypeWeb()) {
       // セッションハンドラを利用している場合、セッションを先に終了しておかないと (write() メソッドで) 致命的なエラーが発生する

@@ -87,7 +87,11 @@ class Delta_HTMLEscapeArrayDecorator extends Delta_HTMLEscapeDecorator implement
    */
   public function offsetGet($offset)
   {
-    return Delta_StringUtils::escape($this->_data[$offset]);
+    if (isset($this->_data[$offset])) {
+      return Delta_StringUtils::escape($this->_data[$offset]);
+    }
+
+    return NULL;
   }
 
   /**
