@@ -127,9 +127,13 @@ class Delta_ErrorHandler
       }
 
       if (ini_get('display_errors')) {
-        $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
-        $options = array('format' => array('target' => $line));
+        $path = APP_ROOT_DIR . '/templates/html/fatal_error.php';
 
+        if (!is_file($path)) {
+          $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
+        }
+
+        $options = array('format' => array('target' => $line));
         $variables = array(
           'title' => htmlentities($title),
           'type' => $errorTypes[$type],
