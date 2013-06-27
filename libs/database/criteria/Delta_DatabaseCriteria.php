@@ -97,7 +97,8 @@ class Delta_DatabaseCriteria extends Delta_Object
     'having' => NULL,
     'order' => NULL,
     'limit' => NULL,
-    'offset' => NULL
+    'offset' => NULL,
+    'options' => NULL
   );
 
   /**
@@ -429,20 +430,35 @@ class Delta_DatabaseCriteria extends Delta_Object
     $query = $this->buildSelectQuery($this->_conditions);
     $rs = $this->_connection->rawQuery($query);
     $records = array();
+    $assocKey = NULL;
 
-    // ディスクロージャの実行
+    if (isset($this->_conditions['options']['assocKey'])) {
+      $assocKey = $this->_conditions['options']['assocKey'];
+    }
+
+    // ディスクロージャ形式のスコープを実行
     if (sizeof($this->_callbacks)) {
+      // 配列のキーが指定されてる場合
       while ($record = $rs->read()) {
         foreach ($this->_callbacks as $callback) {
           $callback($record);
         }
 
-        $records[] = $record;
+        if ($assocKey === NULL) {
+          $records[] = $record;
+        } else {
+          $records[$record->$assocKey] = $record;
+        }
       }
 
+    // 配列形式のスコープを実行
     } else {
       while ($record = $rs->read()) {
-        $records[] = $record;
+        if ($assocKey === NULL) {
+          $records[] = $record;
+        } else {
+          $records[$record->$assocKey] = $record;
+        }
       }
     }
 
@@ -514,6 +530,11 @@ class Delta_DatabaseCriteria extends Delta_Object
     // 'offset' の取得
     if (isset($scope['offset']) && strlen($scope['offset'])) {
       $this->_conditions['offset'] = $scope['offset'];
+    }
+
+    // 'options' の取得
+    if (isset($scope['options']) && is_array($scope['options'])) {
+      $this->_conditions['options'] = $scope['options'];
     }
 
     return $this;

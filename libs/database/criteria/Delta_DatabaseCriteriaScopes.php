@@ -30,15 +30,22 @@ class Delta_DatabaseCriteriaScopes extends Delta_Object
    * @param string $scopeName スコープ名。
    * @param mixed $condition データの抽出条件を配列、またはクロージャ形式で指定。
    *   抽出条件に指定可能なキーは次の通り。
-   *   o select: 'SELECT' 句。参照するフィールドを指定。未指定時は全てのカラムが取得対象となる。
-   *   o from: ''FROM' 句。テーブル名を指定。未指定の場合は {@link Delta_DAO::getTableName()} が参照される。
-   *   o where: 'WHERE' 句。抽出条件を指定。
-   *     複数のスコープを add() で追加した場合、'where' は 'AND' 条件で結合されます。
-   *   o group: 'GROUP BY' 句。フィールドのグループ条件を指定。
-   *   o having: 'HAVING' 句。集計対象の条件を指定。
-   *   o order: 'ORDER BY' 句。ソート条件を指定。
-   *   o limit: 'LIMIT' 句。レコードの取得数を指定。
-   *   o offset: 'OFFSET' 句。レコードの取得開始位置を指定。
+   *   <ul>
+   *     <li>select: 'SELECT' 句。参照するフィールドを指定。未指定時は全てのカラムが取得対象となる。</li>
+   *     <li>from: ''FROM' 句。テーブル名を指定。未指定の場合は {@link Delta_DAO::getTableName()} が参照される。</li>
+   *     <li>where: 'WHERE' 句。抽出条件を指定。</li>
+   *     <li>複数のスコープを add() で追加した場合、'where' は 'AND' 条件で結合されます。</li>
+   *     <li>group: 'GROUP BY' 句。フィールドのグループ条件を指定。</li>
+   *     <li>having: 'HAVING' 句。集計対象の条件を指定。</li>
+   *     <li>order: 'ORDER BY' 句。ソート条件を指定。</li>
+   *     <li>limit: 'LIMIT' 句。レコードの取得数を指定。</li>
+   *     <li>offset: 'OFFSET' 句。レコードの取得開始位置を指定。</li>
+   *     <li>options: その他のオプションを配列形式で指定。
+   *       <ul>
+   *         <li>assocKey: {@link Delta_DatabaseCriteria::findAll()} メソッドでレコードを返す際の配列キーを指定したフィールド値とする。</li>
+   *       </ul>
+   *     </li>
+   *   </ul>
    *   複数のスコープを add() で追加した場合、各キーは一番最後に追加した条件が有効となります。('where' 以外)
    * @param mixed $callback {@link Delta_DatabaseCriteria::find()} や {@link Delta_DatabaseCriteria::findAll()} メソッドで返されるレコードを加工するためのコールバック関数。
    *   <code>
