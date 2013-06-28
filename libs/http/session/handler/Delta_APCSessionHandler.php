@@ -33,7 +33,7 @@ class Delta_APCSessionHandler extends Delta_Object
    */
   private function __construct(Delta_ParameterHolder $config)
   {
-    $this->_lifetime = ini_get("session.gc_maxlifetime");
+    $this->_lifetime = ini_get('session.gc_maxlifetime');
 
     session_set_save_handler(array($this, 'open'),
       array($this, 'close'),
@@ -52,13 +52,7 @@ class Delta_APCSessionHandler extends Delta_Object
    */
   public static function handler(Delta_ParameterHolder $config)
   {
-    static $instance;
-
-    if ($instance === NULL) {
-      $instance = new Delta_APCSessionHandler($config);
-    }
-
-    return $instance;
+    return new Delta_APCSessionHandler($config);
   }
 
   /**
@@ -66,7 +60,7 @@ class Delta_APCSessionHandler extends Delta_Object
    *
    * @param string $savePath セッションの保存パス。
    * @param string $sessionName セッション名。
-   * @return bool セッションストレージへの接続に成功した場合は TRUE を返します。
+   * @return bool セッションストレージへの接続に成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function open($savePath, $sessionName)
@@ -78,7 +72,7 @@ class Delta_APCSessionHandler extends Delta_Object
    * セッションストレージへの接続を閉じます。
    * このメソッドはセッション操作が終了する際に実行されます。
    *
-   * @return bool セッション操作が正常に終了した場合は TRUE を返します。
+   * @return bool セッションが正常に閉じられた場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function close()
@@ -95,22 +89,22 @@ class Delta_APCSessionHandler extends Delta_Object
    */
   public function read($sessionId)
   {
+    $result = '';
     $value = apc_fetch($sessionId);
 
     if ($value !== FALSE) {
-      return $value;
+      $result = $value;
     }
 
-    return '';
+    return $result;
   }
 
   /**
-   * セッションに値を書き込みます。
-   * 通常はオブジェクトが破棄された後にコールされます。
+   * セッションにデータを書き込みます。
    *
    * @param string $sessionId セッション ID。
    * @param mixed $sessionData 書き込むデータ。
-   * @return bool 書き込みに成功したかどうかを TRUE/FALSE で返します。
+   * @return bool 書き込みが成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function write($sessionId, $sessionData)
@@ -122,6 +116,7 @@ class Delta_APCSessionHandler extends Delta_Object
    * セッションを破棄します。
    *
    * @param string $sessionId セッション ID。
+   * @return bool セッションの破棄に成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function destroy($sessionId)
@@ -133,6 +128,7 @@ class Delta_APCSessionHandler extends Delta_Object
    * ガベージコレクタを起動します。
    *
    * @param int $lifetime セッションの生存期間。単位は秒。
+   * @return bool ガベージコレクタの起動に成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function gc($lifetime)
