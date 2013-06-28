@@ -109,7 +109,7 @@ class GenerateDAOAction extends Delta_Action
 
         $from = array(
           '{%BASE_DAO_CLASS_NAME%}',
-          '{%NAMESPACE%}',
+          '{%DATA_SOURCE_ID%}',
           '{%CLASS_NAME%}',
           '{%CREATE_DATE%}',
           '{%TABLE_NAME%}',

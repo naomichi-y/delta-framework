@@ -196,7 +196,7 @@ abstract class Delta_DAO extends Delta_Object
     $scopes = new Delta_DatabaseCriteriaScopes();
     $this->scopes($scopes);
 
-    return new Delta_DatabaseCriteria($this->getConnection(), $this->_tableName, $this->_primaryKeys, $scopes);
+    return new Delta_DatabaseCriteria($this->_dataSourceId, $this->_tableName, $this->_primaryKeys, $scopes);
   }
 
   /**

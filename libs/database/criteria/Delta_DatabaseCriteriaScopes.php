@@ -43,6 +43,7 @@ class Delta_DatabaseCriteriaScopes extends Delta_Object
    *     <li>options: その他のオプションを配列形式で指定。
    *       <ul>
    *         <li>assocKey: {@link Delta_DatabaseCriteria::findAll()} メソッドでレコードを返す際の配列キーを指定したフィールド値とする。</li>
+   *         <li>dataSourceId: データソース ID。未指定時は {@link Delta_DAO::getDataSourceId()} が使用される。</li>
    *       </ul>
    *     </li>
    *   </ul>
