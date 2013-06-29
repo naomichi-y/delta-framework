@@ -786,7 +786,7 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                                                              <tr class="inheritanceMethods">
+                                                                                                                                                                                    <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
@@ -855,7 +855,7 @@ Delta_AppPathManager のインスタンスを取得します。
               <dl>
                                                       <dt id="method___construct">__construct()</dt>
                     <dd>
-                      <div class="source"><code>public void __construct(Delta_DatabaseConnection $connection, $tableName, array $primaryKeys = array(), Delta_DatabaseCriteriaScopes $scopes = NULL)</code></div>
+                      <div class="source"><code>public void __construct($dataSourceId, $tableName, array $primaryKeys = array(), Delta_DatabaseCriteriaScopes $scopes = NULL)</code></div>
                                               <div class="text">
 コンストラクタ。
 </div>
@@ -871,11 +871,11 @@ Delta_AppPathManager のインスタンスを取得します。
                           <th>Description</th>
                         </tr>
                                                                                                           <tr>
-                              <td>$connection</td>
-                              <td><a href="../database/delta___database_connection.html">Delta_DatabaseConnection</a></td>
+                              <td>$dataSourceId</td>
+                              <td>string</td>
                               <td>
                                                                   <div class="text">
-コネクションオブジェクト。
+データソース ID。
 </div>
                                                               </td>
                             </tr>
@@ -1183,7 +1183,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                              <dt id="method_getQuery">getQuery()</dt>
+                                                                                                                                                                                                                <dt id="method_getQuery">getQuery()</dt>
                     <dd>
                       <div class="source"><code>public string getQuery()</code></div>
                                               <div class="text">
@@ -1333,7 +1333,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 27 Jun 2013 18:36:12 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:07:52 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
