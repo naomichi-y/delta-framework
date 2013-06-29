@@ -9,8 +9,17 @@
  */
 
 /**
- * セッションの管理を APC にハンドリングします。
- * このクラスを使う場合、実行環境に {@link http://www.php.net/manual/apc.installation.php APC モジュール} が組み込まれている必要があります。
+ * HTTP セッションを APC (Alternative PHP Cache) で管理します。
+ *
+ * セッションハンドラを有効にするには、実行環境に {@link http://www.php.net/manual/apc.installation.php APC モジュール} を組み込む必要があります。
+ *
+ * <i>このハンドラはセッションデータを読み書きする際の排他制御 (ロック) をサポートしていません。
+ * データの整合性を保証するには、アプリケーションサイドでロック機構を実装する必要があります。
+ *
+ * 例えばページ A を開く際にセッションデータ B が必要とします。
+ * ユーザがデータ B を持つ場合 (セッションデータをチェック) は 1〜10 秒かかるプロセス C を実行後、データベースにレコード D を作成してセッションからデータ B を削除します。
+ * ここで排他制御に詳しくないプログラマは、例えユーザが複数同時に A ページを開いたとしても、D レコードが複数作成されることはないと予想するかもしれません。
+ * しかし実際は、後に開いたページの処理 (プロセス C) が先に開いたページより速く終わることで、複数のレコードが登録されることになります。</i>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -28,7 +37,7 @@ class Delta_APCSessionHandler extends Delta_Object
   /**
    * コンストラクタ。
    *
-   * @param Delta_ParameterHolder $config セッションハンドラ属性。
+   * @param Delta_ParameterHolder $holder application.yml に定義されたハンドラ属性。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function __construct(Delta_ParameterHolder $config)

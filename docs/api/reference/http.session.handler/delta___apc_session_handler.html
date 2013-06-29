@@ -597,8 +597,20 @@
 
             <h3 id="description">Description</h3>
                           <div class="text">
-セッションの管理を APC にハンドリングします。
-このクラスを使う場合、実行環境に <a href="http://www.php.net/manual/apc.installation.php">APC モジュール</a> が組み込まれている必要があります。
+HTTP セッションを APC (Alternative PHP Cache) で管理します。
+</div>
+<div class="text">
+セッションハンドラを有効にするには、実行環境に <a href="http://www.php.net/manual/apc.installation.php">APC モジュール</a> を組み込む必要があります。
+</div>
+<div class="text">
+<i>このハンドラはセッションデータを読み書きする際の排他制御 (ロック) をサポートしていません。
+データの整合性を保証するには、アプリケーションサイドでロック機構を実装する必要があります。
+</div>
+<div class="text">
+例えばページ A を開く際にセッションデータ B が必要とします。
+ユーザがデータ B を持つ場合 (セッションデータをチェック) は 1〜10 秒かかるプロセス C を実行後、データベースにレコード D を作成してセッションからデータ B を削除します。
+ここで排他制御に詳しくないプログラマは、例えユーザが複数同時に A ページを開いたとしても、D レコードが複数作成されることはないと予想するかもしれません。
+しかし実際は、後に開いたページの処理 (プロセス C) が先に開いたページより速く終わることで、複数のレコードが登録されることになります。</i>
 </div>
                         <table summary="Description">
               <colgroup>
@@ -774,7 +786,7 @@ Delta_AppPathManager のインスタンスを取得します。
                                                       <a href="#method_write">write()</a>                                                  </td>
                         <td>
                                                       <div class="text">
-セッションに値を書き込みます。
+セッションにデータを書き込みます。
 </div>
                                                   </td>
                         <td><a href="../http.session.handler/delta___apc_session_handler.html">Delta_APCSessionHandler</a></td>
@@ -809,7 +821,7 @@ Delta_AppPathManager のインスタンスを取得します。
                               <td>bool</td>
                               <td>
                                                                   <div class="text">
-セッション操作が正常に終了した場合は TRUE を返します。
+セッションが正常に閉じられた場合は TRUE、失敗した場合は FALSE を返します。
 </div>
                                                               </td>
                             </tr>
@@ -824,7 +836,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_destroy">destroy()</dt>
                     <dd>
-                      <div class="source"><code>public void destroy($sessionId)</code></div>
+                      <div class="source"><code>public bool destroy($sessionId)</code></div>
                                               <div class="text">
 セッションを破棄します。
 </div>
@@ -848,18 +860,27 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+セッションの破棄に成功した場合は TRUE、失敗した場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
-                                                                                                                                                                                                  </ul>
+                                                                                                                                            </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                         <dt id="method_gc">gc()</dt>
                     <dd>
-                      <div class="source"><code>public void gc($lifetime)</code></div>
+                      <div class="source"><code>public bool gc($lifetime)</code></div>
                                               <div class="text">
 ガベージコレクタを起動します。
 </div>
@@ -883,13 +904,22 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </div>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <div class="text">
+ガベージコレクタの起動に成功した場合は TRUE、失敗した場合は FALSE を返します。
+</div>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </div>
 </li>
-                                                                                                                                                                                                  </ul>
+                                                                                                                                            </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                                                                                                                                                                 <dt id="method_handler">handler()</dt>
@@ -938,7 +968,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_open">open()</dt>
                     <dd>
-                      <div class="source"><code>public static bool open($savePath, $sessionName)</code></div>
+                      <div class="source"><code>public bool open($savePath, $sessionName)</code></div>
                                               <div class="text">
 セッションストレージへの接続を行います。
 </div>
@@ -976,7 +1006,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>bool</td>
                               <td>
                                                                   <div class="text">
-セッションストレージへの接続に成功した場合は TRUE を返します。
+セッションストレージへの接続に成功した場合は TRUE、失敗した場合は FALSE を返します。
 </div>
                                                               </td>
                             </tr>
@@ -1037,8 +1067,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public bool write($sessionId, $sessionData)</code></div>
                                               <div class="text">
-セッションに値を書き込みます。
-通常はオブジェクトが破棄された後にコールされます。
+セッションにデータを書き込みます。
 </div>
                                                                     <table summary="Method detail">
                         <colgroup>
@@ -1074,7 +1103,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>bool</td>
                               <td>
                                                                   <div class="text">
-書き込みに成功したかどうかを TRUE/FALSE で返します。
+書き込みが成功した場合は TRUE、失敗した場合は FALSE を返します。
 </div>
                                                               </td>
                             </tr>
@@ -1096,7 +1125,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 27 Jun 2013 18:36:13 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:07:53 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

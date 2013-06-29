@@ -9,8 +9,29 @@
  */
 
 /**
- * セッションの管理をデータベースにハンドリングします。
- * この機能を有効にするには、あらかじめ "delta install-database-session" コマンドを実行し、データベースにセッションテーブルを作成しておく必要があります。
+ * HTTP セッションをデータベースで管理します。
+ *
+ * セッションハンドラを有効にするには、あらかじめ "delta install-database-session" コマンドを実行し、データベースにセッションテーブルを作成>しておく必要があります。
+ *
+ * <i>このハンドラはセッションデータを読み込む際にデフォルトで排御制御 (セッションデータのロック) が働きます。
+ * アプリケーションロジックで {@link Delta_DatabaseConnection::beginTransaction()} をコールした場合は FALSE が返される点に注意して下さい。
+ * トランザクションは {@link close()  セッションが書き込まれるタイミング} でコミットされます。
+ * </i>
+ *
+ * application.yml の設定例:
+ * <code>
+ * session:
+ *   # セッションハンドラ
+ *   handler:
+ *     # セッションハンドラのクラス名 (固定)
+ *     class: Delta_DatabaseSessionHandler
+ *
+ *     # セッションテーブルが配置されたデータソース ('database' 属性を参照)
+ *     dataSource: default
+ *
+ *     # 排他制御を有効とするかどうか
+ *     lock: TRUE
+ * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -30,6 +51,11 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   private $_dataSourceId;
 
   /**
+   * @var bool
+   */
+  private $_lock;
+
+  /**
    * @var Delta_DatabaseConnection
    */
   private $_connection;
@@ -37,12 +63,14 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   /**
    * コンストラクタ。
    *
+   * @param Delta_ParameterHolder $holder application.yml に定義されたハンドラ属性。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function __construct(Delta_ParameterHolder $config)
   {
     $this->_database = Delta_DIContainerFactory::getContainer()->getComponent('database');
     $this->_dataSourceId = $config->get('dataSource', Delta_DatabaseManager::DEFAULT_DATASOURCE_ID);
+    $this->_lock = $config->get('lock', TRUE);
 
     session_set_save_handler(
       array($this, 'open'),
@@ -113,9 +141,17 @@ class Delta_DatabaseSessionHandler extends Delta_Object
     $result = '';
 
     if ($this->_connection) {
+      if ($this->_lock) {
+        $this->_connection->beginTransaction();
+      }
+
       $query = 'SELECT session_data '
-            .'FROM delta_sessions '
-            .'WHERE session_id = :session_id';
+        .'FROM delta_sessions '
+        .'WHERE session_id = :session_id';
+
+      if ($this->_lock) {
+        $query .= ' FOR UPDATE';
+      }
 
       $stmt = $this->_connection->createStatement($query);
       $stmt->bindParam(':session_id', $sessionId);
@@ -143,8 +179,8 @@ class Delta_DatabaseSessionHandler extends Delta_Object
 
     if ($this->_connection) {
       $query = 'SELECT COUNT(*) '
-            .'FROM delta_sessions '
-            .'WHERE session_id = :session_id';
+        .'FROM delta_sessions '
+        .'WHERE session_id = :session_id';
 
       $stmt = $this->_connection->createStatement($query);
       $stmt->bindParam(':session_id', $sessionId);
@@ -153,13 +189,13 @@ class Delta_DatabaseSessionHandler extends Delta_Object
 
       if ($count) {
         $query = 'UPDATE delta_sessions '
-              .'SET session_data = :session_data, '
-              .'update_date = NOW() '
-              .'WHERE session_id = :session_id';
+          .'SET session_data = :session_data, '
+          .'update_date = NOW() '
+          .'WHERE session_id = :session_id';
 
       } else {
         $query = 'INSERT INTO delta_sessions(session_id, session_data, register_date, update_date) '
-              .'VALUES(:session_id, :session_data, NOW(), NOW())';
+          .'VALUES(:session_id, :session_data, NOW(), NOW())';
       }
 
       $stmt = $this->_connection->createStatement($query);
@@ -167,7 +203,11 @@ class Delta_DatabaseSessionHandler extends Delta_Object
       $stmt->bindParam(':session_id', $sessionId);
       $stmt->execute();
 
-      $result = TRUE;
+      if ($this->_lock) {
+        $result = $this->_connection->commit();
+      } else {
+        $result = TRUE;
+      }
     }
 
     return $result;
@@ -186,7 +226,7 @@ class Delta_DatabaseSessionHandler extends Delta_Object
 
     if ($this->_connection) {
       $query = 'DELETE FROM delta_sessions '
-            .'WHERE session_id = :session_id';
+        .'WHERE session_id = :session_id';
 
       $pstmt = $this->_connection->createStatement($query);
       $pstmt->bindParam(':session_id', $sessionId);
