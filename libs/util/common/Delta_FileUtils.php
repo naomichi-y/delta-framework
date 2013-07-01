@@ -201,30 +201,27 @@ class Delta_FileUtils
    *     - 第 2 パラメータ: ディレクトリを所有するユーザ名、あるいはユーザ番号。未指定の場合は現在の実行ユーザとなる。
    *     - 第 3 パラメータ: グループ名、あるいはグループ番号。未指定の場合は実行ユーザが所属するグループとなる。
    *   <i>Windows では無視されます。</i>
-   * @param bool $remove 既にディレクトリが存在する場合に内容を削除する場合は TRUE、上書きする場合は FALSE を指定。
+   * @param bool $forceNewCreate 既にディレクトリが存在する場合に内容を削除する場合は TRUE、上書きする場合は FALSE を指定。
    * @return bool ディレクトリの作成が成功した場合に TRUE を返します。
-   * @throws Delta_IOException ディレクトリが既に存在する (かつ、remove が FALSE) の場合に発生。
+   * @throws Delta_IOException ディレクトリが既に存在する (かつ、force が FALSE) の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function createDirectoryRecursive($path, $faculty = 0775, $remove = FALSE)
+  public static function createDirectoryRecursive($path, $faculty = 0775, $forceNewCreate = FALSE)
   {
-    if (is_array($faculty)) {
-      $mode = $faculty[0];
-
-    } else {
-      $mode = $faculty;
-    }
+    $result = FALSE;
 
     if (!self::isAbsolutePath($path)) {
       $path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
     }
 
-    $isDirectory = is_dir($path);
+    // 同名のディレクトリが存在するかチェック
+    $directoryExists = is_dir($path);
 
-    if ($isDirectory) {
-      if ($remove) {
+    if ($directoryExists) {
+      // 同名ディレクトリの内容を全て強制削除
+      if ($forceNewCreate) {
         self::deleteDirectory($path);
-        $isDirectory = FALSE;
+        $directoryExists = FALSE;
 
       } else {
         $message = sprintf('Directory already exists. [%s]', $path);
@@ -232,34 +229,41 @@ class Delta_FileUtils
       }
     }
 
-    if (!$isDirectory) {
+    // 作成対象ディレクトリが存在しない場合
+    if (!$directoryExists) {
+      // 同名のファイルが存在するかチェック
       if (is_file($path)) {
-        $message = sprintf('Exists already same name.', $path);
+        $message = sprintf('File already exists. [%s]', $path);
         throw new Delta_IOException($message);
 
       } else {
-        // umask の影響を受けないよう変更
-        $old = umask(0);
+        // ディレクトリ生成時のパーミッションに umask が効かないよう一時的に無効化
+        $oldUmask = umask(0);
 
-        $result = mkdir($path, $mode, TRUE);
-        $argc = sizeof($faculty);
+        // ディレクトリに付与するパーミッションの取得
+        if (is_array($faculty)) {
+          // @see https://github.com/naomichi-y/delta-framework/issues/49
+          $result = @mkdir($path, $faculty[0], TRUE);
 
-        if ($argc > 1 && $result) {
-          if ($argc == 2) {
-            $result = self::chownRecursive($path, $faculty[1]);
-          } else {
-            $result = self::chownRecursive($path, $faculty[1], $faculty[2]);
+          // 所有者とグループの設定
+          if ($result) {
+            if (sizeof($faculty) == 2) {
+              $result = self::chownRecursive($path, $faculty[1]);
+            } else {
+              $result = self::chownRecursive($path, $faculty[1], $faculty[2]);
+            }
           }
+
+        } else {
+          $result = @mkdir($path, $faculty, TRUE);
         }
 
         // umask を元の値に戻しておく
-        umask($old);
+        umask($oldUmask);
       }
-
-      return $result;
     }
 
-    return FALSE;
+    return $result;
   }
 
   /**
