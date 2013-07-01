@@ -535,7 +535,7 @@ class Delta_HttpResponse extends Delta_Object
     }
 
     if (strcasecmp(substr($uri, 0, 4), 'http') !== 0) {
-      $request = $this->getRequest();
+      $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
       $uri = $request->getScheme() . '://' . $request->getHost() . $uri;
     }
 

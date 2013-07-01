@@ -157,7 +157,11 @@ class Delta_YAMLCache extends Delta_Object
     if ($result) {
       require $cachePath;
 
-      $result = self::$_loadedYAML[$cachePath];
+      if (isset(self::$_loadedYAML[$cachePath])) {
+        $result = self::$_loadedYAML[$cachePath];
+      } else {
+        $result = FALSE;
+      }
     }
 
     return $result;

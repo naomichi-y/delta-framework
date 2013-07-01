@@ -679,7 +679,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
               $buffer .= "\n" . substr($line, $pos);
 
             } else {
-              $buffer .= sprintf("</li>\n</ul>\n<div class=\"text\">%s\n", substr($line, $matches[1][1]));
+              $buffer .= sprintf("</li>\n</ul>\n<p>%s\n", substr($line, $matches[1][1]));
               $inParagraph = TRUE;
               $isList = FALSE;
             }
@@ -687,7 +687,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
 
         } else if (strlen($line)) {
           if (!$inParagraph) {
-            $buffer .= "<div class=\"text\">\n";
+            $buffer .= "<p>\n";
           }
 
           $preStart = FALSE;
@@ -735,13 +735,13 @@ class Delta_DocumentMakeHelper extends Delta_Helper
 
         } else if ($inParagraph) {
           $inParagraph = FALSE;
-          $buffer .= "</div>\n";
+          $buffer .= "</p>\n";
         }
       }
     }
 
     if ($inParagraph) {
-      $buffer .= "</div>\n";
+      $buffer .= "</p>\n";
     } else if ($isList) {
       $buffer .= "</li>\n</ul>\n";
     }

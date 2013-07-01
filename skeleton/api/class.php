@@ -282,7 +282,7 @@
                       <ul class="note">
                         <li>
                           Overrides:
-                          <div class="text"><?php echo $document->linkProperty($property['define'], $name, 'both') ?></div>
+                          <p><?php echo $document->linkProperty($property['define'], $name, 'both') ?></p>
                         </li>
                       </ul>
                     <?php endif ?>

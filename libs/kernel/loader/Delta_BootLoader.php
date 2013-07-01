@@ -6,7 +6,7 @@
  * @link http://delta-framework.org/
  */
 
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 /**
  * require files

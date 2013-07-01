@@ -596,11 +596,11 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 アプリケーションで発生した例外の原因と発生箇所を <a href="../logger/delta___logger.html">Delta_Logger</a> 経由でファイルシステムや標準出力にロギングします。
 本ハンドラを有効にするには、あらかじめ application.yml に次の記述を定義しておく必要があります。
-</div>
-<div class="text">
+</p>
+<p>
 application.yml の設定例:
 <div class="source"><code>exception:
   # 対象とする例外。(Exception 指定時は全ての例外を捕捉)
@@ -612,8 +612,8 @@ application.yml の設定例:
     # ログレベルの指定。(オプション)
     level: &lt;?php echo <a href="../logger/delta___logger.html#constant_LOGGER_MASK_ERROR">Delta_Logger::LOGGER_MASK_ERROR</a> ?&gt;
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 application.yml の設定例:
 <div class="source"><code># ログアペンダの定義。
 logger:
@@ -625,7 +625,7 @@ logger:
       type: date
       datePattern: Y-m
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -633,23 +633,23 @@ logger:
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 exception.delegate
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -689,9 +689,9 @@ exception.delegate
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -706,9 +706,9 @@ exception.delegate
                                               <td>
                                                       <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnConsole">catchOnConsole()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 コンソールアプリケーションで例外がスローされた際に、invoker() メソッドによってコールされます。
-</div>
+</p>
                                                   </td>
                         <td><a href="../exception.delegate/delta___exception_delegate.html">Delta_ExceptionDelegate</a></td>
                       </tr>
@@ -716,9 +716,9 @@ exception.delegate
                                               <td>
                                                       <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnWeb">catchOnWeb()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Web アプリケーションで例外がスローされた際に、invoker() メソッドによってコールされます。
-</div>
+</p>
                                                   </td>
                         <td><a href="../exception.delegate/delta___exception_delegate.html">Delta_ExceptionDelegate</a></td>
                       </tr>
@@ -726,9 +726,9 @@ Web アプリケーションで例外がスローされた際に、invoker() メ
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -736,9 +736,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -746,9 +746,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -756,9 +756,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -766,9 +766,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../exception.delegate/delta___exception_delegate.html#method_invoker">invoker()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 アプリケーションの実行環境 (Web、またはコンソール) に合わせて例外を扱うためのメソッドを起動します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../exception.delegate/delta___exception_delegate.html">Delta_ExceptionDelegate</a></td>
                       </tr>
@@ -788,13 +788,13 @@ Delta_AppPathManager のインスタンスを取得します。
                               Overrides:
                               <div class="text"><a href="../exception.delegate/delta___exception_logging_delegate.html#method_catchOnApplication">Delta_ExceptionLoggingDelegate::catchOnApplication()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnApplication">Delta_ExceptionDelegate::catchOnApplication()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -808,7 +808,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:52 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

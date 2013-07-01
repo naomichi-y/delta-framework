@@ -596,10 +596,10 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 例外が発生した際に、アプリケーションの実行環境に合わせて適切なビューを出力します。
-</div>
-<div class="text">
+</p>
+<p>
 Web 環境で例外が発生した場合:
 <ul>
   <li>
@@ -631,16 +631,16 @@ Web 環境で例外が発生した場合:
     </ul>
   </li>
 </ul>
-</div>
-<div class="text">
+</p>
+<p>
 コンソール環境で例外が発生した場合:
 <ul>
   <li>
     例外のスタックトレースを出力する。これは <a href="../exception.delegate/delta___exception_stack_trace_delegate.html#method_catchOnConsole">Delta_ExceptionStackTraceDelegate::catchOnConsole()</a> と同じ動作となる。
   </li>
 </ul>
-</div>
-<div class="text">
+</p>
+<p>
 application.yml の設定例:
 <div class="source"><code>exception:
   # 対象とする例外 (Exception 指定時は全ての例外を捕捉)
@@ -659,11 +659,11 @@ application.yml の設定例:
       #   - text: &#039;type,message,code&#039; から構成される文字列形式 (デバッグ時は末尾に &#039;,file,line&#039; を追加)
       type: json
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 システムエラーの出力に使用されるテンプレートは {APP_ROOT_DIR}/templates/html/system_error.php にあります。
 尚、フレームワークが提供するヘルパのインスタンスはテンプレートに割り当てられないため、ヘルパメソッドを使用することはできません。
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -671,23 +671,23 @@ application.yml の設定例:
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 exception.delegate
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -727,9 +727,9 @@ exception.delegate
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -758,9 +758,9 @@ exception.delegate
                                               <td>
                                                       <a href="../exception.delegate/delta___exception_stack_trace_delegate.html#method_clearBuffer">clearBuffer()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 バッファに含まれる全てのデータを破棄します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../exception.delegate/delta___exception_stack_trace_delegate.html">Delta_ExceptionStackTraceDelegate</a></td>
                       </tr>
@@ -768,9 +768,9 @@ exception.delegate
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -778,9 +778,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -788,9 +788,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -798,9 +798,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -808,9 +808,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../exception.delegate/delta___exception_delegate.html#method_invoker">invoker()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 アプリケーションの実行環境 (Web、またはコンソール) に合わせて例外を扱うためのメソッドを起動します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../exception.delegate/delta___exception_delegate.html">Delta_ExceptionDelegate</a></td>
                       </tr>
@@ -818,9 +818,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_sendAJAXResponse">sendAJAXResponse()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 AJAX リクエストで発生した例外をクライアントに通知します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../exception.delegate/delta___exception_output_delegate.html">Delta_ExceptionOutputDelegate</a></td>
                       </tr>
@@ -828,9 +828,9 @@ AJAX リクエストで発生した例外をクライアントに通知します
                                               <td>
                                                       <a href="#method_sendWebResponse">sendWebResponse()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Web 環境で発生した例外をクライアントに通知します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../exception.delegate/delta___exception_output_delegate.html">Delta_ExceptionOutputDelegate</a></td>
                       </tr>
@@ -850,13 +850,13 @@ Web 環境で発生した例外をクライアントに通知します。
                               Overrides:
                               <div class="text"><a href="../exception.delegate/delta___exception_stack_trace_delegate.html#method_catchOnApplication">Delta_ExceptionStackTraceDelegate::catchOnApplication()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnApplication">Delta_ExceptionDelegate::catchOnApplication()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -870,13 +870,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               Overrides:
                               <div class="text"><a href="../exception.delegate/delta___exception_stack_trace_delegate.html#method_catchOnConsole">Delta_ExceptionStackTraceDelegate::catchOnConsole()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnConsole">Delta_ExceptionDelegate::catchOnConsole()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -890,13 +890,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               Overrides:
                               <div class="text"><a href="../exception.delegate/delta___exception_stack_trace_delegate.html#method_catchOnWeb">Delta_ExceptionStackTraceDelegate::catchOnWeb()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnWeb">Delta_ExceptionDelegate::catchOnWeb()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -904,9 +904,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                                                                                                     <dt id="method_sendAJAXResponse">sendAJAXResponse()</dt>
                     <dd>
                       <div class="source"><code>protected static void sendAJAXResponse(Delta_HttpResponse $response, Exception $exception, Delta_ParameterHolder $holder)</code></div>
-                                              <div class="text">
+                                              <p>
 AJAX リクエストで発生した例外をクライアントに通知します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -922,34 +922,34 @@ AJAX リクエストで発生した例外をクライアントに通知します
                               <td>$response</td>
                               <td><a href="../http.response/delta___http_response.html">Delta_HttpResponse</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 レスポンスオブジェクト。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$exception</td>
                               <td><a href="http://www.php.net/class.exception.php">Exception</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 例外オブジェクト。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$holder</td>
                               <td><a href="../util/delta___parameter_holder.html">Delta_ParameterHolder</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 パラメータホルダ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -957,9 +957,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_sendWebResponse">sendWebResponse()</dt>
                     <dd>
                       <div class="source"><code>protected static void sendWebResponse(Delta_HttpResponse $response, Exception $exception, Delta_ParameterHolder $holder)</code></div>
-                                              <div class="text">
+                                              <p>
 Web 環境で発生した例外をクライアントに通知します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -975,34 +975,34 @@ Web 環境で発生した例外をクライアントに通知します。
                               <td>$response</td>
                               <td><a href="../http.response/delta___http_response.html">Delta_HttpResponse</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 レスポンスオブジェクト。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$exception</td>
                               <td><a href="http://www.php.net/class.exception.php">Exception</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 例外オブジェクト。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$holder</td>
                               <td><a href="../util/delta___parameter_holder.html">Delta_ParameterHolder</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 パラメータホルダ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1016,7 +1016,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:53 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

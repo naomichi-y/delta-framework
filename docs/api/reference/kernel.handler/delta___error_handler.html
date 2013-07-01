@@ -596,9 +596,9 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 PHP で発生するエラーを <a href="http://www.php.net/class.errorexception.php">ErrorException</a> オブジェクトに変換します。
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -606,23 +606,23 @@ PHP で発生するエラーを <a href="http://www.php.net/class.errorexception
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 kernel.handler
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -662,9 +662,9 @@ kernel.handler
                                               <td>
                                                       <a href="#method_detectFatalError">detectFatalError()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 実行時に発生した致命的なエラーを検知し、エラーが見つかった場合は  メソッドをコールします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.handler/delta___error_handler.html">Delta_ErrorHandler</a></td>
                       </tr>
@@ -672,9 +672,9 @@ kernel.handler
                                               <td>
                                                       <a href="#method_handler">handler()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 アプリケーション内で発生した PHP エラーを <a href="http://www.php.net/class.errorexception.php">ErrorException</a> オブジェクトに変換し、Delta_ExceptionHandler::invoker() に例外を送信します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.handler/delta___error_handler.html">Delta_ErrorHandler</a></td>
                       </tr>
@@ -682,9 +682,9 @@ kernel.handler
                                               <td>
                                                       <a href="#method_invokeFatalError">invokeFatalError()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワーク内部で発生した致命的なエラーを SAPI の出力ハンドラに送信し、プログラムを終了します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.handler/delta___error_handler.html">Delta_ErrorHandler</a></td>
                       </tr>
@@ -698,10 +698,10 @@ kernel.handler
                                                       <dt id="method_detectFatalError">detectFatalError()</dt>
                     <dd>
                       <div class="source"><code>public static void detectFatalError()</code></div>
-                                              <div class="text">
+                                              <p>
 実行時に発生した致命的なエラーを検知し、エラーが見つかった場合は  メソッドをコールします。
-</div>
-<div class="text">
+</p>
+<p>
 致命的なエラーと見なされるエラータイプ:
 </div>
 <ul>
@@ -713,9 +713,9 @@ kernel.handler
 <li>E_COMPILE_WARNING</li>
 </ul>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -723,9 +723,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_handler">handler()</dt>
                     <dd>
                       <div class="source"><code>public static bool handler($type, $message, $file, $line, array $context = array())</code></div>
-                                              <div class="text">
+                                              <p>
 アプリケーション内で発生した PHP エラーを <a href="http://www.php.net/class.errorexception.php">ErrorException</a> オブジェクトに変換し、Delta_ExceptionHandler::invoker() に例外を送信します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -741,61 +741,61 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$type</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 エラータイプ。E_* 定数を指定。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$message</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 出力するエラーメッセージ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$file</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 エラーが発生したファイル。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$line</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 エラーが発生した行数。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$context</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 エラーが発生したスコープ内の全ての変数を格納した配列。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 TRUE を返す。(PHP 内部のエラーハンドラをコールしない)
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -803,10 +803,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_invokeFatalError">invokeFatalError()</dt>
                     <dd>
                       <div class="source"><code>public static void invokeFatalError($type, $message, $file, $line)</code></div>
-                                              <div class="text">
+                                              <p>
 フレームワーク内部で発生した致命的なエラーを SAPI の出力ハンドラに送信し、プログラムを終了します。
 Web から実行した場合は SAPI の送信と同時にエラーメッセージをブラウザに出力し、クライアントへ HTTP ステータス 500 を返します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -822,43 +822,43 @@ Web から実行した場合は SAPI の送信と同時にエラーメッセー�
                               <td>$type</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 エラータイプ。E_* 定数を指定。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$message</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 出力するエラーメッセージ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$file</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 エラーが発生したファイル名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$line</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 エラーが発生した行数。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -872,7 +872,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:53 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:20 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

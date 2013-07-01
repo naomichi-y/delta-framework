@@ -596,13 +596,13 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 データベースの接続情報を管理するマネージャクラスです。
-</div>
-<div class="text">
+</p>
+<p>
 このクラスは &#039;database&#039; コンポーネントとして DI コンテナに登録されているため、<a href="../kernel.container/delta___di_container.html#method_getComponent">Delta_DIContainer::getComponent()</a>、あるいは <a href="../kernel.container/delta___di_controller.html#method_getDatabase">Delta_DIController::getDatabase()</a> からインスタンスを取得することができます。
-</div>
-<div class="text">
+</p>
+<p>
 アプリケーション属性:
 <div class="source"><code># データベース設定
 database:
@@ -627,8 +627,8 @@ database:
       # エラーレポート (固定値)。
       ATTR_ERRMODE: ERRMODE_EXCEPTION
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 データベースコネクションの取得:
 <div class="source"><code>$database = $this-&gt;getDatabase();
 
@@ -643,7 +643,7 @@ $conn-&gt;getCommand()-&gt;getSlaveStatus();
 // 接続先データベースをパラメータで指定
 $conn = $database-&gt;getConnectionWithConfig($dsn, $user, $password);
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -651,23 +651,23 @@ $conn = $database-&gt;getConnectionWithConfig($dsn, $user, $password);
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 database
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -695,9 +695,9 @@ database
                                   <tr>
                     <td class="left"><a href="#constant_DEFAULT_DATASOURCE_ID">DEFAULT_DATASOURCE_ID</a></td>
                     <td class="left">
-                                              <div class="text">
+                                              <p>
 データベース接続に使用するデフォルトの名前空間。
-</div>
+</p>
                                           </td>
                   </tr>
                               </table>
@@ -724,9 +724,9 @@ database
                           <td>
                                                           string                                                      </td>
                           <td>
-                                                          <div class="text">
+                                                          <p>
 コネクションクラス名。
-</div>
+</p>
                                                       </td>
                           <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                         </tr>
@@ -750,9 +750,9 @@ database
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -760,9 +760,9 @@ database
                                               <td>
                                                       <a href="#method_closeAll">closeAll()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_DatabaseManager が管理している全ての接続情報を開放します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -770,9 +770,9 @@ Delta_DatabaseManager が管理している全ての接続情報を開放しま�
                                               <td>
                                                       <a href="#method_connectionSetup">connectionSetup()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データベースドライバ固有の接続処理を行います。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -780,9 +780,9 @@ Delta_DatabaseManager が管理している全ての接続情報を開放しま�
                                               <td>
                                                       <a href="#method_createAdapter">createAdapter()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データベース接続アダプタを作成します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -790,9 +790,9 @@ Delta_DatabaseManager が管理している全ての接続情報を開放しま�
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -800,9 +800,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getConnection">getConnection()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データベース接続オブジェクトを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -810,9 +810,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getConnectionWithConfig">getConnectionWithConfig()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データベース接続オブジェクトを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -820,9 +820,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getConnections">getConnections()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データベースマネージャが管理している全てのコネクションを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -830,9 +830,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getDataSourceInfo">getDataSourceInfo()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 application.yml に定義されたデータベース接続情報を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -840,9 +840,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -850,9 +850,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="#method_getProfiler">getProfiler()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 プロファイラを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -860,9 +860,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -870,9 +870,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -880,9 +880,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="#method_setConnectRetryMaxCount">setConnectRetryMaxCount()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 接続に失敗した場合のリトライ接続回数を設定します。(既定値は 1)
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -890,9 +890,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="#method_setConnectRetryWait">setConnectRetryWait()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 接続に失敗した場合の再接続待機時間を設定します。(既定値は 0,5 秒)
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -900,9 +900,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="#method_setConnectionOptions">setConnectionOptions()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データベースに接続する際のオプションを設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -910,9 +910,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                               <td>
                                                       <a href="#method_setTransactionController">setTransactionController()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 トランザクションコントローラを設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_manager.html">Delta_DatabaseManager</a></td>
                       </tr>
@@ -924,9 +924,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                               <dt id="constant_DEFAULT_DATASOURCE_ID">DEFAULT_DATASOURCE_ID</dt>
                 <dd>
                   <div class="source"><code>DEFAULT_DATASOURCE_ID = &#039;default&#039;</code></div>
-                                      <div class="text">
+                                      <p>
 データベース接続に使用するデフォルトの名前空間。
-</div>
+</p>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
                             </dl>
@@ -936,9 +936,9 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                                                                                             <dt id="property__connectionClassName">$_connectionClassName</dt>
                   <dd>
                     <div class="source"><code>protected string $_connectionClassName = &#039;Delta_DatabaseConnection&#039;</code></div>
-                                          <div class="text">
+                                          <p>
 コネクションクラス名。
-</div>
+</p>
                                                             <p class="right"><a href="#properties">To properties</a></p>
                   </dd>
                                                                                                                                                                     </dl>
@@ -948,14 +948,14 @@ application.yml に定義されたデータベース接続情報を取得しま�
                                                                                         <dt id="method_closeAll">closeAll()</dt>
                     <dd>
                       <div class="source"><code>public void closeAll()</code></div>
-                                              <div class="text">
+                                              <p>
 Delta_DatabaseManager が管理している全ての接続情報を開放します。
 マネージャが有効なコネクションを保持している場合、全てのコネクションは切断される点に注意して下さい。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -963,10 +963,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_connectionSetup">connectionSetup()</dt>
                     <dd>
                       <div class="source"><code>protected void connectionSetup($driverName, $adapter)</code></div>
-                                              <div class="text">
+                                              <p>
 データベースドライバ固有の接続処理を行います。
 このメソッドは、<a href="../database/delta___database_manager.html#method_getConnection">getConnection()</a>、あるいは <a href="../database/delta___database_manager.html#method_getConnectionWithConfig">getConnectionWithConfig()</a> メソッドでコネクションオブジェクトが生成された直後にコールされます。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -982,25 +982,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$driverName</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ドライバ名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$adapter</td>
                               <td><a href="http://www.php.net/class.pdo.php">PDO</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 アダプタオブジェクト。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1008,9 +1008,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_createAdapter">createAdapter()</dt>
                     <dd>
                       <div class="source"><code>protected Delta_DatabaseStatement createAdapter($dsn, $user, $password, array $options)</code></div>
-                                              <div class="text">
+                                              <p>
 データベース接続アダプタを作成します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1026,52 +1026,52 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$dsn</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 データベース名、または DSN。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$user</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 接続ユーザ名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$password</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 接続パスワード。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$options</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 接続オプション。指定可能なオプションは <a href="http://www.php.net/pdo.construct.php">PDO::__construct()</a> メソッドを参照。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td><a href="../database/delta___database_statement.html">Delta_DatabaseStatement</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 Delta_DatabaseStatement のインスタンスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1079,10 +1079,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                           <dt id="method_getConnection">getConnection()</dt>
                     <dd>
                       <div class="source"><code>public Delta_DatabaseStatement getConnection($dataSourceId = self::DEFAULT_DATASOURCE_ID)</code></div>
-                                              <div class="text">
+                                              <p>
 データベース接続オブジェクトを取得します。
 特定の接続環境下でのみ接続オプションを変更したい場合は、<a href="../database/delta___database_manager.html#method_setConnectionOptions">setConnectionOptions()</a> メソッドを利用して下さい。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1098,30 +1098,30 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$dataSourceId</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 データソース ID (application.yml の &#039;database&#039; 属性下で定義した ID)。
   未指定の場合は <a href="../database/delta___database_manager.html#constant_DEFAULT_DATASOURCE_ID">Delta_DatabaseManager::DEFAULT_DATASOURCE_ID</a> の名前空間に指定された接続情報が使用される。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                                                       <tr>
                               <td>{return}</td>
                               <td><a href="../database/delta___database_statement.html">Delta_DatabaseStatement</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 Delta_DatabaseStatement のインスタンスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Throws: <div class="text">
+                                                                                                                                                                                                                                      <li>Throws: <p>
 Delta_ParseException データソースが読み込めない場合に発生。
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1131,9 +1131,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public Delta_DatabaseStatement getConnectionWithConfig($dsn, $user, $password, array $options = array(
       PDO::ATTR_PERSISTENT =&gt; TRUE,
     ))</code></div>
-                                              <div class="text">
+                                              <p>
 データベース接続オブジェクトを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1149,52 +1149,52 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$dsn</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 データソース名、または DSN。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$user</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 接続ユーザ名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$password</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 接続パスワード。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$options</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 接続オプション。指定可能なオプションは <a href="http://www.php.net/pdo.construct.php">PDO::__construct()</a> メソッドを参照。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td><a href="../database/delta___database_statement.html">Delta_DatabaseStatement</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 Delta_DatabaseStatement のインスタンスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1202,9 +1202,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getConnections">getConnections()</dt>
                     <dd>
                       <div class="source"><code>public array getConnections()</code></div>
-                                              <div class="text">
+                                              <p>
 データベースマネージャが管理している全てのコネクションを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1220,20 +1220,20 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 <a href="../database/delta___database_connection.html">コネクション</a> のリストを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                               </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Since: <div class="text">
+                                                                                                                                                                                                                                      <li>Since: <p>
 1.1
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1241,9 +1241,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getDataSourceInfo">getDataSourceInfo()</dt>
                     <dd>
                       <div class="source"><code>public array getDataSourceInfo($dataSourceId = self::DEFAULT_DATASOURCE_ID)</code></div>
-                                              <div class="text">
+                                              <p>
 application.yml に定義されたデータベース接続情報を取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1259,26 +1259,26 @@ application.yml に定義されたデータベース接続情報を取得しま�
                               <td>$dataSourceId</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 参照対象のデータソース ID。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 データベースの接続情報を配列形式で返します。
   指定された名前空間の定義が見つからない場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1286,9 +1286,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                           <dt id="method_getProfiler">getProfiler()</dt>
                     <dd>
                       <div class="source"><code>public Delta_SQLProfiler getProfiler()</code></div>
-                                              <div class="text">
+                                              <p>
 プロファイラを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1304,16 +1304,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td><a href="../database.profiler/delta___sql_profiler.html">Delta_SQLProfiler</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 Delta_SQLProfiler のインスタンスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1321,9 +1321,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             <dt id="method_setConnectRetryMaxCount">setConnectRetryMaxCount()</dt>
                     <dd>
                       <div class="source"><code>public void setConnectRetryMaxCount($connectRetryMaxCount)</code></div>
-                                              <div class="text">
+                                              <p>
 接続に失敗した場合のリトライ接続回数を設定します。(既定値は 1)
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1339,16 +1339,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$connectRetryMaxCount</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 最大リトライ回数。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1356,9 +1356,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setConnectRetryWait">setConnectRetryWait()</dt>
                     <dd>
                       <div class="source"><code>public void setConnectRetryWait($connectRetryWait)</code></div>
-                                              <div class="text">
+                                              <p>
 接続に失敗した場合の再接続待機時間を設定します。(既定値は 0,5 秒)
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1374,16 +1374,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$connectRetryWait</td>
                               <td>float</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 再接続試行時の待ち時間。(1.0 を指定した場合は 1 秒待機)
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1391,18 +1391,18 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setConnectionOptions">setConnectionOptions()</dt>
                     <dd>
                       <div class="source"><code>public void setConnectionOptions($dataSourceId, array $options)</code></div>
-                                              <div class="text">
+                                              <p>
 データベースに接続する際のオプションを設定します。
 このメソッドは <a href="../database/delta___database_manager.html#method_getConnection">getConnection()</a> メソッドを実行する前に呼び出す必要があります。
-</div>
-<div class="text">
+</p>
+<p>
 <div class="source"><code>// 持続接続を無効にする
 $this-&gt;getDatabase()-&gt;setConnectionOptions(&#039;default&#039;, array(PDO::ATTR_PERSISTENT =&gt; TRUE));
 $conn = $this-&gt;getDatabase()-&gt;getConnection();
 </code></div>
 application.yml の &#039;database.{dataSourceId}.options&#039; に同じ属性が定義されてる場合は、オプション値が上書きされます。
 (options に指定していない値は、&#039;database.{dataSourceId}.options&#039; に定義された値が有効となります)
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1418,26 +1418,26 @@ application.yml の &#039;database.{dataSourceId}.options&#039; に同じ属性�
                               <td>$dataSourceId</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 データソース ID。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$options</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 接続オプションのリスト。
   指定可能な値は <a href="http://www.php.net/pdo.construct.php">PDO::__construct()</a> の $driver_options で指定可能な値と同じ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1445,9 +1445,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setTransactionController">setTransactionController()</dt>
                     <dd>
                       <div class="source"><code>public void setTransactionController(Delta_DatabaseTransactionController $transactionController)</code></div>
-                                              <div class="text">
+                                              <p>
 トランザクションコントローラを設定します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1463,20 +1463,20 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$transactionController</td>
                               <td><a href="../database/delta___database_transaction_controller.html">Delta_DatabaseTransactionController</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 トランザクションコントローラ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Since: <div class="text">
+                                                                                                                                                                                                                                      <li>Since: <p>
 1.1
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1490,7 +1490,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:52 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

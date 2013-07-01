@@ -596,7 +596,7 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 PHP コードを実行します。
 <div class="source"><code>$code = &#039;&lt;?php echo $greeting;&#039;;
 $parser = new Delta_PHPStringParser($code, array(&#039;greeting&#039; =&gt; &#039;Hello World!&#039;));
@@ -605,7 +605,7 @@ $parser-&gt;execute();
 // &#039;Hello World!&#039;
 $parser-&gt;output();
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -613,23 +613,23 @@ $parser-&gt;output();
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 util
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -669,9 +669,9 @@ util
                                               <td>
                                                       <a href="#method___construct">__construct()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 コンストラクタ。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util/delta___php_string_parser.html">Delta_PHPStringParser</a></td>
                       </tr>
@@ -679,9 +679,9 @@ util
                                               <td>
                                                       <a href="#method_execute">execute()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ソースコードを実行します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util/delta___php_string_parser.html">Delta_PHPStringParser</a></td>
                       </tr>
@@ -689,9 +689,9 @@ util
                                               <td>
                                                       <a href="#method_fetch">fetch()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ソースコードの実行結果を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util/delta___php_string_parser.html">Delta_PHPStringParser</a></td>
                       </tr>
@@ -699,9 +699,9 @@ util
                                               <td>
                                                       <a href="#method_getCode">getCode()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 パーサに設定されているソースコードを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util/delta___php_string_parser.html">Delta_PHPStringParser</a></td>
                       </tr>
@@ -709,9 +709,9 @@ util
                                               <td>
                                                       <a href="#method_getVariables">getVariables()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 パーサに設定されている変数のリストを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util/delta___php_string_parser.html">Delta_PHPStringParser</a></td>
                       </tr>
@@ -719,9 +719,9 @@ util
                                               <td>
                                                       <a href="#method_output">output()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ソースコードの実行結果を出力します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util/delta___php_string_parser.html">Delta_PHPStringParser</a></td>
                       </tr>
@@ -735,9 +735,9 @@ util
                                                       <dt id="method___construct">__construct()</dt>
                     <dd>
                       <div class="source"><code>public void __construct($code, array $variables = array())</code></div>
-                                              <div class="text">
+                                              <p>
 コンストラクタ。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -753,25 +753,25 @@ util
                               <td>$code</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 実行するソースコード。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$variables</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ソースコードに渡す変数のリスト。array(&#039;{変数名}&#039; =&gt; &#039;{変数値}) の形式で指定。&#039;
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -779,10 +779,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_execute">execute()</dt>
                     <dd>
                       <div class="source"><code>public mixod execute()</code></div>
-                                              <div class="text">
+                                              <p>
 ソースコードを実行します。
 このメソッドはパースエラーが発生した場合に <a href="../kernel.handler/delta___error_handler.html#method_invokeFatalError">Delta_ErrorHandler::invokeFatalError()</a> をコールします。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -798,20 +798,20 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>mixod</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ソースコードが戻り値を持つ場は値を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                               </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Throws: <div class="text">
+                                                                                                                                                                                                                                      <li>Throws: <p>
 Delta_ParseException ソースコード内で何らかの例外が発生した場合に発生。
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -819,10 +819,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_fetch">fetch()</dt>
                     <dd>
                       <div class="source"><code>public string fetch()</code></div>
-                                              <div class="text">
+                                              <p>
 ソースコードの実行結果を取得します。
 このメソッドは <a href="../util/delta___php_string_parser.html#method_execute">execute()</a> の後にコールする必要があります。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -838,16 +838,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ソースコードの実行結果を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -855,9 +855,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getCode">getCode()</dt>
                     <dd>
                       <div class="source"><code>public string getCode()</code></div>
-                                              <div class="text">
+                                              <p>
 パーサに設定されているソースコードを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -873,16 +873,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 パーサに設定されているソースコードを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -890,9 +890,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getVariables">getVariables()</dt>
                     <dd>
                       <div class="source"><code>public array getVariables()</code></div>
-                                              <div class="text">
+                                              <p>
 パーサに設定されている変数のリストを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -908,16 +908,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 パーサに設定されている変数のリストを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -925,14 +925,14 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_output">output()</dt>
                     <dd>
                       <div class="source"><code>public void output()</code></div>
-                                              <div class="text">
+                                              <p>
 ソースコードの実行結果を出力します。
 このメソッドは <a href="../util/delta___php_string_parser.html#method_execute">execute()</a> の後にコールする必要があります。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -946,7 +946,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:53 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:20 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

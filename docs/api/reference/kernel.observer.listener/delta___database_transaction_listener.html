@@ -596,19 +596,19 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 <a href="../database/delta___database_transaction_controller.html">データベーストランザクション</a> を制御するリスナです。
 リスナをアプリケーションに適用することで、アプリケーションロジック側でのコミット制御 (BEGIN、COMMIT、ROLLBACK) が不要となり、プログラムが正常終了する時点で自動コミットが行われるようになります。
 尚、プログラム内で例外やエラーが発生 (またはプログラム内で exit を実行) した場合は、全てのトランザクションがロールバックされます。
-</div>
-<div class="text">
+</p>
+<p>
 application.yml の設定例:
 <div class="source"><code>observer:
   listeners:
     databaseTransactionListener:
       class: Delta_DatabaseTransactionListener
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -616,23 +616,23 @@ application.yml の設定例:
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 kernel.observer.listener
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -672,9 +672,9 @@ kernel.observer.listener
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -682,9 +682,9 @@ kernel.observer.listener
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -706,9 +706,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -716,9 +716,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -726,9 +726,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -750,9 +750,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.observer.listener/delta___application_event_listener.html#method_preShutdown">preShutdown()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 プログラムがシャットダウンする直前 ({@link postProcess() よりも後) に起動します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.observer.listener/delta___application_event_listener.html">Delta_ApplicationEventListener</a></td>
                       </tr>
@@ -772,13 +772,13 @@ Delta_AppPathManager のインスタンスを取得します。
                               Overrides:
                               <div class="text"><a href="../kernel.observer.listener/delta___database_transaction_listener.html#method_getBootMode">Delta_DatabaseTransactionListener::getBootMode()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../kernel.observer.listener/delta___application_event_listener.html#method_getBootMode">Delta_ApplicationEventListener::getBootMode()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -792,13 +792,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               Overrides:
                               <div class="text"><a href="../kernel.observer.listener/delta___database_transaction_listener.html#method_getListenEvents">Delta_DatabaseTransactionListener::getListenEvents()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../kernel.observer.listener/delta___application_event_listener.html#method_getListenEvents">Delta_ApplicationEventListener::getListenEvents()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -812,13 +812,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               Overrides:
                               <div class="text"><a href="../kernel.observer.listener/delta___database_transaction_listener.html#method_postProcess">Delta_DatabaseTransactionListener::postProcess()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../kernel.observer.listener/delta___application_event_listener.html#method_postProcess">Delta_ApplicationEventListener::postProcess()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -832,13 +832,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               Overrides:
                               <div class="text"><a href="../kernel.observer.listener/delta___database_transaction_listener.html#method_preProcess">Delta_DatabaseTransactionListener::preProcess()</a></div>
                             </li>
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="../kernel.observer.listener/delta___application_event_listener.html#method_preProcess">Delta_ApplicationEventListener::preProcess()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -852,7 +852,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:53 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:20 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

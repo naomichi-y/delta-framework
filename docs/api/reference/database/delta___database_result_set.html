@@ -596,12 +596,12 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 データベースから取得したレコードの結果セットを保持します。
 レコードの結果セットは、<a href="../database/delta___database_statement.html#method_executeQuery">Delta_DatabaseStatement::executeQuery()</a> メソッドで取得することができます。
 Delta_DatabaseResultSet は初期状態でカーソルが先頭行に配置されるため、read() 等のメソッドでカーソルを移動できるほか、Iterator インタフェースを実装しているため、foreach() でオブジェクトを取得することもできます。
-</div>
-<div class="text">
+</p>
+<p>
 <div class="source"><code>$conn = $this-&gt;getDatabase()-&gt;getConnection();
 $stmt = $conn-&gt;createStatement(&#039;SELECT * FROM members&#039;);
 $resultSet = $stmt-&gt;executeQuery();
@@ -616,7 +616,7 @@ foreach ($resultSet as $record) {
   // ...
 }
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -624,23 +624,23 @@ foreach ($resultSet as $record) {
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 database
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -685,9 +685,9 @@ database
                                               <td>
                                                       <a href="#method___construct">__construct()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 コンストラクタ。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -695,9 +695,9 @@ database
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -705,9 +705,9 @@ database
                                               <td>
                                                       <a href="#method_bindField">bindField()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フィールドを PHP 変数にバインドします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -715,9 +715,9 @@ database
                                               <td>
                                                       <a href="#method_close">close()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットを閉じます。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -732,9 +732,9 @@ database
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -742,9 +742,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getFieldCount">getFieldCount()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットに含まれるフィールド数を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -752,9 +752,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getNextResultSet">getNextResultSet()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトが複数の結果セットを持つ場合に、次の結果セットに移動します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -762,9 +762,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -772,9 +772,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -782,9 +782,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getRowCount">getRowCount()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットの全レコード数を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -792,9 +792,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -802,9 +802,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_isActive">isActive()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットが有効な状態にあるかどうかチェックします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -826,9 +826,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_read">read()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットから次の行を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -836,9 +836,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_readAll">readAll()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットに残っている全てのレコードを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -846,9 +846,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_readAllByHash">readAllByHash()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットから key と value で構成される連想配列データを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -856,9 +856,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_readAllByIndex">readAllByIndex()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットに含まれる指定フィールドの値を配列形式で取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -866,9 +866,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_readField">readField()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットから次の行の単一フィールドを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -876,9 +876,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_readFirst">readFirst()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 結果セットに含まれる最初のレコードを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database/delta___database_result_set.html">Delta_DatabaseResultSet</a></td>
                       </tr>
@@ -906,9 +906,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                                       <dt id="method___construct">__construct()</dt>
                     <dd>
                       <div class="source"><code>public void __construct(PDOStatement $statement, $fetchType)</code></div>
-                                              <div class="text">
+                                              <p>
 コンストラクタ。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -924,25 +924,25 @@ Delta_AppPathManager のインスタンスを取得します。
                               <td>$statement</td>
                               <td><a href="http://www.php.net/class.pdostatement.php">PDOStatement</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ステートメントオブジェクト。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$fetchType</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 フェッチタイプ。PDO::FETCH_* 定数を指定。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -950,10 +950,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                           <dt id="method_bindField">bindField()</dt>
                     <dd>
                       <div class="source"><code>public bool bindField($field, &amp;$name, $dataType = PDO::PARAM_STR, $length = NULL)</code></div>
-                                              <div class="text">
+                                              <p>
 フィールドを PHP 変数にバインドします。
 このメソッドの実装は、<a href="http://www.php.net/pdostatement.bindcolumn.php">PDOStatement::bindColumn()</a> に依存しています。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -969,52 +969,52 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$field</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 結果セットに含まれる (1 から始まる) フィールドインデックス。またはフィールド名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$name</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 フィールドをバインドする PHP の変数名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$dataType</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 データタイプ。PDO::PARAM_* 定数を指定可能。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$length</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 データ長。領域を事前に確保するためのヒント。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 バインドに成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1022,13 +1022,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_close">close()</dt>
                     <dd>
                       <div class="source"><code>public void close()</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットを閉じます。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1038,13 +1038,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public void current()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="http://www.php.net/iterator.current.php">Iterator::current()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1052,9 +1052,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             <dt id="method_getFieldCount">getFieldCount()</dt>
                     <dd>
                       <div class="source"><code>public int getFieldCount()</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットに含まれるフィールド数を取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1070,16 +1070,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 結果セットに含まれるフィールド数を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1087,9 +1087,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getNextResultSet">getNextResultSet()</dt>
                     <dd>
                       <div class="source"><code>public bool getNextResultSet()</code></div>
-                                              <div class="text">
+                                              <p>
 オブジェクトが複数の結果セットを持つ場合に、次の結果セットに移動します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1105,16 +1105,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 結果セットの移動に成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1122,9 +1122,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             <dt id="method_getRowCount">getRowCount()</dt>
                     <dd>
                       <div class="source"><code>public int getRowCount()</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットの全レコード数を取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1140,16 +1140,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 結果セットの全レコード数を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1157,9 +1157,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                           <dt id="method_isActive">isActive()</dt>
                     <dd>
                       <div class="source"><code>public bool isActive()</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットが有効な状態にあるかどうかチェックします。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1175,16 +1175,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 結果セットが有効であれば TRUE、無効 (カーソルが最終行に達した場合) であれば FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1194,13 +1194,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public void key()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="http://www.php.net/iterator.key.php">Iterator::key()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1210,13 +1210,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public void next()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="http://www.php.net/iterator.next.php">Iterator::next()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1224,9 +1224,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_read">read()</dt>
                     <dd>
                       <div class="source"><code>public mixed read()</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットから次の行を取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1242,18 +1242,18 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 戻り値はフェッチタイプにより異なります。
   詳しくは Delta_DatabaseConnection::setFetchMode() メソッドを参照して下さい。
   データが存在しない場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1261,11 +1261,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_readAll">readAll()</dt>
                     <dd>
                       <div class="source"><code>public array readAll()</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットに残っている全てのレコードを取得します。
 <strong>このメソッドは発行するクエリによって、大量のシステム・ネットワークリソースを消費する恐れがあります。
 <a href="../database/delta___database_result_set.html#method_read">read()</a> メソッドへの置き換えや、SQL の WHERE、LIMIT 句などで結果を制限することを推奨します。</strong>
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1281,19 +1281,19 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 結果セットに含まれる残りのレコードを返します。
   レコードのデータ型はフェッチタイプにより異なります。
   詳しくは Delta_DatabaseConnection::setFetchMode() メソッドを参照して下さい。
   データが存在しない場合は空の配列を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1301,9 +1301,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_readAllByHash">readAllByHash()</dt>
                     <dd>
                       <div class="source"><code>public array readAllByHash($key = NULL, $value = NULL)</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットから key と value で構成される連想配列データを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1319,36 +1319,36 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$key</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 連想配列のキーとするフィールド名。
   未指定の場合は 1 番目のフィールドをキーとして取得。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$value</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 連想配列の値とするフィールド名。
   value が指定されてる場合は同じキー名が値となり、未指定の場合は 2 番目のフィールドを値として取得する。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 key と value で構成される連想配列データを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1356,9 +1356,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_readAllByIndex">readAllByIndex()</dt>
                     <dd>
                       <div class="source"><code>public array readAllByIndex($key = 0)</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットに含まれる指定フィールドの値を配列形式で取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1374,25 +1374,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$key</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 取得対象のフィールドインデックス (0 から開始)、またはフィールド名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 key フィールドに対応する値を配列形式で返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1400,9 +1400,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_readField">readField()</dt>
                     <dd>
                       <div class="source"><code>public string readField($key = 0)</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットから次の行の単一フィールドを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1418,25 +1418,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$key</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 取得対象のフィールドインデックス (0 から開始)、またはフィールド名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 フィールドの値を返します。フィールドが存在しない場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1444,10 +1444,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_readFirst">readFirst()</dt>
                     <dd>
                       <div class="source"><code>public Delta_RecordObject readFirst()</code></div>
-                                              <div class="text">
+                                              <p>
 結果セットに含まれる最初のレコードを取得します。
 このメソッドはカーソルが先頭行にある場合、カーソル位置を次の行に移します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1463,16 +1463,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td><a href="../database/delta___record_object.html">Delta_RecordObject</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 最初のレコードを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1482,13 +1482,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public void rewind()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="http://www.php.net/iterator.rewind.php">Iterator::rewind()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1498,13 +1498,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public void valid()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>See: <div class="text">
+                                                                                                                                                                                <li>See: <p>
 <a href="http://www.php.net/iterator.valid.php">Iterator::valid()</a>
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1518,7 +1518,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:52 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

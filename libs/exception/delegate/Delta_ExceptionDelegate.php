@@ -29,6 +29,10 @@ abstract class Delta_ExceptionDelegate extends Delta_Object
    */
   public static function invoker(Exception $exception, Delta_ParameterHolder $holder = NULL)
   {
+    if ($holder === NULL) {
+      $holder = new Delta_ParameterHolder();
+    }
+
     static::catchOnApplication($exception, $holder);
 
     if (Delta_BootLoader::isBootTypeWeb()) {
