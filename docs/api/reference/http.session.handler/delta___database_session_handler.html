@@ -596,19 +596,19 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 HTTP セッションをデータベースで管理します。
-</div>
-<div class="text">
+</p>
+<p>
 セッションハンドラを有効にするには、あらかじめ &quot;delta install-database-session&quot; コマンドを実行し、データベースにセッションテーブルを作成&gt;しておく必要があります。
-</div>
-<div class="text">
+</p>
+<p>
 <i>このハンドラはセッションデータを読み込む際にデフォルトで排御制御 (セッションデータのロック) が働きます。
 アプリケーションロジックで <a href="../database/delta___database_connection.html#method_beginTransaction">Delta_DatabaseConnection::beginTransaction()</a> をコールした場合は FALSE が返される点に注意して下さい。
 トランザクションは <a href="../http.session.handler/delta___database_session_handler.html#method_close">セッションが書き込まれるタイミング</a> でコミットされます。
 </i>
-</div>
-<div class="text">
+</p>
+<p>
 application.yml の設定例:
 <div class="source"><code>session:
   # セッションハンドラ
@@ -622,7 +622,7 @@ application.yml の設定例:
     # 排他制御を有効とするかどうか
     lock: TRUE
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -630,23 +630,23 @@ application.yml の設定例:
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 http.session.handler
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -686,9 +686,9 @@ http.session.handler
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -696,9 +696,9 @@ http.session.handler
                                               <td>
                                                       <a href="#method_close">close()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 セッションストレージへの接続を閉じます。
-</div>
+</p>
                                                   </td>
                         <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                       </tr>
@@ -706,9 +706,9 @@ http.session.handler
                                               <td>
                                                       <a href="#method_destroy">destroy()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 セッションを破棄します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                       </tr>
@@ -716,9 +716,9 @@ http.session.handler
                                               <td>
                                                       <a href="#method_gc">gc()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ガベージコレクタを起動します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                       </tr>
@@ -726,9 +726,9 @@ http.session.handler
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -736,9 +736,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -746,9 +746,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -756,9 +756,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -766,9 +766,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_handler">handler()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 セッション管理をデータベースにハンドリングします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                       </tr>
@@ -776,9 +776,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_open">open()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 セッションストレージへの接続を行います。
-</div>
+</p>
                                                   </td>
                         <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                       </tr>
@@ -786,9 +786,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_read">read()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 セッションに格納されている値を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                       </tr>
@@ -796,9 +796,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_write">write()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 セッションにデータを書き込みます。
-</div>
+</p>
                                                   </td>
                         <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                       </tr>
@@ -812,10 +812,10 @@ Delta_AppPathManager のインスタンスを取得します。
                                                                                                                           <dt id="method_close">close()</dt>
                     <dd>
                       <div class="source"><code>public bool close()</code></div>
-                                              <div class="text">
+                                              <p>
 セッションストレージへの接続を閉じます。
 このメソッドはセッション操作が終了する際に実行されます。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -831,16 +831,16 @@ Delta_AppPathManager のインスタンスを取得します。
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッションが正常に閉じられた場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -848,9 +848,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_destroy">destroy()</dt>
                     <dd>
                       <div class="source"><code>public bool destroy($sessionId)</code></div>
-                                              <div class="text">
+                                              <p>
 セッションを破棄します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -866,25 +866,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$sessionId</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッション ID。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッションの破棄に成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -892,9 +892,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_gc">gc()</dt>
                     <dd>
                       <div class="source"><code>public bool gc($lifetime)</code></div>
-                                              <div class="text">
+                                              <p>
 ガベージコレクタを起動します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -910,25 +910,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$lifetime</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッションの生存期間。単位は秒。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ガベージコレクタの起動に成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -936,9 +936,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                                 <dt id="method_handler">handler()</dt>
                     <dd>
                       <div class="source"><code>public static Delta_DatabaseSessionHandler handler(Delta_ParameterHolder $config)</code></div>
-                                              <div class="text">
+                                              <p>
 セッション管理をデータベースにハンドリングします。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -954,25 +954,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$config</td>
                               <td><a href="../util/delta___parameter_holder.html">Delta_ParameterHolder</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッションハンドラ属性。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td><a href="../http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 Delta_DatabaseSessionHandler のインスタンスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -980,9 +980,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_open">open()</dt>
                     <dd>
                       <div class="source"><code>public bool open($savePath, $sessionName)</code></div>
-                                              <div class="text">
+                                              <p>
 セッションストレージへの接続を行います。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -998,34 +998,34 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$savePath</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッションの保存パス。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$sessionName</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッション名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッションストレージへの接続に成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1033,9 +1033,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_read">read()</dt>
                     <dd>
                       <div class="source"><code>public string read($sessionId)</code></div>
-                                              <div class="text">
+                                              <p>
 セッションに格納されている値を取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1051,25 +1051,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$sessionId</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッション ID。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッションに格納されている値を返します。値が存在しない場合は空文字を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1077,9 +1077,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_write">write()</dt>
                     <dd>
                       <div class="source"><code>public bool write($sessionId, $sessionData)</code></div>
-                                              <div class="text">
+                                              <p>
 セッションにデータを書き込みます。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1095,34 +1095,34 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$sessionId</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 セッション ID。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$sessionData</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 書き込むデータ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 書き込みが成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1136,7 +1136,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:53 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

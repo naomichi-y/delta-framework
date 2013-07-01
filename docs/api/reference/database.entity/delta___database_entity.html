@@ -596,18 +596,18 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 データベースの 1 レコードを表現するエンティティオブジェクトです。
 プロパティに (データベースの) NULL 値や式 (NOW() 等) を割り当てたい場合、<a href="../database/delta___database_expression.html">Delta_DatabaseExpression</a> クラスを利用して下さい。
-</div>
-<div class="text">
+</p>
+<p>
 <div class="source"><code>$entity = Delta_DAOFactory::create({dao_name})-&gt;createEntity();
 $entity-&gt;greetingId = 1;
 $entity-&gt;message = &#039;Hello World!&#039;;
 $entity-&gt;name = new Delta_DatabaseExpression::null();
 $entity-&gt;registerDate = new Delta_DatabaseExpression(&#039;NOW()&#039;);
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -615,23 +615,23 @@ $entity-&gt;registerDate = new Delta_DatabaseExpression(&#039;NOW()&#039;);
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 database.entity
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -671,9 +671,9 @@ database.entity
                                               <td>
                                                       <a href="../database.entity/delta___entity.html#method___construct">__construct()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 コンストラクタ。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database.entity/delta___entity.html">Delta_Entity</a></td>
                       </tr>
@@ -681,9 +681,9 @@ database.entity
                                               <td>
                                                       <a href="../database.entity/delta___entity.html#method___get">__get()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ゲッターマジックメソッド。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database.entity/delta___entity.html">Delta_Entity</a></td>
                       </tr>
@@ -691,9 +691,9 @@ database.entity
                                               <td>
                                                       <a href="../database.entity/delta___entity.html#method___set">__set()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 セッターマジックメソッド。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database.entity/delta___entity.html">Delta_Entity</a></td>
                       </tr>
@@ -701,9 +701,9 @@ database.entity
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -711,9 +711,9 @@ database.entity
                                               <td>
                                                       <a href="../database.entity/delta___entity.html#method_bindFields">bindFields()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 エンティティのフィールドにデータを割り当てます。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database.entity/delta___entity.html">Delta_Entity</a></td>
                       </tr>
@@ -721,9 +721,9 @@ database.entity
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -731,9 +731,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../database.entity/delta___entity.html#method_getDataFieldNames">getDataFieldNames()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データフィールド名の一覧を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database.entity/delta___entity.html">Delta_Entity</a></td>
                       </tr>
@@ -741,9 +741,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -751,9 +751,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -761,9 +761,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -771,9 +771,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../database.entity/delta___entity.html#method_toArray">toArray()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 エンティティデータを配列に変換します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../database.entity/delta___entity.html">Delta_Entity</a></td>
                       </tr>
@@ -790,7 +790,7 @@ Delta_AppPathManager のインスタンスを取得します。
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:52 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

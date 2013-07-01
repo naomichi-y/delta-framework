@@ -596,17 +596,17 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 <a href="../view/delta___view.html">ビュー</a> を出力するための描画クラスです。
-</div>
-<div class="text">
+</p>
+<p>
 <div class="source"><code>$view = new Delta_View();
 $view-&gt;setAttribtue(&#039;greeting&#039;, &#039;Hello World!&#039;);
 $view-&gt;setTemplatePath($path);
 $renderer = $view-&gt;getRenderer();
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 新しい描画クラスを作成する場合は、Delta_Renderer が提供する抽象メソッドを実装する必要があります。
 <div class="source"><code>// カスタム描画クラスの作成
 class CustomRenderer extends Delta_Renderer
@@ -626,7 +626,7 @@ $view = new Delta_View(new CustomRenderer());
 $view-&gt;setAttribute(&#039;greeting&#039;, &#039;Hello World!&#039;);
 $view-&gt;execute();
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -634,23 +634,23 @@ $view-&gt;execute();
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 view.renderer
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -718,9 +718,9 @@ view.renderer
                                               <td>
                                                       <a href="#method___construct">__construct()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 コンストラクタ。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                       </tr>
@@ -728,9 +728,9 @@ view.renderer
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -738,9 +738,9 @@ view.renderer
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -748,9 +748,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getCacheDirectory">getCacheDirectory()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 キャッシュディレクトリを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                       </tr>
@@ -758,9 +758,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getEngine">getEngine()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 描画エンジンオブジェクトを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                       </tr>
@@ -768,9 +768,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -778,9 +778,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -788,9 +788,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -798,9 +798,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_render">render()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 データを描画します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                       </tr>
@@ -808,9 +808,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_renderFile">renderFile()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ファイルの内容を描画します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                       </tr>
@@ -818,9 +818,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_setCacheDirectory">setCacheDirectory()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 キャッシュディレクトリを設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                       </tr>
@@ -828,9 +828,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_setContext">setContext()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 描画オブジェクトに <a href="../view/delta___view.html">ビュー</a> のコンテキスト情報を設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                       </tr>
@@ -853,13 +853,13 @@ Delta_AppPathManager のインスタンスを取得します。
                                                       <dt id="method___construct">__construct()</dt>
                     <dd>
                       <div class="source"><code>public void __construct()</code></div>
-                                              <div class="text">
+                                              <p>
 コンストラクタ。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -867,10 +867,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             <dt id="method_getCacheDirectory">getCacheDirectory()</dt>
                     <dd>
                       <div class="source"><code>public string getCacheDirectory()</code></div>
-                                              <div class="text">
+                                              <p>
 キャッシュディレクトリを取得します。
 このメソッドはキャッシュディレクトリが存在しない場合にディレクトリの生成を試みます。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -886,16 +886,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 キャッシュディレクトリのパスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -903,9 +903,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getEngine">getEngine()</dt>
                     <dd>
                       <div class="source"><code>abstract public object getEngine()</code></div>
-                                              <div class="text">
+                                              <p>
 描画エンジンオブジェクトを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -921,16 +921,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>object</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 描画エンジンオブジェクトを取得します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -938,9 +938,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                               <dt id="method_render">render()</dt>
                     <dd>
                       <div class="source"><code>abstract public void render($data)</code></div>
-                                              <div class="text">
+                                              <p>
 データを描画します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -956,16 +956,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$data</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 描画対象のデータ。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -973,10 +973,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_renderFile">renderFile()</dt>
                     <dd>
                       <div class="source"><code>abstract public void renderFile($path)</code></div>
-                                              <div class="text">
+                                              <p>
 ファイルの内容を描画します。
 このメソッドは <a href="../view/delta___view.html#method_execute">Delta_View::execute()</a> メソッドからコールされます。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -992,16 +992,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$path</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 描画対象のファイルパス。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1009,10 +1009,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setCacheDirectory">setCacheDirectory()</dt>
                     <dd>
                       <div class="source"><code>public void setCacheDirectory($cacheDirectory)</code></div>
-                                              <div class="text">
+                                              <p>
 キャッシュディレクトリを設定します。
 このメソッドは描画エンジンがキャッシュ機能をサポートしている場合のみ有効です。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1028,17 +1028,17 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$cacheDirectory</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 キャッシュディレクトリパス。
   APP_ROOT_DIR からの相対パス、または絶対パスが指定可能。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1046,9 +1046,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setContext">setContext()</dt>
                     <dd>
                       <div class="source"><code>public void setContext(array &amp;$context)</code></div>
-                                              <div class="text">
+                                              <p>
 描画オブジェクトに <a href="../view/delta___view.html">ビュー</a> のコンテキスト情報を設定します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1064,16 +1064,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>&$context</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 <a href="../view/delta___view.html">ビュー</a> から渡されるコンテキスト情報。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1087,7 +1087,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:54 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:21 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

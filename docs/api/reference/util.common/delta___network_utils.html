@@ -596,9 +596,9 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 ネットワークに関する汎用的なユーティリティメソッドを提供します。
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -606,23 +606,23 @@
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 util.common
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -662,9 +662,9 @@ util.common
                                               <td>
                                                       <a href="#method_convertIPToBinary">convertIPToBinary()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 IP アドレス (IPv4) を 2 進数表記に変換します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util.common/delta___network_utils.html">Delta_NetworkUtils</a></td>
                       </tr>
@@ -672,9 +672,9 @@ IP アドレス (IPv4) を 2 進数表記に変換します。
                                               <td>
                                                       <a href="#method_convertIPToInteger">convertIPToInteger()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 IP アドレス (IPv4) を整数値表記に変換します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util.common/delta___network_utils.html">Delta_NetworkUtils</a></td>
                       </tr>
@@ -682,9 +682,9 @@ IP アドレス (IPv4) を整数値表記に変換します。
                                               <td>
                                                       <a href="#method_convertIntegerToIP">convertIntegerToIP()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 整数値表記の IP アドレスをドット表記の IP アドレス (IPv4) に変換します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util.common/delta___network_utils.html">Delta_NetworkUtils</a></td>
                       </tr>
@@ -692,9 +692,9 @@ IP アドレス (IPv4) を整数値表記に変換します。
                                               <td>
                                                       <a href="#method_hasContainNetwork">hasContainNetwork()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 指定した IP アドレスがネットワークアドレス ranges に含まれているかチェックします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../util.common/delta___network_utils.html">Delta_NetworkUtils</a></td>
                       </tr>
@@ -708,12 +708,12 @@ IP アドレス (IPv4) を整数値表記に変換します。
                                                       <dt id="method_convertIPToBinary">convertIPToBinary()</dt>
                     <dd>
                       <div class="source"><code>public static string convertIPToBinary($ipAddress)</code></div>
-                                              <div class="text">
+                                              <p>
 IP アドレス (IPv4) を 2 進数表記に変換します。
 <div class="source"><code>// 11000000101010000000000000000001
 $binary = Delta_NetworkUtils::convertIPToBinary(&#039;192.168.0.1&#039;);
 </code></div>
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -729,25 +729,25 @@ $binary = Delta_NetworkUtils::convertIPToBinary(&#039;192.168.0.1&#039;);
                               <td>$ipAddress</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変換対象の IP アドレス (ドット表記)。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 2 進数表記に変換された IP アドレスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -755,13 +755,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_convertIPToInteger">convertIPToInteger()</dt>
                     <dd>
                       <div class="source"><code>public static int convertIPToInteger($ipAddress)</code></div>
-                                              <div class="text">
+                                              <p>
 IP アドレス (IPv4) を整数値表記に変換します。
 このメソッドは <a href="http://www.php.net/function.ip2long.php">ip2long()</a> と異なり、必ず符号なし (unsigned) の整数値を返します。
 <div class="source"><code>// 3232235521
 $integer = Delta_NetworkUtils::convertIPToInteger(&#039;192.168.0.1&#039;);
 </code></div>
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -777,25 +777,25 @@ $integer = Delta_NetworkUtils::convertIPToInteger(&#039;192.168.0.1&#039;);
                               <td>$ipAddress</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変換対象の IP アドレス (ドット表記)。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 数値表記 (ネットワークバイトオーダー) に変換された IP アドレスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -803,13 +803,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_convertIntegerToIP">convertIntegerToIP()</dt>
                     <dd>
                       <div class="source"><code>public static string convertIntegerToIP($integer)</code></div>
-                                              <div class="text">
+                                              <p>
 整数値表記の IP アドレスをドット表記の IP アドレス (IPv4) に変換します。
 このメソッドは <a href="http://www.php.net/function.long2ip.php">long2ip()</a> 関数のラッパーです。
 <div class="source"><code>// &#039;192.168.0.1&#039;
 $ip = Delta_NetworkUtils::convertIntegerToIP(3232235521);
 </code></div>
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -825,25 +825,25 @@ $ip = Delta_NetworkUtils::convertIntegerToIP(3232235521);
                               <td>$integer</td>
                               <td>int</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変換対象の IP アドレス (整数表記)。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ドット表記の IP アドレスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -851,9 +851,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_hasContainNetwork">hasContainNetwork()</dt>
                     <dd>
                       <div class="source"><code>public static bool hasContainNetwork($ranges, $ipAddress)</code></div>
-                                              <div class="text">
+                                              <p>
 指定した IP アドレスがネットワークアドレス ranges に含まれているかチェックします。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -869,35 +869,35 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$ranges</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ネットワークアドレスの範囲を文字列または配列で指定。
   CIDR 形式の他、IP アドレスの全体マッチ、範囲マッチ (&#039;192.168.0.1-192.168.1.255&#039;)、部分マッチ (&#039;192.168.&#039;) 形式をサポート。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$ipAddress</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 チェック対象の IP アドレス。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 IP アドレスがネットワークアドレスに含まれる場合は TRUE、含まれない場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -911,7 +911,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:53 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:20 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

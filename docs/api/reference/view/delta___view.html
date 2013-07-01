@@ -596,13 +596,13 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 ビューの出力を制御します。
-</div>
-<div class="text">
+</p>
+<p>
 このクラスは &#039;view&#039; コンポーネントとして DI コンテナに登録されているため、<a href="../kernel.container/delta___di_container.html#method_getComponent">Delta_DIContainer::getComponent()</a>、あるいは <a href="../kernel.container/delta___di_controller.html#method_getView">Delta_DIController::getView()</a> からインスタンスを取得することができます。
-</div>
-<div class="text">
+</p>
+<p>
 base_dicon.yml の設定例:
 <div class="source"><code>componentNames:
   view:
@@ -611,8 +611,8 @@ base_dicon.yml の設定例:
       # <a href="../view/delta___view.html#method_setAutoEscape">setAutoEscape()</a> メソッドをコールする (通常は指定不要)
       autoEscape: TRUE
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 新しいビューのインスタンスを生成し、テンプレートを描画することもできます。
 <div class="source"><code>$view = new Delta_View();
 $view-&gt;setAttribute(&#039;greeting&#039;, &#039;Hello World!&#039;);
@@ -625,11 +625,11 @@ $view-&gt;execute();
 $view-&gt;setSource($source);
 $view-&gt;execute();
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 ビューはアクションの <a href="../controller.action/delta___action.html#method_execute">実行結果</a> にマッピングされます。
-</div>
-<div class="text">
+</p>
+<p>
 アクションクラスにおけるビューのマッピング:
 <div class="source"><code>class GreetingAction extends Delta_Action
 {
@@ -646,8 +646,8 @@ $view-&gt;execute();
   }
 }
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 ビヘイビアの設定例:
 <div class="source"><code>view:
   # modules/{module_name}/templates/greeting.php テンプレートにマッピング
@@ -661,10 +661,10 @@ $view-&gt;execute();
   custom:
     redirect: GreetingResponse
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 アクションの戻り値に <a href="../view/delta___view.html#constant_NONE">Delta_View::NONE</a> が指定された場合、テンプレートとのマッピングは行われません。
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -672,23 +672,23 @@ $view-&gt;execute();
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 view
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -716,41 +716,41 @@ view
                                   <tr>
                     <td class="left"><a href="#constant_ERROR">ERROR</a></td>
                     <td class="left">
-                                              <div class="text">
+                                              <p>
 ビューマッピング定数。(アクションでエラーが発生した)
-</div>
+</p>
                                           </td>
                   </tr>
                                   <tr>
                     <td class="left"><a href="#constant_INPUT">INPUT</a></td>
                     <td class="left">
-                                              <div class="text">
+                                              <p>
 ビューマッピング定数。(入力フォームへの遷移)
-</div>
+</p>
                                           </td>
                   </tr>
                                   <tr>
                     <td class="left"><a href="#constant_NONE">NONE</a></td>
                     <td class="left">
-                                              <div class="text">
+                                              <p>
 ビューマッピング定数。(ビューを必要としない)
-</div>
+</p>
                                           </td>
                   </tr>
                                   <tr>
                     <td class="left"><a href="#constant_SAFETY_ERROR">SAFETY_ERROR</a></td>
                     <td class="left">
-                                              <div class="text">
+                                              <p>
 ビューマッピング定数。(アクションでセキュリティエラーが発生した)
-</div>
+</p>
                                           </td>
                   </tr>
                                   <tr>
                     <td class="left"><a href="#constant_SUCCESS">SUCCESS</a></td>
                     <td class="left">
-                                              <div class="text">
+                                              <p>
 ビューマッピング定数。(アクションが正常に処理された)
-</div>
+</p>
                                           </td>
                   </tr>
                               </table>
@@ -836,9 +836,9 @@ view
                                               <td>
                                                       <a href="#method___construct">__construct()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 コンストラクタ。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -846,9 +846,9 @@ view
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -856,9 +856,9 @@ view
                                               <td>
                                                       <a href="#method_clear">clear()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに設定されている全ての変数を削除します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -866,9 +866,9 @@ view
                                               <td>
                                                       <a href="#method_execute">execute()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに指定したファイルを出力します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -876,9 +876,9 @@ view
                                               <td>
                                                       <a href="#method_fetch">fetch()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューの出力結果を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -886,9 +886,9 @@ view
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -896,9 +896,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getAttribute">getAttribute()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに設定されている変数の値を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -906,9 +906,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getAttributes">getAttributes()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに設定されている全ての変数を取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -916,9 +916,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getHelperManager">getHelperManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ヘルパマネージャのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -926,9 +926,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -936,9 +936,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -946,9 +946,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getRenderer">getRenderer()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 描画オブジェクトを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -956,9 +956,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -966,9 +966,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getSource">getSource()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 出力対象のソースコードを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -976,9 +976,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_getTemplatePath">getTemplatePath()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 出力対象のテンプレートパスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -986,9 +986,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_hasAttribute">hasAttribute()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 変数がビューに設定されているかどうかチェックします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -996,9 +996,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_loadHelpers">loadHelpers()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ヘルパをビューに割り当てます。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -1006,9 +1006,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_removeAttribute">removeAttribute()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに設定されている変数を削除します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -1016,9 +1016,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_setAttribute">setAttribute()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに変数を設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -1026,9 +1026,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_setAttributes">setAttributes()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに複数の変数を設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -1036,9 +1036,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_setAutoEscape">setAutoEscape()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 ビューに設定される変数の HTML エスケープモードを制御します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -1046,9 +1046,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_setSource">setSource()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 出力対象のソースコードを設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -1056,9 +1056,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_setTemplatePath">setTemplatePath()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 出力対象のテンプレートパスを設定します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../view/delta___view.html">Delta_View</a></td>
                       </tr>
@@ -1070,41 +1070,41 @@ Delta_AppPathManager のインスタンスを取得します。
                               <dt id="constant_ERROR">ERROR</dt>
                 <dd>
                   <div class="source"><code>ERROR = &#039;error&#039;</code></div>
-                                      <div class="text">
+                                      <p>
 ビューマッピング定数。(アクションでエラーが発生した)
-</div>
+</p>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
                               <dt id="constant_INPUT">INPUT</dt>
                 <dd>
                   <div class="source"><code>INPUT = &#039;input&#039;</code></div>
-                                      <div class="text">
+                                      <p>
 ビューマッピング定数。(入力フォームへの遷移)
-</div>
+</p>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
                               <dt id="constant_NONE">NONE</dt>
                 <dd>
                   <div class="source"><code>NONE = &#039;none&#039;</code></div>
-                                      <div class="text">
+                                      <p>
 ビューマッピング定数。(ビューを必要としない)
-</div>
+</p>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
                               <dt id="constant_SAFETY_ERROR">SAFETY_ERROR</dt>
                 <dd>
                   <div class="source"><code>SAFETY_ERROR = &#039;safety_error&#039;</code></div>
-                                      <div class="text">
+                                      <p>
 ビューマッピング定数。(アクションでセキュリティエラーが発生した)
-</div>
+</p>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
                               <dt id="constant_SUCCESS">SUCCESS</dt>
                 <dd>
                   <div class="source"><code>SUCCESS = &#039;success&#039;</code></div>
-                                      <div class="text">
+                                      <p>
 ビューマッピング定数。(アクションが正常に処理された)
-</div>
+</p>
                                     <p class="right"><a href="#constants">To constants</a></p>
                 </dd>
                             </dl>
@@ -1148,9 +1148,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                                       <dt id="method___construct">__construct()</dt>
                     <dd>
                       <div class="source"><code>public void __construct($renderer = NULL)</code></div>
-                                              <div class="text">
+                                              <p>
 コンストラクタ。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1166,7 +1166,7 @@ Delta_AppPathManager のインスタンスを取得します。
                               <td>$renderer</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 指定した描画エンジンでビューを出力することができる。指定可能な形式は次の通り。
 </div>
 <ul>
@@ -1178,13 +1178,13 @@ Delta_AppPathManager のインスタンスを取得します。
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Throws: <div class="text">
+                                                                                                                                                                                                                                      <li>Throws: <p>
 InvalidArgumentException renderer に指定されたオブジェクトが <a href="../view.renderer/delta___renderer.html">Delta_Renderer</a> を実装していない場合に発生。
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1192,13 +1192,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                           <dt id="method_clear">clear()</dt>
                     <dd>
                       <div class="source"><code>public void clear()</code></div>
-                                              <div class="text">
+                                              <p>
 ビューに設定されている全ての変数を削除します。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1206,18 +1206,18 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_execute">execute()</dt>
                     <dd>
                       <div class="source"><code>public void execute()</code></div>
-                                              <div class="text">
+                                              <p>
 ビューに指定したファイルを出力します。
 出力結果を文字列として取得したい場合は <a href="../view/delta___view.html#method_fetch">fetch()</a> メソッドを使用して下さい。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Throws: <div class="text">
+                                                                                                                                                                                <li>Throws: <p>
 Delta_ParseException <a href="../view/delta___view.html#method_setTemplatePath">setTemplatePath()</a> で指定されたファイルが見つからない場合に発生。
-</div>
+</p>
 </li>
-                                                                                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1225,13 +1225,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_fetch">fetch()</dt>
                     <dd>
                       <div class="source"><code>public void fetch()</code></div>
-                                              <div class="text">
+                                              <p>
 ビューの出力結果を取得します。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1239,9 +1239,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                           <dt id="method_getAttribute">getAttribute()</dt>
                     <dd>
                       <div class="source"><code></code></div>
-                                              <div class="text">
+                                              <p>
 ビューに設定されている変数の値を取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1257,9 +1257,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$name</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 取得対象の変数名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
@@ -1270,9 +1270,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1280,9 +1280,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getAttributes">getAttributes()</dt>
                     <dd>
                       <div class="source"><code>public array getAttributes()</code></div>
-                                              <div class="text">
+                                              <p>
 ビューに設定されている全ての変数を取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1298,16 +1298,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変数名と変数値から構成される連想配列を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1315,9 +1315,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getHelperManager">getHelperManager()</dt>
                     <dd>
                       <div class="source"><code>public Delta_HelperManager getHelperManager()</code></div>
-                                              <div class="text">
+                                              <p>
 ヘルパマネージャのインスタンスを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1333,16 +1333,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td><a href="../view.helper/delta___helper_manager.html">Delta_HelperManager</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ヘルパマネージャのインスタンスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1350,9 +1350,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             <dt id="method_getRenderer">getRenderer()</dt>
                     <dd>
                       <div class="source"><code>public Delta_Renderer getRenderer()</code></div>
-                                              <div class="text">
+                                              <p>
 描画オブジェクトを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1368,16 +1368,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td><a href="../view.renderer/delta___renderer.html">Delta_Renderer</a></td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 描画オブジェクトのインスタンスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1385,9 +1385,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                           <dt id="method_getSource">getSource()</dt>
                     <dd>
                       <div class="source"><code>public string getSource()</code></div>
-                                              <div class="text">
+                                              <p>
 出力対象のソースコードを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1403,16 +1403,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 出力対象のソースコードを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1420,9 +1420,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_getTemplatePath">getTemplatePath()</dt>
                     <dd>
                       <div class="source"><code>public string getTemplatePath()</code></div>
-                                              <div class="text">
+                                              <p>
 出力対象のテンプレートパスを取得します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1438,20 +1438,20 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>{return}</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 出力対象のテンプレートパスを返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
-                                                                  <li>Author: <div class="text">
+                                                                  <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1459,9 +1459,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_hasAttribute">hasAttribute()</dt>
                     <dd>
                       <div class="source"><code>public bool hasAttribute($name)</code></div>
-                                              <div class="text">
+                                              <p>
 変数がビューに設定されているかどうかチェックします。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1477,25 +1477,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$name</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 チェック対象の変数名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変数がビューに設定されている場合は TRUE、設定されていない場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1503,14 +1503,14 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_loadHelpers">loadHelpers()</dt>
                     <dd>
                       <div class="source"><code>protected void loadHelpers()</code></div>
-                                              <div class="text">
+                                              <p>
 ヘルパをビューに割り当てます。
 このメソッドは <a href="../view/delta___view.html#method_execute">execute()</a> メソッドにより、ビューが出力される直前にコールされます。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1518,9 +1518,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_removeAttribute">removeAttribute()</dt>
                     <dd>
                       <div class="source"><code>public bool removeAttribute($name)</code></div>
-                                              <div class="text">
+                                              <p>
 ビューに設定されている変数を削除します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1536,25 +1536,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$name</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 削除対象の変数名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変数の削除に成功した場合は TRUE、失敗した場合は FALSE を返します。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <div class="text">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1562,9 +1562,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setAttribute">setAttribute()</dt>
                     <dd>
                       <div class="source"><code>public void setAttribute($name, $value, $escape = TRUE)</code></div>
-                                              <div class="text">
+                                              <p>
 ビューに変数を設定します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1580,25 +1580,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$name</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ビューに割り当てる変数名。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$value</td>
                               <td>mixed</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変数が持つ値。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$escape</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 ビューに割り当てる変数を HTML エスケープする場合に TRUE を指定。
   エスケープ対象となる型はスカラー型、配列型、オブジェクト型。
 </div>
@@ -1611,9 +1611,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1621,9 +1621,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setAttributes">setAttributes()</dt>
                     <dd>
                       <div class="source"><code>public void setAttributes(array $attributes = array(), $escape = TRUE)</code></div>
-                                              <div class="text">
+                                              <p>
 ビューに複数の変数を設定します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1639,25 +1639,25 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$attributes</td>
                               <td>array</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 変数名と変数値から構成される連想配列。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                         <tr>
                               <td>$escape</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 <a href="../view/delta___view.html#method_setAttribute">setAttribute()</a> メソッドを参照。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1665,9 +1665,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setAutoEscape">setAutoEscape()</dt>
                     <dd>
                       <div class="source"><code>public void setAutoEscape($autoEscape)</code></div>
-                                              <div class="text">
+                                              <p>
 ビューに設定される変数の HTML エスケープモードを制御します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1683,16 +1683,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$autoEscape</td>
                               <td>bool</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 FALSE を指定した場合、setAttribtue()、<a href="../view/delta___view.html#method_setAttributes">setAttributes()</a> メソッドにおけるエスケープ制御を全て無効にする。(ただし既にビューに登録されている変数については無効)
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1700,9 +1700,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setSource">setSource()</dt>
                     <dd>
                       <div class="source"><code>public void setSource($source)</code></div>
-                                              <div class="text">
+                                              <p>
 出力対象のソースコードを設定します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1718,16 +1718,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$source</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 出力対象のソースコード。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1735,9 +1735,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                         <dt id="method_setTemplatePath">setTemplatePath()</dt>
                     <dd>
                       <div class="source"><code>public void setTemplatePath($templatePath)</code></div>
-                                              <div class="text">
+                                              <p>
 出力対象のテンプレートパスを設定します。
-</div>
+</p>
                                                                     <table summary="Method detail">
                         <colgroup>
                           <col width="15%" />
@@ -1753,19 +1753,19 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>$templatePath</td>
                               <td>string</td>
                               <td>
-                                                                  <div class="text">
+                                                                  <p>
 出力対象のファイルパス。
   <a href="../kernel.path/delta___app_path_manager.html#method_getModuleTemplatesPath">現在有効なテンプレートディレクトリ</a> から相対パスでファイルを指定。
   例えば admin モジュールで path に &#039;greeting&#039; を指定した場合、出力対象のファイルパスは {APP_ROOT_DIR}/modules/admin/templates/greeting.php&#039; となる。(コンソール環境から実行した場合は APP_ROOT_DIR からの相対パスとなる)
   指定可能なパス形式については <a href="../kernel.path/delta___app_path_manager.html#method_buildAbsolutePath">Delta_AppPathManager::buildAbsolutePath()</a> を参照。
-</div>
+</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <div class="text">
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -1779,7 +1779,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:54 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:21 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

@@ -128,42 +128,40 @@ class Delta_ErrorHandler
         header('HTTP/1.0 500 Internal Server Error');
       }
 
-      if (ini_get('display_errors')) {
-        $path = APP_ROOT_DIR . '/templates/html/fatal_error.php';
+      $path = APP_ROOT_DIR . '/templates/html/fatal_error.php';
 
-        if (!is_file($path)) {
-          $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
-        }
-
-        $options = array('format' => array('target' => $line));
-        $variables = array(
-          'title' => htmlentities($title),
-          'type' => $errorTypes[$type],
-          'message' => htmlentities($message),
-          'file' => $file,
-          'line' => $line,
-        );
-
-        // eval() でエラーが起きた場合、$file には ': eval()'d code' という文字列が含まれる
-        if (is_file($file)) {
-          $variables['code'] = Delta_DebugUtils::syntaxHighlight(Delta_FileUtils::readFile($file), $options);
-
-        // Delta_PHPStringParser::parse() で Fatal エラーが発生 (eval() エラー)
-        } else {
-          $registry = Delta_Object::getRegistry();
-
-          if ($registry->hasName('parseCode')) {
-            $variables['code'] = Delta_DebugUtils::syntaxHighlight($registry->get('parseCode')->getCode(), $options);
-          }
-        }
-
-        $require = function($variables, $path) {
-          extract($variables);
-          require $path;
-        };
-
-        $require($variables, $path);
+      if (!is_file($path)) {
+        $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
       }
+
+      $options = array('format' => array('target' => $line));
+      $variables = array(
+        'title' => htmlentities($title),
+        'type' => $errorTypes[$type],
+        'message' => htmlentities($message),
+        'file' => $file,
+        'line' => $line,
+      );
+
+      // eval() でエラーが起きた場合、$file には ': eval()'d code' という文字列が含まれる
+      if (is_file($file)) {
+        $variables['code'] = Delta_DebugUtils::syntaxHighlight(Delta_FileUtils::readFile($file), $options);
+
+      // Delta_PHPStringParser::parse() で Fatal エラーが発生 (eval() エラー)
+      } else {
+        $registry = Delta_Object::getRegistry();
+
+        if ($registry->hasName('parseCode')) {
+          $variables['code'] = Delta_DebugUtils::syntaxHighlight($registry->get('parseCode')->getCode(), $options);
+        }
+      }
+
+      $require = function($variables, $path) {
+        extract($variables);
+        require $path;
+      };
+
+      $require($variables, $path);
 
       // SAPI のログ出力ハンドラにメッセージを送信
       $message = sprintf('%s: %s [%s#Line: %s]', $title, $message, $file, $line);

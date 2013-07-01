@@ -596,17 +596,17 @@
             </p>
 
             <h3 id="description">Description</h3>
-                          <div class="text">
+                          <p>
 サービスの抽象クラスです。
 全てのビジネスロジックは Delta_Service を継承したサービスクラス内で実装します。
 <strong>サービスはシステムのユースケース単位で作成することを推奨します。</strong>
-</div>
-<div class="text">
+</p>
+<p>
 開発者が作成するのサービスは、クラス名のサフィックスとして &#039;Service&#039; を付ける必要があります。
 例えば Greeting サービスであれば、クラス名は GreetingService となります。
 作成したサービスクラスは {APP_ROOT_DIR}/libs/service 下に配置して下さい。
-</div>
-<div class="text">
+</p>
+<p>
 <div class="source"><code>class GreetingService extends Delta_Service
 {
   public function echo()
@@ -615,18 +615,18 @@
   }
 }
 </code></div>
-</div>
-<div class="text">
+</p>
+<p>
 サービスのインスタンスは <a href="../domain.service/delta___service_factory.html">Delta_ServiceFactory</a> から取得することができます。
-</div>
-<div class="text">
+</p>
+<p>
 <div class="source"><code>$greeting = Delta_ServiceFactory::get(&#039;Greeting&#039;);
 
 // <a href="../kernel.container/delta___object.html#method_getService">Delta_Object::getService()</a> を使った参照
 $greeting = $this-&gt;getService(&#039;Greeting&#039;);
 $greeting-&gt;echo();
 </code></div>
-</div>
+</p>
                         <table summary="Description">
               <colgroup>
                 <col width="20%" />
@@ -634,23 +634,23 @@ $greeting-&gt;echo();
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
-                      <td><div class="text">
+                      <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </td>
                     </tr>
                                                                                                                 <tr>
                       <th class="left">Category</th>
-                      <td><div class="text">
+                      <td><p>
 delta
-</div>
+</p>
 </td>
                     </tr>
                                                                                             <tr>
                       <th class="left">Package</th>
-                      <td><div class="text">
+                      <td><p>
 domain.service
-</div>
+</p>
 </td>
                     </tr>
                                                               <tr>
@@ -690,9 +690,9 @@ domain.service
                                               <td>
                                                       <a href="#method___construct">__construct()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 コンストラクタ。
-</div>
+</p>
                                                   </td>
                         <td><a href="../domain.service/delta___service.html">Delta_Service</a></td>
                       </tr>
@@ -700,9 +700,9 @@ domain.service
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 オブジェクトを文字列として取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -710,9 +710,9 @@ domain.service
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getAppPathManager">getAppPathManager()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 Delta_AppPathManager のインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -720,9 +720,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 カーネルオブザーバーのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -730,9 +730,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 フレームワークのレジストリにアクセスします。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -740,9 +740,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスのインスタンスを取得します。
-</div>
+</p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
@@ -750,9 +750,9 @@ Delta_AppPathManager のインスタンスを取得します。
                                               <td>
                                                       <a href="#method_initialize">initialize()</a>                                                  </td>
                         <td>
-                                                      <div class="text">
+                                                      <p>
 サービスの初期化を行うメソッドです。
-</div>
+</p>
                                                   </td>
                         <td><a href="../domain.service/delta___service.html">Delta_Service</a></td>
                       </tr>
@@ -766,14 +766,14 @@ Delta_AppPathManager のインスタンスを取得します。
                                                       <dt id="method___construct">__construct()</dt>
                     <dd>
                       <div class="source"><code>public void __construct()</code></div>
-                                              <div class="text">
+                                              <p>
 コンストラクタ。
 このメソッドは処理の最後に <a href="../domain.service/delta___service.html#method_initialize">initialize()</a> をコールします。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -781,14 +781,14 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                                                                   <dt id="method_initialize">initialize()</dt>
                     <dd>
                       <div class="source"><code>public void initialize()</code></div>
-                                              <div class="text">
+                                              <p>
 サービスの初期化を行うメソッドです。
 Delta_ServiceFactory::load() メソッドでクラスをロードした場合、このメソッドは実行されない点に注意して下さい。
-</div>
+</p>
                                                                                           <ul class="note">
-                                                                                                                                                                                <li>Author: <div class="text">
+                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</div>
+</p>
 </li>
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
@@ -802,7 +802,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:07:52 +0900<br />
+  <p>This document was generated on Sun, 30 Jun 2013 02:52:19 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
