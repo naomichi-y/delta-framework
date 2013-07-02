@@ -1813,8 +1813,10 @@ $html-&gt;includeTemplate(&#039;@templates/html/global_footer&#039;);
                               <td>string</td>
                               <td>
                                                                   <p>
-現在有効なテンプレートディレクトリからの相対パスで読み込むファイル名を指定。
+読み込み元ディレクトリからの相対パスでファイルを指定。
   指定可能なパス形式については <a href="../kernel.path/delta___app_path_manager.html#method_buildAbsolutePath">Delta_AppPathManager::buildAbsolutePath()</a> を参照。
+  ただし、&#039;/&#039; から始まるパスは modules/{module_name}/templates (テーマ使用時は theme/{theme_name}/modules/{module_name}/templates) から始まる相対パスと見なされる。
+  またパスに拡張子を付けない場合は、application.yml に定義された &#039;view.extension&#039; を付加したファイルを参照する。
 </p>
                                                               </td>
                             </tr>
@@ -2157,7 +2159,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:52:21 +0900<br />
+  <p>This document was generated on Tue, 02 Jul 2013 15:55:54 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

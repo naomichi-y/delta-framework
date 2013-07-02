@@ -471,8 +471,10 @@ class Delta_HTMLHelper extends Delta_Helper
    * $html->includeTemplate('@templates/html/global_footer');
    * </code>
    *
-   * @param string $path 現在有効なテンプレートディレクトリからの相対パスで読み込むファイル名を指定。
+   * @param string $path 読み込み元ディレクトリからの相対パスでファイルを指定。
    *   指定可能なパス形式については {@link Delta_AppPathManager::buildAbsolutePath()} を参照。
+   *   ただし、'/' から始まるパスは modules/{module_name}/templates (テーマ使用時は theme/{theme_name}/modules/{module_name}/templates) から始まる相対パスと見なされる。
+   *   またパスに拡張子を付けない場合は、application.yml に定義された 'view.extension' を付加したファイルを参照する。
    * @param mixed $attributes テンプレートに渡す変数のリスト。変数の値は自動的に HTML エスケープされる。
    *   array('{variable_name}' => '{variable_value}') の形式で構成する。
    * @param mixed $unescapeAttributes HTML エスケープを必要としない変数のリスト。
@@ -481,9 +483,18 @@ class Delta_HTMLHelper extends Delta_Helper
   public function includeTemplate($path, array $attributes = array(), array $unescapeAttributes = array())
   {
     $size = sizeof($this->_pathMapping);
+    $isAbsolutePath = FALSE;
 
-    if ($size == 0) {
+    if (substr($path, 0, 1) === '/') {
+      $isAbsolutePath = TRUE;
+    }
+
+    if ($size == 0 || $isAbsolutePath) {
       $templatesDirectory = dirname($this->_currentView->getTemplatePath());
+
+      if ($isAbsolutePath) {
+        $path = substr($path, 1);
+      }
 
     } else {
       $templatesDirectory = $this->_pathMapping[$size - 1];

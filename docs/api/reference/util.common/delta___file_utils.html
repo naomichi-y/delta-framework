@@ -1175,7 +1175,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                                                           <dt id="method_createDirectoryRecursive">createDirectoryRecursive()</dt>
                     <dd>
-                      <div class="source"><code>public static bool createDirectoryRecursive($path, $faculty = 0775, $remove = FALSE)</code></div>
+                      <div class="source"><code>public static bool createDirectoryRecursive($path, $faculty = 0775, $forceNewCreate = FALSE)</code></div>
                                               <p>
 ディレクトリを再帰的に作成します。
 </p>
@@ -1216,7 +1216,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                               </td>
                             </tr>
                                                         <tr>
-                              <td>$remove</td>
+                              <td>$forceNewCreate</td>
                               <td>bool</td>
                               <td>
                                                                   <p>
@@ -1236,7 +1236,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                               </table>
                                                                     <ul class="note">
                                                                                                                                                                                                                                                                                             <li>Throws: <p>
-Delta_IOException ディレクトリが既に存在する (かつ、remove が FALSE) の場合に発生。
+Delta_IOException ディレクトリが既に存在する (かつ、force が FALSE) の場合に発生。
 </p>
 </li>
                                                                                                                                                                                                                                                 <li>Author: <p>
@@ -1932,7 +1932,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 30 Jun 2013 02:52:20 +0900<br />
+  <p>This document was generated on Tue, 02 Jul 2013 15:55:54 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
