@@ -8,8 +8,8 @@ For more information, see the official site.
 
  * http://delta-framework.org/
 
-Screnshot:
-----------
+Screenshot:
+-----------
 
 Start web application:
 
