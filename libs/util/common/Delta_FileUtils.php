@@ -245,8 +245,8 @@ class Delta_FileUtils
           // @see https://github.com/naomichi-y/delta-framework/issues/49
           $result = @mkdir($path, $faculty[0], TRUE);
 
-          // 所有者とグループの設定
           if ($result) {
+            // 所有者とグループの設定
             if (sizeof($faculty) == 2) {
               $result = self::chownRecursive($path, $faculty[1]);
             } else {
