@@ -478,7 +478,12 @@ class Delta_MailParser extends Delta_Object
 
   public function parseContentType(Delta_MailPart $parentPart)
   {
-    $contentType = Delta_ArrayUtils::lastKeyValue($parentPart->getHeaders(), 'content-type');
+    $headers = $this->getHeaders();
+    $contentType = NULL;
+
+    if (isset($headers['content-type'])) {
+      $contentType = Delta_ArrayUtils::lastValue($headers['content-type']);
+    }
 
     if (strlen($contentType)) {
       preg_match_all('/([^;=\s]+)(?:="?([^";]*)"?)?/', $contentType, $matches);

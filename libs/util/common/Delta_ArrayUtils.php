@@ -430,6 +430,12 @@ class Delta_ArrayUtils
    *
    * // 100
    * $value = Delta_ArrayUtils::firstValue($array);
+   *
+   * // 連想配列の場合は最初に登録されているキーと値のセットを返す
+   * $array = array('foo' => array('bar' => 'baz'));
+   *
+   * // array('bar' => 'baz')
+   * $value = Delta_ArrayUtils::firstValue($array);
    * </code>
    *
    * @param array $array 検索対象の配列。
@@ -438,29 +444,12 @@ class Delta_ArrayUtils
    */
   public static function firstValue(array $array)
   {
-    return $array[0];
-  }
-
-  /**
-   * 配列 array に key 名で追加された最初の値を取得します。
-   * <code>
-   * $array = array('foo' => array(100, 200));
-   *
-   * // 100
-   * $value = Delta_ArrayUtils::firstKeyValue($array, 'foo');
-   * </code>
-   *
-   * @param array $array 検索対象の配列。
-   * @param string $key 検索するキー名。
-   * @return mixed key 名で最初に追加された値を返します。キーが見つからない場合は NULL を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function firstKeyValue(array $array, $key)
-  {
     $result = NULL;
 
-    if (isset($array[$key])) {
-      $result = $array[$key][0];
+    if (self::isAssoc($array)) {
+      $result = current($array);
+    } else {
+      $result = $array[0];
     }
 
     return $result;
@@ -473,6 +462,12 @@ class Delta_ArrayUtils
    *
    * // 300
    * $value = Delta_ArrayUtils::lastValue($array);
+   *
+   * // 連想配列の場合は最後に登録されているキーと値のセットを返す
+   * $array = array('foo' => array(100), 'bar' => array(200, 300));
+   *
+   * // array('bar' => array(200, 300)
+   * $value = Delta_ArrayUtils::lastValue($array);
    * </code>
    *
    * @param array $array 検索対象の配列。
@@ -481,30 +476,20 @@ class Delta_ArrayUtils
    */
   public static function lastValue(array $array)
   {
-    return $array[sizeof($array) - 1];
-  }
-
-  /**
-   * 配列 array において key 名で最後に追加された値を取得します。
-   * <code>
-   * $array = array('foo' => array(100, 200));
-   *
-   * // 200
-   * $value = Delta_ArrayUtils::lastKeyValue($array, 'bar');
-   * </code>
-   *
-   * @param array $array 検索対象の配列。
-   * @param string $key 検索するキー名。
-   * @return mixed key 名で最後に追加された値を返します。キーが見つからない場合は NULL を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function lastKeyValue(array $array, $key)
-  {
     $result = NULL;
 
-    if (isset($array[$key])) {
-      $index = sizeof($array[$key]) - 1;
-      $result = $array[$key][$index];
+    if (self::isAssoc($array)) {
+      $keys = array_keys($array);
+      $index = sizeof($keys) - 1;
+
+      $result = array($keys[$index] => $array[$keys[$index]]);
+
+    } else {
+      $index = sizeof($array) - 1;
+
+      if ($index >= 0) {
+        $result = $array[$index];
+      }
     }
 
     return $result;

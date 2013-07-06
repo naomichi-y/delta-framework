@@ -780,16 +780,6 @@ util.common
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_firstKeyValue">firstKeyValue()</a>                                                  </td>
-                        <td>
-                                                      <p>
-配列 array に key 名で追加された最初の値を取得します。
-</p>
-                                                  </td>
-                        <td><a href="../util.common/delta___array_utils.html">Delta_ArrayUtils</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
                                                       <a href="#method_firstValue">firstValue()</a>                                                  </td>
                         <td>
                                                       <p>
@@ -814,16 +804,6 @@ util.common
                         <td>
                                                       <p>
 配列 array が連想配列形式かチェックします。
-</p>
-                                                  </td>
-                        <td><a href="../util.common/delta___array_utils.html">Delta_ArrayUtils</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_lastKeyValue">lastKeyValue()</a>                                                  </td>
-                        <td>
-                                                      <p>
-配列 array において key 名で最後に追加された値を取得します。
 </p>
                                                   </td>
                         <td><a href="../util.common/delta___array_utils.html">Delta_ArrayUtils</a></td>
@@ -1403,64 +1383,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_firstKeyValue">firstKeyValue()</dt>
-                    <dd>
-                      <div class="source"><code>public static mixed firstKeyValue(array $array, $key)</code></div>
-                                              <p>
-配列 array に key 名で追加された最初の値を取得します。
-<div class="source"><code>$array = array(&#039;foo&#039; =&gt; array(100, 200));
-
-// 100
-$value = Delta_ArrayUtils::firstKeyValue($array, &#039;foo&#039;);
-</code></div>
-</p>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$array</td>
-                              <td>array</td>
-                              <td>
-                                                                  <p>
-検索対象の配列。
-</p>
-                                                              </td>
-                            </tr>
-                                                        <tr>
-                              <td>$key</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-検索するキー名。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>mixed</td>
-                              <td>
-                                                                  <p>
-key 名で最初に追加された値を返します。キーが見つからない場合は NULL を返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                         <dt id="method_firstValue">firstValue()</dt>
                     <dd>
                       <div class="source"><code>public static mixed firstValue(array $array)</code></div>
@@ -1469,6 +1391,12 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 <div class="source"><code>$array = array(100, 200, 300);
 
 // 100
+$value = Delta_ArrayUtils::firstValue($array);
+
+// 連想配列の場合は最初に登録されているキーと値のセットを返す
+$array = array(&#039;foo&#039; =&gt; array(&#039;bar&#039; =&gt; &#039;baz&#039;));
+
+// array(&#039;bar&#039; =&gt; &#039;baz&#039;)
 $value = Delta_ArrayUtils::firstValue($array);
 </code></div>
 </p>
@@ -1616,64 +1544,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_lastKeyValue">lastKeyValue()</dt>
-                    <dd>
-                      <div class="source"><code>public static mixed lastKeyValue(array $array, $key)</code></div>
-                                              <p>
-配列 array において key 名で最後に追加された値を取得します。
-<div class="source"><code>$array = array(&#039;foo&#039; =&gt; array(100, 200));
-
-// 200
-$value = Delta_ArrayUtils::lastKeyValue($array, &#039;bar&#039;);
-</code></div>
-</p>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$array</td>
-                              <td>array</td>
-                              <td>
-                                                                  <p>
-検索対象の配列。
-</p>
-                                                              </td>
-                            </tr>
-                                                        <tr>
-                              <td>$key</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-検索するキー名。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>mixed</td>
-                              <td>
-                                                                  <p>
-key 名で最後に追加された値を返します。キーが見つからない場合は NULL を返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                         <dt id="method_lastValue">lastValue()</dt>
                     <dd>
                       <div class="source"><code>public static mixed lastValue(array $array)</code></div>
@@ -1682,6 +1552,12 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 <div class="source"><code>$array = array(100, 200, 300);
 
 // 300
+$value = Delta_ArrayUtils::lastValue($array);
+
+// 連想配列の場合は最後に登録されているキーと値のセットを返す
+$array = array(&#039;foo&#039; =&gt; array(100), &#039;bar&#039; =&gt; array(200, 300));
+
+// array(&#039;bar&#039; =&gt; array(200, 300)
 $value = Delta_ArrayUtils::lastValue($array);
 </code></div>
 </p>
@@ -2122,7 +1998,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 06 Jul 2013 23:22:20 +0900<br />
+  <p>This document was generated on Sun, 07 Jul 2013 01:01:00 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
