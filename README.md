@@ -45,5 +45,5 @@ Console exception:
 
 Contact
 -------
-Write by:
+
 * Naomichi Yamakita - naomichi.y@delta-framework.org
