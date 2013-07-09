@@ -17,7 +17,8 @@
  * @package util.file
  */
 
-class Delta_CSVWriter extends Delta_FileWriter {
+class Delta_CSVWriter extends Delta_FileWriter
+{
   /**
    * 各フィールドをダブルクォートで囲むかどうか。
    * @var bool

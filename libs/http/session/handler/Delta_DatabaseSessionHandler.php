@@ -11,12 +11,8 @@
 /**
  * HTTP セッションをデータベースで管理します。
  *
- * セッションハンドラを有効にするには、あらかじめ "delta install-database-session" コマンドを実行し、データベースにセッションテーブルを作成>しておく必要があります。
- *
- * <i>このハンドラはセッションデータを読み込む際にデフォルトで排御制御 (セッションデータのロック) が働きます。
- * アプリケーションロジックで {@link Delta_DatabaseConnection::beginTransaction()} をコールした場合は FALSE が返される点に注意して下さい。
- * トランザクションは {@link close()  セッションが書き込まれるタイミング} でコミットされます。
- * </i>
+ * <i>セッションハンドラを有効にするには、あらかじめ "delta install-database-session" コマンドを実行し、データベースにセッションテーブルを作成>しておく必要があります。</i>
+ * <i>現在のところ、MySQL 以外のデータベースドライバは動作をサポートしていません。</i>
  *
  * application.yml の設定例:
  * <code>
@@ -28,9 +24,6 @@
  *
  *     # セッションテーブルが配置されたデータソース ('database' 属性を参照)
  *     dataSource: default
- *
- *     # 排他制御を有効とするかどうか
- *     lock: TRUE
  * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -51,11 +44,6 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   private $_dataSourceId;
 
   /**
-   * @var bool
-   */
-  private $_lock;
-
-  /**
    * @var Delta_DatabaseConnection
    */
   private $_connection;
@@ -70,7 +58,6 @@ class Delta_DatabaseSessionHandler extends Delta_Object
   {
     $this->_database = Delta_DIContainerFactory::getContainer()->getComponent('database');
     $this->_dataSourceId = $config->get('dataSource', Delta_DatabaseManager::DEFAULT_DATASOURCE_ID);
-    $this->_lock = $config->get('lock', TRUE);
 
     session_set_save_handler(
       array($this, 'open'),
@@ -100,12 +87,19 @@ class Delta_DatabaseSessionHandler extends Delta_Object
    * @param string $savePath セッションの保存パス。
    * @param string $sessionName セッション名。
    * @return bool セッションストレージへの接続に成功した場合は TRUE、失敗した場合は FALSE を返します。
+   * @throws Delta_UnsupportedException ドライバがサポートされていない場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function open($savePath, $sessionName)
   {
     $this->_database->getProfiler()->stop();
     $this->_connection = $this->_database->getConnection($this->_dataSourceId);
+    $driverName = $this->_connection->getDriverName();
+
+    if ($driverName !== 'mysql') {
+      $message = sprintf('Driver is not supported. [%s]', $driverName);
+      throw new Delta_UnsupportedException($message);
+    }
 
     return TRUE;
   }
@@ -141,17 +135,9 @@ class Delta_DatabaseSessionHandler extends Delta_Object
     $result = '';
 
     if ($this->_connection) {
-      if ($this->_lock) {
-        $this->_connection->beginTransaction();
-      }
-
       $query = 'SELECT session_data '
         .'FROM delta_sessions '
         .'WHERE session_id = :session_id';
-
-      if ($this->_lock) {
-        $query .= ' FOR UPDATE';
-      }
 
       $stmt = $this->_connection->createStatement($query);
       $stmt->bindParam(':session_id', $sessionId);
@@ -178,34 +164,15 @@ class Delta_DatabaseSessionHandler extends Delta_Object
     $result = FALSE;
 
     if ($this->_connection) {
-      $query = 'SELECT COUNT(*) '
-        .'FROM delta_sessions '
-        .'WHERE session_id = :session_id';
-
-      $stmt = $this->_connection->createStatement($query);
-      $stmt->bindParam(':session_id', $sessionId);
-      $resultSet = $stmt->executeQuery();
-      $count = $resultSet->readField(0);
-
-      if ($count) {
-        $query = 'UPDATE delta_sessions '
-          .'SET session_data = :session_data, '
-          .'update_date = NOW() '
-          .'WHERE session_id = :session_id';
-
-      } else {
-        $query = 'INSERT INTO delta_sessions(session_id, session_data, register_date, update_date) '
-          .'VALUES(:session_id, :session_data, NOW(), NOW())';
-      }
+      $query = 'REPLACE INTO delta_sessions(session_id, session_data, register_date, update_date) '
+        .'VALUES(:session_id, :session_data, NOW(), NOW())';
 
       $stmt = $this->_connection->createStatement($query);
       $stmt->bindParam(':session_data', $sessionData);
       $stmt->bindParam(':session_id', $sessionId);
-      $stmt->execute();
+      $affectedRows = $stmt->execute();
 
-      if ($this->_lock) {
-        $result = $this->_connection->commit();
-      } else {
+      if ($affectedRows) {
         $result = TRUE;
       }
     }
