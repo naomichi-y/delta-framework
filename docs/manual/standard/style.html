@@ -115,9 +115,9 @@
           <br />
           &nbsp;&nbsp;// 可読性の高いコード<br />
           &nbsp;&nbsp;$message = sprintf('%sさん%s 前回のログインは%sです。', <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getNickname(), <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;$this-&gt;getGreeting(), <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getLastLoginDate());<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getNickname(), <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getGreeting(), <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getLastLoginDate());<br />
           <br />
           &nbsp;&nbsp;return $message;<br />
           }</code></dd>
@@ -155,7 +155,7 @@
           } </code></dd>
       </dl>
     </li>
-    <li>独自に作成したメソッド (関数) にはコメントを定義して下さい。
+    <li>独自に作成したメソッドには各種コメントを定義して下さい。
       <ul>
         <li>メソッド (関数) の動作説明</li>
         <li>@param: 引数の型と説明</li>
@@ -265,14 +265,14 @@
       <dl>
         <dt>PHP Code# SQL の記述例</dt>
         <dd class="lang_php"><code>$sql = 'SELECT COUNT(id) '<br />
-          &nbsp;&nbsp;&nbsp;&nbsp; . 'FROM foo '<br />
-          &nbsp;&nbsp;&nbsp;&nbsp; . 'WHERE bar = :bar '<br />
-          &nbsp;&nbsp;&nbsp;&nbsp; . 'AND target_date BETWEEN :begin_date AND :end_date';<br />
+          &nbsp;&nbsp;. 'FROM foo '<br />
+          &nbsp;&nbsp;. 'WHERE bar = :bar '<br />
+          &nbsp;&nbsp;. 'AND target_date BETWEEN :begin_date AND :end_date';<br />
           <br />
           $sql = 'UPDATE foo '<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'SET target_date = NOW(), '<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'bar = :bar '<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. 'WHERE id = :id';</code></dd>
+          &nbsp;&nbsp;. 'SET target_date = NOW(), '<br />
+          &nbsp;&nbsp;. 'bar = :bar '<br />
+          &nbsp;&nbsp;. 'WHERE id = :id';</code></dd>
       </dl>
     </li>
   </ul>
@@ -286,9 +286,11 @@
           $array = array(100, 200, 300);<br />
           <br />
           // 要素数が多い場合は適宜改行する <br />
-          $array = array(100, 200, 300,<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;400, 500, 600,<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;700, 900, 000);<br />
+          $array = array(<br>
+          &nbsp;&nbsp;100, 200, 300,<br />
+&nbsp;&nbsp;400, 500, 600,<br />
+          &nbsp;&nbsp;700, 900, 000<br>
+          );<br />
           <br />
           // 連想配列は代入演算子の位置を揃える<br />
           $array = array(<br />

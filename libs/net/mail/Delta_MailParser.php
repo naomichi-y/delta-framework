@@ -135,12 +135,18 @@ class Delta_MailParser extends Delta_Object
    *
    * @param Delta_MailPart $parentPart 親パート。
    * @param string $partMessage パートメッセージ。
+   * @throws Delta_ParseException メールテキストの形式が不正な場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function parseMessage(Delta_MailPart $parentPart, $partMessage)
   {
     $pos = strpos($partMessage, "\n\n");
     $header = substr($partMessage, 0, $pos);
+
+    if ($pos === FALSE) {
+      $message = 'Mail header format is invalid.';
+      throw new Delta_ParseException($message);
+    }
 
     if ($this->_originalHeaders === NULL) {
       $this->_originalHeaders = $header;
@@ -478,11 +484,15 @@ class Delta_MailParser extends Delta_Object
 
   public function parseContentType(Delta_MailPart $parentPart)
   {
-    $headers = $this->getHeaders();
+    $headers = $parentPart->getHeaders();
     $contentType = NULL;
 
     if (isset($headers['content-type'])) {
-      $contentType = Delta_ArrayUtils::lastValue($headers['content-type']);
+      if (is_array($headers['content-type'])) {
+        $contentType = Delta_ArrayUtils::lastValue($headers['content-type']);
+      } else {
+        $contentType =  $headers['content-type'];
+      }
     }
 
     if (strlen($contentType)) {

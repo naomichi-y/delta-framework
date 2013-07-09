@@ -153,7 +153,11 @@ class Delta_MailMessage extends Delta_MailPart
     $result = NULL;
 
     if (isset($headers['date'])) {
-      $result = Delta_ArrayUtils::lastValue($headers['date']);
+      if (is_array($headers['date'])) {
+        $result = Delta_ArrayUtils::lastValue($headers['date']);
+      } else {
+        $result = $headers['date'];
+      }
     }
 
     return $result;
@@ -172,7 +176,12 @@ class Delta_MailMessage extends Delta_MailPart
     $result = NULL;
 
     if (isset($headers['message-id'])) {
-      $result = Delta_ArrayUtils::lastValue($headers['message-id']);
+      if (is_array($headers['message-id'])) {
+        $result = Delta_ArrayUtils::lastValue($headers['message-id']);
+      } else {
+        $result = $headers['message-id'];
+      }
+
       $result = str_replace(array('<', '>'), array('', ''), $result);
     }
 
