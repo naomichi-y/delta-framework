@@ -483,6 +483,7 @@
         <ul style="display: none;">
                       <li><a href="../util.file/delta___csv_writer.html" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
                       <li><a href="../util.file/delta___file_lock.html" title="Delta_FileLock">Delta_FileLock</a></li>
+                      <li><a href="../util.file/delta___file_reader.html" title="Delta_FileReader">Delta_FileReader</a></li>
                       <li><a href="../util.file/delta___file_writer.html" title="Delta_FileWriter">Delta_FileWriter</a></li>
                   </ul>
       </li>
@@ -664,12 +665,36 @@ util.file
                     </tr>
                                                                                             <tr>
                                                   <td>
+                                                          <a href="#property__appendMode">$_appendMode</a>                                                      </td>
+                          <td>
+                                                          bool                                                      </td>
+                          <td>
+                                                          <p>
+追記書き込みモード。
+</p>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
                                                           <a href="#property__convertLinefeed">$_convertLinefeed</a>                                                      </td>
                           <td>
                                                           bool                                                      </td>
                           <td>
                                                           <p>
 データに含まれる改行コードを <a href="../util.file/delta___file_writer.html#property__linefeed">$_linefeed</a> に変換するかどうか。
+</p>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__handler">$_handler</a>                                                      </td>
+                          <td>
+                                                          resource                                                      </td>
+                          <td>
+                                                          <p>
+ファイルハンドラ。
 </p>
                                                       </td>
                           <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
@@ -755,18 +780,6 @@ util.file
                                                       </td>
                           <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
                         </tr>
-                                                                                                                  <tr>
-                                                  <td>
-                                                          <a href="#property__writeFlag">$_writeFlag</a>                                                      </td>
-                          <td>
-                                                          bool                                                      </td>
-                          <td>
-                                                          <p>
-書き込みオプション。
-</p>
-                                                      </td>
-                          <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
-                        </tr>
                                                             </table>
                                             <p class="right"><a href="#top">To top</a></p>
             
@@ -828,7 +841,17 @@ util.file
                                                       <a href="#method_clear">clear()</a>                                                  </td>
                         <td>
                                                       <p>
-遅延書き込みが有効な場合、バッファリングされた全てのデータを破棄します。
+バッファリングされている全てのデータを破棄します。
+</p>
+                                                  </td>
+                        <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_close">close()</a>                                                  </td>
+                        <td>
+                                                      <p>
+ファイルを閉じます。
 </p>
                                                   </td>
                         <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
@@ -838,7 +861,7 @@ util.file
                                                       <a href="#method_flush">flush()</a>                                                  </td>
                         <td>
                                                       <p>
-遅延書き込みが有効な場合、バッファリングされた全てのデータを出力します。
+遅延書き込みモードの場合、バッファリングされているデータを出力します。
 </p>
                                                   </td>
                         <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
@@ -893,6 +916,16 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
                       </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_isWritable">isWritable()</a>                                                  </td>
+                        <td>
+                                                      <p>
+ファイルが書き込みが可能かどうかチェックします。
+</p>
+                                                  </td>
+                        <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
+                      </tr>
                                                                                                                                               <tr>
                                               <td>
                                                       <a href="#method_setConvertLinefeed">setConvertLinefeed()</a>                                                  </td>
@@ -909,16 +942,6 @@ Delta_AppPathManager のインスタンスを取得します。
                         <td>
                                                       <p>
 入力エンコーディングを設定します。
-</p>
-                                                  </td>
-                        <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_setLazyWrite">setLazyWrite()</a>                                                  </td>
-                        <td>
-                                                      <p>
-データをファイルに書き込むタイミングを設定します。
 </p>
                                                   </td>
                         <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
@@ -949,16 +972,6 @@ Delta_AppPathManager のインスタンスを取得します。
                         <td>
                                                       <p>
 出力エンコーディングを設定します。
-</p>
-                                                  </td>
-                        <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_setWriteAppend">setWriteAppend()</a>                                                  </td>
-                        <td>
-                                                      <p>
-ファイルが既に存在する場合に、データを追記するか上書きするかモードを設定します。
 </p>
                                                   </td>
                         <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
@@ -999,11 +1012,27 @@ Delta_AppPathManager のインスタンスを取得します。
             
                         <h3>Property details</h3>
               <dl>
-                                                <dt id="property__convertLinefeed">$_convertLinefeed</dt>
+                                                <dt id="property__appendMode">$_appendMode</dt>
+                  <dd>
+                    <div class="source"><code>protected bool $_appendMode</code></div>
+                                          <p>
+追記書き込みモード。
+</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__convertLinefeed">$_convertLinefeed</dt>
                   <dd>
                     <div class="source"><code>protected bool $_convertLinefeed = FALSE</code></div>
                                           <p>
 データに含まれる改行コードを <a href="../util.file/delta___file_writer.html#property__linefeed">$_linefeed</a> に変換するかどうか。
+</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__handler">$_handler</dt>
+                  <dd>
+                    <div class="source"><code>protected resource $_handler</code></div>
+                                          <p>
+ファイルハンドラ。
 </p>
                                                             <p class="right"><a href="#properties">To properties</a></p>
                   </dd>
@@ -1061,21 +1090,13 @@ Delta_AppPathManager のインスタンスを取得します。
 </p>
                                                             <p class="right"><a href="#properties">To properties</a></p>
                   </dd>
-                                                                <dt id="property__writeFlag">$_writeFlag</dt>
-                  <dd>
-                    <div class="source"><code>protected bool $_writeFlag</code></div>
-                                          <p>
-書き込みオプション。
-</p>
-                                                            <p class="right"><a href="#properties">To properties</a></p>
-                  </dd>
                                             </dl>
             
                         <h3>Method details</h3>
               <dl>
                                                       <dt id="method___construct">__construct()</dt>
                     <dd>
-                      <div class="source"><code>public void __construct($path = NULL)</code></div>
+                      <div class="source"><code>public void __construct($path = NULL, $appendMode = TRUE, $lazyWrite = TRUE)</code></div>
                                               <p>
 コンストラクタ。
 </p>
@@ -1095,7 +1116,26 @@ Delta_AppPathManager のインスタンスを取得します。
                               <td>string</td>
                               <td>
                                                                   <p>
-出力先のファイルパス。絶対パス、または ({APP_ROOT_DIR}/logs からの) 相対パスでの指定が可能。
+出力するファイルのパス。絶対パス、または ({APP_ROOT_DIR}/logs からの) 相対パスでの指定が可能。
+</p>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$appendMode</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+追記モード時は TRUE、新規作成モード時は FALSE を指定。
+</p>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$lazyWrite</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+遅延書き込みモードの指定。
+  TRUE 指定時は <a href="../util.file/delta___file_writer.html#method_write">write()</a> や <a href="../util.file/delta___file_writer.html#method_writeLine">writeLine()</a> で書き込まれる内容をバッファリングし、ファイルが閉じられる直前 (または <a href="../util.file/delta___file_writer.html#method_flush">flush()</a> をコールしたタイミング) で出力を行う。
 </p>
                                                               </td>
                             </tr>
@@ -1171,7 +1211,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public void clear()</code></div>
                                               <p>
-遅延書き込みが有効な場合、バッファリングされた全てのデータを破棄します。
+バッファリングされている全てのデータを破棄します。
 </p>
                                                                                           <ul class="note">
                                                                                                                                                                                 <li>Author: <p>
@@ -1181,11 +1221,50 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_close">close()</dt>
+                    <dd>
+                      <div class="source"><code>public bool close()</code></div>
+                                              <p>
+ファイルを閉じます。
+</p>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+ファイルのクローズに成功した場合は TRUE、失敗した場合は FALSE を返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_flush">flush()</dt>
                     <dd>
                       <div class="source"><code>public void flush()</code></div>
                                               <p>
-遅延書き込みが有効な場合、バッファリングされた全てのデータを出力します。
+遅延書き込みモードの場合、バッファリングされているデータを出力します。
 このメソッドは <a href="../util.file/delta___file_writer.html#method___destruct">__destruct()</a> からコールされますが、任意のタイミングで呼び出すことも可能です。
 </p>
                                                                                           <ul class="note">
@@ -1225,6 +1304,45 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                             </table>
                                                                     <ul class="note">
                                                                                                                                                                                                                                       <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_isWritable">isWritable()</dt>
+                    <dd>
+                      <div class="source"><code>public bool isWritable()</code></div>
+                                              <p>
+ファイルが書き込みが可能かどうかチェックします。
+</p>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+ファイルが書き込み可能な場合は TRUE、書き込めない場合は FALSE を返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </p>
 </li>
@@ -1291,43 +1409,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <p>
 入力エンコーディング。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_setLazyWrite">setLazyWrite()</dt>
-                    <dd>
-                      <div class="source"><code>public void setLazyWrite($lazyWrite)</code></div>
-                                              <p>
-データをファイルに書き込むタイミングを設定します。
-デフォルトの動作では遅延書き込みが有効となります。
-</p>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$lazyWrite</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <p>
-遅延書き込みを行う場合は TRUE、逐一書き込みを行う場合は FALSE を指定。
-  遅延書き込みについては <a href="../util.file/delta___file_writer.html#method_write">write()</a> メソッドの項も合わせて参照して下さい。
 </p>
                                                               </td>
                             </tr>
@@ -1447,42 +1528,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_setWriteAppend">setWriteAppend()</dt>
-                    <dd>
-                      <div class="source"><code>public void setWriteAppend($writeAppend)</code></div>
-                                              <p>
-ファイルが既に存在する場合に、データを追記するか上書きするかモードを設定します。
-未設定の場合はデフォルトで追記モードとなります。
-</p>
-                                                                    <table summary="Method detail">
-                        <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$writeAppend</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <p>
-データを追記する場合は TRUE、上書きする場合は FALSE を指定。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                         <dt id="method_setWritePath">setWritePath()</dt>
                     <dd>
                       <div class="source"><code>public void setWritePath($writePath)</code></div>
@@ -1541,9 +1586,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <p>
 書き込むデータ。
-  遅延書き込みが有効な場合、出力内容はバッファリングされ、Delta_LogWriter オブジェクトが消滅する (<a href="../util.file/delta___file_writer.html#method___destruct">__destruct()</a> がコールされた} (または {flush()} メソッドをコールした) タイミングで一斉に出力されます。
-  なお、<a href="../logger.rotator.policy/delta___log_rotate_policy.html">ローテートポリシー</a> は実際の出力が行われるタイミングで発動する点に注意して下さい。
-  例えば <a href="../logger.rotator.policy/delta___log_rotate_date_based_policy.html">Delta_LogRotateDateBasedPolicy</a> で日次ローテートを有効にした時、1 回目の write() が 23:59:59、2 回目の write() が翌 00:00:00 にコールされたとしても、実際は翌日分のログに 2 つのデータが書き込まれます。
 </p>
                                                               </td>
                             </tr>
@@ -1587,7 +1629,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 07 Jul 2013 01:01:00 +0900<br />
+  <p>This document was generated on Thu, 11 Jul 2013 02:22:42 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

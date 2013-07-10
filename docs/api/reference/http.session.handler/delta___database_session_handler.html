@@ -483,6 +483,7 @@
         <ul style="display: none;">
                       <li><a href="../util.file/delta___csv_writer.html" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
                       <li><a href="../util.file/delta___file_lock.html" title="Delta_FileLock">Delta_FileLock</a></li>
+                      <li><a href="../util.file/delta___file_reader.html" title="Delta_FileReader">Delta_FileReader</a></li>
                       <li><a href="../util.file/delta___file_writer.html" title="Delta_FileWriter">Delta_FileWriter</a></li>
                   </ul>
       </li>
@@ -601,13 +602,8 @@
 HTTP セッションをデータベースで管理します。
 </p>
 <p>
-セッションハンドラを有効にするには、あらかじめ &quot;delta install-database-session&quot; コマンドを実行し、データベースにセッションテーブルを作成&gt;しておく必要があります。
-</p>
-<p>
-<i>このハンドラはセッションデータを読み込む際にデフォルトで排御制御 (セッションデータのロック) が働きます。
-アプリケーションロジックで <a href="../database/delta___database_connection.html#method_beginTransaction">Delta_DatabaseConnection::beginTransaction()</a> をコールした場合は FALSE が返される点に注意して下さい。
-トランザクションは <a href="../http.session.handler/delta___database_session_handler.html#method_close">セッションが書き込まれるタイミング</a> でコミットされます。
-</i>
+<i>セッションハンドラを有効にするには、あらかじめ &quot;delta install-database-session&quot; コマンドを実行し、データベースにセッションテーブルを作成&gt;しておく必要があります。</i>
+<i>現在のところ、MySQL 以外のデータベースドライバは動作をサポートしていません。</i>
 </p>
 <p>
 application.yml の設定例:
@@ -619,9 +615,6 @@ application.yml の設定例:
 
     # セッションテーブルが配置されたデータソース (&#039;database&#039; 属性を参照)
     dataSource: default
-
-    # 排他制御を有効とするかどうか
-    lock: TRUE
 </code></div>
 </p>
                         <table summary="Description">
@@ -1013,7 +1006,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </p>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
+                                                                                                                                                                                                                                                                                                                                                                    <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
@@ -1022,9 +1015,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </p>
                                                               </td>
                             </tr>
-                                                                                                                            </table>
+                                                                                                                                                                              </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <p>
+                                                                                                                                                                                                                                                                                            <li>Throws: <p>
+Delta_UnsupportedException ドライバがサポートされていない場合に発生。
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </p>
 </li>
@@ -1137,7 +1134,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 07 Jul 2013 01:00:59 +0900<br />
+  <p>This document was generated on Thu, 11 Jul 2013 02:22:41 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

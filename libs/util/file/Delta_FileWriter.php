@@ -16,7 +16,20 @@
  * @package util.file
  */
 
-class Delta_FileWriter extends Delta_Object {
+class Delta_FileWriter extends Delta_Object
+{
+  /**
+   * ファイルハンドラ。
+   * @var resource
+   */
+  protected $_handler;
+
+  /**
+   * 追記書き込みモード。
+   * @var bool
+   */
+  protected $_appendMode;
+
   /**
    * 出力パス。
    * @var string
@@ -48,12 +61,6 @@ class Delta_FileWriter extends Delta_Object {
   protected $_outputEncoding;
 
   /**
-   * 書き込みオプション。
-   * @var bool
-   */
-  protected $_writeFlag;
-
-  /**
    * {@link writeLine()} で使用する改行コード。
    * @var string
    */
@@ -74,20 +81,22 @@ class Delta_FileWriter extends Delta_Object {
   /**
    * コンストラクタ。
    *
-   * @param string $path 出力先のファイルパス。絶対パス、または ({APP_ROOT_DIR}/logs からの) 相対パスでの指定が可能。
+   * @param string $path 出力するファイルのパス。絶対パス、または ({APP_ROOT_DIR}/logs からの) 相対パスでの指定が可能。
+   * @param bool $appendMode 追記モード時は TRUE、新規作成モード時は FALSE を指定。
+   * @param bool $lazyWrite 遅延書き込みモードの指定。
+   *   TRUE 指定時は {@link write()} や {@link writeLine()} で書き込まれる内容をバッファリングし、ファイルが閉じられる直前 (または {@link flush()} をコールしたタイミング) で出力を行う。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct($path = NULL)
+  public function __construct($path = NULL, $appendMode = TRUE, $lazyWrite = TRUE)
   {
+    $this->_inputEncoding = Delta_Config::getApplication()->get('charset.default');
+    $this->_outputEncoding = $this->_inputEncoding;
+    $this->_appendMode = $appendMode;
+    $this->_lazyWrite = $lazyWrite;
+
     if ($path !== NULL) {
       $this->setWritePath($path);
     }
-
-    $this->_inputEncoding = Delta_Config::getApplication()->get('charset.default');
-    $this->_outputEncoding = $this->_inputEncoding;
-
-    $this->setWriteAppend(TRUE);
-    $this->setLazyWrite(TRUE);
   }
 
   /**
@@ -103,6 +112,30 @@ class Delta_FileWriter extends Delta_Object {
     } else {
       $this->_path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $writePath;
     }
+
+    if ($this->_appendMode) {
+      $this->_handler = fopen($this->_path, 'a');
+    } else {
+      $this->_handler = fopen($this->_path, 'w');
+    }
+  }
+
+  /**
+   * ファイルが書き込みが可能かどうかチェックします。
+   *
+   * @return bool ファイルが書き込み可能な場合は TRUE、書き込めない場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function isWritable()
+  {
+    $result = FALSE;
+
+    if ($this->_path !== NULL) {
+      $result = is_writable($this->_path);
+    }
+
+    return $result;
   }
 
   /**
@@ -114,19 +147,6 @@ class Delta_FileWriter extends Delta_Object {
   public function setMode($mode)
   {
     $this->_mode = $mode;
-  }
-
-  /**
-   * データをファイルに書き込むタイミングを設定します。
-   * デフォルトの動作では遅延書き込みが有効となります。
-   *
-   * @param bool $lazyWrite 遅延書き込みを行う場合は TRUE、逐一書き込みを行う場合は FALSE を指定。
-   *   遅延書き込みについては {@link write()} メソッドの項も合わせて参照して下さい。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function setLazyWrite($lazyWrite)
-  {
-    $this->_lazyWrite = $lazyWrite;
   }
 
   /**
@@ -151,22 +171,6 @@ class Delta_FileWriter extends Delta_Object {
   public function setConvertLinefeed($convertLinefeed)
   {
     $this->_convertLinefeed = $convertLinefeed;
-  }
-
-  /**
-   * ファイルが既に存在する場合に、データを追記するか上書きするかモードを設定します。
-   * 未設定の場合はデフォルトで追記モードとなります。
-   *
-   * @param bool $writeAppend データを追記する場合は TRUE、上書きする場合は FALSE を指定。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function setWriteAppend($writeAppend)
-  {
-    if ($writeAppend) {
-      $this->_writeFlag = FILE_APPEND | LOCK_EX;
-    } else {
-      $this->_writeFlag = LOCK_EX;
-    }
   }
 
   /**
@@ -197,9 +201,6 @@ class Delta_FileWriter extends Delta_Object {
    * ファイルへの書き込みを行います。
    *
    * @param string $data 書き込むデータ。
-   *   遅延書き込みが有効な場合、出力内容はバッファリングされ、Delta_LogWriter オブジェクトが消滅する ({@link __destruct()} がコールされた} (または {flush()} メソッドをコールした) タイミングで一斉に出力されます。
-   *   なお、{@link Delta_LogRotatePolicy ローテートポリシー} は実際の出力が行われるタイミングで発動する点に注意して下さい。
-   *   例えば {@link Delta_LogRotateDateBasedPolicy} で日次ローテートを有効にした時、1 回目の write() が 23:59:59、2 回目の write() が翌 00:00:00 にコールされたとしても、実際は翌日分のログに 2 つのデータが書き込まれます。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function write($data)
@@ -271,23 +272,30 @@ class Delta_FileWriter extends Delta_Object {
   {
     if ($this->_path === NULL) {
       throw new Delta_IOException('Write path is not set.');
+
+    } else if ($this->_handler === NULL) {
+      $message = 'File has been closed.';
+      throw new Delta_IOException($message);
     }
 
-    $createFlag = FALSE;
+    $isNewFile = FALSE;
 
     if (!is_file($this->_path)) {
-      $createFlag = TRUE;
+      $isNewFile = TRUE;
     }
 
-    Delta_FileUtils::writeFile($this->_path, $this->buildOutputData($data), $this->_writeFlag);
+    if (flock($this->_handler, LOCK_EX)) {
+      fwrite($this->_handler, $this->buildOutputData($data));
+      flock($this->_handler, LOCK_UN);
+    }
 
-    if ($this->_mode !== NULL && $createFlag) {
+    if ($this->_mode !== NULL && $isNewFile) {
       chmod($this->_path, $this->_mode);
     }
   }
 
   /**
-   * 遅延書き込みが有効な場合、バッファリングされた全てのデータを出力します。
+   * 遅延書き込みモードの場合、バッファリングされているデータを出力します。
    * このメソッドは {@link __destruct()} からコールされますが、任意のタイミングで呼び出すことも可能です。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -301,13 +309,33 @@ class Delta_FileWriter extends Delta_Object {
   }
 
   /**
-   * 遅延書き込みが有効な場合、バッファリングされた全てのデータを破棄します。
+   * バッファリングされている全てのデータを破棄します。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function clear()
   {
     $this->_writeBuffer = NULL;
+  }
+
+  /**
+   * ファイルを閉じます。
+   *
+   * @return bool ファイルのクローズに成功した場合は TRUE、失敗した場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function close()
+  {
+    $result = FALSE;
+    $this->flush();
+
+    if (fclose($this->_handler)) {
+      $result = TRUE;
+      $this->_handler = NULL;
+    }
+
+    return $result;
   }
 
   /**
@@ -320,9 +348,7 @@ class Delta_FileWriter extends Delta_Object {
   {
      // デストラクタでスローされた例外は例外ハンドラに遷移されない
     try {
-      if ($this->_lazyWrite) {
-        $this->flush();
-      }
+      $this->flush();
 
     } catch (Exception $e) {
       Delta_ExceptionStackTraceDelegate::invoker($e);
