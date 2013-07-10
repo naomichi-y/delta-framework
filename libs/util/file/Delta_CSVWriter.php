@@ -51,9 +51,7 @@ class Delta_CSVWriter extends Delta_FileWriter
    */
   public function __construct($path = NULL)
   {
-    parent::__construct($path);
-
-    $this->setWriteAppend(FALSE);
+    parent::__construct($path, FALSE);
   }
 
   /**
