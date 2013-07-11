@@ -481,10 +481,17 @@
         <div class="hitarea expandable-hitarea"></div>
         <span>util.file</span>
         <ul style="display: none;">
-                      <li><a href="../util.file/delta___csv_writer.html" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
                       <li><a href="../util.file/delta___file_lock.html" title="Delta_FileLock">Delta_FileLock</a></li>
                       <li><a href="../util.file/delta___file_reader.html" title="Delta_FileReader">Delta_FileReader</a></li>
                       <li><a href="../util.file/delta___file_writer.html" title="Delta_FileWriter">Delta_FileWriter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.file.csv</span>
+        <ul style="display: none;">
+                      <li><a href="../util.file.csv/delta___csv_reader.html" title="Delta_CSVReader">Delta_CSVReader</a></li>
+                      <li><a href="../util.file.csv/delta___csv_writer.html" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -640,6 +647,11 @@ util.file
                   Delta_FileReader                                       &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
               </tr>
                                           <tr>
+                <th class="left">Subclasses</th>
+                <td>
+                  <a href="../util.file.csv/delta___csv_reader.html">Delta_CSVReader</a>                </td>
+              </tr>
+                            <tr>
                 <th class="left">Source file</th>
                 <td>/util/file/Delta_FileReader.php</td>
               </tr>
@@ -651,8 +663,67 @@ util.file
                         <p class="right"><a href="#">To top</a></p>
 
                           <h3 id="properties">Properties</h3>
-                              <p>公開されているプロパティはありません。</p>
-                            <p class="right"><a href="#top">To top</a></p>
+                                                <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
+                  <table summary="Properties">
+                    <colgroup>
+                      <col width="20%" />
+                      <col width="20%" />
+                      <col width="40%" />
+                      <col width="20%" />
+                    </colgroup>
+                    <tr>
+                      <th>Property</th>
+                      <th>Type</th>
+                      <th>Summary</th>
+                      <th>Defined by</th>
+                    </tr>
+                                                                                            <tr>
+                                                  <td>
+                                                          <a href="#property__defaultEncoding">$_defaultEncoding</a>                                                      </td>
+                          <td>
+                                                          string                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__handler">$_handler</a>                                                      </td>
+                          <td>
+                                                          resource                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__inputEncoding">$_inputEncoding</a>                                                      </td>
+                          <td>
+                                                          string                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__linefeed">$_linefeed</a>                                                      </td>
+                          <td>
+                                                          string                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__path">$_path</a>                                                      </td>
+                          <td>
+                                                          string                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
+                        </tr>
+                                                            </table>
+                                            <p class="right"><a href="#top">To top</a></p>
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
@@ -881,6 +952,39 @@ Delta_AppPathManager のインスタンスを取得します。
                                       <p class="right"><a href="#methods">To methods</a></p>
 
             
+                        <h3>Property details</h3>
+              <dl>
+                                                <dt id="property__defaultEncoding">$_defaultEncoding</dt>
+                  <dd>
+                    <div class="source"><code>protected string $_defaultEncoding</code></div>
+                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__handler">$_handler</dt>
+                  <dd>
+                    <div class="source"><code>protected resource $_handler</code></div>
+                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__inputEncoding">$_inputEncoding</dt>
+                  <dd>
+                    <div class="source"><code>protected string $_inputEncoding</code></div>
+                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__linefeed">$_linefeed</dt>
+                  <dd>
+                    <div class="source"><code>protected string $_linefeed = PHP_EOL</code></div>
+                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__path">$_path</dt>
+                  <dd>
+                    <div class="source"><code>protected string $_path</code></div>
+                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                            </dl>
             
                         <h3>Method details</h3>
               <dl>
@@ -1522,7 +1626,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 11 Jul 2013 02:22:42 +0900<br />
+  <p>This document was generated on Thu, 11 Jul 2013 19:31:16 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

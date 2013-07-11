@@ -74,7 +74,7 @@ h2 a:hover {
 }
 
 h3 {
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 article {
@@ -85,12 +85,12 @@ blockquote p {
   font-style: normal;
 }
 
-dd {
-  margin: 0.6% 0 0.6% 0;
+dt {
+  font-size: 1em;
 }
 
-ul, dl {
-  line-height: 180%;
+dd {
+  margin: 1% 0 1% 0;
 }
 
 table {
@@ -104,10 +104,6 @@ th, td {
 th {
   font-weight: bold;
   text-align: center;
-}
-
-td p {
-  margin: 0;
 }
 
 form {
@@ -319,14 +315,6 @@ footer p {
 
 .note_contents ul {
   padding: 2% 0 2% 0;
-}
-
-.float_right {
-  float: right;
- }
-
-.clear {
-  clear: both;
 }
 
 /**

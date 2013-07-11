@@ -274,7 +274,7 @@ class Delta_FileWriter extends Delta_Object
       throw new Delta_IOException('Write path is not set.');
 
     } else if ($this->_handler === NULL) {
-      $message = 'File has been closed.';
+      $message = sprintf('File has been closed. [%s]', $this->_path);
       throw new Delta_IOException($message);
     }
 
@@ -292,6 +292,18 @@ class Delta_FileWriter extends Delta_Object
     if ($this->_mode !== NULL && $isNewFile) {
       chmod($this->_path, $this->_mode);
     }
+  }
+
+  /**
+   * リソースを取得します。
+   *
+   * @return resource リソースを返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getResource()
+  {
+    return $this->_handler;
   }
 
   /**

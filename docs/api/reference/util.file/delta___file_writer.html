@@ -481,10 +481,17 @@
         <div class="hitarea expandable-hitarea"></div>
         <span>util.file</span>
         <ul style="display: none;">
-                      <li><a href="../util.file/delta___csv_writer.html" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
                       <li><a href="../util.file/delta___file_lock.html" title="Delta_FileLock">Delta_FileLock</a></li>
                       <li><a href="../util.file/delta___file_reader.html" title="Delta_FileReader">Delta_FileReader</a></li>
                       <li><a href="../util.file/delta___file_writer.html" title="Delta_FileWriter">Delta_FileWriter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.file.csv</span>
+        <ul style="display: none;">
+                      <li><a href="../util.file.csv/delta___csv_reader.html" title="Delta_CSVReader">Delta_CSVReader</a></li>
+                      <li><a href="../util.file.csv/delta___csv_writer.html" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -635,7 +642,7 @@ util.file
                                           <tr>
                 <th class="left">Subclasses</th>
                 <td>
-                  <a href="../util.file/delta___csv_writer.html">Delta_CSVWriter</a>, <a href="../logger/delta___log_writer.html">Delta_LogWriter</a>                </td>
+                  <a href="../util.file.csv/delta___csv_writer.html">Delta_CSVWriter</a>, <a href="../logger/delta___log_writer.html">Delta_LogWriter</a>                </td>
               </tr>
                             <tr>
                 <th class="left">Source file</th>
@@ -895,6 +902,16 @@ Delta_AppPathManager のインスタンスを取得します。
 </p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_getResource">getResource()</a>                                                  </td>
+                        <td>
+                                                      <p>
+リソースを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../util.file/delta___file_writer.html">Delta_FileWriter</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -1275,7 +1292,46 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                                                                <dt id="method_getWriteBuffer">getWriteBuffer()</dt>
+                                                                                                                                                                              <dt id="method_getResource">getResource()</dt>
+                    <dd>
+                      <div class="source"><code>public resource getResource()</code></div>
+                                              <p>
+リソースを取得します。
+</p>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>resource</td>
+                              <td>
+                                                                  <p>
+リソースを返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                          <dt id="method_getWriteBuffer">getWriteBuffer()</dt>
                     <dd>
                       <div class="source"><code>public string getWriteBuffer()</code></div>
                                               <p>
@@ -1629,7 +1685,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 11 Jul 2013 02:22:42 +0900<br />
+  <p>This document was generated on Thu, 11 Jul 2013 19:31:16 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
