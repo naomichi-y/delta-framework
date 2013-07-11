@@ -104,7 +104,7 @@ class Delta_LoggerFileAppender extends Delta_LoggerAppender
     $generation = $rotate->getInt('generation', 4);
     $policy->setGeneration($generation);
 
-    $appendAppend = $rotate->getBoolean('appendMode', TRUE);
+    $appendMode = $rotate->getBoolean('appendMode', TRUE);
     $linefeed = $rotate->getString('linefeed', PHP_EOL);
 
     $logWriter = new Delta_LogWriter($policy, $appendMode, FALSE);
