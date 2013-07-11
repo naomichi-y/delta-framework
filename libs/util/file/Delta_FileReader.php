@@ -22,27 +22,27 @@ class Delta_FileReader extends Delta_Object
   /**
    * @var string
    */
-  private $_path;
+  protected $_path;
 
   /**
    * @var resource
    */
-  private $_handler;
+  protected $_handler;
 
   /**
    * @var string
    */
-  private $_defaultEncoding;
+  protected $_defaultEncoding;
 
   /**
    * @var string
    */
-  private $_inputEncoding;
+  protected $_inputEncoding;
 
   /**
    * @var string
    */
-  private $_linefeed = PHP_EOL;
+  protected $_linefeed = PHP_EOL;
 
   /**
    * コンストラクタ。
@@ -236,7 +236,7 @@ class Delta_FileReader extends Delta_Object
       $buffer = fgets($this->_handler);
       flock($this->_handler, LOCK_UN);
 
-      if ($this->_inputEncoding !== NULL) {
+      if ($buffer !== FALSE && $this->_inputEncoding !== NULL) {
         $buffer = mb_convert_encoding($buffer, $this->_defaultEncoding, $this->_inputEncoding);
       }
     }
