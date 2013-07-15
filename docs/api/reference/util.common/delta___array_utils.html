@@ -608,10 +608,10 @@
                           <p>
 配列を操作する汎用的なユーティリティメソッドを提供します。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -647,10 +647,10 @@ util.common
             <p class="right"><a href="#top">To top</a></p>
 
             <h3 id="constants">Constants</h3>
-                          <table summary="Constants">
+                          <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-constant-name" />
+                  <col class="col-constant-value" />
                 </colgroup>
                 <tr>
                   <th>Constnat</th>
@@ -705,11 +705,11 @@ util.common
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -953,11 +953,11 @@ XML データを連想配列に変換します。
 配列が持つ要素 (スカラー値) の前後に文字列を結合します。
 この関数は他時点配列に対応しています。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -998,7 +998,7 @@ Delta_ArrayUtils::APPEND_STRING_* 定数を指定。ビット和形式で指定�
                               <td>
                                                                   <p>
 文字結合オプション。
-</div>
+</p>
 <ul>
 <li>excludes: 結合対象外とする文字を配列形式で指定。</li>
 <li>force: {FALSE} 結合開始位置に append と同じ文字がある場合の結合方法。
@@ -1013,7 +1013,6 @@ TRUE 指定時は文字が重複しても結合するが、FALSE 指定時は結
                                                                   <p>
 文字列を結合した新しい配列を返します。
 </p>
-<p>
 <div class="source"><code>$array = array(&#039;foo&#039;, &#039;bar&#039;, &#039;baz&#039;, &#039;NULL&#039;);
   $options = array(&#039;excludes&#039; =&gt; array(&#039;NULL&#039;));
   $type = Delta_ArrayUtils::APPEND_STRING_BEFORE|Delta_ArrayUtils::APPEND_STRING_AFTER;
@@ -1023,7 +1022,6 @@ TRUE 指定時は文字が重複しても結合するが、FALSE 指定時は結
   // &quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, NULL
   echo implode(&#039;, &#039;, $array);
 </code></div>
-</p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
@@ -1040,15 +1038,15 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static int average(array $array)</code></div>
                                               <p>
 配列に含まれる数値の平均値を算出します。
+</p>
 <div class="source"><code>// 2.5
 Delta_ArrayUtils::average(array(1, 2, 3, 4));
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1088,11 +1086,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 文字列 string を元に配列を構築します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1106,13 +1104,13 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                   <p>
 配列を構成する文字列。
   文字列内に &#039;[]&#039;、または &#039;.&#039; (ピリオド) 区切りのキー名が指定された場合は連想配列として認識されます。
+</p>
 <div class="source"><code>$string = &#039;foo[bar]&#039;;
 Delta_ArrayUtils::build($string, &#039;baz&#039;); // array(&#039;foo&#039; =&gt; &#039;bar&#039; =&gt; &#039;baz&#039;))
 
 $string = &#039;foo.bar&#039;;
 Delta_ArrayUtils::build($string, &#039;baz&#039;); // array(&#039;foo&#039; =&gt; &#039;bar&#039; =&gt; &#039;baz&#039;))
 </code></div>
-</p>
                                                               </td>
                             </tr>
                                                         <tr>
@@ -1158,11 +1156,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 配列 array 内の全てのキー名を指定したフォーマットに変換します。
 <a href="http://www.php.net/function.array_change_key_case.php">array_change_key_case()</a> と異なり、連想配列にも対応します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1211,11 +1209,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 配列 array に expects 以外のキーが存在するかどうかチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1265,11 +1263,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 配列 array の中に search が含まれているかチェックします。
 検索時は search の大文字・小文字を区別しません。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1317,6 +1315,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static mixed find(array $array, $key, $alternative = NULL, &amp;$keyExists = NULL)</code></div>
                                               <p>
 配列 array から key に対応する値を取得します。
+</p>
 <div class="source"><code>$array = array(&#039;foo&#039; =&gt; array(&#039;bar&#039; =&gt; &#039;baz&#039;));
 
 // array(&#039;bar&#039; =&gt; &#039;baz&#039;);
@@ -1325,12 +1324,11 @@ $value = Delta_ArrayUtils::find($array, &#039;foo&#039;);
 // &#039;baz&#039;
 $value = Delta_ArrayUtils::find($array, &#039;foo.bar&#039;);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1396,6 +1394,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static mixed firstValue(array $array)</code></div>
                                               <p>
 配列 array の最初の要素を取得します。
+</p>
 <div class="source"><code>$array = array(100, 200, 300);
 
 // 100
@@ -1407,12 +1406,11 @@ $array = array(&#039;foo&#039; =&gt; array(&#039;bar&#039; =&gt; &#039;baz&#039;
 // array(&#039;bar&#039; =&gt; &#039;baz&#039;)
 $value = Delta_ArrayUtils::firstValue($array);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1452,11 +1450,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 配列 array の任意の位置に要素 value を挿入します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1514,11 +1512,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 配列 array が連想配列形式かチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1557,6 +1555,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static mixed lastValue(array $array)</code></div>
                                               <p>
 配列 array の最後の要素を取得します。
+</p>
 <div class="source"><code>$array = array(100, 200, 300);
 
 // 300
@@ -1568,12 +1567,11 @@ $array = array(&#039;foo&#039; =&gt; array(100), &#039;bar&#039; =&gt; array(200
 // array(&#039;bar&#039; =&gt; array(200, 300)
 $value = Delta_ArrayUtils::lastValue($array);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1612,6 +1610,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static array matrix(array $array, $column = 3)</code></div>
                                               <p>
 配列をマトリクス形式に変換します。
+</p>
 <div class="source"><code>$array = array(1, 2, 3, 4, 5, 6, 7);
 
 // array(
@@ -1621,12 +1620,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 // );
 $value = Delta_ArrayUtils::matrix($array);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1676,11 +1674,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 連想配列を再帰的にマージします。
 array1 と array2 で同じキーが存在する場合は、array2 の値で上書きされます。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1729,11 +1727,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 配列 array から name キーを削除します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1782,11 +1780,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 配列 array から index 番目の要素を削除し、index 以降の要素を 1 つずつ前にずらします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1834,6 +1832,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static bool replaceValueWithCallback(array &amp;$array, $name, $callback)</code></div>
                                               <p>
 配列 array に含まれる name キーの値を callback の戻り値に置換します。
+</p>
 <div class="source"><code>$array = array(
   &#039;foo&#039; =&gt; 100,
   &#039;bar&#039; =&gt; array(
@@ -1846,12 +1845,11 @@ Delta_ArrayUtils::replaceValueWithCallback($array, &#039;bar.baz&#039;, function
   return &#039;*&#039;;
 });
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1910,11 +1908,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 配列に含まれる全ての値からホワイトスペースを取り除きます。
 配列が連想配列で構成される場合は全ての要素に対し同じ処理を繰り返します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1959,11 +1957,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 XML データを連想配列に変換します。
 <i>この関数は配列変換時に XML の属性情報を破棄する点に注意して下さい。</i>
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2006,7 +2004,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:02 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:36 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

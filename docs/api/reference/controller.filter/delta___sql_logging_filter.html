@@ -610,6 +610,7 @@
 </p>
 <p>
 global_filters.yml の設定例:
+</p>
 <div class="source"><code>{フィルタ ID}:
   # フィルタクラス名。
   class: Delta_SQLLoggingFilter
@@ -620,9 +621,9 @@ global_filters.yml の設定例:
   # ログレベルの指定。(オプション)
   level: &lt;?php echo <a href="../logger/delta___logger.html#constant_LOGGER_MASK_TRACE">Delta_Logger::LOGGER_MASK_TRACE</a> ?&gt;
 </code></div>
-</p>
 <p>
 application.yml の設定例:
+</p>
 <div class="source"><code># ログアペンダの定義。
 logger:
   traceAppender:
@@ -633,18 +634,19 @@ logger:
       type: date
       datePattern: Y-m
 </code></div>
-</p>
 <p>
 例えば次のようなログが出力されます。
+</p>
 <div class="source"><code>{logs/trace.log}
 2013/04/12 03:30:40 TRACE [Delta_SQLLoggingFilter] - &quot;SELECT * FROM members WHERE delete_flag = 0 ORDER BY member_id DESC LIMIT 10 OFFSET 0&quot; ({module_name}/{action_name} {invoke_class}::{invoke_method})
 </code></div>
+<p>
 ログの書式を変更したい場合は、<a href="../controller.filter/delta___sql_logging_filter.html#method_getLogFormat">getLogFormat()</a> をオーバーライドした拡張クラスを作成して下さい。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Since</th>
@@ -692,12 +694,12 @@ controller.filter
 
                           <h3 id="properties">Properties</h3>
                                                 <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -728,11 +730,11 @@ controller.filter
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -953,11 +955,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 ロガーに送信するメッセージを書式化します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1000,7 +1002,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:00 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:34 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

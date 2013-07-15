@@ -611,6 +611,7 @@ Twig を有効にするには、base_dicon.yml を次のように設定する必
 </p>
 <p>
 base_dicon.yml の設定例:
+</p>
 <div class="source"><code>componentNames:
   view:
     class: Delta_View
@@ -622,23 +623,22 @@ base_dicon.yml の設定例:
     includes:
       - vendors/Twig/lib/Twig/Autoloader.php
 </code></div>
-</p>
 <p>
 ビューに変数を設定:
+</p>
 <div class="source"><code>$view-&gt;setAttribute(&#039;greeting&#039;, &#039;Hello World!&#039;);
 </code></div>
-</p>
 <p>
 テンプレートの実装例:
+</p>
 <div class="source"><code>&lt;div id=&quot;content&quot;&gt;
   &lt;p&gt;{{greeting}}&lt;/p&gt;
 &lt;/div&gt;
 </code></div>
-</p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Link</th>
@@ -686,12 +686,12 @@ view.renderer
 
                           <h3 id="properties">Properties</h3>
                                                 <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -713,11 +713,11 @@ view.renderer
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -928,7 +928,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:03 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:37 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

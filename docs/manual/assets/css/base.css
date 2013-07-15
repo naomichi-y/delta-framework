@@ -269,7 +269,7 @@ footer p {
  * ****************************************************************
  */
 
-.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code, .lang_html code {
+.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code, .lang_html code, .lang_text code {
   padding: 1%;
   display: block;
   line-height: 150%;
@@ -338,6 +338,66 @@ footer p {
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow: auto;
+}
+
+.col-package {
+  width: 20%;
+}
+
+.col-package-name {
+  width: 25%;
+}
+
+.col-package-summary {
+  width: 55%;
+}
+
+.col-description-name, .col-constant-name, .col-define-name {
+  width: 20%;
+}
+
+.col-description-value, .col-constant-value, .col-define-value {
+  width: 80%;
+}
+
+.col-property-name, .col-property-type, .col-property-defined {
+  width: 20%;
+}
+
+.col-property-summary {
+  width: 40%;
+}
+
+.col-method-name {
+  width: 20%;
+}
+
+.col-method-summary {
+  width: 60%;
+}
+
+.col-method-defined {
+  width: 20%;
+}
+
+.col-parameter-name {
+  width: 15%;
+}
+
+.col-parameter-type {
+  width: 15%;
+}
+
+.col-parameter-description {
+  width: 70%;
+}
+
+.col-function-name {
+  width: 20%;
+}
+
+.col-function-summary {
+  width: 80%;
 }
 
 /**

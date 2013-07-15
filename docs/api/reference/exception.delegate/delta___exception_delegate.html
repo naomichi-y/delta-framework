@@ -608,10 +608,10 @@
                           <p>
 <a href="../kernel.handler/delta___exception_handler.html">Delta_ExceptionHandler</a> で捕捉した例外を扱うための抽象クラスです。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -661,11 +661,11 @@ exception.delegate
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -794,11 +794,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 コンソールアプリケーションで例外がスローされた際に、<a href="../exception.delegate/delta___exception_delegate.html#method_invoker">invoker()</a> メソッドによってコールされます。
 このメソッドは、<a href="../exception.delegate/delta___exception_delegate.html#method_catchOnApplication">catchOnApplication()</a> がコールされた後に実行されます。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -834,11 +834,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 Web アプリケーションで例外がスローされた際に、<a href="../exception.delegate/delta___exception_delegate.html#method_invoker">invoker()</a> メソッドによってコールされます。
 このメソッドは、<a href="../exception.delegate/delta___exception_delegate.html#method_catchOnApplication">catchOnApplication()</a> がコールされた後に実行されます。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -872,16 +872,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public static void invoker(Exception $exception, Delta_ParameterHolder $holder = NULL)</code></div>
                                               <p>
 アプリケーションの実行環境 (Web、またはコンソール) に合わせて例外を扱うためのメソッドを起動します。
-</div>
+</p>
 <ul>
 <li>Web アプリケーションの場合: <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnApplication">catchOnApplication()</a>、<a href="../exception.delegate/delta___exception_delegate.html#method_catchOnWeb">catchOnWeb()</a> メソッドを実行します。</li>
 <li>コンソールアプリケーションの場合: <a href="../exception.delegate/delta___exception_delegate.html#method_catchOnApplication">catchOnApplication()</a>、<a href="../exception.delegate/delta___exception_delegate.html#method_catchOnConsole">catchOnConsole()</a> メソッドを実行します。</li>
 </ul>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -924,7 +924,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:01 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

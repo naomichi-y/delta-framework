@@ -612,9 +612,12 @@
 </p>
 <p>
 このヘルパは、$date という変数名であらかじめテンプレートにインスタンスが割り当てられています。
+</p>
 <div class="source"><code>&lt;?php echo $date-&gt;{method}; ?&gt;
 </code></div>
+<p>
 global_helpers.yml の設定例:
+</p>
 <div class="source"><code>date:
   # ヘルパクラス名。
   class: Delta_DateHelper
@@ -663,12 +666,13 @@ global_helpers.yml の設定例:
     # 年の表示。
     years: &#039;\1 yea years&#039;
 </code></div>
+<p>
 <i>その他に指定可能な属性は <a href="../view.helper/delta___helper.html">Delta_Helper</a> クラスを参照。</i>
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -709,12 +713,12 @@ view.helper
 
                           <h3 id="properties">Properties</h3>
                                                 <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -787,11 +791,11 @@ view.helper
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -1070,6 +1074,7 @@ Delta_AppPathManager のインスタンスを取得します。
                       <div class="source"><code>public string dateFormat($time = NULL)</code></div>
                                               <p>
 日付文字列 time をヘルパ属性 &#039;dateFormat&#039; に定義された形式で書式化します。
+</p>
 <div class="source"><code>{config/global_helpers.yml}
 date:
   class: Delte_DateHelper
@@ -1078,12 +1083,11 @@ date:
 <div class="source"><code>// 例えば &#039;2013-04-09 (Tue)&#039; を返す
 $date-&gt;dateFormat();
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1123,6 +1127,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public string datetimeFormat($time = NULL)</code></div>
                                               <p>
 日付文字列 time をヘルパ属性 &#039;dateFormat&#039; に定義された形式で書式化します。
+</p>
 <div class="source"><code>{config/global_helpers.yml}
 date:
   class: Delte_DateHelper
@@ -1131,12 +1136,11 @@ date:
 <div class="source"><code>// 例えば &#039;2013-04-09 22:04&#039; を返す
 $date-&gt;datetimeFormat();
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1176,15 +1180,15 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public string format($format, $time = NULL)</code></div>
                                               <p>
 日付文字列を書式に基いて変換します。
+</p>
 <div class="source"><code>// 例えば &#039;2013/04/10 (水)&#039; を返す
 $date-&gt;format(&#039;Y/m/d (D)&#039;);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1236,18 +1240,18 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public string timeAgo($time)</code></div>
                                               <p>
 指定した日付から経過した時間を分かりやすい文字列表記に変換します。
+</p>
 <div class="source"><code>// &#039;30 minutes ago&#039;
 $date-&gt;timeAgo(time() - 1800);
 
 // &#039;1 hours ago&#039;
 $date-&gt;timeAgo(time() - 3600);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1290,7 +1294,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:03 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:36 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

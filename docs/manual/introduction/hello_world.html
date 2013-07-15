@@ -179,7 +179,7 @@
   <p>先ほど紹介したアクションの起動方法ですが、実は次の形式でもアクションを起動させることができます。</p>
   <dl>
     <dt>Shell Code# デフォルトモジュールの起動</dt>
-    <dd><code>http://{host}/{camelCaps 形式のアクション名}{拡張子}<br />
+    <dd class="lang_shell"><code>http://{host}/{camelCaps 形式のアクション名}{拡張子}<br />
       http://{host}/greeting.do </code></dd>
   </dl>
   <p>これは、config/application.yml の module.entry 属性に hello という設定が記述されているためです。module.entry 属性は、リクエストパスにモジュール名が含まれていない場合に起動するデフォルトのモジュールを指定できます。delta では、このような動作を行なうモジュールをデフォルトモジュールと呼びます。</p>

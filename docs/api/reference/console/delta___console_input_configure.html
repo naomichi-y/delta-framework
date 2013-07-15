@@ -608,7 +608,6 @@
                           <p>
 コンソールコマンドで有効な引数とオプションを定義します。
 </p>
-<p>
 <div class="source"><code>class HelloWorldCommand extends Delta_ConsoleCommand
 {
   public function <a href="../console/delta___console_command.html#method_configure">configure</a>(Delta_ConsoleInputConfigure $configure)
@@ -635,11 +634,10 @@
   }
 }
 </code></div>
-</p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -675,10 +673,10 @@ console
             <p class="right"><a href="#top">To top</a></p>
 
             <h3 id="constants">Constants</h3>
-                          <table summary="Constants">
+                          <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-constant-name" />
+                  <col class="col-constant-value" />
                 </colgroup>
                 <tr>
                   <th>Constnat</th>
@@ -725,11 +723,11 @@ console
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -875,21 +873,23 @@ Delta_AppPathManager のインスタンスを取得します。
 コマンドで有効な引数を追加します。
 引数は追加した順序で名前がバインドされる点に注意して下さい。
 例えば <a href="../console/delta___console_command.html#method_configure">Delta_ConsoleCommand::configure()</a> で次のコードが定義されているとします。
+</p>
 <div class="source"><code>$configure-&gt;addArgument(&#039;foo&#039;)-&gt;addArgument(&#039;bar&#039;);
 </code></div>
+<p>
 &#039;./deltac {command_path} one two&#039; コマンドを実行すると結果は次のようになります。
+</p>
 <div class="source"><code>// &#039;one&#039;
 $input-&gt;getArgument(&#039;foo&#039;);
 
 // &#039;two&#039;
 $input-&gt;getArgument(&#039;bar&#039;);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -937,17 +937,17 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public Delta_ConsoleInputConfigure addOption($name, $type = self::OPTION_VALUE_NONE, $callback = NULL)</code></div>
                                               <p>
 コマンドで有効なオプションを追加します。
+</p>
 <div class="source"><code>// コマンドに &#039;--with-dir=/tmp&#039; というオプションが指定された場合、&#039;/tmp&#039; が存在しない場合は <a href="../console/delta___console_input.html#method_validate">バリデート</a> の時点で <a href="http://www.php.net/class.invalidargumentexception.php">InvalidArgumentException</a> をスローする
 $configure-&gt;addOption(&#039;with-dir&#039;, Delta_ConsoleInputConfigure::OPTION_VALUE_HAVE, function($value, &amp;$message) {
   return is_dir($value);
 });
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -978,7 +978,7 @@ $configure-&gt;addOption(&#039;with-dir&#039;, Delta_ConsoleInputConfigure::OPTI
                               <td>
                                                                   <p>
 オプション値を検証するコールバック関数。
-</div>
+</p>
 <ul>
 <li>第 1 引数: コンソールから渡されたオプションの値。</li>
 <li>第 2 引数: 値が不正な場合に例外に出力するメッセージを参照渡しで指定。(オプション)</li>
@@ -1011,11 +1011,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 コマンドで有効な引数のリストを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1046,11 +1046,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 コマンドで有効なオプションのリストを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1084,7 +1084,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:00 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:34 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

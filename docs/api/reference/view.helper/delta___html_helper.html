@@ -609,12 +609,11 @@
 HTML の作成を補助するヘルパメソッドを提供します。
 このヘルパは、$html という変数名であらかじめテンプレートにインスタンスが割り当てられています。
 </p>
-<p>
 <div class="source"><code>&lt;?php echo $html-&gt;{method}; ?&gt;
 </code></div>
-</p>
 <p>
 global_helpers.yml の設定例:
+</p>
 <div class="source"><code>html:
   # ヘルパクラス名。
   class: Delta_HTMLHelper
@@ -634,12 +633,13 @@ global_helpers.yml の設定例:
   # 圧縮した JS のディレクトリを参照する場合に TRUE を指定。<a href="../view.helper/delta___html_helper.html#method_includeJS">includeJS()</a> の項を参照。
   jsMinify: FALSE
 </code></div>
+<p>
 <i>その他に指定可能な属性は <a href="../view.helper/delta___helper.html">Delta_Helper</a> クラスを参照。</i>
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -680,12 +680,12 @@ view.helper
 
                           <h3 id="properties">Properties</h3>
                                                 <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -755,11 +755,11 @@ view.helper
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -1220,11 +1220,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 文字列中に含まれる URI や E-Mail アドレスにアンカーを追加します。
 <i>このメソッドは、HTML ソースに対し実行するべきではありません。HTML タグに含まれるリンクに重ねてアンカーが張られる可能性があります。</i>
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1292,11 +1292,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>protected void baseLink($label, $path, $attributes, $extra)</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1342,11 +1342,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 指定されたパスを元に、Web から参照可能なリクエストパスを生成します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1369,7 +1369,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <p>
 path のファイルタイプ。指定可能な値は次の通り。
-</div>
+</p>
 <ul>
 <li>css: &#039;baseCSSPath&#039; からの相対パスを生成。</li>
 <li>js: &#039;baseJSPath&#039; からの相対パスを生成。</li>
@@ -1383,7 +1383,7 @@ path のファイルタイプ。指定可能な値は次の通り。
                               <td>
                                                                   <p>
 タグの出力オプション。
-</div>
+</p>
 <ul>
 <li>absolute: 相対パスを絶対パスに変換します。</li>
 <li>query: path に追加するクエリパラメータ。連想配列形式で指定。</li>
@@ -1408,11 +1408,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 <a href="../message/delta___action_messages.html">メッセージオブジェクト</a> からエラーメッセージ ID に紐付くエラーメッセージを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1462,11 +1462,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 <a href="../message/delta___action_messages.html#method_addError">Delta_ActionMessages::addError()</a> メソッドで追加された全てのエラーメッセージを HTML タグを含む形式で取得します。
 このメソッドはメッセージが複数含まれる場合にリスト形式の HTML を返します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1543,11 +1543,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 文字列 string に含まれる search をハイライト表示します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1597,11 +1597,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 イメージタグを生成します。
 このメソッドは、extra オプション &#039;ignoreCache&#039; を TRUE に指定しない限り、ファイルが存在するかどうかのチェックは行いません。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1660,11 +1660,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 スタイルシートのリンクタグを生成します。
 このメソッドは、extra オプション &#039;ignoreCache&#039; を TRUE に指定しない限り、ファイルが存在するかどうかのチェックは行いません。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1725,11 +1725,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 JavaScript のリンクタグを生成します。
 このメソッドは、extra オプション &#039;ignoreCache&#039; を TRUE に指定しない限り、ファイルが存在するかどうかのチェックは行いません。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1789,7 +1789,6 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 テンプレートファイルを読み込みます。
 </p>
-<p>
 <div class="source"><code># modules/{module}/templates/includes/header.php を読み込む。
 #   - 親のテンプレートで使用可能な変数は全て子テンプレートでも使用可能。
 #   - &#039;../&#039; 形式で他のモジュールのテンプレートを参照することが可能。
@@ -1805,12 +1804,11 @@ $html-&gt;includeTemplate(&#039;includes/header&#039;, array(&#039;foo&#039; =&g
 # {APP_ROOT_DIR}/templates/html/global_footer.php を読み込む。
 $html-&gt;includeTemplate(&#039;@templates/html/global_footer&#039;);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1863,11 +1861,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 <a href="../view.helper/delta___html_helper.html#method_link">link()</a> メソッドが生成するパスを絶対パスとして生成するかどうか設定の状態をチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1899,11 +1897,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 リンクタグを生成します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1934,10 +1932,10 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <p>
 タグに追加する属性。
+</p>
   <div class="source"><code>// タグに &#039;class&#039;、&#039;title&#039; 属性を追加
 $attributes = array(&#039;class&#039; =&gt; &#039;field&#039;, &#039;title&#039; =&gt; &#039;Hello&#039;);
 </code></div>
-</p>
                                                               </td>
                             </tr>
                                                         <tr>
@@ -1946,7 +1944,7 @@ $attributes = array(&#039;class&#039; =&gt; &#039;field&#039;, &#039;title&#039;
                               <td>
                                                                   <p>
 タグの出力オプション。
-</div>
+</p>
 <ul>
 <li>escape: label に指定された文字列をエスケープするかどうか。規定値は TRUE。</li>
 <li>absolute: 相対パスを絶対パスに変換します。</li>
@@ -1984,11 +1982,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 <a href="../message/delta___action_messages.html">メッセージオブジェクト</a> からメッセージ ID に紐付くメッセージを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2038,11 +2036,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 <a href="../message/delta___action_messages.html#method_add">Delta_ActionMessages::add()</a> メソッドで追加された全てのメッセージを HTML タグを含む形式で取得します。
 このメソッドはメッセージが複数含まれる場合にリスト形式の HTML を返します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2100,11 +2098,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 配列 array を元に順序のないリストタグを生成します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2135,7 +2133,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <p>
 タグの出力オプション。
-</div>
+</p>
 <ul>
 <li>separator: ネストされたリストを生成する際にキーと値を区切る文字列。既定値は &#039;=&#039;。</li>
 </ul>
@@ -2168,7 +2166,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:03 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:36 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

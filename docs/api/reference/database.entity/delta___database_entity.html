@@ -609,18 +609,16 @@
 データベースの 1 レコードを表現するエンティティオブジェクトです。
 プロパティに (データベースの) NULL 値や式 (NOW() 等) を割り当てたい場合、<a href="../database/delta___database_expression.html">Delta_DatabaseExpression</a> クラスを利用して下さい。
 </p>
-<p>
 <div class="source"><code>$entity = Delta_DAOFactory::create({dao_name})-&gt;createEntity();
 $entity-&gt;greetingId = 1;
 $entity-&gt;message = &#039;Hello World!&#039;;
 $entity-&gt;name = new Delta_DatabaseExpression::null();
 $entity-&gt;registerDate = new Delta_DatabaseExpression(&#039;NOW()&#039;);
 </code></div>
-</p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -665,11 +663,11 @@ database.entity
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -799,7 +797,7 @@ Delta_AppPathManager のインスタンスを取得します。
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:01 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
