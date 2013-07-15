@@ -244,7 +244,6 @@ class Delta_MailSender extends Delta_Object {
       // 本来ヘッダは LF で送るべきだが、MTA によっては正しく表示できないので CRLF で送信する
       $options->set('linefeed', "\n", FALSE);
     }
-    print_r($options->get('host'));exit;
 
     $options->set('hanToZen', FALSE, FALSE);
     $options->set('fileNameFormat', self::ATTACHMENT_FILENAME_FORMAT_RFC2231, FALSE);
