@@ -30,14 +30,7 @@
  *   linefeed:
  *
  *   # MIME エンコーディング。既定値は application.yml の 'charset:mime' で指定した値。
- *   mimeEncoding:
- *
- *   # 入力エンコーディング。既定値は application.yml の 'charset:default' で指定した値。
- *   # 件名や本文、添付ファイル名などの入力値は全て 'defaultEncoding' 形式と見なされ、内部で 'mimeEncoding' 形式に変換される。
- *   defaultEncoding:
- *
- *   # HTML エンコーディング。既定値は application.yml の 'charset:default' で指定した値。
- *   htmlEncoding:
+ *   encoding:
  *
  *   ############################################################
  *   # type が smtp の場合に指定可能なオプション
@@ -207,6 +200,12 @@ class Delta_MailSender extends Delta_Object {
   protected $_attachmentPart;
 
   /**
+   * 入力エンコーディング。
+   * @var string
+   */
+  protected $_inputEncoding;
+
+  /**
    * コンストラクタ。
    *
    * @param array $options メール送信オプションの指定。
@@ -245,17 +244,15 @@ class Delta_MailSender extends Delta_Object {
       // 本来ヘッダは LF で送るべきだが、MTA によっては正しく表示できないので CRLF で送信する
       $options->set('linefeed', "\n", FALSE);
     }
+    print_r($options->get('host'));exit;
 
     $options->set('hanToZen', FALSE, FALSE);
     $options->set('fileNameFormat', self::ATTACHMENT_FILENAME_FORMAT_RFC2231, FALSE);
 
     // エンコードの設定
-    $options->set('mimeEncoding', $config->getString('charset.mime'), FALSE);
+    $options->set('encoding', $config->getString('charset.mime'), FALSE);
 
-    $defaultEncoding = $config->get('charset.default');;
-    $options->set('defaultEncoding', $defaultEncoding, FALSE);
-    $options->set('htmlEncoding', $defaultEncoding, FALSE);
-
+    $this->_inputEncoding = $config->get('charset.default');
     $this->_options = $options;
     $this->_part = new Delta_MailPart($options->getString('linefeed'));
   }
@@ -399,19 +396,19 @@ class Delta_MailSender extends Delta_Object {
    */
   private function encodeMIMEHeader($value)
   {
-    $mimeEncoding = $this->_options->getString('mimeEncoding');
+    $encoding = $this->_options->getString('encoding');
+    $internalEncoding = mb_internal_encoding();
 
-    $defaultEncoding = mb_internal_encoding();
-    mb_internal_encoding($mimeEncoding);
+    mb_internal_encoding($encoding);
 
     if ($this->_options->hasName('hanToZen')) {
-      $value = mb_convert_kana($value, 'KV', $this->_options->getString('defaultEncoding'));
+      $value = mb_convert_kana($value, 'KV', $this->_inputEncoding);
     }
 
-    $value = mb_convert_encoding($value, $mimeEncoding, $this->_options->getString('defaultEncoding'));
-    $value = mb_encode_mimeheader($value, $mimeEncoding, 'B', $this->_options->getString('linefeed'));
+    $value = mb_convert_encoding($value, $encoding, $this->_inputEncoding);
+    $value = mb_encode_mimeheader($value, $encoding, 'B', $this->_options->getString('linefeed'));
 
-    mb_internal_encoding($defaultEncoding);
+    mb_internal_encoding($internalEncoding);
 
     return $value;
   }
@@ -556,10 +553,10 @@ class Delta_MailSender extends Delta_Object {
     $body = Delta_StringUtils::replaceLinefeed($body, $this->_options->getString('linefeed'));
 
     if ($this->_options->hasName('hanToZen')) {
-      $body = mb_convert_kana($body, 'KV', $this->_options->getString('defaultEncoding'));
+      $body = mb_convert_kana($body, 'KV', $this->_inputEncoding);
     }
 
-    $body = mb_convert_encoding($body, $this->_options->getString('mimeEncoding'), $this->_options->getString('defaultEncoding'));
+    $body = mb_convert_encoding($body, $this->_options->getString('encoding'), $this->_inputEncoding);
     $this->_part->setBody($body);
 
     return $this;
@@ -686,24 +683,25 @@ class Delta_MailSender extends Delta_Object {
    */
   public function setHTMLText($htmlText)
   {
-    $htmlText = Delta_StringUtils::replaceLinefeed($htmlText, $this->_options->getString('linefeed'));
-    $htmlEncoding = $this->_options->getString('htmlEncoding');
+    // 改行コードの統一
+    $linefeed = $this->_options->getString('linefeed');
+    $htmlText = Delta_StringUtils::replaceLinefeed($htmlText, $linefeed);
 
+    // 半角文字を全角文字に変換
     if ($this->_options->hasName('hanToZen')) {
-      $htmlText = mb_convert_kana($htmlText, 'KV', $this->_options->getString('defaultEncoding'));
+      $htmlText = mb_convert_kana($htmlText, 'KV', $this->_inputEncoding);
     }
 
-    $this->_html = $htmlText;
-
-    $htmlText = mb_convert_encoding($htmlText, $htmlEncoding, $this->_options->getString('defaultEncoding'));
     $htmlText = Delta_StringUtils::encodeQuotedPrintable($htmlText, $this->_options->getString('linefeed'), $this->_width);
 
-    $htmlPart = new Delta_MailPart($this->_options->getString('linefeed'));
-    $htmlPart->setCharset($htmlEncoding);
-    $htmlPart->setContentType('text/html', array('charset' => $htmlEncoding), TRUE);
+    // HTML パートの生成
+    $htmlPart = new Delta_MailPart($linefeed);
+    $htmlPart->setCharset($encoding);
+    $htmlPart->setContentType('text/html', array('charset' => $encoding), TRUE);
     $htmlPart->setContentTransferEncoding('quoted-printable');
     $htmlPart->setBody($htmlText);
 
+    $this->_html = $htmlText;
     $this->_htmlPart = $htmlPart;
 
     return $this;
@@ -756,12 +754,12 @@ class Delta_MailSender extends Delta_Object {
     $contentDisposition = 'attachment')
   {
     if ($this->_options->hasName('hanToZen')) {
-      $fileName = mb_convert_kana($fileName, 'KV', $this->_options->getString('defaultEncoding'));
+      $fileName = mb_convert_kana($fileName, 'KV', $this->_inputEncoding);
     }
 
     $fileName = mb_convert_encoding($fileName,
-      $this->_options->getString('mimeEncoding'),
-      $this->_options->getString('defaultEncoding'));
+      $this->_options->getString('encoding'),
+      $this->_inputEncoding);
 
     // Content-Type のオプションパラメータにファイル名を定義
     $contentTypeFileName = $this->encodeMIMEHeader($fileName);
@@ -801,7 +799,7 @@ class Delta_MailSender extends Delta_Object {
    */
   private function getFileNameParameter($fileName)
   {
-    $buffer = $this->_options->getString('mimeEncoding') . '\'\'';
+    $buffer = $this->_options->getString('encoding') . '\'\'';
     $width = strlen($buffer);
 
     $j = strlen($fileName);
@@ -997,7 +995,7 @@ class Delta_MailSender extends Delta_Object {
     }
 
     $part->addHeader('MIME-Version', '1.0');
-    $parameters = array('charset' => $this->_options->getString('mimeEncoding'));
+    $parameters = array('charset' => $this->_options->getString('encoding'));
     $body = $part->getBody();
 
     // テキストメールを生成
@@ -1033,7 +1031,7 @@ class Delta_MailSender extends Delta_Object {
 
       // テキストパートの生成
       $plainPart = new Delta_MailPart($this->_options->getString('linefeed'));
-      $plainPart->setCharset($this->_options->getString('mimeEncoding'));
+      $plainPart->setCharset($this->_options->getString('encoding'));
       $plainPart->setContentType('text/plain', $parameters, TRUE);
       $plainPart->setContentTransferEncoding('7bit');
 

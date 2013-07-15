@@ -39,15 +39,15 @@
     <dl>
       <dt>PHP Code#</dt>
       <dd class="lang_php"><code>// TRUE<br>
-      $debug = Delta_Config::getApplication()-&gt;get('debug');</code></dd>
+        $debug = Delta_Config::getApplication()-&gt;get('debug');</code></dd>
     </dl>
     <p><a href="../../api/reference/util.config/delta___config.html#method_get">Delta_ParameterHolder::get()</a> メソッドは属性名を &quot;.&quot; (ピリオド) 区切りで連結させることで、階層化された属性の値を取得することもできます。</p>
     <dl>
       <dt>YAML Code# config/application.yml</dt>
-      <dd class="lang_yaml"><code>	htmlEscape:<br>
-&nbsp;&nbsp;function: htmlspecialchars        <br>
-&nbsp;&nbsp;flags: &lt;?php echo ENT_QUOTES ?&gt;<br>
-      </code></dd>
+      <dd class="lang_yaml"><code> htmlEscape:<br>
+        &nbsp;&nbsp;function: htmlspecialchars <br>
+        &nbsp;&nbsp;flags: &lt;?php echo ENT_QUOTES ?&gt;<br>
+        </code></dd>
       <dt>PHP Code#</dt>
       <dd class="lang_php"><code>//　htmlspecialchars<br>
         $function = Delta_Config::getApplication()-&gt;get('htmlEscape.function');</code></dd>
@@ -56,13 +56,13 @@
     <dl>
       <dt>PHP Code#</dt>
       <dd class="lang_php"><code>//　htmlspecialchars<br>
-      $function = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;get('function');</code></dd>
+        $function = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;get('function');</code></dd>
     </dl>
     <p>上記形式の場合、get('htmlEscape') メソッドは Delta_ParameterHolder オブジェクトを返します。このオブジェクトを展開すると次のような値が返されることが分かります。</p>
     <dl>
       <dt>PHP Code#</dt>
       <dd class="lang_php"><code> // array('function' =&gt; 'htmlspecialchars', 'flags' =&gt; 3)<br>
-$array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </code></dd>
+        $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </code></dd>
     </dl>
     <p>設定ファイルの値を一時的に追加したり書き換えたい場合は set() メソッドを利用して下さい。</p>
     <dl>
@@ -74,8 +74,7 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
         $config-&gt;get('foo');<br>
         <br>
         // 配列データをセットすることも可能<br>
-        $config-&gt;set('foo', array('bar', 'baz'));
-      </code></dd>
+        $config-&gt;set('foo', array('bar', 'baz')); </code></dd>
     </dl>
     <p>書き換えた値は同一リクエスト内でのみ有効です。</p>
     <div class="note_container note_info">
@@ -148,7 +147,7 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
         &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=192.168.0.1; dbname=dev<br />
         <br />
         # 新たに定義した属性<br />
-      addKey: addValue</code></dd>
+        addKey: addValue</code></dd>
     </dl>
     <dl>
       <dt>PHP Code#</dt>
@@ -157,8 +156,7 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
         // array('dsn' =&gt; 'mysql:host=localhost; dbname=dev', 'user' =&gt; 'webapp', 'password' =&gt; 'webapp')<br>
         $config-&gt;get('database.default')-&gt;toArray();<br>
         <br>
-        // 'addValue'
-        <br>
+        // 'addValue' <br>
         $config-&gt;get('addKey');</code></dd>
     </dl>
     <p>'database.default.dsn' の接続情報が書き換わり、新たに追加した属性が参照できるようになります。</p>
@@ -176,22 +174,18 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
         $config-&gt;set('greeting', 'HelloWorld');<br>
         $config-&gt;update();<br>
         <br>
-        $config = $config-&gt;getCustomFile('new');
+        $config = $config-&gt;getCustomFile('new'); <br>
         <br>
-        <br>
-        // 'Hello'
-        <br>
-        $config-&gt;get('greeting');
-        <br>
-      </code></dd>
+        // 'Hello' <br>
+        $config-&gt;get('greeting'); <br>
+        </code></dd>
     </dl>
     <p>createCustomFile() メソッドには作成するファイルを指定します。ここでは 'new' を指定したので、実際には config/new.yml ファイル が作成されたことになります。set() でデータを設定し、最後にupdate() メソッドを実行することでファイルにデータが書き込まれます。</p>
     <dl>
-      <dd class="lang_php">
-        <dl>
-          <dd class="lang_php">
-            <p class="right"><a href="#top">上へ</a></p></dd></dl></dd>
-  </dl>
+      <p class="right"><a href="#top">上へ</a></p>
+      </dd>
+    </dl>
+    </dd>
   </article>
 </div>
 <footer>
