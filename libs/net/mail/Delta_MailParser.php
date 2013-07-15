@@ -185,30 +185,31 @@ class Delta_MailParser extends Delta_Object
   private function parseHeader(Delta_MailPart $parentPart, $headers)
   {
     $splitHeader = preg_split('/(?!\n\s)\n/', $headers);
-    $headerList = array();
+    $headers = array();
 
     foreach ($splitHeader as $header) {
-      $separate = explode(':', $header, 2);
+      if (preg_match('/^([\w\-]+):(.+)$/', $header, $matches, PREG_OFFSET_CAPTURE)) {
+        $name = strtolower($matches[1][0]);
+        $value = trim($matches[2][0]);
 
-      $headerName = strtolower($separate[0]);
-      $headerValue = trim($separate[1]);
+        // 同名のヘッダが複数存在する場合は全ての値を配列形式で保存
+        if (isset($headers[$name])) {
+          if (!is_array($headers[$name])) {
+            $tempValue = $headers[$name];
 
-      if (isset($headerList[$headerName])) {
-        if (!is_array($headerList[$headerName])) {
-          $tempValue = $headerList[$headerName];
+            $headers[$name] = array();
+            $headers[$name][] = $tempValue;
+          }
 
-          $headerList[$headerName] = array();
-          $headerList[$headerName][] = $tempValue;
+          $headers[$name][] = $value;
+
+        } else {
+          $headers[$name] = $value;
         }
-
-        $headerList[$headerName][] = $headerValue;
-
-      } else {
-        $headerList[$headerName] = $headerValue;
       }
     }
 
-    $parentPart->setHeaders($headerList);
+    $parentPart->setHeaders($headers);
 
     $this->parseContentType($parentPart);
   }

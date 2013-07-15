@@ -32,12 +32,12 @@ class Delta_FileReader extends Delta_Object
   /**
    * @var string
    */
-  protected $_defaultEncoding;
+  protected $_inputEncoding;
 
   /**
    * @var string
    */
-  protected $_inputEncoding;
+  protected $_outputEncoding;
 
   /**
    * @var string
@@ -62,7 +62,7 @@ class Delta_FileReader extends Delta_Object
       throw new Delta_IOException($message);
     }
 
-    $this->_defaultEncoding = Delta_Config::getApplication()->getString('charset.default');
+    $this->_outputEncoding = Delta_Config::getApplication()->getString('charset.default');
     $this->_path = $path;
 
     $this->open();
@@ -77,6 +77,18 @@ class Delta_FileReader extends Delta_Object
   public function setInputEncoding($inputEncoding)
   {
     $this->_inputEncoding = $inputEncoding;
+  }
+
+  /**
+   * 出力エンコーディングを設定します。
+   * 未指定の場合は application.yml に定義された 'charaset.default' が使用されます。
+   *
+   * @param string $outputEncoding 出力エンコーディング。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function setOutputEncoding($outputEncoding)
+  {
+    $this->_outputEncoding = $outputEncoding;
   }
 
   /**
@@ -212,7 +224,7 @@ class Delta_FileReader extends Delta_Object
       flock($this->_handler, LOCK_UN);
 
       if ($this->_inputEncoding !== NULL) {
-        $buffer = mb_convert_encoding($buffer, $this->_defaultEncoding, $this->_inputEncoding);
+        $buffer = mb_convert_encoding($buffer, $this->_outputEncoding, $this->_inputEncoding);
       }
     }
 
@@ -237,7 +249,7 @@ class Delta_FileReader extends Delta_Object
       flock($this->_handler, LOCK_UN);
 
       if ($buffer !== FALSE && $this->_inputEncoding !== NULL) {
-        $buffer = mb_convert_encoding($buffer, $this->_defaultEncoding, $this->_inputEncoding);
+        $buffer = mb_convert_encoding($buffer, $this->_outputEncoding, $this->_inputEncoding);
       }
     }
 
@@ -284,7 +296,7 @@ class Delta_FileReader extends Delta_Object
       flock($this->_handler, LOCK_UN);
 
       if ($this->_inputEncoding !== NULL) {
-        $buffer = mb_convert_encoding($buffer, $this->_defaultEncoding, $this->_inputEncoding);
+        $buffer = mb_convert_encoding($buffer, $this->_outputEncoding, $this->_inputEncoding);
       }
 
     } else {

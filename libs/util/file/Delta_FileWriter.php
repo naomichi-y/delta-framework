@@ -278,19 +278,9 @@ class Delta_FileWriter extends Delta_Object
       throw new Delta_IOException($message);
     }
 
-    $isNewFile = FALSE;
-
-    if (!is_file($this->_path)) {
-      $isNewFile = TRUE;
-    }
-
     if (flock($this->_handler, LOCK_EX)) {
       fwrite($this->_handler, $this->buildOutputData($data));
       flock($this->_handler, LOCK_UN);
-    }
-
-    if ($this->_mode !== NULL && $isNewFile) {
-      chmod($this->_path, $this->_mode);
     }
   }
 
@@ -317,6 +307,10 @@ class Delta_FileWriter extends Delta_Object
     if ($this->_writeBuffer) {
       $this->realWrite($this->_writeBuffer);
       $this->clear();
+    }
+
+    if ($this->_mode !== NULL) {
+      chmod($this->_path, $this->_mode);
     }
   }
 
