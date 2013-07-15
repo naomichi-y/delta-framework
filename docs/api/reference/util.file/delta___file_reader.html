@@ -679,15 +679,6 @@ util.file
                     </tr>
                                                                                             <tr>
                                                   <td>
-                                                          <a href="#property__defaultEncoding">$_defaultEncoding</a>                                                      </td>
-                          <td>
-                                                          string                                                      </td>
-                          <td>
-                                                      </td>
-                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
-                        </tr>
-                                                                                                                  <tr>
-                                                  <td>
                                                           <a href="#property__handler">$_handler</a>                                                      </td>
                           <td>
                                                           resource                                                      </td>
@@ -707,6 +698,15 @@ util.file
                                                                                                                   <tr>
                                                   <td>
                                                           <a href="#property__linefeed">$_linefeed</a>                                                      </td>
+                          <td>
+                                                          string                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__outputEncoding">$_outputEncoding</a>                                                      </td>
                           <td>
                                                           string                                                      </td>
                           <td>
@@ -948,19 +948,23 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
                       </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_setOutputEncoding">setOutputEncoding()</a>                                                  </td>
+                        <td>
+                                                      <p>
+出力エンコーディングを設定します。
+</p>
+                                                  </td>
+                        <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
+                      </tr>
                                                       </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
             
                         <h3>Property details</h3>
               <dl>
-                                                <dt id="property__defaultEncoding">$_defaultEncoding</dt>
-                  <dd>
-                    <div class="source"><code>protected string $_defaultEncoding</code></div>
-                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
-                                                            <p class="right"><a href="#properties">To properties</a></p>
-                  </dd>
-                                                                <dt id="property__handler">$_handler</dt>
+                                                <dt id="property__handler">$_handler</dt>
                   <dd>
                     <div class="source"><code>protected resource $_handler</code></div>
                                           <p>このプロパティは現在のところ詳細な情報はありません。</p>
@@ -975,6 +979,12 @@ Delta_AppPathManager のインスタンスを取得します。
                                                                 <dt id="property__linefeed">$_linefeed</dt>
                   <dd>
                     <div class="source"><code>protected string $_linefeed = PHP_EOL</code></div>
+                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__outputEncoding">$_outputEncoding</dt>
+                  <dd>
+                    <div class="source"><code>protected string $_outputEncoding</code></div>
                                           <p>このプロパティは現在のところ詳細な情報はありません。</p>
                                                             <p class="right"><a href="#properties">To properties</a></p>
                   </dd>
@@ -1617,6 +1627,42 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_setOutputEncoding">setOutputEncoding()</dt>
+                    <dd>
+                      <div class="source"><code>public void setOutputEncoding($outputEncoding)</code></div>
+                                              <p>
+出力エンコーディングを設定します。
+未指定の場合は application.yml に定義された &#039;charaset.default&#039; が使用されます。
+</p>
+                                                                    <table summary="Method detail">
+                        <colgroup>
+                          <col width="15%" />
+                          <col width="15%" />
+                          <col width="70%" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$outputEncoding</td>
+                              <td>string</td>
+                              <td>
+                                                                  <p>
+出力エンコーディング。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                 </dl>
                       </article>
         </div>
@@ -1626,7 +1672,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Thu, 11 Jul 2013 19:31:16 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 14:45:21 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
