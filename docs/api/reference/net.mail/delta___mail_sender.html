@@ -627,14 +627,7 @@ mail:
   linefeed:
 
   # MIME エンコーディング。既定値は application.yml の &#039;charset:mime&#039; で指定した値。
-  mimeEncoding:
-
-  # 入力エンコーディング。既定値は application.yml の &#039;charset:default&#039; で指定した値。
-  # 件名や本文、添付ファイル名などの入力値は全て &#039;defaultEncoding&#039; 形式と見なされ、内部で &#039;mimeEncoding&#039; 形式に変換される。
-  defaultEncoding:
-
-  # HTML エンコーディング。既定値は application.yml の &#039;charset:default&#039; で指定した値。
-  htmlEncoding:
+  encoding:
 
   ############################################################
   # type が smtp の場合に指定可能なオプション
@@ -857,6 +850,18 @@ SMTP-AUTH 対応
                           <td>
                                                           <p>
 <a href="../net.mail/delta___mail_part.html">Delta_MailPart</a> オブジェクト。(HTML パート)
+</p>
+                                                      </td>
+                          <td><a href="../net.mail/delta___mail_sender.html">Delta_MailSender</a></td>
+                        </tr>
+                                                                                                                  <tr>
+                                                  <td>
+                                                          <a href="#property__inputEncoding">$_inputEncoding</a>                                                      </td>
+                          <td>
+                                                          string                                                      </td>
+                          <td>
+                                                          <p>
+入力エンコーディング。
 </p>
                                                       </td>
                           <td><a href="../net.mail/delta___mail_sender.html">Delta_MailSender</a></td>
@@ -1289,6 +1294,14 @@ Delta_AppPathManager のインスタンスを取得します。
                     <div class="source"><code>protected Delta_MailPart $_htmlPart</code></div>
                                           <p>
 <a href="../net.mail/delta___mail_part.html">Delta_MailPart</a> オブジェクト。(HTML パート)
+</p>
+                                                            <p class="right"><a href="#properties">To properties</a></p>
+                  </dd>
+                                                                <dt id="property__inputEncoding">$_inputEncoding</dt>
+                  <dd>
+                    <div class="source"><code>protected string $_inputEncoding</code></div>
+                                          <p>
+入力エンコーディング。
 </p>
                                                             <p class="right"><a href="#properties">To properties</a></p>
                   </dd>
@@ -2532,7 +2545,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 14:45:20 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 16:13:02 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

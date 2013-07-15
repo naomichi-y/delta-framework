@@ -239,11 +239,14 @@ class Delta_ParameterHolder extends Delta_Object implements Iterator, ArrayAcces
    */
   public function set($name, $value, $override = TRUE)
   {
-    if (!$override && $this->hasName($name)) {
-      $this->remove($name);
-    }
+    if ($this->hasName($name)) {
+      if ($override) {
+        Delta_ArrayUtils::build($name, $value, $this->_array);
+      }
 
-    Delta_ArrayUtils::build($name, $value, $this->_array);
+    } else {
+      Delta_ArrayUtils::build($name, $value, $this->_array);
+    }
   }
 
   /**
