@@ -613,7 +613,7 @@
 </p>
 <p>
 Delta_HttpResponse が提供するいくつかのメソッドは、<a href="../http.response/delta___http_response.html#method_flush">flush()</a> メソッドによってクライアントにレスポンスが返されるタイミングで実行されます。
-</div>
+</p>
 <ul>
 <li><a href="../http.response/delta___http_response.html#method_setStatus">setStatus()</a></li>
 <li><a href="../http.response/delta___http_response.html#method_setHeader">setHeader()</a></li>
@@ -630,10 +630,10 @@ Delta_HttpResponse が提供するいくつかのメソッドは、<a href="../h
 </ul>
 <p>例えば <a href="../http.response/delta___http_response.html#method_setHeader">setHeader()</a> メソッドはクライアントに HTTP ヘッダを送信しますが、setHeader() の直後で exit() をコールした場合、ヘッダはクライアントに送信されないことになります。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -678,11 +678,11 @@ http.response
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -1063,11 +1063,11 @@ Delta_AppPathManager のインスタンスを取得します。
 クライアントに送信する Cookie を設定します。
 実際に Cookie が送信されるのは、<a href="../http.response/delta___http_response.html#method_flush">flush()</a> メソッドが実行されたタイミングであることに注意して下さい。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1219,11 +1219,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レスポンスオブジェクトに設定されたコンテンツタイプ (Content-Type ヘッダ) を取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1254,11 +1254,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レスポンスオブジェクトに設定されたクライアントに送信するヘッダを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1298,11 +1298,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レスポンスオブジェクトに設定されたクライアントに送信する全てのヘッダを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1333,11 +1333,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 出力エンコーディングを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1368,11 +1368,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レスポンスオブジェクトに含まれる出力バッファを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1407,11 +1407,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 出力バッファにバイナリデータが含まれているかチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1442,11 +1442,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 指定されたヘッダがレスポンスオブジェクトに設定されているかチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1486,11 +1486,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 出力バッファにデータが含まれているかチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1548,11 +1548,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レスポンスデータがクライアントに送信済みであるかどうかチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1583,11 +1583,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 出力バッファが書き込み可能な状態にあるかどうかチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1619,11 +1619,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 クライアントが保持している特定の Cookie を削除します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1667,11 +1667,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レスポンスオブジェクトに設定されている特定のヘッダを削除します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1718,11 +1718,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 後に続く処理は一切実行されない点に注意して下さい。
 エラーの出力に使用されるテンプレートは {APP_ROOT_DIR}/templates/html/http_error.php にあります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1776,11 +1776,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 指定した URI にリダイレクトします。
 実際にリダイレクトされるのは、<a href="../http.response/delta___http_response.html#method_flush">flush()</a> メソッドが実行されたタイミングであることに注意して下さい。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1832,11 +1832,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 指定したアクションへリダイレクトします。
 <a href="../http.response/delta___http_response.html#method_sendRedirect">sendRedirect()</a> の項も合わせて参照して下さい。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1893,7 +1893,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </p>
 <p>
 出力されるヘッダ:
-</div>
+</p>
 <ul>
 <li>Expires: Thu, 01 Dec 1994 16:00:00 GMT</li>
 <li>Last-Modified: {現在の GMT 時刻}</li>
@@ -1915,11 +1915,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 クライアントに送信するコンテンツタイプ (Content-Type ヘッダ) を設定します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1950,11 +1950,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 指定したデータをダウンロード形式で提供します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2003,11 +2003,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 クライアントに送信するヘッダを設定します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2056,11 +2056,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 出力エンコーディング形式を設定します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2092,11 +2092,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 クライアントに送信する HTTP ステータスコードを設定します。
 <a href="../http.response/delta___http_response.html#method_setStatus">setStatus()</a> メソッドは、全ての出力が行われる前にコールする必要があります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2141,11 +2141,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 出力バッファにデータを書き込みます。
 書き込まれたデータは <a href="../http.response/delta___http_response.html#method_flush">flush()</a> メソッドがコールされた時点で出力されます。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2177,11 +2177,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 指定されたデータをバイナリ形式で出力します。
 <a href="../http.response/delta___http_response.html#method_writeBinary">writeBinary()</a> で出力バッファにデータが書き込まれた場合、後に続く出力制御は全て無効となります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2222,11 +2222,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 指定されたイメージデータをバイナリ形式で出力します。
 <a href="../http.response/delta___http_response.html#method_writeImage">writeImage()</a> で出力バッファにデータが書き込まれた場合、後に続く出力制御は全て無効となります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2267,11 +2267,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 指定されたデータを JSON エンコードした形式で出力します。
 <a href="../http.response/delta___http_response.html#method_writeJSON">writeJSON()</a> で出力バッファにデータが書き込まれた場合、後に続く出力制御は全て無効となります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -2305,7 +2305,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:01 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

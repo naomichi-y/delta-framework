@@ -608,10 +608,10 @@
                           <p>
 データベースや O/R マッパと連携した機能を提供する DAO の抽象クラスです。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -652,12 +652,12 @@ database.dao
 
                           <h3 id="properties">Properties</h3>
                                                 <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -706,11 +706,11 @@ database.dao
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -939,11 +939,11 @@ DAO が参照するデータソース ID を設定します。
 データベースから取得したレコード配列を元にエンティティオブジェクトを生成します。
 <strong>このメソッドは近い将来破棄されます。代替メソッド <a href="../database/delta___record_object.html#method_toEntity">Delta_RecordObject::toEntity()</a> を使用して下さい。</strong>
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -987,11 +987,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 クライテリアオブジェクトを生成します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1026,11 +1026,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 空のエンティティを生成します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1070,11 +1070,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レコードを削除します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1123,11 +1123,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 フォームのフィールド名とマッチするカラム名がエンティティに定義されている場合、フィールド値をエンティティにセットした状態でオブジェクトを生成します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1160,11 +1160,11 @@ database コンポーネントからコネクションオブジェクトを取�
 このメソッドは可変引数を受け取ることができます。
 全ての引数は <a href="../database/delta___database_manager.html#method_getConnection">Delta_DatabaseManager::getConnection()</a> メソッドに渡されます。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1199,11 +1199,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 DAO が参照するデータソース ID を取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1266,11 +1266,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レコードを挿入します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1311,11 +1311,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 <a href="../database.criteria/delta___database_criteria.html">クライテリア</a> で利用するスコープを定義します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1351,11 +1351,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 DAO が参照するデータソース ID を設定します。
 未指定の場合は &#039;default&#039; (application.yml に定義された &#039;database.default&#039;) のデータベースを参照します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1406,6 +1406,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 レコードを更新します。
 更新条件には <a href="../database.dao/delta___dao.html#method_getPrimaryKeys">テーブルのプライマリキー</a> (AND) が使用されます。
+</p>
 <div class="source"><code>$usersDAO = Delta_DAOFactory::create(&#039;Users&#039;);
 $entity = $usersDAO-&gt;createEntity();
 $entity-&gt;userId = 100;
@@ -1415,12 +1416,11 @@ $entity-&gt;lastLoginDate = new Delta_DatabaseExpression(&#039;NOW()&#039;);
 // &quot;UPDATE user SET username = &#039;foo&#039;, last_login_date = NOW() WHERE user_id = :user_id&quot;
 $usersDAO-&gt;update($entity);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1471,7 +1471,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:01 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

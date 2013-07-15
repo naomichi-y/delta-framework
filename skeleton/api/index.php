@@ -43,11 +43,11 @@
               <?php echo $html->link($package, '#package_' . $package) ?>
             <?php endforeach ?>
             </p>
-            <table summary="Package list">
+            <table>
               <colgroup>
-                <col width="20%" />
-                <col width="25%" />
-                <col width="55%" />
+                <col class="col-package" />
+                <col class="col-package-name" />
+                <col class="col-package-summary" />
               </colgroup>
               <tr>
                 <th>Package</th>

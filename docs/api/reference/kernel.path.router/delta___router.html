@@ -608,10 +608,10 @@
                           <p>
 リクエストされた URI から処理すべきアクションを決定するルータクラスです。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -656,11 +656,11 @@ kernel.path.router
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -865,11 +865,11 @@ Delta_Router のインスタンスを取得します。
 アクション名を元に URI に追加されるファイル名を生成します。
 アクション名が &#039;Hello&#039; の場合、デフォルトで返される値は &#039;hello.do&#039; になります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -909,11 +909,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 ルーティング名からパスを生成します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1002,11 +1002,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 PATH_INFO 形式のパラメータを URI で使用されるパスの形式に変換します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1056,11 +1056,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 指定されたパスを Web からアクセス可能なリクエストパスの形式に変換します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1076,13 +1076,14 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
   指定したアクション名を元にリクエストパスを生成する。
   path に指定した名前がアクション名と見なされない場合はアクションパスへの変換は行わない。
   path は配列形式でパラメータ (PATH_INFO) を追加することも可能。
-</div>
+</p>
 <ul>
 <li>router: リンクパスを生成する際に使用するルータ名。未指定時は現在有効なルータが対象となる。</li>
 <li>module: 遷移先のモジュール名。未指定時は現在有効なモジュール名が対象となる。</li>
 <li>action: 遷移先のアクション名。未指定時は現在有効なアクション名が対象となる。</li>
 </ul>
 <p>上記以外に追加したパラメータはそのまま PATH_INFO パラメータとして URI に使用される。
+</p>
   <div class="source"><code>// &#039;/{module}/index.do/greeting/hello&#039; のような URI を生成
 array(&#039;action&#039; =&gt; &#039;Index&#039;, &#039;greeting&#039; =&gt; &#039;hello&#039;);
 
@@ -1090,6 +1091,7 @@ array(&#039;action&#039; =&gt; &#039;Index&#039;, &#039;greeting&#039; =&gt; &#0
 // &#039;/{module}/index.do#top&#039; のような URI を生成
 array(&#039;action&#039; =&gt; &#039;Index&#039;, &#039;#&#039; =&gt; &#039;top&#039;);
 </code></div>
+<p>
   尚、path が未指定の場合は現在実行しているアクション名がそのままパスとして使用される。
 </p>
                                                               </td>
@@ -1125,7 +1127,7 @@ URL エンコードされたリクエストパスを返します。
                                                                     <ul class="note">
                                                                                                                                                                                                                                       <li>Secure: <p>
 bool $secure URL スキームの形式。
-</div>
+</p>
 <ul>
 <li>TRUE: &#039;https&#039; 形式に変換</li>
 <li>FALSE: &#039;http&#039; 形式に変換</li>
@@ -1149,11 +1151,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 リクエスト URI から経路を検索し、目的のモジュール・アクションへの接続を試みます。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1188,11 +1190,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 ルータにエントリモジュールを登録します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1233,11 +1235,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 ルータに設定されているエントリアクション名を取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1268,11 +1270,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 ルータに設定されているエントリモジュール名を取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1303,11 +1305,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 エントリモジュールのディレクトリパスを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1338,11 +1340,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 ルータにより決定された経路名を取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1373,11 +1375,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 Delta_Router のインスタンスを取得します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1433,11 +1435,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 クライアントからリクエストされたパスを元にアクション名を生成します。
 リクエストパスが &#039;/manager/hello.do&#039; の場合、デフォルトで返される値は &#039;Hello&#039; になります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1480,7 +1482,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:01 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

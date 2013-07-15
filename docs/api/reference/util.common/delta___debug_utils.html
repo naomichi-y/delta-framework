@@ -608,10 +608,10 @@
                           <p>
 デバッグに関する汎用的なユーティリティメソッドを提供します。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -656,11 +656,11 @@ util.common
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -731,11 +731,11 @@ PHP 構文をハイライト表示形式に変換します。
 アプリケーションのデバッグ出力モードが有効であるかどうかチェックします。
 デバッグ出力の設定は application.yml の &#039;debug.output&#039; 属性で指定可能です。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -766,11 +766,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 デバッグ出力モードが有効な場合に message を出力します。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -811,7 +811,7 @@ TRUE を指定すると、直前までの出力バッファをクリアします
                               <td>
                                                                   <p>
 出力形式を装飾するかどうか。
-</div>
+</p>
 <ul>
 <li>TRUE: デバッグコードを見やすい表示で出力します。</li>
 <li>FALSE: 引数に渡された内容をそのまま出力します。</li>
@@ -833,17 +833,17 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 PHP 構文をハイライト表示形式に変換します。
 この関数は標準の <a href="http://www.php.net/function.highlight_string.php">highlight_string()</a> に比べ、以下のような特徴があります。
-</div>
+</p>
 <ul>
 <li>行番号の出力をサポート</li>
 <li>任意のコード範囲を出力可能</li>
 <li>コードの表示形式を拡張するスタイルシート属性をサポート</li>
 </ul>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -903,6 +903,7 @@ PHP 構文をハイライト表示形式に変換します。
       </ul>
     </li>
   </ul>
+</p>
   <div class="source"><code>// 30 行目を中心に前後 10 行 (合計 20 行) を表示
   $options = array(
     &#039;format&#039; =&gt; array(
@@ -915,7 +916,6 @@ PHP 構文をハイライト表示形式に変換します。
 
   Delta_DebugUtils::syntaxHighlight($source, $options);
 </code></div>
-</p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                   <tr>
@@ -957,11 +957,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 デバッグメッセージをファイルに出力します。
 この関数はファイルアペンダによるロギングを簡略化したものです。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1005,7 +1005,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:02 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:36 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

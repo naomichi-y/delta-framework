@@ -610,6 +610,7 @@
 </p>
 <p>
 ページャの使用例:
+</p>
 <div class="source"><code>public function execute()
 {
   $conn = $this-&gt;getDatabase()-&gt;getConnection();
@@ -629,12 +630,13 @@
   return Delta_View::SUCCESS;
 }
 </code></div>
+<p>
 <i>テンプレート上では <a href="../pager/delta___database_pager.html">ページャヘルパ</a> を用いてレコードセットを表示することができます。</i>
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -670,10 +672,10 @@ pager
             <p class="right"><a href="#top">To top</a></p>
 
             <h3 id="constants">Constants</h3>
-                          <table summary="Constants">
+                          <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-constant-name" />
+                  <col class="col-constant-value" />
                 </colgroup>
                 <tr>
                   <th>Constnat</th>
@@ -700,12 +702,12 @@ pager
 
                           <h3 id="properties">Properties</h3>
                                                 <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -982,11 +984,11 @@ GET パラメータに含まれるソートパラメータ。
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -1295,11 +1297,11 @@ column キーによるソートを追加します。
 リクエストパラメータに含まれるソート指定は、<a href="../pager/delta___database_pager.html#method_addSort">addSort()</a> の指定よりも優先されます。
 このメソッドは <a href="../pager/delta___database_pager.html#method_fetch">fetch()</a> または <a href="../pager/delta___database_pager.html#method_fetchStatement">fetchStatement()</a> メソッドを実行するよりも先にコールする必要があります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1349,11 +1351,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 プリペアードステートメントを発行してデータセットを取得します。
 取得したデータは getRecordSet() メソッドで取得可能です。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1394,11 +1396,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 SQL ステートメントを発行してデータセットを取得します。
 取得したデータは getRecordSet() メソッドで取得可能です。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1449,11 +1451,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 データ構成や環境によってはパフォーマンスが向上する可能性があります。
 このメソッドは <a href="../pager/delta___database_pager.html#method_fetch">fetch()</a> または <a href="../pager/delta___database_pager.html#method_fetchStatement">fetchStatement()</a> メソッドを実行するよりも先にコールする必要があります。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1475,7 +1477,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>
                                                                   <p>
 定数に対応した値。
-</div>
+</p>
 <ul>
 <li><a href="../pager/delta___database_pager.html#constant_HINT_MYSQL_FOUND_ROWS">HINT_MYSQL_FOUND_ROWS</a>: 指定不可。</li>
 <li><a href="../pager/delta___database_pager.html#constant_HINT_SELECT_COUNT_SQL">HINT_SELECT_COUNT_SQL</a>: 全件カウント時に使用する SELECT ステートメント。既定値は &#039;SELECT COUNT(*)&#039;。</li>
@@ -1500,7 +1502,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:02 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:36 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

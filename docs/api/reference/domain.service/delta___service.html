@@ -615,7 +615,6 @@
 例えば Greeting サービスであれば、クラス名は GreetingService となります。
 作成したサービスクラスは {APP_ROOT_DIR}/libs/service 下に配置して下さい。
 </p>
-<p>
 <div class="source"><code>class GreetingService extends Delta_Service
 {
   public function echo()
@@ -624,22 +623,19 @@
   }
 }
 </code></div>
-</p>
 <p>
 サービスのインスタンスは <a href="../domain.service/delta___service_factory.html">Delta_ServiceFactory</a> から取得することができます。
 </p>
-<p>
 <div class="source"><code>$greeting = Delta_ServiceFactory::get(&#039;Greeting&#039;);
 
 // <a href="../kernel.container/delta___object.html#method_getService">Delta_Object::getService()</a> を使った参照
 $greeting = $this-&gt;getService(&#039;Greeting&#039;);
 $greeting-&gt;echo();
 </code></div>
-</p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -684,11 +680,11 @@ domain.service
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -811,7 +807,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:01 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

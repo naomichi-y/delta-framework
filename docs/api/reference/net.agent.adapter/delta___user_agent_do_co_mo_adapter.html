@@ -608,10 +608,10 @@
                           <p>
 DoCoMo 端末のためのユーザエージェントアダプタです。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -647,10 +647,10 @@ net.agent.adapter
             <p class="right"><a href="#top">To top</a></p>
 
             <h3 id="constants">Constants</h3>
-                          <table summary="Constants">
+                          <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-constant-name" />
+                  <col class="col-constant-value" />
                 </colgroup>
                 <tr>
                   <th>Constnat</th>
@@ -669,12 +669,12 @@ net.agent.adapter
 
                           <h3 id="properties">Properties</h3>
                                                 <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -699,11 +699,11 @@ net.agent.adapter
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -1022,15 +1022,15 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 個体識別番号 (move は 11 桁、FOMA は 15 桁の英数字) を取得します。
 個体識別番号を取得する際はタグの属性に &#039;utn&#039; を追加する必要があります。
+</p>
 <div class="source"><code>&lt;a href=&quot;...&quot; utn&gt;GetUTN&lt;/a&gt;
 &lt;form action=&quot;...&quot; utn&gt;...&lt;/form&gt;
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1060,17 +1060,17 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                       <div class="source"><code>public string getUserId()</code></div>
                                               <p>
 ユーザ ID (契約者 ID、別名 DoCoMo ID) を取得します。
-</div>
+</p>
 <ul>
 <li>ユーザ ID は大文字小文字を区別します。</li>
 <li>SSL 通信時 (https) はユーザ ID を取得することができません。</li>
 <li>ユーザ ID を識別する GUID は、ユーザエージェントが DoCoMo の場合自動的に URL に追加されます。</li>
 </ul>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -1165,7 +1165,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:02 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:36 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

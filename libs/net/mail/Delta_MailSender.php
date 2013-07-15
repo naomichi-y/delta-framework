@@ -694,6 +694,8 @@ class Delta_MailSender extends Delta_Object {
     $htmlText = Delta_StringUtils::encodeQuotedPrintable($htmlText, $this->_options->getString('linefeed'), $this->_width);
 
     // HTML パートの生成
+    $encoding = $this->_options->getString('encoding');
+
     $htmlPart = new Delta_MailPart($linefeed);
     $htmlPart->setCharset($encoding);
     $htmlPart->setContentType('text/html', array('charset' => $encoding), TRUE);
@@ -778,7 +780,7 @@ class Delta_MailSender extends Delta_Object {
     $data = base64_encode($data);
 
     $attachmentPart->setDispositionType($contentDisposition, $parameters, TRUE);
-    $attachmentPart->addAttachment($data);
+    $attachmentPart->setAttachment($data);
 
     if ($this->_attachmentPart === NULL) {
       $this->_attachmentPart = new Delta_MailPart($this->_options->getString('linefeed'));

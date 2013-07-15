@@ -608,10 +608,10 @@
                           <p>
 ネットワークに関する汎用的なユーティリティメソッドを提供します。
 </p>
-                        <table summary="Description">
+                        <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
                       <th class="left">Author</th>
@@ -656,11 +656,11 @@ util.common
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -719,15 +719,15 @@ IP アドレス (IPv4) を整数値表記に変換します。
                       <div class="source"><code>public static string convertIPToBinary($ipAddress)</code></div>
                                               <p>
 IP アドレス (IPv4) を 2 進数表記に変換します。
+</p>
 <div class="source"><code>// 11000000101010000000000000000001
 $binary = Delta_NetworkUtils::convertIPToBinary(&#039;192.168.0.1&#039;);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -767,15 +767,15 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 IP アドレス (IPv4) を整数値表記に変換します。
 このメソッドは <a href="http://www.php.net/function.ip2long.php">ip2long()</a> と異なり、必ず符号なし (unsigned) の整数値を返します。
+</p>
 <div class="source"><code>// 3232235521
 $integer = Delta_NetworkUtils::convertIPToInteger(&#039;192.168.0.1&#039;);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -815,15 +815,15 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 整数値表記の IP アドレスをドット表記の IP アドレス (IPv4) に変換します。
 このメソッドは <a href="http://www.php.net/function.long2ip.php">long2ip()</a> 関数のラッパーです。
+</p>
 <div class="source"><code>// &#039;192.168.0.1&#039;
 $ip = Delta_NetworkUtils::convertIntegerToIP(3232235521);
 </code></div>
-</p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -863,11 +863,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                               <p>
 指定した IP アドレスがネットワークアドレス ranges に含まれているかチェックします。
 </p>
-                                                                    <table summary="Method detail">
+                                                                    <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>
@@ -920,7 +920,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 16:13:02 +0900<br />
+  <p>This document was generated on Mon, 15 Jul 2013 21:58:36 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
