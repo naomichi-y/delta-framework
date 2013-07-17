@@ -90,6 +90,7 @@
         <div class="hitarea expandable-hitarea"></div>
         <span>controller.filter</span>
         <ul style="display: none;">
+                      <li><a href="../controller.filter/delta___acl_filter.html" title="Delta_ACLFilter">Delta_ACLFilter</a></li>
                       <li><a href="../controller.filter/delta___action_filter.html" title="Delta_ActionFilter">Delta_ActionFilter</a></li>
                       <li><a href="../controller.filter/delta___basic_authentication_filter.html" title="Delta_BasicAuthenticationFilter">Delta_BasicAuthenticationFilter</a></li>
                       <li><a href="../controller.filter/delta___digest_authentication_filter.html" title="Delta_DigestAuthenticationFilter">Delta_DigestAuthenticationFilter</a></li>
@@ -712,20 +713,10 @@ http.session
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_close">close()</a>                                                  </td>
-                        <td>
-                                                      <p>
-セッションデータをストレージに書き込んで早期にセッションを終了します。
-</p>
-                                                  </td>
-                        <td><a href="../http.session/delta___http_session.html">Delta_HttpSession</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
                                                       <a href="#method_finalize">finalize()</a>                                                  </td>
                         <td>
                                                       <p>
-セッションデータのファイナライズ処理を行います。
+セッションデータを出力して終了します。
 </p>
                                                   </td>
                         <td><a href="../http.session/delta___http_session.html">Delta_HttpSession</a></td>
@@ -886,7 +877,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 $session-&gt;isActive();
 
 // セッションを閉じる (通常はコールする必要はない)
-$session-&gt;close();
+$session-&gt;finalize();
 
 // 新しいセッションを開始する
 $session-&gt;active();
@@ -955,26 +946,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_close">close()</dt>
-                    <dd>
-                      <div class="source"><code>public void close()</code></div>
-                                              <p>
-セッションデータをストレージに書き込んで早期にセッションを終了します。
-セッションデータは同時書き込み防止のためロックされますが、セッションの変更を加えた最後の時点で本メソッドをコールすることで、AJAX やフレームセットを使用する場合のパフォーマンス改善が見込めます。
-</p>
-                                                                                          <ul class="note">
-                                                                                                                                                                                <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                         <dt id="method_finalize">finalize()</dt>
                     <dd>
                       <div class="source"><code>public void finalize()</code></div>
                                               <p>
-セッションデータのファイナライズ処理を行います。
+セッションデータを出力して終了します。
 </p>
                                                                                           <ul class="note">
                                                                                                                                                                                 <li>Author: <p>
@@ -1165,7 +1141,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
+  <p>This document was generated on Wed, 17 Jul 2013 03:23:40 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

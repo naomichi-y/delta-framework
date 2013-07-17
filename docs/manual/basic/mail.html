@@ -68,17 +68,15 @@
       <dd class="lang_php"><code>$options = array('host' =&gt; 'foo.bar.baz', 'port' =&gt; 25);<br>
         $mail = new Delta_MailSender($options);<br>
         <br>
-        // 'foo.bar.baz:25' からメールを送信する
-        <br>
-        $mail-&gt;buildToSend(); </code>
-      </dd>
+        // 'foo.bar.baz:25' からメールを送信する <br>
+        $mail-&gt;buildToSend(); </code> </dd>
     </dl>
     <p>コンストラクタのオプション引数が未指定の場合は、application.yml の 'mail' 属性が参照されます。</p>
     <dl>
       <dt>YAML Code# config/application.yml</dt>
       <dd class="lang_yaml"><code> mail:<br>
-      &nbsp;&nbsp;host: foo.bar.baz<br>
-      &nbsp;&nbsp;port: 25</code></dd>
+        &nbsp;&nbsp;host: foo.bar.baz<br>
+        &nbsp;&nbsp;port: 25</code></dd>
     </dl>
     <div class="note_container note_info">
       <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
@@ -98,7 +96,7 @@
         &nbsp;&nbsp;-&gt;setTo($to)<br>
         &nbsp;&nbsp;-&gt;setSubject($subject)<br>
         &nbsp;&nbsp;-&gt;setHTMLText($htmlText)<br>
-      &nbsp;&nbsp;-&gt;send(); </code></dd>
+        &nbsp;&nbsp;-&gt;send(); </code></dd>
     </dl>
     <p>setHTMLText() はマルチパートメッセージを作成するため、テキストパートには  $htmlText から HTML タグを取り除いたテキストが自動的にセットされます。(もちろん setText() を指定することで、全く別のテキストを割り当てることもできます)</p>
     <h2><a id="attachment_file"></a>添付ファイルの送信</h2>
@@ -110,7 +108,7 @@
         &nbsp;&nbsp;-&gt;setTo($to)<br>
         &nbsp;&nbsp;-&gt;setSubject($subject)<br>
         &nbsp;&nbsp;-&gt;addAttachmentFile(APP_ROOT_DIR . '/tmp/foo')<br>
-      &nbsp;&nbsp;-&gt;send(); </code></dd>
+        &nbsp;&nbsp;-&gt;send(); </code></dd>
     </dl>
     <p>複数のファイルを添付したい場合は、添付ファイル分だけ addAttachmentFile() をコールして下さい。</p>
     <h2><a id="template_mail"></a>テンプレートを利用する</h2>
@@ -119,8 +117,8 @@
     <dl>
       <dt>PHP Code: templates/mail/thanks.php</dt>
       <dd class="lang_php"><code>ご登録ありがとうございます。<br>
-      &lt;?php echo $nickname ?&gt;様<br>
-      この度は&lt;?php echo $siteName ?&gt;にご登録いただきありがとうございました。</code></dd>
+        &lt;?php echo $nickname ?&gt;様<br>
+        この度は&lt;?php echo $siteName ?&gt;にご登録いただきありがとうございました。</code></dd>
     </dl>
     <p>ここではテンプレートの名前を thanks.php としました。テンプレートの内容は一般的な PHP スクリプトと変わりありませんが、1行目が件名、2 行目以降が本文として扱われます。それでは早速テンプレートをセットしてみましょう。</p>
     <dl>
@@ -132,7 +130,7 @@
         $mail-&gt;setFrom($from)<br>
         &nbsp;&nbsp;-&gt;setTo($to)<br>
         &nbsp;&nbsp;-&gt;setTemplate('thanks', $variables)<br>
-      &nbsp;&nbsp;-&gt;send(); </code></dd>
+        &nbsp;&nbsp;-&gt;send(); </code></dd>
     </dl>
     <p><a href="../../api/reference/net.mail/delta___mail_sender.html#method_setTemplate">setTemplate()</a> メソッドにはテンプレート名と変数を割り当てます。実際に送信されるメッセージは次のような結果となるでしょう。</p>
     <dl>
@@ -140,10 +138,9 @@
       <dd class="lang_text"><code>{件名} <br>
         ご登録ありがとうございます。 <br>
         <br>
-        {本文}
-        <br>
+        {本文} <br>
         foo様<br>
-      この度はbazにご登録いただきありがとうございました。</code>
+        この度はbarにご登録いただきありがとうございました。</code>
         <p></p>
         <div class="note_container note_info">
           <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
@@ -151,9 +148,9 @@
             <p>テンプレートをファイル以外から参照したい場合は <a href="../../api/reference/net.mail/delta___mail_sender.html#method_setTemplateData">setTemplateData()</a> メソッドを利用して下さい。</p>
           </div>
         </div>
-        <p class="right"><a href="#top">上へ</a></p>
       </dd>
     </dl>
+    <p class="right"><a href="#top">上へ</a></p>
   </article>
 </div>
 <footer>

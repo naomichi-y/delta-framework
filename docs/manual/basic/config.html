@@ -30,16 +30,16 @@
       <li><a href="#custom">カスタムファイルを作成する</a></li>
     </ul>
     <h2><a id="get"></a>ファイルを参照する</h2>
-    <p>設定ファイルを読み込む方法はとても簡単です。</p>
+    <p>設定ファイルを読み込む方法はとても簡単です。簡単な例を見てみましょう。例えば application.yml に次のような属性が定義されているとします。</p>
     <dl>
       <dt>YAML Code# config/application.yml</dt>
-      <dd class="lang_yaml"><code>debug: TRUE</code></dd>
+      <dd class="lang_yaml"><code>language: ja</code></dd>
     </dl>
-    <p>application.yml に 'debug: true' という属性が定義されてる場合、フレームワークからは次のコードで値を参照することができます。</p>
+    <p>language の値を取得するには Delta_Config::getApplication() メソッドを利用します。</p>
     <dl>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>// TRUE<br>
-        $debug = Delta_Config::getApplication()-&gt;get('debug');</code></dd>
+      <dd class="lang_php"><code>// 'ja'<br>
+        $language = Delta_Config::getApplication()-&gt;get('language');</code></dd>
     </dl>
     <p><a href="../../api/reference/util.config/delta___config.html#method_get">Delta_ParameterHolder::get()</a> メソッドは属性名を &quot;.&quot; (ピリオド) 区切りで連結させることで、階層化された属性の値を取得することもできます。</p>
     <dl>
@@ -181,11 +181,7 @@
         </code></dd>
     </dl>
     <p>createCustomFile() メソッドには作成するファイルを指定します。ここでは 'new' を指定したので、実際には config/new.yml ファイル が作成されたことになります。set() でデータを設定し、最後にupdate() メソッドを実行することでファイルにデータが書き込まれます。</p>
-    <dl>
-      <p class="right"><a href="#top">上へ</a></p>
-      </dd>
-    </dl>
-    </dd>
+    <p class="right"><a href="#top">上へ</a></p>
   </article>
 </div>
 <footer>
