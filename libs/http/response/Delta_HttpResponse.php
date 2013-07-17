@@ -550,7 +550,7 @@ class Delta_HttpResponse extends Delta_Object
     $container = Delta_DIContainerFactory::getContainer();
 
     if ($container->hasComponent('session')) {
-      $container->getComponent('session')->close();
+      $container->getComponent('session')->finalize();
     }
 
     $this->setHeader('Location', $uri);

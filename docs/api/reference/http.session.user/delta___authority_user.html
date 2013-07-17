@@ -90,6 +90,7 @@
         <div class="hitarea expandable-hitarea"></div>
         <span>controller.filter</span>
         <ul style="display: none;">
+                      <li><a href="../controller.filter/delta___acl_filter.html" title="Delta_ACLFilter">Delta_ACLFilter</a></li>
                       <li><a href="../controller.filter/delta___action_filter.html" title="Delta_ActionFilter">Delta_ActionFilter</a></li>
                       <li><a href="../controller.filter/delta___basic_authentication_filter.html" title="Delta_BasicAuthenticationFilter">Delta_BasicAuthenticationFilter</a></li>
                       <li><a href="../controller.filter/delta___digest_authentication_filter.html" title="Delta_DigestAuthenticationFilter">Delta_DigestAuthenticationFilter</a></li>
@@ -735,7 +736,7 @@ http.session.user
                                                       <a href="#method_addRole">addRole()</a>                                                  </td>
                         <td>
                                                       <p>
-ユーザオブジェクトに権限を追加します。
+ユーザオブジェクトにロールを追加します。
 </p>
                                                   </td>
                         <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
@@ -745,7 +746,7 @@ http.session.user
                                                       <a href="#method_addRoles">addRoles()</a>                                                  </td>
                         <td>
                                                       <p>
-ユーザオブジェクトに権限のリストを追加します。
+ユーザオブジェクトに配列形式でロールを追加します。
 </p>
                                                   </td>
                         <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
@@ -755,7 +756,7 @@ http.session.user
                                                       <a href="#method_clear">clear()</a>                                                  </td>
                         <td>
                                                       <p>
-ユーザオブジェクトに設定されている全ての属性、及び権限を破棄します。
+ユーザオブジェクトに設定されている全てデータを破棄します。
 </p>
                                                   </td>
                         <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
@@ -835,7 +836,7 @@ setFlash() で設定した属性を取得します。
                                                       <a href="#method_getRoles">getRoles()</a>                                                  </td>
                         <td>
                                                       <p>
-ユーザオブジェクトに設定されている全ての権限を取得します。
+ユーザオブジェクトに登録されている全てのロールを取得します。
 </p>
                                                   </td>
                         <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
@@ -875,7 +876,7 @@ setFlash() で設定した属性を取得します。
                                                       <a href="#method_hasRole">hasRole()</a>                                                  </td>
                         <td>
                                                       <p>
-指定した権限がユーザオブジェクトに設定されているかチェックします。
+指定したロールがユーザオブジェクトに登録されているかチェックします。
 </p>
                                                   </td>
                         <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
@@ -895,7 +896,37 @@ setFlash() で設定した属性を取得します。
                                                       <a href="#method_isCurrentActionAuthenticated">isCurrentActionAuthenticated()</a>                                                  </td>
                         <td>
                                                       <p>
-アクションの実行権限をユーザが保持しているかチェックします。
+アクション実行ロールをユーザが満たしているかチェックします。
+</p>
+                                                  </td>
+                        <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_isLogin">isLogin()</a>                                                  </td>
+                        <td>
+                                                      <p>
+現在エントリしているモジュールにログインしているかどうかチェックします。
+</p>
+                                                  </td>
+                        <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_login">login()</a>                                                  </td>
+                        <td>
+                                                      <p>
+現在エントリしているモジュールにログインします。
+</p>
+                                                  </td>
+                        <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_logout">logout()</a>                                                  </td>
+                        <td>
+                                                      <p>
+現在エントリしているモジュールからログアウトします。
 </p>
                                                   </td>
                         <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
@@ -925,7 +956,17 @@ setFlash() で設定した属性を取得します。
                                                       <a href="#method_revokeRole">revokeRole()</a>                                                  </td>
                         <td>
                                                       <p>
-ユーザオブジェクトに設定されている権限を破棄します。
+ユーザオブジェクトに登録されているロールを破棄します。
+</p>
+                                                  </td>
+                        <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_revokeRoles">revokeRoles()</a>                                                  </td>
+                        <td>
+                                                      <p>
+ユーザオブジェクトに登録されている複数のロールを破棄します。
 </p>
                                                   </td>
                         <td><a href="../http.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
@@ -1024,7 +1065,7 @@ setFlash() で設定した属性を取得します。
                     <dd>
                       <div class="source"><code>public void addRole($role)</code></div>
                                               <p>
-ユーザオブジェクトに権限を追加します。
+ユーザオブジェクトにロールを追加します。
 </p>
                                                                     <table>
                         <colgroup>
@@ -1042,7 +1083,7 @@ setFlash() で設定した属性を取得します。
                               <td>string</td>
                               <td>
                                                                   <p>
-権限名。
+ロール名。
 </p>
                                                               </td>
                             </tr>
@@ -1059,7 +1100,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public void addRoles(array $roles)</code></div>
                                               <p>
-ユーザオブジェクトに権限のリストを追加します。
+ユーザオブジェクトに配列形式でロールを追加します。
 </p>
                                                                     <table>
                         <colgroup>
@@ -1077,18 +1118,24 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>array</td>
                               <td>
                                                                   <p>
-権限のリスト。
+ロールリスト。
 </p>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                    </table>
-                                                                  <p class="right"><a href="#methods">To methods</a></p>
+                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                         <dt id="method_clear">clear()</dt>
                     <dd>
                       <div class="source"><code>public void clear()</code></div>
                                               <p>
-ユーザオブジェクトに設定されている全ての属性、及び権限を破棄します。
+ユーザオブジェクトに設定されている全てデータを破棄します。
 </p>
                                                                                           <ul class="note">
                                                                                                                                                                                 <li>Author: <p>
@@ -1257,7 +1304,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public array getRoles()</code></div>
                                               <p>
-ユーザオブジェクトに設定されている全ての権限を取得します。
+ユーザオブジェクトに登録されている全てのロールを取得します。
 </p>
                                                                     <table>
                         <colgroup>
@@ -1275,7 +1322,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>array</td>
                               <td>
                                                                   <p>
-ユーザオブジェクトに設定されている全ての権限を返します。
+ユーザオブジェクトに登録されている全てのロールを返します。
 </p>
                                                               </td>
                             </tr>
@@ -1380,7 +1427,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public void hasRole($role = NULL)</code></div>
                                               <p>
-指定した権限がユーザオブジェクトに設定されているかチェックします。
+指定したロールがユーザオブジェクトに登録されているかチェックします。
 </p>
                                                                     <table>
                         <colgroup>
@@ -1398,9 +1445,9 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>mixed</td>
                               <td>
                                                                   <p>
-チェック対象の権限名。文字列、または配列形式での指定が可能。
-  配列形式の場合、role 配列に含まれる権限が 1 つでも含まれていない場合は FALSE を返します。
-  また role が未指定の場合は、1 つ以上の権限が設定されているかどうかをチェックします。
+チェック対象のロール名。文字列、または配列形式での指定が可能。
+  配列形式の場合、role 配列に含まれるロールが 1 つでも含まれていない場合は FALSE を返します。
+  role が未指定の場合は、1 つ以上のロールが登録されているかどうかをチェックします。
 </p>
                                                               </td>
                             </tr>
@@ -1435,7 +1482,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public bool isCurrentActionAuthenticated($requiredRole = self::REQUIRED_ALL_ROLES)</code></div>
                                               <p>
-アクションの実行権限をユーザが保持しているかチェックします。
+アクション実行ロールをユーザが満たしているかチェックします。
 アクションごとのロールはビヘイビアファイルの &#039;roles&#039; 属性で設定することができます。
 ユーザにロールを追加する場合は <a href="../http.session.user/delta___authority_user.html#method_addRole">addRole()</a> メソッドを使用して下さい。
 </p>
@@ -1448,7 +1495,7 @@ roles:
 </code></div>
 <div class="source"><code>{GreetingAction.php}
 
-// ユーザが &#039;view&#039;、&#039;execute&#039; ロールを保持している場合は TRUE を返す
+// ユーザが &#039;view&#039;、&#039;execute&#039; ロールを満たしている場合は TRUE を返す
 $user-&gt;isCurrentActionAuthenticated(Delta_AuthorityUser::REQUIRED_ALL_ROLES)
 </code></div>
                                                                     <table>
@@ -1467,7 +1514,7 @@ $user-&gt;isCurrentActionAuthenticated(Delta_AuthorityUser::REQUIRED_ALL_ROLES)
                               <td>bool</td>
                               <td>
                                                                   <p>
-権限を所有していると見なす条件。Delta_AuthorityUser::REQUIRED_* 定数を指定。
+ロールを所有していると見なす条件。Delta_AuthorityUser::REQUIRED_* 定数を指定。
 </p>
                                                               </td>
                             </tr>
@@ -1476,13 +1523,130 @@ $user-&gt;isCurrentActionAuthenticated(Delta_AuthorityUser::REQUIRED_ALL_ROLES)
                               <td>bool</td>
                               <td>
                                                                   <p>
-ユーザが権限を所有している場合は TRUE、所有していない (または不足している) 場合は FALSE を返します。
+ユーザがロールを所有している場合は TRUE、所有していない (または不足している) 場合は FALSE を返します。
 </p>
                                                               </td>
                             </tr>
                                                                                                                             </table>
                                                                     <ul class="note">
                                                                                                                                                                                                                                                                                             <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_isLogin">isLogin()</dt>
+                    <dd>
+                      <div class="source"><code>public bool isLogin()</code></div>
+                                              <p>
+現在エントリしているモジュールにログインしているかどうかチェックします。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+ログイン済みの場合は TRUE、未ログインの場合は FALSE を返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_login">login()</dt>
+                    <dd>
+                      <div class="source"><code>public bool login()</code></div>
+                                              <p>
+現在エントリしているモジュールにログインします。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+ログインが成功した場合は TRUE、失敗した (既にログイン済み) 場合は FALSE を返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_logout">logout()</dt>
+                    <dd>
+                      <div class="source"><code>public bool logout()</code></div>
+                                              <p>
+現在エントリしているモジュールからログアウトします。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                                                                            <tr>
+                              <td>{return}</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+ログアウトが成功した場合は TRUE、失敗した (ログアウト済みの) 場合は FALSE を返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                              </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </p>
 </li>
@@ -1551,7 +1715,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     <dd>
                       <div class="source"><code>public void revokeRole($roleName = NULL)</code></div>
                                               <p>
-ユーザオブジェクトに設定されている権限を破棄します。
+ユーザオブジェクトに登録されているロールを破棄します。
 </p>
                                                                     <table>
                         <colgroup>
@@ -1569,14 +1733,53 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                               <td>mixed</td>
                               <td>
                                                                   <p>
-削除する権限名。文字列、または配列形式での指定が可能。
-  roleName が未指定の場合は設定されている全ての権限を破棄します。
+削除するロール名。
 </p>
                                                               </td>
                             </tr>
                                                                                                                                                                                                                                                                                                                                                                                         </table>
                                                                     <ul class="note">
                                                                                                                                                                                                                                       <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_revokeRoles">revokeRoles()</dt>
+                    <dd>
+                      <div class="source"><code>public void revokeRoles(array $roleNames = NULL)</code></div>
+                                              <p>
+ユーザオブジェクトに登録されている複数のロールを破棄します。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$roleNames</td>
+                              <td>array</td>
+                              <td>
+                                                                  <p>
+削除するロール名。
+  roleNames が NULL の場合は設定されている全てのロールを破棄。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </p>
 </li>
@@ -1765,7 +1968,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Mon, 15 Jul 2013 21:58:35 +0900<br />
+  <p>This document was generated on Wed, 17 Jul 2013 03:23:40 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
