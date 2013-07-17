@@ -89,8 +89,14 @@ class Delta_ErrorHandler
    */
   public static function invokeFatalError($type, $message, $file, $line)
   {
+    // PHP が出力する Fatal error メッセージを破棄
     if (ob_get_length()) {
-      ob_clean();
+      ob_end_clean();
+    }
+
+    if (Delta_BootLoader::isBootTypeWeb()) {
+      // セッションハンドラを利用している場合、セッションを先に終了しておかないと (write() メソッドで) 致命的なエラーが発生する
+      session_write_close();
     }
 
     $title = 'Detected application error!';
@@ -122,40 +128,31 @@ class Delta_ErrorHandler
         header('HTTP/1.0 500 Internal Server Error');
       }
 
-      try {
-        $isOutputDebug = Delta_DebugUtils::isDebug();
-      } catch (Exception $e) {
-        $isOutputDebug = TRUE;
+      $path = APP_ROOT_DIR . '/templates/html/fatal_error.php';
+
+      if (!is_file($path)) {
+        $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
       }
 
-      // DI コンポーネントが初期化されていない可能性があるため、Delta_BaseRenderer は使用しない
-      $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
       $options = array('format' => array('target' => $line));
-
       $variables = array(
-        'isOutputDebug' => $isOutputDebug,
-        'title' => Delta_StringUtils::escape($title)
+        'title' => htmlentities($title),
+        'type' => $errorTypes[$type],
+        'message' => htmlentities($message),
+        'file' => $file,
+        'line' => $line,
       );
 
-      if ($isOutputDebug) {
-        $variables += array(
-          'type' => $errorTypes[$type],
-          'message' => Delta_StringUtils::escape($message),
-          'file' => $file,
-          'line' => $line,
-        );
+      // eval() でエラーが起きた場合、$file には ': eval()'d code' という文字列が含まれる
+      if (is_file($file)) {
+        $variables['code'] = Delta_DebugUtils::syntaxHighlight(Delta_FileUtils::readFile($file), $options);
 
-        // eval() でエラーが起きた場合、$file には ': eval()'d code' という文字列が含まれる
-        if (is_file($file)) {
-          $variables['code'] = Delta_DebugUtils::syntaxHighlight(Delta_FileUtils::readFile($file), $options);
+      // Delta_PHPStringParser::parse() で Fatal エラーが発生 (eval() エラー)
+      } else {
+        $registry = Delta_Object::getRegistry();
 
-        // Delta_PHPStringParser::parse() で Fatal エラーが発生 (eval() エラー)
-        } else {
-          $registry = Delta_Object::getRegistry();
-
-          if ($registry->hasName('parseCode')) {
-            $variables['code'] = Delta_DebugUtils::syntaxHighlight($registry->get('parseCode')->getCode(), $options);
-          }
+        if ($registry->hasName('parseCode')) {
+          $variables['code'] = Delta_DebugUtils::syntaxHighlight($registry->get('parseCode')->getCode(), $options);
         }
       }
 

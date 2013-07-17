@@ -658,8 +658,8 @@ class Delta_DocumentMakeHelper extends Delta_Helper
 
         } else {
           if ($inParagraph) {
-            $buffer .= "</div>\n";
             $inParagraph = FALSE;
+            $buffer .= "</p>\n";
           }
 
           $buffer .= "<ul>\n";
@@ -679,17 +679,13 @@ class Delta_DocumentMakeHelper extends Delta_Helper
               $buffer .= "\n" . substr($line, $pos);
 
             } else {
-              $buffer .= sprintf("</li>\n</ul>\n<div class=\"text\">%s\n", substr($line, $matches[1][1]));
+              $buffer .= sprintf("</li>\n</ul>\n<p>%s\n", substr($line, $matches[1][1]));
               $inParagraph = TRUE;
               $isList = FALSE;
             }
           }
 
         } else if (strlen($line)) {
-          if (!$inParagraph) {
-            $buffer .= "<div class=\"text\">\n";
-          }
-
           $preStart = FALSE;
 
           if (preg_match('/<(code|pre)>/', $line, $matches, PREG_OFFSET_CAPTURE)) {
@@ -701,11 +697,18 @@ class Delta_DocumentMakeHelper extends Delta_Helper
 
             // <code|pre> タグ以降の文字列エスケープ
             $line = substr($line, 0, $pos + 6) . Delta_StringUtils::escape(substr($line, $pos + 6));
+
+            if ($inParagraph) {
+              $inParagraph = FALSE;
+              $line = "</p>\n" . $line;
+            }
+
             $preStart = TRUE;
           }
 
           if ($preOffset !== FALSE) {
             $regexp = sprintf('/ {%s}?(.*)/', $preOffset);
+
             if (preg_match('/<\/(code|pre)>/', $line, $matches, PREG_OFFSET_CAPTURE)) {
                $pos = $matches[0][1];
 
@@ -725,23 +728,27 @@ class Delta_DocumentMakeHelper extends Delta_Helper
                 $line = Delta_StringUtils::escape($matches[1]);
               }
             }
-          }
+
+         } else if (!$inParagraph) {
+           $buffer .= "<p>\n";
+           $inParagraph = TRUE;
+         }
 
           $buffer .= $line . "\n";
-          $inParagraph = TRUE;
 
         } else if ($preOffset !== FALSE) {
           $buffer .= "\n";
 
         } else if ($inParagraph) {
           $inParagraph = FALSE;
-          $buffer .= "</div>\n";
+          $buffer .= "</p>\n";
         }
       }
     }
 
     if ($inParagraph) {
-      $buffer .= "</div>\n";
+      $buffer .= "</p>\n";
+
     } else if ($isList) {
       $buffer .= "</li>\n</ul>\n";
     }

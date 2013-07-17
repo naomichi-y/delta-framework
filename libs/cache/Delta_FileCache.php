@@ -120,8 +120,14 @@ class Delta_FileCache extends Delta_Cache
         $lock->unlock();
 
       } else {
+        // 高負荷対策で @ 演算子を利用
+        // @see https://github.com/naomichi-y/delta-framework/issues/59
         if ($lastModify == 0 || $_SERVER['REQUEST_TIME'] < $lastModify) {
-          $data = unserialize(file_get_contents($cachePath));
+          $content = @file_get_contents($cachePath);
+
+          if ($content !== FALSE) {
+            $data = unserialize($content);
+          }
 
         } else {
           @unlink($cachePath);

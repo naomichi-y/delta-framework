@@ -26,15 +26,16 @@ class Delta_LogWriter extends Delta_FileWriter
    * コンストラクタ。
    *
    * @param Delta_LogRotatePolicy $rotatePattern ローテートパターンのインスタンス。
+   * @param bool $appendMode {Delta_FileWriter::__construct()} メソッドを参照。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_LogRotatePolicy $rotatePattern)
+  public function __construct(Delta_LogRotatePolicy $rotatePattern, $appendMode = TRUE)
   {
     $writePath = $rotatePattern->getWritePath();
     $executorClassName = $rotatePattern->getExecutorClassName();
     $this->_logRotateExecutor = new $executorClassName($writePath, $rotatePattern);
 
-    parent::__construct($writePath);
+    parent::__construct($writePath, $appendMode);
   }
 
   /**

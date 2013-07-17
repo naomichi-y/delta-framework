@@ -47,9 +47,9 @@
 class Delta_DatabaseCriteria extends Delta_Object
 {
   /**
-   * @var Delta_DatabaseConnection
+   * @var string
    */
-  private $_connection;
+  private $_dataSourceId;
 
   /**
    * @var string
@@ -77,9 +77,14 @@ class Delta_DatabaseCriteria extends Delta_Object
   private $_parimaryValues = array();
 
   /**
-   * @var Delta_DatabaseCriteriaScopes
+   * @var array
    */
   private $_scopes;
+
+  /**
+   * @var array
+   */
+  private $_callbacks = array();
 
   /**
    * @var array
@@ -92,29 +97,54 @@ class Delta_DatabaseCriteria extends Delta_Object
     'having' => NULL,
     'order' => NULL,
     'limit' => NULL,
-    'offset' => NULL
+    'offset' => NULL,
+    'options' => NULL
   );
+
+  /**
+   * @var array
+   */
+  private $_callbackes = array();
 
   /**
    * コンストラクタ。
    *
-   * @param Delta_DatabaseConnection $connection コネクションオブジェクト。
+   * @param string $dataSourceId データソース ID。
    * @param string $tableName テーブル名。
    * @param Delta_DatabaseCriteriaScopes $scopes スコープオブジェクト。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_DatabaseConnection $connection,
+  public function __construct($dataSourceId,
     $tableName,
     array $primaryKeys = array(),
     Delta_DatabaseCriteriaScopes $scopes = NULL)
   {
-    $this->_connection = $connection;
+    $this->_dataSourceId = $dataSourceId;
     $this->_tableName = $tableName;
     $this->_primaryKeys = $primaryKeys;
 
     if ($scopes !== NULL) {
       $this->_scopes = $scopes->getScopes();
     }
+  }
+
+  /**
+   * @return Delta_DatabaseConnection
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  private function getConnection()
+  {
+    $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+
+    if (isset($this->_conditions['options']['dataSourceId'])) {
+      $dataSourceId = $this->_conditions['options']['dataSourceId'];
+    } else {
+      $dataSourceId = $this->_dataSourceId;
+    }
+
+    $connection = $database->getConnection($dataSourceId);
+
+    return $connection;
   }
 
   /**
@@ -161,7 +191,7 @@ class Delta_DatabaseCriteria extends Delta_Object
   /**
    * 参照クエリを構築します。
    *
-   * @param array conditions 抽出条件を含む配列。
+   * @param array $conditions 抽出条件を含む配列。
    * @return string 構築した参照クエリを返します。
    * @throws RuntimeException プライマリキーが未定義の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -191,6 +221,8 @@ class Delta_DatabaseCriteria extends Delta_Object
         throw new RuntimeException($message);
       }
 
+      $connection = $this->getConnection();
+
       if ($valueSize > 1) {
         if ($primaryKeySize != $valueSize) {
           $hasError = TRUE;
@@ -203,7 +235,7 @@ class Delta_DatabaseCriteria extends Delta_Object
 
             $wherePrimaryQuery .= sprintf('%s = %s',
               $this->_primaryKeys[$i],
-              $this->_connection->quote($this->_primaryKeyValue[$i]));
+              $connection->quote($this->_primaryKeyValue[$i]));
           }
         }
 
@@ -220,7 +252,7 @@ class Delta_DatabaseCriteria extends Delta_Object
 
           $wherePrimaryQuery = sprintf('%s = %s',
             $this->_primaryKeys[0],
-            $this->_connection->quote($primaryValue));
+            $connection->quote($primaryValue));
         }
       }
 
@@ -312,7 +344,7 @@ class Delta_DatabaseCriteria extends Delta_Object
     $conditions['select'] = 'COUNT(*)';
 
     $query = $this->buildSelectQuery($conditions);
-    $rs = $this->_connection->rawQuery($query);
+    $rs = $this->getConnection()->rawQuery($query);
 
     return $rs->read()->getByIndex(0);
   }
@@ -330,9 +362,17 @@ class Delta_DatabaseCriteria extends Delta_Object
     $conditions['offset'] = 0;
 
     $query = $this->buildSelectQuery($conditions);
-    $rs = $this->_connection->rawQuery($query);
+    $rs = $this->getConnection()->rawQuery($query);
+    $record = $rs->read();
 
-    return $rs->read();
+    // ディスクロージャの実行
+    if (sizeof($this->_callbacks)) {
+      foreach ($this->_callbacks as $callback) {
+        $callback($record);
+      }
+    }
+
+    return $record;
   }
 
   /**
@@ -387,9 +427,17 @@ class Delta_DatabaseCriteria extends Delta_Object
     $conditions['order'] = rtrim($orderQuery, ', ');
 
     $query = $this->buildSelectQuery($conditions);
-    $rs = $this->_connection->rawQuery($query);
+    $rs = $this->getConnection()->rawQuery($query);
+    $record = $rs->read();
 
-    return $rs->read();
+    // ディスクロージャの実行
+    if (sizeof($this->_callbacks)) {
+      foreach ($this->_callbacks as $callback) {
+        $callback($record);
+      }
+    }
+
+    return $record;
   }
 
   /**
@@ -401,11 +449,38 @@ class Delta_DatabaseCriteria extends Delta_Object
   public function findAll()
   {
     $query = $this->buildSelectQuery($this->_conditions);
-    $rs = $this->_connection->rawQuery($query);
+    $rs = $this->getConnection()->rawQuery($query);
     $records = array();
+    $assocKey = NULL;
 
-    while ($record = $rs->read()) {
-      $records[] = $record;
+    if (isset($this->_conditions['options']['assocKey'])) {
+      $assocKey = $this->_conditions['options']['assocKey'];
+    }
+
+    // ディスクロージャ形式のスコープを実行
+    if (sizeof($this->_callbacks)) {
+      // 配列のキーが指定されてる場合
+      while ($record = $rs->read()) {
+        foreach ($this->_callbacks as $callback) {
+          $callback($record);
+        }
+
+        if ($assocKey === NULL) {
+          $records[] = $record;
+        } else {
+          $records[$record->$assocKey] = $record;
+        }
+      }
+
+    // 配列形式のスコープを実行
+    } else {
+      while ($record = $rs->read()) {
+        if ($assocKey === NULL) {
+          $records[] = $record;
+        } else {
+          $records[$record->$assocKey] = $record;
+        }
+      }
     }
 
     return $records;
@@ -426,10 +501,15 @@ class Delta_DatabaseCriteria extends Delta_Object
       throw new Delta_ConfigurationException($message);
     }
 
-    $scope = $this->_scopes[$scopeName];
+    $scope = $this->_scopes[$scopeName][0];
 
+    if ($this->_scopes[$scopeName][1] !== NULL) {
+      $this->_callbacks[] = $this->_scopes[$scopeName][1];
+    }
+
+    // スコープにクロージャが設定されてる場合は関数を実行
     if (is_object($scope)) {
-      $variables = $this->_connection->getCommand()->quoteValues($variables);
+      $variables = $this->getConnection()->getCommand()->quoteValues($variables);
       $scope = call_user_func_array($scope, $variables);
     }
 
@@ -471,6 +551,11 @@ class Delta_DatabaseCriteria extends Delta_Object
     // 'offset' の取得
     if (isset($scope['offset']) && strlen($scope['offset'])) {
       $this->_conditions['offset'] = $scope['offset'];
+    }
+
+    // 'options' の取得
+    if (isset($scope['options']) && is_array($scope['options'])) {
+      $this->_conditions['options'] = $scope['options'];
     }
 
     return $this;

@@ -9,8 +9,17 @@
  */
 
 /**
- * セッションの管理を APC にハンドリングします。
- * このクラスを使う場合、実行環境に {@link http://www.php.net/manual/apc.installation.php APC モジュール} が組み込まれている必要があります。
+ * HTTP セッションを APC (Alternative PHP Cache) で管理します。
+ *
+ * セッションハンドラを有効にするには、実行環境に {@link http://www.php.net/manual/apc.installation.php APC モジュール} を組み込む必要があります。
+ *
+ * <i>このハンドラはセッションデータを読み書きする際の排他制御 (ロック) をサポートしていません。
+ * データの整合性を保証するには、アプリケーションサイドでロック機構を実装する必要があります。
+ *
+ * 例えばページ A を開く際にセッションデータ B が必要とします。
+ * ユーザがデータ B を持つ場合 (セッションデータをチェック) は 1〜10 秒かかるプロセス C を実行後、データベースにレコード D を作成してセッションからデータ B を削除します。
+ * ここで排他制御に詳しくないプログラマは、例えユーザが複数同時に A ページを開いたとしても、D レコードが複数作成されることはないと予想するかもしれません。
+ * しかし実際は、後に開いたページの処理 (プロセス C) が先に開いたページより速く終わることで、複数のレコードが登録されることになります。</i>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -28,12 +37,12 @@ class Delta_APCSessionHandler extends Delta_Object
   /**
    * コンストラクタ。
    *
-   * @param Delta_ParameterHolder $config セッションハンドラ属性。
+   * @param Delta_ParameterHolder $holder application.yml に定義されたハンドラ属性。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function __construct(Delta_ParameterHolder $config)
   {
-    $this->_lifetime = ini_get("session.gc_maxlifetime");
+    $this->_lifetime = ini_get('session.gc_maxlifetime');
 
     session_set_save_handler(array($this, 'open'),
       array($this, 'close'),
@@ -52,13 +61,7 @@ class Delta_APCSessionHandler extends Delta_Object
    */
   public static function handler(Delta_ParameterHolder $config)
   {
-    static $instance;
-
-    if ($instance === NULL) {
-      $instance = new Delta_APCSessionHandler($config);
-    }
-
-    return $instance;
+    return new Delta_APCSessionHandler($config);
   }
 
   /**
@@ -66,7 +69,7 @@ class Delta_APCSessionHandler extends Delta_Object
    *
    * @param string $savePath セッションの保存パス。
    * @param string $sessionName セッション名。
-   * @return bool セッションストレージへの接続に成功した場合は TRUE を返します。
+   * @return bool セッションストレージへの接続に成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function open($savePath, $sessionName)
@@ -78,7 +81,7 @@ class Delta_APCSessionHandler extends Delta_Object
    * セッションストレージへの接続を閉じます。
    * このメソッドはセッション操作が終了する際に実行されます。
    *
-   * @return bool セッション操作が正常に終了した場合は TRUE を返します。
+   * @return bool セッションが正常に閉じられた場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function close()
@@ -95,22 +98,22 @@ class Delta_APCSessionHandler extends Delta_Object
    */
   public function read($sessionId)
   {
+    $result = '';
     $value = apc_fetch($sessionId);
 
     if ($value !== FALSE) {
-      return $value;
+      $result = $value;
     }
 
-    return '';
+    return $result;
   }
 
   /**
-   * セッションに値を書き込みます。
-   * 通常はオブジェクトが破棄された後にコールされます。
+   * セッションにデータを書き込みます。
    *
    * @param string $sessionId セッション ID。
    * @param mixed $sessionData 書き込むデータ。
-   * @return bool 書き込みに成功したかどうかを TRUE/FALSE で返します。
+   * @return bool 書き込みが成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function write($sessionId, $sessionData)
@@ -122,6 +125,7 @@ class Delta_APCSessionHandler extends Delta_Object
    * セッションを破棄します。
    *
    * @param string $sessionId セッション ID。
+   * @return bool セッションの破棄に成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function destroy($sessionId)
@@ -133,6 +137,7 @@ class Delta_APCSessionHandler extends Delta_Object
    * ガベージコレクタを起動します。
    *
    * @param int $lifetime セッションの生存期間。単位は秒。
+   * @return bool ガベージコレクタの起動に成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function gc($lifetime)

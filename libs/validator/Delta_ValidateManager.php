@@ -281,7 +281,7 @@ class Delta_ValidateManager extends Delta_Object
    * @param string $parentId
    * @param array $names
    * @param string $fieldName
-   * @param string assocName
+   * @param string $assocName
    * @param string $fieldValue
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

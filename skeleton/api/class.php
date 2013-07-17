@@ -6,6 +6,7 @@
     <title><?php echo $title ?> - <?php echo $className ?></title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
+    <link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
     <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="../../assets/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="../../assets/js/jquery.treeview.js" type="text/javascript"></script>
@@ -63,10 +64,10 @@
             <?php else: ?>
               <p>このクラスは現在のところ詳細な情報はありません。</p>
             <?php endif ?>
-            <table summary="Description">
+            <table>
               <colgroup>
-                <col width="20%" />
-                <col width="80%" />
+                <col class="col-description-name" />
+                <col class="col-description-value" />
               </colgroup>
               <?php if (isset($class['document']['tags'])): ?>
                 <?php foreach ($class['document']['tags'] as $type => $tagAttribute): ?>
@@ -119,10 +120,10 @@
 
             <h3 id="constants">Constants</h3>
             <?php if (isset($class['constants'])): ?>
-              <table summary="Constants">
+              <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-constant-name" />
+                  <col class="col-constant-value" />
                 </colgroup>
                 <tr>
                   <th>Constnat</th>
@@ -149,12 +150,12 @@
               <?php if ($class['hasPublicProperty'] || $class['hasProtectedProperty'] || $class['hasInheritanceProperty'] || $class['hasOverrideProperty']): ?>
                 <?php if (isset($class['properties'])): ?>
                   <p id="toggleProperties"><?php echo $html->link('Hide inherited properties', '#') ?></p>
-                  <table summary="Properties">
+                  <table>
                     <colgroup>
-                      <col width="20%" />
-                      <col width="20%" />
-                      <col width="40%" />
-                      <col width="20%" />
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
                     </colgroup>
                     <tr>
                       <th>Property</th>
@@ -204,11 +205,11 @@
             <?php if ($class['hasPublicMethod'] || $class['hasProtectedMethod'] || $class['hasInheritanceMethod'] || $class['hasOverrideMethod']): ?>
               <?php if (isset($class['methods'])): ?>
                 <p id="toggleMethods"><?php echo $html->link('Hide inherited methods', '#') ?></p>
-                <table summary="Methods">
+                <table>
                   <colgroup>
-                    <col width="20%" />
-                    <col width="60%" />
-                    <col width="30%" />
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
                    </colgroup>
                   <tr>
                     <th>Method</th>
@@ -282,7 +283,7 @@
                       <ul class="note">
                         <li>
                           Overrides:
-                          <div class="text"><?php echo $document->linkProperty($property['define'], $name, 'both') ?></div>
+                          <p><?php echo $document->linkProperty($property['define'], $name, 'both') ?></p>
                         </li>
                       </ul>
                     <?php endif ?>
@@ -307,11 +308,11 @@
                         <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                       <?php endif ?>
                       <?php if ($method['hasParameter'] || $method['hasReturn']): ?>
-                        <table summary="Method detail">
+                        <table>
                         <colgroup>
-                          <col width="15%" />
-                          <col width="15%" />
-                          <col width="70%" />
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
                         </colgroup>
                         <tr>
                           <th>Property</th>

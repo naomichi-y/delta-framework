@@ -128,7 +128,7 @@ class Delta_ConsoleInputConfigure extends Delta_Object
    * @param int $type 引数が値を持つか持たないかの指定。
    * @param callback $callback オプション値を検証するコールバック関数。
    *   o 第 1 引数: コンソールから渡されたオプションの値。
-   *   o 第 2 引数: 値が不正な場合に例外に出力するメッセージ。(オプション)
+   *   o 第 2 引数: 値が不正な場合に例外に出力するメッセージを参照渡しで指定。(オプション)
    *   コールバック関数はオプションの値が正常な範囲内であれば TRUE、不正な値であれば FALSE を返すよう実装します。
    * @return Delta_ConsoleInputConfigure Delta_ConsoleInputConfigure オブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

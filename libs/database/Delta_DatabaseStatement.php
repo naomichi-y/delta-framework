@@ -111,7 +111,7 @@ class Delta_DatabaseStatement extends Delta_Object
   /**
    * コンストラクタ。
    *
-   * @param Delta_DatabaseConnection コネクションオブジェクト。
+   * @param Delta_DatabaseConnection $connection コネクションオブジェクト。
    * @param string $query 実行クエリ。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

@@ -85,6 +85,10 @@ blockquote p {
   font-style: normal;
 }
 
+dt {
+  font-size: 1em;
+}
+
 dd {
   margin: 1% 0 1% 0;
 }

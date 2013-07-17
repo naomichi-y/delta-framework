@@ -72,7 +72,7 @@ class Delta_KernelEventObserver extends Delta_Object
    * オブザーバにイベントリスナを追加します。
    *
    * @param string $listenerId イベントリスナ ID。
-   * @param Delta_ParameterHolder イベントリスナ属性。
+   * @param Delta_ParameterHolder $holder イベントリスナ属性。
    * @return イベントリスナの登録に成功した場合は TRUE、失敗 (現在の起動モードと {@link Delta_ApplicationEventListener::getBootMode() リスナの起動モード} が異なる場合に FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

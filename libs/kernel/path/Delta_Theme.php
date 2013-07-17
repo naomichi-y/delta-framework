@@ -238,7 +238,7 @@ class Delta_Theme
   /**
    * テーマ名を設定します。
    *
-   * @param string テーマ名。
+   * @param string $themeName テーマ名。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function setThemeName($themeName)

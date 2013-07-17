@@ -56,7 +56,7 @@ class Delta_HttpSession extends Delta_Object
    * $session->isActive();
    *
    * // セッションを閉じる (通常はコールする必要はない)
-   * $session->close();
+   * $session->finalize();
    *
    * // 新しいセッションを開始する
    * $session->active();
@@ -214,7 +214,7 @@ class Delta_HttpSession extends Delta_Object
         $data = $_SESSION;
 
         $this->clear();
-        $this->close();
+        $this->finalize();
 
         session_id($updateId);
         $this->activate();
@@ -288,34 +288,23 @@ class Delta_HttpSession extends Delta_Object
   }
 
   /**
-   * セッションデータをストレージに書き込んで早期にセッションを終了します。
-   * セッションデータは同時書き込み防止のためロックされますが、セッションの変更を加えた最後の時点で本メソッドをコールすることで、AJAX やフレームセットを使用する場合のパフォーマンス改善が見込めます。
-   *
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function close()
-  {
-    if ($this->_isActive) {
-      $container = Delta_DIContainerFactory::getContainer();
-
-      if ($container->hasComponent('user')) {
-        $container->getComponent('user')->finalize();
-      }
-
-      $this->finalize();
-    }
-  }
-
-  /**
-   * セッションデータのファイナライズ処理を行います。
+   * セッションデータを出力して終了します。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function finalize()
   {
     try {
-      session_write_close();
-      $this->_isActive = FALSE;
+      if ($this->_isActive) {
+        $container = Delta_DIContainerFactory::getContainer();
+
+        if ($container->hasComponent('user')) {
+          $container->getComponent('user')->finalize();
+        }
+
+        session_write_close();
+        $this->_isActive = FALSE;
+      }
 
     } catch (Exception $e) {
       Delta_ExceptionStackTraceDelegate::invoker($e);

@@ -150,11 +150,11 @@ class Delta_DateValidator extends Delta_Validator
   /**
    * 検証する日付が許可されている範囲 (過去・未来) 内にあるかチェックします。
    *
-   * @param string 検証するフィールド名。
+   * @param string $fieldName 検証するフィールド名。
    * @param int $year 検証対象の年。
    * @param int $month 検証対象の月。
    * @param int $day 検証対象の日。
-   * @param Delta_ParameterHolder パラメータホルダ。
+   * @param Delta_ParameterHolder $holder パラメータホルダ。
    * @return bool 日付が許可されている範囲内かどうかを TRUE/FALSE で返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

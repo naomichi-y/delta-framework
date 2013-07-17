@@ -6,6 +6,7 @@
     <title><?php echo $title ?></title>
     <link rel="stylesheet" type="text/css" href="assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.treeview.css" />
+    <link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
     <script src="assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="assets/js/jquery.treeview.js" type="text/javascript"></script>
@@ -42,11 +43,11 @@
               <?php echo $html->link($package, '#package_' . $package) ?>
             <?php endforeach ?>
             </p>
-            <table summary="Package list">
+            <table>
               <colgroup>
-                <col width="20%" />
-                <col width="25%" />
-                <col width="55%" />
+                <col class="col-package" />
+                <col class="col-package-name" />
+                <col class="col-package-summary" />
               </colgroup>
               <tr>
                 <th>Package</th>

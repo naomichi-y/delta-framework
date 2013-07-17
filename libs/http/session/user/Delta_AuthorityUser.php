@@ -277,9 +277,9 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * ユーザオブジェクトに権限を追加します。
+   * ユーザオブジェクトにロールを追加します。
    *
-   * @param string $role 権限名。
+   * @param string $role ロール名。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function addRole($role)
@@ -290,9 +290,10 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * ユーザオブジェクトに権限のリストを追加します。
+   * ユーザオブジェクトに配列形式でロールを追加します。
    *
-   * @param array $roles 権限のリスト。
+   * @param array $roles ロールリスト。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function addRoles(array $roles)
   {
@@ -302,11 +303,11 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * 指定した権限がユーザオブジェクトに設定されているかチェックします。
+   * 指定したロールがユーザオブジェクトに登録されているかチェックします。
    *
-   * @param mixed $role チェック対象の権限名。文字列、または配列形式での指定が可能。
-   *   配列形式の場合、role 配列に含まれる権限が 1 つでも含まれていない場合は FALSE を返します。
-   *   また role が未指定の場合は、1 つ以上の権限が設定されているかどうかをチェックします。
+   * @param mixed $role チェック対象のロール名。文字列、または配列形式での指定が可能。
+   *   配列形式の場合、role 配列に含まれるロールが 1 つでも含まれていない場合は FALSE を返します。
+   *   role が未指定の場合は、1 つ以上のロールが登録されているかどうかをチェックします。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function hasRole($role = NULL)
@@ -339,9 +340,9 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * ユーザオブジェクトに設定されている全ての権限を取得します。
+   * ユーザオブジェクトに登録されている全てのロールを取得します。
    *
-   * @return array ユーザオブジェクトに設定されている全ての権限を返します。
+   * @return array ユーザオブジェクトに登録されている全てのロールを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getRoles()
@@ -350,26 +351,38 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * ユーザオブジェクトに設定されている権限を破棄します。
+   * ユーザオブジェクトに登録されているロールを破棄します。
    *
-   * @param mixed $roleName 削除する権限名。文字列、または配列形式での指定が可能。
-   *   roleName が未指定の場合は設定されている全ての権限を破棄します。
+   * @param mixed $roleName 削除するロール名。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function revokeRole($roleName = NULL)
   {
     $roles = &$this->_context['roles'];
 
-    if ($roleName === NULL) {
+    if (($index = array_search($roleName, $roles)) !== FALSE) {
+      unset($roles[$index]);
+    }
+  }
+
+  /**
+   * ユーザオブジェクトに登録されている複数のロールを破棄します。
+   *
+   * @param array $roleNames 削除するロール名。
+   *   roleNames が NULL の場合は設定されている全てのロールを破棄。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function revokeRoles(array $roleNames = NULL)
+  {
+    $roles = &$this->_context['roles'];
+
+    if ($roleNames === NULL) {
       $roles = array();
 
     } else {
-      if (is_string($roleName)) {
-        $roleName = array($roleName);
-      }
-
-      foreach ($roleName as $name) {
-        if (($index = array_search($name, $roles)) !== FALSE) {
+      foreach ($roleNames as $roleName) {
+        if (($index = array_search($roleName, $roles)) !== FALSE) {
           unset($roles[$index]);
         }
       }
@@ -377,7 +390,7 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * アクションの実行権限をユーザが保持しているかチェックします。
+   * アクション実行ロールをユーザが満たしているかチェックします。
    * アクションごとのロールはビヘイビアファイルの 'roles' 属性で設定することができます。
    * ユーザにロールを追加する場合は {@link addRole()} メソッドを使用して下さい。
    *
@@ -392,18 +405,17 @@ class Delta_AuthorityUser extends Delta_Object
    * <code>
    * {GreetingAction.php}
    *
-   * // ユーザが 'view'、'execute' ロールを保持している場合は TRUE を返す
+   * // ユーザが 'view'、'execute' ロールを満たしている場合は TRUE を返す
    * $user->isCurrentActionAuthenticated(Delta_AuthorityUser::REQUIRED_ALL_ROLES)
    * </code>
    *
-   * @param bool $requiredRole 権限を所有していると見なす条件。Delta_AuthorityUser::REQUIRED_* 定数を指定。
-   * @return bool ユーザが権限を所有している場合は TRUE、所有していない (または不足している) 場合は FALSE を返します。
+   * @param bool $requiredRole ロールを所有していると見なす条件。Delta_AuthorityUser::REQUIRED_* 定数を指定。
+   * @return bool ユーザがロールを所有している場合は TRUE、所有していない (または不足している) 場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function isCurrentActionAuthenticated($requiredRole = self::REQUIRED_ALL_ROLES)
   {
-    $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
-    $actionRoles = $route->getForwardStack()->getLast()->getAction()->getRoles();
+    $actionRoles = Delta_ActionStack::getInstance()->getLastEntry()->getRoles();
     $userRoles = $this->_context['roles'];
 
     if ($actionRoles) {
@@ -496,7 +508,61 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
-   * ユーザオブジェクトに設定されている全ての属性、及び権限を破棄します。
+   * 現在エントリしているモジュールにログインします。
+   *
+   * @return bool ログインが成功した場合は TRUE、失敗した (既にログイン済み) 場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function login()
+  {
+    $result = FALSE;
+
+    if (!$this->isLogin()) {
+      // Session fixation 対策
+      $session = Delta_DIContainerFactory::getContainer()->getComponent('session');
+      $session->updateId();
+
+      $this->_context['login'] = TRUE;
+      $result = TRUE;
+    }
+
+    return $result;
+  }
+
+  /**
+   * 現在エントリしているモジュールにログインしているかどうかチェックします。
+   *
+   * @return bool ログイン済みの場合は TRUE、未ログインの場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function isLogin()
+  {
+    return $this->_context['login'];
+  }
+
+  /**
+   * 現在エントリしているモジュールからログアウトします。
+   *
+   * @return bool ログアウトが成功した場合は TRUE、失敗した (ログアウト済みの) 場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function logout()
+  {
+    $result = FALSE;
+
+    if ($this->isLogin()) {
+      $this->_context['login'] = FALSE;
+      $result = TRUE;
+    }
+
+    return $result;
+  }
+
+  /**
+   * ユーザオブジェクトに設定されている全てデータを破棄します。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -505,6 +571,7 @@ class Delta_AuthorityUser extends Delta_Object
     $this->_context['roles'] = array();
     $this->_context['attributes'] = array();
     $this->_context['flash'] = array();
+    $this->_context['login'] = FALSE;
   }
 
   /**

@@ -113,6 +113,11 @@ class Delta_View extends Delta_Object
   private $_renderer;
 
   /**
+   * @var Delta_HelperManager
+   */
+  private $_helperManager;
+
+  /**
    * @var array
    */
   protected $_context = array();
@@ -165,6 +170,7 @@ class Delta_View extends Delta_Object
 
     $this->_context['attributes'] = &$this->_attributes;
     $this->_renderer->setContext($this->_context);
+    $this->_helperManager = new Delta_HelperManager($this);
   }
 
   /**
@@ -197,13 +203,7 @@ class Delta_View extends Delta_Object
    */
   public function getHelperManager()
   {
-    static $instance = NULL;
-
-    if ($instance === NULL) {
-      $instance = new Delta_HelperManager($this);
-    }
-
-    return $instance;
+    return $this->_helperManager;
   }
 
   /**

@@ -775,7 +775,7 @@ class Delta_CommandExecutor
 
   private function getInstallDataSourceId()
   {
-    $dataSourceId = $this->_input->getDialog()->send('Install namespace of database. [default]');
+    $dataSourceId = $this->_input->getDialog()->send('Install data source of database. [default]');
 
     if (strlen($dataSourceId) == 0) {
       $dataSourceId = 'default';

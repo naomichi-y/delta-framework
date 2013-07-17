@@ -42,7 +42,7 @@ class Delta_HTMLEscapeArrayDecorator extends Delta_HTMLEscapeDecorator implement
   /**
    * コンストラクタ。
    *
-   * @param array 対象とする配列データ。
+   * @param array $array 対象とする配列データ。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function __construct(array $array)
@@ -87,7 +87,11 @@ class Delta_HTMLEscapeArrayDecorator extends Delta_HTMLEscapeDecorator implement
    */
   public function offsetGet($offset)
   {
-    return Delta_StringUtils::escape($this->_data[$offset]);
+    if (isset($this->_data[$offset])) {
+      return Delta_StringUtils::escape($this->_data[$offset]);
+    }
+
+    return NULL;
   }
 
   /**

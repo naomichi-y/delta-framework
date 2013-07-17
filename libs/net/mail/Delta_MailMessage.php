@@ -149,9 +149,18 @@ class Delta_MailMessage extends Delta_MailPart
    */
   public function getDate()
   {
-    $date = Delta_ArrayUtils::lastKeyValue($this->getHeaders(), 'date');
+    $headers = $this->getHeaders();
+    $result = NULL;
 
-    return $date;
+    if (isset($headers['date'])) {
+      if (is_array($headers['date'])) {
+        $result = Delta_ArrayUtils::lastValue($headers['date']);
+      } else {
+        $result = $headers['date'];
+      }
+    }
+
+    return $result;
   }
 
   /**
@@ -163,8 +172,18 @@ class Delta_MailMessage extends Delta_MailPart
    */
   public function getMessageId()
   {
-    $messageId = Delta_ArrayUtils::lastKeyValue($this->getHeaders(), 'message-id');
-    $messageId = str_replace(array('<', '>'), '', $messageId);
+    $headers = $this->getHeaders();
+    $result = NULL;
+
+    if (isset($headers['message-id'])) {
+      if (is_array($headers['message-id'])) {
+        $result = Delta_ArrayUtils::lastValue($headers['message-id']);
+      } else {
+        $result = $headers['message-id'];
+      }
+
+      $result = str_replace(array('<', '>'), array('', ''), $result);
+    }
 
     return $messageId;
   }

@@ -29,6 +29,10 @@ abstract class Delta_ExceptionDelegate extends Delta_Object
    */
   public static function invoker(Exception $exception, Delta_ParameterHolder $holder = NULL)
   {
+    if ($holder === NULL) {
+      $holder = new Delta_ParameterHolder();
+    }
+
     static::catchOnApplication($exception, $holder);
 
     if (Delta_BootLoader::isBootTypeWeb()) {
@@ -52,7 +56,7 @@ abstract class Delta_ExceptionDelegate extends Delta_Object
    * Web アプリケーションで例外がスローされた際に、{@link invoker()} メソッドによってコールされます。
    * このメソッドは、{@link catchOnApplication()} がコールされた後に実行されます。
    *
-   * @param Exception {@link invoker()} メソッドを参照。
+   * @param Exception $exception {@link invoker()} メソッドを参照。
    * @see Delta_ExceptionDelegate::invoker()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -63,7 +67,7 @@ abstract class Delta_ExceptionDelegate extends Delta_Object
    * コンソールアプリケーションで例外がスローされた際に、{@link invoker()} メソッドによってコールされます。
    * このメソッドは、{@link catchOnApplication()} がコールされた後に実行されます。
    *
-   * @param Exception {@link invoker()} メソッドを参照。
+   * @param Exception $exception {@link invoker()} メソッドを参照。
    * @see Delta_ExceptionDelegate::invoker()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

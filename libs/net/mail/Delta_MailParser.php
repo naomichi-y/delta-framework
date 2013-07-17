@@ -135,12 +135,18 @@ class Delta_MailParser extends Delta_Object
    *
    * @param Delta_MailPart $parentPart 親パート。
    * @param string $partMessage パートメッセージ。
+   * @throws Delta_ParseException メールテキストの形式が不正な場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function parseMessage(Delta_MailPart $parentPart, $partMessage)
   {
     $pos = strpos($partMessage, "\n\n");
     $header = substr($partMessage, 0, $pos);
+
+    if ($pos === FALSE) {
+      $message = 'Mail header format is invalid.';
+      throw new Delta_ParseException($message);
+    }
 
     if ($this->_originalHeaders === NULL) {
       $this->_originalHeaders = $header;
@@ -179,30 +185,31 @@ class Delta_MailParser extends Delta_Object
   private function parseHeader(Delta_MailPart $parentPart, $headers)
   {
     $splitHeader = preg_split('/(?!\n\s)\n/', $headers);
-    $headerList = array();
+    $headers = array();
 
     foreach ($splitHeader as $header) {
-      $separate = explode(':', $header, 2);
+      if (preg_match('/^([\w\-]+):(.+)$/', $header, $matches, PREG_OFFSET_CAPTURE)) {
+        $name = strtolower($matches[1][0]);
+        $value = trim($matches[2][0]);
 
-      $headerName = strtolower($separate[0]);
-      $headerValue = trim($separate[1]);
+        // 同名のヘッダが複数存在する場合は全ての値を配列形式で保存
+        if (isset($headers[$name])) {
+          if (!is_array($headers[$name])) {
+            $tempValue = $headers[$name];
 
-      if (isset($headerList[$headerName])) {
-        if (!is_array($headerList[$headerName])) {
-          $tempValue = $headerList[$headerName];
+            $headers[$name] = array();
+            $headers[$name][] = $tempValue;
+          }
 
-          $headerList[$headerName] = array();
-          $headerList[$headerName][] = $tempValue;
+          $headers[$name][] = $value;
+
+        } else {
+          $headers[$name] = $value;
         }
-
-        $headerList[$headerName][] = $headerValue;
-
-      } else {
-        $headerList[$headerName] = $headerValue;
       }
     }
 
-    $parentPart->setHeaders($headerList);
+    $parentPart->setHeaders($headers);
 
     $this->parseContentType($parentPart);
   }
@@ -478,7 +485,16 @@ class Delta_MailParser extends Delta_Object
 
   public function parseContentType(Delta_MailPart $parentPart)
   {
-    $contentType = Delta_ArrayUtils::lastKeyValue($parentPart->getHeaders(), 'content-type');
+    $headers = $parentPart->getHeaders();
+    $contentType = NULL;
+
+    if (isset($headers['content-type'])) {
+      if (is_array($headers['content-type'])) {
+        $contentType = Delta_ArrayUtils::lastValue($headers['content-type']);
+      } else {
+        $contentType =  $headers['content-type'];
+      }
+    }
 
     if (strlen($contentType)) {
       preg_match_all('/([^;=\s]+)(?:="?([^";]*)"?)?/', $contentType, $matches);

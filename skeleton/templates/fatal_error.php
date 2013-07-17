@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta charset="UTF-8" />
-    <title><?php $isOutputDebug ? printf('%s: %s', $type, $message) : print($title); ?></title>
+    <title><?php printf('%s: %s', $type, $message); ?></title>
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/base.css" />
     <link rel="stylesheet" type="text/css" href="/assets/base/delta/css/app_code_inspector.css" />
     <!--[if lt IE 9]>
@@ -12,10 +12,9 @@
   </head>
   <body>
     <header>
-      <h1 id="fatal_error"><?php $isOutputDebug ? printf('%s: %s', $type, $message) : print($title); ?></h1>
+      <h1 id="fatal_error"><?php printf('%s: %s', $type, $message) ?></h1>
     </header>
     <div id="contents" class="delta_context">
-      <?php if ($isOutputDebug): ?>
       <dl>
         <dt>File</dt>
         <dd><span class="file_info"><?php echo $file ?> (Line: <?php echo $line ?>)</span></dd>
@@ -27,9 +26,6 @@
           </dd>
         <?php endif ?>
       </dl>
-      <?php else: ?>
-        <p>Please check the SAPI log.</p>
-      <?php endif ?>
     </div>
   </body>
 </html>

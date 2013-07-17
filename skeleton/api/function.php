@@ -6,6 +6,7 @@
     <title><?php echo $title ?> - <?php echo $file['file']['name'] ?></title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
+    <link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
     <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="../../assets/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="../../assets/js/jquery.treeview.js" type="text/javascript"></script>
@@ -49,10 +50,10 @@
             <?php else: ?>
               <p>この関数は現在のところ詳細な情報はありません。</p>
             <?php endif ?>
-              <table summary="Description">
+              <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-description-name" />
+                  <col class="col-description-value" />
                 </colgroup>
                 <?php if (isset($file['file']['document']['tags'])): ?>
                   <?php foreach ($file['file']['document']['tags'] as $type => $tagAttribute): ?>
@@ -80,10 +81,10 @@
 
             <h3 id="defines">Defines</h3>
             <?php if (isset($file['defines'])): ?>
-              <table summary="Defines">
+              <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-define-name" />
+                  <col class="col-define-value" />
                 </colgroup>
                 <tr>
                   <th>Define</th>
@@ -107,10 +108,10 @@
 
             <h3 id="functions">Functions</h3>
             <?php if (isset($file['functions'])): ?>
-              <table summary="Functions">
+              <table>
                 <colgroup>
-                  <col width="20%" />
-                  <col width="80%" />
+                  <col class="col-function-name" />
+                  <col class="col-function-summary" />
                 </colgroup>
                 <tr>
                   <th>Function</th>
@@ -164,11 +165,11 @@
                     <p>この関数は現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
                   <?php endif ?>
                   <?php if ($function['hasParameter'] || $function['hasReturn']): ?>
-                    <table summary="Function details">
+                    <table>
                     <colgroup>
-                      <col width="15%" />
-                      <col width="15%" />
-                      <col width="70%" />
+                      <col class="col-parameter-name" />
+                      <col class="col-parameter-type" />
+                      <col class="col-parameter-description" />
                     </colgroup>
                     <tr>
                       <th>Property</th>

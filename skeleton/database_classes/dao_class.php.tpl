@@ -7,7 +7,7 @@
  */
 class {%CLASS_NAME%} extends {%BASE_DAO_CLASS_NAME%}
 {
-  protected $_namespace = '{%NAMESPACE%}';
+  protected $_dataSourceId = '{%DATA_SOURCE_ID%}';
   protected $_tableName = '{%TABLE_NAME%}';
   protected $_primaryKeys = array({%PRIMARY_KEYS%});
 }

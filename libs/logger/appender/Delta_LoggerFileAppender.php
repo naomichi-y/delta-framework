@@ -28,8 +28,8 @@
  *       # {@link Delta_LogRotatePolicy::setGeneration()}
  *       generation: 4
  *
- *       # {@link Delta_LogWriter::setWriteAppend()}
- *       writeAppend: TRUE
+ *       # {@link Delta_LogWriter::__construct()}
+ *       appendMode: TRUE
  *
  *       # {@link Delta_LogWriter::setLinefeed()}
  *       linefeed: <?php echo PHP_EOL ?>
@@ -104,11 +104,10 @@ class Delta_LoggerFileAppender extends Delta_LoggerAppender
     $generation = $rotate->getInt('generation', 4);
     $policy->setGeneration($generation);
 
-    $writeAppend = $rotate->getBoolean('writeAppend', TRUE);
+    $appendMode = $rotate->getBoolean('appendMode', TRUE);
     $linefeed = $rotate->getString('linefeed', PHP_EOL);
-    $logWriter = new Delta_LogWriter($policy);
-    $logWriter->setLazyWrite(FALSE);
-    $logWriter->setWriteAppend($writeAppend);
+
+    $logWriter = new Delta_LogWriter($policy, $appendMode, FALSE);
     $logWriter->setLinefeed($linefeed);
 
     if ($mode !== NULL) {

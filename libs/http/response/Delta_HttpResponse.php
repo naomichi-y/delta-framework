@@ -535,7 +535,7 @@ class Delta_HttpResponse extends Delta_Object
     }
 
     if (strcasecmp(substr($uri, 0, 4), 'http') !== 0) {
-      $request = $this->getRequest();
+      $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
       $uri = $request->getScheme() . '://' . $request->getHost() . $uri;
     }
 
@@ -550,7 +550,7 @@ class Delta_HttpResponse extends Delta_Object
     $container = Delta_DIContainerFactory::getContainer();
 
     if ($container->hasComponent('session')) {
-      $container->getComponent('session')->close();
+      $container->getComponent('session')->finalize();
     }
 
     $this->setHeader('Location', $uri);
