@@ -132,25 +132,28 @@
         <p>login() メソッドはセッションフィクセーション対策として、セッション ID の再生成を内部的に行います。</p>
       </div>
     </div>
-    <p>ログインチェックが複数のページで必要な場合、アクション単位でログイン判定を行うのはあまり効率的ではありません。このようなケースではフィルタでログインチェックを行うと良いでしょう。</p>
+    <h3>ビヘイビアとフィルタを組み合わせた応用</h3>
+    <p>複数のページでログインチェックが必要な場合、ビヘイビアとフィルタを組み合わせることで認証メカニズムを簡略化することができます。</p>
+    <p>まず初めに、ログインが必要なアクションのビヘイビアに 'login' 属性を追加します。</p>
     <dl>
-      <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>class LoginCheckFilter extends Delta_Filter<br>
-        {<br>
-        &nbsp; public function doFilter(Delta_FilterChain $chain)<br>
-        &nbsp;&nbsp;{<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;$packageName = Delta_ActionStack::getInstance()-&gt;getLastEntry()-&gt;getPackageName();<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;$excludePackages = array(...);<br>
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;if (!in_array($packageName, $excludePackages) &amp;&amp; $this-&gt;getUser()-&gt;isLogin()) {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$chain-&gt;filterChain();<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;getResponse()-&gt;sendRedirectAction('LoginForm');<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-        &nbsp;&nbsp;}<br>
-        } </code></dd>
+      <dt>YAML Code# modules/entry/behaviors/MemberList.yml</dt>
+      <dd class="lang_yaml"><code>login: TRUE</code></dd>
     </dl>
-    <p>フィルタの詳しい使い方は <a href="../whitepaper/filter.html">フィルタを使う</a> を参照して下さい。</p>
+    <p>次に対象モジュールのフィルタリストに <a href="../../api/reference/controller.filter/delta___login_filter.html">Delta_LoginFilter</a> を追加します。</p>
+    <dl>
+      <dt>YAML Code# modules/entry/behaviors/MemberList.yml</dt>
+      <dd class="lang_yaml"><code>loginFilter:<br>
+        &nbsp;&nbsp;class: Delta_LoginFilter<br>
+&nbsp;&nbsp;forward: LoginForm       <br>
+      </code></dd>
+    </dl>
+    <p>以上の設定で、未ログイン状態のまま MemberList アクションをリクエストするとアクションが実行されず、LoginForm にフォワードする形となります。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>フィルタの詳しい使い方は <a href="../whitepaper/filter.html">フィルタを使う</a> を参照して下さい。</p>
+      </div>
+    </div>
     <h2><a id="role"></a>ロール管理</h2>
     <p>ユーザに権限を持たせたい場合はロール機能を使います。</p>
     <dl>

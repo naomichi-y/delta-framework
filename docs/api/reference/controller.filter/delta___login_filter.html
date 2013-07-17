@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta charset="UTF-8" />
-    <title>delta 1.1 API Reference - Delta_MailParser</title>
+    <title>delta 1.1 API Reference - Delta_LoginFilter</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
     <link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
@@ -598,7 +598,7 @@
           <article>
             <h2>
                               Class
-                            Delta_MailParser            </h2>
+                            Delta_LoginFilter            </h2>
             <p class="right">
               <a href="#description">Description</a> |
               <a href="#constants">Constants</a> |
@@ -608,19 +608,35 @@
 
             <h3 id="description">Description</h3>
                           <p>
-メールメッセージを解析します。
+<a href="../http.session.user/delta___authority_user.html#method_isLogin">ユーザのログイン状態</a> をチェックし、ログインが必要なアクションに未ログイン状態でアクセスした場合は指定したアクションへ強制フォワードします。
 </p>
 <p>
-このクラスは実験的なステータスにあります。
-これは、このクラスの動作、メソッド名、ここで書かれていること全てが delta の将来のバージョンで予告なく変更される可能性があることを意味します。
-注意を喚起するとともに自分のリスクでこのクラスを使用して下さい。
+modules/{module_name}/config/filters.yml の設定例:
 </p>
+<div class="source"><code># フィルタクラス名。
+class: Delta_LoginFilter
+
+# 未ログイン時に遷移するアクション名。
+forward:
+</code></div>
+<p>
+ログインを必要とするアクションのビヘイビア設定例:
+</p>
+<div class="source"><code>login: TRUE
+</code></div>
                         <table>
               <colgroup>
                 <col class="col-description-name" />
                 <col class="col-description-value" />
               </colgroup>
                                                                                         <tr>
+                      <th class="left">Since</th>
+                      <td><p>
+1.1
+</p>
+</td>
+                    </tr>
+                                                                                                                <tr>
                       <th class="left">Author</th>
                       <td><p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
@@ -637,110 +653,61 @@ delta
                                                                                             <tr>
                       <th class="left">Package</th>
                       <td><p>
-net.mail
+controller.filter
 </p>
 </td>
                     </tr>
                                                               <tr>
                 <th class="left">Inheritance</th>
                 <td>
-                  Delta_MailParser                                       &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
+                  Delta_LoginFilter                                       &raquo; <a href="../controller.filter/delta___filter.html">Delta_Filter</a> &raquo; <a href="../kernel.container/delta___di_controller.html">Delta_DIController</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
               </tr>
                                           <tr>
                 <th class="left">Source file</th>
-                <td>/net/mail/Delta_MailParser.php</td>
+                <td>/controller/filter/Delta_LoginFilter.php</td>
               </tr>
             </table>
             <p class="right"><a href="#top">To top</a></p>
 
             <h3 id="constants">Constants</h3>
-                          <table>
-                <colgroup>
-                  <col class="col-constant-name" />
-                  <col class="col-constant-value" />
-                </colgroup>
-                <tr>
-                  <th>Constnat</th>
-                  <th>Summary</th>
-                </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_CONTENT_TYPE_MULTIPART_ALTERNATIVE">CONTENT_TYPE_MULTIPART_ALTERNATIVE</a></td>
-                    <td class="left">
-                                              <p>
-&#039;multipart/alternative&#039; 定数。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_CONTENT_TYPE_MULTIPART_MIXED">CONTENT_TYPE_MULTIPART_MIXED</a></td>
-                    <td class="left">
-                                              <p>
-&#039;multipart/mixed&#039; 定数。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_CONTENT_TYPE_MULTIPART_RELATED">CONTENT_TYPE_MULTIPART_RELATED</a></td>
-                    <td class="left">
-                                              <p>
-&#039;multipart/relate&#039; 定数。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_CONTENT_TYPE_MULTIPART_REPORT">CONTENT_TYPE_MULTIPART_REPORT</a></td>
-                    <td class="left">
-                                              <p>
-&#039;multipart/report&#039; 定数。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_CONTENT_TYPE_RFC822">CONTENT_TYPE_RFC822</a></td>
-                    <td class="left">
-                                              <p>
-&#039;message/rfc822&#039; 定数。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_CONTENT_TYPE_TEXT_HTML">CONTENT_TYPE_TEXT_HTML</a></td>
-                    <td class="left">
-                                              <p>
-&#039;text/html&#039; 定数。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_CONTENT_TYPE_TEXT_PLAIN">CONTENT_TYPE_TEXT_PLAIN</a></td>
-                    <td class="left">
-                                              <p>
-&#039;text/plain&#039; 定数。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_PARSE_MODE_ALL">PARSE_MODE_ALL</a></td>
-                    <td class="left">
-                                              <p>
-メッセージ全体を解析。
-</p>
-                                          </td>
-                  </tr>
-                                  <tr>
-                    <td class="left"><a href="#constant_PARSE_MODE_HEADER_ONLY">PARSE_MODE_HEADER_ONLY</a></td>
-                    <td class="left">
-                                              <p>
-メッセージ内ヘッダのみ解析。
-</p>
-                                          </td>
-                  </tr>
-                              </table>
+                          <p>定義されている定数はありません。</p>
                         <p class="right"><a href="#">To top</a></p>
 
                           <h3 id="properties">Properties</h3>
-                              <p>公開されているプロパティはありません。</p>
-                            <p class="right"><a href="#top">To top</a></p>
+                                                <p id="toggleProperties"><a href="#">Hide inherited properties</a></p>
+                  <table>
+                    <colgroup>
+                      <col class="col-property-name" />
+                      <col class="col-property-type" />
+                      <col class="col-property-summary" />
+                      <col class="col-property-defined" />
+                    </colgroup>
+                    <tr>
+                      <th>Property</th>
+                      <th>Type</th>
+                      <th>Summary</th>
+                      <th>Defined by</th>
+                    </tr>
+                                                                                            <tr class="inheritanceProperties">
+                                                  <td>
+                                                          <a href="../controller.filter/delta___filter.html#property__filterId">$_filterId</a>                                                      </td>
+                          <td>
+                                                          string                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../controller.filter/delta___filter.html">Delta_Filter</a></td>
+                        </tr>
+                                                                                                                  <tr class="inheritanceProperties">
+                                                  <td>
+                                                          <a href="../controller.filter/delta___filter.html#property__holder">$_holder</a>                                                      </td>
+                          <td>
+                                                          <a href="../util/delta___parameter_holder.html">Delta_ParameterHolder</a>                                                      </td>
+                          <td>
+                                                      </td>
+                          <td><a href="../controller.filter/delta___filter.html">Delta_Filter</a></td>
+                        </tr>
+                                                            </table>
+                                            <p class="right"><a href="#top">To top</a></p>
             
             <h3 id="methods">Methods</h3>
                                           <p id="toggleMethods"><a href="#">Hide inherited methods</a></p>
@@ -755,15 +722,15 @@ net.mail
                     <th>Summary</th>
                     <th>Defined by</th>
                   </tr>
-                                                                                    <tr>
+                                                                                    <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="#method___construct">__construct()</a>                                                  </td>
+                                                      <a href="../controller.filter/delta___filter.html#method___construct">__construct()</a>                                                  </td>
                         <td>
                                                       <p>
 コンストラクタ。
 </p>
                                                   </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
+                        <td><a href="../controller.filter/delta___filter.html">Delta_Filter</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -775,12 +742,12 @@ net.mail
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                                                                                                    <tr>
+                                                                                                        <tr>
                                               <td>
-                                                      <a href="#method_decodeHeader">decodeHeader()</a>                                                  </td>
+                                                      <a href="#method_doFilter">doFilter()</a>                                                  </td>
                         <td>
                                                   </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
+                        <td><a href="../controller.filter/delta___login_filter.html">Delta_LoginFilter</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -792,15 +759,55 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr>
+                                                                                                        <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="#method_getMailMessage">getMailMessage()</a>                                                  </td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getConsole">getConsole()</a>                                                  </td>
                         <td>
                                                       <p>
-<a href="../net.mail/delta___mail_parser.html#method_parse">parse()</a>、parseHeaderOnly() メソッドにより解析されたメッセージオブジェクトを取得します。
+コンソール (console) コンポーネントを取得します。
 </p>
                                                   </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getController">getController()</a>                                                  </td>
+                        <td>
+                                                      <p>
+コントローラ (controller) コンポーネントを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getDatabase">getDatabase()</a>                                                  </td>
+                        <td>
+                                                      <p>
+データベース (database) コンポーネントを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getForm">getForm()</a>                                                  </td>
+                        <td>
+                                                      <p>
+フォーム (form) コンポーネントを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getMessages">getMessages()</a>                                                  </td>
+                        <td>
+                                                      <p>
+メッセージ (messages) コンポーネントを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -811,36 +818,6 @@ Delta_AppPathManager のインスタンスを取得します。
 </p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getOriginalBody">getOriginalBody()</a>                                                  </td>
-                        <td>
-                                                      <p>
-オリジナルのメッセージ本文を取得します。
-</p>
-                                                  </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getOriginalContents">getOriginalContents()</a>                                                  </td>
-                        <td>
-                                                      <p>
-解析するコンテンツメッセージを取得します。
-</p>
-                                                  </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getOriginalHeaders">getOriginalHeaders()</a>                                                  </td>
-                        <td>
-                                                      <p>
-オリジナルのヘッダフィールド文字列を取得します。
-</p>
-                                                  </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -854,6 +831,26 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getRequest">getRequest()</a>                                                  </td>
+                        <td>
+                                                      <p>
+リクエスト (request) コンポーネントを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getResponse">getResponse()</a>                                                  </td>
+                        <td>
+                                                      <p>
+レスポンス (response) コンポーネントを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
                                                       <a href="../kernel.container/delta___object.html#method_getService">getService()</a>                                                  </td>
                         <td>
                                                       <p>
@@ -862,317 +859,58 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr>
+                                                                                                        <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="#method_parse">parse()</a>                                                  </td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getSession">getSession()</a>                                                  </td>
                         <td>
                                                       <p>
-メッセージを解析します。
+セッション (session) コンポーネントを取得します。
 </p>
                                                   </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
                       </tr>
-                                                                                                                                                                                    <tr>
+                                                                                                        <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="#method_parseContentType">parseContentType()</a>                                                  </td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getUser">getUser()</a>                                                  </td>
                         <td>
+                                                      <p>
+ユーザ (user) コンポーネントを取得します。
+</p>
                                                   </td>
-                        <td><a href="../net.mail/delta___mail_parser.html">Delta_MailParser</a></td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
                       </tr>
-                                                                                                                                                                                                              </table>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="../kernel.container/delta___di_controller.html#method_getView">getView()</a>                                                  </td>
+                        <td>
+                                                      <p>
+ビュー (view) コンポーネントを取得します。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                      </tr>
+                                                      </table>
                                       <p class="right"><a href="#methods">To methods</a></p>
 
-                        <h3>Constant details</h3>
-              <dl>
-                              <dt id="constant_CONTENT_TYPE_MULTIPART_ALTERNATIVE">CONTENT_TYPE_MULTIPART_ALTERNATIVE</dt>
-                <dd>
-                  <div class="source"><code>CONTENT_TYPE_MULTIPART_ALTERNATIVE = &#039;mutipart/alternative&#039;</code></div>
-                                      <p>
-&#039;multipart/alternative&#039; 定数。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_CONTENT_TYPE_MULTIPART_MIXED">CONTENT_TYPE_MULTIPART_MIXED</dt>
-                <dd>
-                  <div class="source"><code>CONTENT_TYPE_MULTIPART_MIXED = &#039;multipart/mixed&#039;</code></div>
-                                      <p>
-&#039;multipart/mixed&#039; 定数。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_CONTENT_TYPE_MULTIPART_RELATED">CONTENT_TYPE_MULTIPART_RELATED</dt>
-                <dd>
-                  <div class="source"><code>CONTENT_TYPE_MULTIPART_RELATED = &#039;multipart/related&#039;</code></div>
-                                      <p>
-&#039;multipart/relate&#039; 定数。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_CONTENT_TYPE_MULTIPART_REPORT">CONTENT_TYPE_MULTIPART_REPORT</dt>
-                <dd>
-                  <div class="source"><code>CONTENT_TYPE_MULTIPART_REPORT = &#039;multipart/report&#039;</code></div>
-                                      <p>
-&#039;multipart/report&#039; 定数。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_CONTENT_TYPE_RFC822">CONTENT_TYPE_RFC822</dt>
-                <dd>
-                  <div class="source"><code>CONTENT_TYPE_RFC822 = &#039;message/rfc822&#039;</code></div>
-                                      <p>
-&#039;message/rfc822&#039; 定数。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_CONTENT_TYPE_TEXT_HTML">CONTENT_TYPE_TEXT_HTML</dt>
-                <dd>
-                  <div class="source"><code>CONTENT_TYPE_TEXT_HTML = &#039;text/html&#039;</code></div>
-                                      <p>
-&#039;text/html&#039; 定数。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_CONTENT_TYPE_TEXT_PLAIN">CONTENT_TYPE_TEXT_PLAIN</dt>
-                <dd>
-                  <div class="source"><code>CONTENT_TYPE_TEXT_PLAIN = &#039;text/plain&#039;</code></div>
-                                      <p>
-&#039;text/plain&#039; 定数。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_PARSE_MODE_ALL">PARSE_MODE_ALL</dt>
-                <dd>
-                  <div class="source"><code>PARSE_MODE_ALL = 1</code></div>
-                                      <p>
-メッセージ全体を解析。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                              <dt id="constant_PARSE_MODE_HEADER_ONLY">PARSE_MODE_HEADER_ONLY</dt>
-                <dd>
-                  <div class="source"><code>PARSE_MODE_HEADER_ONLY = 2</code></div>
-                                      <p>
-メッセージ内ヘッダのみ解析。
-マルチパートメッセージにおける各パートの MIME パートヘッダは解析対象外。
-</p>
-                                    <p class="right"><a href="#constants">To constants</a></p>
-                </dd>
-                            </dl>
             
             
                         <h3>Method details</h3>
               <dl>
-                                                      <dt id="method___construct">__construct()</dt>
+                                                                                                                          <dt id="method_doFilter">doFilter()</dt>
                     <dd>
-                      <div class="source"><code>public void __construct($message = NULL)</code></div>
-                                              <p>
-コンストラクタ。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$message</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-メール本体のメッセージファイル。未指定の場合は標準入力から読み込まれます。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                                                              <dt id="method_decodeHeader">decodeHeader()</dt>
-                    <dd>
-                      <div class="source"><code>public static void decodeHeader(Delta_MailPart $parentPart, $name, $index = NULL)</code></div>
+                      <div class="source"><code>public void doFilter(Delta_FilterChain $chain)</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
-                                                                                        <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                          <dt id="method_getMailMessage">getMailMessage()</dt>
-                    <dd>
-                      <div class="source"><code>public Delta_MailMessages getMailMessage()</code></div>
-                                              <p>
-<a href="../net.mail/delta___mail_parser.html#method_parse">parse()</a>、parseHeaderOnly() メソッドにより解析されたメッセージオブジェクトを取得します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>Delta_MailMessages</td>
-                              <td>
-                                                                  <p>
-Delta_MailMessage のインスタンスを返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+                                                                                          <ul class="note">
+                                                      <li>
+                              Overrides:
+                              <div class="text"><a href="../controller.filter/delta___login_filter.html#method_doFilter">Delta_LoginFilter::doFilter()</a></div>
+                            </li>
+                                                                                                                                                                                <li>Throws: <p>
+Delta_SecurityException ログインエラー時にフォワードするアクションが未指定の場合に発生。
 </p>
 </li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                          <dt id="method_getOriginalBody">getOriginalBody()</dt>
-                    <dd>
-                      <div class="source"><code>public string getOriginalBody()</code></div>
-                                              <p>
-オリジナルのメッセージ本文を取得します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-オリジナルのメッセージ本文を返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_getOriginalContents">getOriginalContents()</dt>
-                    <dd>
-                      <div class="source"><code>public string getOriginalContents()</code></div>
-                                              <p>
-解析するコンテンツメッセージを取得します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-コンテンツメッセージを返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                        <dt id="method_getOriginalHeaders">getOriginalHeaders()</dt>
-                    <dd>
-                      <div class="source"><code>public string getOriginalHeaders()</code></div>
-                                              <p>
-オリジナルのヘッダフィールド文字列を取得します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-オリジナルのヘッダフィールド文字列を返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                            <dt id="method_parse">parse()</dt>
-                    <dd>
-                      <div class="source"><code>public void parse($parseMode = self::PARSE_MODE_ALL)</code></div>
-                                              <p>
-メッセージを解析します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$parseMode</td>
-                              <td>int</td>
-                              <td>
-                                                                  <p>
-メッセージの解析モードを指定。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Throws: <p>
-Delta_ParseException メッセージの解析が失敗した際に発生。
+                                                                                                                                                                                                                                                <li>See: <p>
+<a href="../controller.filter/delta___filter.html#method_doFilter">Delta_Filter::doFilter()</a>
 </p>
 </li>
                                                                                                                                                                                                                                                 <li>Author: <p>
@@ -1182,13 +920,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                            <dt id="method_parseContentType">parseContentType()</dt>
-                    <dd>
-                      <div class="source"><code>public void parseContentType(Delta_MailPart $parentPart)</code></div>
-                                              <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
-                                                                                        <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                                                                        </dl>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </dl>
                       </article>
         </div>
         <!-- /threequarter -->
@@ -1197,7 +929,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Wed, 17 Jul 2013 16:45:53 +0900<br />
+  <p>This document was generated on Wed, 17 Jul 2013 16:45:51 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

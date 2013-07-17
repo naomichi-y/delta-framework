@@ -98,6 +98,7 @@
                       <li><a href="reference/controller.filter/delta___filter_chain.html" title="Delta_FilterChain">Delta_FilterChain</a></li>
                       <li><a href="reference/controller.filter/delta___filter_manager.html" title="Delta_FilterManager">Delta_FilterManager</a></li>
                       <li><a href="reference/controller.filter/delta___http_authentication_filter.html" title="Delta_HttpAuthenticationFilter">Delta_HttpAuthenticationFilter</a></li>
+                      <li><a href="reference/controller.filter/delta___login_filter.html" title="Delta_LoginFilter">Delta_LoginFilter</a></li>
                       <li><a href="reference/controller.filter/delta___maintenance_filter.html" title="Delta_MaintenanceFilter">Delta_MaintenanceFilter</a></li>
                       <li><a href="reference/controller.filter/delta___sql_logging_filter.html" title="Delta_SQLLoggingFilter">Delta_SQLLoggingFilter</a></li>
                   </ul>
@@ -790,7 +791,7 @@ Web アプリケーションのためのフロントエンドコントローラ�
                                       </td>
                 </tr>
                                                               <tr>
-                  <td rowspan="10" id="package_controller.filter">controller.filter</td>
+                  <td rowspan="11" id="package_controller.filter">controller.filter</td>
                   <td><a href="reference/controller.filter/delta___acl_filter.html">Delta_ACLFilter</a></td>
                   <td>
                                         <p>
@@ -851,6 +852,14 @@ Web アプリケーションのためのフロントエンドコントローラ�
                   <td>
                                         <p>
 HTTP 認証を行うための抽象クラスです。
+</p>
+                                      </td>
+                </tr>
+                                <tr>
+                  <td><a href="reference/controller.filter/delta___login_filter.html">Delta_LoginFilter</a></td>
+                  <td>
+                                        <p>
+<a href="reference/http.session.user/delta___authority_user.html#method_isLogin">ユーザのログイン状態</a> をチェックし、ログインが必要なアクションに未ログイン状態でアクセスした場合は指定したアクションへ強制フォワードします。
 </p>
                                       </td>
                 </tr>
@@ -2465,7 +2474,7 @@ Twig 描画クラスです。
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Wed, 17 Jul 2013 03:23:39 +0900<br />
+  <p>This document was generated on Wed, 17 Jul 2013 16:45:51 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
