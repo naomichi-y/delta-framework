@@ -76,8 +76,9 @@ class Delta_UserHelper extends Delta_Helper
   }
 
   /**
-   * {@link DeltaAuthorityUser::isLogin()} メソッドのエイリアスです。
+   * {@link Delta_AuthorityUser::isLogin()} メソッドのエイリアスです。
    *
+   * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function isLogin()

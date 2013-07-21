@@ -32,6 +32,9 @@
  *   # MIME エンコーディング。既定値は application.yml の 'charset:mime' で指定した値。
  *   encoding:
  *
+ *   # メールの配信制御。FALSE 指定時は {@link send()} メソッド実行時に実送信を行わない
+ *   send: TRUE
+ *
  *   ############################################################
  *   # type が smtp の場合に指定可能なオプション
  *   ############################################################
@@ -247,6 +250,7 @@ class Delta_MailSender extends Delta_Object {
 
     $options->set('hanToZen', FALSE, FALSE);
     $options->set('fileNameFormat', self::ATTACHMENT_FILENAME_FORMAT_RFC2231, FALSE);
+    $options->set('send', TRUE, FALSE);
 
     // エンコードの設定
     $options->set('encoding', $config->getString('charset.mime'), FALSE);
@@ -893,34 +897,38 @@ class Delta_MailSender extends Delta_Object {
       $envelopeFrom = $this->_envelopeFrom;
     }
 
+    $send = $this->_options->getBoolean('send');
+
     if ($this->_options->getString('type') == self::BACKEND_TYPE_SMTP) {
       $header = $this->buildHeader();
       $data = $header . $this->_options->getString('linefeed') . $body;
 
-      if ($this->_smtp === NULL || !$this->_options->getBoolean('persist')) {
-        $smtp = new Delta_SMTP($this->_options->getString('host'),
-          $this->_options->getInt('port'),
-          $this->_options->getInt('timeout'));
-        $smtp->sendEhlo();
+      if ($send) {
+        if ($this->_smtp === NULL || !$this->_options->getBoolean('persist')) {
+          $smtp = new Delta_SMTP($this->_options->getString('host'),
+            $this->_options->getInt('port'),
+            $this->_options->getInt('timeout'));
+          $smtp->sendEhlo();
 
-        $this->_smtp = $smtp;
+          $this->_smtp = $smtp;
 
-      } else {
-        $smtp = $this->_smtp;
-      }
+        } else {
+          $smtp = $this->_smtp;
+        }
 
-      $smtp->sendMailFrom($envelopeFrom);
-      $envelopeToList = $this->buildRCPTToArray();
+        $smtp->sendMailFrom($envelopeFrom);
+        $envelopeToList = $this->buildRCPTToArray();
 
-      foreach ($envelopeToList as $envelopeTo) {
-        $smtp->sendRcptTo($envelopeTo);
-      }
+        foreach ($envelopeToList as $envelopeTo) {
+          $smtp->sendRcptTo($envelopeTo);
+        }
 
-      $smtp->sendData($data);
+        $smtp->sendData($data);
 
-      if (!$this->_options->hasName('persist')) {
-        $smtp->sendQuit();
-        $smtp->close();
+        if (!$this->_options->hasName('persist')) {
+          $smtp->sendQuit();
+          $smtp->close();
+        }
       }
 
       $this->_latestSendData = $data;
@@ -928,19 +936,21 @@ class Delta_MailSender extends Delta_Object {
     } else if ($this->_options->getString('type') == self::BACKEND_TYPE_SENDMAIL) {
       $header = $this->buildHeader() . $this->_options->getString('linefeed');
 
-      $arguments = ' -f ' . $envelopeFrom;
+      if ($send) {
+        $arguments = ' -f ' . $envelopeFrom;
 
-      $envelopeTo = implode(' ', $this->buildRCPTToArray());
-      $command = $this->_options->getString('path')
-        .' '
-        .$this->_options->getString('arguments')
-        .' -- '
-        .$envelopeTo;
+        $envelopeTo = implode(' ', $this->buildRCPTToArray());
+        $command = $this->_options->getString('path')
+          .' '
+          .$this->_options->getString('arguments')
+          .' -- '
+          .$envelopeTo;
 
-      $handle = popen($command, 'w');
-      fputs($handle, $header);
-      fputs($handle, $body);
-      pclose($handle);
+        $handle = popen($command, 'w');
+        fputs($handle, $header);
+        fputs($handle, $body);
+        pclose($handle);
+      }
 
       $this->_latestSendData = $header . $body;
 
@@ -948,17 +958,18 @@ class Delta_MailSender extends Delta_Object {
       $to = $part->getHeaderValue('To');
       $subject = $part->getHeaderValue('Subject');
 
-      $latestSendData = $this->buildHeader() . $this->_options->getString('linefeed') . $body;
+      $header = $this->buildHeader();
+      $latestSendData = $header . $this->_options->getString('linefeed') . $body;
 
       $part->removeHeader('To');
       $part->removeHeader('Subject');
 
-      $header = $this->buildHeader();
-
-      if ($this->_options->hasName('parameters')) {
-        mail($to, $subject, $body, trim($header), $this->_options->getString('parameters'));
-      } else {
-        mail($to, $subject, $body, trim($header));
+      if ($send) {
+        if ($this->_options->hasName('parameters')) {
+          mail($to, $subject, $body, trim($header), $this->_options->getString('parameters'));
+        } else {
+          mail($to, $subject, $body, trim($header));
+        }
       }
 
       $this->_latestSendData = $latestSendData;
@@ -1055,26 +1066,26 @@ class Delta_MailSender extends Delta_Object {
           $alternativePart->setContentTransferEncoding('7bit');
 
           $body .= $alternativePart->buildPart($width) . $lineFeed . $lineFeed
-                  .'----' . $alternativeBoundary . $lineFeed
-                  .$plain . $lineFeed
-                  .'----' . $alternativeBoundary . $lineFeed
-                  .$this->_htmlPart->buildPart($width) . $lineFeed
-                  .'----' . $alternativeBoundary . '--' . $lineFeed . $lineFeed;
+            .'----' . $alternativeBoundary . $lineFeed
+            .$plain . $lineFeed
+            .'----' . $alternativeBoundary . $lineFeed
+            .$this->_htmlPart->buildPart($width) . $lineFeed
+            .'----' . $alternativeBoundary . '--' . $lineFeed . $lineFeed;
 
         }
 
         foreach ($attachmentParts as $attachmentPart) {
           $body .= '--' . $boundary . $lineFeed
-                  .$attachmentPart->buildPart($width) . $lineFeed;
+            .$attachmentPart->buildPart($width) . $lineFeed;
         }
 
         $body .=  '--' . $boundary . '--' . $lineFeed . $lineFeed;
 
       } else {
         $body .= $plain. $lineFeed
-                .'--' . $boundary . $lineFeed
-                .$this->_htmlPart->buildPart($width) . $lineFeed
-                .'--' . $boundary . '--' . $lineFeed . $lineFeed;
+          .'--' . $boundary . $lineFeed
+          .$this->_htmlPart->buildPart($width) . $lineFeed
+          .'--' . $boundary . '--' . $lineFeed . $lineFeed;
       }
     }
 
