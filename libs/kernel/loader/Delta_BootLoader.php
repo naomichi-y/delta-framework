@@ -104,7 +104,8 @@ class Delta_BootLoader
     $projectAppConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
 
     $appConfig->set('database', $projectAppConfig->getArray('database'));
-    $appConfig->set('module', $projectAppConfig->getArray('module'), FALSE);
+    $appConfig->remove('module');
+    $appConfig->set('module', $projectAppConfig->getArray('module'));
     $appConfig->set('response.callback', 'none');
 
     // モジュールディレクトリの設定
