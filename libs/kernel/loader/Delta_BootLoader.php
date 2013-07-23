@@ -104,7 +104,6 @@ class Delta_BootLoader
     $projectAppConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
 
     $appConfig->set('database', $projectAppConfig->getArray('database'));
-    $appConfig->remove('module');
     $appConfig->set('module', $projectAppConfig->getArray('module'));
     $appConfig->set('response.callback', 'none');
 

@@ -277,10 +277,7 @@ class Delta_Config extends Delta_Object
       }
 
       $holder = clone self::$_gets['behavior'];
-
-      foreach ($actionConfig as $name => $value) {
-        $holder->set($name, $value);
-      }
+      $holder->merge($actionConfig);
     }
 
     return $holder;
