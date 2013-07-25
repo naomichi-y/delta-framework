@@ -499,7 +499,6 @@ class Delta_HTMLHelper extends Delta_Helper
     // 親テンプレートからの相対パス上にファイルが存在するかチェック
     $extension = Delta_Config::getApplication()->getString('view.extension');
     $path = Delta_AppPathManager::buildAbsolutePath($templatesDirectory, $path, $extension);
-    echo $path;exit;
 
     $load = function(&$pathMapping, $path, $variables)
     {
