@@ -392,11 +392,16 @@ abstract class Delta_DatabaseCommand extends Delta_Object
 
     fclose($fp);
 
-    if ($replace) {
-      $options = array('replace' => TRUE);
-      $affectedCount = $this->bulkInsert($tableName, $fieldNames, $records, $options);
+    if ($i == 0) {
+      $affectedCount = 0;
+
     } else {
-      $affectedCount = $this->bulkInsert($tableName, $fieldNames, $records);
+      if ($replace) {
+        $options = array('replace' => TRUE);
+        $affectedCount = $this->bulkInsert($tableName, $fieldNames, $records, $options);
+      } else {
+        $affectedCount = $this->bulkInsert($tableName, $fieldNames, $records);
+      }
     }
 
     return $affectedCount;
