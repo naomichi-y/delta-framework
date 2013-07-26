@@ -243,8 +243,8 @@
           <br />
           // 文字列が長くなる場合は適宜改行する<br />
           $string = 'abcdefghijklmnopqrstuvwxyz'<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;'ABCDEFGHIJKLMNOPQRSTUVWXYZ'<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;'0123456789';</code></dd>
+          &nbsp;&nbsp;.'ABCDEFGHIJKLMNOPQRSTUVWXYZ'<br />
+          &nbsp;&nbsp;.'0123456789';</code></dd>
       </dl>
     </li>
   </ul>
@@ -264,15 +264,15 @@
       </ul>
       <dl>
         <dt>PHP Code# SQL の記述例</dt>
-        <dd class="lang_php"><code>$sql = 'SELECT COUNT(id) '<br />
-          &nbsp;&nbsp;. 'FROM foo '<br />
-          &nbsp;&nbsp;. 'WHERE bar = :bar '<br />
-          &nbsp;&nbsp;. 'AND target_date BETWEEN :begin_date AND :end_date';<br />
+        <dd class="lang_php"><code>$query = 'SELECT COUNT(id) '<br />
+          &nbsp;&nbsp;.'FROM foo '<br />
+          &nbsp;&nbsp;.'WHERE bar = :bar '<br />
+          &nbsp;&nbsp;.'AND target_date BETWEEN :begin_date AND :end_date';<br />
           <br />
-          $sql = 'UPDATE foo '<br />
-          &nbsp;&nbsp;. 'SET target_date = NOW(), '<br />
-          &nbsp;&nbsp;. 'bar = :bar '<br />
-          &nbsp;&nbsp;. 'WHERE id = :id';</code></dd>
+          $query = 'UPDATE foo '<br />
+          &nbsp;&nbsp;.'SET target_date = NOW(), '<br />
+          &nbsp;&nbsp;.'bar = :bar '<br />
+          &nbsp;&nbsp;.'WHERE id = :id';</code></dd>
       </dl>
     </li>
   </ul>
@@ -554,7 +554,8 @@
       &nbsp;&nbsp;}<br />
       <br />
       &nbsp;&nbsp;// 引数の書式が長いメソッドの宣言 <br />
-      &nbsp;&nbsp;public function longMethod($arg1 = 100,<br />
+      &nbsp;&nbsp;public function longMethod(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$arg1 = 100,<br />
       &nbsp;&nbsp;&nbsp;&nbsp;$arg2 = 200,<br />
       &nbsp;&nbsp;&nbsp;&nbsp;$arg3 = 300,<br />
       &nbsp;&nbsp;&nbsp;&nbsp;$arg4 = 400,<br />
@@ -591,12 +592,12 @@
               <br />
               &nbsp;&nbsp;// 開発者は $limit に数値が入ることを想定しているが、改竄したパラメータ '3; TRUNCATE yyy; #' を送信することで、テーブル内の全データがクリアすることも可能 <br />
               &nbsp;&nbsp;// (実際に発行されるクエリは 'SELECT xxx FROM yyy LIMIT 3; TRUNCATE yyy; # OFFSET 0' となる)<br />
-              &nbsp;&nbsp;$sql = sprintf('SELECT xxx FROM yyy LIMIT %s OFFSET 0', $limit);<br />
+              &nbsp;&nbsp;$query = sprintf('SELECT xxx FROM yyy LIMIT %s OFFSET 0', $limit);<br />
               <br />
               &nbsp;&nbsp;// 改修例<br />
-              &nbsp;&nbsp;$sql = sprintf('SELECT xxx FROM yyy LIMIT %s OFFSET 0', $conn-&gt;escape($limit));<br />
+              &nbsp;&nbsp;$query = sprintf('SELECT xxx FROM yyy LIMIT %s OFFSET 0', $conn-&gt;escape($limit));<br />
               <br />
-              &nbsp;&nbsp;$result = $conn-&gt;query($sql);<br />
+              &nbsp;&nbsp;$result = $conn-&gt;createStatement($query);<br />
               &nbsp;&nbsp;... <br />
               } </code></dd>
           </dl>
@@ -667,8 +668,7 @@
     <li>使用するべきではない演算子、関数
       <ul>
         <li>@ 演算子</li>
-        <li>exit()</li>
-        <li>die() </li>
+        <li>exit、die </li>
       </ul>
     </li>
   </ul>
