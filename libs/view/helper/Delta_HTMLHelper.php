@@ -483,8 +483,8 @@ class Delta_HTMLHelper extends Delta_Helper
     }
 
     if ($isAbsolutePath) {
-      $route = $this->getRequest()->getRoute();
-      $basePath = $this->getAppPathManager()->getModuleTemplatesPath($route->getModuleName());
+      $moduleName = Delta_Router::getInstance()->getEntryModuleName();
+      $basePath = $this->getAppPathManager()->getModuleTemplatesPath($moduleName);
       $templatesDirectory = dirname($basePath . $path);
       $path = basename($path);
 
