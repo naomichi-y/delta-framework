@@ -877,6 +877,25 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
+   * アプリケーションのベースとなる (パスやクエリを含まない) URL を取得します。
+   *
+   * @param bool $secure ベース URL を 'https' プロトコル形式で返す場合は TRUE、'http' プロトコル形式で返す場合は FALSE を指定。
+   * @return string アプリケーションのベース URL を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   * @since 1.1
+   */
+  public function getBaseURL($secure = FALSE)
+  {
+    if ($secure) {
+      $baseUrl = sprintf('https://%s/', $this->getHost());
+    } else {
+      $baseUrl = sprintf('http://%s/', $this->getHost());
+    }
+
+    return $baseUrl;
+  }
+
+  /**
    * クライアントから要求されたリクエスト URL (http から始まるアドレス) を取得します。
    *
    * @param bool $withQuery URL にクエリパラメータを含める場合は TRUE、含めない場合は FALSE を指定。

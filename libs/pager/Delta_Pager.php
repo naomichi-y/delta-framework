@@ -454,7 +454,7 @@ abstract class Delta_Pager extends Delta_Object
    */
   public function assignView()
   {
-    $array = array();
+    $array = Delta_Config::getHelpers()->get('pager')->toArray();
     $array['_pagerKey'] = $this->_pagerKey;
     $array['_ascendingKey'] = $this->_ascendingKey;
     $array['_descendingKey'] = $this->_descendingKey;

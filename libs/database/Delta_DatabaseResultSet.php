@@ -180,7 +180,7 @@ class Delta_DatabaseResultSet extends Delta_Object implements Iterator
    * 結果セットから次の行を取得します。
    *
    * @return mixed 戻り値はフェッチタイプにより異なります。
-   *   詳しくは {@link Delta_DatabaseConnection::setFetchMode()} メソッドを参照して下さい。
+   *   詳しくは {@link Delta_DatabaseStatement::setFetchMode()} メソッドを参照して下さい。
    *   データが存在しない場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -205,7 +205,7 @@ class Delta_DatabaseResultSet extends Delta_Object implements Iterator
    *
    * @return array 結果セットに含まれる残りのレコードを返します。
    *   レコードのデータ型はフェッチタイプにより異なります。
-   *   詳しくは {@link Delta_DatabaseConnection::setFetchMode()} メソッドを参照して下さい。
+   *   詳しくは {@link Delta_DatabaseStatement::setFetchMode()} メソッドを参照して下さい。
    *   データが存在しない場合は空の配列を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

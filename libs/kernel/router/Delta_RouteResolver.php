@@ -21,6 +21,12 @@ require DELTA_LIBS_DIR . '/kernel/router/Delta_Route.php';
 class Delta_RouteResolver extends Delta_Object
 {
   /**
+   * デフォルトアクション。
+   * @var string
+   */
+  private $_defaultActionName = 'Index';
+
+  /**
    * リクエストオブジェクト。
    * @var Delta_HttpRequest
    */
@@ -132,10 +138,9 @@ class Delta_RouteResolver extends Delta_Object
   {
     $hasRoute = FALSE;
     $bindings = array();
-    $pathManager = $this->getAppPathManager();
 
-    $isCpanelModule = FALSE;
-    $moduleNames = Delta_CoreUtils::getModuleNames();
+    $pathManager = $this->getAppPathManager();
+    $isSubdomainModule = $this->_applicationConfig->getBoolean('module.subdomain');
 
     foreach ($this->_routesConfig as $routeName => $routeConfig) {
       if (preg_match($routeConfig->get('regexp'), $this->_requestUri)) {
@@ -151,25 +156,25 @@ class Delta_RouteResolver extends Delta_Object
               break;
 
             case ':action':
-              if (strlen($this->_uriSegments[$i])) {
-                $bindings['action'] = $this->requestFileToAction($this->_uriSegments[$i]);
-              }
-
+              $bindings['action'] = $this->requestFileToAction($this->_uriSegments[$i]);
               break;
 
             default:
-              $segmentId = substr($segmentId, 1);
-              $bindings[$segmentId] = $this->_uriSegments[$i];
+              if (substr($segmentId, 0, 1) === ':') {
+                $segmentId = substr($segmentId, 1);
+                $bindings[$segmentId] = $this->_uriSegments[$i];
+              }
+
               break;
           }
         }
 
         $forwardConfig = $routeConfig->get('forward');
 
-        // モジュールが未指定
+        // モジュール名がパスに含まれていない場合はモジュールを確定させる
         if (!isset($bindings['module'])) {
           // サブドメインからモジュール名を判別
-          if ($this->_applicationConfig->getBoolean('module.subdomain')) {
+          if ($isSubdomainModule) {
             $bindings['module'] = $this->parseSubdomainModuleName();
 
           } else {
@@ -177,16 +182,16 @@ class Delta_RouteResolver extends Delta_Object
               $bindings['module'] = $forwardConfig->get('module');
 
             } else {
-              $message = sprintf('Forward action is unknown. [%s]', $routeName);
+              $message = sprintf('Forward module is unknown. [%s]', $routeName);
               throw new Delta_ForwardException($message);
             }
           }
         }
 
-        // アクション名のチェック
+        // アクション名がパスに含まれていない場合はアクションを確定させる
         if (!isset($bindings['action'])) {
           if ($forwardConfig) {
-            $bindings['action'] = $forwardConfig->get('action', 'Index');
+            $bindings['action'] = $forwardConfig->get('action', $this->_defaultActionName);
 
           } else {
             $key = sprintf('module.entries.%s.default', $bindings['module']);
@@ -214,6 +219,7 @@ class Delta_RouteResolver extends Delta_Object
       $accessConfig = $routeConfig->get('access');
 
       if ($accessConfig && !$this->isAllowNetwork($accessConfig)) {
+        // アクセスが許可されていない場合はフォワード先を指定
         $denyForwardConfig = $accessConfig->get('denyForward');
 
         $bindings['module'] = $denyForwardConfig->get('module');

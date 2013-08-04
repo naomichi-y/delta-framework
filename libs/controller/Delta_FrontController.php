@@ -31,6 +31,12 @@ require DELTA_LIBS_DIR . '/kernel/router/Delta_RouteResolver.php';
 class Delta_FrontController extends Delta_Object
 {
   /**
+   * リクエストオブジェクト。
+   * @var Delta_HttpRequest
+   */
+  private $_request;
+
+  /**
    * アプリケーション設定。
    * @var Delta_ParameterHolder
    */
@@ -55,12 +61,6 @@ class Delta_FrontController extends Delta_Object
   private $_route;
 
   /**
-   * ロード済みアクションリスト。
-   * @var array
-   */
-  private $_loadActions = array();
-
-  /**
    * コンストラクタ。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -82,8 +82,8 @@ class Delta_FrontController extends Delta_Object
     $container = Delta_DIContainerFactory::getContainer();
 
     // リクエストコンポーネントの初期化
-    $request = $container->getComponent('request');
-    $request->initialize();
+    $this->_request = $container->getComponent('request');
+    $this->_request->initialize();
 
     // レスポンスコンポーネントの初期化
     $response = $container->getComponent('response');
@@ -97,7 +97,7 @@ class Delta_FrontController extends Delta_Object
     $this->_resolver = Delta_RouteResolver::getInstance();
 
     if ($route = $this->_resolver->connect()) {
-      $request->setRoute($route);
+      $this->_request->setRoute($route);
       $this->_route = $route;
 
       $container->getComponent('user')->initialize();
@@ -121,15 +121,93 @@ class Delta_FrontController extends Delta_Object
       $observer->dispatchEvent('postProcess');
 
     } else {
-      $message = sprintf('Request path was not found. [%s]', $request->getURI());
+      $message = sprintf('Route can\'t be found. [%s]', $this->_request->getURI());
       throw new Delta_RequestException($message);
     }
   }
 
-  private function attachModule($moduleName)
+  /**
+   * アクションのフォワードを行います。
+   *
+   * @param string $actionName フォワードするアクション名。
+   * @throws Delta_ForwardException フォワードが失敗した場合に発生。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function forward($actionName, $validate = TRUE)
   {
-    $modulePath = FALSE;
+    $moduleName = $this->_route->getModuleName();
 
+    // 実行モジュールを決定する
+    $modulePath = $this->getModulePath($moduleName);
+
+    if ($modulePath) {
+      $actionClass = $this->loadAction($actionName, $moduleName, $modulePath, $validate);
+
+      if (!$actionClass) {
+        $key = sprintf('module.entries.%s.unknown', $moduleName);
+        $actionName = $this->_config->get($key);
+        $actionClass = $this->loadAction($actionName, $moduleName, $modulePath, $validate);
+
+        if (!$actionClass) {
+          $message = sprintf('\'%s\' action can\'t be found. [application.yml#%s]', $actionName, $key);
+          throw new Delta_ForwardException($message);
+        }
+      }
+
+      if ($actionClass) {
+        Delta_FilterManager::getInstance()->doFilters();
+      }
+
+    // モジュールが存在しない場合
+    } else {
+      $unknownForward = FALSE;
+
+      $unknownConfig = $this->_config->get('module.unknown');
+      $moduleName = $unknownConfig->get('module');
+      $actionName = $unknownConfig->get('action');
+
+      if ($moduleName) {
+        $modulePath = $this->_pathManager->getModulePath($moduleName);
+
+        if (is_dir($modulePath)) {
+          $unknownForward = new Delta_Forward($moduleName, $actionName);
+        }
+      }
+
+      $modulePath = $this->getModulePath($moduleName);
+
+      if ($modulePath) {
+        $actionName = $unknownForward->getActionName();
+        $actionClass = $this->loadAction($actionName, $moduleName, $modulePath, $validate);
+
+        $this->_route->setModuleName($moduleName);
+        $this->_route->setActionName($actionName);
+
+        if ($actionClass) {
+          Delta_FilterManager::getInstance()->doFilters();
+
+        } else {
+          $message = sprintf('Action can\'t be found. [%s]', $actionName);
+          throw new Delta_ForwardException($message);
+        }
+
+      } else {
+        $message = sprintf('Module directory is not found. [%s]', $moduleName);
+        throw new Delta_ForwardException($message);
+      }
+    }
+  }
+
+  /**
+   * モジュールのパスを取得します。
+   *
+   * @param string $moduleName モジュール名。
+   * @return string モジュール名に対応するパスを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  private function getModulePath($moduleName)
+  {
     if ($moduleName === 'cpanel') {
       $modulePath = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel';
       $this->_pathManager->addModulePath('cpanel', $modulePath);
@@ -145,30 +223,20 @@ class Delta_FrontController extends Delta_Object
     return $modulePath;
   }
 
-  public function getUnknownModuleForward()
+  /**
+   * アクションオブジェクトを取得します。
+   *
+   * @return Delta_Action アクションオブジェクトを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  private function loadAction($actionName, $moduleName, $modulePath, $validate)
   {
-    $unknownForward = FALSE;
+    static $loads = array();
 
-    $unknownConfig = $this->_config->get('module.unknown');
-    $moduleName = $unknownConfig->get('module');
-    $actionName = $unknownConfig->get('action');
-
-    if ($moduleName) {
-      $modulePath = $this->_pathManager->getModulePath($moduleName);
-
-      if (is_dir($modulePath)) {
-        $unknownForward = new Delta_Forward($moduleName, $actionName);
-      }
-    }
-
-    return $unknownForward;
-  }
-
-  private function attachAction($actionName, $moduleName, $modulePath, $validate)
-  {
     $action = FALSE;
 
-    if (!isset($this->_loadActions[$actionName])) {
+    if (!isset($loads[$actionName])) {
       $actionClassName = $actionName . 'Action';
       $searchBasePath = $modulePath . '/actions';
       $actionPath = Delta_ClassLoader::findPath($actionClassName, $searchBasePath);
@@ -211,59 +279,13 @@ class Delta_FrontController extends Delta_Object
           $action->setRoles($config->getArray('roles'));
         }
 
-        $this->_loadActions[$actionName] = $action;
+        $loads[$actionName] = $action;
       }
 
     } else {
-      $action = $this->_loadActions[$actionName];
+      $action = $loads[$actionName];
     }
 
     return $action;
-  }
-
-  /**
-   * 指定したアクションにフォワードします。
-   *
-   * @param string $actionName 実行対象のアクション名。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function forward($actionName, $validate = TRUE)
-  {
-    $moduleName = $this->_route->getModuleName();
-
-    if ($modulePath = $this->attachModule($moduleName)) {
-      $action = $this->attachAction($actionName, $moduleName, $modulePath, $validate);
-
-      if ($action) {
-        Delta_FilterManager::getInstance()->doFilters();
-
-      } else {
-        $key = sprintf('module.entries.%s.unknown', $moduleName);
-        $actionName = $this->_config->get($key);
-        $action = $this->attachAction($actionName, $moduleName, $modulePath, $validate);
-
-        if ($action) {
-          $message = sprintf('\'%s\' action can\'t be found in \'%s module.', $actionName, $moduleName);
-          throw new Delta_ForwardException($message);
-        }
-      }
-
-    } else {
-      $unknownForward = $this->getUnknownModuleForward();
-      $moduleName = $unknownForward->getModuleName();
-
-      if ($modulePath = $this->attachModule($moduleName)) {
-        $actionName = $unknownForward->getActionName();
-
-        if ($action = $this->attachAction($actionName, $moduleName, $modulePath, $validate)) {
-          // @todo
-        } else {
-          // @todo
-        }
-      } else {
-        $message = sprintf('Module directory is not found. [%s]', $moduleName);
-        throw new Delta_ForwardException($message);
-      }
-    }
   }
 }

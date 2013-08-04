@@ -25,9 +25,9 @@ module{type='array'}:
       enable{type='boolean' default='TRUE' output='true'}:
       unknown{default='LoginForm' output='true'}:
     *{type='array' output='true'}:
-      default{default='Index' output='true'}:
+      default{default='' output='true'}:
       enable{type='boolean' default='TRUE' output='true'}:
-      unknown{default='Index' output='true'}:
+      unknown{default='' output='true'}:
 
 action{type='array' output='true'}:
   path{default='camelCaps' output='true'}:

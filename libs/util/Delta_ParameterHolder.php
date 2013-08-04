@@ -224,29 +224,40 @@ class Delta_ParameterHolder extends Delta_Object implements Iterator, ArrayAcces
   /**
    * パラメータホルダに値を設定します。
    * <code>
-   * $holder = new Delta_ParameterHolder();
-   * $holder->set('foo', 100);
+   * $holder->set('foo.bar', 100);
    *
    * // 100
-   * $holder->get('foo');
+   * $holder->get('foo.bar');
    * </code>
    *
    * @param string $name 追加するキー名。'.' (ピリオド) 区切りのキー名が指定された場合は連想配列として認識されます。
    * @param mixed $value 追加する値。
    * @param bool $override 同名のキーが存在する時に値を上書きする場合は TRUE を指定。
-   * @return bool 値の設定が成功した場合は TRUE、失敗した (override が FALSE かつ同名のキーが存在する) 場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function set($name, $value, $override = TRUE)
   {
     if ($this->hasName($name)) {
       if ($override) {
+        $this->remove($name);
         Delta_ArrayUtils::build($name, $value, $this->_array);
       }
 
     } else {
       Delta_ArrayUtils::build($name, $value, $this->_array);
     }
+  }
+
+  /**
+   * パラメータホルダに配列を再帰的にマージします。
+   *
+   * @param array $array マージする配列。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function merge(array $array)
+  {
+    $this->_array = Delta_ArrayUtils::mergeRecursive($this->_array, $array);
   }
 
   /**

@@ -220,8 +220,7 @@ class Delta_HTMLHelper extends Delta_Helper
       $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
 
       if ($absolute) {
-        $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
-
+        $request = $this->getRequest();
         $relativePath = sprintf('%s://%s%s',
           $request->getScheme(),
           $request->getHost(),
@@ -456,13 +455,11 @@ class Delta_HTMLHelper extends Delta_Helper
    *
    * <code>
    * # modules/{module}/templates/includes/header.php を読み込む。
-   * #   - 親のテンプレートで使用可能な変数は全て子テンプレートでも使用可能。
-   * #   - '../' 形式で他のモジュールのテンプレートを参照することが可能。
+   * #   - 各種ヘルパは子テンプレートでも使用可能
+   * #   - 現在のテンプレートディレクトリからの相対パスでファイルを指定
+   * #   - '/' から始まるパスはテンプレート基底ディレクトリからの絶対パスと見なされる
+   * #   - 拡張子はオプション。未指定時は application.yml に定義された 'view.extension' 属性が参照される
    * $html->includeTemplate('includes/header');
-   *
-   * # header.php から更にファイルを読み込む。
-   * # (参照されるパスは modules/{module}/templates/includes/meta.php となる)
-   * $html->includeTemplate('meta');
    *
    * # header.php を読み込む際に $foo、$bar 変数を宣言。
    * $html->includeTemplate('includes/header', array('foo' => 100, 'bar' => 200));
@@ -471,12 +468,8 @@ class Delta_HTMLHelper extends Delta_Helper
    * $html->includeTemplate('@templates/html/global_footer');
    * </code>
    *
-   * @param string $path 読み込み元ディレクトリからの相対パスでファイルを指定。
-   *   指定可能なパス形式については {@link Delta_AppPathManager::buildAbsolutePath()} を参照。
-   *   ただし、'/' から始まるパスは modules/{module_name}/templates (テーマ使用時は theme/{theme_name}/modules/{module_name}/templates) から始まる相対パスと見なされる。
-   *   またパスに拡張子を付けない場合は、application.yml に定義された 'view.extension' を付加したファイルを参照する。
-   * @param mixed $attributes テンプレートに渡す変数のリスト。変数の値は自動的に HTML エスケープされる。
-   *   array('{variable_name}' => '{variable_value}') の形式で構成する。
+   * @param string $path 参照するテンプレートのパスを指定。
+   * @param mixed $attributes テンプレートに渡す変数を連想配列形式 (変数名、変数値) で指定。変数の値は自動的に HTML エスケープされる。
    * @param mixed $unescapeAttributes HTML エスケープを必要としない変数のリスト。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -489,15 +482,18 @@ class Delta_HTMLHelper extends Delta_Helper
       $isAbsolutePath = TRUE;
     }
 
-    if ($size == 0 || $isAbsolutePath) {
-      $templatesDirectory = dirname($this->_currentView->getTemplatePath());
-
-      if ($isAbsolutePath) {
-        $path = substr($path, 1);
-      }
+    if ($isAbsolutePath) {
+      $route = $this->getRequest()->getRoute();
+      $basePath = $this->getAppPathManager()->getModuleTemplatesPath($route->getModuleName());
+      $templatesDirectory = dirname($basePath . $path);
+      $path = basename($path);
 
     } else {
-      $templatesDirectory = $this->_pathMapping[$size - 1];
+      if ($size == 0) {
+        $templatesDirectory = dirname($this->_currentView->getTemplatePath());
+      } else {
+        $templatesDirectory = $this->_pathMapping[$size - 1];
+      }
     }
 
     // 親テンプレートからの相対パス上にファイルが存在するかチェック

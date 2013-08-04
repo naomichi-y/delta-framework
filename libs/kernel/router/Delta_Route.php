@@ -38,9 +38,19 @@ class Delta_Route extends Delta_Object
     return $this->_routeName;
   }
 
+  public function setModuleName($moduleName)
+  {
+    $this->_moduleName = $moduleName;
+  }
+
   public function getModuleName()
   {
     return $this->_moduleName;
+  }
+
+  public function setActionName($actionName)
+  {
+    $this->_actionName = $actionName;
   }
 
   public function getActionName()
