@@ -31,7 +31,7 @@
  * @category delta
  * @package view.helper
  */
-abstract class Delta_Helper extends Delta_DIController
+abstract class Delta_Helper extends Delta_WebApplication
 {
   /**
    * ヘルパで使用する基底のルータ名。
@@ -72,6 +72,8 @@ abstract class Delta_Helper extends Delta_DIController
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
+    parent::__construct();
+
     $this->_currentView = $currentView;
     $this->_config = new Delta_ParameterHolder(Delta_ArrayUtils::mergeRecursive(static::$_defaultValues, $config));
     $this->_router = Delta_RouteResolver::getInstance();

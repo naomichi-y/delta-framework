@@ -13,7 +13,7 @@ require DELTA_LIBS_DIR . '/view/renderer/Delta_Renderer.php';
 /**
  * ビューの出力を制御します。
  *
- * このクラスは 'view' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getView()} からインスタンスを取得することができます。
+ * このクラスは 'view' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getView()} からインスタンスを取得することができます。
  *
  * base_dicon.yml の設定例:
  * <code>
@@ -29,6 +29,7 @@ require DELTA_LIBS_DIR . '/view/renderer/Delta_Renderer.php';
  * <code>
  * $view = new Delta_View();
  * $view->setAttribute('greeting', 'Hello World!');
+ * $view->importHelpers();
  *
  * // テンプレートファイルの出力
  * $view->setTemplatePath($path);
@@ -80,6 +81,10 @@ require DELTA_LIBS_DIR . '/view/renderer/Delta_Renderer.php';
  * @category delta
  * @package view
  */
+
+require DELTA_LIBS_DIR . '/view/helper/Delta_Helper.php';
+require DELTA_LIBS_DIR . '/view/helper/Delta_HelperManager.php';
+
 class Delta_View extends Delta_Object
 {
   /**
@@ -133,6 +138,11 @@ class Delta_View extends Delta_Object
   protected $_attributes = array();
 
   /**
+   * @var array
+   */
+  protected $_helpers = array();
+
+  /**
    * @var string
    */
   protected $_source;
@@ -168,7 +178,9 @@ class Delta_View extends Delta_Object
       throw new InvalidArgumentException($message);
     }
 
+    $this->_context['helpers'] = &$this->_helpers;
     $this->_context['attributes'] = &$this->_attributes;
+
     $this->_renderer->setContext($this->_context);
     $this->_helperManager = new Delta_HelperManager($this);
   }
@@ -330,8 +342,6 @@ class Delta_View extends Delta_Object
    */
   public function execute()
   {
-    $this->loadHelpers();
-
     if ($this->_templatePath) {
       if (is_file($this->_templatePath)) {
         $this->_renderer->renderFile($this->_templatePath);
@@ -402,7 +412,6 @@ class Delta_View extends Delta_Object
    *
    * @return string 出力対象のテンプレートパスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getTemplatePath()
   {
@@ -410,23 +419,44 @@ class Delta_View extends Delta_Object
   }
 
   /**
-   * ヘルパをビューに割り当てます。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function importHelper($helperId)
+  {
+    $result = FALSE;
+    $manager = $this->getHelperManager();
+    $helperConfig = $manager->getConfig()->get($helperId);
+
+    if ($helperConfig && $helperConfig->getBoolean('bind')) {
+      $assignName = $helperConfig->getString('assign', $helperId);
+      $helper = $manager->getHelper($helperId);
+
+      $this->_helpers[$assignName] = $helper;
+      $result = TRUE;
+    }
+
+    return $result;
+  }
+
+  /**
+   * ヘルパ設定ファイルに定義されている全てのヘルパをビューで有効化します。
    * このメソッドは {@link execute()} メソッドにより、ビューが出力される直前にコールされます。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  protected function loadHelpers()
+  public function importHelpers()
   {
     $manager = $this->getHelperManager();
-    $helpers = $manager->getConfig();
+    $helpersConfig = $manager->getConfig();
 
-    foreach ($helpers as $helperId => $parameters) {
+    foreach ($helpersConfig as $helperId => $helperConfig) {
       // インスタンスの生成が許可されているクラスのみオブジェクトを生成
-      if ($parameters->getBoolean('bind')) {
-        $assignName = $parameters->getString('assign', $helperId);
-        $instance = $manager->getHelper($helperId);
+      if ($helperConfig->getBoolean('bind')) {
+        $assignName = $helperConfig->getString('assign', $helperId);
+        $helper = $manager->getHelper($helperId);
 
-        $this->setAttribute($assignName, $instance, FALSE);
+        $this->_helpers[$assignName] = $helper;
       }
     }
   }

@@ -91,7 +91,9 @@ class Delta_APIGenerator extends Delta_Object
     $this->_parseDirectory = $parseDirectory;
     $this->_templateDirectory = DELTA_ROOT_DIR . '/skeleton/api';
     $this->_outputDirectory = APP_ROOT_DIR . '/data/api';
+
     $this->_view = new Delta_View(new Delta_BaseRenderer());
+    $this->_view->importHelper('html');
   }
 
   /**

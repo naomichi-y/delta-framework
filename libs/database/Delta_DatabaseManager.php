@@ -11,7 +11,7 @@
 /**
  * データベースの接続情報を管理するマネージャクラスです。
  *
- * このクラスは 'database' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getDatabase()} からインスタンスを取得することができます。
+ * このクラスは 'database' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getDatabase()} からインスタンスを取得することができます。
  *
  * アプリケーション属性:
  * <code>
@@ -108,6 +108,28 @@ class Delta_DatabaseManager extends Delta_Object
    * @var bool
    */
   private $_isActiveProfiler = FALSE;
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  private function __construct()
+  {}
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function getInstance()
+  {
+    static $instance;
+
+    if ($instance === NULL) {
+      $instance = new Delta_DatabaseManager();
+    }
+
+    return $instance;
+  }
 
   /**
    * トランザクションコントローラを設定します。

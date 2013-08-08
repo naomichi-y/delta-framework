@@ -27,7 +27,7 @@
  * @package console
  */
 
-abstract class Delta_ConsoleCommand extends Delta_DIController
+abstract class Delta_ConsoleCommand extends Delta_Object
 {
   /**
    * @var Delta_ConsoleInput
@@ -91,4 +91,13 @@ abstract class Delta_ConsoleCommand extends Delta_DIController
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   abstract public function execute();
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getDatabase()
+  {
+    return Delta_DatabaseManager::getInstance();
+  }
 }

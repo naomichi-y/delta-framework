@@ -17,7 +17,7 @@
  * @package controller.action
  */
 
-abstract class Delta_Action extends Delta_DIController
+abstract class Delta_Action extends Delta_WebApplication
 {
   /**
    * アクションパス。
@@ -64,6 +64,8 @@ abstract class Delta_Action extends Delta_DIController
    */
   public function __construct($actionPath, $behaviorPath = NULL)
   {
+    parent::__construct();
+
     $this->_actionPath = $actionPath;
     $this->_behaviorPath = $behaviorPath;
   }
@@ -75,6 +77,16 @@ abstract class Delta_Action extends Delta_DIController
    */
   public function initialize()
   {}
+
+  /**
+   * @since 1.2
+   * @deprecated
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getController()
+  {
+    return Delta_FrontController::getInstance();
+  }
 
   /**
    * エントリパッケージを設定します。

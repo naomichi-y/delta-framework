@@ -21,7 +21,7 @@ require DELTA_LIBS_DIR . '/kernel/router/Delta_RouteResolver.php';
 /**
  * Web アプリケーションのためのフロントエンドコントローラ機能を提供します。
  *
- * このクラスは 'controller' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getController()} からインスタンスを取得することができます。
+ * このクラスは 'controller' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getController()} からインスタンスを取得することができます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -30,12 +30,6 @@ require DELTA_LIBS_DIR . '/kernel/router/Delta_RouteResolver.php';
 
 class Delta_FrontController extends Delta_Object
 {
-  /**
-   * リクエストオブジェクト。
-   * @var Delta_HttpRequest
-   */
-  private $_request;
-
   /**
    * アプリケーション設定。
    * @var Delta_ParameterHolder
@@ -47,6 +41,18 @@ class Delta_FrontController extends Delta_Object
    * @var Delta_AppPathManager
    */
   private $_pathManager;
+
+  /**
+   * {@link Delta_HttpRequest} オブジェクト。
+   * @var Delta_HttpRequest
+   */
+  private $_request;
+
+  /**
+   * {@link Delta_HttpResponse} オブジェクト。
+   * @var Delta_HttpResponse
+   */
+  private $_response;
 
   /**
    * {@link Delta_RouteResolver} オブジェクト。
@@ -65,10 +71,47 @@ class Delta_FrontController extends Delta_Object
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct()
+  private function __construct()
   {
     $this->_config = Delta_Config::getApplication();
     $this->_pathManager = Delta_AppPathManager::getInstance();
+
+    $container = Delta_DIContainerFactory::getContainer();
+    $this->_request = $container->getComponent('request');
+    $this->_response = $container->getComponent('response');
+  }
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function getInstance()
+  {
+    static $instance;
+
+    if ($instance === NULL) {
+      $instance = new Delta_FrontController();
+    }
+
+    return $instance;
+  }
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getRequest()
+  {
+    return $this->_request;
+  }
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getResponse()
+  {
+    return $this->_response;
   }
 
   /**
@@ -79,28 +122,11 @@ class Delta_FrontController extends Delta_Object
    */
   public function dispatch()
   {
-    $container = Delta_DIContainerFactory::getContainer();
-
-    // リクエストコンポーネントの初期化
-    $this->_request = $container->getComponent('request');
-    $this->_request->initialize();
-
-    // レスポンスコンポーネントの初期化
-    $response = $container->getComponent('response');
-    $response->initialize();
-
-    // セッションコンポーネントの初期化
-    // (Delta_DatabaseSessionHandler で DB エラーを検知した場合はレスポンスにエラーが出力されるため、先に request、response コンポーネントを初期化しておく)
-    $session = $container->getComponent('session');
-    $session->initialize();
-
     $this->_resolver = Delta_RouteResolver::getInstance();
 
     if ($route = $this->_resolver->connect()) {
       $this->_request->setRoute($route);
       $this->_route = $route;
-
-      $container->getComponent('user')->initialize();
 
       $observer = $this->getObserver();
       $observer->dispatchEvent('postRouteConnect');
@@ -110,12 +136,12 @@ class Delta_FrontController extends Delta_Object
       $buffer = ob_get_contents();
       ob_end_clean();
 
-      if (!$response->isCommitted()) {
+      if (!$this->_response->isCommitted()) {
         $arguments = array(&$buffer);
         $observer->dispatchEvent('preOutput', $arguments);
 
-        $response->write($buffer);
-        $response->flush();
+        $this->_response->write($buffer);
+        $this->_response->flush();
       }
 
       $observer->dispatchEvent('postProcess');

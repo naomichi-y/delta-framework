@@ -134,7 +134,7 @@ class Delta_DatabaseCriteria extends Delta_Object
    */
   private function getConnection()
   {
-    $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+    $database = Delta_DatabaseManager::getInstance();
 
     if (isset($this->_conditions['options']['dataSourceId'])) {
       $dataSourceId = $this->_conditions['options']['dataSourceId'];

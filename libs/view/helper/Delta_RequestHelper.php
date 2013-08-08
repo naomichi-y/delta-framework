@@ -41,9 +41,9 @@ class Delta_RequestHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
-    $this->_request = $this->getRequest();
-
     parent::__construct($currentView, $config);
+
+    $this->_request = $this->getRequest();
   }
 
   /**

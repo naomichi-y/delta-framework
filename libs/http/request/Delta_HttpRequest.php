@@ -13,7 +13,7 @@ require DELTA_LIBS_DIR . '/net/agent/Delta_UserAgent.php';
 /**
  * クライアントから要求された HTTP リクエストを管理します。
  *
- * このクラスは 'request' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getRequest()} からインスタンスを取得することができます。
+ * このクラスは 'request' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getRequest()} からインスタンスを取得することができます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -151,6 +151,22 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getSession()
+  {
+    static $session;
+
+    if ($session === NULL) {
+      $session = Delta_DIContainerFactory::getContainer()->getComponent('session');
+      $session->initialize();
+    }
+
+    return $session;
+  }
+
+  /**
    * リクエストデータにエラーが含まれるかどうかチェックします。
    *
    * @return bool リクエストデータにエラーが含まれる場合は TRUE を返します。
@@ -199,17 +215,14 @@ class Delta_HttpRequest extends Delta_Object
         $this->_queryData,
         $this->_postData);
 
-      $container = Delta_DIContainerFactory::getContainer();
-
-      if ($container->hasComponent('form')) {
-        if ($this->isPostRequest()) {
-          $requestData = $this->_postData;
-        } else {
-          $requestData = $this->_queryData;
-        }
-
-        $container->getComponent('form')->setFields($requestData);
+      if ($this->isPostRequest()) {
+        $requestData = $this->_postData;
+      } else {
+        $requestData = $this->_queryData;
       }
+
+      $form = Delta_ActionForm::getInstance();
+      $form->setFields($requestData);
     }
 
     $this->_inputEncoding = $inputEncoding;

@@ -120,6 +120,7 @@ class Delta_ActionFilter extends Delta_Filter
 
           $view = $this->getView();
           $view->setTemplatePath($dispatchConfig);
+          $view->importHelpers();
           $view->execute();
 
         // ビヘイビアにマッピングするフォワードアクション、またはリダイレクト URI が指定されている
@@ -153,6 +154,7 @@ class Delta_ActionFilter extends Delta_Filter
 
           $view = $this->getView();
           $view->setTemplatePath($template);
+          $view->importHelpers();
           $view->execute();
 
         } else {

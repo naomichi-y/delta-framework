@@ -94,11 +94,11 @@ class Delta_FormHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
-    $this->_form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    parent::__construct($currentView, $config);
+
+    $this->_form = $this->getForm();
     $this->_messages = $this->getMessages();
     $this->_request = $this->getRequest();
-
-    parent::__construct($currentView, $config);
   }
 
   /**

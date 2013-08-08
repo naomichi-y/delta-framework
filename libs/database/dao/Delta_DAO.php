@@ -46,7 +46,7 @@ abstract class Delta_DAO extends Delta_Object
    */
   public function getConnection($dataSource = NULL)
   {
-    $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+    $database = Delta_DatabaseManager::getInstance();
 
     if ($dataSource === NULL) {
       return $database->getConnection($this->getDataSourceId());
@@ -78,7 +78,7 @@ abstract class Delta_DAO extends Delta_Object
    */
   public function formToEntity()
   {
-    $form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    $form = Delta_ActionForm::getInstance();
     $fields = $form->getFields();
     $entity = $this->createEntity();
     $class = new ReflectionClass($entity);

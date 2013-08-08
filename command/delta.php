@@ -801,7 +801,7 @@ class Delta_CommandExecutor
       $path = sprintf('%s/database/%s', DELTA_SKELETON_DIR, $path);
       $data = Spyc::YAMLLoad($path);
 
-      Delta_DIContainerFactory::create();
+      Delta_DIContainerFactory::initialize();
 
       if ($connectConfig) {
         $dsn = $connectConfig->get('dsn');
@@ -911,7 +911,7 @@ class Delta_CommandExecutor
   {
     $this->_output->writeLine('Initializing API Generator...');
 
-    Delta_DIContainerFactory::create();
+    Delta_DIContainerFactory::initialize();
 
     $this->_output->writeLine('Parsing of source code...');
 

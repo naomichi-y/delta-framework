@@ -53,9 +53,7 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
    */
   public function preProcess()
   {
-    $container = Delta_DIContainerFactory::getContainer();
-
-    $this->_profiler = $container->getComponent('database')->getProfiler();
+    $this->_profiler = Delta_DatabaseManager::getInstance()->getProfiler();
     $this->_profiler->start();
     $this->_startTime = microtime(TRUE);
 

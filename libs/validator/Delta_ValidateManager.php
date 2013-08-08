@@ -47,8 +47,8 @@ class Delta_ValidateManager extends Delta_Object
   {
     $container = Delta_DIContainerFactory::getContainer();
 
-    $this->_form = $container->getComponent('form');
-    $this->_messages = $container->getComponent('messages');
+    $this->_form = Delta_ActionForm::getInstance();
+    $this->_messages = Delta_ActionMessages::getInstance();
 
     $this->_validateConfig = $validateConfig;
 
@@ -93,7 +93,7 @@ class Delta_ValidateManager extends Delta_Object
     $config = Delta_Config::getBehavior()->get($search);
 
     if ($config) {
-      $messages = Delta_DIContainerFactory::getContainer()->getComponent('messages');
+      $messages = Delta_ActionMessages::getInstance();
 
       $className = $config->get('class');
       $validator = new $className($validatorId, $config, $messages);

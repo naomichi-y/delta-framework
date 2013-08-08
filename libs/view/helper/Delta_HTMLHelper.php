@@ -81,10 +81,10 @@ class Delta_HTMLHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
+    parent::__construct($currentView, $config);
+
     $this->_messages = $this->getMessages();
     $this->_extension = Delta_Config::getApplication()->getString('action.extension');
-
-    parent::__construct($currentView, $config);
   }
 
   /**

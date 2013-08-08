@@ -403,7 +403,8 @@ abstract class Delta_Pager extends Delta_Object
   public function setQueryDataFromForm()
   {
     $container = Delta_DIContainerFactory::getContainer();
-    $fields = $container->getComponent('form')->getFields();
+    $fields = Delta_ActionForm::getInstance()->getFields();
+
     unset($fields[$this->_pagerKey]);
 
     if (sizeof($this->_requestSort)) {

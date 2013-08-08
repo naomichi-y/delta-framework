@@ -11,7 +11,6 @@
 /**
  * require files
  */
-require DELTA_LIBS_DIR . '/kernel/container/Delta_DIController.php';
 
 require DELTA_LIBS_DIR . '/cache/Delta_Cache.php';
 require DELTA_LIBS_DIR . '/cache/Delta_CacheManager.php';
@@ -26,9 +25,6 @@ require DELTA_LIBS_DIR . '/util/common/Delta_CommonUtils.php';
 require DELTA_LIBS_DIR . '/util/config/Delta_Config.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_FileUtils.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_StringUtils.php';
-
-require DELTA_LIBS_DIR . '/view/helper/Delta_Helper.php';
-require DELTA_LIBS_DIR . '/view/helper/Delta_HelperManager.php';
 
 /**
  * アプリケーション空間にクラスファイルを読み込む機能を提供します。

@@ -11,7 +11,7 @@
 /**
  * プログラムの処理完了時やエラー発生時にクライアントへ返すメッセージを一元管理します。
  *
- * このクラスは 'messages' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getMessages()} からインスタンスを取得することができます。
+ * このクラスは 'messages' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getMessages()} からインスタンスを取得することができます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -63,9 +63,24 @@ class Delta_ActionMessages extends Delta_Object
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct()
+  private function __construct()
   {
     $this->clear();
+  }
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function getInstance()
+  {
+    static $instance;
+
+    if ($instance === NULL) {
+      $instance = new Delta_ActionMessages();
+    }
+
+    return $instance;
   }
 
   /**

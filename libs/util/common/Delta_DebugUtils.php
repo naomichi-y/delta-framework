@@ -343,6 +343,7 @@ class Delta_DebugUtils
         $view->setAttribute('message', $message);
         $view->setAttribute('functionCallCount', $functionCallCount);
         $view->setTemplatePath($path);
+        $view->importHelpers();
         $view->execute();
 
       } else {
@@ -414,6 +415,7 @@ class Delta_DebugUtils
     $view = new Delta_View(new Delta_BaseRenderer());
     $view->setAttribute('trace', debug_backtrace());
     $view->setTemplatePath($path);
+    $view->importHelpers();
     $view->execute();
   }
 }

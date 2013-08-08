@@ -140,6 +140,7 @@ class Delta_ExceptionOutputDelegate extends Delta_ExceptionStackTraceDelegate
     $view = new Delta_View(new Delta_BaseRenderer());
     $view->setAttribute('exception', $exception);
     $view->setTemplatePath($path);
+    $view->importHelpers();
     $view->execute();
   }
 

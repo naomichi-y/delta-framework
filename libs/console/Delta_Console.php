@@ -17,7 +17,7 @@ require DELTA_LIBS_DIR . '/console/Delta_ConsoleOutput.php';
  * コンソールアプリケーションのためのコマンドラインインタフェースを提供します。
  * コンソールで './deltac' (Windows 環境の場合は ./deltac.bat) を実行することでコマンドの起動方法を確認することができます。
  *
- * このクラスは 'console' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getConsole()} からインスタンスを取得することができます。
+ * このクラスは 'console' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getConsole()} からインスタンスを取得することができます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -30,6 +30,28 @@ class Delta_Console extends Delta_Object
    * @var string
    */
   private $_commandName;
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  private function __construct()
+  {}
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function getInstance()
+  {
+    static $instance;
+
+    if ($instance === NULL) {
+      $instance = new Delta_Console();
+    }
+
+    return $instance;
+  }
 
   /**
    * コンソールアプリケーションを開始します。

@@ -13,7 +13,7 @@
  * フォームオブジェクトはフォームから送信された情報を取得したり、フィールドに値を割り当てることができます。
  * 実際にフォームを生成する際は、フォームデータを格納した {@link Delta_FormHelper} を利用して下さい。
  *
- * このクラスは 'form' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getForm()} からインスタンスを取得することができます。
+ * このクラスは 'form' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getForm()} からインスタンスを取得することができます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -36,7 +36,7 @@ class Delta_ActionForm extends Delta_Object
    *   - POST リクエスト時: POST パラメータが設定される。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct()
+  private function __construct()
   {
     $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
 
@@ -47,6 +47,21 @@ class Delta_ActionForm extends Delta_Object
     }
 
     $this->_holder = new Delta_ParameterHolder($array);
+  }
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function getInstance()
+  {
+    static $instance;
+
+    if ($instance === NULL) {
+      $instance = new Delta_ActionForm();
+    }
+
+    return $instance;
   }
 
   /**

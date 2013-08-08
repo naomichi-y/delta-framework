@@ -97,7 +97,7 @@ class Delta_PhoneNumberValidator extends Delta_Validator
    */
   public function validate($fieldName, $value, array $variables = array())
   {
-    $form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    $form = Delta_ActionForm::getInstance();
     $holder = $this->buildParameterHolder($variables);
 
     $number1 = $form->get($holder->getString('number1'));

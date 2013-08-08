@@ -47,7 +47,7 @@ class Delta_FormatConverter extends Delta_Converter
     $arguments = $this->_holder->getArray('arguments');
     $dest = $this->_holder->getString('dest');
 
-    $form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    $form = Delta_ActionForm::getInstance();
 
     if (is_array($arguments)) {
       $fields = $form->getFields();

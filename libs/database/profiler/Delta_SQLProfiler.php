@@ -200,7 +200,7 @@ class Delta_SQLProfiler extends Delta_Object
       $report->actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
 
     } else if (Delta_BootLoader::isBootTypeConsole()) {
-      $console = $container->getComponent('console');
+      $console = Delta_Console::getInstance();
       $report->commandName = $console->getCommandName();
     }
 

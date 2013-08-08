@@ -11,7 +11,7 @@
 /**
  * クライアントに応答する HTTP レスポンスを制御します。
  *
- * このクラスは 'response' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getResponse()} からインスタンスを取得することができます。
+ * このクラスは 'response' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getResponse()} からインスタンスを取得することができます。
  *
  * Delta_HttpResponse が提供するいくつかのメソッドは、{@link flush()} メソッドによってクライアントにレスポンスが返されるタイミングで実行されます。
  *   - {@link setStatus()}
@@ -183,6 +183,24 @@ class Delta_HttpResponse extends Delta_Object
   }
 
   /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getView()
+  {
+    return Delta_DIContainerFactory::getContainer()->getComponent('view');
+  }
+
+  /**
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getMessages()
+  {
+    return Delta_ActionMessages::getInstance();
+  }
+
+  /**
    * 出力エンコーディング形式を設定します。
    *
    * @param string $outputEncoding 出力エンコーディング形式。
@@ -244,6 +262,7 @@ class Delta_HttpResponse extends Delta_Object
     $view = new Delta_View(new Delta_BaseRenderer());
     $view->setAttribute('message', $this->_status);
     $view->setTemplatePath($path);
+    $view->importHelpers();
     $view->execute();
 
     $buffer = ob_get_contents();

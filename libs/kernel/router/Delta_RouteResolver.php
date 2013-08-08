@@ -533,87 +533,89 @@ class Delta_RouteResolver extends Delta_Object
    */
   public function buildRequestPath($path = NULL, array $queryData = array(), $absolute = FALSE, $secure = NULL)
   {
-    $entry = array();
-    $anchorPoint = NULL;
-
     $route = $this->_request->getRoute();
-    $bindings = $route->getBindings();
 
-    if (is_array($path)) {
-      if (isset($path['route'])) {
-        $entry['route'] = $path['route'];
-        unset($path['route']);
+    if ($route) {
+      $entry = array();
+      $anchorPoint = NULL;
+      $bindings = $route->getBindings();
 
-      } else {
-        $entry['route'] = $route->getRouteName();
-      }
-
-      if (isset($path['module'])) {
-        $entry['module'] = $path['module'];
-        unset($path['module']);
-
-      } else {
-        $entry['module'] = $route->getModuleName();
-      }
-
-      if (isset($path['action'])) {
-        $entry['action'] = $path['action'];
-        unset($path['action']);
-
-      } else {
-        if ($route->getModuleName() === $entry['module']) {
-          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
-          $entry['action'] = $route->getForwardStack()->getLast()->getAction()->getActionName();
+      if (is_array($path)) {
+        if (isset($path['route'])) {
+          $entry['route'] = $path['route'];
+          unset($path['route']);
 
         } else {
-          $search = sprintf('module.entries.%s.default', $entry['module']);
-          $entry['action'] = $this->_applicationConfig->getString($search);
+          $entry['route'] = $route->getRouteName();
+        }
+
+        if (isset($path['module'])) {
+          $entry['module'] = $path['module'];
+          unset($path['module']);
+
+        } else {
+          $entry['module'] = $route->getModuleName();
+        }
+
+        if (isset($path['action'])) {
+          $entry['action'] = $path['action'];
+          unset($path['action']);
+
+        } else {
+          if ($route->getModuleName() === $entry['module']) {
+            $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+            $entry['action'] = $route->getForwardStack()->getLast()->getAction()->getActionName();
+
+          } else {
+            $search = sprintf('module.entries.%s.default', $entry['module']);
+            $entry['action'] = $this->_applicationConfig->getString($search);
+          }
+        }
+
+        foreach ($path as $key => $value) {
+          $bindings[$key] = $value;
+        }
+
+        if (isset($path['#'])) {
+          $anchorPoint = '#' . $path['#'];
+          unset($path['#']);
+        }
+
+      } else {
+        if ($route) {
+          $entry['route'] = $route->getRouteName();
+          $entry['module'] = $route->getModuleName();
+        }
+
+        if ($path === NULL) {
+          $entry['action'] = $route->getForwardStack()->getLast()->getActionName();
+
+        // アクション名が指定された
+        } else if (ctype_upper(substr($path, 0, 1))) {
+          $entry['action'] = $path;
+
+        // アクション名と見なされない文字列が指定された
+        } else {
+          return $path;
         }
       }
 
-      foreach ($path as $key => $value) {
-        $bindings[$key] = $value;
+      $bindings['module'] = $entry['module'];
+      $bindings['action'] = $entry['action'];
+
+      $path = $this->buildBaseRoutingPath($entry['route'],
+        $bindings,
+        TRUE,
+        $absolute,
+        $secure);
+
+      $path .= $anchorPoint;
+
+      if (sizeof($queryData)) {
+        $path = sprintf('%s?%s',
+          $path,
+          http_build_query($queryData, '', '&amp;'));
       }
-
-      if (isset($path['#'])) {
-        $anchorPoint = '#' . $path['#'];
-        unset($path['#']);
-      }
-
-    } else {
-      if ($route) {
-        $entry['route'] = $route->getRouteName();
-        $entry['module'] = $route->getModuleName();
-      }
-
-      if ($path === NULL) {
-        $entry['action'] = $route->getForwardStack()->getLast()->getActionName();
-
-      // アクション名が指定された
-      } else if (ctype_upper(substr($path, 0, 1))) {
-        $entry['action'] = $path;
-
-      // アクション名と見なされない文字列が指定された
-      } else {
-        return $path;
-      }
-    }
-
-    $bindings['module'] = $entry['module'];
-    $bindings['action'] = $entry['action'];
-
-    $path = $this->buildBaseRoutingPath($entry['route'],
-      $bindings,
-      TRUE,
-      $absolute,
-      $secure);
-
-    $path .= $anchorPoint;
-
-    if (sizeof($queryData)) {
-      $path = sprintf('%s?%s',
-        $path,
-        http_build_query($queryData, '', '&amp;'));
     }
 
     return $path;

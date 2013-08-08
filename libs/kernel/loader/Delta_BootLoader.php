@@ -63,11 +63,6 @@ class Delta_BootLoader
   private static $_configType;
 
   /**
-   * @var Delta_DIContainerFactory
-   */
-  private static $_container;
-
-  /**
    * Web アプリケーションを開始します。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -80,7 +75,7 @@ class Delta_BootLoader
     self::startApplication();
     self::startEventObserver(self::BOOT_MODE_WEB);
 
-    self::$_container->getComponent('controller')->dispatch();
+    Delta_FrontController::getInstance()->dispatch();
   }
 
   /**
@@ -107,7 +102,7 @@ class Delta_BootLoader
     $appConfig->set('module', $projectAppConfig->getArray('module'));
     $appConfig->set('response.callback', 'none');
 
-    self::$_container->getComponent('controller')->dispatch();
+    Delta_FrontController::getInstance()->dispatch();
   }
 
   /**
@@ -123,7 +118,7 @@ class Delta_BootLoader
     self::startApplication();
     self::startEventObserver(self::BOOT_MODE_CONSOLE);
 
-    self::$_container->getComponent('console')->start();
+    Delta_Console::getInstance()->start();
   }
 
   /**
@@ -278,7 +273,7 @@ class Delta_BootLoader
       Delta_ClassLoader::addSearchPath($path);
     }
 
-    self::$_container = Delta_DIContainerFactory::create();
+    Delta_DIContainerFactory::Initialize();
   }
 
   /**

@@ -85,7 +85,7 @@ class Delta_SplitConverter extends Delta_Converter
    */
   public function convert($string)
   {
-    $form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    $form = Delta_ActionForm::getInstance();
     $array = preg_split($this->_pattern, $form->get($this->_from));
 
     $split = array();

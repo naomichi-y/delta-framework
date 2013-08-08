@@ -32,17 +32,13 @@ class Delta_DIContainerFactory
   {}
 
   /**
-   * DI コンテナを生成します。
+   * DI コンテナを初期化します。
    *
-   * @param int $gateway ゲートウェイ情報。
-   * @return Delta_DIContainer DI コンテナのインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function create()
+  public static function initialize()
   {
     self::$_container = new Delta_DIContainer();
-
-    return self::$_container;
   }
 
   /**
