@@ -73,7 +73,7 @@ class IndexAction extends Delta_Action
     // cpanel の動作チェック
     if (!$request->getParameter('check')) {
       // cpanel のパスは固定なので Delta_RouteResolver::buildRequestPath() 経由でパスを算出しない
-      $requestUrl = 'http://' . $request->getEnvironment('HTTP_HOST') . '/cpanelTest';
+      $requestUrl = 'http://' . $request->getEnvironment('HTTP_HOST') . '/cpanel/connectTest';
 
       try {
         if (file_get_contents($requestUrl) !== 'SUCCESS') {

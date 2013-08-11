@@ -413,7 +413,8 @@ class Delta_AuthorityUser extends Delta_Object
    */
   public function isCurrentActionAuthenticated($requiredRole = self::REQUIRED_ALL_ROLES)
   {
-    $actionRoles = Delta_ActionStack::getInstance()->getLastEntry()->getRoles();
+    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+    $actionRoles = $route->getForwardStack()->getLast()->getAction()->getRoles();
     $userRoles = $this->_context['roles'];
 
     if ($actionRoles) {

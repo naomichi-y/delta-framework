@@ -8,7 +8,7 @@ class LoginAction extends Delta_Action
   public function execute()
   {
     $loginPassword = $this->getForm()->get('loginPassword');
-    $validPassword = Delta_Config::getApplication()->get('module.entries.cpanel.password');
+    $validPassword = Delta_Config::getApplication()->get('cpanel.password');
 
     if (strcmp($loginPassword, $validPassword) == 0) {
       $this->getUser()->addRole('cpanel');

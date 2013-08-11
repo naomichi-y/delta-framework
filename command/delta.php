@@ -336,6 +336,7 @@ class Delta_CommandExecutor
       // デフォルトモジュールの作成
       $moduleName = $this->executeAddModule(TRUE);
 
+      // application.yml の書き換え
       // Spyc::YAMLDump() を使うと可視性が下がるのでここでは使用しない
       $path = APP_ROOT_DIR . '/config/application.yml';
 
@@ -357,6 +358,13 @@ class Delta_CommandExecutor
 
       $contents = str_replace('"{%REPOSITORY.GITKEEP%}"',  $replaceGitKeep, $contents);
 
+      file_put_contents($path, $contents);
+
+      // routes.yml の書き換え
+      $path = APP_ROOT_DIR . '/config/routes.yml';
+
+      $contents = file_get_contents($path);
+      $contents = str_replace('"{%MODULE.ENTRY%}"', $moduleName, $contents);
       file_put_contents($path, $contents);
 
       // 設定情報確認アクションのコピー

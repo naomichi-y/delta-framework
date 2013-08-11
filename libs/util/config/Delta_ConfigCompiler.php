@@ -255,27 +255,9 @@ class Delta_ConfigCompiler extends Delta_Object
       }
     }
 
-    // モジュールリストを取得
-    $modulePath = APP_ROOT_DIR . '/modules';
-
-    if (is_dir($modulePath)) {
-      $paths = scandir($modulePath);
-      $modules = array();
-
-      foreach ($paths as $path) {
-        if ($path === '.' || $path === '..') {
-          continue;
-        }
-
-        if (preg_match(Delta_CoreUtils::REGEXP_MODULE, $path)) {
-          $modules[] = $path;
-        }
-      }
-
-      // テーマモジュールの割り当て
-      if (sizeof($data['theme']['modules']) == 0 || in_array('*', $data['theme']['modules'])) {
-        $data['theme']['modules'] = $modules;
-      }
+    // テーマモジュールの割り当て
+    if (sizeof($data['theme']['modules']) == 0 || in_array('*', $data['theme']['modules'])) {
+      $data['theme']['modules'] = Delta_CoreUtils::getModuleNames();
     }
 
     return $data;

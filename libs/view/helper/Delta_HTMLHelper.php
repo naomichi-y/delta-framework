@@ -516,7 +516,12 @@ class Delta_HTMLHelper extends Delta_Helper
     };
 
     // メソッドに渡された変数リストをエスケープ
+    $helpers = $this->_currentView->getHelpers();
     $variables = $this->_currentView->getAttributes();
+
+    foreach ($helpers as $name => $value) {
+      $variables[$name] = $value;
+    }
 
     foreach ($attributes as $name => $value) {
       $variables[$name] = Delta_StringUtils::escape($value);
@@ -528,6 +533,7 @@ class Delta_HTMLHelper extends Delta_Helper
     }
 
     $load($this->_pathMapping, $path, $variables);
+
     array_pop($this->_pathMapping);
   }
 

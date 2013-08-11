@@ -18,7 +18,7 @@
       <?php echo $html->messages() ?>
       <ul>
         <li><?php echo $html->link('会員登録を行う', 'MemberRegisterForm') ?></li>
-        <li><?php echo $html->link('管理者画面にログインする', array('route' => 'moduleRoute', 'module' => 'admin')) ?></li>
+        <li><?php echo $html->link('管理者画面にログインする', array('route' => 'moduleRoute', 'module' => 'admin', 'action' => 'LoginForm')) ?></li>
       </ul>
     </div>
     <footer>

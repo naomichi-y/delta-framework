@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">フレームワークの応用 - アクションディレクトリを階層化する</h1>
@@ -40,7 +40,7 @@
     <div class="note_contents">
       <ul>
         <li>※1: パッケージは多重に階層化されたディレクトリにも対応します。</li>
-        <li>※2: アクションが所属するパッケージ名は、アクションクラス内から $this-&gt;getPackageName() メソッドをコールすることで取得可能です。(Delta_ActionStack::getInstance()-&gt;getLastEntry()-&gt;getPackageName() メソッドでも取得可能)</li>
+        <li>※2: アクションが所属するパッケージ名は、アクションクラス内から $this-&gt;getPackageName() メソッドをコールすることで取得可能です。</li>
         <li>※3: 複数のパッケージ間で同一のアクション名が見つかった場合、どちらのファイルが読み込まれるかは保証されていません。</li>
       </ul>
     </div>

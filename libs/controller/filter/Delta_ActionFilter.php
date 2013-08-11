@@ -148,7 +148,7 @@ class Delta_ActionFilter extends Delta_Filter
 
       if (!$hasDispatch) {
         if ($dispatchView === Delta_View::SUCCESS) {
-          $request = Delta_FrontController::getInstance()->getRequest()->getRoute();
+          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
           $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
           $template = Delta_StringUtils::convertSnakeCase($actionName);
 

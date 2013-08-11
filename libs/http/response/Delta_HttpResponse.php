@@ -537,7 +537,7 @@ class Delta_HttpResponse extends Delta_Object
       }
     }
 
-    $path = $router->buildRequestPath($path, $queryData, TRUE);
+    $path = $controller->getRouter()->buildRequestPath($path, $queryData, TRUE);
 
     $this->sendRedirect($path);
   }

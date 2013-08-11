@@ -78,7 +78,7 @@
               <?php if (!$html->hasError('cpanel')): ?>
                 <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'cpanel', 'action' => 'LoginForm')) ?>
                   <p><?php echo $form->inputSubmit('起動', array('class' => 'btn')) ?></p>
-                  <p class="note">ログインパスワードは config/application.yml の 'module.entries.cpanel.password' 属性を参照して下さい。</p>
+                  <p class="note">ログインパスワードは config/application.yml の 'cpanel.password' 属性を参照して下さい。</p>
                 <?php echo $form->close() ?>
               <?php else: ?>
                 <p><?php echo $html->link($html->error('cpanel'), '/cpanel/', array(), array('escape' => FALSE)) ?></p>

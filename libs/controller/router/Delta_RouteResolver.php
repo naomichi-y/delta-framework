@@ -268,7 +268,8 @@ class Delta_RouteResolver extends Delta_Object
    * 指定されたパスを Web からアクセス可能なリクエストパスの形式に変換します。
    *
    * @param mixed $path 遷移先のリクエストパスを文字列、または配列形式で指定することができる。
-   *   文字列形式の場合、は PascalCase 形式でアクション名を指定。(ただし、'http://'、'https://' から始まるパスは絶対パスと見なされる)
+   *   文字列形式の場合、は PascalCase 形式でアクション名を指定。
+   *   (ただし、'http://'、'https://' から始まるパスは外部リンク、'/' から始まるパスは絶対と見なされ、パスの変換は行われない)
    *   配列形式では以下のキーから構成されるリクエストパスを生成する。
    *     - route: パスの生成に用いるルート名。未指定時は現在有効なルートが適用される
    *     - module: 遷移先のモジュール名。未指定時は現在有効なモジュールが適用される
@@ -315,69 +316,73 @@ class Delta_RouteResolver extends Delta_Object
 
       // 内部リンクの生成
       if (!$externalLink) {
-        $pathHolder = $this->buildPathHolder($route, $path);
-        $actionPathFormat = $this->_applicationConfig->get('action.path');
+        if (is_array($path) || substr($path, 0, 1) !== '/') {
+          $pathHolder = $this->buildPathHolder($route, $path);
+          $actionPathFormat = $this->_applicationConfig->get('action.path');
 
-        if (isset($this->_routesConfig[$pathHolder['route']])) {
-          $moduleName = $this->_request->getRoute()->getModuleName();
+          if (isset($this->_routesConfig[$pathHolder['route']])) {
+            $moduleName = $this->_request->getRoute()->getModuleName();
 
-          $uriSegments = explode('/', substr($this->_routesConfig[$pathHolder['route']]['uri'], 1));
-          $j = sizeof($uriSegments);
+            $uriSegments = explode('/', substr($this->_routesConfig[$pathHolder['route']]['uri'], 1));
+            $j = sizeof($uriSegments);
 
-          for ($i = 0; $i < $j; $i++) {
-            if (preg_match('/^:(\w+)$/', $uriSegments[$i], $matches)) {
-              $buildPath .= '/';
+            for ($i = 0; $i < $j; $i++) {
+              if (preg_match('/^:(\w+)$/', $uriSegments[$i], $matches)) {
+                $buildPath .= '/';
 
-              if ($matches[1] == 'module') {
-                $buildPath .= $pathHolder['module'];
+                if ($matches[1] == 'module') {
+                  $buildPath .= $pathHolder['module'];
 
-              } else if ($matches[1] == 'action') {
-                if ($actionPathFormat === 'underscore') {
-                  $buildPath .= Delta_StringUtils::convertSnakeCase($pathHolder['action']);
+                } else if ($matches[1] == 'action') {
+                  if ($actionPathFormat === 'underscore') {
+                    $buildPath .= Delta_StringUtils::convertSnakeCase($pathHolder['action']);
+                  } else {
+                    $buildPath .= Delta_StringUtils::convertCamelCase($pathHolder['action']);
+                  }
+
+                } else if (isset($pathHolder[$matches[1]])) {
+                  $buildPath .= urlencode($pathHolder[$matches[1]]);
+
                 } else {
-                  $buildPath .= Delta_StringUtils::convertCamelCase($pathHolder['action']);
+                  $message = sprintf('Path parameter is missing. [%s]', $matches[1]);
+                  throw new Delta_ForwardException($message);
                 }
 
-              } else if (isset($pathHolder[$matches[1]])) {
-                $buildPath .= urlencode($pathHolder[$matches[1]]);
-
               } else {
-                $message = sprintf('Path parameter is missing. [%s]', $matches[1]);
-                throw new Delta_ForwardException($message);
+                $buildPath .= '/' . $uriSegments[$i];
+              }
+            }  // end if
+
+            if ($absolute) {
+              if ($secure === NULL) {
+                $scheme = $this->_request->getScheme() . '://';
+              } else if ($secure === TRUE) {
+                $scheme = 'https://';
+              } else {
+                $scheme = 'http://';
               }
 
-            } else {
-              $buildPath .= '/' . $uriSegments[$i];
-            }
-          }
-
-          if ($absolute) {
-            if ($secure === NULL) {
-              $scheme = $this->_request->getScheme() . '://';
-            } else if ($secure === TRUE) {
-              $scheme = 'https://';
-            } else {
-              $scheme = 'http://';
+              $buildPath = $scheme . $this->_request->getHost() . $buildPath;
             }
 
-            $buildPath = $scheme . $this->_request->getHost() . $buildPath;
-          }
+            if (substr($buildPath, -1) !== '/') {
+              $buildPath .= $this->_applicationConfig->getString('action.extension');
+            }
 
-          if (substr($buildPath, -1) !== '/') {
-            $buildPath .= $this->_applicationConfig->getString('action.extension');
-          }
+            if ($fragment !== NULL) {
+              $buildPath .= $fragment;
+            }
 
-          if ($fragment !== NULL) {
-            $buildPath .= $fragment;
-          }
-
-          if (sizeof($queryData)) {
-            $buildPath = sprintf('%s?%s', $buildPath, http_build_query($queryData, '', '&amp;'));
+            if (sizeof($queryData)) {
+              $buildPath = sprintf('%s?%s', $buildPath, http_build_query($queryData, '', '&amp;'));
+            }
+          } else {
+            $message = sprintf('Route does not exist. [%s]', $pathHolder['route']);
+            throw new Delta_ConfigurationException($message);
           }
 
         } else {
-          $message = sprintf('Route does not exist. [%s]', $pathHolder['route']);
-          throw new Delta_ConfigurationException($message);
+          $buildPath = $path;
         }
 
       } // end if

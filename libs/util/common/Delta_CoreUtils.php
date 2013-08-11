@@ -455,17 +455,24 @@ class Delta_CoreUtils
    */
   public static function getModuleNames()
   {
-    $modules = Delta_Config::getApplication()->get('module.entries');
+    $modulePath = APP_ROOT_DIR . '/modules';
+    $modules = array();
 
-    if ($modules) {
-      $modules->remove('cpanel');
-      $moduleNames = array_keys($modules->toArray());
+    if (is_dir($modulePath)) {
+      $paths = scandir($modulePath);
 
-    } else {
-      $moduleNames = array();
+      foreach ($paths as $path) {
+        if ($path === '.' || $path === '..') {
+          continue;
+        }
+
+        if (preg_match(Delta_CoreUtils::REGEXP_MODULE, $path)) {
+          $modules[] = $path;
+        }
+      }
     }
 
-    return $moduleNames;
+    return $modules;
   }
 
   /**

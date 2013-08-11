@@ -471,4 +471,16 @@ class Delta_View extends Delta_Object
       }
     }
   }
+
+  /**
+   * ビューに割り当てられた全てのヘルパを取得します。
+   *
+   * @return array ヘルパに割り当てられた全てのヘルパを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getHelpers()
+  {
+    return $this->_helpers;
+  }
 }
