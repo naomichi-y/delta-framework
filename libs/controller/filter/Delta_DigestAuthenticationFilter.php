@@ -28,7 +28,7 @@ abstract class Delta_DigestAuthenticationFilter extends Delta_HttpAuthentication
    */
   private function getDigest()
   {
-    $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
+    $request = Delta_FrontController::getInstance()->getRequest();
     $digest = NULL;
 
     if ($request->hasHeader('PHP_AUTH_DIGEST')) {

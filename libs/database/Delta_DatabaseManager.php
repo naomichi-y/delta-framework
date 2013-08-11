@@ -110,6 +110,8 @@ class Delta_DatabaseManager extends Delta_Object
   private $_isActiveProfiler = FALSE;
 
   /**
+   * コンストラクタ。
+   *
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -117,6 +119,9 @@ class Delta_DatabaseManager extends Delta_Object
   {}
 
   /**
+   * データベースマネージャのインスタンスオブジェクトを取得します。
+   *
+   * @return Delta_DatabaseManager データベースマネージャのインスタンスオブジェクトを返します。
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

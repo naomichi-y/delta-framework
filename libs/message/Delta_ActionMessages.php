@@ -69,6 +69,9 @@ class Delta_ActionMessages extends Delta_Object
   }
 
   /**
+   * メッセージのインスタンスオブジェクトを取得します。
+   *
+   * @return Delta_ActionMessages メッセージのインスタンスオブジェクトを返します。
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

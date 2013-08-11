@@ -70,7 +70,7 @@ class Delta_ExceptionHandler
         $arguments = array(&$buffer);
         Delta_KernelEventObserver::getInstance()->dispatchEvent('preOutput', $arguments);
 
-        $response = Delta_DIContainerFactory::getContainer()->getComponent('response');
+        $response = Delta_FrontController::getInstance()->getResponse();
         $response->write($buffer);
         $response->flush();
       }

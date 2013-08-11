@@ -12,7 +12,7 @@ class ControlPanelFilter extends Delta_Filter
       $this->getResponse()->write('SUCCESS');
 
     } else {
-      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
       $currentAction = $route->getForwardStack()->getLast()->getAction()->getActionName();
       $unAuthorizedActions = array('LoginForm', 'Login', 'ModuleConnectTest');
 

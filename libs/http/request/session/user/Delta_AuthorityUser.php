@@ -71,25 +71,23 @@ class Delta_AuthorityUser extends Delta_Object
   private $_removeFlashList = array();
 
   /**
-   * ユーザオブジェクトを初期化します。
+   * コンストラクタ。
    *
-   * @see Delta_AuthorityUser::Initialize()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function initialize()
+  public function __construct()
   {
-    $container = Delta_DIContainerFactory::getContainer();
-
     $sessionConfig = Delta_Config::getApplication()->get('session');
     $encrypt = $sessionConfig->getBoolean('encrypt');
-    $session = $container->getComponent('session');
+    $controller = Delta_FrontController::getInstance();
+    $session = $controller->getRequest()->getSession();
 
     if ($encrypt) {
       $this->_cipher = new Delta_BlowfishCipher();
       $this->_cipher->setInitializationVector('user');
     }
 
-    $this->_namespace = $container->getComponent('request')->getRoute()->getModuleName();
+    $this->_namespace = $controller->getRequest()->getRoute()->getModuleName();
     $this->_context = &$session->getContext($this->_namespace);
 
     $currentTime = $_SERVER['REQUEST_TIME'];
@@ -477,7 +475,7 @@ class Delta_AuthorityUser extends Delta_Object
   public function getTokenState($resetToken = FALSE)
   {
     $storeTokenId = $this->getAttribute('tokenId');
-    $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
+    $request = Delta_FrontController::getInstance()->getRequest();
     $formTokenId = $request->getParameter('tokenId');
 
     if ($formTokenId === NULL && $storeTokenId === NULL) {
@@ -520,7 +518,7 @@ class Delta_AuthorityUser extends Delta_Object
 
     if (!$this->isLogin()) {
       // Session fixation 対策
-      $session = Delta_DIContainerFactory::getContainer()->getComponent('session');
+      $session = Delta_FrontController::getInstance()->getRequest()->getSession();
       $session->updateId();
 
       $this->_context['login'] = TRUE;

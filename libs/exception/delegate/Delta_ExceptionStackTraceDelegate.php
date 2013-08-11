@@ -55,7 +55,7 @@ class Delta_ExceptionStackTraceDelegate extends Delta_ExceptionDelegate
   protected static function clearBuffer()
   {
     if (Delta_BootLoader::isBootTypeWeb()) {
-      $response = Delta_DIContainerFactory::getContainer()->getComponent('response');
+      $response = Delta_FrontController::getInstance()->getResponse();
       $response->clear();
     }
 
@@ -105,7 +105,6 @@ class Delta_ExceptionStackTraceDelegate extends Delta_ExceptionDelegate
     $path = DELTA_ROOT_DIR . '/skeleton/templates/exception.php';
 
     $view->setTemplatePath($path);
-    $view->importHelpers();
     $view->execute();
   }
 

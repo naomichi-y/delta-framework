@@ -46,7 +46,7 @@
           <dt>アイコン</dt>
           <dd>
             <?php if ($hasUpload): ?>
-              <p><?php echo $html->image(Delta_RouteResolver::getInstance()->buildRequestPath(array('action' => 'ShowPreviewImage', 'tokenId' => $form->get('tokenId'))), array('class' => 'border', 'alt' => 'アイコン')) ?></p>
+              <p><?php echo $html->image(array('action' => 'ShowPreviewImage', 'tokenId' => $form->get('tokenId')), array('class' => 'border', 'alt' => 'アイコン')) ?></p>
             <?php else: ?>
               <p>アップロードされていません。</p>
             <?php endif ?>

@@ -68,7 +68,7 @@ abstract class Delta_Renderer extends Delta_Object
     // テンプレート設置パスの取得
     if (Delta_BootLoader::isBootTypeWeb()) {
       $extension = Delta_Config::getApplication()->getString('view.extension');
-      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
       if ($route) {
         $moduleName = $route->getModuleName();

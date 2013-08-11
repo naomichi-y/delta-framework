@@ -393,7 +393,7 @@ class Delta_View extends Delta_Object
 
     if (Delta_BootLoader::isBootTypeWeb()) {
       $extension = Delta_Config::getApplication()->getString('view.extension');
-      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
       if ($route) {
         $basePath = $this->getAppPathManager()->getModuleTemplatesPath($route->getModuleName());
@@ -419,6 +419,11 @@ class Delta_View extends Delta_Object
   }
 
   /**
+   * ビューに指定したヘルパを読み込みます。
+   *
+   * @param string $helperId ビューに読み込むヘルパ ID。
+   * @return bool ヘルパの読み込みが成功した場合は TRUE、失敗した ('bind' 属性が FALSE の) 場合は FALSE を返します。
+   * @throws Delta_ConfigurationException 指定されたヘルパがヘルパ設定ファイルに未定義の場合に発生。
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -428,12 +433,18 @@ class Delta_View extends Delta_Object
     $manager = $this->getHelperManager();
     $helperConfig = $manager->getConfig()->get($helperId);
 
-    if ($helperConfig && $helperConfig->getBoolean('bind')) {
-      $assignName = $helperConfig->getString('assign', $helperId);
-      $helper = $manager->getHelper($helperId);
+    if ($helperConfig) {
+      if ($helperConfig->getBoolean('bind')) {
+        $assignName = $helperConfig->getString('assign', $helperId);
+        $helper = $manager->getHelper($helperId);
 
-      $this->_helpers[$assignName] = $helper;
-      $result = TRUE;
+        $this->_helpers[$assignName] = $helper;
+        $result = TRUE;
+      }
+
+    } else {
+      $message = sprintf('Helper is undefined. [%s]', $helperId);
+      throw new Delta_ConfigurationException($message);
     }
 
     return $result;

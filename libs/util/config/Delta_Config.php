@@ -249,7 +249,7 @@ class Delta_Config extends Delta_Object
   public static function getBehavior($actionName = NULL, $throw = FALSE)
   {
     if ($actionName === NULL) {
-      $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
       $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
     }
 
@@ -425,7 +425,7 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_MODULE_FILTERS:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
           if ($route) {
             $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());
@@ -449,7 +449,7 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_MODULE_BEHAVIOR:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
           if ($route) {
             $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());
@@ -465,7 +465,7 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_ACTION_BEHAVIOR:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
           $basePath = dirname($route->getForwardStack()->getLast()->getAction()->getBehaviorPath());
           $path = Delta_AppPathManager::buildAbsolutePath($basePath, $include, '.yml');
         }
@@ -482,7 +482,7 @@ class Delta_Config extends Delta_Object
 
       case self::TYPE_DEFAULT_MODULE_HELPERS:
         if (Delta_BootLoader::isBootTypeWeb()) {
-          $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
           if ($route) {
             $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());

@@ -79,8 +79,10 @@ abstract class Delta_Action extends Delta_WebApplication
   {}
 
   /**
+   * フロントコントローラオブジェクトを取得します。
+   *
+   * @return Delta_FrontController フロントコントローラオブジェクトを返します。
    * @since 1.2
-   * @deprecated
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getController()

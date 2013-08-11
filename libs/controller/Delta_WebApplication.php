@@ -14,6 +14,7 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package controller
+ * @since 1.2
  */
 abstract class Delta_WebApplication extends Delta_Object
 {
@@ -85,9 +86,9 @@ abstract class Delta_WebApplication extends Delta_Object
   }
 
   /**
-   * メッセージ (messages) コンポーネントを取得します。
+   * メッセージオブジェクトを取得します。
    *
-   * @return Delta_ActionMessages Delta_ActionMessages を実装したオブジェクトのインスタンスを返します。
+   * @return Delta_ActionMessages メッセージオブジェクトを返します。
    * @see Delta_DIContainer::getComponent()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -97,10 +98,9 @@ abstract class Delta_WebApplication extends Delta_Object
   }
 
   /**
-   * フォーム (form) コンポーネントを取得します。
+   * フォームオブジェクトを取得します。
    *
-   * @return Delta_ActionForm Delta_ActionForm を実装したオブジェクトのインスタンスを返します。
-   * @see Delta_DIContainer::getComponent()
+   * @return Delta_ActionForm フォームオブジェクトを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getForm()
@@ -109,15 +109,13 @@ abstract class Delta_WebApplication extends Delta_Object
   }
 
   /**
-   * データベース (database) コンポーネントを取得します。
+   * データベースマネージャを取得します。
    *
-   * @return Delta_DatabaseManager Delta_DatabaseManager を実装したオブジェクトのインスタンスを返します。
-   * @see Delta_DIContainer::getComponent()
+   * @return Delta_DatabaseManager データベースマネージャを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getDatabase()
   {
     return Delta_DatabaseManager::getInstance();
   }
-
 }

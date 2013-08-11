@@ -33,11 +33,11 @@ class Delta_HttpSession extends Delta_Object
   private $_isActive = FALSE;
 
   /**
-   * セッションオブジェクトを初期化します。
+   * コンストラクタ。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function initialize()
+  public function __construct()
   {
     $this->_config = Delta_Config::getApplication()->get('session');
 
@@ -49,19 +49,15 @@ class Delta_HttpSession extends Delta_Object
   }
 
   /**
+   * ユーザオブジェクトを取得します。
+   *
+   * @return Delta_AuthorityUser ユーザオブジェクトを返します。
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getUser()
   {
-    static $user;
-
-    if ($user === NULL) {
-      $user = Delta_DIContainerFactory::getContainer()->getComponent('user');
-      $user->Initialize();
-    }
-
-    return $user;
+    return Delta_DIContainerFactory::getContainer()->getComponent('user');
   }
 
   /**
@@ -266,8 +262,7 @@ class Delta_HttpSession extends Delta_Object
       $_SESSION = array();
       $sessionName = session_name();
 
-      $container = Delta_DIContainerFactory::getContainer();
-      $container->getComponent('user')->initialize();
+      $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
 
       if (isset($_COOKIE[$sessionName])) {
         setcookie($sessionName, '', $_SERVER['REQUEST_TIME'] - 42000, '/');
@@ -312,11 +307,8 @@ class Delta_HttpSession extends Delta_Object
   {
     try {
       if ($this->_isActive) {
-        $container = Delta_DIContainerFactory::getContainer();
-
-        if ($container->hasComponent('user')) {
-          $container->getComponent('user')->finalize();
-        }
+        $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
+        $user->finalize();
 
         session_write_close();
         $this->_isActive = FALSE;

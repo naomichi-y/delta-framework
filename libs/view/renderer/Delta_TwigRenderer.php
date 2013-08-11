@@ -66,11 +66,11 @@ class Delta_TwigRenderer extends Delta_Renderer
     static $engine = NULL;
 
     if ($engine === NULL) {
-      $container = Delta_DIContainerFactory::getContainer();
+      $controller = Delta_FrontController::getInstance()->getResponse();
 
       $config = array();
       $config['cache'] = $this->getCacheDirectory();
-      $conifg['charset'] = $container->getComponent('response')->getOutputEncoding();
+      $conifg['charset'] = $response->getOutputEncoding();
       $config['auto_reload'] = TRUE;
       $config['autoescape'] = FALSE;
 

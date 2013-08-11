@@ -22,7 +22,7 @@ class ShowPreviewImageAction extends Delta_Action
 
   public function execute()
   {
-    $tokenId = $this->getRequest()->getPathInfo('tokenId');
+    $tokenId = $this->getRequest()->getPathHolder('tokenId');
     $previewPath = $this->getService('Member')->getIconPreviewPath($tokenId);
 
     if (is_file($previewPath)) {

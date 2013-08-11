@@ -79,7 +79,7 @@ class Delta_UserAgentSoftBankAdapter extends Delta_UserAgentAdapter
    */
   public function getUserId()
   {
-    $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
+    $request = Delta_FrontController::getInstance()->getRequest();
 
     return $request->getEnvironment('HTTP_X_JPHONE_UID');
   }

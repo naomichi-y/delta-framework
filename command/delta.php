@@ -808,7 +808,7 @@ class Delta_CommandExecutor
         $user = $connectConfig->get('user');
         $password = $connectConfig->get('password');
 
-        $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+        $database = Delta_DatabaseManager::getInstance();
         $conn = $database->getConnectionWithConfig($dsn, $user, $password);
         $command = $conn->getCommand();
 

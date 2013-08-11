@@ -32,6 +32,8 @@ class Delta_Console extends Delta_Object
   private $_commandName;
 
   /**
+   * コンストラクタ。
+   *
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -39,6 +41,9 @@ class Delta_Console extends Delta_Object
   {}
 
   /**
+   * コンソールのインスタンスオブジェクトを取得します。
+   *
+   * @return Delta_Console コンソールのインスタンスオブジェクトを返します。
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

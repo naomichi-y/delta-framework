@@ -316,7 +316,6 @@ class Delta_CodeInspector extends Delta_Object
     $path = DELTA_ROOT_DIR . '/skeleton/templates/code_inspector.php';
     $view->setAttribute('traces', $traces, FALSE);
     $view->setTemplatePath($path);
-    $view->importHelpers();
 
     return $view->fetch();
   }

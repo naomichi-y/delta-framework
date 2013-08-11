@@ -13,5 +13,8 @@
     <header>
       <h1><?php echo $message ?></h1>
     </header>
+    <div id="contents"
+      <p>HTTP status error occurred.</p>
+    </div>
   </body>
 </html>

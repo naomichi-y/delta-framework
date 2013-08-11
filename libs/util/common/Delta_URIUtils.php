@@ -248,8 +248,8 @@ class Delta_URIUtils
     }
 
     $info = parse_url($uri);
-    $container = Delta_DIContainerFactory::getContainer();
-    $hostName = $container->getComponent('request')->getEnvironment('SERVER_NAME');
+    $request = Delta_FrontController::getInstance()->getRequest();
+    $hostName = $request->getEnvironment('SERVER_NAME');
 
     if (isset($info['host']) && $info['host'] === $hostName) {
       return TRUE;

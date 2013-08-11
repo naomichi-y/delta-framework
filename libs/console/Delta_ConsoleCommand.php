@@ -93,6 +93,9 @@ abstract class Delta_ConsoleCommand extends Delta_Object
   abstract public function execute();
 
   /**
+   * データベースマネージャを取得します。
+   *
+   * @return Delta_DatabaseManager データベースマネージャを返します。
    * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */

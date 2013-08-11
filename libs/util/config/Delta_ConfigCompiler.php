@@ -333,24 +333,13 @@ class Delta_ConfigCompiler extends Delta_Object
     foreach ($data as $name => &$keys) {
       $regexp = str_replace('/', '\/', $keys['uri']);
       $regexp = str_replace('.', '\.', $regexp);
-      $regexp = str_replace(':action', '(?:[\w\.]+)', $regexp);
+      $regexp = str_replace(':action', '(?:[\w]+)', $regexp);
       $regexp = str_replace(':module', '(?:[\w\-]+)', $regexp);
 
       // Match pattern is ':foo', ':bar'...
       $regexp = preg_replace('/:\w+/', '(?:[\w-%]+)', $regexp);
 
-      // Match pattern is '/*' (RFC2396)
-      $reserved = ';\/\?:@&=+\$,';
-      $unreserved = '\w-\.!~\*\'\(\)';
-      $escaped = '%';
-
-      // RFC に準拠しないブラウザ対策
-      $extra = '\[\]';
-
-      $replace = sprintf('/?(?:[\'%s%s%s%s\']+)?', $reserved, $unreserved, $escaped, $extra);
-      $regexp = preg_replace('/\/\*/', $replace, $regexp);
-
-      $keys['regexp'] = sprintf('/^%s(?:\?.+)?$/', $regexp);
+      $keys['regexp'] = sprintf('/^%s$/', $regexp);
 
       if (empty($keys['packages'])) {
         continue;

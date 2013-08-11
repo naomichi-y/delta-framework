@@ -96,11 +96,11 @@ class Delta_ExceptionOutputDelegate extends Delta_ExceptionStackTraceDelegate
   {
     $httpStatus = $holder->getInt('httpStatus', 500);
 
-    $container = Delta_DIContainerFactory::getContainer();
-    $response = $container->getComponent('response');
+    $controller = Delta_FrontController::getInstance();
+    $response = $controller->getResponse();
     $response->setStatus($httpStatus);
 
-    if ($container->getComponent('request')->isAjax()) {
+    if ($controller->getRequest()->isAjax()) {
       self::sendAJAXResponse($response, $exception, $holder);
 
     } else {

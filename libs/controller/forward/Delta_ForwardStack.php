@@ -2,7 +2,7 @@
 /**
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
- * @package kernel.path
+ * @package controller.forward
  * @copyright Copyright (c) delta framework project.
  * @license GNU GPL v3+
  * @link http://delta-framework.org/
@@ -13,7 +13,7 @@
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
- * @package kernel.path
+ * @package controller.forward
  */
 
 class Delta_ForwardStack extends Delta_Object

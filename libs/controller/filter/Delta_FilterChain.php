@@ -52,7 +52,7 @@ class Delta_FilterChain extends Delta_Object
     next($this->_filters);
 
     $forward = Delta_ArrayUtils::find($attributes, 'forward', FALSE);
-    $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
     $forwardStack = $route->getForwardStack();
 
     if (!$forward && $forwardStack->getSize() > 1) {

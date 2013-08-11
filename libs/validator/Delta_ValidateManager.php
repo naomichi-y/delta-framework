@@ -45,14 +45,12 @@ class Delta_ValidateManager extends Delta_Object
    */
   public function __construct(Delta_ParameterHolder $validateConfig)
   {
-    $container = Delta_DIContainerFactory::getContainer();
-
     $this->_form = Delta_ActionForm::getInstance();
     $this->_messages = Delta_ActionMessages::getInstance();
 
     $this->_validateConfig = $validateConfig;
 
-    $route = Delta_DIContainerFactory::getContainer()->getComponent('request')->getRoute();
+    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
     $this->_actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
   }
 
@@ -133,7 +131,7 @@ class Delta_ValidateManager extends Delta_Object
       }
 
       // 検証メソッドのチェック
-      $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
+      $request = Delta_FrontController::getInstance()->getRequest();
 
       if (isset($validateConfig['methods']) && !stristr($validateConfig['methods'], $request->getRequestMethod())) {
         if (isset($validateConfig['methodsError'])) {
