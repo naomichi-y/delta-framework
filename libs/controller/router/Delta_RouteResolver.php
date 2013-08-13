@@ -387,7 +387,9 @@ class Delta_RouteResolver extends Delta_Object
         }
 
       } // end if
-    } // end if
+    } else {
+      $buildPath = $path;
+    }
 
     return $buildPath;
   }
