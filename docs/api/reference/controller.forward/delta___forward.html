@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta http-equiv="Content-Language" content="ja" />
+    <meta charset="UTF-8" />
+    <title>delta 1.3 API Reference - Delta_Forward</title>
+    <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
+    <link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="../../assets/js/jquery.treeview.js" type="text/javascript"></script>
+    <script src="../../assets/js/delta_api.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="../../assets/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header>
+      <div class="row">
+        <div class="half">
+          <a href="../../index.html"><img src="../../assets/images/logo.png" alt="delta" /></a>
+        </div>
+        <div class="half">
+          <!--#include virtual="/global_assets/content/navi.php" -->
+        </div>
+      </div>
+      <h1 id="top">delta 1.3 API Reference</h1>
+    </header>
+    <div id="contents">
+      <div class="row">
+        <!-- quarter -->
+        <div class="quarter">
+          <nav>
+  <div id="tree_header">
+    <a href="">Packages</a> |
+    <span id="tree_control">
+      <a href="">Collapse</a> |
+      <a href="">Expand</a>    </span>
+  </div>
+
+  <ul class="treeview" id="tree">
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>cache</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_APCCache">Delta_APCCache</a></li>
+                      <li><a href="" title="Delta_Cache">Delta_Cache</a></li>
+                      <li><a href="" title="Delta_CacheManager">Delta_CacheManager</a></li>
+                      <li><a href="" title="Delta_DatabaseCache">Delta_DatabaseCache</a></li>
+                      <li><a href="" title="Delta_EAcceleratorCache">Delta_EAcceleratorCache</a></li>
+                      <li><a href="" title="Delta_FileCache">Delta_FileCache</a></li>
+                      <li><a href="" title="Delta_FunctionCache">Delta_FunctionCache</a></li>
+                      <li><a href="" title="Delta_MemcacheCache">Delta_MemcacheCache</a></li>
+                      <li><a href="" title="Delta_NullCache">Delta_NullCache</a></li>
+                      <li><a href="" title="Delta_XCacheCache">Delta_XCacheCache</a></li>
+                      <li><a href="" title="Delta_YAMLCache">Delta_YAMLCache</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>console</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ANSIGraphic">Delta_ANSIGraphic</a></li>
+                      <li><a href="" title="Delta_Console">Delta_Console</a></li>
+                      <li><a href="" title="Delta_ConsoleCommand">Delta_ConsoleCommand</a></li>
+                      <li><a href="" title="Delta_ConsoleDialog">Delta_ConsoleDialog</a></li>
+                      <li><a href="" title="Delta_ConsoleInput">Delta_ConsoleInput</a></li>
+                      <li><a href="" title="Delta_ConsoleInputConfigure">Delta_ConsoleInputConfigure</a></li>
+                      <li><a href="" title="Delta_ConsoleOutput">Delta_ConsoleOutput</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_FrontController">Delta_FrontController</a></li>
+                      <li><a href="" title="Delta_WebApplication">Delta_WebApplication</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.action</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_Action">Delta_Action</a></li>
+                      <li><a href="" title="Delta_DispatchAction">Delta_DispatchAction</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.filter</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ACLFilter">Delta_ACLFilter</a></li>
+                      <li><a href="" title="Delta_ActionFilter">Delta_ActionFilter</a></li>
+                      <li><a href="" title="Delta_BasicAuthenticationFilter">Delta_BasicAuthenticationFilter</a></li>
+                      <li><a href="" title="Delta_DigestAuthenticationFilter">Delta_DigestAuthenticationFilter</a></li>
+                      <li><a href="" title="Delta_Filter">Delta_Filter</a></li>
+                      <li><a href="" title="Delta_FilterChain">Delta_FilterChain</a></li>
+                      <li><a href="" title="Delta_FilterManager">Delta_FilterManager</a></li>
+                      <li><a href="" title="Delta_HttpAuthenticationFilter">Delta_HttpAuthenticationFilter</a></li>
+                      <li><a href="" title="Delta_LoginFilter">Delta_LoginFilter</a></li>
+                      <li><a href="" title="Delta_MaintenanceFilter">Delta_MaintenanceFilter</a></li>
+                      <li><a href="" title="Delta_SQLLoggingFilter">Delta_SQLLoggingFilter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.forward</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_Forward">Delta_Forward</a></li>
+                      <li><a href="" title="Delta_ForwardStack">Delta_ForwardStack</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.router</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_Route">Delta_Route</a></li>
+                      <li><a href="" title="Delta_RouteResolver">Delta_RouteResolver</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>converter</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ConvertManager">Delta_ConvertManager</a></li>
+                      <li><a href="" title="Delta_Converter">Delta_Converter</a></li>
+                      <li><a href="" title="Delta_EmojiTrimConverter">Delta_EmojiTrimConverter</a></li>
+                      <li><a href="" title="Delta_FormatConverter">Delta_FormatConverter</a></li>
+                      <li><a href="" title="Delta_MaskConverter">Delta_MaskConverter</a></li>
+                      <li><a href="" title="Delta_SplitConverter">Delta_SplitConverter</a></li>
+                      <li><a href="" title="Delta_TrimConverter">Delta_TrimConverter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>converter.i18n</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_MultibyteKanaConverter">Delta_MultibyteKanaConverter</a></li>
+                      <li><a href="" title="Delta_VendorCharacterTrimConverter">Delta_VendorCharacterTrimConverter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DatabaseConnection">Delta_DatabaseConnection</a></li>
+                      <li><a href="" title="Delta_DatabaseExpression">Delta_DatabaseExpression</a></li>
+                      <li><a href="" title="Delta_DatabaseManager">Delta_DatabaseManager</a></li>
+                      <li><a href="" title="Delta_DatabaseResultSet">Delta_DatabaseResultSet</a></li>
+                      <li><a href="" title="Delta_DatabaseStatement">Delta_DatabaseStatement</a></li>
+                      <li><a href="" title="Delta_DatabaseTransactionController">Delta_DatabaseTransactionController</a></li>
+                      <li><a href="" title="Delta_RecordObject">Delta_RecordObject</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.command</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DatabaseCommand">Delta_DatabaseCommand</a></li>
+                      <li><a href="" title="Delta_DatabaseMySQLCommand">Delta_DatabaseMySQLCommand</a></li>
+                      <li><a href="" title="Delta_DatabasePostgreSQLCommand">Delta_DatabasePostgreSQLCommand</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.criteria</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DatabaseCriteria">Delta_DatabaseCriteria</a></li>
+                      <li><a href="" title="Delta_DatabaseCriteriaScopes">Delta_DatabaseCriteriaScopes</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.dao</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DAO">Delta_DAO</a></li>
+                      <li><a href="" title="Delta_DAOFactory">Delta_DAOFactory</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.entity</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DatabaseEntity">Delta_DatabaseEntity</a></li>
+                      <li><a href="" title="Delta_Entity">Delta_Entity</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>database.profiler</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_SQLPreparedStatementParser">Delta_SQLPreparedStatementParser</a></li>
+                      <li><a href="" title="Delta_SQLProfiler">Delta_SQLProfiler</a></li>
+                      <li><a href="" title="Delta_SQLProfilerReport">Delta_SQLProfilerReport</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>domain.model</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DatabaseModel">Delta_DatabaseModel</a></li>
+                      <li><a href="" title="Delta_Model">Delta_Model</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>domain.service</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_Service">Delta_Service</a></li>
+                      <li><a href="" title="Delta_ServiceFactory">Delta_ServiceFactory</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>exception</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ApplicationException">Delta_ApplicationException</a></li>
+                      <li><a href="" title="Delta_BusinessLogicException">Delta_BusinessLogicException</a></li>
+                      <li><a href="" title="Delta_CommandException">Delta_CommandException</a></li>
+                      <li><a href="" title="Delta_ConfigurationException">Delta_ConfigurationException</a></li>
+                      <li><a href="" title="Delta_ConnectException">Delta_ConnectException</a></li>
+                      <li><a href="" title="Delta_DataNotFoundException">Delta_DataNotFoundException</a></li>
+                      <li><a href="" title="Delta_Exception">Delta_Exception</a></li>
+                      <li><a href="" title="Delta_ForwardException">Delta_ForwardException</a></li>
+                      <li><a href="" title="Delta_IOException">Delta_IOException</a></li>
+                      <li><a href="" title="Delta_ImageException">Delta_ImageException</a></li>
+                      <li><a href="" title="Delta_ParseException">Delta_ParseException</a></li>
+                      <li><a href="" title="Delta_RequestException">Delta_RequestException</a></li>
+                      <li><a href="" title="Delta_SecurityException">Delta_SecurityException</a></li>
+                      <li><a href="" title="Delta_UnsupportedException">Delta_UnsupportedException</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>exception.delegate</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ExceptionDelegate">Delta_ExceptionDelegate</a></li>
+                      <li><a href="" title="Delta_ExceptionLoggingDelegate">Delta_ExceptionLoggingDelegate</a></li>
+                      <li><a href="" title="Delta_ExceptionOutputDelegate">Delta_ExceptionOutputDelegate</a></li>
+                      <li><a href="" title="Delta_ExceptionStackTraceDelegate">Delta_ExceptionStackTraceDelegate</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>form</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ActionForm">Delta_ActionForm</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_HttpRequest">Delta_HttpRequest</a></li>
+                      <li><a href="" title="Delta_HttpRequestSender">Delta_HttpRequestSender</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_HttpSession">Delta_HttpSession</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session.handler</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_APCSessionHandler">Delta_APCSessionHandler</a></li>
+                      <li><a href="" title="Delta_DatabaseSessionHandler">Delta_DatabaseSessionHandler</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session.user</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_AuthorityUser">Delta_AuthorityUser</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.response</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_HttpResponse">Delta_HttpResponse</a></li>
+                      <li><a href="" title="Delta_HttpResponseParser">Delta_HttpResponseParser</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.container</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DIContainer">Delta_DIContainer</a></li>
+                      <li><a href="" title="Delta_DIContainerFactory">Delta_DIContainerFactory</a></li>
+                      <li><a href="" title="Delta_Object">Delta_Object</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.handler</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ErrorHandler">Delta_ErrorHandler</a></li>
+                      <li><a href="" title="Delta_ExceptionHandler">Delta_ExceptionHandler</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.loader</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_BootLoader">Delta_BootLoader</a></li>
+                      <li><a href="" title="Delta_ClassLoader">Delta_ClassLoader</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.observer</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_KernelEventObserver">Delta_KernelEventObserver</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.observer.listener</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ApplicationEventListener">Delta_ApplicationEventListener</a></li>
+                      <li><a href="" title="Delta_ConsoleApplicationEventListener">Delta_ConsoleApplicationEventListener</a></li>
+                      <li><a href="" title="Delta_DatabaseTransactionListener">Delta_DatabaseTransactionListener</a></li>
+                      <li><a href="" title="Delta_PerformanceListener">Delta_PerformanceListener</a></li>
+                      <li><a href="" title="Delta_WebApplicationEventListener">Delta_WebApplicationEventListener</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>kernel.path</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_AppPathManager">Delta_AppPathManager</a></li>
+                      <li><a href="" title="Delta_Theme">Delta_Theme</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_LogWriter">Delta_LogWriter</a></li>
+                      <li><a href="" title="Delta_Logger">Delta_Logger</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger.appender</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_LoggerAppender">Delta_LoggerAppender</a></li>
+                      <li><a href="" title="Delta_LoggerConsoleAppender">Delta_LoggerConsoleAppender</a></li>
+                      <li><a href="" title="Delta_LoggerFileAppender">Delta_LoggerFileAppender</a></li>
+                      <li><a href="" title="Delta_LoggerMailAppender">Delta_LoggerMailAppender</a></li>
+                      <li><a href="" title="Delta_LoggerSAPIAppender">Delta_LoggerSAPIAppender</a></li>
+                      <li><a href="" title="Delta_LoggerSocketAppender">Delta_LoggerSocketAppender</a></li>
+                      <li><a href="" title="Delta_LoggerSyslogAppender">Delta_LoggerSyslogAppender</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger.rotator.executor</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_LogRotateDateBasedExecutor">Delta_LogRotateDateBasedExecutor</a></li>
+                      <li><a href="" title="Delta_LogRotateExecutor">Delta_LogRotateExecutor</a></li>
+                      <li><a href="" title="Delta_LogRotateNullBasedExecutor">Delta_LogRotateNullBasedExecutor</a></li>
+                      <li><a href="" title="Delta_LogRotateSizeBasedExecutor">Delta_LogRotateSizeBasedExecutor</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>logger.rotator.policy</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_LogRotateDateBasedPolicy">Delta_LogRotateDateBasedPolicy</a></li>
+                      <li><a href="" title="Delta_LogRotateNullBasedPolicy">Delta_LogRotateNullBasedPolicy</a></li>
+                      <li><a href="" title="Delta_LogRotatePolicy">Delta_LogRotatePolicy</a></li>
+                      <li><a href="" title="Delta_LogRotateSizeBasedPolicy">Delta_LogRotateSizeBasedPolicy</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>message</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ActionMessages">Delta_ActionMessages</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_Socket">Delta_Socket</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net.agent</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_UserAgent">Delta_UserAgent</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net.agent.adapter</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_UserAgentAUAdapter">Delta_UserAgentAUAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentAdapter">Delta_UserAgentAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentAndroidAdapter">Delta_UserAgentAndroidAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentAndroidTabletAdapter">Delta_UserAgentAndroidTabletAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentDefaultAdapter">Delta_UserAgentDefaultAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentDoCoMoAdapter">Delta_UserAgentDoCoMoAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentIPadAdapter">Delta_UserAgentIPadAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentIPhoneAdapter">Delta_UserAgentIPhoneAdapter</a></li>
+                      <li><a href="" title="Delta_UserAgentSoftBankAdapter">Delta_UserAgentSoftBankAdapter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>net.mail</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_MIME">Delta_MIME</a></li>
+                      <li><a href="" title="Delta_MailAttachment">Delta_MailAttachment</a></li>
+                      <li><a href="" title="Delta_MailMessage">Delta_MailMessage</a></li>
+                      <li><a href="" title="Delta_MailParser">Delta_MailParser</a></li>
+                      <li><a href="" title="Delta_MailPart">Delta_MailPart</a></li>
+                      <li><a href="" title="Delta_MailSender">Delta_MailSender</a></li>
+                      <li><a href="" title="Delta_SMTP">Delta_SMTP</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>pager</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ArrayPager">Delta_ArrayPager</a></li>
+                      <li><a href="" title="Delta_DatabasePager">Delta_DatabasePager</a></li>
+                      <li><a href="" title="Delta_Pager">Delta_Pager</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_BlowfishCipher">Delta_BlowfishCipher</a></li>
+                      <li><a href="" title="Delta_FileUploader">Delta_FileUploader</a></li>
+                      <li><a href="" title="Delta_PHPStringParser">Delta_PHPStringParser</a></li>
+                      <li><a href="" title="Delta_ParameterHolder">Delta_ParameterHolder</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.code</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_APIGenerator">Delta_APIGenerator</a></li>
+                      <li><a href="" title="Delta_CodeInspector">Delta_CodeInspector</a></li>
+                      <li><a href="" title="Delta_Tokenizer">Delta_Tokenizer</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.code.helper</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DocumentMakeHelper">Delta_DocumentMakeHelper</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.common</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_ArrayUtils">Delta_ArrayUtils</a></li>
+                      <li><a href="" title="Delta_CommonUtils">Delta_CommonUtils</a></li>
+                      <li><a href="" title="Delta_CoreUtils">Delta_CoreUtils</a></li>
+                      <li><a href="" title="Delta_DateUtils">Delta_DateUtils</a></li>
+                      <li><a href="" title="Delta_DebugUtils">Delta_DebugUtils</a></li>
+                      <li><a href="" title="Delta_FileUtils">Delta_FileUtils</a></li>
+                      <li><a href="" title="Delta_NetworkUtils">Delta_NetworkUtils</a></li>
+                      <li><a href="" title="Delta_NumberUtils">Delta_NumberUtils</a></li>
+                      <li><a href="" title="Delta_StringUtils">Delta_StringUtils</a></li>
+                      <li><a href="" title="Delta_URIUtils">Delta_URIUtils</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.config</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_Config">Delta_Config</a></li>
+                      <li><a href="" title="Delta_ConfigCompiler">Delta_ConfigCompiler</a></li>
+                      <li><a href="" title="Delta_ConfigCustomHolder">Delta_ConfigCustomHolder</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.file</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_FileLock">Delta_FileLock</a></li>
+                      <li><a href="" title="Delta_FileReader">Delta_FileReader</a></li>
+                      <li><a href="" title="Delta_FileWriter">Delta_FileWriter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.file.csv</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_CSVReader">Delta_CSVReader</a></li>
+                      <li><a href="" title="Delta_CSVWriter">Delta_CSVWriter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>util.image</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_Image">Delta_Image</a></li>
+                      <li><a href="" title="Delta_ImageColor">Delta_ImageColor</a></li>
+                      <li><a href="" title="Delta_ImageDelegate">Delta_ImageDelegate</a></li>
+                      <li><a href="" title="Delta_ImageFactory">Delta_ImageFactory</a></li>
+                      <li><a href="" title="Delta_ImageGDDelegate">Delta_ImageGDDelegate</a></li>
+                      <li><a href="" title="Delta_ImageImageMagickDelegate">Delta_ImageImageMagickDelegate</a></li>
+                      <li><a href="" title="Delta_ImageUploader">Delta_ImageUploader</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>validator</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_CheckBoxValidator">Delta_CheckBoxValidator</a></li>
+                      <li><a href="" title="Delta_CompareValidator">Delta_CompareValidator</a></li>
+                      <li><a href="" title="Delta_CreditCardValidator">Delta_CreditCardValidator</a></li>
+                      <li><a href="" title="Delta_DateValidator">Delta_DateValidator</a></li>
+                      <li><a href="" title="Delta_DomainValidator">Delta_DomainValidator</a></li>
+                      <li><a href="" title="Delta_EMailValidator">Delta_EMailValidator</a></li>
+                      <li><a href="" title="Delta_EmojiValidator">Delta_EmojiValidator</a></li>
+                      <li><a href="" title="Delta_FileUploadValidator">Delta_FileUploadValidator</a></li>
+                      <li><a href="" title="Delta_IPAddressValidator">Delta_IPAddressValidator</a></li>
+                      <li><a href="" title="Delta_LengthValidator">Delta_LengthValidator</a></li>
+                      <li><a href="" title="Delta_MaskValidator">Delta_MaskValidator</a></li>
+                      <li><a href="" title="Delta_NumericValidator">Delta_NumericValidator</a></li>
+                      <li><a href="" title="Delta_PhoneNumberValidator">Delta_PhoneNumberValidator</a></li>
+                      <li><a href="" title="Delta_RangeValidator">Delta_RangeValidator</a></li>
+                      <li><a href="" title="Delta_RequiredValidator">Delta_RequiredValidator</a></li>
+                      <li><a href="" title="Delta_SequenceStringValidator">Delta_SequenceStringValidator</a></li>
+                      <li><a href="" title="Delta_StringValidator">Delta_StringValidator</a></li>
+                      <li><a href="" title="Delta_TextareaValidator">Delta_TextareaValidator</a></li>
+                      <li><a href="" title="Delta_URLValidator">Delta_URLValidator</a></li>
+                      <li><a href="" title="Delta_ValidateManager">Delta_ValidateManager</a></li>
+                      <li><a href="" title="Delta_Validator">Delta_Validator</a></li>
+                      <li><a href="" title="Delta_ZipCodeValidator">Delta_ZipCodeValidator</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>validator.i18n</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_RequiredJpValidator">Delta_RequiredJpValidator</a></li>
+                      <li><a href="" title="Delta_StringJpValidator">Delta_StringJpValidator</a></li>
+                      <li><a href="" title="Delta_VendorCharacterValidator">Delta_VendorCharacterValidator</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_View">Delta_View</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view.decorator</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_HTMLEscapeArrayDecorator">Delta_HTMLEscapeArrayDecorator</a></li>
+                      <li><a href="" title="Delta_HTMLEscapeDecorator">Delta_HTMLEscapeDecorator</a></li>
+                      <li><a href="" title="Delta_HTMLEscapeObjectDecorator">Delta_HTMLEscapeObjectDecorator</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view.helper</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_DateHelper">Delta_DateHelper</a></li>
+                      <li><a href="" title="Delta_FormHelper">Delta_FormHelper</a></li>
+                      <li><a href="" title="Delta_HTMLHelper">Delta_HTMLHelper</a></li>
+                      <li><a href="" title="Delta_Helper">Delta_Helper</a></li>
+                      <li><a href="" title="Delta_HelperManager">Delta_HelperManager</a></li>
+                      <li><a href="" title="Delta_PagerHelper">Delta_PagerHelper</a></li>
+                      <li><a href="" title="Delta_RequestHelper">Delta_RequestHelper</a></li>
+                      <li><a href="" title="Delta_SiteHelper">Delta_SiteHelper</a></li>
+                      <li><a href="" title="Delta_UserHelper">Delta_UserHelper</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>view.renderer</span>
+        <ul style="display: none;">
+                      <li><a href="" title="Delta_BaseRenderer">Delta_BaseRenderer</a></li>
+                      <li><a href="" title="Delta_MustacheRenderer">Delta_MustacheRenderer</a></li>
+                      <li><a href="" title="Delta_PHPTALRenderer">Delta_PHPTALRenderer</a></li>
+                      <li><a href="" title="Delta_Renderer">Delta_Renderer</a></li>
+                      <li><a href="" title="Delta_SmartyRenderer">Delta_SmartyRenderer</a></li>
+                      <li><a href="" title="Delta_TwigRenderer">Delta_TwigRenderer</a></li>
+                  </ul>
+      </li>
+      </ul>
+</nav>
+        </div>
+        <!-- /quarter -->
+        <!-- threequarter -->
+        <div class="threequarter">
+          <article>
+            <h2>
+                              Class
+                            Delta_Forward            </h2>
+            <p class="right">
+              <a href="#description">Description</a> |
+              <a href="#constants">Constants</a> |
+                              <a href="#properties">Properties</a> |
+                            <a href="#methods">Methods</a>
+            </p>
+
+            <h3 id="description">Description</h3>
+                          <p>
+アクションのフォワード情報を管理します。
+</p>
+                        <table>
+              <colgroup>
+                <col class="col-description-name" />
+                <col class="col-description-value" />
+              </colgroup>
+                                                                                        <tr>
+                      <th class="left">Author</th>
+                      <td><p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</td>
+                    </tr>
+                                                                                                                <tr>
+                      <th class="left">Category</th>
+                      <td><p>
+delta
+</p>
+</td>
+                    </tr>
+                                                                                            <tr>
+                      <th class="left">Package</th>
+                      <td><p>
+controller.forward
+</p>
+</td>
+                    </tr>
+                                                                                            <tr>
+                      <th class="left">Since</th>
+                      <td><p>
+1.2
+</p>
+</td>
+                    </tr>
+                                                                                  <tr>
+                <th class="left">Inheritance</th>
+                <td>
+                  Delta_Forward                                       &raquo; <a href="">Delta_Object</a>                                  </td>
+              </tr>
+                                          <tr>
+                <th class="left">Source file</th>
+                <td>/controller/forward/Delta_Forward.php</td>
+              </tr>
+            </table>
+            <p class="right"><a href="#top">To top</a></p>
+
+            <h3 id="constants">Constants</h3>
+                          <p>定義されている定数はありません。</p>
+                        <p class="right"><a href="#">To top</a></p>
+
+                          <h3 id="properties">Properties</h3>
+                              <p>公開されているプロパティはありません。</p>
+                            <p class="right"><a href="#top">To top</a></p>
+            
+            <h3 id="methods">Methods</h3>
+                                          <p id="toggleMethods"><a href="">Hide inherited methods</a></p>
+                <table>
+                  <colgroup>
+                    <col class="col-method-name" />
+                    <col class="col-method-summary" />
+                    <col class="col-method-defined" />
+                   </colgroup>
+                  <tr>
+                    <th>Method</th>
+                    <th>Summary</th>
+                    <th>Defined by</th>
+                  </tr>
+                                                                                    <tr>
+                                              <td>
+                                                      <a href="">__construct()</a>                                                  </td>
+                        <td>
+                                                      <p>
+コンストラクタ。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Forward</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="">__toString()</a>                                                  </td>
+                        <td>
+                                                      <p>
+オブジェクトを文字列として取得します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="">getAction()</a>                                                  </td>
+                        <td>
+                                                      <p>
+アクションオブジェクトを取得します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Forward</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="">getActionName()</a>                                                  </td>
+                        <td>
+                                                      <p>
+アクション名を取得します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Forward</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="">getAppPathManager()</a>                                                  </td>
+                        <td>
+                                                      <p>
+Delta_AppPathManager のインスタンスを取得します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="">getModuleName()</a>                                                  </td>
+                        <td>
+                                                      <p>
+モジュール名を取得します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Forward</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="">getObserver()</a>                                                  </td>
+                        <td>
+                                                      <p>
+カーネルオブザーバーのインスタンスを取得します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="">getRegistry()</a>                                                  </td>
+                        <td>
+                                                      <p>
+フレームワークのレジストリにアクセスします。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
+                                              <td>
+                                                      <a href="">getService()</a>                                                  </td>
+                        <td>
+                                                      <p>
+サービスのインスタンスを取得します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Object</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="">setAction()</a>                                                  </td>
+                        <td>
+                                                      <p>
+アクションオブジェクトを設定します。
+</p>
+                                                  </td>
+                        <td><a href="">Delta_Forward</a></td>
+                      </tr>
+                                                      </table>
+                                      <p class="right"><a href="#methods">To methods</a></p>
+
+            
+            
+                        <h3>Method details</h3>
+              <dl>
+                                                      <dt id="method___construct">__construct()</dt>
+                    <dd>
+                      <div class="source"><code>public void __construct($moduleName, $actionName)</code></div>
+                                              <p>
+コンストラクタ。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$moduleName</td>
+                              <td>string</td>
+                              <td>
+                                                                  <p>
+モジュール名。
+</p>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$actionName</td>
+                              <td>string</td>
+                              <td>
+                                                                  <p>
+アクション名。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                        </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                          <dt id="method_getAction">getAction()</dt>
+                    <dd>
+                      <div class="source"><code>public Delta_Action getAction()</code></div>
+                                              <p>
+アクションオブジェクトを取得します。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td><a href="">Delta_Action</a></td>
+                              <td>
+                                                                  <p>
+アクションオブジェクトを取得します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_getActionName">getActionName()</dt>
+                    <dd>
+                      <div class="source"><code>public string getActionName()</code></div>
+                                              <p>
+アクション名を取得します。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <p>
+アクション名を返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                          <dt id="method_getModuleName">getModuleName()</dt>
+                    <dd>
+                      <div class="source"><code>public string getModuleName()</code></div>
+                                              <p>
+モジュール名を取得します。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                                                                                                                          <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <p>
+モジュール名を返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                                                                                              <dt id="method_setAction">setAction()</dt>
+                    <dd>
+                      <div class="source"><code>public void setAction(Delta_Action $action)</code></div>
+                                              <p>
+アクションオブジェクトを設定します。
+</p>
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                </dl>
+                      </article>
+        </div>
+        <!-- /threequarter -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /contents -->
+    <footer>
+  <p>This document was generated on Wed, 14 Aug 2013 00:38:44 +0900<br />
+  Copyright © delta framework project.</p>
+</footer>
+  </body>
+</html>

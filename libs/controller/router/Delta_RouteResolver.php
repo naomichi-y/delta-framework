@@ -53,14 +53,15 @@ class Delta_RouteResolver extends Delta_Object
   /**
    * コンストラクタ。
    *
+   * @param Delta_HttpRequest HTTP リクエストオブジェクト。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct()
+  public function __construct(Delta_HttpRequest $request)
   {
     $this->_applicationConfig = Delta_Config::getApplication();
     $this->_routesConfig = Delta_Config::getRoutes();
-    $this->_request = Delta_FrontController::getInstance()->getRequest();
-    $this->_requestUri = $this->_request->getURI(FALSE);
+    $this->_request = $request;
+    $this->_requestUri = $request->getURI(FALSE);
 
     // URI に拡張子が付いてる場合は除去する
     $extension = $this->_applicationConfig->getString('action.extension');

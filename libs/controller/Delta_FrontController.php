@@ -79,6 +79,7 @@ class Delta_FrontController extends Delta_Object
 
     $this->_config = Delta_Config::getApplication();
     $this->_pathManager = Delta_AppPathManager::getInstance();
+    $this->_resolver = new Delta_RouteResolver($this->_request);
   }
 
   /**
@@ -143,7 +144,6 @@ class Delta_FrontController extends Delta_Object
    */
   public function dispatch()
   {
-    $this->_resolver = new Delta_RouteResolver();
 
     // ルートの探索
     if ($route = $this->_resolver->connect()) {
