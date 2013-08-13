@@ -575,7 +575,7 @@ class Delta_HttpResponse extends Delta_Object
   public function addCookie($name,
     $value,
     $expire = NULL,
-    $path = NULL,
+    $path = '/',
     $domain = NULL,
     $secure = FALSE,
     $httpOnly = TRUE)
