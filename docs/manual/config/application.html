@@ -96,6 +96,14 @@
       <td scope="col">&nbsp;</td>
     </tr>
     <tr>
+      <td scope="col">cpanel</td>
+      <td colspan="3" scope="col">password</td>
+      <td scope="col">(プロジェクト作成時にランダム文字列が割り当てられる)</td>
+      <td scope="col">(string)</td>
+      <td scope="col">◯</td>
+      <td scope="col">コントロールパネルのログインパスワード。</td>
+    </tr>
+    <tr>
       <td rowspan="2" scope="col">controller</td>
       <td colspan="5" scope="col">&nbsp;</td>
       <td scope="col">&nbsp;</td>
@@ -129,127 +137,15 @@
       <td>HTMLエスケープに使用するフラグ。詳しくは <a href="http://php.net/manual/en/function.htmlentities.php">htmlentities()</a> 関数を参照。</td>
     </tr>
     <tr>
-      <td rowspan="16">module</td>
+      <td rowspan="2">module</td>
       <td colspan="5">&nbsp;</td>
       <td>&nbsp;</td>
       <td>モジュールの動作を定義。</td>
     </tr>
     <tr>
-      <td colspan="3">default (※1)</td>
-      <td>&nbsp;</td>
-      <td>(string)</td>
-      <td>◯</td>
-      <td>URI にモジュール名が含まれない場合に実行するデフォルトのモジュール。</td>
-    </tr>
-    <tr>
       <td colspan="5">subdomain</td>
       <td>&nbsp;</td>
       <td><p>サブドメインをモジュール名に割り当てる。例えば foo.example.com というリクエストは foo モジュール、bar.example.com は bar モジュールを起動する。サブドメインが無い、またはサブドメインに該当するモジュールが見つからない場合はデフォルトモジュールを起動する。</p></td>
-    </tr>
-    <tr>
-      <td colspan="5">unknown (※1)</td>
-      <td>&nbsp;</td>
-      <td>実行対象のモジュールが存在しない場合に実行する代替モジュール、アクションの指定。未指定の場合は RuntimeException をスロー。</td>
-    </tr>
-    <tr>
-      <td rowspan="2">&nbsp;</td>
-      <td colspan="2">module</td>
-      <td>&nbsp;</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>実行するモジュール名。</td>
-    </tr>
-    <tr>
-      <td colspan="2">action</td>
-      <td>&nbsp;</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>実行するアクション名。</td>
-    </tr>
-    <tr>
-      <td>entries</td>
-      <td colspan="2">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>アプリケーションで有効なモジュールを定義。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="2">{module_name}</td>
-      <td>&nbsp;</td>
-      <td>(array)</td>
-      <td>◯</td>
-      <td>モジュール名。アプリケーションで有効なモジュールは全て定義する必要がある。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>default (※1)</td>
-      <td>Index</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>URI にアクション名が含まれない場合に実行するデフォルトのアクション。アクションが見つからない場合は &quot;module.entries.{module_name}.unknown&quot; 属性に指定されたアクションへフォワードする。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>enable</td>
-      <td>TRUE</td>
-      <td>(bool)</td>
-      <td>&nbsp;</td>
-      <td>モジュールの有効 (無効) 化指定。FALSE を指定した場合はモジュールが起動せず、RuntimeException をスロー。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>unknown (※1)</td>
-      <td>Index</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>アクションが見つからない場合に実行するデフォルトのアクション。アクションが見つからない場合は RuntimeException をスロー。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="2">cpanel</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>コントロールパネルの動作を定義。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>default</td>
-      <td>LoginForm</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td rowspan="3">&quot;module.entries.{module_name} を参照。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>enable</td>
-      <td>TRUE</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>unknown</td>
-      <td>LoginForm</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>password</td>
-      <td>(create-project 時に設定される)</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>ログインパスワード。</td>
     </tr>
     <tr>
       <td rowspan="2">action</td>
@@ -544,7 +440,7 @@
     </tr>
     <tr>
       <td colspan="4">secretKey</td>
-      <td>(create-project 時に設定される)</td>
+      <td>(プロジェクト作成時にランダム文字列が割り当てられる)</td>
       <td>(string)</td>
       <td>◯</td>
       <td>40bit で構成されるアプリケーションの秘密鍵。<a href="../../api/reference/util.common/delta___string_utils.html#method_buildHash">Delta_StringUtils::buildHash()</a> や <a href="../../api/reference/util/delta___blowfish_cipher.html">Delta_BlowfishCipher</a> クラスの動作に影響する。</td>
@@ -669,150 +565,6 @@
       &nbsp;&nbsp;display_errors: On<br />
       &nbsp;&nbsp;max_execution_time: 30 </code></dd>
   </dl>
-  <h2 id="defaultForward">モジュールやアクションが見つからない場合の動作</h2>
-  <p>リクエストされたモジュールやアクションが見つからない場合、ルータは設定ファイルに定義されたデフォルトモジュール (アクション) の起動を試みます。ルータが実行するマッチング処理は下表を参照して下さい。</p>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
-      <p>コンソールアプリケーションは対象外です。コンソールアプリケーションでアクションが見つからない場合はその場で例外が発生します。 </p>
-    </div>
-  </div>
-  <table>
-    <colgroup>
-    <col width="2%" />
-    <col width="2%" />
-    <col width="2%" />
-    <col width="2%" />
-    <col width="28%" />
-    <col width="16%" />
-    <col width="16%" />
-    <col width="32%" />
-    </colgroup>
-    <tr>
-      <th colspan="5" scope="col">&nbsp;</th>
-      <th scope="col">実行モジュール</th>
-      <th scope="col">実行アクション</th>
-      <th scope="col">結果</th>
-    </tr>
-    <tr>
-      <td colspan="5"><p>リクエスト URI が routes.yml のパターンにマッチする</p></td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="4">フォワード先のモジュールが指定されている</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">フォワード先のアクション名の解析に成功</td>
-      <td>リクエストモジュール</td>
-      <td>リクエストアクション</td>
-      <td>リクエストされたアクションを起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">フォワード先のアクション名が不明 (URI にアクション名が含まれない)</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;action.default&quot; アクションが存在する</td>
-      <td>リクエストモジュール</td>
-      <td>&quot;action.default&quot;</td>
-      <td>リクエストモジュールの default アクションを起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;action.default&quot; アクションが存在しない</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;action.unknown&quot; アクションが存在する</td>
-      <td>リクエストモジュール</td>
-      <td>&quot;action.unknown&quot;</td>
-      <td>リクエストモジュールの unknown アクションを起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;action.unknown&quot; アクションが存在しない</td>
-      <td>-</td>
-      <td>-</td>
-      <td>例外が発生</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="4">フォワード先のモジュールが指定されていない</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">&quot;action.entry&quot; モジュールが存在する</td>
-      <td>&quot;action.entry&quot;</td>
-      <td>リクエストアクション</td>
-      <td>&quot;action.entry&quot; モジュールのリクエストアクションが起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">&quot;action.entry&quot; モジュールが存在しない</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;module.unknown.module&quot;モジュールが存在する</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;module.unknown.action&quot; アクションが存在する</td>
-      <td>&quot;module.unknown.module&quot;</td>
-      <td>&quot;module.unknown.action&quot;</td>
-      <td>デフォルトアクション (モジュール) を起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;module.unknown.action&quot; アクションが存在しない</td>
-      <td>-</td>
-      <td>-</td>
-      <td>例外が発生</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;module.default.module&quot; モジュールが存在しない</td>
-      <td>-</td>
-      <td>-</td>
-      <td>例外が発生</td>
-    </tr>
-    <tr>
-      <td colspan="5">リクエスト URI が routes.yml のパターンにマッチしない</td>
-      <td colspan="3">(&quot;module.unknown.module&quot; モジュールを検索)</td>
-    </tr>
-  </table>
   <p class="right"><a href="#top">上へ</a></p>
 </article>
 </div>
