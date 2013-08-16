@@ -106,7 +106,7 @@
       <th scope="col">説明</th>
     </tr>
     <tr>
-      <td rowspan="17">(ルーティング ID) (+) </td>
+      <td rowspan="15">(ルーティング ID) (+) </td>
       <td colspan="3">&nbsp;</td>
       <td>&nbsp;</td>
       <td>◯</td>
@@ -183,25 +183,14 @@
             <br />
             defaultEntry:<br />
             &nbsp;&nbsp;uri: /:module/:action </code></dd>
-        </dl>
+          </dl>
         <p>上記例の場合、restrictEntry は entry モジュールの restrict パッケージ (ディレクトリ) 下のアクションと関連付きます。パッケージはより上位に設定された関連付けを優先するため、defaultEntry は entry:/restrict を除いたパッケージからアクションを検索します。</p></td>
-    </tr>
-    <tr>
-      <td colspan="3">parameters</td>
-      <td rowspan="2">(array)</td>
-      <td rowspan="2">FALSE</td>
-      <td rowspan="2">デフォルトパラメータの設定。使用可能な文字の種類は [A-Z、a-z、_、-、.] の組み合わせ。 </td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>(key) (+) </td>
-      <td>(value) (+) </td>
     </tr>
     <tr>
       <td colspan="3">patterns</td>
       <td rowspan="2">(array)</td>
       <td rowspan="2">FALSE</td>
-      <td rowspan="2">リクエスト変数のパターン。文字列の先頭と末尾は &quot;^$&quot;、または &quot;Az&quot; で囲う必要がある。(Perl 互換の正規表現が使用可能)</td>
+      <td rowspan="2">パラメータホルダとして許可する正規表現のパターンを指定。&quot;/.../&quot; 形式で指定。</td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -212,7 +201,7 @@
       <td colspan="3">attributes</td>
       <td rowspan="2">(array)</td>
       <td rowspan="2">FALSE</td>
-      <td rowspan="2">リクエスト属性の設定。設定した値は $request-&gt;getAttribute() で取得可能。 </td>
+      <td rowspan="2">リクエスト属性の設定。設定した値は Delta_HttpRequest::getAttribute() で取得可能。 </td>
     </tr>
     <tr>
       <td>&nbsp;</td>

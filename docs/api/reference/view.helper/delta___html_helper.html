@@ -1792,13 +1792,11 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 テンプレートファイルを読み込みます。
 </p>
 <div class="source"><code># modules/{module}/templates/includes/header.php を読み込む。
-#   - 親のテンプレートで使用可能な変数は全て子テンプレートでも使用可能。
-#   - &#039;../&#039; 形式で他のモジュールのテンプレートを参照することが可能。
+#   - 各種ヘルパは子テンプレートでも使用可能
+#   - 現在のテンプレートディレクトリからの相対パスでファイルを指定
+#   - &#039;/&#039; から始まるパスはテンプレート基底ディレクトリからの絶対パスと見なされる
+#   - 拡張子はオプション。未指定時は application.yml に定義された &#039;view.extension&#039; 属性が参照される
 $html-&gt;includeTemplate(&#039;includes/header&#039;);
-
-# header.php から更にファイルを読み込む。
-# (参照されるパスは modules/{module}/templates/includes/meta.php となる)
-$html-&gt;includeTemplate(&#039;meta&#039;);
 
 # header.php を読み込む際に $foo、$bar 変数を宣言。
 $html-&gt;includeTemplate(&#039;includes/header&#039;, array(&#039;foo&#039; =&gt; 100, &#039;bar&#039; =&gt; 200));
@@ -1822,10 +1820,7 @@ $html-&gt;includeTemplate(&#039;@templates/html/global_footer&#039;);
                               <td>string</td>
                               <td>
                                                                   <p>
-読み込み元ディレクトリからの相対パスでファイルを指定。
-  指定可能なパス形式については <a href="../kernel.path/delta___app_path_manager.html#method_buildAbsolutePath">Delta_AppPathManager::buildAbsolutePath()</a> を参照。
-  ただし、&#039;/&#039; から始まるパスは modules/{module_name}/templates (テーマ使用時は theme/{theme_name}/modules/{module_name}/templates) から始まる相対パスと見なされる。
-  またパスに拡張子を付けない場合は、application.yml に定義された &#039;view.extension&#039; を付加したファイルを参照する。
+参照するテンプレートのパスを指定。
 </p>
                                                               </td>
                             </tr>
@@ -1834,8 +1829,7 @@ $html-&gt;includeTemplate(&#039;@templates/html/global_footer&#039;);
                               <td>mixed</td>
                               <td>
                                                                   <p>
-テンプレートに渡す変数のリスト。変数の値は自動的に HTML エスケープされる。
-  array(&#039;{variable_name}&#039; =&gt; &#039;{variable_value}&#039;) の形式で構成する。
+テンプレートに渡す変数を連想配列形式 (変数名、変数値) で指定。変数の値は自動的に HTML エスケープされる。
 </p>
                                                               </td>
                             </tr>
@@ -2168,7 +2162,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 21 Jul 2013 15:53:00 +0900<br />
+  <p>This document was generated on Fri, 16 Aug 2013 13:55:24 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

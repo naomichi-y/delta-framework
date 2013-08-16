@@ -898,6 +898,16 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_merge">merge()</a>                                                  </td>
+                        <td>
+                                                      <p>
+パラメータホルダに配列を再帰的にマージします。
+</p>
+                                                  </td>
+                        <td><a href="../util/delta___parameter_holder.html">Delta_ParameterHolder</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_next">next()</a>                                                  </td>
                         <td>
                                                   </td>
@@ -1493,6 +1503,45 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
+                                                                        <dt id="method_merge">merge()</dt>
+                    <dd>
+                      <div class="source"><code>public void merge(array $array)</code></div>
+                                              <p>
+パラメータホルダに配列を再帰的にマージします。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$array</td>
+                              <td>array</td>
+                              <td>
+                                                                  <p>
+マージする配列。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                      <li>Since: <p>
+1.1
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
                                                                         <dt id="method_next">next()</dt>
                     <dd>
                       <div class="source"><code>public void next()</code></div>
@@ -1635,15 +1684,14 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_set">set()</dt>
                     <dd>
-                      <div class="source"><code>public bool set($name, $value, $override = TRUE)</code></div>
+                      <div class="source"><code>public void set($name, $value, $override = TRUE)</code></div>
                                               <p>
 パラメータホルダに値を設定します。
 </p>
-<div class="source"><code>$holder = new Delta_ParameterHolder();
-$holder-&gt;set(&#039;foo&#039;, 100);
+<div class="source"><code>$holder-&gt;set(&#039;foo.bar&#039;, 100);
 
 // 100
-$holder-&gt;get(&#039;foo&#039;);
+$holder-&gt;get(&#039;foo.bar&#039;);
 </code></div>
                                                                     <table>
                         <colgroup>
@@ -1683,22 +1731,13 @@ $holder-&gt;get(&#039;foo&#039;);
 </p>
                                                               </td>
                             </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <p>
-値の設定が成功した場合は TRUE、失敗した (override が FALSE かつ同名のキーが存在する) 場合は FALSE を返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
+                                                                                                                                                                                                                                                                                                                                                                                        </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <p>
+                                                                                                                                                                                                                                      <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </p>
 </li>
-                                                                                                                                            </ul>
+                                                                                                                                                                                                  </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
                                                                         <dt id="method_setArray">setArray()</dt>
@@ -1797,7 +1836,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sun, 21 Jul 2013 15:53:00 +0900<br />
+  <p>This document was generated on Fri, 16 Aug 2013 13:55:23 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
