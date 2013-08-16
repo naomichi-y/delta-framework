@@ -1,0 +1,77 @@
+validate:
+  names:
+    mailAddress:
+      validators: commonRequiredValidator, commonEMailValidator
+      variables:
+        FIELD_NAME: メールアドレス
+
+    loginPassword:
+      validators: commonRequiredValidator, commonLengthValidator, passwordMaskValidator
+      variables:
+        FIELD_NAME: パスワード
+        MIN_LENGTH: 4
+        MAX_LENGTH: 8
+
+    loginPasswordVerify:
+      validators: commonRequiredValidator, commonCompareValidator
+      variables:
+        FIELD_NAME: パスワード(確認)
+        COMPARE_FIELD1: loginPassword
+        COMPARE_FIELD_NAME1: 'パスワード'
+        COMPARE_FIELD2: loginPasswordVerify
+
+    nickname:
+      validators: commonRequiredValidator
+      variables:
+        FIELD_NAME: 名前
+
+    birth.day:
+      validators: commonDateValidator
+      variables:
+        YEAR_FIELD: birth.year
+        MONTH_FIELD: birth.month
+        DAY_FIELD: birth.day
+        ALLOW_CURRENT: FALSE
+        ALLOW_FUTURE: FALSE
+
+    blood:
+      validators: commonCheckBoxValidator
+      variables:
+        FIELD_NAME: 血液型
+        REQUIRED_MATCH: 1
+
+    hobbies:
+      validators: commonCheckBoxValidator
+      variables:
+        FIELD_NAME: 趣味
+        REQUIRED_MIN: 1
+
+    message:
+      validators: commonRequiredValidator, commonLengthValidator
+      variables:
+        FIELD_NAME: 自己紹介
+        MIN_LENGTH: 20
+        MAX_LENGTH: 255
+
+    icon:
+      validators: commonFileUploadValidator
+      variables:
+        FIELD_NAME: アイコン
+        REQUIRED: FALSE
+        MIME_TYPES:
+          - image/jpeg
+          - image/pjpeg
+          - image/gif
+          - image/png
+          - image/x-png
+        MAX_SIZE: 2MB
+
+  validators:
+    passwordMaskValidator:
+      class: Delta_MaskValidator
+      mask: '/^(?=.*\d)(?=.*[a-z])\w{1,}$/'
+      matchError: パスワードは英数字を組み合わせて下さい。
+
+view:
+  error:
+    forward: MemberRegisterForm

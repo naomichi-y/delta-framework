@@ -1,0 +1,3 @@
+view:
+  success:
+    redirect: LoginForm

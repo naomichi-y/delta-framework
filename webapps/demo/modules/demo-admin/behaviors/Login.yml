@@ -1,0 +1,17 @@
+validate:
+  names:
+    loginId:
+      validators: commonRequiredValidator
+      variables:
+        FIELD_NAME: ログイン ID
+
+    loginPassword:
+      validators: commonRequiredValidator
+      variables:
+        FIELD_NAME: ログインパスワード
+
+view:
+  success:
+    redirect: Home
+  error:
+    forward: LoginForm
