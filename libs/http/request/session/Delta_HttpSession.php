@@ -265,7 +265,7 @@ class Delta_HttpSession extends Delta_Object
       $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
 
       if (isset($_COOKIE[$sessionName])) {
-        setcookie($sessionName, '', $_SERVER['REQUEST_TIME'] - 42000, '/');
+        setcookie($sessionName, '', -1, '/');
       }
 
       return session_destroy();

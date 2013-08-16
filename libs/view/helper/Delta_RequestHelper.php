@@ -99,4 +99,16 @@ class Delta_RequestHelper extends Delta_Helper
   {
     return $this->_request->getUserAgent();
   }
+
+  /**
+   * Delta_HttpRequest オブジェクトを取得します。
+   *
+   * @return Delta_HttpRequest HTTP リクエストオブジェクトを返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getContext()
+  {
+    return $this->_request;
+  }
 }

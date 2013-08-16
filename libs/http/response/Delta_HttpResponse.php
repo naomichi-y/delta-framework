@@ -588,9 +588,8 @@ class Delta_HttpResponse extends Delta_Object
    *
    * @param string $name クライアントに送信する Cookie の名前。
    * @param string $value クライアントに送信する Cookie の値。
-   * @param int $expire Cookie の有効期限を 1970 年 1 月 1 日からの経過秒数で指定。
-   *   未指定時はクライアントを閉じるまでが有効期間となる。
-   * @param string $path Cookie を有効とするサーバ上のパス。
+   * @param int $expire Cookie の有効期限を現在の時刻から n 秒で指定。
+   *   未指定時はブラウザが閉じられるまで値を保持する。
    * @param string $domain Cookie を有効とするドメイン名。
    * @param bool $secure セキュア Cookie の設定。TRUE を指定した場合、セキュアな通信 (HTTPS) が行われている場合のみ Cookie を送信する。
    * @param bool $httpOnly TRUE を指定した場合、JavaScript (document.cookie) から Cookie を参照できないようにする。
@@ -601,17 +600,16 @@ class Delta_HttpResponse extends Delta_Object
   public function addCookie($name,
     $value,
     $expire = NULL,
-    $path = NULL,
     $domain = NULL,
     $secure = FALSE,
     $httpOnly = TRUE)
   {
-    if (is_numeric($expire) || $expire === NULL) {
+    if ((is_numeric($expire) && $expire > 0) || $expire === NULL) {
       $cookie = array();
       $cookie['name'] = $name;
       $cookie['value'] = $value;
-      $cookie['expire'] = $expire;
-      $cookie['path'] = $path;
+      $cookie['expire'] = time() + $expire;
+      $cookie['path'] = '/';
       $cookie['domain'] = $domain;
       $cookie['secure'] = $secure;
       $cookie['httpOnly'] = $httpOnly;
@@ -625,14 +623,20 @@ class Delta_HttpResponse extends Delta_Object
 
   /**
    * クライアントが保持している全ての Cookie を削除します。
+   * このメソッドは Cookie に保存されているセッションキーは削除しません。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function clearCookie()
   {
+    $sessionName = session_name();
+
     foreach ($_COOKIE as $name => $value) {
-      unset($_COOKIE[$name]);
-      $this->addCookie($name, NULL, -1);
+      if ($sessionName === $name) {
+        continue;
+      }
+
+      $this->removeCookie($name);
     }
   }
 
@@ -648,7 +652,17 @@ class Delta_HttpResponse extends Delta_Object
   {
     if (isset($_COOKIE[$name])) {
       unset($_COOKIE[$name]);
-      $this->addCookie($name, NULL, -1);
+
+      $cookie = array();
+      $cookie['name'] = $name;
+      $cookie['value'] = '';
+      $cookie['expire'] = -1;
+      $cookie['path'] = '/';
+      $cookie['domain'] = NULL;
+      $cookie['secure'] = NULL;
+      $cookie['httpOnly'] = NULL;
+
+      $this->_cookies[] = $cookie;
 
       return TRUE;
     }
