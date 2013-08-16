@@ -68,7 +68,7 @@
                 <p>接続可能な状態です。</p>
               <?php else: ?>
                 <p><?php echo $html->error('database') ?></p>
-                <p class="note">接続に失敗した場合は、config/application.yml の 'database' 属性を見なおして下さい。</p>
+                <p class="note">接続に失敗した場合は、config/application.yml の 'database' 属性を見直して下さい。</p>
               <?php endif ?>
             </div>
           </li>
@@ -86,18 +86,18 @@
             </div>
           </li>
           <li>
-            <div class="data_label">サンプルアプリケーション</div>
+            <div class="data_label">デモアプリケーション</div>
             <div class="data_content">
-              <?php if (isset($hasSampleApp)): ?>
-                <?php if (!$html->hasError('sample')): ?>
-                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'front', 'action' => 'Start')) ?>
+              <?php if (isset($hasDemoApp)): ?>
+                <?php if (!$html->hasError('demo')): ?>
+                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'demo-front', 'action' => 'Start')) ?>
                     <p><?php echo $form->inputSubmit('スタート', array('class' => 'btn')) ?></p>
                   <?php echo $form->close() ?>
                 <?php else: ?>
-                <p><?php echo $html->error('sample') ?></p>
+                <p><?php echo $html->error('demo') ?></p>
                 <?php endif ?>
               <?php else: ?>
-                <p>サンプルアプリケーションがインストールされていません。サンプルアプリケーションを起動するには、'delta install-sample' コマンドでインストールを行なう必要があります。</p>
+                <p>デモアプリケーションがインストールされていません。デモアプリケーションを起動するには、'delta install-demo-app' コマンドでインストールを行なう必要があります。</p>
               <?php endif ?>
             </div>
           </li>

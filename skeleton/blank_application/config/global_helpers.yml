@@ -14,8 +14,9 @@ pager:
   nextLabel: 次へ
   previousLabel: 前へ
   navigationLabel: '\1-\2 件表示 / \3 件中 \4 \5<br />\6'
-  ascendingLabel: '<img src="/assets/base/delta/images/sort_asc.png" width="7" height="7" alt="昇順に並び替え" />'
-  descendingLabel: '<img src="/assets/base/delta/images/sort_desc.png" width="7" height="7" alt="降順に並び替え" />'
+  ascendingLabel: '<img src="/assets/base/delta/images/sort_asc.png" width="7" height="7" class="sort-asc" alt="昇順に並び替え" />'
+  descendingLabel: '<img src="/assets/base/delta/images/sort_desc.png" width="7" height="7" class="sort-desc" alt="降順に並び替え" />'
+
 
 site:
   class: Delta_SiteHelper

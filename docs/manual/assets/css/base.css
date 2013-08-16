@@ -99,6 +99,7 @@ table {
 
 th, td {
   border-bottom: 1px solid #C9C9C9;
+  word-break: break-all;
 }
 
 th {
@@ -424,7 +425,7 @@ footer p {
 
 /**
  * ****************************************************************
- * カスタムクラス (サンプルアプリケーション)
+ * カスタムクラス (デモアプリケーション)
  * ****************************************************************
  */
 div.success, div.error {
@@ -507,4 +508,8 @@ span.error {
 
 .data_content p, .data_content form {
   margin: 0;
+}
+
+.sort-asc, .sort-desc {
+  margin-top: 7px;
 }

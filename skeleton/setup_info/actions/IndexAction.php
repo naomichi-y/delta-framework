@@ -85,12 +85,12 @@ class IndexAction extends Delta_Action
       }
     }
 
-    // サンプルアプリケーションがインストールされているかチェック
-    if (in_array('front', Delta_CoreUtils::getModuleNames())) {
-      $this->getView()->setAttribute('hasSampleApp', TRUE);
+    // デモアプリケーションがインストールされているかチェック
+    if (in_array('demo-front', Delta_CoreUtils::getModuleNames())) {
+      $this->getView()->setAttribute('hasDemoApp', TRUE);
 
       if ($messages->hasError('database')) {
-        $messages->addError('データベースに接続できないため、サンプルアプリケーションを起動できません。', 'sample');
+        $messages->addError('データベースに接続できないため、デモアプリケーションを起動できません。', 'demo');
       }
     }
 
