@@ -677,7 +677,24 @@ kernel.observer
                     <th>Summary</th>
                     <th>Defined by</th>
                   </tr>
-                                                                                                                          <tr class="inheritanceMethods">
+                                                                                    <tr>
+                                              <td>
+                                                      <a href="#method_Initialize">Initialize()</a>                                                  </td>
+                        <td>
+                                                  </td>
+                        <td><a href="../kernel.observer/delta___kernel_event_observer.html">Delta_KernelEventObserver</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method___construct">__construct()</a>                                                  </td>
+                        <td>
+                                                      <p>
+コンストラクタ。
+</p>
+                                                  </td>
+                        <td><a href="../kernel.observer/delta___kernel_event_observer.html">Delta_KernelEventObserver</a></td>
+                      </tr>
+                                                                                                        <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method___toString">__toString()</a>                                                  </td>
                         <td>
@@ -727,26 +744,6 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.observer/delta___kernel_event_observer.html">Delta_KernelEventObserver</a></td>
                       </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_getInstance">getInstance()</a>                                                  </td>
-                        <td>
-                                                      <p>
-イベントオブザーバのインスタンスを取得します。
-</p>
-                                                  </td>
-                        <td><a href="../kernel.observer/delta___kernel_event_observer.html">Delta_KernelEventObserver</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
-                        <td>
-                                                      <p>
-カーネルオブザーバーのインスタンスを取得します。
-</p>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
-                      </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
@@ -794,7 +791,27 @@ Delta_AppPathManager のインスタンスを取得します。
             
                         <h3>Method details</h3>
               <dl>
-                                                                                                                          <dt id="method_addEventListener">addEventListener()</dt>
+                                                      <dt id="method_Initialize">Initialize()</dt>
+                    <dd>
+                      <div class="source"><code>public void Initialize()</code></div>
+                                              <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
+                                                                                        <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method___construct">__construct()</dt>
+                    <dd>
+                      <div class="source"><code>public void __construct()</code></div>
+                                              <p>
+コンストラクタ。
+</p>
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                                                          <dt id="method_addEventListener">addEventListener()</dt>
                     <dd>
                       <div class="source"><code></code></div>
                                               <p>
@@ -927,42 +944,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_getInstance">getInstance()</dt>
-                    <dd>
-                      <div class="source"><code>public static Delta_KernelEventObserver getInstance()</code></div>
-                                              <p>
-イベントオブザーバのインスタンスを取得します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                                                                                                                          <tr>
-                              <td>{return}</td>
-                              <td><a href="../kernel.observer/delta___kernel_event_observer.html">Delta_KernelEventObserver</a></td>
-                              <td>
-                                                                  <p>
-イベントオブザーバのインスタンスを返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                                                              <dt id="method_hasEventListener">hasEventListener()</dt>
+                                                                                                                                            <dt id="method_hasEventListener">hasEventListener()</dt>
                     <dd>
                       <div class="source"><code>public bool hasEventListener($listenerId)</code></div>
                                               <p>
@@ -1059,7 +1041,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Sat, 17 Aug 2013 23:10:49 +0900<br />
+  <p>This document was generated on Sun, 18 Aug 2013 01:38:23 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

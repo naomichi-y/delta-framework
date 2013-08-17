@@ -202,6 +202,7 @@ class Delta_ClassLoader
    */
   public static function loadByName($className)
   {
+    file_put_contents('/Users/naomichi/Documents/projects/delta/sandbox-1.2/a', $className."\n", FILE_APPEND);
     static $autoloaders;
 
     $hasLoadVendorClass = FALSE;

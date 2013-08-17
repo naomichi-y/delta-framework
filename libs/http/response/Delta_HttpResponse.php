@@ -278,7 +278,7 @@ class Delta_HttpResponse extends Delta_Object
     ob_end_clean();
 
     $arguments = array(&$buffer);
-    $this->getObserver()->dispatchEvent('preOutput', $arguments);
+    Delta_FrontController::getInstance()->getObserver()->dispatchEvent('preOutput', $arguments);
 
     $this->write($buffer);
     $this->flush();

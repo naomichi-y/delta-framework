@@ -12,6 +12,8 @@ cpanelConnectTestRoute:
 
 defaultRoute:
   uri: /:action
+  forward:
+    module: "{%MODULE.ENTRY%}"
 
 moduleRoute:
   uri: /:module/:action

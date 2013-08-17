@@ -12,7 +12,7 @@
   </head>
   <body>
     <header>
-      <h1 id="fatal_error"><?php printf('%s: %s', $type, $message) ?></h1>
+      <h1><?php printf('%s: %s', $type, $message) ?></h1>
     </header>
     <div id="contents" class="delta-context">
       <dl>

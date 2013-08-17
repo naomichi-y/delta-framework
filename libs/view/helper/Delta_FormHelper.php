@@ -1635,10 +1635,7 @@ class Delta_FormHelper extends Delta_Helper
     $selected = NULL;
 
     // チェックボックス (フィールド名 foo) で何も選択せずに送信すると、foo パラメータは送信されず、リストが送信されたことを示す _foo パラメータが追加される
-    if ($this->_request->hasParameter($fieldName) || ($hiddenOutput && $this->_request->hasParameter($hiddenFieldName))) {
-      $selected = $this->_request->getParameter($fieldName);
-
-    } else if ($this->_form->hasName($fieldName)) {
+    if ($this->_form->hasName($fieldName) || ($hiddenOutput && $this->_request->hasParameter($hiddenFieldName))) {
       $selected = $this->_form->get($fieldName);
 
     // リクエスト (またはフォームにセット) されたデフォルト値がない、またはリストが未送信の場合に限りヘルパに渡されたデフォルト値を設定する

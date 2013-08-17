@@ -47,17 +47,6 @@ class Delta_RequestHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_HttpRequest::getRoute()} のエイリアスメソッドです。
-   *
-   * @since 1.1
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getRoute()
-  {
-    return $this->getRequest()->getRoute();
-  }
-
-  /**
    * {@link Delta_HttpRequest::hasParameter()} のエイリアスメソッドです。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -88,16 +77,6 @@ class Delta_RequestHelper extends Delta_Helper
     }
 
     return $value;
-  }
-
-  /**
-   * {@link Delta_HttpRequest::getUserAgent()} メソッドのエイリアスです。
-   *
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getUserAgent()
-  {
-    return $this->_request->getUserAgent();
   }
 
   /**

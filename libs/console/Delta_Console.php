@@ -27,6 +27,12 @@ require DELTA_LIBS_DIR . '/console/Delta_ConsoleOutput.php';
 class Delta_Console extends Delta_Object
 {
   /**
+   * オブザーバオブジェクト。
+   * @var Delta_KernelEventObserver
+   */
+  private $_observer;
+
+  /**
    * @var string
    */
   private $_commandName;
@@ -38,7 +44,10 @@ class Delta_Console extends Delta_Object
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private function __construct()
-  {}
+  {
+    $this->_observer = new Delta_KernelEventObserver(Delta_BootLoader::BOOT_MODE_CONSOLE);
+    $this->_observer->initialize();
+  }
 
   /**
    * コンソールのインスタンスオブジェクトを取得します。
@@ -88,7 +97,7 @@ class Delta_Console extends Delta_Object
       $input->validate($configure);
       $commandClass->execute();
 
-      $this->getObserver()->dispatchEvent('postProcess');
+      $this->_observer->dispatchEvent('postProcess');
 
     } else {
       $this->showUsage();

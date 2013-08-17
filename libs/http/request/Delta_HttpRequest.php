@@ -749,9 +749,6 @@ class Delta_HttpRequest extends Delta_Object
     } else if ($this->hasPost($name)) {
       $data = $this->getPost($name, $alternative, $emptyToAlternative);
 
-    } else if ($this->hasPathHolder($name)) {
-      $data = $this->getPathHolder($name, $alternative, $emptyToAlternative);
-
     } else {
       $data = $alternative;
     }
@@ -761,7 +758,7 @@ class Delta_HttpRequest extends Delta_Object
 
   /**
    * クライアントから要求された全てのパラメータを取得します。
-   * パラメータには GET、POST、パスホルダパラメータのデータを含みますが、パラメータ間で重複する名前は GET、POST、パスホルダパラメータの順で値がマージされます。
+   * パラメータには GET、POST、パスホルダパラメータのデータを含みますが、パラメータ間で重複する名前は GET、POST の順で値がマージされます。
    *
    * @return mixed クライアントから要求された全てのパラメータを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -771,7 +768,7 @@ class Delta_HttpRequest extends Delta_Object
     static $parameters = NULL;
 
     if ($parameters === NULL) {
-      $parameters = $this->_queryData + $this->_postData + $this->_route->getPathHolder();
+      $parameters = $this->_queryData + $this->_postData;
     }
 
     return $parameters;

@@ -20,10 +20,10 @@ $().ready( function () {
     <table id="tablesorter_sql_<?php echo $request->get('type') ?>" class="tablesorter">
       <colgroup>
         <col width="8%" />
-        <col width="44%" />
+        <col width="42%" />
         <col width="10%" />
         <col width="10%" />
-        <col width="12%" />
+        <col width="14$" />
         <col width="14%" />
       </colgroup>
       <thead>

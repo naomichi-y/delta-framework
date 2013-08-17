@@ -30,6 +30,12 @@ require DELTA_LIBS_DIR . '/controller/forward/Delta_ForwardStack.php';
 class Delta_FrontController extends Delta_Object
 {
   /**
+   * オブザーバオブジェクト。
+   * @var Delta_KernelEventObserver
+   */
+  private $_observer;
+
+  /**
    * アプリケーション設定。
    * @var Delta_ParameterHolder
    */
@@ -72,6 +78,9 @@ class Delta_FrontController extends Delta_Object
    */
   private function __construct()
   {
+    $this->_observer = new Delta_KernelEventObserver(Delta_BootLoader::BOOT_MODE_WEB);
+    $this->_observer->initialize();
+
     $container = Delta_DIContainerFactory::getContainer();
 
     $this->_request = $container->getComponent('request');
@@ -98,6 +107,18 @@ class Delta_FrontController extends Delta_Object
     }
 
     return $instance;
+  }
+
+  /**
+   * オブザーバイブジェクトを取得します。
+   *
+   * @return Delta_KernelEventObserver オブザーバオブジェクトを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getObserver()
+  {
+    return $this->_observer;
   }
 
   /**
@@ -150,8 +171,7 @@ class Delta_FrontController extends Delta_Object
       $this->_request->setRoute($route);
       $this->_route = $route;
 
-      $observer = $this->getObserver();
-      $observer->dispatchEvent('postRouteConnect');
+      $this->_observer->dispatchEvent('postRouteConnect');
 
       ob_start();
 
@@ -162,13 +182,13 @@ class Delta_FrontController extends Delta_Object
 
       if (!$this->_response->isCommitted()) {
         $arguments = array(&$buffer);
-        $observer->dispatchEvent('preOutput', $arguments);
+        $this->_observer->dispatchEvent('preOutput', $arguments);
 
         $this->_response->write($buffer);
         $this->_response->flush();
       }
 
-      $observer->dispatchEvent('postProcess');
+      $this->_observer->dispatchEvent('postProcess');
 
     // ルートが見つからない場合は 404 ページを出力
     } else {
