@@ -15,9 +15,9 @@
     <header>
       <h1><?php printf('%s: %s', get_class($exception), $message) ?></h1>
     </header>
-    <div id="contents" class="delta_context">
+    <div id="contents" class="delta-context">
       <?php if ($exception instanceof Delta_Exception && $exception->hasTrigger()): ?>
-        <dl class="delta_exception_trigger_code">
+        <dl class="delta-exception-trigger">
           <dt>Trigger code:</dt>
           <dd>
             <?php if ($exception->getTriggerCodeType() === 'php'): ?>

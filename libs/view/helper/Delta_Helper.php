@@ -75,7 +75,7 @@ abstract class Delta_Helper extends Delta_WebApplication
     parent::__construct();
 
     $this->_currentView = $currentView;
-    $this->_config = new Delta_ParameterHolder(Delta_ArrayUtils::mergeRecursive(static::$_defaultValues, $config));
+    $this->_config = new Delta_ParameterHolder(Delta_ArrayUtils::merge(static::$_defaultValues, $config));
     $this->_router = Delta_FrontController::getInstance()->getRouter();
   }
 

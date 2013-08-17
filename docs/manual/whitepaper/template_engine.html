@@ -29,7 +29,7 @@
   <p>次に base_dicon.yml ファイルの view コンポーネントで Smarty を使用するようパスを設定します。</p>
   <dl>
     <dt>YAML Code# config/base_dicon.yml</dt>
-    <dd class="lang_yaml"><code>...<br />
+    <dd class="lang-yaml"><code>...<br />
       view:<br />
       &nbsp;&nbsp;class: Delta_View<br />
       &nbsp;&nbsp;&nbsp;&nbsp;arguments:<br />
@@ -42,7 +42,7 @@
   <p>それでは実際に Smarty エンジンが使用されているか確認するためのチェックコードを書いてみましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/action/SmartyAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$form = $this-&gt;getView();<br />
       <br />
@@ -59,7 +59,7 @@
   <p>対応するテンプレートは次のようなコードになります。</p>
   <dl>
     <dt>Template Code# modules/{module}/templates/smarty.php</dt>
-    <dd class="lang_template"><code>&lt;h1&gt;{$foo}&lt;/h1&gt;</code></dd>
+    <dd class="lang-template"><code>&lt;h1&gt;{$foo}&lt;/h1&gt;</code></dd>
   </dl>
   <p>アクションを実行すると、画面には &quot;bar&quot; という文字列が出力されます。</p>
   <p class="right"><a href="#top">上へ</a></p>

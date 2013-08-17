@@ -57,17 +57,17 @@ class Delta_CoreUtils
     Delta_FileUtils::deleteDirectory($cacheDir, FALSE);
 
     if (!is_dir($cacheDir)) {
-      Delta_FileUtils::createDirectoryRecursive($cacheDir, 0775);
+      Delta_FileUtils::createDirectory($cacheDir, 0775);
     }
 
     $autoloadDir = $cacheDir . '/file';
-    Delta_FileUtils::createDirectoryRecursive($autoloadDir, 0775);
+    Delta_FileUtils::createDirectory($autoloadDir, 0775);
 
     $templatesDir = $cacheDir . '/templates';
-    Delta_FileUtils::createDirectoryRecursive($templatesDir, 0775);
+    Delta_FileUtils::createDirectory($templatesDir, 0775);
 
     $yamlDir = $cacheDir . '/yaml';
-    Delta_FileUtils::createDirectoryRecursive($yamlDir, 0775);
+    Delta_FileUtils::createDirectory($yamlDir, 0775);
   }
 
   /**
@@ -116,7 +116,7 @@ class Delta_CoreUtils
     }
 
     if (!is_dir($writeDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($writeDirectory);
+      Delta_FileUtils::createDirectory($writeDirectory);
     }
 
     // クラスパスの生成
@@ -172,12 +172,12 @@ class Delta_CoreUtils
 
     $modulePath = sprintf('%s/modules/%s', APP_ROOT_DIR, $moduleName);
 
-    Delta_FileUtils::createDirectoryRecursive($modulePath);
+    Delta_FileUtils::createDirectory($modulePath);
 
     $skeletonPath = DELTA_SKELETON_DIR . '/blank_module';
     $options = array('recursive' => TRUE);
 
-    Delta_FileUtils::copyRecursive($skeletonPath, $modulePath, $options);
+    Delta_FileUtils::copy($skeletonPath, $modulePath, $options);
     $deployFiles = Delta_FileUtils::search($modulePath, '/.*/', array('directory' => TRUE));
 
     $fromPath = sprintf('%s%stemplates%shtml%sskeleton.php',
@@ -227,7 +227,7 @@ class Delta_CoreUtils
       DIRECTORY_SEPARATOR,
       $themeName);
 
-    Delta_FileUtils::createDirectoryRecursive($themePath, 0775, TRUE);
+    Delta_FileUtils::createDirectory($themePath, 0775, TRUE);
 
     foreach ($moduleNames as $moduleName) {
       self::checkValidateName(self::REGEXP_MODULE, $moduleName);
@@ -261,7 +261,7 @@ class Delta_CoreUtils
       $gitkeep = $config->get('project.gitkeep');
 
       foreach ($createList as $path) {
-        Delta_FileUtils::createDirectoryRecursive($path, 0755, TRUE);
+        Delta_FileUtils::createDirectory($path, 0755, TRUE);
 
         if ($gitkeep) {
           touch($path . DIRECTORY_SEPARATOR . '.gitkeep');
@@ -275,7 +275,7 @@ class Delta_CoreUtils
     );
 
     foreach ($copyFiles as $from => $to) {
-      Delta_FileUtils::copyRecursive($from, $to, array('recursive' => TRUE));
+      Delta_FileUtils::copy($from, $to, array('recursive' => TRUE));
     }
 
     $deployFiles = Delta_FileUtils::search($themePath, '/.*/', array('directory' => TRUE));
@@ -353,7 +353,7 @@ class Delta_CoreUtils
     $toPath = $toDirectory . '/' . $actionFile;
 
     if (!is_dir($toDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($toDirectory);
+      Delta_FileUtils::createDirectory($toDirectory);
     }
 
     copy($actionSkeletonPath, $toPath);
@@ -375,7 +375,7 @@ class Delta_CoreUtils
     }
 
     if (!is_dir($toDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($toDirectory);
+      Delta_FileUtils::createDirectory($toDirectory);
     }
 
     $toPath = sprintf('%s/%s.yml', $toDirectory, $actionName);
@@ -409,7 +409,7 @@ class Delta_CoreUtils
         $packageName);
 
       if (!is_dir($toDirectory)) {
-        Delta_FileUtils::createDirectoryRecursive($toDirectory);
+        Delta_FileUtils::createDirectory($toDirectory);
       }
     }
 

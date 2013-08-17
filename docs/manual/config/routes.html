@@ -29,7 +29,7 @@
   <p>例えば、リクエストされる URI が /customer/foo や /customer/bar といった様にパラメータが可変する場合、次のようにルーティング経路を設定することで特定のアクションを実行することが可能になります。</p>
   <dl>
     <dt>YAML Code# config/routes.yml</dt>
-    <dd class="lang_yaml"><code>customerRouter:<br />
+    <dd class="lang-yaml"><code>customerRouter:<br />
       &nbsp;&nbsp;uri: /customer/:any<br />
       &nbsp;&nbsp;forward:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;module: entry<br />
@@ -43,7 +43,7 @@
   <p>次の例では、パラメータ変数に対し厳格なパスのチェックを行います。</p>
   <dl>
     <dt>YAML Code# config/routes.yml</dt>
-    <dd class="lang_yaml"><code>myBlogRouter:<br />
+    <dd class="lang-yaml"><code>myBlogRouter:<br />
       &nbsp;&nbsp;uri: /blog/:year/:month/:day<br />
       &nbsp;&nbsp;forward:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;module: blog <br />
@@ -58,7 +58,7 @@
   <p>パターンにマッチした場合は、blog/ShowBlogEntry アクションが実行されます。</p>
   <dl>
     <dt>PHP Code# modules/blog/ShowBlogEntryAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$request = $this-&gt;getRequest();<br />
       <br />
@@ -72,7 +72,7 @@
   <p>更にルーティング設定では、リクエストパラメータのデフォルト値を設定することも可能です。下記のサンプルコードを参照して下さい。</p>
   <dl>
     <dt>YAML Code# config/routes.yml</dt>
-    <dd class="lang_yaml"><code>loginRouter:<br />
+    <dd class="lang-yaml"><code>loginRouter:<br />
       &nbsp;&nbsp;uri: /auth/*<br />
       &nbsp;&nbsp;forward:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;module: auth<br />
@@ -87,7 +87,7 @@
   <p>delta では従来、URI が &quot;/(モジュール名)/(アクション名)&quot; 形式でのリクエストを処理していました。もし現在のプロジェクトで古いタイプのルータを有効にしたい場合は、下記のコードを routes.yml に追加して下さい。 </p>
   <dl>
     <dt>YAML Code# config/routes.yml</dt>
-    <dd class="lang_yaml"><code>homepage:<br />
+    <dd class="lang-yaml"><code>homepage:<br />
       &nbsp;&nbsp;uri: / <br />
       <br />
       actionEntry:<br />
@@ -176,7 +176,7 @@
       <td>現在のルーティングに関連付けるパッケージ名。
         <dl>
           <dt>YAML Code#</dt>
-          <dd class="lang_yaml"><code>restrictEntry:<br />
+          <dd class="lang-yaml"><code>restrictEntry:<br />
             &nbsp;&nbsp;uri: /restrict/:action<br />
             &nbsp;&nbsp;packages:<br />
             &nbsp;&nbsp;&nbsp;&nbsp;- entry:/restrict<br />
@@ -220,9 +220,9 @@
       <td>(value) (+) </td>
     </tr>
   </table>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
   </div>

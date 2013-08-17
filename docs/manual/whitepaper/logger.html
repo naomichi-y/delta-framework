@@ -64,7 +64,7 @@
   <p>初めに site.yml にてログを出力するための設定を行います。</p>
   <dl>
     <dt>YAML Code# config/site.yml</dt>
-    <dd class="lang_yaml"><code>logger:<br />
+    <dd class="lang-yaml"><code>logger:<br />
       &nbsp;&nbsp;# ログアペンダ ID (命名は自由)<br />
       &nbsp;&nbsp;fileAppender:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerFileAppender<br />
@@ -116,21 +116,21 @@
   <p>mask はその名の通りマスク値を指定できるので、警告レベル以上のログをロギングしたい場合は次のような指定になります。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>logger:<br />
+    <dd class="lang-yaml"><code>logger:<br />
       &nbsp;&nbsp;mailAppender:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_LoggerMailAppender<br />
       &nbsp;&nbsp;&nbsp;&nbsp;mask: &lt;?php echo Delta_Logger::LOGGER_MASK_WARNING^Delta_Logger::LOGGER_MASK_ERROR^Delta_Logger::LOGGER_MASK_FATAL ?&gt;</code><code></code></dd>
   </dl>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>mask 属性が未指定の場合は全てのログをロギングします。</p>
     </div>
   </div>
   <p>続いて実際にロギングを行うアクションクラスを作成してみましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/LoggerClientAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$logger = Delta_Logger::getLogger(get_class());<br />
       <br />

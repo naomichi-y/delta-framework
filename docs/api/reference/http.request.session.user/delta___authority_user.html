@@ -782,6 +782,16 @@ http.request.session.user
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_clearAttributes">clearAttributes()</a>                                                  </td>
+                        <td>
+                                                      <p>
+ユーザオブジェクトに設定されている全ての属性を破棄します。
+</p>
+                                                  </td>
+                        <td><a href="../http.request.session.user/delta___authority_user.html">Delta_AuthorityUser</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_finalize">finalize()</a>                                                  </td>
                         <td>
                                                       <p>
@@ -1162,6 +1172,24 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 </p>
                                                                                           <ul class="note">
                                                                                                                                                                                 <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                                                                                  </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_clearAttributes">clearAttributes()</dt>
+                    <dd>
+                      <div class="source"><code>public void clearAttributes()</code></div>
+                                              <p>
+ユーザオブジェクトに設定されている全ての属性を破棄します。
+</p>
+                                                                                          <ul class="note">
+                                                                                                                                                                                <li>Since: <p>
+1.2
+</p>
+</li>
+                                                                                                                                                                                                                                                <li>Author: <p>
 Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
 </p>
 </li>
@@ -1621,7 +1649,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                     </dd>
                                                                         <dt id="method_logout">logout()</dt>
                     <dd>
-                      <div class="source"><code>public bool logout()</code></div>
+                      <div class="source"><code>public bool logout($clearAttribute = FALSE)</code></div>
                                               <p>
 現在エントリしているモジュールからログアウトします。
 </p>
@@ -1636,7 +1664,16 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                           <th>Type</th>
                           <th>Description</th>
                         </tr>
-                                                                                                                                                                                                                                                            <tr>
+                                                                                                          <tr>
+                              <td>$clearAttribute</td>
+                              <td>bool</td>
+                              <td>
+                                                                  <p>
+ログアウト時にユーザが保持している全ての属性を削除する場合は TRUE を指定。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                                                                    <tr>
                               <td>{return}</td>
                               <td>bool</td>
                               <td>
@@ -1647,7 +1684,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                             </tr>
                                                                                                                                                                               </table>
                                                                     <ul class="note">
-                                                                                                                                                                                                                                      <li>Since: <p>
+                                                                                                                                                                                                                                                                                            <li>Since: <p>
 1.1
 </p>
 </li>
@@ -1973,7 +2010,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Fri, 16 Aug 2013 23:38:45 +0900<br />
+  <p>This document was generated on Sat, 17 Aug 2013 23:10:48 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

@@ -641,12 +641,12 @@ global_helpers.yml の設定例:
   # フィールド単位で出力するエラーメッセージの HTML タグを設定します。
   # &#039;error&#039; 属性が FALSE の場合はタグ自体出力されません。
   #   - \1: エラーメッセージ。
-  errorFieldTag: &#039;&lt;div class=&quot;field_error_message&quot;&gt;\1&lt;/div&gt;&#039;
+  errorFieldTag: &#039;&lt;div class=&quot;field-error-message&quot;&gt;\1&lt;/div&gt;&#039;
 
   # フィールドを囲む HTML タグ。
   # ヘルパが生成する入力フィールド (ボタンを除く) は &#039;fieldTag&#039; で囲まれます。
   #   - \1: フィールドタグ。フィールドに関連付くラベルやエラーメッセージも含まれます。
-  fieldTag: &#039;&lt;div class=&quot;form_field&quot;&gt;\n\1&lt;/div&gt;&#039;
+  fieldTag: &#039;&lt;div class=&quot;form-field&quot;&gt;\n\1&lt;/div&gt;&#039;
 
   # checkbox、radio の各要素を囲む HTML タグ。
   #   - \1: フィールド要素のタグ。
@@ -1345,9 +1345,9 @@ textarea フィールドを生成します。
                   <dd>
                     <div class="source"><code>protected static array $_defaultValues = array(
     &#039;error&#039; =&gt; TRUE,
-    &#039;errorFieldTag&#039; =&gt; &quot;&lt;div class=\&quot;field_error_message\&quot;&gt;\\1&lt;/div&gt;&quot;,
+    &#039;errorFieldTag&#039; =&gt; &quot;&lt;div class=\&quot;field-error-message\&quot;&gt;\\1&lt;/div&gt;&quot;,
     &#039;containErrors&#039; =&gt; &quot;Contains an error entry. (\\1 errors)&quot;,
-    &#039;fieldTag&#039; =&gt; &quot;&lt;div class=\&quot;form_field\&quot;&gt;\n\\1&lt;/div&gt;&quot;,
+    &#039;fieldTag&#039; =&gt; &quot;&lt;div class=\&quot;form-field\&quot;&gt;\n\\1&lt;/div&gt;&quot;,
     &#039;fieldElementTag&#039; =&gt; &quot;&lt;span class=\&quot;field_element\&quot;&gt;\n\\1&lt;/span&gt;&quot;,
     &#039;fieldSeparatorTag&#039; =&gt; &quot;&lt;span class=\&quot;field_separator\&quot;&gt;\\1&lt;/span&gt;&quot;,
     &#039;requiredTag&#039; =&gt; &#039;&lt;span class=&quot;required&quot;&gt;*&lt;/span&gt;&#039;
@@ -1838,7 +1838,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 メソッドの使い方は <a href="../view.helper/delta___form_helper.html#method_inputCheckboxes">inputCheckboxes()</a> とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
 </p>
 <div class="source"><code>// 出力されるタグ:
-&lt;div class=&quot;form_field&quot;&gt;
+&lt;div class=&quot;form-field&quot;&gt;
   &lt;span class=&quot;field_element&quot;&gt;
     &lt;input type=&quot;checkbox&quot; value=&quot;yes&quot; name=&quot;agreement&quot; id=&quot;agreement&quot; /&gt;
     &lt;label for=&quot;agreement&quot;&gt;Agreement&lt;/label&gt;
@@ -2241,7 +2241,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
 メソッドの使い方は <a href="../view.helper/delta___form_helper.html#method_inputRadios">inputRadios()</a> とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
 </p>
 <div class="source"><code>// 出力されるタグ:
-&lt;div class=&quot;form_field&quot;&gt;
+&lt;div class=&quot;form-field&quot;&gt;
   &lt;span class=&quot;field_element&quot;&gt;
     &lt;input type=&quot;radio&quot; value=&quot;yes&quot; name=&quot;agreement&quot; id=&quot;agreement&quot; /&gt;
     &lt;label for=&quot;agreement&quot;&gt;Agreement&lt;/label&gt;
@@ -3250,7 +3250,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Fri, 16 Aug 2013 23:38:46 +0900<br />
+  <p>This document was generated on Sat, 17 Aug 2013 23:10:50 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

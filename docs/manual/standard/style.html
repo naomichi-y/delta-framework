@@ -85,7 +85,7 @@
   <p>プログラムを記述するにあたり、標準的な次のタグを宣言する必要があります。</p>
   <dl>
     <dt>PHP Code# PHP タグの明示化</dt>
-    <dd class="lang_php"><code>&lt;?php</code></dd>
+    <dd class="lang-php"><code>&lt;?php</code></dd>
   </dl>
   <ul>
     <li>短縮型の &quot;&lt;?〜?&gt;&quot; は使用しないで下さい。OS や環境によってスクリプトが正しく認識されない可能性があります。</li>
@@ -98,7 +98,7 @@
   </ul>
   <dl>
     <dt>PHP Code# インデントの例</dt>
-    <dd class="lang_php"><code>{<br />
+    <dd class="lang-php"><code>{<br />
       &nbsp;&nbsp;// 2 つの空白記号を使用 <br />
       &nbsp;&nbsp;$foo = 0; <br />
       }</code></dd>
@@ -108,7 +108,7 @@
     <li>プログラムコードにおける一行辺りの長さは 80 文字、長くても 120 文字程度に抑えるべきです。あまりに長いコードは、使用しているエディタによっては可読性が下がります。コードが長くなる場合は途中で降り返して下さい。
       <dl>
         <dt>PHP Code# コードの折り返し</dt>
-        <dd class="lang_php"><code> public function hello() <br />
+        <dd class="lang-php"><code> public function hello() <br />
           {<br />
           &nbsp;&nbsp;// 可読性の低いコード<br />
           &nbsp;&nbsp;$message = sprintf('%sさん%s 前回のログインは%sです。', $this-&gt;getNickname(), $this-&gt;getGreeting(), $this-&gt;getLastLoginDate());<br />
@@ -139,7 +139,7 @@
       </ul>
       <dl>
         <dt>PHP Code# クラスコメントの例</dt>
-        <dd class="lang_php"><code>/**<br />
+        <dd class="lang-php"><code>/**<br />
           &nbsp;* クラスの概要を記述します。2 行目以降に定義されたコメントは概要と見なされないことに注意して下さい。<br />
           &nbsp;*　<br />
           &nbsp;* クラスの詳しい説明があれば記述します。<br />
@@ -165,7 +165,7 @@
       </ul>
       <dl>
         <dt>PHP Code# メソッドコメントの例</dt>
-        <dd class="lang_php"><code>/**<br />
+        <dd class="lang-php"><code>/**<br />
           &nbsp;* 挨拶文を返します。<br />
           &nbsp;* <br />
           &nbsp;* @param string $name 挨拶する相手の名前。<br />
@@ -194,11 +194,11 @@
     <li>演算子の前後には常に 1 つの余白記号を入れて下さい。
       <dl>
         <dt>PHP Code# 可読性の低いコード</dt>
-        <dd class="lang_php"><code>for($i=0;$i&lt;100;$i++){<br />
+        <dd class="lang-php"><code>for($i=0;$i&lt;100;$i++){<br />
           &nbsp;&nbsp;...<br />
           } </code></dd>
         <dt>PHP Code# 可読性の高いコード</dt>
-        <dd class="lang_php"><code>for ($i = 0; $i &lt; 100; $i++) {<br />
+        <dd class="lang-php"><code>for ($i = 0; $i &lt; 100; $i++) {<br />
           &nbsp;&nbsp;...<br />
           } </code></dd>
       </dl>
@@ -226,7 +226,7 @@
     <li>シングルクォートを含む文字列の場合は例外的にダブルクォートの使用が許可されます。
       <dl>
         <dt>PHP Code# 文字列リテラルの例</dt>
-        <dd class="lang_php"><code>// リテラル文字列の表現<br />
+        <dd class="lang-php"><code>// リテラル文字列の表現<br />
           $string = 'what'; <br />
           <br />
           // シングルクォートを含む文字列 <br />
@@ -239,7 +239,7 @@
     <li>複数の文字列を結合する場合は、&quot;.&quot; (ドット) 演算子を用います。&quot;.&quot; の前後には常に 1 つの空白記号が必要です。
       <dl>
         <dt>PHP Code# 文字列結合の例</dt>
-        <dd class="lang_php"><code>$string = 'Hello' . 'World';<br />
+        <dd class="lang-php"><code>$string = 'Hello' . 'World';<br />
           <br />
           // 文字列が長くなる場合は適宜改行する<br />
           $string = 'abcdefghijklmnopqrstuvwxyz'<br />
@@ -264,7 +264,7 @@
       </ul>
       <dl>
         <dt>PHP Code# SQL の記述例</dt>
-        <dd class="lang_php"><code>$sql = 'SELECT COUNT(id) '<br />
+        <dd class="lang-php"><code>$sql = 'SELECT COUNT(id) '<br />
           &nbsp;&nbsp;&nbsp;&nbsp; . 'FROM foo '<br />
           &nbsp;&nbsp;&nbsp;&nbsp; . 'WHERE bar = :bar '<br />
           &nbsp;&nbsp;&nbsp;&nbsp; . 'AND target_date BETWEEN :begin_date AND :end_date';<br />
@@ -282,7 +282,7 @@
     <li>配列に複数の要素を追加する場合、&quot;,&quot; (カンマ) の直後は 1 つの空白記号を入れて下さい。
       <dl>
         <dt>PHP Code# 配列宣言の例</dt>
-        <dd class="lang_php"><code>// 配列の初期化<br />
+        <dd class="lang-php"><code>// 配列の初期化<br />
           $array = array(100, 200, 300);<br />
           <br />
           // 要素数が多い場合は適宜改行する <br />
@@ -311,14 +311,14 @@
   </ul>
   <dl>
     <dt>PHP Code# 可読性の低いコード</dt>
-    <dd class="lang_php"><code>$foo = 100;<br />
+    <dd class="lang-php"><code>$foo = 100;<br />
       if($foo){<br />
       &nbsp;&nbsp;$foo = 200;<br />
       }else <br />
       &nbsp;&nbsp;$foo = 300;<br />
       $foo = 400; </code></dd>
     <dt>PHP Code# 可読性の高いコード</dt>
-    <dd class="lang_php"><code>$foo = 100;<br />
+    <dd class="lang-php"><code>$foo = 100;<br />
       <br />
       if($foo) {<br />
       &nbsp;&nbsp;$foo = 200;<br />
@@ -334,7 +334,7 @@
     <li>&quot;elseif&quot; は使用するべきではありません。&quot;else if&quot; を使用して下さい。
       <dl>
         <dt>PHP Code# if 文の定義</dt>
-        <dd class="lang_php"><code>if ($condition == 0) {<br />
+        <dd class="lang-php"><code>if ($condition == 0) {<br />
           &nbsp;&nbsp;$value = 0; <br />
           } else if ($condition == 1) {<br />
           &nbsp;&nbsp;$value = 1; <br />
@@ -346,7 +346,7 @@
     <li>値が含まれているかのチェックで &quot;if ($value)&quot; を使うべきではありません。$value に 0 が格納されている場合、この条件文は FALSE を返します。PHP の isset() 関数、または Delta_StringUtils#nullOrEmpty() を使用して下さい。
       <dl>
         <dt>PHP Code# 値の比較</dt>
-        <dd class="lang_php"><code>// FALSE を返す <br />
+        <dd class="lang-php"><code>// FALSE を返す <br />
           if ('0') {<br />
           }</code></dd>
       </dl>
@@ -355,7 +355,7 @@
     <li><code></code>変数の値や戻り値は厳密に比較して下さい。&quot;==&quot; ではなく、&quot;===&quot; や &quot;!==&quot; を使用するべきです
       <dl>
         <dt>PHP Code# 値の比較</dt>
-        <dd class="lang_php"><code>// TRUE を返す<br />
+        <dd class="lang-php"><code>// TRUE を返す<br />
           if ('0' == FALSE) {<br />
           }<br />
           <br />
@@ -371,7 +371,7 @@
   </ul>
   <dl>
     <dt>PHP Code# for 文の定義</dt>
-    <dd class="lang_php"><code>for ($i = 0; $i &lt; $cnt; $i++) {<br />
+    <dd class="lang-php"><code>for ($i = 0; $i &lt; $cnt; $i++) {<br />
       &nbsp;&nbsp;... <br />
       }</code></dd>
   </dl>
@@ -383,7 +383,7 @@
   </ul>
   <dl>
     <dt>PHP Code# switch case 文の定義 </dt>
-    <dd class="lang_php"><code>switch ($condition)
+    <dd class="lang-php"><code>switch ($condition)
       {<br />
       &nbsp;&nbsp;case 100:<br />
       &nbsp;&nbsp;&nbsp;
@@ -404,19 +404,19 @@
     <li>テンプレートファイル限定で次のような制御構造も認められます。
       <dl>
         <dt>Template Code# if 文の定義</dt>
-        <dd class="lang_template"><code>&lt;?php if ($html-&gt;hasErrors()): ?&gt;<br />
+        <dd class="lang-template"><code>&lt;?php if ($html-&gt;hasErrors()): ?&gt;<br />
           &lt;p&gt;エラーがあります。&lt;/p&gt;<br />
           &lt;?php elseif: ?&gt; <br />
           &lt;p&gt;エラーはありません。&lt;/p&gt;<br />
           &lt;?php endif; ?&gt; </code></dd>
         <dt>Template Code# for 文の定義</dt>
-        <dd class="lang_template"><code>&lt;ul&gt;<br />
+        <dd class="lang-template"><code>&lt;ul&gt;<br />
           &nbsp;&nbsp;&lt;?php for ($i = 0; $i &lt; 100; $i++): ?&gt;<br />
           &nbsp;&nbsp;&lt;li&gt;&lt;?php echo $i ?&gt;&lt;/li&gt; <br />
           &nbsp;&nbsp;&lt;?php endfor; ?&gt;<br />
           &lt;/p&gt; </code></dd>
         <dt>Template Code# while 文の定義</dt>
-        <dd class="lang_template"><code>&lt;ul&gt;<br />
+        <dd class="lang-template"><code>&lt;ul&gt;<br />
           &nbsp;&nbsp;&lt;?php while($current = $pager-&gt;next()) ?&gt;<br />
           &nbsp;&nbsp;&lt;li&gt;&lt;?php echo $current['name'] ?&gt;&lt;/li&gt; <br />
           &nbsp;&nbsp;&lt;?php endwhile; ?&gt;<br />
@@ -430,7 +430,7 @@
     <li>インデントは OTBS (One true brace) 形式とします。
       <dl>
         <dt>PHP Code# OSBS 形式のコード例</dt>
-        <dd class="lang_php"><code>class HelloWorld<br />
+        <dd class="lang-php"><code>class HelloWorld<br />
           {<br />
           &nbsp; public function greeting($name = NULL)<br />
           &nbsp;&nbsp;{<br />
@@ -449,7 +449,7 @@
   </ul>
   <dl>
     <dt>PHP Code# クラス定義の例</dt>
-    <dd class="lang_php"><code>class HelloWorld extends Delta_Object<br />
+    <dd class="lang-php"><code>class HelloWorld extends Delta_Object<br />
       {}</code></dd>
   </dl>
   <h3 id="classConstantName">クラス定数 </h3>
@@ -475,7 +475,7 @@
   </ul>
   <dl>
     <dt>PHP Code# アクセサを用いたプライベート変数へのアクセス</dt>
-    <dd class="lang_php"><code>class HelloWorld extends Delta_Object<br />
+    <dd class="lang-php"><code>class HelloWorld extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;private $_greeting;<br />
       <br />
@@ -534,7 +534,7 @@
   <p>次にコーディング規約に則ったメソッド定義の例を示します。</p>
   <dl>
     <dt>PHP Code# メソッドの宣言</dt>
-    <dd class="lang_php"><code>class HelloWorld extends Delta_Object<br />
+    <dd class="lang-php"><code>class HelloWorld extends Delta_Object<br />
       { <br />
       &nbsp;&nbsp;private $_greeting;<br />
       &nbsp;&nbsp;private $_name;<br />
@@ -582,7 +582,7 @@
         <li>ただし、IN 句や LIMIT 句など、一部のホルダではプリペアードステートメントを使用することはできません。インジェクションが発生しうるコードは必ず対象文字列のエスケープ処理を施して下さい。次のコードは典型的な SQL インジェクションの例です。
           <dl>
             <dt>PHP Code# LIMIT 句における SQL インジェクションの例</dt>
-            <dd class="lang_php"><code>// $limit はクライアントが送信した GET パラメータ<br />
+            <dd class="lang-php"><code>// $limit はクライアントが送信した GET パラメータ<br />
               public function find($limit)<br />
               {<br />
               &nbsp;&nbsp;$conn = $this-&gt;getConnection();<br />
@@ -634,7 +634,7 @@
     <li>例外のコンストラクタには例外の内容を表すメッセージを渡すべきです。例外はロガーの設定によってファイルに書き込まれることもありますが、メッセージがないと、後でログを見返した際に何の例外を指しているのか分からなくなります。
       <dl>
         <dt>PHP Code# メソッドの宣言</dt>
-        <dd class="lang_php"><code>// 不適切な例外スロー<br />
+        <dd class="lang-php"><code>// 不適切な例外スロー<br />
           throw new Delta_RequestException();<br />
           <br />
           //  適切な例外スロー <br />

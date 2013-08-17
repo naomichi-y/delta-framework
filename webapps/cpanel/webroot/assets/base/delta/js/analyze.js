@@ -84,10 +84,10 @@ $().ready( function () {
     pos = target.indexOf('::');
 
     var url = '/cpanel/analyzeActionDetail.do'
-             +'/module/' + target.substring(0, pos)
-             +'/action/' + target.substring(pos + 2)
-             +'/from/' + $('#from').val()
-             +'/to/' + $('#to').val()
+             +'?module=' + target.substring(0, pos)
+             +'&action=' + target.substring(pos + 2)
+             +'&from=' + $('#from').val()
+             +'&to=' + $('#to').val()
 
     detailDialog.dialog('option', 'position', [($(window).width() - dialogOffset) / 2, detailButtonOffset.top - $(window).scrollTop() + 25]);
     detailDialog.dialog('option', 'url', url);
@@ -104,8 +104,8 @@ $().ready( function () {
 
     pos = target.indexOf('::');
     var url = '/cpanel/analyzeActionDelete.do'
-             +'/module/' + target.substring(0, pos)
-             +'/action/' + target.substring(pos + 2);
+             +'?module=' + target.substring(0, pos)
+             +'&action' + target.substring(pos + 2);
 
     $.post(url, null, null, 'html');
 
@@ -158,8 +158,8 @@ $().ready( function () {
     var detailButtonWidth = $(this).width();
     var dialogOffset = detailDialog.dialog('option', 'width');
     var url = '/cpanel/analyzeActionSQL.do'
-             +'/actionRequestId/' + actionRequestId
-             +'?requestPath=' + encodeURIComponent(requestPath);
+             +'?actionRequestId=' + actionRequestId
+             +'&requestPath=' + encodeURIComponent(requestPath);
 
     detailDialog.dialog('option', 'position', [($(window).width() - dialogOffset) / 2, detailButtonOffset.top - $(window).scrollTop() + 25]);
     detailDialog.dialog('option', 'url', url);
@@ -219,19 +219,19 @@ $().ready( function () {
     var detailButtonWidth = $(this).width();
     var dialogOffset = detailDialog.dialog('option', 'width');
     var url = '/cpanel/analyzeSQLDetail.do'
-             +'/type/' + $('#type').val()
-             +'/from/' + $('#from').val()
-             +'/to/' + $('#to').val();
+             +'?type=' + $('#type').val()
+             +'&from=' + $('#from').val()
+             +'&to=' + $('#to').val();
     var moduleName = $('#module').val();
 
     if (moduleName.length) {
-      url += '/module/' + moduleName;
+      url += '&module=' + moduleName;
     }
 
     if (hash !== null) {
-      url += '/hash/' + hash;
+      url += '&hash=' + hash;
     } else {
-      url += '/id/' + sqlRequestId;
+      url += '&id=' + sqlRequestId;
     }
 
     detailDialog.dialog('option', 'position', [($(window).width() - dialogOffset) / 2, detailButtonOffset.top - $(window).scrollTop() + 25]);
@@ -249,7 +249,7 @@ $().ready( function () {
 
     pos = target.indexOf('::');
     var url = '/cpanel/analyzeSQLDelete.do'
-             +'/hash/' + target.substring(pos);
+             +'?hash=' + target.substring(pos);
     $.post(url, null, null, 'html');
 
     var speed = 200;
@@ -302,7 +302,7 @@ $().ready( function () {
       }
     });
   });
-  
+
   var changeSort = function(target) {
     var data = {};
     data['type'] = 'POST';

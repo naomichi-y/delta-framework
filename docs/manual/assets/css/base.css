@@ -116,6 +116,10 @@ textarea {
 }
 
 
+strong {
+  color: #E8673C;
+}
+
 footer {
   color: #ccc;
   background-color: #353431;
@@ -271,51 +275,51 @@ footer p {
  * ****************************************************************
  */
 
-.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code, .lang_html code, .lang_text code {
+.lang-php code, .lang-template code, .lang-yaml code, .lang-config code, .lang-shell code, .lang-html code, .lang-text code {
   padding: 1%;
   display: block;
   line-height: 150%;
 }
 
-.note_container {
+.note-container {
   margin-bottom: 2%;
 }
 
-.note_container ul, .note_container ol {
+.note-container ul, .note-container ol {
   margin: 1% 2% 1% 8%;
 }
 
-.note_hint, .note_info, .note_important {
+.note-hint, .note-info, .note-important {
   color: #fff;
 }
 
-.note_hint a, .note_info a, .note_important a {
+.note-hint a, .note-info a, .note-important a {
   color: #fff;
   text-decoration: underline;
 }
 
-.note_hint {
+.note-hint {
   background-color: #3498db;
 }
-.note_info {
+.note-info {
   background-color: #87b854;
 }
-.note_important {
+.note-important {
   background-color: #E8673C;
 }
 
-.note_bar {
+.note-bar {
   float: left;
   width: 40px;
   text-align: center;
   padding: 14px 10px 14px 10px;
 }
 
-.note_contents p {
+.note-contents p {
   padding: 2%;
 }
 
-.note_contents ul {
+.note-contents ul {
   padding: 2% 0 2% 0;
 }
 
@@ -458,19 +462,19 @@ span.error {
   font-weight: bold;
 }
 
-.form_field {
+.form-field {
   margin-bottom: 2%;
 }
 
-.form_field > label {
+.form-field > label {
   display: block;
 }
 
-.form_field fieldset {
+.form-field fieldset {
   padding: 1%;
 }
 
-.field_error_message {
+.field-error-message {
   color: #E8673C;
   font-weight: bold;
 }
@@ -496,17 +500,17 @@ span.error {
   border-bottom: 1px solid #999999;
 }
 
-.data_label {
+.data-label {
   font-weight: bold;
   float: left;
   width: 25%;
 }
 
-.data_content {
+.data-content {
   margin-left: 25%;
 }
 
-.data_content p, .data_content form {
+.data-content p, .data-content form {
   margin: 0;
 }
 

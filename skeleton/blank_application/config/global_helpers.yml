@@ -17,7 +17,6 @@ pager:
   ascendingLabel: '<img src="/assets/base/delta/images/sort_asc.png" width="7" height="7" class="sort-asc" alt="昇順に並び替え" />'
   descendingLabel: '<img src="/assets/base/delta/images/sort_desc.png" width="7" height="7" class="sort-desc" alt="降順に並び替え" />'
 
-
 site:
   class: Delta_SiteHelper
 

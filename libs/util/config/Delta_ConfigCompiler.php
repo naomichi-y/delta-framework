@@ -437,7 +437,7 @@ class Delta_ConfigCompiler extends Delta_Object
   {
     // global_helpers.yml が持つ属性を helpers.yml にマージ
     $baseConfig = Delta_Config::getCustomFile('global_helpers')->toArray();
-    $data = Delta_ArrayUtils::mergeRecursive($baseConfig, $data);
+    $data = Delta_ArrayUtils::merge($baseConfig, $data);
 
     return $this->compileGlobalHelpers($configPath, $data);
   }

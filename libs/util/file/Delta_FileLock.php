@@ -85,7 +85,7 @@ class Delta_FileLock extends Delta_Object
 
     if (!is_file($this->_targetPath)) {
       if (!is_dir($this->_baseDirectory)) {
-        Delta_FileUtils::createDirectoryRecursive($this->_baseDirectory);
+        Delta_FileUtils::createDirectory($this->_baseDirectory);
       }
 
       @touch($this->_targetPath);

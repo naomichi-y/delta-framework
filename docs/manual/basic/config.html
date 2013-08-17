@@ -33,41 +33,41 @@
     <p>設定ファイルを読み込む方法はとても簡単です。</p>
     <dl>
       <dt>YAML Code# config/application.yml</dt>
-      <dd class="lang_yaml"><code>debug: TRUE</code></dd>
+      <dd class="lang-yaml"><code>debug: TRUE</code></dd>
     </dl>
     <p>application.yml に 'debug: true' という属性が定義されてる場合、フレームワークからは次のコードで値を参照することができます。</p>
     <dl>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>// TRUE<br>
+      <dd class="lang-php"><code>// TRUE<br>
       $debug = Delta_Config::getApplication()-&gt;get('debug');</code></dd>
     </dl>
     <p><a href="../../api/reference/util.config/delta___config.html#method_get">Delta_ParameterHolder::get()</a> メソッドは属性名を &quot;.&quot; (ピリオド) 区切りで連結させることで、階層化された属性の値を取得することもできます。</p>
     <dl>
       <dt>YAML Code# config/application.yml</dt>
-      <dd class="lang_yaml"><code>	htmlEscape:<br>
+      <dd class="lang-yaml"><code>	htmlEscape:<br>
 &nbsp;&nbsp;function: htmlspecialchars        <br>
 &nbsp;&nbsp;flags: &lt;?php echo ENT_QUOTES ?&gt;<br>
       </code></dd>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>//　htmlspecialchars<br>
+      <dd class="lang-php"><code>//　htmlspecialchars<br>
         $function = Delta_Config::getApplication()-&gt;get('htmlEscape.function');</code></dd>
     </dl>
     <p>メソッドチェーン形式で値を取得することもできます。結果は変わらないため、用途や好みに合わせて使うと良いでしょう。</p>
     <dl>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>//　htmlspecialchars<br>
+      <dd class="lang-php"><code>//　htmlspecialchars<br>
       $function = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;get('function');</code></dd>
     </dl>
     <p>上記形式の場合、get('htmlEscape') メソッドは Delta_ParameterHolder オブジェクトを返します。このオブジェクトを展開すると次のような値が返されることが分かります。</p>
     <dl>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code> // array('function' =&gt; 'htmlspecialchars', 'flags' =&gt; 3)<br>
+      <dd class="lang-php"><code> // array('function' =&gt; 'htmlspecialchars', 'flags' =&gt; 3)<br>
 $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </code></dd>
     </dl>
     <p>設定ファイルの値を一時的に追加したり書き換えたい場合は set() メソッドを利用して下さい。</p>
     <dl>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>$config = Delta_Config::getApplication();<br>
+      <dd class="lang-php"><code>$config = Delta_Config::getApplication();<br>
         $config-&gt;set('foo', 'bar');<br>
         <br>
         // bar<br>
@@ -78,9 +78,9 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
       </code></dd>
     </dl>
     <p>書き換えた値は同一リクエスト内でのみ有効です。</p>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
+    <div class="note-container note-info">
+      <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note-contents">
         <ul>
           <li>フレームワークが提供する設定ファイルの値を恒久的に書き換えるメソッドは安全性の面から提供していません。ただしアプリケーションプログラマが作成したカスタムファイルを書き換えることは可能です (後述)。</li>
           <li>Delta_ParameterHolder::get() メソッドは属性値が配列で構成される場合にデータを Delta_ParameterHolder オブジェクトとして返します。データを特定の型 (配列や数値) で返したい場合は、<a href="../../api/reference/util/delta___parameter_holder.html#method_getArray">getArray()</a> や <a href="../../api/reference/util/delta___parameter_holder.html#method_getInt">getInt()</a> 等のメソッドを利用して下さい。</li>
@@ -122,9 +122,9 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
         <td>config/sites.yml + config/{hostname}.yml</td>
       </tr>
     </table>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
+    <div class="note-container note-info">
+      <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note-contents">
         <p>一部の設定ファイルは関連ファイルをマージした結果を返します。例えば getApplication() メソッドの場合、config/application.yml に 'foo: bar'、config/application_{hostname}.yml に 'foo: baz' が定義されていれば、戻り値は 'foo: baz' となります。詳しくは <a href="#extend_host">環境に合わせてファイルを参照する</a> を参照して下さい。</p>
       </div>
     </div>
@@ -134,7 +134,7 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
     <p>ホスト拡張ファイルがどのような働きをするか実際に見てみましょう。</p>
     <dl>
       <dt>YAML Code: config/application.yml</dt>
-      <dd class="lang_yaml"><code>database:<br />
+      <dd class="lang-yaml"><code>database:<br />
         &nbsp;&nbsp;default:<br />
         &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=localhost; dbname=dev'<br />
         &nbsp;&nbsp;&nbsp;&nbsp;user: webapp <br />
@@ -142,7 +142,7 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
     </dl>
     <dl>
       <dt>YAML Code: config/application_{hostname}.yml</dt>
-      <dd class="lang_yaml"><code># 属性のオーバーライド<br />
+      <dd class="lang-yaml"><code># 属性のオーバーライド<br />
         database:<br />
         &nbsp;&nbsp;default:<br />
         &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=192.168.0.1; dbname=dev<br />
@@ -152,7 +152,7 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
     </dl>
     <dl>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>$config = Delta_Config::getApplication();<br>
+      <dd class="lang-php"><code>$config = Delta_Config::getApplication();<br>
         <br>
         // array('dsn' =&gt; 'mysql:host=localhost; dbname=dev', 'user' =&gt; 'webapp', 'password' =&gt; 'webapp')<br>
         $config-&gt;get('database.default')-&gt;toArray();<br>
@@ -162,9 +162,9 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
         $config-&gt;get('addKey');</code></dd>
     </dl>
     <p>'database.default.dsn' の接続情報が書き換わり、新たに追加した属性が参照できるようになります。</p>
-    <div class="note_container note_info">
-      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-      <div class="note_contents">
+    <div class="note-container note-info">
+      <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note-contents">
         <p>ホスト拡張ファイルは、アプリケーション設定ファイル (application.yml)、サイト設定ファイル (sites.yml) でのみ有効です。</p>
       </div>
     </div>
@@ -172,7 +172,7 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
     <p>アプリケーションに合わせて新しいカスタムファイルを作成することもできます。</p>
     <dl>
       <dt>PHP Code#</dt>
-      <dd class="lang_php"><code>$config = Delta_Config::createCustomFile('new');<br>
+      <dd class="lang-php"><code>$config = Delta_Config::createCustomFile('new');<br>
         $config-&gt;set('greeting', 'HelloWorld');<br>
         $config-&gt;update();<br>
         <br>
@@ -187,9 +187,9 @@ $array = Delta_Config::getApplication()-&gt;get('htmlEscape')-&gt;toArray(); </c
     </dl>
     <p>createCustomFile() メソッドには作成するファイルを指定します。ここでは 'new' を指定したので、実際には config/new.yml ファイル が作成されたことになります。set() でデータを設定し、最後にupdate() メソッドを実行することでファイルにデータが書き込まれます。</p>
     <dl>
-      <dd class="lang_php">
+      <dd class="lang-php">
         <dl>
-          <dd class="lang_php">
+          <dd class="lang-php">
             <p class="right"><a href="#top">上へ</a></p></dd></dl></dd>
   </dl>
   </article>

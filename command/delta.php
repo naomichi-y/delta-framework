@@ -280,7 +280,7 @@ class Delta_CommandExecutor
       $result = $dialog->sendChoice($message, array('y', 'n'), FALSE);
 
     } else {
-      if (Delta_FileUtils::createDirectoryRecursive(APP_ROOT_DIR, 0755, TRUE)) {
+      if (Delta_FileUtils::createDirectory(APP_ROOT_DIR, 0755, TRUE)) {
         $result = TRUE;
 
       } else {
@@ -301,7 +301,7 @@ class Delta_CommandExecutor
 
       // スケルトンディレクトリのコピー
       $options = array('recursive' => TRUE, 'hidden' => TRUE);
-      Delta_FileUtils::copyRecursive(DELTA_BLANK_APP_DIR, APP_ROOT_DIR, $options);
+      Delta_FileUtils::copy(DELTA_BLANK_APP_DIR, APP_ROOT_DIR, $options);
 
       // deltac コマンドの実行権限付与
       $path = APP_ROOT_DIR . '/console/deltac';
@@ -371,7 +371,7 @@ class Delta_CommandExecutor
       $destinationPath = APP_ROOT_DIR . '/modules/' . $moduleName;
 
       $options = array('recursive' => TRUE);
-      Delta_FileUtils::copyRecursive($sourcePath, $destinationPath, $options);
+      Delta_FileUtils::copy($sourcePath, $destinationPath, $options);
 
       $contents = Delta_FileUtils::readFile($sourcePath . '/actions/IndexAction.php');
       $contents = str_replace('{%PACKAGE_NAME%}', $moduleName . '.actions', $contents);
@@ -406,13 +406,13 @@ class Delta_CommandExecutor
   {
     $demoDirectory = DELTA_ROOT_DIR . '/webapps/demo';
     $options = array('recursive' => TRUE);
-    Delta_FileUtils::copyRecursive($demoDirectory, APP_ROOT_DIR, $options);
+    Delta_FileUtils::copy($demoDirectory, APP_ROOT_DIR, $options);
 
     // site.yml のマージ
     $array1 = Spyc::YAMLLoad(APP_ROOT_DIR . '/config/site.yml');
     $array2 = Spyc::YAMLLoad($demoDirectory . '/config/site_merge.yml');
 
-    $config = Delta_ArrayUtils::mergeRecursive($array1, $array2);
+    $config = Delta_ArrayUtils::merge($array1, $array2);
 
     $custom = Delta_Config::createCustomFile('site');
     $custom->setArray($config);
@@ -424,7 +424,7 @@ class Delta_CommandExecutor
     $array1 = Spyc::YAMLLoad(APP_ROOT_DIR . '/config/global_helpers.yml');
     $array2 = Spyc::YAMLLoad($demoDirectory . '/config/global_helpers_merge.yml');
 
-    $config = Delta_ArrayUtils::mergeRecursive($array1, $array2);
+    $config = Delta_ArrayUtils::merge($array1, $array2);
 
     $custom = Delta_Config::createCustomFile('global_helpers');
     $custom->setArray($config);
@@ -597,7 +597,7 @@ class Delta_CommandExecutor
             $createPath = $basePath;
           }
 
-          Delta_FileUtils::createDirectoryRecursive($createPath);
+          Delta_FileUtils::createDirectory($createPath);
           $message = sprintf('  - %s', $createPath);
           $this->_output->writeLine($message);
 
@@ -862,7 +862,7 @@ class Delta_CommandExecutor
         }
 
         if (!is_dir($realOutputPath)) {
-          Delta_FileUtils::createDirectoryRecursive($realOutputPath);
+          Delta_FileUtils::createDirectory($realOutputPath);
         }
 
         $this->buildAPI($realSourcePath, $realOutputPath, $title, $excludes);

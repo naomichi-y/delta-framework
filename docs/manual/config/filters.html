@@ -112,7 +112,7 @@
       <td><p>フィルタに任意の値を設定し、initialize() メソッドで設定値を取得することが出来ます。</p>
         <dl>
           <dt>YAML Code# config/global_filters.yml</dt>
-          <dd class="lang_yaml"><code>sampleFilter:<br />
+          <dd class="lang-yaml"><code>sampleFilter:<br />
             &nbsp;&nbsp;class: SampleFilter <br />
             &nbsp;&nbsp;enable: TRUE<br />
             <br />
@@ -120,7 +120,7 @@
             &nbsp;&nbsp;foo: 100<br />
             &nbsp;&nbsp;bar: 200</code></dd>
           <dt>PHP Code# libs/filter/SampleFilter.php</dt>
-          <dd class="lang_php"><code>class SampleFilter extends Delta_Filter <br />
+          <dd class="lang-php"><code>class SampleFilter extends Delta_Filter <br />
             {<br />
             &nbsp;&nbsp;public function initialize($filterId, $holder)   {<br />
             &nbsp;&nbsp;&nbsp;&nbsp;// 100 を返す <br />
@@ -130,9 +130,9 @@
         </dl></td>
     </tr>
   </table>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
   </div>

@@ -58,9 +58,9 @@
       <td> (*1) </td>
     </tr>
   </table>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>アクションにおいてビューを返す場合は、ビヘイビアファイルにて表示するテンプレートを関連付ける必要があるため必須です。(global_behavior.yml にてビューが定義されている場合を除く)</p>
     </div>
   </div>
@@ -153,7 +153,7 @@
       <td>names に適用するコンバータのクラスやコンバートオプションを指定。
         <dl>
           <dt>YAML Code#</dt>
-          <dd class="lang_yaml"><code>convert: <br />
+          <dd class="lang-yaml"><code>convert: <br />
             &nbsp;&nbsp;stringFormatConverter: <br />
             &nbsp;&nbsp;&nbsp;&nbsp; names: customerName, mailAddress, birthYear, birthMonth, birthDay <br />
             &nbsp;&nbsp;converters:<br />
@@ -221,7 +221,7 @@
       <td>バリデータのインクルード指定。
         <dl>
           <dt>YAML Code#</dt>
-          <dd class="lang_yaml"><code>validate:<br />
+          <dd class="lang-yaml"><code>validate:<br />
             &nbsp;&nbsp;includes:<br />
             &nbsp;&nbsp;&nbsp;&nbsp;# Foo.yml を読み込む<br />
             &nbsp;&nbsp;&nbsp;&nbsp;- Foo<br />
@@ -268,7 +268,7 @@
           プレースホルダが複数ある場合は次のように記述する。</p>
         <dl>
           <dt>YAML Code#</dt>
-          <dd class="lang_yaml"><code>variables:<br />
+          <dd class="lang-yaml"><code>variables:<br />
             &nbsp;&nbsp;- FIELD_NAME: 名前<br />
             &nbsp;&nbsp;- MIN_SIZE: 8&nbsp;&nbsp; <br />
             &nbsp;&nbsp;- MAX_SIZE: 16 </code></dd>
@@ -402,7 +402,7 @@
       <td><p>アクションの実行結果を表示するためのテンプレートを指定。テンプレートパスを指定できる他、別のアクションへのフォワード処理を定義することも可能。</p>
         <dl>
           <dt>YAML Code# テンプレートへのディスパッチ指定 (一般例) </dt>
-          <dd class="lang_yaml"><code>view:<br />
+          <dd class="lang-yaml"><code>view:<br />
             &nbsp;success: success<br />
             &nbsp;error: foo/error</code></dd>
         </dl>
@@ -413,13 +413,13 @@
         </ul>
         <dl>
           <dt>YAML Code# テンプレートへのディスパッチ指定 (@指示子によるパスの相対指定) </dt>
-          <dd class="lang_yaml"><code>view:<br />
+          <dd class="lang-yaml"><code>view:<br />
             &nbsp;success: @webroot/success </code></dd>
         </dl>
         <p>アクションをフォワードする場合は forward 属性を使用して下さい。</p>
         <dl>
           <dt>YAML Code#</dt>
-          <dd class="lang_yaml"><code>view:<br />
+          <dd class="lang-yaml"><code>view:<br />
             &nbsp;&nbsp;success:<br />
             &nbsp;&nbsp;
             &nbsp;forward: Greeting<br />
@@ -429,9 +429,9 @@
         <p>上記例の場合、アクションが Delta_View::SUCCESS を返すと、Greeting アクションへフォワードされます。&quot;validate&quot; 属性 (オプション) はフォワード先でバリデータを実行するかどうかを設定します。(デフォルトは TRUE) </td>
     </tr>
   </table>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
   </div>
@@ -439,10 +439,10 @@
   <p>@ref 指示子を使うことで、他のビヘイビアに定義された値を参照することができます。</p>
   <dl>
     <dt>YAML Code# modules/{module}/behaviors/Foo.yml</dt>
-    <dd class="lang_yaml"><code># FooAction が起動した時は Bar.yml を参照<br />
+    <dd class="lang-yaml"><code># FooAction が起動した時は Bar.yml を参照<br />
       @ref: Bar</code></dd>
     <dt>YAML Code# modules/{module}/behaviors/Foo.yml</dt>
-    <dd class="lang_yaml"><code># 特定の属性に関してのみ他のビヘイビアを参照<br />
+    <dd class="lang-yaml"><code># 特定の属性に関してのみ他のビヘイビアを参照<br />
       safety:<br />
       &nbsp;&nbsp;@ref: Bar<br />
       <br />

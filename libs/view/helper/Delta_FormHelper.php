@@ -35,12 +35,12 @@
  *   # フィールド単位で出力するエラーメッセージの HTML タグを設定します。
  *   # 'error' 属性が FALSE の場合はタグ自体出力されません。
  *   #   - \1: エラーメッセージ。
- *   errorFieldTag: '<div class="field_error_message">\1</div>'
+ *   errorFieldTag: '<div class="field-error-message">\1</div>'
  *
  *   # フィールドを囲む HTML タグ。
  *   # ヘルパが生成する入力フィールド (ボタンを除く) は 'fieldTag' で囲まれます。
  *   #   - \1: フィールドタグ。フィールドに関連付くラベルやエラーメッセージも含まれます。
- *   fieldTag: '<div class="form_field">\n\1</div>'
+ *   fieldTag: '<div class="form-field">\n\1</div>'
  *
  *   # checkbox、radio の各要素を囲む HTML タグ。
  *   #   - \1: フィールド要素のタグ。
@@ -80,9 +80,9 @@ class Delta_FormHelper extends Delta_Helper
    */
   protected static $_defaultValues = array(
     'error' => TRUE,
-    'errorFieldTag' => "<div class=\"field_error_message\">\\1</div>",
+    'errorFieldTag' => "<div class=\"field-error-message\">\\1</div>",
     'containErrors' => "Contains an error entry. (\\1 errors)",
-    'fieldTag' => "<div class=\"form_field\">\n\\1</div>",
+    'fieldTag' => "<div class=\"form-field\">\n\\1</div>",
     'fieldElementTag' => "<span class=\"field_element\">\n\\1</span>",
     'fieldSeparatorTag' => "<span class=\"field_separator\">\\1</span>",
     'requiredTag' => '<span class="required">*</span>'
@@ -768,7 +768,7 @@ class Delta_FormHelper extends Delta_Helper
    * メソッドの使い方は {@link inputRadios()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
    * <code>
    * // 出力されるタグ:
-   * <div class="form_field">
+   * <div class="form-field">
    *   <span class="field_element">
    *     <input type="radio" value="yes" name="agreement" id="agreement" />
    *     <label for="agreement">Agreement</label>
@@ -834,7 +834,7 @@ class Delta_FormHelper extends Delta_Helper
    * メソッドの使い方は {@link inputCheckboxes()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
    * <code>
    * // 出力されるタグ:
-   * <div class="form_field">
+   * <div class="form-field">
    *   <span class="field_element">
    *     <input type="checkbox" value="yes" name="agreement" id="agreement" />
    *     <label for="agreement">Agreement</label>

@@ -224,6 +224,17 @@ class Delta_AuthorityUser extends Delta_Object
   }
 
   /**
+   * ユーザオブジェクトに設定されている全ての属性を破棄します。
+   *
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function clearAttributes()
+  {
+    $this->_context['attributes'] = array();
+  }
+
+  /**
    * ユーザオブジェクトに属性を設定します。
    * このメソッドは setAttribute() と異なり、persist で指定したタイミングで自動的に内容が破棄されます。
    *
@@ -544,15 +555,20 @@ class Delta_AuthorityUser extends Delta_Object
   /**
    * 現在エントリしているモジュールからログアウトします。
    *
+   * @param bool $clearAttribute ログアウト時にユーザが保持している全ての属性を削除する場合は TRUE を指定。
    * @return bool ログアウトが成功した場合は TRUE、失敗した (ログアウト済みの) 場合は FALSE を返します。
    * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function logout()
+  public function logout($clearAttribute = FALSE)
   {
     $result = FALSE;
 
     if ($this->isLogin()) {
+      if ($clearAttribute) {
+        $this->clearAttribute();
+      }
+
       $this->_context['login'] = FALSE;
       $result = TRUE;
     }

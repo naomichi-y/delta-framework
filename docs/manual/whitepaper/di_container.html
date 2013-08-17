@@ -24,9 +24,9 @@
   <article>
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2007 年 12 月 5 日</p>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>このドキュメントは情報が整備されておらず、情報が古い可能性があります。ドキュメントは新しく書き換える予定です。</p>
     </div>
   </div>
@@ -77,7 +77,7 @@
   <p>まず GreetingEnglish、GreetingJapanese クラスから作成しましょう。これらのクラスはその名の通り、各国語で挨拶をするためのメッセージクラスです。それぞれのクラスで getGreet() メソッドを定義し、挨拶文の文字列を返すよう実装します。</p>
   <dl>
     <dt>PHP Code# libs/components/GreetingEnglish.php</dt>
-    <dd class="lang_php"><code>class GreetingEnglish extends Delta_Object<br />
+    <dd class="lang-php"><code>class GreetingEnglish extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;public function getGreet()<br />
       &nbsp;&nbsp;{<br />
@@ -85,7 +85,7 @@
       &nbsp;&nbsp;}<br />
       }</code></dd>
     <dt>PHP Code# libs/components/GreetingJapanese.php</dt>
-    <dd class="lang_php"><code>class GreetingJapanese extends Delta_Object<br />
+    <dd class="lang-php"><code>class GreetingJapanese extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;public function getGreet()<br />
       &nbsp;&nbsp;{<br />
@@ -96,7 +96,7 @@
   <p>次にグローバルビヘイビアで挨拶を行うコンポーネントを登録します。ここでは components 属性を定義し、DI コンポーネントの登録を行います。componentNams には複数のコンポーネントを登録出来ますが、ここでは greeting というコンポーネント名で GreetingEnglish クラスを設定 (インジェクション) しています。コンポーネント名は DIContainer からコンポーネントを呼び出す際の名前になります。 </p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingEnglish<br />
@@ -105,7 +105,7 @@
   <p>以上でコンポーネントの登録は完了です。後は呼び出し元となるアクションクラスを作成しましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/action/GreetingClientAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;echo $this-&gt;greeting-&gt;getGreet();<br />
       <br />
@@ -117,7 +117,7 @@
   <p>LoadGreeting アクションを実行すると、画面には「Hello world!」の文字列が表示されるでしょう。もしインジェクションするクラスを変えたいのであれば、アクションビヘイビアを次のように書き換えて下さい。</p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 日本語の挨拶を返すコンポーネントを設定 <br />
@@ -125,9 +125,9 @@
   </dl>
   <p>もう一度 LoadGreeting アクションを実行すると、今度は「こんにちは!」を返すようになります。</p>
   <p>実際のアプリケーション開発では、クレジット決済や Web サービス連動など、テスト環境で実行が難しい処理があるかもしれません。そのような場合は場合は当該するビジネスロジックをコンポーネント化し、テスト環境ではモックオブジェクトを使っての動作テストが行えるよう実装すると良いでしょう。</p>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>getComponent() で呼び出されるオブジェクトのインスタンス形式はシングルトンになります。(<a href="#instance">インスタンスの管理</a> 参照) </p>
     </div>
   </div>
@@ -141,7 +141,7 @@
   <p>初めに global_behavior.yml でコンポーネントの登録を行います。 </p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
@@ -152,7 +152,7 @@
   <p>また、文字列以外に DIContainer へ登録済みのコンポーネントを渡すことも可能です。コンポーネントを引数に渡す場合、セッター値の形式は &quot;${コンポーネント名}&quot; となります。delta にはあらかじめ &quot;request&quot; というコンポーネント (デフォルトの実装は Delta_HttpRequest) が登録されていますが、これをセッターに渡すには次のようなコードになります。</p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;setterGreeting:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
@@ -162,7 +162,7 @@
   <p>当然ながらアプリケーション内で開発したコンポーネントを引数に渡すことも可能です。</p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;greeting:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Greeting <br />
@@ -176,7 +176,7 @@
   <p>次に GreetingSetterInjection クラスを作成します。ここではセッターインジェクションの動作を確認したいので、挨拶を設定、取得する setter/getter メソッドを定義しましょう。setter/getter メソッドの命名は、&quot;set&quot; + &quot;setter&quot; 属性に設定した名前になります。&quot;setter&quot; 属性の 1 文字目は大文字に変換されるので注意して下さい。つまり &quot;setter&quot; セッターが &quot;greet&quot; であれば、実際のメソッド名は setGreet() になります。(ゲッターに関して制約はないですが、セッターと合わせておいた方が良いでしょう)</p>
   <dl>
     <dt>PHP Code# libs/components/GreetingSetterInjection.php</dt>
-    <dd class="lang_php"><code>class GreetingSetterInjection extends Delta_Object<br />
+    <dd class="lang-php"><code>class GreetingSetterInjection extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;private $_greet; <br />
       <br />
@@ -199,7 +199,7 @@
   <p>それではメッセージがインジェクションされていることを確認するアクションを作成してみましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/GreetingSetterClientAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;echo  $this-&gt;greeting-&gt;getGreet();<br />
       <br />
@@ -209,7 +209,7 @@
   <p>特に目新しいコードはない筈です。DIContainer から greeting コンポーネントを取得後、ゲッターメソッドでメッセージを出力すると、文字列 &quot;Hello world&quot; が返されます。 </p>
   <dl>
     <dt>PHP Code# libs/components/GreetingSetterInjection.php</dt>
-    <dd class="lang_php"><code>class GreetingSetterInjection extends Delta_Object<br />
+    <dd class="lang-php"><code>class GreetingSetterInjection extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;private $_greet; <br />
       <br />
@@ -225,9 +225,9 @@
       &nbsp;&nbsp;} <br />
       }</code></dd>
   </dl>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>通常セッターとオートセッターの両方が指定されている場合は、通常セッターが優先されます。 </p>
     </div>
   </div>
@@ -241,7 +241,7 @@
   <p>global_behavior.yml に挨拶を行うコンポーネントを登録します。</p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;greetingConstructor:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingConstructor<br />
@@ -253,7 +253,7 @@
   <p>次にコンストラクタインジェクションを実装する GreetingConstructor クラスを作成します。</p>
   <dl>
     <dt>PHP Code# libs/components/GreetingConstructorInjection.php</dt>
-    <dd class="lang_php"><code>class GreetingConstructorInjection extends Delta_Object<br />
+    <dd class="lang-php"><code>class GreetingConstructorInjection extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;private $_greet; <br />
       <br />
@@ -272,7 +272,7 @@
   <p>それでは実際にコンストラクタインジェクションの動作を確認するアクションを作成してみましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/GreetingConstructorClientAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp; echo $this-&gt;greeting-&gt;getGreet();<br />
       <br />
@@ -292,7 +292,7 @@
   <p>global_behavior.yml に挨拶を行うコンポーネントを登録します。</p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;appendHello:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingSetterInjection<br />
@@ -329,7 +329,7 @@
   <p>それでは DIContainer に登録したコンポーネントを見ていきましょう。 </p>
   <dl>
     <dt>PHP Code# libs/components/GreetingSetter<em>Injection</em>.php</dt>
-    <dd class="lang_php"><code>class GreetingSetterInjection  extends Delta_Object<br />
+    <dd class="lang-php"><code>class GreetingSetterInjection  extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;private $_greet;<br />
       <br />
@@ -344,7 +344,7 @@
       &nbsp;&nbsp;} <br />
       }</code></dd>
     <dt>PHP Code# libs/components/GreetingMethodInjection.php</dt>
-    <dd class="lang_php"><code>class GreetingMethodInjection  extends Delta_Object<br />
+    <dd class="lang-php"><code>class GreetingMethodInjection  extends Delta_Object<br />
       {<br />
       &nbsp;&nbsp;private $_greet;<br />
       <br />
@@ -368,7 +368,7 @@
   <p>それでは実際にメソッドインジェクションの動作を確認するアクションを作成してみましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/GreetingMethodClientAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;echo $this-&gt;greeting-&gt;getGreet();<br />
       <br />
@@ -380,7 +380,7 @@
   <p>DI を使ってコンポーネントを呼び出すと、オブジェクトのインスタンスはデフォルトでシングルトンになります。インスタンス形式を変更したい場合は、&quot;instance&quot; 属性を設定ファイルに追加して下さい。インスタンスの管理はコンポーネント単位で指定することができます。</p>
   <dl>
     <dt>YAML Code# config/global_behavior.yml</dt>
-    <dd class="lang_yaml"><code>components:<br />
+    <dd class="lang-yaml"><code>components:<br />
       &nbsp;&nbsp;componentNames:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;greetingConstructor:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: GreetingConstructor<br />

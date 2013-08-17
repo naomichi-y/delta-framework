@@ -24,9 +24,9 @@
   <article>
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2009 年 12 月 28 日</p>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>このドキュメントは情報が整備されておらず、情報が古い可能性があります。ドキュメントは新しく書き換える予定です。</p>
     </div>
   </div>
@@ -41,7 +41,7 @@
     これは、delta が特定の拡張子を持つファイル以外のリクエストを全て index.php へリダイレクトするために起こる問題であり、.htaccess にリダイレクトから除外する拡張子を追加することで回避することができます。</p>
   <dl>
     <dt>Configuration Code: webroot/.htaccess</dt>
-    <dd class="lang_config"><code>RewriteEngine on<br />
+    <dd class="lang-config"><code>RewriteEngine on<br />
       <br />
       # リダイレクトしない拡張子に amc を追加<br />
       RewriteRule !\.(js|ico|gif|jpg|png|css|swf|amc)$ index.php </code></dd>
@@ -57,7 +57,7 @@
   <p>Alias 機能を用いてアプリケーションを公開している場合、URI は &quot;http://{host}/{alias}/&quot; といった形式になります。この場合、{alias} 部分に当たるエイリアス名を webroot/.htaccess において定義しておく必要があります。(デフォルトでは RewriteBase の値が &quot;/&quot; となっているため、&quot;http://{host}/&quot; にマッピングされています) </p>
   <dl>
     <dt>Configuration Code: webroot/.htaccess</dt>
-    <dd class="lang_config"> <code>RewriteEngine on<br />
+    <dd class="lang-config"> <code>RewriteEngine on<br />
       // エイリアス名を指定<br />
       <span class="update">RewriteBase /{alias}</span><br />
       RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php </code></dd>

@@ -257,7 +257,7 @@ class Delta_ParameterHolder extends Delta_Object implements Iterator, ArrayAcces
    */
   public function merge(array $array)
   {
-    $this->_array = Delta_ArrayUtils::mergeRecursive($this->_array, $array);
+    $this->_array = Delta_ArrayUtils::merge($this->_array, $array);
   }
 
   /**

@@ -21,8 +21,8 @@
         <p>プロジェクトのインストールが成功しました。設定情報に問題がないか確認して下さい。確認を終えた後は当アクション及びテンプレートは削除しておくことをお勧めします。</p>
         <ul class="data">
           <li>
-            <div class="data_label">PHP のバージョン</div>
-              <div class="data_content">
+            <div class="data-label">PHP のバージョン</div>
+              <div class="data-content">
               <?php if (!$html->hasError('php')): ?>
               <p>条件を満たしています。(<?php echo phpversion() ?> &gt;= 5.3)</p>
               <?php else: ?>
@@ -31,8 +31,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">デバッグモード</div>
-              <div class="data_content">
+            <div class="data-label">デバッグモード</div>
+              <div class="data-content">
               <?php if (Delta_DebugUtils::isDebug()): ?>
                 <p>有効な状態です。</p>
               <?php else: ?>
@@ -42,8 +42,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">ディレクトリ権限</div>
-            <div class="data_content">
+            <div class="data-label">ディレクトリ権限</div>
+            <div class="data-content">
               <?php if (!$html->hasError('permission')): ?>
                 <p>問題ありません。</p>
               <?php else: ?>
@@ -52,8 +52,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">ルーティング</div>
-            <div class="data_content">
+            <div class="data-label">ルーティング</div>
+            <div class="data-content">
               <?php if (!$html->hasError('route')): ?>
                 <p>問題ありません。</p>
               <?php else: ?>
@@ -62,8 +62,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">データベース接続</div>
-            <div class="data_content">
+            <div class="data-label">データベース接続</div>
+            <div class="data-content">
               <?php if (!$html->hasError('database')): ?>
                 <p>接続可能な状態です。</p>
               <?php else: ?>
@@ -73,8 +73,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">コントロールパネル</div>
-            <div class="data_content">
+            <div class="data-label">コントロールパネル</div>
+            <div class="data-content">
               <?php if (!$html->hasError('cpanel')): ?>
                 <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'cpanel', 'action' => 'LoginForm')) ?>
                   <p><?php echo $form->inputSubmit('起動', array('class' => 'btn')) ?></p>
@@ -86,8 +86,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">デモアプリケーション</div>
-            <div class="data_content">
+            <div class="data-label">デモアプリケーション</div>
+            <div class="data-content">
               <?php if (isset($hasDemoApp)): ?>
                 <?php if (!$html->hasError('demo')): ?>
                   <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'demo-front', 'action' => 'Start')) ?>

@@ -2,7 +2,7 @@
  * context
  */
 
-.delta_context {
+.delta-context {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 16px;
   color: #000000;
@@ -11,12 +11,12 @@
   font-size: 12px;
 }
 
-.delta_context dd {
+.delta-context dd {
   margin: 10px 40px 10px 40px;
   border: none;
 }
 
-.delta_context code {
+.delta-context code {
   font-family: "Courier New", Courier, monospace !important;
 }
 
@@ -24,28 +24,28 @@
  * stack trace
  */
 
-.delta_exception_trigger_code {
+.delta-exception-trigger {
   margin-bottom: 2%;
   border: 1px solid #999999;
 }
 
-.delta_exception_trigger_code dt {
+.delta-exception-trigger dt {
   color: #ffffff;
   padding: 6px 10px 6px 10px;
   background-color: #999999;
 }
 
-.delta_exception_trigger_code dd {
+.delta-exception-trigger dd {
   background-color: #efefef;
   margin: 0;
 }
 
-.delta_stack_traces .file_info {
+.delta-stack-traces .delta-file-info {
   font-weight: normal;
   font-style: italic;
 }
 
-.delta_stack_traces dt {
+.delta-stack-traces dt {
   font-weight: bold;
   padding: 6px;
   cursor: pointer;
@@ -53,7 +53,7 @@
   border: none;
 }
 
-.delta_context .delta_code_inspector {
+.delta-context .delta-code-inspector {
   border: 1px solid #999999;
   padding: 0;
 }
@@ -61,7 +61,7 @@
 /**
  * code inspector
  */
-.delta_code_inspector h2 {
+.delta-code-inspector h2 {
   font-size: 12px;
   padding: 6px;
   margin: 0;
@@ -70,25 +70,25 @@
   color: #ffffff;
 }
 
-.delta_stack_trace {
+.delta-stack-trace {
   background-color: #efefef;
   margin: 0;
 }
 
-.delta_stack_trace code {
+.delta-stack-trace code {
   border: none;
   background-color: transparent;
 }
 
 /**
- * dprint()
+ * Delta_DebugUtils::output()
  */
-.delta_dprint {
+.delta-debug-output {
   margin: 20px;
   border: 1px solid #333333;
 }
 
-.delta_dprint_title {
+.delta-debug-output-header {
   padding: 6px;
   text-indent: 10px;
   background-color: #3C6C92;
@@ -96,19 +96,19 @@
   margin: 0;
 }
 
-.delta_dprint_box {
+.delta-debug-output-container {
   padding: 10px;
   height: 300px;
   overflow: auto;
 }
 
-.delta_dprint_box .delta_dprint_detail dt {
+.delta-debug-output-container .delta-debug-output-message dt {
   padding: 6px;
   margin-left: 20px;
   border-bottom: 1px solid #999999;
 }
 
-.delta_dprint_box pre {
+.delta-debug-output-container pre {
   background-color: #efefef;
   padding: 10px;
   -webkit-border-radius: 6px;
@@ -118,13 +118,4 @@
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-
-/**
- * dtrace()
- */
-.delta_dtrace {
-  display: none;
-  color: red;
-}
-
 

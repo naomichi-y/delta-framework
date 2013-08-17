@@ -529,7 +529,7 @@ class Delta_HTMLHelper extends Delta_Helper
 
     // HTML エスケープを必要としない変数のリストをマージする
     if (sizeof($unescapeAttributes)) {
-      $variables = Delta_ArrayUtils::mergeRecursive($variables, $unescapeAttributes);
+      $variables = Delta_ArrayUtils::merge($variables, $unescapeAttributes);
     }
 
     $load($this->_pathMapping, $path, $variables);

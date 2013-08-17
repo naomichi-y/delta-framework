@@ -69,7 +69,7 @@
   <p>モジュールがインストールされていない場合、下記の手順に従ってモジュールのインストールが必要になります。</p>
   <dl>
     <dt>Shell Code# configure (Linux 環境における静的インストールの例)</dt>
-    <dd class="lang_shell"><code>$ cd /usr/local/src/php-x.x.x<br />
+    <dd class="lang-shell"><code>$ cd /usr/local/src/php-x.x.x<br />
       $ make clean<br />
       $ ./configure　--enable-mbstring --enable-spl --enable-pdo --with-pdo-mysql=/usr/local/mysql<br />
       $ make<br />
@@ -78,7 +78,7 @@
   <p>Windows 環境であれば php.ini ファイルでモジュールの追加が可能です。設定書き換え後は Web サーバを再起動して下さい。</p>
   <dl>
     <dt>Configration Code# php.ini (Windows 環境の例)</dt>
-    <dd class="lang_config"><code># コメントアウトを外してモジュールを有効化する<br />
+    <dd class="lang-config"><code># コメントアウトを外してモジュールを有効化する<br />
       extension=php_mbstring.dll<br />
       extension=php_pdo.dll<br />
       <br />
@@ -89,7 +89,7 @@
   <p>フレームワークを動作させる上で推奨する Web サーバは Apache 2.2 以降です。Apache を利用する場合、mod_alias と mod_rewrite モジュールが有効化されている必要があります。インストールされていない場合は次の手順に従ってモジュールをインストールしておいて下さい。</p>
   <dl>
     <dt>Shell Code# mod_rewrite の静的インストール (Linux の場合)</dt>
-    <dd class="lang_shell"><code>$ cd /usr/local/src/httpd-x.x.x<br />
+    <dd class="lang-shell"><code>$ cd /usr/local/src/httpd-x.x.x<br />
       $ make clean<br />
       $ ./configure --enable-rewrite --enable-alias<br />
       $ make<br />
@@ -98,7 +98,7 @@
   <p>Windows であれば httpd.conf ファイルから設定を変更することができます。設定書き換え後は Web サーバを再起動して下さい。</p>
   <dl>
     <dt>Configration Code# mod_rewrite を有効にする(Windows の場合)</dt>
-    <dd class="lang_config"><code># コメントアウトを外してモジュールを有効化する<br />
+    <dd class="lang-config"><code># コメントアウトを外してモジュールを有効化する<br />
       LoadModule alias_module modules/mod_alias.so<br />
       LoadModule rewrite_module modules/mod_rewrite.so<br />
       </code></dd>
@@ -108,16 +108,16 @@
   <p>データベースエンコーディングが UTF-8 以外の場合、MySQL であれば設定ファイル上で次のような指定が必要となるでしょう。</p>
   <dl>
     <dt>Shell Code# my.cnf の設定例</dt>
-    <dd class="lang_shell"><code>[mysqld]<br />
+    <dd class="lang-shell"><code>[mysqld]<br />
       default-character-set=utf8<br />
       <br />
       # Web サーバと DB サーバが同じ場合 <br />
       [client]<br />
       default-character-set=utf8 </code></dd>
   </dl>
-  <div class="note_container note_hint">
-    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note_contents">
+  <div class="note-container note-hint">
+    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note-contents">
       <ul>
         <li>エンコードの設定は使用する DB や環境によって変わります。詳しくはデータベースのマニュアルを参照して下さい。</li>
         <li>可能な限り、クライアントエンコーディングとデータベースエンコーディングは統一しておくべきです。</li>
@@ -152,7 +152,7 @@
   <p>以上で設定は完了です。コンソール上で delta と打ち込むことで次のような結果が表示されるようになります。</p>
   <dl>
     <dt>Shell Code# delta コマンドの使用 (Linux) </dt>
-    <dd class="lang_shell"><code>$ delta<br />
+    <dd class="lang-shell"><code>$ delta<br />
       Usage: <br />
       &nbsp;&nbsp;delta [Options] <br />
       <br />
@@ -171,7 +171,7 @@
   <p>それでは早速アプリケーションを格納するための入れ物であるプロジェクトを作成してみましょう。delta コマンドでプロジェクトを作成するには、&quot;create-project&quot; オプションを指定します。</p>
   <dl>
     <dt>Shell Code# プロジェクトの作成</dt>
-    <dd class="lang_shell"><code># 新規プロジェクトの作成<br />
+    <dd class="lang-shell"><code># 新規プロジェクトの作成<br />
       $ delta create-project<br />
       <br />
       # プロジェクトのインストールディレクトリ (未指定時はカレントディレクトリがインストール先となる)<br />
@@ -194,9 +194,9 @@
       </code></dd>
   </dl>
   <p>プロジェクトのインストールが完了したらプロジェクトディレクトリ (/var/www/first_project) に移動してみましょう。アプリケーションの骨組みとなる各種ディレクトリが作成されていることが分かります。</p>
-  <div class="note_container note_hint">
-    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note_contents">
+  <div class="note-container note-hint">
+    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note-contents">
       <p>各ディレクトリの役割については <a href="../appendix/directory_tree.html">ディレクトリ構成</a> を参照して下さい。</p>
     </div>
   </div>
@@ -204,7 +204,7 @@
   <p>最後に webroot ディレクトリを Web の公開ディレクトリとして設定します。</p>
   <dl>
     <dt>Configration Code# {httpd}/conf/extra/httpd-vhosts.conf (VirtualHost によるサイト設定) </dt>
-    <dd class="lang_config"><code>&lt;VirtualHost delta:80&gt;<br />
+    <dd class="lang-config"><code>&lt;VirtualHost delta:80&gt;<br />
       &nbsp;&nbsp;ServerName delta <br />
       &nbsp;&nbsp;DocumentRoot &quot;/var/www/first_project/webroot&quot; <br />
       <br />
@@ -214,15 +214,15 @@
   <p>{DELTA_ROOT_DIR} の部分にはフレームワークをインストールしたディレクトリを指定して下さい。</p>
   <p>全ての設定を書き換えたら Web サーバを再起動して下さい。ブラウザから &quot;http://delta/&quot; をリクエストするとインストール完了ページが表示されるようになります。</p>
   <p><img src="../assets/images/screenshots/install_success.png" alt="" width="767" height="431" class="border" /></p>
-  <div class="note_container note_hint">
-    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note_contents">
+  <div class="note-container note-hint">
+    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note-contents">
       <p>mod_rewrite が動作しない場合、<a href="../appendix/trouble_shooting.html#apacheAlias">.do を実行するとエラーが起きる</a> を参照して下さい。</p>
     </div>
   </div>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <ul>
         <li>webroot は Web に公開される唯一のルートディレクトリです。css (カスケーディングスタイルシート) や js (JavaScript) といった静的ファイルは全てこのディレクトリ下 (webroot/assets 下を推奨) に設置する必要があります。 </li>
         <li>cpanel は delta アプリケーションを管理するためのコントロールパネルです。主にクラスのひな形を作成したり、パフォーマンスを測定する機能を提供します。cpanel には &quot;http://{アプリケーションホスト名}/cpanel/&quot; でアクセスすることができます。</li>

@@ -95,16 +95,17 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
         $processTime = Delta_NumberUtils::roundDown($endTime - $this->_startTime, 3);
         $controller = Delta_FrontController::getInstance();
 
-        if ($controller->getSession()->isActive()) {
+        $request = $controller->getRequest();
+        $session = $request->getSession();
+        $route = $request->getRoute();
+
+        if ($session->isActive()) {
           $sessionId = $session->getId();
         } else {
           $sessionId = NULL;
         }
 
         // ActionRequest の生成
-        $request = $controller->getRequest();
-        $route = $request->getRoute();
-
         $report = array(
           'hostname' => php_uname('n'),
           'sessionId' => $sessionId,

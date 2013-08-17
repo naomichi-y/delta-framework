@@ -26,9 +26,9 @@
     最終更新日: 2010 年5 月 7 日</p>
   <h2>例外ハンドラの概要</h2>
   <p>フレームワークやアプリケーションから発生した全ての例外は、Delta_ExceptionHandler にハンドリングされます。Delta_ExceptionHandler はアプリケーションのデバッグ (application.yml の &quot;debug:output&quot; 属性) な有効な場合、例外内容に応じた問題箇所のトレースを出力します。 </p>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>ここでの例外は、Fatal ではない PHP エラーも含みます。PHP エラーは Delta_ErrorHandler にハンドリングされた後、ErrorException オブジェクトに変換されます。例外オブジェクト変換後は ErrorException::getSeverity() メソッドを通してエラーレベルを取得することが可能です。尚、アプリケーションのデバッグモードが無効の場合は、画面上に例外の内容や詳細は表示せず、問題が発生したことを指すメッセージのみ表示されます。 </p>
     </div>
   </div>
@@ -37,7 +37,7 @@
   <p>プロジェクトを作成した段階では、例外が起きた際にエラー内容をロギングするためのインターセプトハンドラが登録されています。アプリケーションディレクトリに含まれる application.yml を確認してみましょう。デフォルトでは次のような記述があります。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>exception: <br />
+    <dd class="lang-yaml"><code>exception: <br />
       &nbsp;&nbsp;- type: Exception<br />
       &nbsp;&nbsp;&nbsp;&nbsp;handler: Delta_ExceptionLoggingDelegate<br />
       &nbsp;&nbsp;&nbsp;&nbsp;duration: TRUE<br />
@@ -49,7 +49,7 @@
   <p>これは、Delta_ExceptionHandler がハンドリングした全ての例外を Delta_ExceptionLoggingDelegate、Delta_ExceptionStackTraceDelegate の順にインターセプトするという記述です。Delta_ExceptionLoggingDelegate はその名の通り、受け取った例外をファイルやメール通知でロギングします。ロギング先は application.yml に定義されたロガーの設定により異なりますが、プロジェクト作成直後の設定は次のようになっています。 </p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>logger: <br />
+    <dd class="lang-yaml"><code>logger: <br />
       &nbsp;&nbsp;errorFileAppender:<br />
       &nbsp;&nbsp;&nbsp; class: Delta_LoggerFileAppender # ファイルにロギング<br />
       &nbsp;&nbsp;&nbsp;&nbsp;file: error.log # ログを保存するファイル名<br />
@@ -62,9 +62,9 @@
   <p>更に Delta_ExceptionLoggingDelegate には duration という属性がありますが、この値を TRUE に設定することで、例外のハンドリング処理を続行することができます。FALSE を指定した場合は、Delta_ExceptionLoggingDelegate の処理が完了した時点でプログラムが終了します。</p>
   <p>後に続く Delta_ExceptionStackTraceDelegate は、発生した例外を元にスタックトレースを出力します。(下図参照)</p>
   <p><img src="../assets/images/screenshots/exception_stack_trace_handler.png" alt="" width="504" height="277" /></p>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>Delta_ExceptionStackTraceDelegate は、セキュリティ上の観点からデバッグ出力モードが有効時のみトレース情報を出力します。デバッグ出力を有効にするには、application.yml の debag.output 属性の値を TRUE に設定して下さい。 </p>
     </div>
   </div>
@@ -73,7 +73,7 @@
     まず初めに例外ハンドラクラスを作成します。クラス名は何でも良いのですが、ここでは慣例的に &quot;PDOExceptionHandler&quot; としました。</p>
   <dl>
     <dt>PHP Code# libs/handler/PDOExceptionHandler.php</dt>
-    <dd class="lang_php"><code>class PDOExceptionHandler extends Delta_ExceptionDelegate<br />
+    <dd class="lang-php"><code>class PDOExceptionHandler extends Delta_ExceptionDelegate<br />
       {<br />
       &nbsp;&nbsp;public static function handler($exception)<br />
       &nbsp;&nbsp;{<br />
@@ -96,7 +96,7 @@
   <p>クラスの作成が終わったら、設定ファイルにインターセプトハンドラの定義を追加しましょう。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>exception: <br />
+    <dd class="lang-yaml"><code>exception: <br />
       &nbsp;&nbsp;- type: PDOException<br />
       &nbsp;&nbsp;&nbsp;&nbsp;handler: PDOExceptionHandler<br />
       </code></dd>
@@ -108,7 +108,7 @@
   <p> &quot;exception&quot; には複数のハンドラを登録することができます。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>exception: <br />
+    <dd class="lang-yaml"><code>exception: <br />
       &nbsp;&nbsp;&nbsp;&nbsp;# CustomException はプロジェクト内で作成した独自の例外クラス<br />
       &nbsp;&nbsp;- type: CustomException<br />
       &nbsp;&nbsp;&nbsp;&nbsp;handler: CustomExceptionHandler<br />
@@ -122,7 +122,7 @@
     仮に &quot;type: Exception&quot; が上位に設定されていた場合、CustomException は Exception の子クラスのため、Delta_ExceptionLoggingDelegate が起動することになります。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>exception: <br />
+    <dd class="lang-yaml"><code>exception: <br />
       &nbsp;&nbsp;# その他全ての例外をハンドリング (CustomException も該当)<br />
       &nbsp;&nbsp;- type: Exception<br />
       &nbsp;&nbsp;&nbsp;&nbsp;handler: Delta_ExceptionLoggingDelegate<br />
@@ -134,7 +134,7 @@
   <p>&quot;type&quot; にはカンマ区切りで複数の例外を定義することも可能です。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>exception:<br />
+    <dd class="lang-yaml"><code>exception:<br />
       &nbsp;&nbsp;# CustomException、または Exception が発生した場合は Delta_ExceptionLoggingDelegate を起動<br />
       &nbsp;&nbsp;- type: CustomException, Exception<br />
       &nbsp;&nbsp;&nbsp;&nbsp;handler: Delta_ExceptionLoggingDelegate</code></dd>
@@ -144,7 +144,7 @@
     こういった場合は、&quot;duration&quot; 属性 (ハンドリング後も処理を続けるかどうか) を追加して下さい。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>exception: <br />
+    <dd class="lang-yaml"><code>exception: <br />
       &nbsp;&nbsp;- type: Exception<br />
       &nbsp;&nbsp;&nbsp;&nbsp;handler: Delta_ExceptionLoggingDelegate<br />
       &nbsp;&nbsp;&nbsp;&nbsp;duration: TRUE<br />

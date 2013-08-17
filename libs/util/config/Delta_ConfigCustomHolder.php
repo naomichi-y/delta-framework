@@ -48,7 +48,7 @@ class Delta_ConfigCustomHolder extends Delta_ParameterHolder
     $directory = dirname($this->_path);
 
     if (!is_dir($directory)) {
-      Delta_FileUtils::createDirectoryRecursive($directory);
+      Delta_FileUtils::createDirectory($directory);
     }
 
     Delta_CommonUtils::loadVendorLibrary('spyc/spyc.php');

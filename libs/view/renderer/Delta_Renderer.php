@@ -131,7 +131,7 @@ abstract class Delta_Renderer extends Delta_Object
   {
     // キャッシュディレクトリがない場合は作成
     if (!is_dir($this->_cacheDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($this->_cacheDirectory, 0777);
+      Delta_FileUtils::createDirectory($this->_cacheDirectory, 0777);
     }
 
    return $this->_cacheDirectory;

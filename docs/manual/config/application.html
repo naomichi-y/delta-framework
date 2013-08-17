@@ -48,9 +48,9 @@
       <td>&nbsp;</td>
     </tr>
   </table>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>application.yml には開発者がカスタムパラメータを定義するべきではありません。カスタムパラメータは <a href="site.html">site.yml</a> か、カスタム設定ファイル内に定義するべきです。</p>
     </div>
   </div>
@@ -469,7 +469,7 @@
         PHP タグによる定数値の指定のほか、(非推奨ですが) 数値による指定も可能です。
         <dl>
           <dt>YAML Code#</dt>
-          <dd class="lang_yaml"><code>error:<br />
+          <dd class="lang-yaml"><code>error:<br />
             &nbsp;&nbsp;catchLevel: &lt;?php echo E_ALL ?&gt;</code></dd>
         </dl></td>
     </tr>
@@ -587,9 +587,9 @@
       <td>delta コマンド (add-theme、add-module) がアプリケーションに空のディレクトリを作成する際、.gitkeep (Git リポジトリで空ディレクトリを管理するためのダミーファイル) を設置するかどうか。</td>
     </tr>
   </table>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <ul>
         <li>表内の (+) は、対象属性が複数回指定可能なことを表します。</li>
         <li>※1: <a href="#defaultForward">モジュールやアクションが見つからない場合の動作</a> の項も参照して下さい。 </li>
@@ -600,7 +600,7 @@
   <p>Delta_ClassLoader が参照するクラスの自動読み込みパスを追加します。</p>
   <dl>
     <dt>YAML Code#</dt>
-    <dd class="lang_yaml"><code>autoload:<br />
+    <dd class="lang-yaml"><code>autoload:<br />
       &nbsp;&nbsp;# {autoload_id}: {autoload_path} 形式。{autoload_id} はパスを一意に識別する ID<br />
       &nbsp;&nbsp;plugin: /var/lib/plguins<br />
       &nbsp;&nbsp;extension: /var/lib/extensions </code></dd>
@@ -646,7 +646,7 @@
   <p>アプリケーションのデフォルトエンコーディング形式を指定します。default で指定した形式は、内部・入力・出力エンコーディング (及び出力ヘッダ) にそれぞれ適用されます。また &quot;auto&quot; を指定することで、mbstring オプションによる個別のエンコーディング指定が可能となります。</p>
   <dl>
     <dt>YAML Code#</dt>
-    <dd class="lang_yaml"><code>default:<br />
+    <dd class="lang-yaml"><code>default:<br />
       &nbsp;&nbsp;charset: auto<br />
       <br />
       php:<br />
@@ -654,9 +654,9 @@
       &nbsp;&nbsp;mbstring.http_input: Shift_JIS<br />
       &nbsp;&nbsp;mbstring.http_output: Shift_JIS</code></dd>
   </dl>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>default に &quot;auto&quot; を指定する場合、mbstring.internal_encoding の指定は必須となります。オプションに &quot;pass&quot; や &quot;auto&quot;が指定されている場合は実行時にエラーが発生します。 </p>
     </div>
   </div>
@@ -664,16 +664,16 @@
   <p>php.ini の設定をアプリケーションレベルで上書きします。</p>
   <dl>
     <dt>YAML Code</dt>
-    <dd class="lang_yaml"><code>php:<br />
+    <dd class="lang-yaml"><code>php:<br />
       &nbsp;&nbsp;error_log: &lt;?php echo APP_ROOT_DIR . '/logs/fatal_log'; ?&gt;<br />
       &nbsp;&nbsp;display_errors: On<br />
       &nbsp;&nbsp;max_execution_time: 30 </code></dd>
   </dl>
   <h2 id="defaultForward">モジュールやアクションが見つからない場合の動作</h2>
   <p>リクエストされたモジュールやアクションが見つからない場合、ルータは設定ファイルに定義されたデフォルトモジュール (アクション) の起動を試みます。ルータが実行するマッチング処理は下表を参照して下さい。</p>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>コンソールアプリケーションは対象外です。コンソールアプリケーションでアクションが見つからない場合はその場で例外が発生します。 </p>
     </div>
   </div>

@@ -815,7 +815,7 @@ class Delta_APIGenerator extends Delta_Object
     $j = sizeof($from);
 
     for ($i = 0; $i < $j; $i++) {
-      Delta_FileUtils::copyRecursive($from[$i], $to[$i], array('recursive' => TRUE));
+      Delta_FileUtils::copy($from[$i], $to[$i], array('recursive' => TRUE));
     }
 
     // インデックスページの出力

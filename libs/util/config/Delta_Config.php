@@ -128,7 +128,7 @@ class Delta_Config extends Delta_Object
       $config2 = self::getArray($moduleConfigType);
 
       if ($config2) {
-        $merge = Delta_ArrayUtils::mergeRecursive($config1, $config2);
+        $merge = Delta_ArrayUtils::merge($config1, $config2);
       } else {
         $merge = $config1;
       }

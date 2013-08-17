@@ -29,7 +29,7 @@
   <p>まず初めに、テンプレートファイルにてフォームを作成します。</p>
   <dl>
     <dt>Template Code# modules/{module}/templates/member_register_confirm.php</dt>
-    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start('MemberRegisterDispatch') ?&gt;<br />
+    <dd class="lang-template"><code>&lt;?php echo $form-&gt;start('MemberRegisterDispatch') ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('修正', array('name' =&gt; 'dispatchMemberRegisterForm')) ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('登録', array('name' =&gt; 'dispatchMemberRegister')) ?&gt;<br />
       &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
@@ -38,7 +38,7 @@
   <p>テンプレートの作成が終わったら、次はリレーアクションを作成します。Delta_DispatchAction クラスは、Delta_Action クラスを基底としたディスパッチャです。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/MemberRegisterDispatchAction.php</dt>
-    <dd class="lang_php"><code>// Delta_DispatchAction クラスを継承<br />
+    <dd class="lang-php"><code>// Delta_DispatchAction クラスを継承<br />
       class MemberRegisterDispatchAction extends Delta_DispatchAction<br />
       {<br />
       &nbsp;&nbsp;// submit の name 属性に対応したメソッド<br />
@@ -54,9 +54,9 @@
       }</code></dd>
   </dl>
   <p>MemberRegisterDispatchAction クラスでは、dispatchMemberRegisterForm()、dispatchMemberRegister() メソッドが定義されており、submit が押下されたときに name 属性に記述された要素名 (アクションメソッド) を処理します。dispatch から始まるメソッドは、フォワード先となるアクション名 (文字列) を返すことで、リレー先となるアクションが処理されます。 </p>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>ディスパッチアクションにも通常のアクション同様、ビヘイビアを設定することが出来ます。 </p>
     </div>
   </div>

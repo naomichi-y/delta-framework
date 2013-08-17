@@ -103,7 +103,7 @@
   <p><a href="setup.html">delta のセットアップ</a> で hello モジュールを作成したことを覚えてますか? 正しくモジュールが作成されていれば、プロジェクトディレクトリの modules 下に hello というディレクトリができている筈です。もしディレクトリが存在しない場合は、コンソール上で次のコマンドを実行して下さい。</p>
   <dl>
     <dt>Shell Code# モジュールの作成</dt>
-    <dd class="lang_shell"><code># プロジェクトディレクトリに移動<br />
+    <dd class="lang-shell"><code># プロジェクトディレクトリに移動<br />
       cd /var/www <br />
       <br />
       # モジュールの追加<br />
@@ -143,16 +143,16 @@
     </tr>
   </table>
   <p>このうち重要なのは、actions、behaviors、templates ディレクトリです。それぞれのディレクトリの使い方については後述します。</p>
-  <div class="note_container note_hint">
-    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note_contents">
+  <div class="note-container note-hint">
+    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note-contents">
       <p>ディレクトリ構成の詳細については <a href="../appendix/directory_tree.html">ディレクトリ構成</a> を参照して下さい。</p>
     </div>
   </div>
   <p>次にアクションクラスを作成します。コンソールを立ち上げ、次のコマンドを入力して下さい。</p>
   <dl>
     <dt>Shell Code# アクションの作成</dt>
-    <dd class="lang_shell"><code>cd /var/www/modules/hello<br />
+    <dd class="lang-shell"><code>cd /var/www/modules/hello<br />
       delta --add-action<br />
       &gt; Package name [/] (e.g. foo/bar): <br />
       &gt; Add action name: Greeting <br />
@@ -169,9 +169,9 @@
       http://{host}/hello/greeting.do </dd>
   </dl>
   <p>今回の例の場合、Greeting アクションのリクエストパスは /hello/greeting.do となります。原則的には、アクション名を camelCaps 形式に変換した名前がリクエスト時のパスに使用されます。また、デフォルトの拡張子は .do ですが、拡張子を変更したり、拡張子をそもそも外すことも可能です。</p>
-  <div class="note_container note_hint">
-    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note_contents">
+  <div class="note-container note-hint">
+    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note-contents">
       <p>camelCaps 形式とは、変数名やメソッド名を決める時に 2 番目以降の単語の頭文字を大文字にする命名規約です。例えば &quot;Hello world&quot; の camelCaps 名は helloWorld となります。命名規則には他にも、先頭の英単語を大文字にするパスカルケース (HelloWorld)、アンダースコア形式で単語を連結するスネークケース (hello_world) といった規約が存在します。</p>
     </div>
   </div>
@@ -193,7 +193,7 @@
   <p>初めに GreetingAction.php を開いて下さい。</p>
   <dl>
     <dt>PHP Code# modules/hello/actions/GreetingAction.php</dt>
-    <dd class="lang_php"><code> class GreetingAction extends Delta_Action<br />
+    <dd class="lang-php"><code> class GreetingAction extends Delta_Action<br />
       {<br />
       &nbsp;&nbsp;public function execute()<br />
       &nbsp;&nbsp;{<br />
@@ -206,7 +206,7 @@
   <p>今回はプログラム学習でおきまりの Hello world! を試してみましょう。先ほどの execute() メソッド内に次のコードを追加して下さい。</p>
   <dl>
     <dt>PHP Code# modules/hello/actions/GreetingAction.php</dt>
-    <dd class="lang_php"><code> class GreetingAction extends Delta_Action<br />
+    <dd class="lang-php"><code> class GreetingAction extends Delta_Action<br />
       {<br />
       &nbsp;&nbsp;public function execute()<br />
       &nbsp;&nbsp;{<br />
@@ -220,7 +220,7 @@
   <p>$this-&gt;getView() は、config/base_dicon.yml に定義されたコンポーネント (オブジェクトと捉えて下さい) を参照します。実際に base_dion.yml を見てみましょう。</p>
   <dl>
     <dt>YAML Code# config/base_dicon.yml</dt>
-    <dd class="lang_yaml"> <code>componentNames: <br />
+    <dd class="lang-yaml"> <code>componentNames: <br />
       &nbsp;&nbsp;request: <br />
       &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpRequest <br />
       <br />
@@ -250,9 +250,9 @@
   </dl>
   <p>componentNames にはアプリケーションから参照可能なコンポーネントが定義されています。先ほどの view も定義されており、&quot;class: Delta_View&quot; が記述があります。これは、「view コンポーネントは Delta_View クラスのオブジェクトインスタンス」であることを意味します。つまり、$this-&gt;getView()-&gt;setAttribute() は Delta_View::setAttribute() メソッドを呼び出しているということです。</p>
   <p>$this-&gt;{component} によるコンポーネントの参照は、Delta_Action の親となる Delta_Object という抽象クラスによって実現されています。Delta_Object はフレームワークが提供する殆どのクラスの親となっているため、あらゆる場所からコンポーネントを参照することができます。</p>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>static メソッドからは $this を使ってのコンポーネント参照ができないので、Delta_DIContainerFactory クラスからコンポーネントを取得する必要があります。例えば view コンポーネントを取得したい場合のコードは Delta_DIContainerFactory::getContainer()-&gt;getComponent('view')、または getView() となります。詳しくは <a href="../../api/reference/kernel.container/delta___di_container.html">Delta_DIContainer クラス</a> を参照して下さい。</p>
     </div>
   </div>
@@ -261,20 +261,20 @@
   <p>次に Greeting.yml ファイルを見てみましょう。ビヘイビアファイルは、アクションを出力するビューの制御や、フォームから入力されたデータを検証するために使用されるアクションのための設定ファイルです。</p>
   <dl>
     <dt>YAML Code# modules/hello/behaviors/Greeting.yml</dt>
-    <dd class="lang_yaml"><code>view:<br />
+    <dd class="lang-yaml"><code>view:<br />
       &nbsp;&nbsp;success: greeting # modules/hello/templates/greeting.php を参照</code></dd>
   </dl>
   <p>view という属性が定義されており、その下に success: greeting とあります。これは GreetingAction の結果をどのビューに返すか、という指定になります。先ほど GreetingAction の execute() メソッドで Delta_View::SUCCESS を返しましたが、これは view の success に対応しています。つまり、GreetingAction が Delta_View::SUCCESS を返した時は greeting.php をテンプレートとして使用するという意味になります。同様に、アクションが Delta_View::ERROR を返す場合は、view.error に定義されたファイルが参照されるようになります。原則として、Delta_View の定数名を小文字にした名前が view の属性にマッピングされていると考えて下さい。</p>
   <p>また、アクションによっては条件によって返したいビューを変えたい場合がありますが、view 属性は複数のビューを定義することも可能です。次のコードを参照して下さい。</p>
   <dl>
     <dt>YAML Code# modules/hello/behaviors/Greeting.yml</dt>
-    <dd class="lang_yaml"><code>view:<br />
+    <dd class="lang-yaml"><code>view:<br />
       &nbsp;&nbsp;success: greeting # Delta_View::SUCCESS を返した際に表示するテンプレート<br />
       &nbsp;&nbsp;error: error</code><code> # Delta_View::ERROR を返した際に表示するテンプレート</code></dd>
   </dl>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>ここでは説明のために view 属性を定義していますが、Delta_View::SUCCESS を返すアクションでは、アクション名 (Greeting) とテンプレート名 (greeting) が同じ場合に view の定義を省略することができます。尚、後述しますが、アクション名はパスカルケース形式、テンプレート名はスネークケース形式の命名を利用します。view の定義を省略する場合、FooBar アクションに対応するテンプレート名は foo_bar となることに注意して下さい。</p>
     </div>
   </div>
@@ -283,7 +283,7 @@
     <p>続いてアクションの結果を返すテンプレートを見てみましょう。</p>
     <dl>
       <dt>Template Code# modules/hello/templates/greeting.php</dt>
-      <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
+      <dd class="lang-template"><code>&lt;!DOCTYPE html&gt;<br>
         &lt;html lang=&quot;ja&quot;&gt;<br>
         &nbsp;&nbsp;&lt;head&gt;<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
@@ -302,7 +302,7 @@
   </blockquote>
   <dl>
     <dt>Template Code# modules/hello/templates/greeting.php</dt>
-    <dd class="lang_template"><code>&lt;body&gt;<br />
+    <dd class="lang-template"><code>&lt;body&gt;<br />
       &nbsp;&nbsp;&lt;h1&gt;Skeleton template&lt;/h1&gt;<br />
       &nbsp;&nbsp;&lt;p&gt;&lt;?php echo $hello; ?&gt;&lt;/p&gt;<br />
       &lt;/body&gt;</code></dd>
@@ -353,9 +353,9 @@
       <td>アクション名を camelCaps 形式に変換。</td>
     </tr>
   </table>
-  <div class="note_container note_hint">
-    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note_contents">
+  <div class="note-container note-hint">
+    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note-contents">
       <p>より詳しい情報は <a href="../standard/naming.html">命名規則</a> を参照して下さい。</p>
     </div>
   </div>

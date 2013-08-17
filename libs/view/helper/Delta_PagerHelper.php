@@ -232,7 +232,7 @@ class Delta_PagerHelper extends Delta_Helper
   {
     // 不正なページ指定が行われた場合は 2 ページ目へのリンクパスを生成
     // 2 ページ目自体存在しない場合は FALSE を返す
-    return $this->buildLinkPath($this->_config['_nextPage']);
+    return $this->link($this->_config['_nextPage']);
   }
 
   /**
@@ -249,7 +249,7 @@ class Delta_PagerHelper extends Delta_Helper
       $previousPage = 1;
     }
 
-    return $this->buildLinkPath($previousPage);
+    return $this->link($previousPage);
   }
 
   /**
@@ -345,7 +345,7 @@ class Delta_PagerHelper extends Delta_Helper
 
       } else {
         $buffer .= preg_replace('/\\\1/',
-          $this->_html->link($i, $this->buildLinkPath($i)),
+          $this->_html->link($i, $this->link($i)),
           $linkListAnchorLabel);
       }
 
@@ -364,7 +364,7 @@ class Delta_PagerHelper extends Delta_Helper
    * @return string ページ番号を元に生成したリンクパスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function buildLinkPath($page, $queryData = array())
+  public function link($page, $queryData = array())
   {
     $pagerKey = $this->_config->getString('_pagerKey');
 
@@ -430,7 +430,7 @@ class Delta_PagerHelper extends Delta_Helper
     $name = $this->_config['_cipher']->encrypt($name);
     $parameters = array($this->_config->getString('_ascendingKey') => $name);
 
-    return $this->buildLinkPath($this->_config['_currentPage'], $parameters);
+    return $this->link($this->_config['_currentPage'], $parameters);
   }
 
   /**
@@ -445,7 +445,7 @@ class Delta_PagerHelper extends Delta_Helper
     $name = $this->_config['_cipher']->encrypt($name);
     $parameters = array($this->_config->getString('_descendingKey') => $name);
 
-    return $this->buildLinkPath($this->_config['_currentPage'], $parameters);
+    return $this->link($this->_config['_currentPage'], $parameters);
   }
 
   /**

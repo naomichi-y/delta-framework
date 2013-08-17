@@ -35,9 +35,9 @@
   <p>尚、アクションクラスの構成をパッケージ化した場合、対応するビヘイビアもアクションディレクトリと同様の構成に統一する必要があります。(コンソールアクションを除く)<br />
     例えば、actions/register/ProfileRegisterFormAction.php に対応するビヘイビアは、behaviors/register/ProfileRegisterForm.yml となります。behaviors ディレクトリの直下にファイルを置いても参照されない点に注意して下さい。<br />
   </p>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <ul>
         <li>※1: パッケージは多重に階層化されたディレクトリにも対応します。</li>
         <li>※2: アクションが所属するパッケージ名は、アクションクラス内から $this-&gt;getPackageName() メソッドをコールすることで取得可能です。</li>

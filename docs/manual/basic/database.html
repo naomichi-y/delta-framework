@@ -31,7 +31,7 @@
 <p>一般的な Web アプリケーションであれば、データベースと連携してデータを参照したり更新することが多いはずです。delta にはデータアクセスを手助けするための PDO ラッパーコンポーネントが提供されています。まず手始めに、データベースの接続情報を設定ファイルに定義するところから始めましょう。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>database:<br>
+    <dd class="lang-yaml"><code>database:<br>
         &nbsp;&nbsp;default:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=localhost; dbname=delta'<br />
       &nbsp;&nbsp;&nbsp;&nbsp;user: foo<br />
@@ -40,7 +40,7 @@
   <p>'database' 以下の属性がデータベースの設定情報となります。'default' はあらかじめ用意されたデータソース ID となり、複数のデータソースが定義できる仕組みとなっています。  もしあなたが構築するシステムがレプリケーションを必要とする場合、次のように複数のデータソースを定義するべきでしょう。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang_yaml"><code>database:<br>
+    <dd class="lang-yaml"><code>database:<br>
       &nbsp;&nbsp;default:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;dsn: 'mysql:host=localhost; dbname=delta'<br />
       &nbsp;&nbsp;&nbsp;&nbsp;user: foo<br />
@@ -101,16 +101,16 @@
       <td>永続接続モード。</td>
     </tr>
 </table>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
   </div>
   <p>それでは早速プログラムからデータベースに接続してみましょう。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang_php"><code>// Delta_DIController::getConnection()  (アクションやフィルタからコール可能)<br>
+    <dd class="lang-php"><code>// Delta_DIController::getConnection()  (アクションやフィルタからコール可能)<br>
       $database = $this-&gt;getDatabase();<br />
       <br />
       // コネクションを取得 ('default' データソースに接続)<br>
@@ -124,7 +124,7 @@
   <p>また、あまり利用する機会は多くないかもしれませんが、データソースをプログラム上で構築することもできます。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang_php"><code>$config = array();<br />
+    <dd class="lang-php"><code>$config = array();<br />
       $config['dsn'] = 'mysql:host=localhost; dbname=delta';<br />
       $config['user'] = 'foo';<br />
       $config['password'] = 'bar';<br>
@@ -132,9 +132,9 @@
       $database = $this-&gt;getDatabase();<br />
       $conn = $database-&gt;getConnectionWithConfig($config);</code></dd>
   </dl>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>データベースコンポーネントの実際は Delta_DatabaseManager であり、</p>
     </div>
   </div>

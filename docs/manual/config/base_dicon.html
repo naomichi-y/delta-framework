@@ -28,7 +28,7 @@
   <p>base_dicon.yml (ベースダイコンと読みます) は、DI コンテナによって管理されるコンポーネントの設定ファイルです。ファイルを開いてみると、base_dicon.yml にはあらかじめいくつかのコンポーネントが定義されていることが分かります。</p>
   <dl>
     <dt>YAML Code# config/base_dicon.yml</dt>
-    <dd class="lang_yaml"><code> componentNames:<br />
+    <dd class="lang-yaml"><code> componentNames:<br />
       &nbsp;&nbsp;controller:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_FrontController<br>
 <br>
@@ -60,7 +60,7 @@
   <p>フレームワーク上でコンポーネントのインスタンスを取得するには、次のようなコードを記述します。</p>
   <dl>
     <dt>PHP Code# コンポーネントのオブジェクトインスタンスを取得する</dt>
-    <dd class="lang_php"><code> // DI コンテナファクトリからコンポーネントを取得<br />
+    <dd class="lang-php"><code> // DI コンテナファクトリからコンポーネントを取得<br />
       $request = Delta_DIContainerFactory::getContainer()-&gt;getComponent('request');<br />
       <br />
       // あらかじめ base_dicon.yml に定義されたコンポーネントはエイリアスメソッドからアクセスすることも可能<br />
@@ -69,9 +69,9 @@
       // Delta_Object を継承したクラスからは $this-getRequest() でアクセスすることも可能 <br />
       $request = $this-&gt;getRequest(); </code></dd>
   </dl>
-  <div class="note_container note_hint">
-    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note_contents">
+  <div class="note-container note-hint">
+    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note-contents">
       <p><a href="../../api/reference/kernel.container/delta___di_container.html">Delta_DIContainer</a> のリファレンスも合わせて参照して下さい。</p>
     </div>
   </div>
@@ -154,9 +154,9 @@
       <td><a href="../whitepaper/di_container.html#instance">インスタンスの管理</a> の項を参照。</td>
     </tr>
   </table>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
   </div>

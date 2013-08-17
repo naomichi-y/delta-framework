@@ -810,16 +810,6 @@ view.helper
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_buildPath">buildPath()</a>                                                  </td>
-                        <td>
-                                                      <p>
-指定したページ番号を元にリンクパスを生成します。
-</p>
-                                                  </td>
-                        <td><a href="../view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
-                      </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
                                                       <a href="../view.helper/delta___helper.html#method_buildRequestPath">buildRequestPath()</a>                                                  </td>
@@ -1192,6 +1182,16 @@ name が指定した順序 sortType でソートされているかチェック�
                       </tr>
                                                                                                         <tr>
                                               <td>
+                                                      <a href="#method_link">link()</a>                                                  </td>
+                        <td>
+                                                      <p>
+指定したページ番号を元にリンクパスを生成します。
+</p>
+                                                  </td>
+                        <td><a href="../view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
                                                       <a href="#method_next">next()</a>                                                  </td>
                         <td>
                                                       <p>
@@ -1261,61 +1261,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                          <dt id="method_buildPath">buildPath()</dt>
-                    <dd>
-                      <div class="source"><code>public string buildPath($page, $queryData = array())</code></div>
-                                              <p>
-指定したページ番号を元にリンクパスを生成します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$page</td>
-                              <td>int</td>
-                              <td>
-                                                                  <p>
-ページ番号。
-</p>
-                                                              </td>
-                            </tr>
-                                                        <tr>
-                              <td>$queryData</td>
-                              <td>mixed</td>
-                              <td>
-                                                                  <p>
-パスに追加するクエリパラメータ。
-  array(&#039;{query_name}&#039; =&gt; &#039;{query_value}&#039;) 形式で指定可能。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-ページ番号を元に生成したリンクパスを返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                                                              <dt id="method_createHiddenFields">createHiddenFields()</dt>
+                                                                                                                                                                                                                <dt id="method_createHiddenFields">createHiddenFields()</dt>
                     <dd>
                       <div class="source"><code>public string createHiddenFields()</code></div>
                                               <p>
@@ -2090,7 +2036,61 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                          <dt id="method_next">next()</dt>
+                                                                                                          <dt id="method_link">link()</dt>
+                    <dd>
+                      <div class="source"><code>public string link($page, $queryData = array())</code></div>
+                                              <p>
+指定したページ番号を元にリンクパスを生成します。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$page</td>
+                              <td>int</td>
+                              <td>
+                                                                  <p>
+ページ番号。
+</p>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$queryData</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <p>
+パスに追加するクエリパラメータ。
+  array(&#039;{query_name}&#039; =&gt; &#039;{query_value}&#039;) 形式で指定可能。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <p>
+ページ番号を元に生成したリンクパスを返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_next">next()</dt>
                     <dd>
                       <div class="source"><code>public array next($escape = TRUE)</code></div>
                                               <p>
@@ -2143,7 +2143,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Fri, 16 Aug 2013 23:38:46 +0900<br />
+  <p>This document was generated on Sat, 17 Aug 2013 23:10:50 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

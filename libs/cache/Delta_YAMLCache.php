@@ -60,7 +60,7 @@ class Delta_YAMLCache extends Delta_Object
     $cacheDirectory = dirname($cachePath);
 
     if (!is_dir($cacheDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($cacheDirectory, 0777);
+      Delta_FileUtils::createDirectory($cacheDirectory, 0777);
     }
 
     $code = sprintf("<?php\n"
@@ -198,7 +198,7 @@ class Delta_YAMLCache extends Delta_Object
 
       if (is_file($extensionPath)) {
         $data2 = Spyc::YAMLLoad($extensionPath);
-        $data = Delta_ArrayUtils::mergeRecursive($data1, $data2);
+        $data = Delta_ArrayUtils::merge($data1, $data2);
 
       } else {
         $data = $data1;

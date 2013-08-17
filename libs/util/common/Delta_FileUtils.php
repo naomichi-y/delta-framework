@@ -206,7 +206,7 @@ class Delta_FileUtils
    * @throws Delta_IOException ディレクトリが既に存在する (かつ、force が FALSE) の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function createDirectoryRecursive($path, $faculty = 0775, $forceNewCreate = FALSE)
+  public static function createDirectory($path, $faculty = 0775, $forceNewCreate = FALSE)
   {
     $result = FALSE;
 
@@ -248,9 +248,9 @@ class Delta_FileUtils
           if ($result) {
             // 所有者とグループの設定
             if (sizeof($faculty) == 2) {
-              $result = self::chownRecursive($path, $faculty[1]);
+              $result = self::chown($path, $faculty[1]);
             } else {
-              $result = self::chownRecursive($path, $faculty[1], $faculty[2]);
+              $result = self::chown($path, $faculty[1], $faculty[2]);
             }
           }
 
@@ -274,7 +274,7 @@ class Delta_FileUtils
    * @return bool パーミッションの変更が成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function chmodRecursive($path, $mode = 0755)
+  public static function chmod($path, $mode = 0755)
   {
     if (!self::isAbsolutePath($path)) {
       $path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
@@ -300,7 +300,7 @@ class Delta_FileUtils
 
   /**
    * @access private
-   * @see Delta_FileUtils::chmodRecursive()
+   * @see Delta_FileUtils::chmod()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private static function chmodRecursiveCallback($path, $mode)
@@ -315,7 +315,7 @@ class Delta_FileUtils
       $filePath = $path . DIRECTORY_SEPARATOR . $file;
 
       if (is_dir($filePath)) {
-        if (!self::chmodRecursive($filePath, $mode)) {
+        if (!self::chmod($filePath, $mode)) {
           return FALSE;
         }
 
@@ -336,7 +336,7 @@ class Delta_FileUtils
    * @return bool 権限の変更が成功した場合は TRUE、失敗した場合は FALSE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function chownRecursive($path, $owner = NULL, $group = NULL)
+  public static function chown($path, $owner = NULL, $group = NULL)
   {
     if (!self::isAbsolutePath($path)) {
       $path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
@@ -366,7 +366,7 @@ class Delta_FileUtils
 
   /**
    * @access private
-   * @see Delta_FileUtils::chownRecursive()
+   * @see Delta_FileUtils::chown()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private static function chownRecursiveCallback($path, $owner, $group)
@@ -381,7 +381,7 @@ class Delta_FileUtils
       $filePath = $path . DIRECTORY_SEPARATOR . $file;
 
       if (is_dir($filePath)) {
-        if (!self::chownRecursive($filePath, $owner, $group)) {
+        if (!self::chown($filePath, $owner, $group)) {
           return FALSE;
         }
 
@@ -534,7 +534,7 @@ class Delta_FileUtils
    * @throws Delta_IOException コピー元、またはコピー先のディレクトリパスが不正な場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function copyRecursive($from, $to, array $options = array())
+  public static function copy($from, $to, array $options = array())
   {
     $array = array();
     $array['recursive'] = Delta_ArrayUtils::find($options, 'recursive', FALSE);
@@ -556,7 +556,7 @@ class Delta_FileUtils
       } else {
         $directory = dirname($to);
 
-        if (!is_dir($directory) && !self::createDirectoryRecursive($directory)) {
+        if (!is_dir($directory) && !self::createDirectory($directory)) {
           return FALSE;
         }
 
@@ -564,7 +564,7 @@ class Delta_FileUtils
       }
     }
 
-    if (!is_dir($to) && !self::createDirectoryRecursive($to)) {
+    if (!is_dir($to) && !self::createDirectory($to)) {
       return FALSE;
     }
 
@@ -573,7 +573,7 @@ class Delta_FileUtils
 
   /**
    * @access private
-   * @see Delta_FileUtils::copyRecursive()
+   * @see Delta_FileUtils::copy(
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   private static function copyRecursiveCallback($from, $to, array $options)
@@ -594,7 +594,7 @@ class Delta_FileUtils
       if ($options['recursive'] && is_dir($fromPath)) {
         $toPath = $to . DIRECTORY_SEPARATOR . $file;
 
-        if (!is_dir($toPath) && !self::createDirectoryRecursive($toPath)) {
+        if (!is_dir($toPath) && !self::createDirectory($toPath)) {
           return FALSE;
         }
 
@@ -607,7 +607,7 @@ class Delta_FileUtils
           continue;
         }
 
-        if (!is_dir($to) && !self::createDirectoryRecursive($to)) {
+        if (!is_dir($to) && !self::createDirectory($to)) {
           return FALSE;
         }
 
@@ -715,7 +715,7 @@ class Delta_FileUtils
     $result = TRUE;
 
     if (!is_dir($directory)) {
-      $result = self::createDirectoryRecursive($directory);
+      $result = self::createDirectory($directory);
     }
 
     if ($result) {
@@ -767,7 +767,7 @@ class Delta_FileUtils
 
     $directory = dirname($to);
 
-    if (!is_dir($directory) && !self::createDirectoryRecursive($directory)) {
+    if (!is_dir($directory) && !self::createDirectory($directory)) {
       return FALSE;
     }
 

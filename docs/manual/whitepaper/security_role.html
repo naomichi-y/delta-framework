@@ -29,7 +29,7 @@
   <p>ここでは仮に、system モジュール の MemberList アクションを実行できるロールをスタッフ (staff) と管理者 (manager) にします。この時のビヘイビアファイルは次のようになります。</p>
   <dl>
     <dt>YAML Code# modules/system/behaviors/MemberList.yml</dt>
-    <dd class="lang_yaml"><code> # roles 属性の下には許可するロールを列挙する<br />
+    <dd class="lang-yaml"><code> # roles 属性の下には許可するロールを列挙する<br />
       roles:<br />
       &nbsp;&nbsp;- staff<br />
       &nbsp;&nbsp;- manager<br />
@@ -39,7 +39,7 @@
   <p>今回は entry モジュールのみにフィルタ処理を行いたいので、モジュールレベルのフィルタクラスを作成します。libs 下に AuthenticationFilter クラスを作成し、次のようなコードを定義して下さい。</p>
   <dl>
     <dt>PHP Code# libs/filter/AuthenticationFilter.php</dt>
-    <dd class="lang_php"><code>class AuthenticationFilter extends Delta_Filter<br />
+    <dd class="lang-php"><code>class AuthenticationFilter extends Delta_Filter<br />
       {<br />
       &nbsp;&nbsp;public function doFilter($chain)<br />
       &nbsp;&nbsp;{<br />
@@ -59,7 +59,7 @@
   <p>次にフィルタの起動設定を記述します。</p>
   <dl>
     <dt>YAML Code# modules/entry/config/filter.yml</dt>
-    <dd class="lang_yaml"><code>authenticationFilter:<br />
+    <dd class="lang-yaml"><code>authenticationFilter:<br />
       &nbsp;&nbsp;class: AuthenticationFilter<br />
       &nbsp;&nbsp;enable: TRUE </code></dd>
   </dl>
@@ -97,7 +97,7 @@
   <p>ユーザにロールを追加する場合は、Delta_AuthorityUser#addRole($role) メソッドを使用します。通常は、ログインアクション等でユーザ認証が成功した際にロールを追加すると良いでしょう。 </p>
   <dl>
     <dt>PHP Code# modules/entry/actions/LoginAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$form = $this-&gt;getForm();<br />
       &nbsp;&nbsp;$loginId = $form-&gt;get('loginId');<br />

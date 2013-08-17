@@ -50,32 +50,32 @@
         <?php echo $form->start('GenerateDAO') ?>
           <ul class="data">
             <li>
-              <div class="data_label">参照データベース</div>
-              <div class="data_content">
+              <div class="data-label">参照データベース</div>
+              <div class="data-content">
                 <?php echo $form->select('namespace', $namespaceList) ?>
               </div>
             </li>
             <li>
-              <div class="data_label">対象テーブル</div>
-              <div class="data_content">
+              <div class="data-label">対象テーブル</div>
+              <div class="data-content">
                 <?php echo $form->select('tables', array('output' => $tables, 'values' => $tables), array('multiple' => 'multiple', 'size' => 10), array('error' => FALSE)) ?>
               </div>
             </li>
             <li>
-              <div class="data_label">生成クラス</div>
-              <div class="data_content">
+              <div class="data-label">生成クラス</div>
+              <div class="data-content">
                 <?php echo $form->inputCheckboxes('createType', $createType, NULL, array('error' => FALSE)) ?>
               </div>
             </li>
             <li id="row_base_dao_class_name">
-              <div class="data_label">DAO 基底クラス</div>
-              <div class="data_content">
+              <div class="data-label">DAO 基底クラス</div>
+              <div class="data-content">
                 <?php echo $form->inputText('baseDAOClassName') ?>
               </div>
             </li>
             <li id="row_base_entity_class_name">
-              <div class="data_label">エンティティ基底クラス</div>
-              <div class="data_content">
+              <div class="data-label">エンティティ基底クラス</div>
+              <div class="data-content">
                 <?php echo $form->inputText('baseEntityClassName') ?>
               </div>
             </li>

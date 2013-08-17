@@ -24,9 +24,9 @@
   <article>
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2007 年 12 月 5 日</p>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>このドキュメントは情報が整備されておらず、情報が古い可能性があります。ドキュメントは新しく書き換える予定です。</p>
     </div>
   </div>
@@ -49,7 +49,7 @@
   <p>実際のフィルタ定義サンプルを示します。</p>
   <dl>
     <dt>YAML Code# modules/{module}/config/filters.yml</dt>
-    <dd class="lang_yaml"><code># システムメンテナンスフィルタ<br />
+    <dd class="lang-yaml"><code># システムメンテナンスフィルタ<br />
       systemMaintenanceFilter:<br />
       &nbsp;&nbsp;class: SystemMaintenanceFilter<br />
       &nbsp;&nbsp;enable: TRUE</code></dd>
@@ -57,7 +57,7 @@
   <p>次にフィルタクラスを作成します。フィルタクラスは Delta_Filter 抽象クラスを実装していることに注目して下さい。</p>
   <dl>
     <dt>PHP Code# libs/SystemMaintenanceFilter.php</dt>
-    <dd class="lang_php"><code>class SystemMaintenanceFilter extends Delta_Filter<br />
+    <dd class="lang-php"><code>class SystemMaintenanceFilter extends Delta_Filter<br />
       {<br />
       &nbsp;&nbsp;public function doFilter($chain)<br />
       &nbsp;&nbsp;{<br />
@@ -101,7 +101,7 @@
     delta はアクションのディレクトリを自由に階層化することが出来ますが、パッケージフィルタを利用することで、アクションの階層単位でフィルタリング処理が可能になります。</p>
   <dl>
     <dt>ディレクトリ階層の例</dt>
-    <dd class="lang_php"><code>- actions<br />
+    <dd class="lang-php"><code>- actions<br />
       &nbsp;&nbsp;- PackageClient1Action.php<br />
       &nbsp;&nbsp;- foo<br />
       &nbsp;&nbsp;&nbsp;&nbsp;- PackageClient2Action.php<br />
@@ -112,7 +112,7 @@
   </dl>
   <dl>
     <dt>YAML Code# modules/{module}/config/filter.yml</dt>
-    <dd class="lang_yaml"><code>foo:<br />
+    <dd class="lang-yaml"><code>foo:<br />
       &nbsp;&nbsp;class: FooFilter <br />
       &nbsp;&nbsp;enable: TRUE<br />
       &nbsp;&nbsp;packages:<br />

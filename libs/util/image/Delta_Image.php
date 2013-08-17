@@ -775,7 +775,7 @@ class Delta_Image extends Delta_Object
     $directory = dirname($path);
 
     if (!file_exists($directory)) {
-      Delta_FileUtils::createDirectoryRecursive($directory);
+      Delta_FileUtils::createDirectory($directory);
     }
 
     $this->_destinationImageAttributes['path'] = $path;

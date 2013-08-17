@@ -37,7 +37,7 @@
   <p>文字列や配列データを JSON 形式で出力してみましょう。JSON 形式で出力を行うには、Delta_HttpResponse::writeJSON() メソッドを使用します。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$data = array('foo', 'bar', 'baz');<br />
       &nbsp;&nbsp;$this-&gt;getResponse()-&gt;writeJSON($data);<br />
@@ -48,12 +48,12 @@
   <p>出力されるコードは次のようになります。</p>
   <dl>
     <dt>HTML Code#</dt>
-    <dd class="lang_html"><code>[&quot;foo&quot;,&quot;bar&quot;,&quot;baz&quot;]</code></dd>
+    <dd class="lang-html"><code>[&quot;foo&quot;,&quot;bar&quot;,&quot;baz&quot;]</code></dd>
   </dl>
   <p> writeJSON() メソッドは適切な&nbsp;Content-Type ヘッダをクライアントに送信するため、開発者自ら Content-Type を設定する必要はありません。</p>
-  <div class="note_container note_info">
-    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note_contents">
+  <div class="note-container note-info">
+    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note-contents">
       <p>writeXXX()、setDownloadData() 等のメソッドでデータを書き込んだ場合、後に続く全ての出力は無効となります。書き込んだデータを破棄するには Delta_HttpResponse::clear() メソッドを実行して下さい。</p>
     </div>
   </div>
@@ -61,7 +61,7 @@
   <p>ファイルやデータベースから取得したバイナリデータを出力する場合は、Delta_HttpResponse::writeBinary() メソッドを使用すると良いでしょう。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;// ユーザがイメージ閲覧の権限を持っている<br />
       &nbsp;&nbsp;if ($this-&gt;getUser()-&gt;hasRole('photo')) {<br />
@@ -83,7 +83,7 @@
   <p>指定したデータをクライアントに強制的にダウンロードさせるには Delta_HttpResponse::setDownloadData() メソッドを使用します。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$data = read_file('data/foo.csv');<br />
       <br />
@@ -97,7 +97,7 @@
   <p>これまで紹介した方法はアクション上で一般的な出力形式にデータを変換するものでしたが、アプリケーションの機能によっては XML 形式でデータを出力したい、またはテンプレートの出力結果をダウンロードさせたいといった場面も出てくるでしょう。こうした場合はレスポンス出力時のヘッダを直接指定することで対応することができます。次のコードを確認して下さい。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/CSVDownloadAction.php</dt>
-    <dd class="lang_php"><code>public function execute()<br />
+    <dd class="lang-php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$response = $this-&gt;getResponse();<br />
       &nbsp;&nbsp;$response-&gt;setContentType('application/octet-stream');<br />
@@ -112,7 +112,7 @@
   <p>次にテンプレートファイルを編集します。</p>
   <dl>
     <dt>PHP Code# modules/{module}/templates/csv_download.php</dt>
-    <dd class="lang_template"><code>&lt;?php echo $greeting ?&gt;</code></dd>
+    <dd class="lang-template"><code>&lt;?php echo $greeting ?&gt;</code></dd>
   </dl>
   <p>サンプルコードらしく、割り当てられたコードを出力するだけの記述としました。出来上がったプログラムをブラウザから実行してみてください。ダウンロードダイアログが表示されましたか? それではファイルをダウンロードしてテキストエディタで開いてみましょう。想像される通り、中に書かれた文字列は hello となります。</p>
   <p class="right"><a href="#top">上へ</a></p>

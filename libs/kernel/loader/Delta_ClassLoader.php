@@ -425,7 +425,7 @@ class Delta_ClassLoader
     $classes = self::$_cache->get('autoload', 'autoload_vendors');
 
     if ($classes) {
-      $autoloaders = Delta_ArrayUtils::mergeRecursive($classes, self::$_preWriteAutoloaders);
+      $autoloaders = Delta_ArrayUtils::merge($classes, self::$_preWriteAutoloaders);
     } else {
       $autoloaders = self::$_preWriteAutoloaders;
     }

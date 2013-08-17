@@ -24,9 +24,9 @@
   <article>
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2008 年 3 月 11 日</p>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>このドキュメントは情報が整備されておらず、情報が古い可能性があります。ドキュメントは新しく書き換える予定です。</p>
     </div>
   </div>
@@ -42,7 +42,7 @@
   <p>それでは具体的なサンプルコードを見ていきましょう。初めに親となる MyAction クラスを作成します。MyAction クラスは、全てのアクションのベースとなる Delta_Action を継承します。 </p>
   <dl>
     <dt>PHP Code# libs/wrapper/MyAction.php</dt>
-    <dd class="lang_php"><code>class MyAction extends Delta_Action {<br />
+    <dd class="lang-php"><code>class MyAction extends Delta_Action {<br />
       &nbsp;&nbsp;// MyAction を継承した全てのアクションで初めに実行したい処理を定義 <br />
       &nbsp;&nbsp;public function initialize()<br />
       &nbsp;&nbsp;{<br />
@@ -55,9 +55,9 @@
       }<br />
       </code></dd>
   </dl>
-  <div class="note_container note_important">
-    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note_contents">
+  <div class="note-container note-important">
+    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note-contents">
       <p>initialize() メソッドを子クラスで継承する場合は、必ず親メソッド parent::initialize() を宣言して下さい。 親メソッドが呼びだされない場合は、予期しない動作が発生する可能性があります。 </p>
     </div>
   </div>
@@ -65,7 +65,7 @@
     子アクションは全て MyAction を継承するよう実装しています。 </p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/A_Action.php</dt>
-    <dd class="lang_php"><code>class A_Action extends MyAction <br />
+    <dd class="lang-php"><code>class A_Action extends MyAction <br />
       {<br />
       &nbsp;&nbsp;public function execute()<br />
       &nbsp;&nbsp;{<br />
