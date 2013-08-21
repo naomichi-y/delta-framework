@@ -61,6 +61,9 @@ class Delta_YAMLCache extends Delta_Object
 
     if (!is_dir($cacheDirectory)) {
       Delta_FileUtils::createDirectoryRecursive($cacheDirectory, 0777);
+
+    } else if (is_file($cachePath)) {
+      unlink($cachePath);
     }
 
     $code = sprintf("<?php\n"
