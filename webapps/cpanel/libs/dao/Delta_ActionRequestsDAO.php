@@ -13,12 +13,12 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function getBeginSummary()
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT summary_date '
+    $query = 'SELECT summary_date '
           .'FROM delta_action_requests '
           .'ORDER BY action_request_id ASC '
           .'LIMIT 1';
 
-    $resultSet = $conn->rawQuery($sql);
+    $resultSet = $conn->rawQuery($query);
     $summaryDate = $resultSet->readField(0);
 
     return $summaryDate;
@@ -27,12 +27,12 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function getEndSummary()
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT summary_date '
+    $query = 'SELECT summary_date '
           .'FROM delta_action_requests '
           .'ORDER BY action_request_id DESC '
           .'LIMIT 1';
 
-    $resultSet = $conn->rawQuery($sql);
+    $resultSet = $conn->rawQuery($query);
     $summaryDate = $resultSet->readField(0);
 
     return $summaryDate;
@@ -49,7 +49,7 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
     }
 
     $conn = $this->getConnection();
-    $sql = sprintf('SELECT module_name, action_name, request_count, TRUNCATE(total_process_time / request_count, 2) AS average_process_time, max_process_time, last_access_date '
+    $query = sprintf('SELECT module_name, action_name, request_count, TRUNCATE(total_process_time / request_count, 2) AS average_process_time, max_process_time, last_access_date '
           .'FROM '
           .'(SELECT module_name, action_name, COUNT(action_name) AS request_count, SUM(process_time) AS total_process_time, MAX(process_time) AS max_process_time, MAX(register_date) AS last_access_date '
           .'FROM delta_action_requests '
@@ -60,7 +60,7 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .'ORDER BY %s DESC '
           .'LIMIT 20', $orderColumn);
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':begin_summary_date', $beginSummaryDate);
@@ -75,7 +75,7 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function findSlowRequests($moduleName, $actionName, $beginSummaryDate, $endSummaryDate)
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT action_request_id, request_path, request_count, total_select_count / request_count AS average_select_count, total_insert_count / request_count AS average_insert_count, total_update_count / request_count AS average_update_count, total_delete_count / request_count AS average_delete_count, total_other_count / request_count AS average_other_count, TRUNCATE(total_process_time / request_count, 2) AS average_process_time, last_access_date '
+    $query = 'SELECT action_request_id, request_path, request_count, total_select_count / request_count AS average_select_count, total_insert_count / request_count AS average_insert_count, total_update_count / request_count AS average_update_count, total_delete_count / request_count AS average_delete_count, total_other_count / request_count AS average_other_count, TRUNCATE(total_process_time / request_count, 2) AS average_process_time, last_access_date '
           .'FROM ('
           .'SELECT MAX(action_request_id) AS action_request_id, request_path, SUM(select_count) AS total_select_count, SUM(insert_count) AS total_insert_count, SUM(update_count) AS total_update_count, SUM(delete_count) AS total_delete_count, SUM(other_count) AS total_other_count, SUM(process_time) AS total_process_time, COUNT(request_path) AS request_count, MAX(register_date) AS last_access_date '
           .'FROM delta_action_requests '
@@ -88,7 +88,7 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .') AS alias '
           .'LIMIT 20';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':action_name', $actionName);
@@ -104,13 +104,13 @@ class Delta_ActionRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function deleteByModuleAndAction($moduleName, $actionName)
   {
     $conn = $this->getConnection();
-    $sql = 'DELETE mar, msr FROM delta_action_requests mar, delta_sql_requests msr '
+    $query = 'DELETE mar, msr FROM delta_action_requests mar, delta_sql_requests msr '
           .'WHERE mar.action_request_id = msr.action_request_id '
           .'AND mar.module_name = :module_name '
           .'AND mar.action_name = :action_name '
           .'AND mar.hostname = :hostname';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':action_name', $actionName);

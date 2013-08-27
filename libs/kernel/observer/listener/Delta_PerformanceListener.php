@@ -53,9 +53,7 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
    */
   public function preProcess()
   {
-    $container = Delta_DIContainerFactory::getContainer();
-
-    $this->_profiler = $container->getComponent('database')->getProfiler();
+    $this->_profiler = Delta_DatabaseManager::getInstance()->getProfiler();
     $this->_profiler->start();
     $this->_startTime = microtime(TRUE);
 
@@ -94,11 +92,12 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
       $reporter = Delta_SQLProfiler::getInstance();
 
       try {
-        $router = Delta_Router::getInstance();
         $processTime = Delta_NumberUtils::roundDown($endTime - $this->_startTime, 3);
+        $controller = Delta_FrontController::getInstance();
 
-        $container = Delta_DIContainerFactory::getContainer();
-        $session = $container->getComponent('session');
+        $request = $controller->getRequest();
+        $session = $request->getSession();
+        $route = $request->getRoute();
 
         if ($session->isActive()) {
           $sessionId = $session->getId();
@@ -110,9 +109,9 @@ class Delta_PerformanceListener extends Delta_WebApplicationEventListener
         $report = array(
           'hostname' => php_uname('n'),
           'sessionId' => $sessionId,
-          'requestPath' => $container->getComponent('request')->getURI(FALSE),
-          'moduleName' => $router->getEntryModuleName(),
-          'actionName' => $router->getEntryActionName(),
+          'requestPath' => $request->getURI(FALSE),
+          'moduleName' => $route->getModuleName(),
+          'actionName' => $route->getActionName(),
           'selectCount' => $reporter->getSelectCount(),
           'insertCount' => $reporter->getInsertCount(),
           'updateCount' => $reporter->getUpdateCount(),

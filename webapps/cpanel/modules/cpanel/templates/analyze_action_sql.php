@@ -112,7 +112,7 @@ $().ready( function () {
             <td class="right"><?php echo $current->process_time ?> sec</td>
             <td><?php echo sprintf('%s::%s()', $current->class_name, $current->method_name) ?></td>
             <td class="center">
-              <?php echo $form->inputButton('詳細', array('class' => 'detail_statement', 'id' => 'sqlRequestId_' . $current->sql_request_id)) ?>
+              <?php echo $form->inputButton('詳細', array('class' => 'detail_statement btn', 'id' => 'sqlRequestId_' . $current->sql_request_id)) ?>
             </td>
           </tr>
         <?php endforeach ?>

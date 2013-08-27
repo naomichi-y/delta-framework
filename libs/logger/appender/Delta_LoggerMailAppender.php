@@ -189,10 +189,10 @@ class Delta_LoggerMailAppender extends Delta_LoggerAppender
               $superGlobals = $this->maskProtectKeywords($superGlobals, $protectKeywords, $protectMask);
             }
 
-            $container = Delta_DIContainerFactory::getContainer();
+            $controller = Delta_FrontController::getInstance()->getRequest();
             $array = array(
-              'REQUEST HEADERS' => $container->getComponent('request')->getHeaders(),
-              'RESPONSE HEADERS' => $container->getComponent('response')->getHeaders(),
+              'REQUEST HEADERS' => $controller->getHeaders(),
+              'RESPONSE HEADERS' => $controller->getHeaders(),
               '$_SERVER' => $superGlobals['server'],
               '$_GET' => $superGlobals['get'],
               '$_POST' => $superGlobals['post'],

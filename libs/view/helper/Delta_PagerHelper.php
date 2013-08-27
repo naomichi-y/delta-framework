@@ -94,10 +94,10 @@ class Delta_PagerHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
+    parent::__construct($currentView, $config);
+
     $this->_html = $currentView->getHelperManager()->getHelper('html');
     $this->_recordSet = $config['_recordSet'];
-
-    parent::__construct($currentView, $config);
   }
 
   /**
@@ -232,7 +232,7 @@ class Delta_PagerHelper extends Delta_Helper
   {
     // 不正なページ指定が行われた場合は 2 ページ目へのリンクパスを生成
     // 2 ページ目自体存在しない場合は FALSE を返す
-    return $this->buildPath($this->_config['_nextPage']);
+    return $this->link($this->_config['_nextPage']);
   }
 
   /**
@@ -249,7 +249,7 @@ class Delta_PagerHelper extends Delta_Helper
       $previousPage = 1;
     }
 
-    return $this->buildPath($previousPage);
+    return $this->link($previousPage);
   }
 
   /**
@@ -344,10 +344,9 @@ class Delta_PagerHelper extends Delta_Helper
         $buffer .= str_replace('\1', $i, $linkListCurrentLabel);
 
       } else {
-        $path = $this->_html->link($i, $this->buildPath($i));
-        $replace = preg_replace('/\\\1/', $path, $linkListAnchorLabel);
-
-        $buffer .= $replace;
+        $buffer .= preg_replace('/\\\1/',
+          $this->_html->link($i, $this->link($i)),
+          $linkListAnchorLabel);
       }
 
       $buffer .= "\n";
@@ -365,7 +364,7 @@ class Delta_PagerHelper extends Delta_Helper
    * @return string ページ番号を元に生成したリンクパスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function buildPath($page, $queryData = array())
+  public function link($page, $queryData = array())
   {
     $pagerKey = $this->_config->getString('_pagerKey');
 
@@ -397,9 +396,7 @@ class Delta_PagerHelper extends Delta_Helper
     $path = array('action' => $this->_config['_actionName']);
     $isAbsolutePath = $this->_html->isAbsolutePath();
 
-    $value = $this->buildRequestPath($path, $data, $isAbsolutePath);
-
-    return $value;
+    return $this->buildRequestPath($path, $data, $isAbsolutePath);
   }
 
   /**
@@ -433,7 +430,7 @@ class Delta_PagerHelper extends Delta_Helper
     $name = $this->_config['_cipher']->encrypt($name);
     $parameters = array($this->_config->getString('_ascendingKey') => $name);
 
-    return $this->buildPath($this->_config['_currentPage'], $parameters);
+    return $this->link($this->_config['_currentPage'], $parameters);
   }
 
   /**
@@ -448,7 +445,7 @@ class Delta_PagerHelper extends Delta_Helper
     $name = $this->_config['_cipher']->encrypt($name);
     $parameters = array($this->_config->getString('_descendingKey') => $name);
 
-    return $this->buildPath($this->_config['_currentPage'], $parameters);
+    return $this->link($this->_config['_currentPage'], $parameters);
   }
 
   /**

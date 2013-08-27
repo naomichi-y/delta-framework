@@ -68,9 +68,10 @@ class Delta_ExceptionHandler
         ob_end_clean();
 
         $arguments = array(&$buffer);
-        Delta_KernelEventObserver::getInstance()->dispatchEvent('preOutput', $arguments);
+        $controller = Delta_FrontController::getInstance();
+        $controller->getObserver()->dispatchEvent('preOutput', $arguments);
 
-        $response = Delta_DIContainerFactory::getContainer()->getComponent('response');
+        $response = $controller->getResponse();
         $response->write($buffer);
         $response->flush();
       }

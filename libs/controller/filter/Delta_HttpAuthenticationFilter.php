@@ -27,7 +27,7 @@ abstract class Delta_HttpAuthenticationFilter extends Delta_Filter
    */
   public function getRealm()
   {
-    return Delta_Router::getInstance()->getEntryModuleName();
+    return Delta_FrontController::getInstance()->getRequest()->getRoute()->getModuleName();
   }
 
   /**

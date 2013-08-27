@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta charset="UTF-8" />
-    <title>delta 1.1 API Reference - Delta_PagerHelper</title>
+    <title>delta 1.2 API Reference - Delta_PagerHelper</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
     <link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
@@ -25,7 +25,7 @@
           <!--#include virtual="/global_assets/content/navi.php" -->
         </div>
       </div>
-      <h1 id="top">delta 1.1 API Reference</h1>
+      <h1 id="top">delta 1.2 API Reference</h1>
     </header>
     <div id="contents">
       <div class="row">
@@ -75,6 +75,7 @@
         <span>controller</span>
         <ul style="display: none;">
                       <li><a href="../controller/delta___front_controller.html" title="Delta_FrontController">Delta_FrontController</a></li>
+                      <li><a href="../controller/delta___web_application.html" title="Delta_WebApplication">Delta_WebApplication</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -82,7 +83,6 @@
         <span>controller.action</span>
         <ul style="display: none;">
                       <li><a href="../controller.action/delta___action.html" title="Delta_Action">Delta_Action</a></li>
-                      <li><a href="../controller.action/delta___action_stack.html" title="Delta_ActionStack">Delta_ActionStack</a></li>
                       <li><a href="../controller.action/delta___dispatch_action.html" title="Delta_DispatchAction">Delta_DispatchAction</a></li>
                   </ul>
       </li>
@@ -101,6 +101,22 @@
                       <li><a href="../controller.filter/delta___login_filter.html" title="Delta_LoginFilter">Delta_LoginFilter</a></li>
                       <li><a href="../controller.filter/delta___maintenance_filter.html" title="Delta_MaintenanceFilter">Delta_MaintenanceFilter</a></li>
                       <li><a href="../controller.filter/delta___sql_logging_filter.html" title="Delta_SQLLoggingFilter">Delta_SQLLoggingFilter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.forward</span>
+        <ul style="display: none;">
+                      <li><a href="../controller.forward/delta___forward.html" title="Delta_Forward">Delta_Forward</a></li>
+                      <li><a href="../controller.forward/delta___forward_stack.html" title="Delta_ForwardStack">Delta_ForwardStack</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.router</span>
+        <ul style="display: none;">
+                      <li><a href="../controller.router/delta___route.html" title="Delta_Route">Delta_Route</a></li>
+                      <li><a href="../controller.router/delta___route_resolver.html" title="Delta_RouteResolver">Delta_RouteResolver</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -242,6 +258,28 @@
       </li>
           <li class="expandable">
         <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session</span>
+        <ul style="display: none;">
+                      <li><a href="../http.request.session/delta___http_session.html" title="Delta_HttpSession">Delta_HttpSession</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session.handler</span>
+        <ul style="display: none;">
+                      <li><a href="../http.request.session.handler/delta___apc_session_handler.html" title="Delta_APCSessionHandler">Delta_APCSessionHandler</a></li>
+                      <li><a href="../http.request.session.handler/delta___database_session_handler.html" title="Delta_DatabaseSessionHandler">Delta_DatabaseSessionHandler</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session.user</span>
+        <ul style="display: none;">
+                      <li><a href="../http.request.session.user/delta___authority_user.html" title="Delta_AuthorityUser">Delta_AuthorityUser</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
         <span>http.response</span>
         <ul style="display: none;">
                       <li><a href="../http.response/delta___http_response.html" title="Delta_HttpResponse">Delta_HttpResponse</a></li>
@@ -250,33 +288,10 @@
       </li>
           <li class="expandable">
         <div class="hitarea expandable-hitarea"></div>
-        <span>http.session</span>
-        <ul style="display: none;">
-                      <li><a href="../http.session/delta___http_session.html" title="Delta_HttpSession">Delta_HttpSession</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
-        <span>http.session.handler</span>
-        <ul style="display: none;">
-                      <li><a href="../http.session.handler/delta___apc_session_handler.html" title="Delta_APCSessionHandler">Delta_APCSessionHandler</a></li>
-                      <li><a href="../http.session.handler/delta___database_session_handler.html" title="Delta_DatabaseSessionHandler">Delta_DatabaseSessionHandler</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
-        <span>http.session.user</span>
-        <ul style="display: none;">
-                      <li><a href="../http.session.user/delta___authority_user.html" title="Delta_AuthorityUser">Delta_AuthorityUser</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
         <span>kernel.container</span>
         <ul style="display: none;">
                       <li><a href="../kernel.container/delta___di_container.html" title="Delta_DIContainer">Delta_DIContainer</a></li>
                       <li><a href="../kernel.container/delta___di_container_factory.html" title="Delta_DIContainerFactory">Delta_DIContainerFactory</a></li>
-                      <li><a href="../kernel.container/delta___di_controller.html" title="Delta_DIController">Delta_DIController</a></li>
                       <li><a href="../kernel.container/delta___object.html" title="Delta_Object">Delta_Object</a></li>
                   </ul>
       </li>
@@ -320,13 +335,6 @@
         <ul style="display: none;">
                       <li><a href="../kernel.path/delta___app_path_manager.html" title="Delta_AppPathManager">Delta_AppPathManager</a></li>
                       <li><a href="../kernel.path/delta___theme.html" title="Delta_Theme">Delta_Theme</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
-        <span>kernel.path.router</span>
-        <ul style="display: none;">
-                      <li><a href="../kernel.path.router/delta___router.html" title="Delta_Router">Delta_Router</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -684,7 +692,7 @@ view.helper
                                                               <tr>
                 <th class="left">Inheritance</th>
                 <td>
-                  Delta_PagerHelper                                       &raquo; <a href="../view.helper/delta___helper.html">Delta_Helper</a> &raquo; <a href="../kernel.container/delta___di_controller.html">Delta_DIController</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
+                  Delta_PagerHelper                                       &raquo; <a href="../view.helper/delta___helper.html">Delta_Helper</a> &raquo; <a href="../controller/delta___web_application.html">Delta_WebApplication</a> &raquo; <a href="../kernel.container/delta___object.html">Delta_Object</a>                                  </td>
               </tr>
                                           <tr>
                 <th class="left">Source file</th>
@@ -714,7 +722,7 @@ view.helper
                     </tr>
                                                                                             <tr class="inheritanceProperties">
                                                   <td>
-                                                          <a href="../view.helper/delta___helper.html#property__baseRouter">$_baseRouter</a>                                                      </td>
+                                                          <a href="../view.helper/delta___helper.html#property__baseRouteName">$_baseRouteName</a>                                                      </td>
                           <td>
                                                           string                                                      </td>
                           <td>
@@ -761,10 +769,10 @@ view.helper
                                                   <td>
                                                           <a href="../view.helper/delta___helper.html#property__router">$_router</a>                                                      </td>
                           <td>
-                                                          <a href="../kernel.path.router/delta___router.html">Delta_Router</a>                                                      </td>
+                                                          <a href="../controller.router/delta___route_resolver.html">Delta_RouteResolver</a>                                                      </td>
                           <td>
                                                           <p>
-<a href="../kernel.path.router/delta___router.html">Delta_Router</a> オブジェクト。
+<a href="../controller.router/delta___route_resolver.html">Delta_RouteResolver</a> オブジェクト。
 </p>
                                                       </td>
                           <td><a href="../view.helper/delta___helper.html">Delta_Helper</a></td>
@@ -790,7 +798,7 @@ view.helper
                                                       <a href="#method___construct">__construct()</a>                                                  </td>
                         <td>
                                                   </td>
-                        <td><a href="../view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
+                        <td><a href="../view.helper/delta___helper.html">Delta_Helper</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -801,16 +809,6 @@ view.helper
 </p>
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
-                                                      <a href="#method_buildPath">buildPath()</a>                                                  </td>
-                        <td>
-                                                      <p>
-指定したページ番号を元にリンクパスを生成します。
-</p>
-                                                  </td>
-                        <td><a href="../view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -862,26 +860,6 @@ Delta_AppPathManager のインスタンスを取得します。
                                                   </td>
                         <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getConsole">getConsole()</a>                                                  </td>
-                        <td>
-                                                      <p>
-コンソール (console) コンポーネントを取得します。
-</p>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getController">getController()</a>                                                  </td>
-                        <td>
-                                                      <p>
-コントローラ (controller) コンポーネントを取得します。
-</p>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
-                      </tr>
                                                                                                         <tr>
                                               <td>
                                                       <a href="#method_getCurrentPage">getCurrentPage()</a>                                                  </td>
@@ -904,13 +882,13 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getDatabase">getDatabase()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getDatabase">getDatabase()</a>                                                  </td>
                         <td>
                                                       <p>
-データベース (database) コンポーネントを取得します。
+データベースマネージャを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -934,13 +912,13 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getForm">getForm()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getForm">getForm()</a>                                                  </td>
                         <td>
                                                       <p>
-フォーム (form) コンポーネントを取得します。
+フォームオブジェクトを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
@@ -994,13 +972,13 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getMessages">getMessages()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getMessages">getMessages()</a>                                                  </td>
                         <td>
                                                       <p>
-メッセージ (messages) コンポーネントを取得します。
+メッセージオブジェクトを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
@@ -1021,16 +999,6 @@ Delta_AppPathManager のインスタンスを取得します。
 </p>
                                                   </td>
                         <td><a href="../view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
-                                                      <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
-                        <td>
-                                                      <p>
-カーネルオブザーバーのインスタンスを取得します。
-</p>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
@@ -1054,23 +1022,23 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getRequest">getRequest()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getRequest">getRequest()</a>                                                  </td>
                         <td>
                                                       <p>
 リクエスト (request) コンポーネントを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getResponse">getResponse()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getResponse">getResponse()</a>                                                  </td>
                         <td>
                                                       <p>
 レスポンス (response) コンポーネントを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
@@ -1084,13 +1052,13 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getSession">getSession()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getSession">getSession()</a>                                                  </td>
                         <td>
                                                       <p>
 セッション (session) コンポーネントを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
@@ -1134,23 +1102,23 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getUser">getUser()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getUser">getUser()</a>                                                  </td>
                         <td>
                                                       <p>
 ユーザ (user) コンポーネントを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___di_controller.html#method_getView">getView()</a>                                                  </td>
+                                                      <a href="../controller/delta___web_application.html#method_getView">getView()</a>                                                  </td>
                         <td>
                                                       <p>
 ビュー (view) コンポーネントを取得します。
 </p>
                                                   </td>
-                        <td><a href="../kernel.container/delta___di_controller.html">Delta_DIController</a></td>
+                        <td><a href="../controller/delta___web_application.html">Delta_WebApplication</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
@@ -1201,6 +1169,16 @@ name が指定した順序 sortType でソートされているかチェック�
 </p>
                                                   </td>
                         <td><a href="../view.helper/delta___helper.html">Delta_Helper</a></td>
+                      </tr>
+                                                                                                        <tr>
+                                              <td>
+                                                      <a href="#method_link">link()</a>                                                  </td>
+                        <td>
+                                                      <p>
+指定したページ番号を元にリンクパスを生成します。
+</p>
+                                                  </td>
+                        <td><a href="../view.helper/delta___pager_helper.html">Delta_PagerHelper</a></td>
                       </tr>
                                                                                                         <tr>
                                               <td>
@@ -1260,7 +1238,7 @@ name が指定した順序 sortType でソートされているかチェック�
                                                                                           <ul class="note">
                                                       <li>
                               Overrides:
-                              <div class="text"><a href="../view.helper/delta___pager_helper.html#method___construct">Delta_PagerHelper::__construct()</a></div>
+                              <div class="text"><a href="../view.helper/delta___helper.html#method___construct">Delta_Helper::__construct()</a></div>
                             </li>
                                                                                                                                                                                 <li>See: <p>
 <a href="../view.helper/delta___helper.html#method___construct">Delta_Helper::__construct()</a>
@@ -1273,61 +1251,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                          <dt id="method_buildPath">buildPath()</dt>
-                    <dd>
-                      <div class="source"><code>public string buildPath($page, $queryData = array())</code></div>
-                                              <p>
-指定したページ番号を元にリンクパスを生成します。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$page</td>
-                              <td>int</td>
-                              <td>
-                                                                  <p>
-ページ番号。
-</p>
-                                                              </td>
-                            </tr>
-                                                        <tr>
-                              <td>$queryData</td>
-                              <td>mixed</td>
-                              <td>
-                                                                  <p>
-パスに追加するクエリパラメータ。
-  array(&#039;{query_name}&#039; =&gt; &#039;{query_value}&#039;) 形式で指定可能。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                  <tr>
-                              <td>{return}</td>
-                              <td>string</td>
-                              <td>
-                                                                  <p>
-ページ番号を元に生成したリンクパスを返します。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                            </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                                                                            <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                            </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
-                                                                                                                                                                              <dt id="method_createHiddenFields">createHiddenFields()</dt>
+                                                                                                                                                                                                                <dt id="method_createHiddenFields">createHiddenFields()</dt>
                     <dd>
                       <div class="source"><code>public string createHiddenFields()</code></div>
                                               <p>
@@ -1362,7 +1286,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                              <dt id="method_getCurrentPage">getCurrentPage()</dt>
+                                                                                                          <dt id="method_getCurrentPage">getCurrentPage()</dt>
                     <dd>
                       <div class="source"><code>public int getCurrentPage()</code></div>
                                               <p>
@@ -1731,7 +1655,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                          <dt id="method_getPreviousPagePath">getPreviousPagePath()</dt>
+                                                                        <dt id="method_getPreviousPagePath">getPreviousPagePath()</dt>
                     <dd>
                       <div class="source"><code>public string getPreviousPagePath()</code></div>
                                               <p>
@@ -2102,7 +2026,61 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                          <dt id="method_next">next()</dt>
+                                                                                                          <dt id="method_link">link()</dt>
+                    <dd>
+                      <div class="source"><code>public string link($page, $queryData = array())</code></div>
+                                              <p>
+指定したページ番号を元にリンクパスを生成します。
+</p>
+                                                                    <table>
+                        <colgroup>
+                          <col class="col-parameter-name" />
+                          <col class="col-parameter-type" />
+                          <col class="col-parameter-description" />
+                        </colgroup>
+                        <tr>
+                          <th>Property</th>
+                          <th>Type</th>
+                          <th>Description</th>
+                        </tr>
+                                                                                                          <tr>
+                              <td>$page</td>
+                              <td>int</td>
+                              <td>
+                                                                  <p>
+ページ番号。
+</p>
+                                                              </td>
+                            </tr>
+                                                        <tr>
+                              <td>$queryData</td>
+                              <td>mixed</td>
+                              <td>
+                                                                  <p>
+パスに追加するクエリパラメータ。
+  array(&#039;{query_name}&#039; =&gt; &#039;{query_value}&#039;) 形式で指定可能。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                                                                                                                                                                                                                  <tr>
+                              <td>{return}</td>
+                              <td>string</td>
+                              <td>
+                                                                  <p>
+ページ番号を元に生成したリンクパスを返します。
+</p>
+                                                              </td>
+                            </tr>
+                                                                                                                            </table>
+                                                                    <ul class="note">
+                                                                                                                                                                                                                                                                                            <li>Author: <p>
+Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
+</p>
+</li>
+                                                                                                                                            </ul>
+                                            <p class="right"><a href="#methods">To methods</a></p>
+                    </dd>
+                                                                        <dt id="method_next">next()</dt>
                     <dd>
                       <div class="source"><code>public array next($escape = TRUE)</code></div>
                                               <p>
@@ -2155,7 +2133,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Fri, 16 Aug 2013 13:55:24 +0900<br />
+  <p>This document was generated on Sun, 18 Aug 2013 01:38:24 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

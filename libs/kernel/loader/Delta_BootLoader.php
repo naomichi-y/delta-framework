@@ -16,6 +16,7 @@ require DELTA_LIBS_DIR . '/kernel/loader/Delta_ClassLoader.php';
 require DELTA_LIBS_DIR . '/kernel/path/Delta_AppPathManager.php';
 require DELTA_LIBS_DIR . '/kernel/handler/Delta_ErrorHandler.php';
 require DELTA_LIBS_DIR . '/kernel/handler/Delta_ExceptionHandler.php';
+require DELTA_LIBS_DIR . '/kernel/observer/listener/Delta_ApplicationEventListener.php';
 
 /**
  * フレームワークを起動するブートローダ機能を提供します。
@@ -63,24 +64,21 @@ class Delta_BootLoader
   private static $_configType;
 
   /**
-   * @var Delta_DIContainerFactory
-   */
-  private static $_container;
-
-  /**
    * Web アプリケーションを開始します。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public static function startWebApplication()
   {
+    require DELTA_LIBS_DIR . '/controller/Delta_WebApplication.php';
+    require DELTA_LIBS_DIR . '/kernel/observer/listener/Delta_WebApplicationEventListener.php';
+
     self::$_bootMode = self::BOOT_MODE_WEB;
     self::$_configType = self::CONFIG_TYPE_DEFAULT;
 
     self::startApplication();
-    self::startEventObserver(self::BOOT_MODE_WEB);
 
-    self::$_container->getComponent('controller')->dispatch();
+    Delta_FrontController::getInstance()->dispatch();
   }
 
   /**
@@ -94,7 +92,6 @@ class Delta_BootLoader
     self::$_configType = self::CONFIG_TYPE_POLICY;
 
     self::startApplication();
-    self::startEventObserver(self::BOOT_MODE_WEB);
 
     // cpanel モジュールをクラスローダに追加
     Delta_ClassLoader::addSearchPath(DELTA_ROOT_DIR . '/webapps/cpanel/libs');
@@ -104,14 +101,10 @@ class Delta_BootLoader
     $projectAppConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
 
     $appConfig->set('database', $projectAppConfig->getArray('database'));
-    $appConfig->set('module', $projectAppConfig->getArray('module'));
+    $appConfig->set('cpanel', $projectAppConfig->getArray('cpanel'));
     $appConfig->set('response.callback', 'none');
 
-    // モジュールディレクトリの設定
-    $path = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel';
-    Delta_Router::getInstance()->entryModuleRegister('cpanel', $path);
-
-    self::$_container->getComponent('controller')->dispatch();
+    Delta_FrontController::getInstance()->dispatch();
   }
 
   /**
@@ -121,13 +114,14 @@ class Delta_BootLoader
    */
   public static function startConsoleApplication()
   {
+    require DELTA_LIBS_DIR . '/kernel/observer/listener/Delta_ConsoleApplicationEventListener.php';
+
     self::$_bootMode = self::BOOT_MODE_CONSOLE;
     self::$_configType = self::CONFIG_TYPE_DEFAULT;
 
     self::startApplication();
-    self::startEventObserver(self::BOOT_MODE_CONSOLE);
 
-    self::$_container->getComponent('console')->start();
+    Delta_Console::getInstance()->start();
   }
 
   /**
@@ -282,25 +276,7 @@ class Delta_BootLoader
       Delta_ClassLoader::addSearchPath($path);
     }
 
-    self::$_container = Delta_DIContainerFactory::create();
-  }
-
-  /**
-   * イベントオブザーバを開始します。
-   *
-   * @param string $bootType
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private static function startEventObserver($bootType)
-  {
-    $observer = Delta_KernelEventObserver::getInstance();
-    $listeners = Delta_Config::getApplication()->get('observer.listeners');
-
-    if ($listeners) {
-      foreach ($listeners as $listenerId => $attributes) {
-        $observer->addEventListener($listenerId, $attributes);
-      }
-    }
+    Delta_DIContainerFactory::Initialize();
   }
 }
 

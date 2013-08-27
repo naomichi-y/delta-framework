@@ -68,25 +68,29 @@ abstract class Delta_Renderer extends Delta_Object
     // テンプレート設置パスの取得
     if (Delta_BootLoader::isBootTypeWeb()) {
       $extension = Delta_Config::getApplication()->getString('view.extension');
-      $moduleName = Delta_Router::getInstance()->getEntryModuleName();
+      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
-      // キャッシュディレクトリの取得
-      $cacheDirectory = sprintf('%s%scache%stemplates%scache%s%s',
-        APP_ROOT_DIR,
-        DIRECTORY_SEPARATOR,
-        DIRECTORY_SEPARATOR,
-        DIRECTORY_SEPARATOR,
-        DIRECTORY_SEPARATOR,
-        $moduleName);
+      if ($route) {
+        $moduleName = $route->getModuleName();
 
-    } else {
-      // キャッシュディレクトリの取得
-      $cacheDirectory = sprintf('%s%scache%stemplates%scache%sconsole',
-        APP_ROOT_DIR,
-        DIRECTORY_SEPARATOR,
-        DIRECTORY_SEPARATOR,
-        DIRECTORY_SEPARATOR,
-        DIRECTORY_SEPARATOR);
+        // キャッシュディレクトリの取得
+        $cacheDirectory = sprintf('%s%scache%stemplates%scache%s%s',
+          APP_ROOT_DIR,
+          DIRECTORY_SEPARATOR,
+          DIRECTORY_SEPARATOR,
+          DIRECTORY_SEPARATOR,
+          DIRECTORY_SEPARATOR,
+          $moduleName);
+
+      } else {
+        // キャッシュディレクトリの取得
+        $cacheDirectory = sprintf('%s%scache%stemplates%scache%sconsole',
+          APP_ROOT_DIR,
+          DIRECTORY_SEPARATOR,
+          DIRECTORY_SEPARATOR,
+          DIRECTORY_SEPARATOR,
+          DIRECTORY_SEPARATOR);
+      }
     }
 
     $this->_cacheDirectory = $cacheDirectory;
@@ -127,7 +131,7 @@ abstract class Delta_Renderer extends Delta_Object
   {
     // キャッシュディレクトリがない場合は作成
     if (!is_dir($this->_cacheDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($this->_cacheDirectory, 0777);
+      Delta_FileUtils::createDirectory($this->_cacheDirectory, 0777);
     }
 
    return $this->_cacheDirectory;

@@ -37,13 +37,13 @@ class Delta_LoginFilter extends Delta_Filter
    * @see Delta_Filter::doFilter()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function doFilter(Delta_FilterChain $chain)
+  public function doFilter(Delta_HttpRequest $request, Delta_HttpResponse $response, Delta_FilterChain $chain)
   {
     $login = Delta_Config::getBehavior()->getBoolean('login');
     $result = FALSE;
 
     if ($login) {
-      if ($this->getUser()->isLogin()) {
+      if ($request->getSession()->getUser()->isLogin()) {
         $result = TRUE;
       }
 

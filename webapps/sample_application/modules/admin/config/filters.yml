@@ -1,3 +1,0 @@
-roleAuthentication:
-  class: RoleAuthenticationFilter
-  enable: TRUE

@@ -314,8 +314,7 @@ class Delta_DatabaseStatement extends Delta_Object
     };
 
     // プロファイラが有効な場合、クエリの実行時間を計測する
-    $container = Delta_DIContainerFactory::getContainer();
-    $profiler = $container->getComponent('database')->getProfiler();
+    $profiler = Delta_DatabaseManager::getInstance()->getProfiler();
 
     if ($profiler->isActive()) {
       $processTime = $profiler->run($execute, array($hasBindVariables, $bindValues));

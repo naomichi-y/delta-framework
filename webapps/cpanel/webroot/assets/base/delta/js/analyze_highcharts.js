@@ -11,7 +11,7 @@ $(document).ready(function(){
     title: {
       text: null
     },
-    
+
     credits: {
       enabled: false
     },
@@ -27,7 +27,7 @@ $(document).ready(function(){
         y: 20
       }
     },
-    
+
     yAxis: [{ // left y axis
       min: 0,
       title: {
@@ -60,7 +60,7 @@ $(document).ready(function(){
       },
       showFirstLabel: false
     }],
-    
+
     legend: {
       align: 'right',
       verticalAlign: 'bottom',
@@ -70,7 +70,7 @@ $(document).ready(function(){
         fontSize: '0.9em'
       }
     },
-    
+
     tooltip: {
       shared: true,
       crosshairs: true
@@ -81,13 +81,13 @@ $(document).ready(function(){
   chart.showLoading('グラフを描画しています...');
 
   var url = '/cpanel/analyzeSQLReportChart.do'
-           +'/from/' + $('#from').val()
-           +'/to/' + $('#to').val();
+           +'?from=' + $('#from').val()
+           +'&to=' + $('#to').val();
 
   var moduleName = $('#module').val();
 
   if (moduleName.length) {
-    url += '/module/' + moduleName;
+    url += '&module=' + moduleName;
   }
 
   jQuery.get(url, null, function(data, status, xhr) {

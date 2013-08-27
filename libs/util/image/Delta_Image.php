@@ -775,7 +775,7 @@ class Delta_Image extends Delta_Object
     $directory = dirname($path);
 
     if (!file_exists($directory)) {
-      Delta_FileUtils::createDirectoryRecursive($directory);
+      Delta_FileUtils::createDirectory($directory);
     }
 
     $this->_destinationImageAttributes['path'] = $path;
@@ -802,7 +802,7 @@ class Delta_Image extends Delta_Object
     if ($header) {
       $type = $this->getDestinationImageAttribute('type');
 
-      $response = Delta_DIContainerFactory::getContainer()->getComponent('response');
+      $response = Delta_FrontController::getInstance()->getResponse();
       $response->setContentType(image_type_to_mime_type($type));
     }
 
@@ -902,9 +902,9 @@ class Delta_Image extends Delta_Object
     $time = gmdate('r', $lastModify);
     $file = getimagesize($path);
 
-    $container = Delta_DIContainerFactory::getContainer();
-    $response = $container->getComponent('response');
-    $request = $container->getComponent('request');
+    $controller = Delta_FrontController::getInstance();
+    $response = $controller->getRequest();
+    $request = $controller->getResponse();
 
     $response->setContentType($file['mime']);
     $response->setHeader('Content-Length', filesize($path));

@@ -56,7 +56,7 @@ class Delta_DatabaseTransactionListener extends Delta_ApplicationEventListener
    */
   public function preProcess()
   {
-    $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+    $database = Delta_DatabaseManager::getInstance();
     $database->setTransactionController(new Delta_DatabaseTransactionController());
 
     $this->_database = $database;

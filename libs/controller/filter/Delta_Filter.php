@@ -26,7 +26,7 @@
  * @package controller.filter
  */
 
-abstract class Delta_Filter extends Delta_DIController
+abstract class Delta_Filter extends Delta_WebApplication
 {
   /**
    * @var string
@@ -47,8 +47,22 @@ abstract class Delta_Filter extends Delta_DIController
    */
   public function __construct($filterId, Delta_ParameterHolder $holder)
   {
+    parent::__construct();
+
     $this->_filterId = $filterId;
     $this->_holder = $holder;
+  }
+
+  /**
+   * フロントコントローラオブジェクトを取得します。
+   *
+   * @return Delta_FrontController オブジェクトを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getController()
+  {
+    return Delta_FrontController::getInstance();
   }
 
   /**

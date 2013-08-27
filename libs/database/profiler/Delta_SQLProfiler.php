@@ -193,11 +193,13 @@ class Delta_SQLProfiler extends Delta_Object
     $report->dsn = $dsn;
 
     if (Delta_BootLoader::isBootTypeWeb()) {
-      $report->moduleName = Delta_Router::getInstance()->getEntryModuleName();
-      $report->actionName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+
+      $report->moduleName = $route->getModuleName();
+      $report->actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
 
     } else if (Delta_BootLoader::isBootTypeConsole()) {
-      $console = Delta_DIContainerFactory::getContainer()->getComponent('console');
+      $console = Delta_Console::getInstance();
       $report->commandName = $console->getCommandName();
     }
 

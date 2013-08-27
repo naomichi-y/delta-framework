@@ -14,21 +14,6 @@ htmlEscape{type='array' output='true'}:
   function{default='htmlspecialchars' output='true'}:
   flags{default='<?php echo ENT_QUOTES ?>' output='true'}:
 
-module{type='array'}:
-  default{required='true'}:
-  unknown{type='array' required='true'}:
-    module{required='true'}:
-    action{required='true'}:
-  entries{type='array' output='true'}:
-    cpanel{type='array' output='true'}:
-      default{default='LoginForm' output='true'}:
-      enable{type='boolean' default='TRUE' output='true'}:
-      unknown{default='LoginForm' output='true'}:
-    *{type='array' output='true'}:
-      default{default='Index' output='true'}:
-      enable{type='boolean' default='TRUE' output='true'}:
-      unknown{default='Index' output='true'}:
-
 action{type='array' output='true'}:
   path{default='camelCaps' output='true'}:
   extension{default='' output='true'}:

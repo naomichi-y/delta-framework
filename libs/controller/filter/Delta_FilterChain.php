@@ -52,9 +52,10 @@ class Delta_FilterChain extends Delta_Object
     next($this->_filters);
 
     $forward = Delta_ArrayUtils::find($attributes, 'forward', FALSE);
-    $actionStack = Delta_ActionStack::getInstance();
+    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+    $forwardStack = $route->getForwardStack();
 
-    if (!$forward && $actionStack->getSize() > 1) {
+    if (!$forward && $forwardStack->getSize() > 1) {
       end($this->_filters);
       $filterId = key($this->_filters);
       $attributes = $this->_filters[$filterId];
@@ -63,7 +64,7 @@ class Delta_FilterChain extends Delta_Object
     }
 
     if (isset($attributes['packages'])) {
-      $packageName = $actionStack->getLastEntry()->getPackageName();
+      $packageName = $forwardStack->getLast()->getPackageName();
       $execute = Delta_Action::isValidPackage($packageName, $attributes['packages']);
 
     } else {

@@ -11,9 +11,9 @@ class AnalyzeSQLReportChartAction extends Delta_Action
   {
     $request = $this->getRequest();
 
-    $moduleName = $request->getParameter('module');
-    $from = $request->getParameter('from');
-    $to = $request->getParameter('to');
+    $moduleName = $request->getQuery('module', NULL, TRUE);
+    $from = $request->getQuery('from');
+    $to = $request->getQuery('to');
 
     $diff = Delta_DateUtils::getDiffDay($from, $to);
 

@@ -66,10 +66,10 @@ class Delta_MustacheRenderer extends Delta_Renderer
     static $engine;
 
     if ($engine === NULL) {
-      $container = Delta_DIContainerFactory::getContainer();
+      $response = Delta_FrontController::getInstance()->getResponse();
 
       $config = array();
-      $config['charset'] = $container->getComponent('response')->getOutputEncoding();
+      $config['charset'] = $response->getOutputEncoding();
       $config['cache'] = $this->getCacheDirectory();
 
       $engine = new Mustache_Engine($config);

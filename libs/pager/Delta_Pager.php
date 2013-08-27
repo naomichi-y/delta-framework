@@ -167,10 +167,8 @@ abstract class Delta_Pager extends Delta_Object
    */
   protected function __construct()
   {
-    $container = Delta_DIContainerFactory::getContainer();
-
-    $this->_request = $container->getComponent('request');
-    $this->_actionName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+    $this->_request = Delta_FrontController::getInstance()->getRequest();
+    $this->_actionName = $this->_request->getRoute()->getForwardStack()->getLast()->getActionName();
 
     $this->_cipher = new Delta_BlowfishCipher();
     $this->_cipher->setInitializationVector('pager');
@@ -402,8 +400,8 @@ abstract class Delta_Pager extends Delta_Object
    */
   public function setQueryDataFromForm()
   {
-    $container = Delta_DIContainerFactory::getContainer();
-    $fields = $container->getComponent('form')->getFields();
+    $fields = Delta_ActionForm::getInstance()->getFields();
+
     unset($fields[$this->_pagerKey]);
 
     if (sizeof($this->_requestSort)) {
@@ -485,7 +483,7 @@ abstract class Delta_Pager extends Delta_Object
     $array['_actionName'] = $this->_actionName;
     $array['bind'] = TRUE;
 
-    $view = Delta_DIContainerFactory::getContainer()->getComponent('view');
+    $view = Delta_FrontController::getInstance()->getResponse()->getView();
     $view->getHelperManager()->addHelper('pager', $array);
   }
 }

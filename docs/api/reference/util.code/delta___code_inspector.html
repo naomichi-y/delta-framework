@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Language" content="ja" />
     <meta charset="UTF-8" />
-    <title>delta 1.1 API Reference - Delta_CodeInspector</title>
+    <title>delta 1.2 API Reference - Delta_CodeInspector</title>
     <link rel="stylesheet" type="text/css" href="../../assets/css/base.css" />
     <link rel="stylesheet" type="text/css" href="../../assets/css/jquery.treeview.css" />
     <link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
@@ -25,7 +25,7 @@
           <!--#include virtual="/global_assets/content/navi.php" -->
         </div>
       </div>
-      <h1 id="top">delta 1.1 API Reference</h1>
+      <h1 id="top">delta 1.2 API Reference</h1>
     </header>
     <div id="contents">
       <div class="row">
@@ -75,6 +75,7 @@
         <span>controller</span>
         <ul style="display: none;">
                       <li><a href="../controller/delta___front_controller.html" title="Delta_FrontController">Delta_FrontController</a></li>
+                      <li><a href="../controller/delta___web_application.html" title="Delta_WebApplication">Delta_WebApplication</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -82,7 +83,6 @@
         <span>controller.action</span>
         <ul style="display: none;">
                       <li><a href="../controller.action/delta___action.html" title="Delta_Action">Delta_Action</a></li>
-                      <li><a href="../controller.action/delta___action_stack.html" title="Delta_ActionStack">Delta_ActionStack</a></li>
                       <li><a href="../controller.action/delta___dispatch_action.html" title="Delta_DispatchAction">Delta_DispatchAction</a></li>
                   </ul>
       </li>
@@ -101,6 +101,22 @@
                       <li><a href="../controller.filter/delta___login_filter.html" title="Delta_LoginFilter">Delta_LoginFilter</a></li>
                       <li><a href="../controller.filter/delta___maintenance_filter.html" title="Delta_MaintenanceFilter">Delta_MaintenanceFilter</a></li>
                       <li><a href="../controller.filter/delta___sql_logging_filter.html" title="Delta_SQLLoggingFilter">Delta_SQLLoggingFilter</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.forward</span>
+        <ul style="display: none;">
+                      <li><a href="../controller.forward/delta___forward.html" title="Delta_Forward">Delta_Forward</a></li>
+                      <li><a href="../controller.forward/delta___forward_stack.html" title="Delta_ForwardStack">Delta_ForwardStack</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>controller.router</span>
+        <ul style="display: none;">
+                      <li><a href="../controller.router/delta___route.html" title="Delta_Route">Delta_Route</a></li>
+                      <li><a href="../controller.router/delta___route_resolver.html" title="Delta_RouteResolver">Delta_RouteResolver</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -242,6 +258,28 @@
       </li>
           <li class="expandable">
         <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session</span>
+        <ul style="display: none;">
+                      <li><a href="../http.request.session/delta___http_session.html" title="Delta_HttpSession">Delta_HttpSession</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session.handler</span>
+        <ul style="display: none;">
+                      <li><a href="../http.request.session.handler/delta___apc_session_handler.html" title="Delta_APCSessionHandler">Delta_APCSessionHandler</a></li>
+                      <li><a href="../http.request.session.handler/delta___database_session_handler.html" title="Delta_DatabaseSessionHandler">Delta_DatabaseSessionHandler</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
+        <span>http.request.session.user</span>
+        <ul style="display: none;">
+                      <li><a href="../http.request.session.user/delta___authority_user.html" title="Delta_AuthorityUser">Delta_AuthorityUser</a></li>
+                  </ul>
+      </li>
+          <li class="expandable">
+        <div class="hitarea expandable-hitarea"></div>
         <span>http.response</span>
         <ul style="display: none;">
                       <li><a href="../http.response/delta___http_response.html" title="Delta_HttpResponse">Delta_HttpResponse</a></li>
@@ -250,33 +288,10 @@
       </li>
           <li class="expandable">
         <div class="hitarea expandable-hitarea"></div>
-        <span>http.session</span>
-        <ul style="display: none;">
-                      <li><a href="../http.session/delta___http_session.html" title="Delta_HttpSession">Delta_HttpSession</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
-        <span>http.session.handler</span>
-        <ul style="display: none;">
-                      <li><a href="../http.session.handler/delta___apc_session_handler.html" title="Delta_APCSessionHandler">Delta_APCSessionHandler</a></li>
-                      <li><a href="../http.session.handler/delta___database_session_handler.html" title="Delta_DatabaseSessionHandler">Delta_DatabaseSessionHandler</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
-        <span>http.session.user</span>
-        <ul style="display: none;">
-                      <li><a href="../http.session.user/delta___authority_user.html" title="Delta_AuthorityUser">Delta_AuthorityUser</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
         <span>kernel.container</span>
         <ul style="display: none;">
                       <li><a href="../kernel.container/delta___di_container.html" title="Delta_DIContainer">Delta_DIContainer</a></li>
                       <li><a href="../kernel.container/delta___di_container_factory.html" title="Delta_DIContainerFactory">Delta_DIContainerFactory</a></li>
-                      <li><a href="../kernel.container/delta___di_controller.html" title="Delta_DIController">Delta_DIController</a></li>
                       <li><a href="../kernel.container/delta___object.html" title="Delta_Object">Delta_Object</a></li>
                   </ul>
       </li>
@@ -320,13 +335,6 @@
         <ul style="display: none;">
                       <li><a href="../kernel.path/delta___app_path_manager.html" title="Delta_AppPathManager">Delta_AppPathManager</a></li>
                       <li><a href="../kernel.path/delta___theme.html" title="Delta_Theme">Delta_Theme</a></li>
-                  </ul>
-      </li>
-          <li class="expandable">
-        <div class="hitarea expandable-hitarea"></div>
-        <span>kernel.path.router</span>
-        <ul style="display: none;">
-                      <li><a href="../kernel.path.router/delta___router.html" title="Delta_Router">Delta_Router</a></li>
                   </ul>
       </li>
           <li class="expandable">
@@ -761,16 +769,6 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr class="inheritanceMethods">
                                               <td>
-                                                      <a href="../kernel.container/delta___object.html#method_getObserver">getObserver()</a>                                                  </td>
-                        <td>
-                                                      <p>
-カーネルオブザーバーのインスタンスを取得します。
-</p>
-                                                  </td>
-                        <td><a href="../kernel.container/delta___object.html">Delta_Object</a></td>
-                      </tr>
-                                                                                                        <tr class="inheritanceMethods">
-                                              <td>
                                                       <a href="../kernel.container/delta___object.html#method_getRegistry">getRegistry()</a>                                                  </td>
                         <td>
                                                       <p>
@@ -996,7 +994,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                                                                                   </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                                                                                                                                                                <dt id="method_resetRetainCount">resetRetainCount()</dt>
+                                                                                                                                                                              <dt id="method_resetRetainCount">resetRetainCount()</dt>
                     <dd>
                       <div class="source"><code>public void resetRetainCount()</code></div>
                                               <p>このメソッドは現在のところ詳細な情報はありません。引数のリストのみが記述されています。</p>
@@ -1137,7 +1135,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Fri, 16 Aug 2013 13:55:24 +0900<br />
+  <p>This document was generated on Sun, 18 Aug 2013 01:38:24 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>

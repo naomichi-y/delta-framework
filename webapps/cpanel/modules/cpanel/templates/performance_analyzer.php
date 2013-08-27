@@ -36,10 +36,10 @@
       <?php echo $form->close() ?>
       <div id="tabs">
         <ul>
-          <li><?php echo $html->link('アクションの解析', array('action' => 'AnalyzeAction', 'target' => $form->get('module'), 'from' => $form->get('from'), 'to' => $form->get('to'))) ?></li>
-          <li><?php echo $html->link('SQL の解析', array('action' => 'AnalyzeSQL', 'target' => $form->get('module'), 'type' => 'default', 'from' => $form->get('from'), 'to' => $form->get('to'))) ?></li>
-          <li><?php echo $html->link('SQL の解析 (プリペアードステートメント)', array('action' => 'AnalyzeSQL', 'target' => $form->get('module'), 'type' => 'prepared', 'from' => $form->get('from'), 'to' => $form->get('to'))) ?></li>
-          <li><?php echo $html->link('SQL レポート', array('action' => 'AnalyzeSQLReport', 'target' => $form->get('module'), 'from' => $form->get('from'), 'to' => $form->get('to'))) ?></li>
+          <li><?php echo $html->link('アクションの解析', array('action' => 'AnalyzeAction'), NULL, array('query' => array('target' => $form->get('module'), 'from' => $form->get('from'), 'to' => $form->get('to')))) ?></li>
+          <li><?php echo $html->link('SQL の解析', array('action' => 'AnalyzeSQL'), NULL, array('query' => array('target' => $form->get('module'), 'type' => 'default', 'from' => $form->get('from'), 'to' => $form->get('to')))) ?></li>
+          <li><?php echo $html->link('SQL の解析 (プリペアードステートメント)', array('action' => 'AnalyzeSQL'), NULL, array('query' => array('target' => $form->get('module'), 'type' => 'prepared', 'from' => $form->get('from'), 'to' => $form->get('to')))) ?></li>
+          <li><?php echo $html->link('SQL レポート', array('action' => 'AnalyzeSQLReport'), NULL, array('query' => array('target' => $form->get('module'), 'from' => $form->get('from'), 'to' => $form->get('to')))) ?></li>
           <li><?php echo $html->link('設定', 'AnalyzeSettingForm') ?></li>
         </ul>
       </div>

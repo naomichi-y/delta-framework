@@ -9,9 +9,9 @@ class AnalyzeSQLReportAction extends Delta_Action
   {
     $request = $this->getRequest();
 
-    $moduleName = $request->getParameter('target');
-    $from = $request->getParameter('from');
-    $to = $request->getParameter('to');
+    $moduleName = $request->getQuery('target', NULL, TRUE);
+    $from = $request->getQuery('from');
+    $to = $request->getQuery('to');
 
     $sqlRequestsDAO = Delta_DAOFactory::create('Delta_SQLRequestsDAO');
     $dailySummary = $sqlRequestsDAO->getDailySummary($moduleName, $from, $to);

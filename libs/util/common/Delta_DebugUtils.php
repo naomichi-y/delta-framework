@@ -258,13 +258,14 @@ class Delta_DebugUtils
    */
   public static function output($message, $flush = FALSE, $force = FALSE, $decoration = TRUE)
   {
+    $config = Delta_Config::getApplication();
+
     if ($force) {
-      $config = Delta_Config::getApplication();
       $debug = $config->getBoolean('debug');
 
       if (Delta_BootLoader::isBootTypeWeb() && !$debug['output']) {
         if (isset($debug['allows'])) {
-          $address = $container->getComponent('request')->getRemoteAddress();
+          $address = Delta_FrontController::getInstance()->getRequest()->getRemoteAddress();
           $output = Delta_NetworkUtils::hasContainNetwork($debug['allows'], $address);
 
         } else {

@@ -41,9 +41,9 @@ class Delta_UserHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
-    $this->_user = $this->getUser();
-
     parent::__construct($currentView, $config);
+
+    $this->_user = $this->getUser();
   }
 
   /**

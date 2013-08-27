@@ -67,6 +67,7 @@ class Delta_MaintenanceFilter extends Delta_Filter
 
       $view = $this->getView();
       $view->setTemplatePath($path);
+      $view->importHelpers();
       $view->execute();
     }
   }

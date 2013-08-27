@@ -10,10 +10,10 @@ class AnalyzeActionDetailAction extends Delta_Action
     $request = $this->getRequest();
     $view = $this->getView();
 
-    $moduleName = $request->getParameter('module');
-    $actionName = $request->getParameter('action');
-    $from = $request->getParameter('from');
-    $to = $request->getParameter('to');
+    $moduleName = $request->getQuery('module', NULL, TRUE);
+    $actionName = $request->getQuery('action');
+    $from = $request->getQuery('from');
+    $to = $request->getQuery('to');
 
     $hash = hash('md5', $moduleName . $actionName);
     $view->setAttribute('hash', $hash);

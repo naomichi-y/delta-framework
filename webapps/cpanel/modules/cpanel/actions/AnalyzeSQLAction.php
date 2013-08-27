@@ -9,21 +9,21 @@ class AnalyzeSQLAction extends Delta_Action
   {
     $request = $this->getRequest();
 
-    $moduleName = $request->getParameter('target');
-    $type = $request->getParameter('type');
-    $from = $request->getParameter('from');
-    $to = $request->getParameter('to');
+    $moduleName = $request->getQuery('target', NULL, TRUE);
+    $type = $request->getQuery('type');
+    $from = $request->getQuery('from');
+    $to = $request->getQuery('to');
     $defaultOrderIndex = '3';
 
     $sqlRequestsDAO = Delta_DAOFactory::create('Delta_SQLRequestsDAO');
 
     if ($type === 'default') {
-      $orderIndex = $request->getParameter('orderBySqlDefault', $defaultOrderIndex);
+      $orderIndex = $request->getQuery('orderBySqlDefault', $defaultOrderIndex);
       $orderType = $this->getOrderType($orderIndex);
       $slowQueries = $sqlRequestsDAO->findSlowStatement($moduleName, $from, $to, $orderType);
 
     } else {
-      $orderIndex = $request->getParameter('orderBySqlPrepared', $defaultOrderIndex);
+      $orderIndex = $request->getQuery('orderBySqlPrepared', $defaultOrderIndex);
       $orderType = $this->getOrderType($orderIndex);
       $slowQueries = $sqlRequestsDAO->findSlowPreparedStatement($moduleName, $from, $to, $orderType);
     }

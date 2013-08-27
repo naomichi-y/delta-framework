@@ -21,18 +21,18 @@ function loadCss(href) {
 
 require(["/assets/base/jquery-ui-1.8.16.custom/js/jquery-1.6.2.min.js"], function(someModule) {
   $().ready(function () {
-    $(".delta_stack_traces dt").click(function (e) {
+    $(".delta-stack-traces dt").click(function (e) {
       var prefix = "trace_point_";
       var target = "#trace_point_detail_" + this.id.substring(prefix.length + 0);
 
       $(target).slideToggle();
     });
 
-    $('.delta_stack_traces dt').mouseover(function () {
+    $('.delta-stack-traces dt').mouseover(function () {
       $(this).css("background-color", "#dddddd");
     });
 
-    $('.delta_stack_traces dt').mouseout(function () {
+    $('.delta-stack-traces dt').mouseout(function () {
       $(this).css("background-color", "#ffffff");
     });
   });

@@ -10,12 +10,12 @@ class AnalyzeSQLDetailAction extends Delta_Action
     $request = $this->getRequest();
     $view = $this->getView();
 
-    $moduleName = $request->getParameter('module');
-    $type = $request->getParameter('type');
-    $from = $request->getParameter('from');
-    $to = $request->getParameter('to');
-    $statementHash = $request->getParameter('hash');
-    $sqlRequestId = $request->getParameter('id');
+    $moduleName = $request->getQuery('module', NULL, TRUE);
+    $type = $request->getQuery('type');
+    $from = $request->getQuery('from');
+    $to = $request->getQuery('to');
+    $statementHash = $request->getQuery('hash');
+    $sqlRequestId = $request->getQuery('id');
 
     $sqlRequestsDAO = Delta_DAOFactory::create('Delta_SQLRequestsDAO');
 

@@ -42,13 +42,13 @@ class GenerateDAOAction extends Delta_Action
     $tmpEntityDirectory = APP_ROOT_DIR . '/tmp/entity';
 
     if (!is_dir($tmpEntityDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($tmpEntityDirectory);
+      Delta_FileUtils::createDirectory($tmpEntityDirectory);
     }
 
     $tmpDaoDirectory = APP_ROOT_DIR . '/tmp/dao';
 
     if (!is_dir($tmpDaoDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($tmpDaoDirectory);
+      Delta_FileUtils::createDirectory($tmpDaoDirectory);
     }
 
     foreach ($tables as $tableName) {

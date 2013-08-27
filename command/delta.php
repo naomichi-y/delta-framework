@@ -73,7 +73,7 @@ class Delta_CommandExecutor
       case 'cc':
       case 'install-database-cache':
       case 'install-database-session':
-      case 'install-sample':
+      case 'install-demo-app':
         $appRootDir = $this->findAppRootDir($this->_currentPath);
 
         if ($appRootDir) {
@@ -161,8 +161,8 @@ class Delta_CommandExecutor
           $this->executeInstallPath();
           break;
 
-        case 'install-sample':
-          $this->executeInstallSample();
+        case 'install-demo-app':
+          $this->executeInstallDemoApp();
           break;
 
         case 'version':
@@ -280,7 +280,7 @@ class Delta_CommandExecutor
       $result = $dialog->sendChoice($message, array('y', 'n'), FALSE);
 
     } else {
-      if (Delta_FileUtils::createDirectoryRecursive(APP_ROOT_DIR, 0755, TRUE)) {
+      if (Delta_FileUtils::createDirectory(APP_ROOT_DIR, 0755, TRUE)) {
         $result = TRUE;
 
       } else {
@@ -301,7 +301,7 @@ class Delta_CommandExecutor
 
       // スケルトンディレクトリのコピー
       $options = array('recursive' => TRUE, 'hidden' => TRUE);
-      Delta_FileUtils::copyRecursive(DELTA_BLANK_APP_DIR, APP_ROOT_DIR, $options);
+      Delta_FileUtils::copy(DELTA_BLANK_APP_DIR, APP_ROOT_DIR, $options);
 
       // deltac コマンドの実行権限付与
       $path = APP_ROOT_DIR . '/console/deltac';
@@ -336,6 +336,7 @@ class Delta_CommandExecutor
       // デフォルトモジュールの作成
       $moduleName = $this->executeAddModule(TRUE);
 
+      // application.yml の書き換え
       // Spyc::YAMLDump() を使うと可視性が下がるのでここでは使用しない
       $path = APP_ROOT_DIR . '/config/application.yml';
 
@@ -346,8 +347,6 @@ class Delta_CommandExecutor
       $contents = str_replace('"{%SECRET_KEY%}"', $secretKey, $contents);
       $contents = str_replace('"{%CPANEL.PASSWORD%}"', $password, $contents);
       $contents = str_replace('"{%MODULE.ENTRY%}"', $moduleName, $contents);
-      $contents = str_replace('"{%MODULE.UNKNOWN%}"', $moduleName, $contents);
-      $contents = str_replace('"{%MODULE.ENTRIES.INIT%}"', $moduleName, $contents);
 
       if ($isCreateGitkeep) {
         $replaceGitKeep = 'TRUE';
@@ -359,12 +358,19 @@ class Delta_CommandExecutor
 
       file_put_contents($path, $contents);
 
+      // routes.yml の書き換え
+      $path = APP_ROOT_DIR . '/config/routes.yml';
+
+      $contents = file_get_contents($path);
+      $contents = str_replace('"{%MODULE.ENTRY%}"', $moduleName, $contents);
+      file_put_contents($path, $contents);
+
       // 設定情報確認アクションのコピー
       $sourcePath = DELTA_SKELETON_DIR . '/setup_info';
       $destinationPath = APP_ROOT_DIR . '/modules/' . $moduleName;
 
       $options = array('recursive' => TRUE);
-      Delta_FileUtils::copyRecursive($sourcePath, $destinationPath, $options);
+      Delta_FileUtils::copy($sourcePath, $destinationPath, $options);
 
       $contents = Delta_FileUtils::readFile($sourcePath . '/actions/IndexAction.php');
       $contents = str_replace('{%PACKAGE_NAME%}', $moduleName . '.actions', $contents);
@@ -373,11 +379,11 @@ class Delta_CommandExecutor
       $message = sprintf('Project installation is complete. [%s]', APP_ROOT_DIR);
       $this->_output->writeLine($message);
 
-      $message = 'Do you want to install the sample application? (Y/N)';
+      $message = 'Do you want to install demo application? (Y/N)';
       $result = $dialog->sendConfirm($message);
 
       if ($result) {
-        $this->executeInstallSample();
+        $this->executeInstallDemoApp();
       }
 
       // .gitkeep を作成しない場合は APP_ROOT_DIR から除外する
@@ -395,17 +401,17 @@ class Delta_CommandExecutor
     }
   }
 
-  private function executeInstallSample()
+  private function executeInstallDemoApp()
   {
-    $sampleDirectory = DELTA_ROOT_DIR . '/webapps/sample_application';
+    $demoDirectory = DELTA_ROOT_DIR . '/webapps/demo';
     $options = array('recursive' => TRUE);
-    Delta_FileUtils::copyRecursive($sampleDirectory, APP_ROOT_DIR, $options);
+    Delta_FileUtils::copy($demoDirectory, APP_ROOT_DIR, $options);
 
     // site.yml のマージ
     $array1 = Spyc::YAMLLoad(APP_ROOT_DIR . '/config/site.yml');
-    $array2 = Spyc::YAMLLoad($sampleDirectory . '/config/site_merge.yml');
+    $array2 = Spyc::YAMLLoad($demoDirectory . '/config/site_merge.yml');
 
-    $config = Delta_ArrayUtils::mergeRecursive($array1, $array2);
+    $config = Delta_ArrayUtils::merge($array1, $array2);
 
     $custom = Delta_Config::createCustomFile('site');
     $custom->setArray($config);
@@ -415,9 +421,9 @@ class Delta_CommandExecutor
 
     // global_helpers.yml のマージ
     $array1 = Spyc::YAMLLoad(APP_ROOT_DIR . '/config/global_helpers.yml');
-    $array2 = Spyc::YAMLLoad($sampleDirectory . '/config/global_helpers_merge.yml');
+    $array2 = Spyc::YAMLLoad($demoDirectory . '/config/global_helpers_merge.yml');
 
-    $config = Delta_ArrayUtils::mergeRecursive($array1, $array2);
+    $config = Delta_ArrayUtils::merge($array1, $array2);
 
     $custom = Delta_Config::createCustomFile('global_helpers');
     $custom->setArray($config);
@@ -425,23 +431,13 @@ class Delta_CommandExecutor
 
     Delta_FileUtils::deleteFile('config/global_helpers_merge.yml');
 
-    $message = sprintf("Sample application install completed. [%s]\n\n"
-      ."Please add settings to the file.\n"
-      ."%s"
-      ."{config/application.yml}\n"
-      ."module:\n"
-      ."  entries:\n"
-      ."    front:\n"
-      ."      default: Start\n"
-      ."      unknown: Start\n"
-      ."    admin:\n"
-      ."      default: LoginForm\n"
-      ."      unknown: LoginForm\n"
-      ."%s",
-    APP_ROOT_DIR,
-    $this->_output->getSeparator(),
-    $this->_output->getSeparator());
-
+    $message = sprintf("Demo application install completed.\n"
+      ."  - %s%sdemo-front\n"
+      ."  - %s%sdemo-admin\n",
+      APP_ROOT_DIR,
+      DIRECTORY_SEPARATOR,
+      APP_ROOT_DIR,
+      DIRECTORY_SEPARATOR);
     $this->_output->write($message);
   }
 
@@ -469,20 +465,6 @@ class Delta_CommandExecutor
         $this->_output->writeLine($message);
 
         if (!$isDefaultModule) {
-          $message = sprintf("\nPlease add settings to the file.\n"
-            ."%s"
-            ."{config/application.yml}\n"
-            ."module:\n"
-            ."  entries:\n"
-            ."    %s:\n"
-            ."      default: Index\n"
-            ."      unknown: Index\n"
-            ."%s",
-          $this->_output->getSeparator(),
-          $moduleName,
-          $this->_output->getSeparator());
-
-          $this->_output->write($message);
           $this->executeClearCache(FALSE);
         }
 
@@ -614,7 +596,7 @@ class Delta_CommandExecutor
             $createPath = $basePath;
           }
 
-          Delta_FileUtils::createDirectoryRecursive($createPath);
+          Delta_FileUtils::createDirectory($createPath);
           $message = sprintf('  - %s', $createPath);
           $this->_output->writeLine($message);
 
@@ -651,11 +633,8 @@ class Delta_CommandExecutor
         $response = $dialog->send($message, TRUE);
 
         if ($response === '*') {
-          $appConfig = Delta_Config::get(Delta_Config::TYPE_DEFAULT_APPLICATION);
-          $moduleNames = $appConfig->getArray('module.entries');
-
-          unset($moduleNames['cpanel']);
-          $moduleNames = array_keys($moduleNames);
+          $moduleNames = Delta_CoreUtils::getModuleNames();
+          print_r($moduleNames);
 
         } else {
           $moduleNames = explode(',', $response);
@@ -801,14 +780,14 @@ class Delta_CommandExecutor
       $path = sprintf('%s/database/%s', DELTA_SKELETON_DIR, $path);
       $data = Spyc::YAMLLoad($path);
 
-      Delta_DIContainerFactory::create();
+      Delta_DIContainerFactory::initialize();
 
       if ($connectConfig) {
         $dsn = $connectConfig->get('dsn');
         $user = $connectConfig->get('user');
         $password = $connectConfig->get('password');
 
-        $database = Delta_DIContainerFactory::getContainer()->getComponent('database');
+        $database = Delta_DatabaseManager::getInstance();
         $conn = $database->getConnectionWithConfig($dsn, $user, $password);
         $command = $conn->getCommand();
 
@@ -882,7 +861,7 @@ class Delta_CommandExecutor
         }
 
         if (!is_dir($realOutputPath)) {
-          Delta_FileUtils::createDirectoryRecursive($realOutputPath);
+          Delta_FileUtils::createDirectory($realOutputPath);
         }
 
         $this->buildAPI($realSourcePath, $realOutputPath, $title, $excludes);
@@ -911,7 +890,7 @@ class Delta_CommandExecutor
   {
     $this->_output->writeLine('Initializing API Generator...');
 
-    Delta_DIContainerFactory::create();
+    Delta_DIContainerFactory::initialize();
 
     $this->_output->writeLine('Parsing of source code...');
 
@@ -954,8 +933,8 @@ class Delta_CommandExecutor
      ."  help                     Show how to use the command.\n"
      ."  install-database-cache   Create a database cache table. (see: Delta_DatabaseCache class)\n"
      ."  install-database-session Create a database session table. (see: Delta_DatabaseSessionHandler class)\n"
+     ."  install-demo-app         Install demo application.\n"
      ."  install-path             Get directory path of the framework.\n"
-     ."  install-sample           Install sample application.\n"
      ."  version                  Get version information.";
 
     $this->_output->writeLine($buffer);

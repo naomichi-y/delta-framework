@@ -12,17 +12,17 @@
   </head>
   <body>
     <header>
-      <h1 id="fatal_error"><?php printf('%s: %s', $type, $message) ?></h1>
+      <h1><?php printf('%s: %s', $type, $message) ?></h1>
     </header>
-    <div id="contents" class="delta_context">
+    <div id="contents" class="delta-context">
       <dl>
         <dt>File</dt>
-        <dd><span class="file_info"><?php echo $file ?> (Line: <?php echo $line ?>)</span></dd>
+        <dd><span class="delta-file-info"><?php echo $file ?> (Line: <?php echo $line ?>)</span></dd>
         <?php if (isset($code)): ?>
           <dt>Code</dt>
-          <dd class="delta_code_inspector">
+          <dd class="delta-code-inspector">
             <h2>Inspector code</h2>
-            <p class="delta_stack_trace lang_php"><?php echo $code ?></p>
+            <p class="delta-stack-trace lang-php"><?php echo $code ?></p>
           </dd>
         <?php endif ?>
       </dl>

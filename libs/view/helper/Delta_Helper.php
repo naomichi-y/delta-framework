@@ -31,13 +31,13 @@
  * @category delta
  * @package view.helper
  */
-abstract class Delta_Helper extends Delta_DIController
+abstract class Delta_Helper extends Delta_WebApplication
 {
   /**
    * ヘルパで使用する基底のルータ名。
    * @var string
    */
-  protected static $_baseRouter;
+  protected static $_baseRouteName;
 
   /**
    * ヘルパが持つデフォルト属性。
@@ -58,8 +58,8 @@ abstract class Delta_Helper extends Delta_DIController
   protected $_config;
 
   /**
-   * {@link Delta_Router} オブジェクト。
-   * @var Delta_Router
+   * {@link Delta_RouteResolver} オブジェクト。
+   * @var Delta_RouteResolver
    */
   protected $_router;
 
@@ -72,9 +72,11 @@ abstract class Delta_Helper extends Delta_DIController
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
+    parent::__construct();
+
     $this->_currentView = $currentView;
-    $this->_config = new Delta_ParameterHolder(Delta_ArrayUtils::mergeRecursive(static::$_defaultValues, $config));
-    $this->_router = Delta_Router::getInstance();
+    $this->_config = new Delta_ParameterHolder(Delta_ArrayUtils::merge(static::$_defaultValues, $config));
+    $this->_router = Delta_FrontController::getInstance()->getRouter();
   }
 
   /**
@@ -110,7 +112,7 @@ abstract class Delta_Helper extends Delta_DIController
     $config = Delta_Config::getRoutes();
 
     if ($config->hasName($baseRouter)) {
-      self::$_baseRouter = $baseRouter;
+      self::$_baseRouteName = $baseRouter;
 
     } else {
       $message = sprintf('Can\'t find router. [%s]', $baseRouter);
@@ -121,23 +123,23 @@ abstract class Delta_Helper extends Delta_DIController
   /**
    * {@link setBasePathRouter()} メソッドで設定したルータを用いてリクエストパスを生成します。
    *
-   * @param mixed $path {@link Delta_Router::buildRequestPath()} メソッドを参照。
-   * @param array $queryData {@link Delta_Router::buildRequestPath()} メソッドを参照。
-   * @param bool $absolute {@link Delta_Router::buildRequestPath()} メソッドを参照。
-   * @param bool $secure {@link Delta_Router::buildRequestPath()} メソッドを参照。
-   * @return string {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   * @param mixed $path {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
+   * @param array $queryData {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
+   * @param bool $absolute {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
+   * @param bool $secure {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
+   * @return string {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function buildRequestPath($path, $queryData, $absolute = FALSE, $secure = NULL)
   {
-    if (self::$_baseRouter !== NULL) {
+    if (self::$_baseRouteName !== NULL) {
       if (is_array($path)) {
-        if (!isset($path['router'])) {
-          $path['router'] = self::$_baseRouter;
+        if (!isset($path['route'])) {
+          $path['route'] = self::$_baseRouteName;
         }
 
       } else if (ctype_upper(substr($path, 0, 1))) {
-        $path = array('action' => $path, 'router' => self::$_baseRouter);
+        $path = array('action' => $path, 'route' => self::$_baseRouteName);
       }
     }
 

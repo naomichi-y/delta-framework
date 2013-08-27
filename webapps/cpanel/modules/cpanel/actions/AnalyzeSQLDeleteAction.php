@@ -7,7 +7,7 @@ class AnalyzeSQLDeleteAction extends Delta_Action
 {
   public function execute()
   {
-    $hash = $this->getRequest()->getParameter('hash');
+    $hash = $this->getRequest()->getQuery('hash');
 
     $sqlRequestsDAO = Delta_DAOFactory::create('Delta_SQLRequestsDAO');
     $sqlRequestsDAO->deleteByStatementHash($hash);

@@ -44,7 +44,7 @@ class Delta_CodeCompressor
         $directory = dirname($storePath);
 
         if (!is_Dir($directory)) {
-          Delta_FileUtils::createDirectoryRecursive($directory);
+          Delta_FileUtils::createDirectory($directory);
         }
 
         printf("  compacting: [%s]\n", substr($sourcePath, strlen(DELTA_LIBS_DIR) + 1));

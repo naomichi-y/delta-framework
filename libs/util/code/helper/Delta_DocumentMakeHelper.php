@@ -56,12 +56,12 @@ class Delta_DocumentMakeHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
+    parent::__construct($currentView, $config);
+
     $functions = get_defined_functions();
 
     $this->_internalFunctions = $functions['internal'];
     $this->_internalClasses = array_merge($this->getInternalClasses(), $this->getInternalInterfaces());
-
-    parent::__construct($currentView, $config);
   }
 
   /**

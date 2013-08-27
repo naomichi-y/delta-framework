@@ -8,8 +8,8 @@ class AnalyzeActionDeleteAction extends Delta_Action
   public function execute()
   {
     $request = $this->getRequest();
-    $moduleName = $request->getParameter('module');
-    $actionName = $request->getParameter('action');
+    $moduleName = $request->getQuery('module');
+    $actionName = $request->getQuery('action');
 
     $actionRequestsDAO = Delta_DAOFactory::create('Delta_ActionRequestsDAO');
     $actionRequestsDAO->deleteByModuleAndAction($moduleName, $actionName);

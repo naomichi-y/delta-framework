@@ -27,12 +27,12 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function findByActionRequestId($actionRequestId)
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT sql_request_id, prepared_statement, statement, statement_type, TRUNCATE(process_time, 5) AS process_time, class_name, method_name, file_path, line '
+    $query = 'SELECT sql_request_id, prepared_statement, statement, statement_type, TRUNCATE(process_time, 5) AS process_time, class_name, method_name, file_path, line '
           .'FROM delta_sql_requests '
           .'WHERE action_request_id = :action_request_id '
           .'ORDER BY sql_request_id ASC';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':action_request_id', $actionRequestId);
     $resultSet = $stmt->executeQuery();
 
@@ -57,7 +57,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
 
     $summaryDateInQuery = trim($summaryDateInQuery, ', ');
 
-    $sql = 'SELECT mar.summary_date, msr.statement_type, COUNT(mar.action_request_id) AS execute_count '
+    $query = 'SELECT mar.summary_date, msr.statement_type, COUNT(mar.action_request_id) AS execute_count '
           .'FROM delta_action_requests mar, delta_sql_requests msr '
           .'WHERE mar.action_request_id = msr.action_request_id '
           .'AND mar.hostname = :hostname '
@@ -66,7 +66,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .'GROUP BY summary_date, msr.statement_type '
           .'ORDER BY summary_date ASC, msr.statement_type ASC';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $resultSet = $stmt->executeQuery();
@@ -117,7 +117,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function getDailySummary($moduleName, $beginSummaryDate, $endSummaryDate)
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT mar.summary_date, msr.statement_type, COUNT(mar.action_request_id) AS execute_count, TRUNCATE(SUM(msr.process_time), 2) AS total_process_time '
+    $query = 'SELECT mar.summary_date, msr.statement_type, COUNT(mar.action_request_id) AS execute_count, TRUNCATE(SUM(msr.process_time), 2) AS total_process_time '
           .'FROM delta_action_requests mar, delta_sql_requests msr '
           .'WHERE mar.action_request_id = msr.action_request_id '
           .'AND mar.hostname = :hostname '
@@ -126,7 +126,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .'GROUP BY summary_date, msr.statement_type '
           .'ORDER BY summary_date DESC';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':begin_summary_date', $beginSummaryDate);
@@ -187,7 +187,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function findSlowStatementByAction($moduleName, $actionName, $beginSummaryDate, $endSummaryDate)
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT msr.sql_request_id, msr.statement, TRUNCATE(msr.process_time, 5) AS process_time, mar.register_date '
+    $query = 'SELECT msr.sql_request_id, msr.statement, TRUNCATE(msr.process_time, 5) AS process_time, mar.register_date '
           .'FROM delta_sql_requests msr, delta_action_requests mar '
           .'WHERE msr.action_request_id = mar.action_request_id '
           .'AND module_name = :module_name '
@@ -198,7 +198,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .'ORDER BY msr.process_time DESC '
           .'LIMIT 10';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':action_name', $actionName);
@@ -220,7 +220,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
     }
 
     $conn = $this->getConnection();
-    $sql = sprintf('SELECT statement_hash, statement, request_count, TRUNCATE(total_process_time / request_count, 5) AS average_process_time, last_access_date '
+    $query = sprintf('SELECT statement_hash, statement, request_count, TRUNCATE(total_process_time / request_count, 5) AS average_process_time, last_access_date '
           .'FROM ('
           .'SELECT msr.statement_hash, msr.statement, COUNT(msr.statement_hash) AS request_count, SUM(msr.process_time) AS total_process_time, MAX(register_date) AS last_access_date '
           .'FROM delta_sql_requests msr, delta_action_requests mar '
@@ -234,7 +234,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .'ORDER BY %s DESC '
           .'LIMIT 20', $orderColumn);
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':begin_summary_date', $beginSummaryDate);
@@ -255,7 +255,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
     }
 
    $conn = $this->getConnection();
-    $sql = sprintf('SELECT statement_hash, statement, request_count, TRUNCATE(total_process_time / request_count, 5) AS average_process_time, last_access_date '
+    $query = sprintf('SELECT statement_hash, statement, request_count, TRUNCATE(total_process_time / request_count, 5) AS average_process_time, last_access_date '
           .'FROM ('
           .'SELECT msr.statement_hash, msr.prepared_statement AS statement, COUNT(msr.statement_hash) AS request_count, SUM(msr.process_time) AS total_process_time, MAX(register_date) AS last_access_date '
           .'FROM delta_sql_requests msr, delta_action_requests mar '
@@ -269,7 +269,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .'ORDER BY %s DESC '
           .'LIMIT 20', $orderColumn);
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':begin_summary_date', $beginSummaryDate);
@@ -284,7 +284,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function getMostSlowStatementInfo($statementHash, $moduleName, $beginSummaryDate, $endSummaryDate)
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT msr.statement, TRUNCATE(msr.process_time, 5) AS most_slow_process_time, msr.file_path, msr.class_name, msr.method_name, msr.line '
+    $query = 'SELECT msr.statement, TRUNCATE(msr.process_time, 5) AS most_slow_process_time, msr.file_path, msr.class_name, msr.method_name, msr.line '
           .'FROM delta_sql_requests msr, delta_action_requests mar '
           .'WHERE msr.action_request_id = mar.action_request_id '
           .'AND mar.hostname = :hostname '
@@ -294,7 +294,7 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
           .'ORDER BY msr.process_time DESC '
           .'LIMIT 1';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':module_name', $moduleName);
     $stmt->bindValue(':begin_summary_date', $beginSummaryDate);
@@ -305,18 +305,18 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
     return  $resultSet->readFirst();
   }
 
-  public function findBySQLRequestId($sqlRequestId)
+  public function findBySQLRequestId($queryRequestId)
   {
     $conn = $this->getConnection();
-    $sql = 'SELECT msr.statement, TRUNCATE(msr.process_time, 5) AS most_slow_process_time, msr.file_path, msr.class_name, msr.method_name, msr.line '
+    $query = 'SELECT msr.statement, TRUNCATE(msr.process_time, 5) AS most_slow_process_time, msr.file_path, msr.class_name, msr.method_name, msr.line '
           .'FROM delta_sql_requests msr, delta_action_requests mar '
           .'WHERE msr.action_request_id = mar.action_request_id '
           .'AND mar.hostname = :hostname '
           .'AND msr.sql_request_id = :sql_request_id';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
-    $stmt->bindValue(':sql_request_id', $sqlRequestId);
+    $stmt->bindValue(':sql_request_id', $queryRequestId);
     $resultSet = $stmt->executeQuery();
 
     return $resultSet->readFirst();
@@ -325,12 +325,12 @@ class Delta_SQLRequestsDAO extends Delta_PerformanceAnalyzerDAO
   public function deleteByStatementHash($statementHash)
   {
     $conn = $this->getConnection();
-    $sql = 'DELETE msr FROM delta_action_requests mar, delta_sql_requests msr '
+    $query = 'DELETE msr FROM delta_action_requests mar, delta_sql_requests msr '
           .'WHERE mar.action_request_id = msr.action_request_id '
           .'AND msr.statement_hash = :statement_hash '
           .'AND mar.hostname = :hostname';
 
-    $stmt = $conn->createStatement($sql);
+    $stmt = $conn->createStatement($query);
     $stmt->bindValue(':hostname', php_uname('n'));
     $stmt->bindValue(':statement_hash', $statementHash);
     $affectedCount = $stmt->execute();

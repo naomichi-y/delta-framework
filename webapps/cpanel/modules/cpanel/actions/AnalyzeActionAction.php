@@ -9,12 +9,12 @@ class AnalyzeActionAction extends Delta_Action
   {
     $request = $this->getRequest();
 
-    $moduleName = $request->getParameter('target');
-    $from = $request->getParameter('from');
-    $to = $request->getParameter('to');
+    $moduleName = $request->getQuery('target', NULL, TRUE);
+    $from = $request->getQuery('from');
+    $to = $request->getQuery('to');
 
     $defaultOrderIndex = '4';
-    $orderIndex = $request->getParameter('orderByAction', $defaultOrderIndex);
+    $orderIndex = $request->getQuery('orderByAction', $defaultOrderIndex);
     $orderType = $this->getOrderType($orderIndex);
 
     $actionRequestsDAO = Delta_DAOFactory::create('Delta_ActionRequestsDAO');

@@ -35,12 +35,12 @@
  *   # フィールド単位で出力するエラーメッセージの HTML タグを設定します。
  *   # 'error' 属性が FALSE の場合はタグ自体出力されません。
  *   #   - \1: エラーメッセージ。
- *   errorFieldTag: '<div class="field_error_message">\1</div>'
+ *   errorFieldTag: '<div class="field-error-message">\1</div>'
  *
  *   # フィールドを囲む HTML タグ。
  *   # ヘルパが生成する入力フィールド (ボタンを除く) は 'fieldTag' で囲まれます。
  *   #   - \1: フィールドタグ。フィールドに関連付くラベルやエラーメッセージも含まれます。
- *   fieldTag: '<div class="form_field">\n\1</div>'
+ *   fieldTag: '<div class="form-field">\n\1</div>'
  *
  *   # checkbox、radio の各要素を囲む HTML タグ。
  *   #   - \1: フィールド要素のタグ。
@@ -80,9 +80,9 @@ class Delta_FormHelper extends Delta_Helper
    */
   protected static $_defaultValues = array(
     'error' => TRUE,
-    'errorFieldTag' => "<div class=\"field_error_message\">\\1</div>",
+    'errorFieldTag' => "<div class=\"field-error-message\">\\1</div>",
     'containErrors' => "Contains an error entry. (\\1 errors)",
-    'fieldTag' => "<div class=\"form_field\">\n\\1</div>",
+    'fieldTag' => "<div class=\"form-field\">\n\\1</div>",
     'fieldElementTag' => "<span class=\"field_element\">\n\\1</span>",
     'fieldSeparatorTag' => "<span class=\"field_separator\">\\1</span>",
     'requiredTag' => '<span class="required">*</span>'
@@ -94,11 +94,11 @@ class Delta_FormHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
-    $this->_form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    parent::__construct($currentView, $config);
+
+    $this->_form = $this->getForm();
     $this->_messages = $this->getMessages();
     $this->_request = $this->getRequest();
-
-    parent::__construct($currentView, $config);
   }
 
   /**
@@ -107,11 +107,11 @@ class Delta_FormHelper extends Delta_Helper
    * start() メソッドで開始したフォームは {@link close()} メソッドで閉じるようにして下さい。
    *
    * @param string $path フォームの送信先。
-   *   指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   *   指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @param mixed $extra タグの出力オプション。
    *   - absolute: TRUE を指定した場合、path を絶対パスに変換する。
-   *   - secure: URI スキームの指定。詳しくは {@link Delta_Router::buildRequestPath()} を参照。既定値は NULL。
+   *   - secure: URI スキームの指定。詳しくは {@link Delta_RouteResolver::buildRequestPath()} を参照。既定値は NULL。
    *       (secure オプション指定時は absolute 属性は TRUE と見なされる)
    *   - query: 追加のクエリパラメータを連想配列形式で指定。
    * @return string 生成したタグを返します。
@@ -768,7 +768,7 @@ class Delta_FormHelper extends Delta_Helper
    * メソッドの使い方は {@link inputRadios()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
    * <code>
    * // 出力されるタグ:
-   * <div class="form_field">
+   * <div class="form-field">
    *   <span class="field_element">
    *     <input type="radio" value="yes" name="agreement" id="agreement" />
    *     <label for="agreement">Agreement</label>
@@ -834,7 +834,7 @@ class Delta_FormHelper extends Delta_Helper
    * メソッドの使い方は {@link inputCheckboxes()} とほぼ同じですが、タグに含まれる ID 属性は要素値を含めない点が異なります。
    * <code>
    * // 出力されるタグ:
-   * <div class="form_field">
+   * <div class="form-field">
    *   <span class="field_element">
    *     <input type="checkbox" value="yes" name="agreement" id="agreement" />
    *     <label for="agreement">Agreement</label>
@@ -1635,10 +1635,7 @@ class Delta_FormHelper extends Delta_Helper
     $selected = NULL;
 
     // チェックボックス (フィールド名 foo) で何も選択せずに送信すると、foo パラメータは送信されず、リストが送信されたことを示す _foo パラメータが追加される
-    if ($this->_request->hasParameter($fieldName) || ($hiddenOutput && $this->_request->hasParameter($hiddenFieldName))) {
-      $selected = $this->_request->getParameter($fieldName);
-
-    } else if ($this->_form->hasName($fieldName)) {
+    if ($this->_form->hasName($fieldName) || ($hiddenOutput && $this->_request->hasParameter($hiddenFieldName))) {
       $selected = $this->_form->get($fieldName);
 
     // リクエスト (またはフォームにセット) されたデフォルト値がない、またはリストが未送信の場合に限りヘルパに渡されたデフォルト値を設定する

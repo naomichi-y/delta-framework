@@ -55,7 +55,7 @@ class Delta_ExceptionStackTraceDelegate extends Delta_ExceptionDelegate
   protected static function clearBuffer()
   {
     if (Delta_BootLoader::isBootTypeWeb()) {
-      $response = Delta_DIContainerFactory::getContainer()->getComponent('response');
+      $response = Delta_FrontController::getInstance()->getResponse();
       $response->clear();
     }
 

@@ -34,19 +34,8 @@ logger:
       type: date
       datePattern: Y-m
 
-module:
-  default: "{%MODULE.ENTRY%}"
-  entries:
-    "{%MODULE.ENTRIES.INIT%}":
-      default: Index
-      unknown: Index
-    cpanel:
-      default: LoginForm
-      unknown: LoginForm
-      password: "{%CPANEL.PASSWORD%}"
-  unknown:
-    module: "{%MODULE.UNKNOWN%}"
-    action: Index
+cpanel:
+  password: "{%CPANEL.PASSWORD%}"
 
 project:
   gitkeep: "{%REPOSITORY.GITKEEP%}"

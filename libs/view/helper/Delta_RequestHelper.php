@@ -41,31 +41,9 @@ class Delta_RequestHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
-    $this->_request = $this->getRequest();
-
     parent::__construct($currentView, $config);
-  }
 
-  /**
-   * {@link Delta_Router::getEntryModuleName()} のエイリアスメソッドです。
-   *
-   * @since 1.1
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getModuleName()
-  {
-    return Delta_Router::getInstance()->getEntryModuleName();
-  }
-
-  /**
-   * {@link Delta_Action::getActionName()} のエイリアスメソッドです。
-   *
-   * @since 1.1
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getActionName()
-  {
-    return Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+    $this->_request = $this->getRequest();
   }
 
   /**
@@ -99,16 +77,6 @@ class Delta_RequestHelper extends Delta_Helper
     }
 
     return $value;
-  }
-
-  /**
-   * {@link Delta_HttpRequest::getUserAgent()} メソッドのエイリアスです。
-   *
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getUserAgent()
-  {
-    return $this->_request->getUserAgent();
   }
 
   /**

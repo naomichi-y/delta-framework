@@ -13,7 +13,7 @@ require DELTA_LIBS_DIR . '/net/agent/Delta_UserAgent.php';
 /**
  * クライアントから要求された HTTP リクエストを管理します。
  *
- * このクラスは 'request' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getRequest()} からインスタンスを取得することができます。
+ * このクラスは 'request' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getRequest()} からインスタンスを取得することができます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -63,6 +63,12 @@ class Delta_HttpRequest extends Delta_Object
   const AUTH_TYPE_DIGEST = 'DIGEST';
 
   /**
+   * ルート情報。
+   * @var Delta_Route
+   */
+  private $_route = FALSE;
+
+  /**
    * アプリケーション設定属性。
    * @var Delta_ParameterHolder
    */
@@ -87,12 +93,6 @@ class Delta_HttpRequest extends Delta_Object
   private $_postData = array();
 
   /**
-   * PATH_INFO パラメータ。
-   * @var array
-   */
-  private $_pathInfoData = array();
-
-  /**
    * リクエスト属性。
    * @var array
    */
@@ -111,14 +111,11 @@ class Delta_HttpRequest extends Delta_Object
   private $_error;
 
   /**
-   * リクエストオブジェクトを初期化します。
-   * 入力エンコーディングの形式はクライアントのユーザエージェントに依存します。
+   * コンストラクタ。
    *
-   * @see Delta_UserAgentAdapter::getEncoding()
-   * @see Delta_HttpRequest::setInputEncoding()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function initialize()
+  public function __construct()
   {
     $this->_config = Delta_Config::getApplication();
 
@@ -148,6 +145,18 @@ class Delta_HttpRequest extends Delta_Object
     }
 
     $this->setInputEncoding($encoding);
+  }
+
+  /**
+   * セッションオブジェクトを取得します。
+   *
+   * @return Delta_HttpSession セッションオブジェクトを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getSession()
+  {
+    return Delta_DIContainerFactory::getContainer()->getComponent('session');
   }
 
   /**
@@ -199,17 +208,14 @@ class Delta_HttpRequest extends Delta_Object
         $this->_queryData,
         $this->_postData);
 
-      $container = Delta_DIContainerFactory::getContainer();
-
-      if ($container->hasComponent('form')) {
-        if ($this->isPostRequest()) {
-          $requestData = $this->_postData;
-        } else {
-          $requestData = $this->_queryData;
-        }
-
-        $container->getComponent('form')->setFields($requestData);
+      if ($this->isPostRequest()) {
+        $requestData = $this->_postData;
+      } else {
+        $requestData = $this->_queryData;
       }
+
+      $form = Delta_ActionForm::getInstance();
+      $form->setFields($requestData);
     }
 
     $this->_inputEncoding = $inputEncoding;
@@ -645,42 +651,57 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
-   * URI に含まれる PATH_INFO パラメータをリクエストオブジェクトに設定します。
+   * リクエストされたルート情報を設定します。
    *
-   * @param array $pathInfo リクエストオブジェクトに設定する PATH_INFO パラメータ。
+   * @param Delta_Route $route リクエストルート。
+   * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setPathInfo($pathInfo)
+  public function setRoute(Delta_Route $route)
   {
-    foreach ($pathInfo as $name => $value) {
-      $this->_pathInfoData[$name] = $value;
-    }
+    $this->_route = $route;
   }
 
   /**
-   * URI に含まれる PATH_INFO パラメータを取得します。
+   * リクエストされたルート情報を取得します。
    *
-   * @param string $name 取得する PATH_INFO パラメータ名。
+   * @return Delta_Route リクエストされたルート情報を返します。
+   *   ルートが未確定の場合は FALSE を返します。
+   * @since 1.1
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getRoute()
+  {
+    return $this->_route;
+  }
+
+  /**
+   * URI に含まれるパスホルダパラメータを取得します。
+   *
+   * @param string $name 取得するパスホルダパラメータ名。
    * @param mixed $alternative 値が存在しない場合に返す代替値。
    * @param bool $emptyToAlternative name の値が空文字の時に alternative を返したい場合は TRUE を指定。
-   * @return mixed name に対応する PATH_INFO パラメータを返します。name が未指定の場合は配列形式で全ての PATH_INFO パラメータを返します。
+   * @return mixed name に対応するパスホルダパラメータを返します。
+   *   name が未指定の場合は配列形式で全てのパスホルダパラメータを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getPathInfo($name = NULL, $alternative = NULL, $emptyToAlternative = TRUE)
+  public function getPathHolder($name = NULL, $alternative = NULL, $emptyToAlternative = TRUE)
   {
-    return $this->getRequestValue($this->_pathInfoData, $name, $alternative, $emptyToAlternative);
+    return $this->getRequestValue($this->_route->getPathHolder(), $name, $alternative, $emptyToAlternative);
   }
 
   /**
-   * 指定した PATH_INFO パラメータがリクエスト URI に含まれているかどうかチェックします。
+   * 指定したパスホルダパラメータがリクエスト URI に含まれているかどうかチェックします。
    *
-   * @param string $name チェック対象の PATH_INFO パラメータ名。
-   * @return bool PATH_INFO パラメータ name がリクエスト URI に含まれている場合に TRUE を返します。
+   * @param string $name チェック対象のパスホルダパラメータ名。
+   * @return bool パスホルダパラメータ name がリクエスト URI に含まれている場合に TRUE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function hasPathInfo($name)
+  public function hasPathHolder($name)
   {
-    return isset($this->_pathInfoData[$name]);
+    $bindings = $this->_route->getPathHolder();
+
+    return isset($bindings[$name]);
   }
 
   /**
@@ -728,9 +749,6 @@ class Delta_HttpRequest extends Delta_Object
     } else if ($this->hasPost($name)) {
       $data = $this->getPost($name, $alternative, $emptyToAlternative);
 
-    } else if ($this->hasPathInfo($name)) {
-      $data = $this->getPathInfo($name, $alternative, $emptyToAlternative);
-
     } else {
       $data = $alternative;
     }
@@ -740,7 +758,7 @@ class Delta_HttpRequest extends Delta_Object
 
   /**
    * クライアントから要求された全てのパラメータを取得します。
-   * パラメータには GET、POST、PATH_INFO のデータを含みますが、パラメータ間で重複する名前は GET、POST、PATH_INFO の順で値がマージされます。
+   * パラメータには GET、POST、パスホルダパラメータのデータを含みますが、パラメータ間で重複する名前は GET、POST の順で値がマージされます。
    *
    * @return mixed クライアントから要求された全てのパラメータを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -750,7 +768,7 @@ class Delta_HttpRequest extends Delta_Object
     static $parameters = NULL;
 
     if ($parameters === NULL) {
-      $parameters = $this->_queryData + $this->_postData + $this->_pathInfoData;
+      $parameters = $this->_queryData + $this->_postData;
     }
 
     return $parameters;
@@ -758,7 +776,7 @@ class Delta_HttpRequest extends Delta_Object
 
   /**
    * 指定したパラメータがクライアントから要求されているかどうかチェックします。
-   * チェック対象となるパラメータは GET、POST、PATH_INFO になります。
+   * チェック対象となるパラメータは GET、POST、パスホルダパラメータになります。
    *
    * @param string $name チェック対象のパラメータ名。
    * @return bool パラメータ name がクライアントから要求されている場合に TRUE を返します。

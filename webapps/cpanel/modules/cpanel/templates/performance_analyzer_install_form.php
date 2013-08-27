@@ -24,7 +24,7 @@
       </p>
       <h2>インストール方法</h2>
       <p>DPA を利用するにはデータベース (MySQL) の設定が必要となります。以下のコードを参考にパフォーマンスアナライザに必要な属性を config/application.yml に追記して下さい。</p>
-      <div class="lang_yaml">
+      <div class="lang-yaml">
         <code>
         # データベース接続情報<br />
         database:<br />

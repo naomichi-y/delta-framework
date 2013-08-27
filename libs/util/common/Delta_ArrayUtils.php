@@ -277,7 +277,7 @@ class Delta_ArrayUtils
     }
 
     if (is_array($mergeArray)) {
-      $mergeArray = Delta_ArrayUtils::mergeRecursive($mergeArray, $build);
+      $mergeArray = Delta_ArrayUtils::merge($mergeArray, $build);
 
       return;
     }
@@ -294,11 +294,11 @@ class Delta_ArrayUtils
    * @return array array1 と array2 をマージした連想配列の結果を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function mergeRecursive(array $array1, array $array2)
+  public static function merge(array $array1, array $array2)
   {
     foreach($array2 as $key => $value){
       if (isset($array1[$key]) && is_array($value)){
-        $array1[$key] = Delta_ArrayUtils::mergeRecursive($array1[$key], $value);
+        $array1[$key] = Delta_ArrayUtils::merge($array1[$key], $value);
 
       } else {
         if (is_array($array1)) {

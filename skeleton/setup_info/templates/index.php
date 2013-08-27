@@ -21,8 +21,8 @@
         <p>プロジェクトのインストールが成功しました。設定情報に問題がないか確認して下さい。確認を終えた後は当アクション及びテンプレートは削除しておくことをお勧めします。</p>
         <ul class="data">
           <li>
-            <div class="data_label">PHP のバージョン</div>
-              <div class="data_content">
+            <div class="data-label">PHP のバージョン</div>
+              <div class="data-content">
               <?php if (!$html->hasError('php')): ?>
               <p>条件を満たしています。(<?php echo phpversion() ?> &gt;= 5.3)</p>
               <?php else: ?>
@@ -31,8 +31,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">デバッグモード</div>
-              <div class="data_content">
+            <div class="data-label">デバッグモード</div>
+              <div class="data-content">
               <?php if (Delta_DebugUtils::isDebug()): ?>
                 <p>有効な状態です。</p>
               <?php else: ?>
@@ -42,8 +42,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">ディレクトリ権限</div>
-            <div class="data_content">
+            <div class="data-label">ディレクトリ権限</div>
+            <div class="data-content">
               <?php if (!$html->hasError('permission')): ?>
                 <p>問題ありません。</p>
               <?php else: ?>
@@ -52,8 +52,8 @@
             </div>
           </li>
           <li>
-            <div class="data_label">ルーティング</div>
-            <div class="data_content">
+            <div class="data-label">ルーティング</div>
+            <div class="data-content">
               <?php if (!$html->hasError('route')): ?>
                 <p>問題ありません。</p>
               <?php else: ?>
@@ -62,23 +62,23 @@
             </div>
           </li>
           <li>
-            <div class="data_label">データベース接続</div>
-            <div class="data_content">
+            <div class="data-label">データベース接続</div>
+            <div class="data-content">
               <?php if (!$html->hasError('database')): ?>
                 <p>接続可能な状態です。</p>
               <?php else: ?>
                 <p><?php echo $html->error('database') ?></p>
-                <p class="note">接続に失敗した場合は、config/application.yml の 'database' 属性を見なおして下さい。</p>
+                <p class="note">接続に失敗した場合は、config/application.yml の 'database' 属性を見直して下さい。</p>
               <?php endif ?>
             </div>
           </li>
           <li>
-            <div class="data_label">コントロールパネル</div>
-            <div class="data_content">
+            <div class="data-label">コントロールパネル</div>
+            <div class="data-content">
               <?php if (!$html->hasError('cpanel')): ?>
-                <?php echo $form->start(array('router' => 'moduleEntry', 'module' => 'cpanel', 'action' => 'LoginForm')) ?>
+                <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'cpanel', 'action' => 'LoginForm')) ?>
                   <p><?php echo $form->inputSubmit('起動', array('class' => 'btn')) ?></p>
-                  <p class="note">ログインパスワードは config/application.yml の 'module.entries.cpanel.password' 属性を参照して下さい。</p>
+                  <p class="note">ログインパスワードは config/application.yml の 'cpanel.password' 属性を参照して下さい。</p>
                 <?php echo $form->close() ?>
               <?php else: ?>
                 <p><?php echo $html->link($html->error('cpanel'), '/cpanel/', array(), array('escape' => FALSE)) ?></p>
@@ -86,18 +86,18 @@
             </div>
           </li>
           <li>
-            <div class="data_label">サンプルアプリケーション</div>
-            <div class="data_content">
-              <?php if (isset($hasSampleApp)): ?>
-                <?php if (!$html->hasError('sample')): ?>
-                  <?php echo $form->start(array('router' => 'moduleEntry', 'module' => 'front', 'action' => 'Start')) ?>
+            <div class="data-label">デモアプリケーション</div>
+            <div class="data-content">
+              <?php if (isset($hasDemoApp)): ?>
+                <?php if (!$html->hasError('demo')): ?>
+                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'demo-front', 'action' => 'Start')) ?>
                     <p><?php echo $form->inputSubmit('スタート', array('class' => 'btn')) ?></p>
                   <?php echo $form->close() ?>
                 <?php else: ?>
-                <p><?php echo $html->error('sample') ?></p>
+                <p><?php echo $html->error('demo') ?></p>
                 <?php endif ?>
               <?php else: ?>
-                <p>サンプルアプリケーションがインストールされていません。サンプルアプリケーションを起動するには、'delta install-sample' コマンドでインストールを行なう必要があります。</p>
+                <p>デモアプリケーションがインストールされていません。デモアプリケーションを起動するには、'delta install-demo-app' コマンドでインストールを行なう必要があります。</p>
               <?php endif ?>
             </div>
           </li>

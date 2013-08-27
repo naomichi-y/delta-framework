@@ -11,7 +11,7 @@
 /**
  * クライアントに応答する HTTP レスポンスを制御します。
  *
- * このクラスは 'response' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_DIController::getResponse()} からインスタンスを取得することができます。
+ * このクラスは 'response' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getResponse()} からインスタンスを取得することができます。
  *
  * Delta_HttpResponse が提供するいくつかのメソッドは、{@link flush()} メソッドによってクライアントにレスポンスが返されるタイミングで実行されます。
  *   - {@link setStatus()}
@@ -144,21 +144,17 @@ class Delta_HttpResponse extends Delta_Object
   );
 
   /**
-   * レスポンスオブジェクトを初期化します。
-   * レスポンス出力時のデフォルトコンテンツタイプ、及びエンコーディング形式はクライアントのユーザエージェントに依存します。
+   * コンストラクタ。
    *
-   * @see Delta_UserAgentAdapter::getContentType()
-   * @see Delta_HttpResponse::setOutputEncoding()
    * @throws RuntimeException 出力コールバック関数が未定義の場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function initialize()
+  public function __construct()
   {
     $config = Delta_Config::getApplication();
 
     if ($config->getBoolean('controller.detectUserAgent')) {
-      $container = Delta_DIContainerFactory::getContainer();
-      $userAgent = $container->getComponent('request')->getUserAgent();
+      $userAgent = Delta_FrontController::getInstance()->getRequest()->getUserAgent();
 
       $this->setOutputEncoding($userAgent->getEncoding());
       $this->setContentType($userAgent->getContentType());
@@ -180,6 +176,30 @@ class Delta_HttpResponse extends Delta_Object
         throw new RuntimeException($message);
       }
     }
+  }
+
+  /**
+   * ビューオブジェクトを取得します。
+   *
+   * @return Delta_View ビューオブジェクトを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getView()
+  {
+    return Delta_DIContainerFactory::getContainer()->getComponent('view');
+  }
+
+  /**
+   * メッセージオブジェクトを取得します。
+   *
+   * @return Delta_ActionMessages メッセージオブジェクトを返します。
+   * @since 1.2
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getMessages()
+  {
+    return Delta_ActionMessages::getInstance();
   }
 
   /**
@@ -222,7 +242,10 @@ class Delta_HttpResponse extends Delta_Object
    * クライアントにエラーステータスを送信すると共に、エラーメッセージを出力します。
    * このメソッドは実行した時点でレスポンスが返されます。
    * 後に続く処理は一切実行されない点に注意して下さい。
-   * エラーの出力に使用されるテンプレートは {APP_ROOT_DIR}/templates/html/http_error.php にあります。
+   *
+   * エラーメッセージのテンプレートは {DELTA_ROOT_DIR}/skeleton/templates/http_error.php が使用されます。
+   * カスタムテンプレートを利用したい場合は {APP_ROOT_DIR}/templates/html/http_{status}.php ファイルを作成して下さい。
+   * 例えば HTTP ステータス 404 に対応するカスタムファイルは http_404.php となります。
    *
    * @param int $status クライアントに送信する HTTP レスポンスコード。
    * @param string $message 応答メッセージ。未指定時はデフォルトのエラーメッセージが返されます。
@@ -236,10 +259,15 @@ class Delta_HttpResponse extends Delta_Object
     ob_start();
 
     $this->sendStatus($status, $message, $version);
-    $path = sprintf('%s%shtml%shttp_error.php',
+    $path = sprintf('%s%shtml%shttp_%s.php',
       $this->getAppPathManager()->getTemplatesPath(),
       DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR);
+      DIRECTORY_SEPARATOR,
+      $status);
+
+    if (!file_exists($path)) {
+      $path = sprintf('%s/skeleton/templates/http_error.php', DELTA_ROOT_DIR);
+    }
 
     $view = new Delta_View(new Delta_BaseRenderer());
     $view->setAttribute('message', $this->_status);
@@ -250,7 +278,7 @@ class Delta_HttpResponse extends Delta_Object
     ob_end_clean();
 
     $arguments = array(&$buffer);
-    $this->getObserver()->dispatchEvent('preOutput', $arguments);
+    Delta_FrontController::getInstance()->getObserver()->dispatchEvent('preOutput', $arguments);
 
     $this->write($buffer);
     $this->flush();
@@ -471,18 +499,19 @@ class Delta_HttpResponse extends Delta_Object
    * {@link sendRedirect()} の項も合わせて参照して下さい。
    *
    * @param string $path リダイレクト先のアクション名。
-   *   指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   *   指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param array $queryData リダイレクト URI に追加する GET パラメータを連想配列形式で指定。
    * @param bool $appendSessionId クエリにセッション ID を追加している場合、リダイレクト先のアクションに ID を引き継ぐかどうかを指定。
-   * @throws Delta_RequestException ルーティング経路が確定していない状態でメソッドをコールした場合に発生。
+   * @throws Delta_RequestException ルートが確定していない状態でメソッドをコールした場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function sendRedirectAction($path, array $queryData = array(), $appendSessionId = TRUE)
   {
-    $router = Delta_Router::getInstance();
-    $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
+    $controller = Delta_FrontController::getInstance();
+    $route = $controller->getRequest()->getRoute();
+    $request = $controller->getRequest();
 
-    if ($router->getEntryRouterName() === NULL) {
+    if ($route->getModuleName() === NULL) {
       $message = sprintf('Routing path is not established. [%s]', $request->getURI(FALSE));
       throw new Delta_RequestException($message);
     }
@@ -508,7 +537,7 @@ class Delta_HttpResponse extends Delta_Object
       }
     }
 
-    $path = $router->buildRequestPath($path, $queryData, TRUE);
+    $path = $controller->getRouter()->buildRequestPath($path, $queryData, TRUE);
 
     $this->sendRedirect($path);
   }
@@ -534,8 +563,9 @@ class Delta_HttpResponse extends Delta_Object
       throw new Delta_SecurityException($message);
     }
 
+    $request = Delta_FrontController::getInstance()->getRequest();
+
     if (strcasecmp(substr($uri, 0, 4), 'http') !== 0) {
-      $request = Delta_DIContainerFactory::getContainer()->getComponent('request');
       $uri = $request->getScheme() . '://' . $request->getHost() . $uri;
     }
 
@@ -547,11 +577,7 @@ class Delta_HttpResponse extends Delta_Object
       throw new Delta_UnsupportedException($message);
     }
 
-    $container = Delta_DIContainerFactory::getContainer();
-
-    if ($container->hasComponent('session')) {
-      $container->getComponent('session')->finalize();
-    }
+    $request->getSession()->finalize();
 
     $this->setHeader('Location', $uri);
   }
@@ -562,9 +588,8 @@ class Delta_HttpResponse extends Delta_Object
    *
    * @param string $name クライアントに送信する Cookie の名前。
    * @param string $value クライアントに送信する Cookie の値。
-   * @param int $expire Cookie の有効期限を 1970 年 1 月 1 日からの経過秒数で指定。
-   *   未指定時はクライアントを閉じるまでが有効期間となる。
-   * @param string $path Cookie を有効とするサーバ上のパス。
+   * @param int $expire Cookie の有効期限を現在の時刻から n 秒で指定。
+   *   未指定時はブラウザが閉じられるまで値を保持する。
    * @param string $domain Cookie を有効とするドメイン名。
    * @param bool $secure セキュア Cookie の設定。TRUE を指定した場合、セキュアな通信 (HTTPS) が行われている場合のみ Cookie を送信する。
    * @param bool $httpOnly TRUE を指定した場合、JavaScript (document.cookie) から Cookie を参照できないようにする。
@@ -575,17 +600,16 @@ class Delta_HttpResponse extends Delta_Object
   public function addCookie($name,
     $value,
     $expire = NULL,
-    $path = '/',
     $domain = NULL,
     $secure = FALSE,
     $httpOnly = TRUE)
   {
-    if (is_numeric($expire) || $expire === NULL) {
+    if ((is_numeric($expire) && $expire > 0) || $expire === NULL) {
       $cookie = array();
       $cookie['name'] = $name;
       $cookie['value'] = $value;
-      $cookie['expire'] = $expire;
-      $cookie['path'] = $path;
+      $cookie['expire'] = time() + $expire;
+      $cookie['path'] = '/';
       $cookie['domain'] = $domain;
       $cookie['secure'] = $secure;
       $cookie['httpOnly'] = $httpOnly;
@@ -599,14 +623,20 @@ class Delta_HttpResponse extends Delta_Object
 
   /**
    * クライアントが保持している全ての Cookie を削除します。
+   * このメソッドは Cookie に保存されているセッションキーは削除しません。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function clearCookie()
   {
+    $sessionName = session_name();
+
     foreach ($_COOKIE as $name => $value) {
-      unset($_COOKIE[$name]);
-      $this->addCookie($name, NULL, -1);
+      if ($sessionName === $name) {
+        continue;
+      }
+
+      $this->removeCookie($name);
     }
   }
 
@@ -622,7 +652,17 @@ class Delta_HttpResponse extends Delta_Object
   {
     if (isset($_COOKIE[$name])) {
       unset($_COOKIE[$name]);
-      $this->addCookie($name, NULL, -1);
+
+      $cookie = array();
+      $cookie['name'] = $name;
+      $cookie['value'] = '';
+      $cookie['expire'] = -1;
+      $cookie['path'] = '/';
+      $cookie['domain'] = NULL;
+      $cookie['secure'] = NULL;
+      $cookie['httpOnly'] = NULL;
+
+      $this->_cookies[] = $cookie;
 
       return TRUE;
     }
@@ -758,7 +798,9 @@ class Delta_HttpResponse extends Delta_Object
   public function setDownloadData($data, $name = NULL, $isBinary = FALSE)
   {
     if ($name === NULL) {
-      $name = Delta_StringUtils::convertCamelCase(Delta_ActionStack::getInstance()->getLastEntry()->getActionName());
+      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+      $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
+      $name = Delta_StringUtils::convertCamelCase($actionName);
     }
 
     $this->setContentType('application/octet-stream');

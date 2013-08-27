@@ -37,7 +37,7 @@ class DAODeployAction extends Delta_Action
 
     if (is_array($fileNames)) {
       if (!is_dir($toDirectory)) {
-        Delta_FileUtils::createDirectoryRecursive($toDirectory);
+        Delta_FileUtils::createDirectory($toDirectory);
       }
 
       foreach ($fileNames as $fileName) {

@@ -43,14 +43,13 @@ class Delta_ConvertManager extends Delta_Object
   public function execute()
   {
     $convertConfig = $this->_convertConfig;
-    $form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    $form = Delta_ActionForm::getInstance();
 
     foreach ($convertConfig as $converterId => $rules) {
       $fieldNames = NULL;
 
       if (isset($rules['names'])) {
         if ($rules['names'] === '@all') {
-          $form = Delta_DIContainerFactory::getContainer()->getComponent('form');
           $fieldNames = array_keys($form->getFields());
         } else {
           $fieldNames = explode(',', $rules['names']);
@@ -97,7 +96,7 @@ class Delta_ConvertManager extends Delta_Object
    */
   private function groupFieldToConvert(Delta_Converter $converter, $fieldValue, $postFieldName = NULL)
   {
-    $form = Delta_DIContainerFactory::getContainer()->getComponent('form');
+    $form = Delta_ActionForm::getInstance();
 
     foreach ($fieldValue as $name => $value) {
       $name = $postFieldName . '.' . $name;

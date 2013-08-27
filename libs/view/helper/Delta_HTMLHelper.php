@@ -81,10 +81,10 @@ class Delta_HTMLHelper extends Delta_Helper
    */
   public function __construct(Delta_View $currentView, array $config = array())
   {
+    parent::__construct($currentView, $config);
+
     $this->_messages = $this->getMessages();
     $this->_extension = Delta_Config::getApplication()->getString('action.extension');
-
-    parent::__construct($currentView, $config);
   }
 
   /**
@@ -483,8 +483,8 @@ class Delta_HTMLHelper extends Delta_Helper
     }
 
     if ($isAbsolutePath) {
-      $moduleName = Delta_Router::getInstance()->getEntryModuleName();
-      $basePath = $this->getAppPathManager()->getModuleTemplatesPath($moduleName);
+      $route = $this->getRequest()->getRoute();
+      $basePath = $this->getAppPathManager()->getModuleTemplatesPath($route->getModuleName());
       $templatesDirectory = dirname($basePath . $path);
       $path = basename($path);
 
@@ -516,7 +516,12 @@ class Delta_HTMLHelper extends Delta_Helper
     };
 
     // メソッドに渡された変数リストをエスケープ
+    $helpers = $this->_currentView->getHelpers();
     $variables = $this->_currentView->getAttributes();
+
+    foreach ($helpers as $name => $value) {
+      $variables[$name] = $value;
+    }
 
     foreach ($attributes as $name => $value) {
       $variables[$name] = Delta_StringUtils::escape($value);
@@ -524,10 +529,11 @@ class Delta_HTMLHelper extends Delta_Helper
 
     // HTML エスケープを必要としない変数のリストをマージする
     if (sizeof($unescapeAttributes)) {
-      $variables = Delta_ArrayUtils::mergeRecursive($variables, $unescapeAttributes);
+      $variables = Delta_ArrayUtils::merge($variables, $unescapeAttributes);
     }
 
     $load($this->_pathMapping, $path, $variables);
+
     array_pop($this->_pathMapping);
   }
 
@@ -535,7 +541,7 @@ class Delta_HTMLHelper extends Delta_Helper
    * リンクタグを生成します。
    *
    * @param string $label リンクのラベル。未指定の場合は path がラベルとして扱われます。
-   * @param mixed $path リンク先のパス。指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   * @param mixed $path リンク先のパス。指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param mixed $attributes タグに追加する属性。
    *   <code>
    *   // タグに 'class'、'title' 属性を追加
@@ -548,7 +554,7 @@ class Delta_HTMLHelper extends Delta_Helper
    *       (secure オプション指定時は absolute 属性は TRUE と見なされる)
    *   - query: パスに追加するクエリパラメータを連想配列形式で指定。
    * @return string 生成したリンクタグを返します。
-   * @see Delta_Router::buildRequestPath()
+   * @see Delta_RouteResolver::buildRequestPath()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function link($label = NULL, $path = NULL, $attributes = array(), $extra = array())
@@ -610,7 +616,7 @@ class Delta_HTMLHelper extends Delta_Helper
    * @param string $cushionPath クッションパス。
    *   文字列中に外部の URI が含まれる場合、直接アンカーを張るのではなく、クッションページに遷移させることが可能。
    *   クッションページには遷移先の URI が '?uri={URI}' 形式で付加される。
-   *   指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   *   指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @return string 変換後の文字列を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -666,7 +672,7 @@ class Delta_HTMLHelper extends Delta_Helper
    * イメージタグを生成します。
    * このメソッドは、extra オプション 'ignoreCache' を TRUE に指定しない限り、ファイルが存在するかどうかのチェックは行いません。
    *
-   * @param mixed $path 画像のパス。指定可能なパスの書式は {@link Delta_Router::buildRequestPath()} メソッドを参照。
+   * @param mixed $path 画像のパス。指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @param mixed $extra オプション属性。{@link buildAssetPath()} メソッドを参照。
    * @return string 生成したイメージタグを返します。

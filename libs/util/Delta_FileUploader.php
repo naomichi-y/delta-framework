@@ -193,7 +193,7 @@ class Delta_FileUploader extends Delta_Object
     $baseDirectory = dirname($savePath);
 
     if (!is_dir($baseDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($baseDirectory);
+      Delta_FileUtils::createDirectory($baseDirectory);
     }
 
     if (move_uploaded_file($this->getTemporaryFilePath(), $savePath)) {

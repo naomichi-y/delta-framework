@@ -55,7 +55,7 @@ class Delta_WebApplicationEventListener extends Delta_ApplicationEventListener
    */
   public function preOutput(&$contents)
   {
-    $response = Delta_DIContainerFactory::getContainer()->getComponent('response');
+    $response = Delta_FrontController::getInstance()->getResponse();
 
     if ($response->hasBinary()) {
       $contents = $response->getWriteBuffer();

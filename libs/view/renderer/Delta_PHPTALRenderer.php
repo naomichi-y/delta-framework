@@ -54,10 +54,10 @@ class Delta_PHPTALRenderer extends Delta_Renderer
     static $engine = NULL;
 
     if ($engine === NULL) {
-      $container = Delta_DIContainerFactory::getContainer();
+      $response = Delta_FrontController::getInstance()->getResponse();
 
       $engine = new PHPTAL();
-      $engine->setEncoding($container->getComponent('response')->getOutputEncoding());
+      $engine->setEncoding($response->getOutputEncoding());
     }
 
     return $engine;

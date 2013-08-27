@@ -11,7 +11,6 @@
 /**
  * require files
  */
-require DELTA_LIBS_DIR . '/kernel/container/Delta_DIController.php';
 
 require DELTA_LIBS_DIR . '/cache/Delta_Cache.php';
 require DELTA_LIBS_DIR . '/cache/Delta_CacheManager.php';
@@ -20,17 +19,12 @@ require DELTA_LIBS_DIR . '/cache/Delta_YAMLCache.php';
 require DELTA_LIBS_DIR . '/kernel/container/Delta_DIContainer.php';
 require DELTA_LIBS_DIR . '/kernel/container/Delta_DIContainerFactory.php';
 
-require DELTA_LIBS_DIR . '/kernel/path/Delta_Router.php';
-
 require DELTA_LIBS_DIR . '/util/Delta_ParameterHolder.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_ArrayUtils.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_CommonUtils.php';
 require DELTA_LIBS_DIR . '/util/config/Delta_Config.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_FileUtils.php';
 require DELTA_LIBS_DIR . '/util/common/Delta_StringUtils.php';
-
-require DELTA_LIBS_DIR . '/view/helper/Delta_Helper.php';
-require DELTA_LIBS_DIR . '/view/helper/Delta_HelperManager.php';
 
 /**
  * アプリケーション空間にクラスファイルを読み込む機能を提供します。
@@ -208,6 +202,7 @@ class Delta_ClassLoader
    */
   public static function loadByName($className)
   {
+    file_put_contents('/Users/naomichi/Documents/projects/delta/sandbox-1.2/a', $className."\n", FILE_APPEND);
     static $autoloaders;
 
     $hasLoadVendorClass = FALSE;
@@ -431,7 +426,7 @@ class Delta_ClassLoader
     $classes = self::$_cache->get('autoload', 'autoload_vendors');
 
     if ($classes) {
-      $autoloaders = Delta_ArrayUtils::mergeRecursive($classes, self::$_preWriteAutoloaders);
+      $autoloaders = Delta_ArrayUtils::merge($classes, self::$_preWriteAutoloaders);
     } else {
       $autoloaders = self::$_preWriteAutoloaders;
     }

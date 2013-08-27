@@ -62,7 +62,9 @@ class Delta_BaseRenderer extends Delta_Renderer
     // $this->_context['attributes'] には 'path' 変数が含まれる可能性もあるため、名前を変えておく
     $_path = $path;
 
+    extract($this->_context['helpers']);
     extract($this->_context['attributes']);
+
     require $_path;
   }
 }

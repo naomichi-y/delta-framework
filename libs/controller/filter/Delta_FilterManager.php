@@ -8,8 +8,6 @@
  * @link http://delta-framework.org/
  */
 
-require DELTA_LIBS_DIR . '/controller/filter/Delta_ActionFilter.php';
-
 /**
  * グローバルフィルタ、及びモジュールフィルタを管理し、適切な {@link Delta_FilterChain} 構造を生成します。
  *
@@ -31,45 +29,28 @@ class Delta_FilterManager extends Delta_Object
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function __construct()
+  public function __construct()
   {
     $config = Delta_Config::getFilters();
 
-    // フィルタリストの登録
     foreach ($config as $filterName => $attributes) {
       $this->addFilter($filterName, $attributes->toArray());
     }
-
-    // アクションフィルタの登録
-    $this->_filters['actionFilter'] = array('class' => 'Delta_ActionFilter');
   }
 
   /**
+   * フィルタマネージャにフィルタを登録します。
+   *
+   * @param string $filterId フィルタ ID。
+   * @param array $attributes フィルタ属性。
+   * @since 1.2
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function addFilter($filterId, array $attributes = array())
+  public function addFilter($filterId, array $attributes = array())
   {
-    $enable = Delta_ArrayUtils::find($attributes, 'enable', TRUE);
-
-    if ($enable) {
+    if (Delta_ArrayUtils::find($attributes, 'enable', TRUE)) {
       $this->_filters[$filterId] = $attributes;
     }
-  }
-
-  /**
-   * Delta_FilterManager のインスタンスを取得します。
-   *
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function getInstance()
-  {
-    static $instance;
-
-    if ($instance === NULL) {
-      $instance = new Delta_FilterManager();
-    }
-
-    return $instance;
   }
 
   /**

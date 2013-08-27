@@ -1,5 +1,26 @@
-moduleEntry:
-  uri: /:module/:action/*
+rewriteTestRoute:
+  uri: /rewriteTest
+  forward:
+    module: entry
+    action: Index
 
-defaultEntry:
-  uri: /:action/*
+cpanelConnectTestRoute:
+  uri: /cpanel/connectTest
+  forward:
+    module: cpanel
+    action: ConnectTest
+
+defaultRoute:
+  uri: /:action
+  forward:
+    module: "{%MODULE.ENTRY%}"
+
+moduleRoute:
+  uri: /:module/:action
+
+frontRoute:
+  uri: /
+  forward:
+    module: "{%MODULE.ENTRY%}"
+    action: Index
+

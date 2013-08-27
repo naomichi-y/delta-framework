@@ -38,7 +38,7 @@ class Delta_KernelEventObserver extends Delta_Object
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function __construct()
+  public function __construct()
   {
     $this->_config = Delta_Config::getApplication();
 
@@ -47,25 +47,24 @@ class Delta_KernelEventObserver extends Delta_Object
     } else {
       $this->_listener = new Delta_ConsoleApplicationEventListener();
     }
-
-    register_shutdown_function(array($this, 'dispatchEvent'), 'preShutdown');
   }
 
   /**
-   * イベントオブザーバのインスタンスを取得します。
+   * オブザーバを初期化します。
    *
-   * @return Delta_KernelEventObserver イベントオブザーバのインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  final public static function getInstance()
+  public function Initialize()
   {
-    static $instance;
+    $listeners = Delta_Config::getApplication()->get('observer.listeners');
 
-    if ($instance === NULL) {
-      $instance = new Delta_KernelEventObserver();
+    if ($listeners) {
+      foreach ($listeners as $listenerId => $attributes) {
+        $this->addEventListener($listenerId, $attributes);
+      }
     }
 
-    return $instance;
+    register_shutdown_function(array($this, 'dispatchEvent'), 'preShutdown');
   }
 
   /**

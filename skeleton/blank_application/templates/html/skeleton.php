@@ -11,7 +11,7 @@
   </head>
   <body>
     <header>
-      <h1>Hello <?php echo $request->getActionName() ?>!</h1>
+      <h1>Hello <?php echo $request->getContext()->getRoute()->getActionName() ?>!</h1>
     </header>
   </body>
 </html>

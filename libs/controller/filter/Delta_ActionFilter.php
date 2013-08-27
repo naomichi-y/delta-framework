@@ -36,7 +36,8 @@ class Delta_ActionFilter extends Delta_Filter
    */
   public function doFilter(Delta_FilterChain $chain)
   {
-    $action = Delta_ActionStack::getInstance()->getLastEntry();
+    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+    $action = $route->getForwardStack()->getLast()->getAction();
     $action->initialize();
 
     if ($this->isSafety()) {
@@ -119,6 +120,7 @@ class Delta_ActionFilter extends Delta_Filter
 
           $view = $this->getView();
           $view->setTemplatePath($dispatchConfig);
+          $view->importHelpers();
           $view->execute();
 
         // ビヘイビアにマッピングするフォワードアクション、またはリダイレクト URI が指定されている
@@ -146,11 +148,13 @@ class Delta_ActionFilter extends Delta_Filter
 
       if (!$hasDispatch) {
         if ($dispatchView === Delta_View::SUCCESS) {
-          $actionName = Delta_ActionStack::getInstance()->getLastEntry()->getActionName();
+          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+          $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
           $template = Delta_StringUtils::convertSnakeCase($actionName);
 
           $view = $this->getView();
           $view->setTemplatePath($template);
+          $view->importHelpers();
           $view->execute();
 
         } else {

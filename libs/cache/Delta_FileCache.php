@@ -251,7 +251,7 @@ class Delta_FileCache extends Delta_Cache
     $cacheDirectory = $this->_basePath . DIRECTORY_SEPARATOR . str_replace($this->getNamespaceDelimiter(), DIRECTORY_SEPARATOR, $namespace);
 
     if (!is_dir($cacheDirectory)) {
-      Delta_FileUtils::createDirectoryRecursive($cacheDirectory);
+      Delta_FileUtils::createDirectory($cacheDirectory);
     }
 
     $cachePath = $cacheDirectory . DIRECTORY_SEPARATOR . $fileName;
