@@ -29,7 +29,7 @@
   <p>初めに routes.yml ファイルにアクセス制御の設定を定義します。</p>
   <dl>
     <dt>YAML Code: config/routes.yml</dt>
-    <dd class="lang-yaml"><code>accessRestrictEntry:<br />
+    <dd class="lang_yaml"><code>accessRestrictEntry:<br />
       &nbsp;&nbsp;uri: /restrict/hello<br />
       &nbsp;&nbsp;forward:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;module: entry<br />
@@ -50,9 +50,9 @@
   </dl>
   <p>ここでは例として、/restrict/hello へのリクエストを要求された場合、entry モジュールの Hello アクションを起動する設定になっています。アクセス制御に用いる属性は、&quot;access&quot; と &quot;packages&quot; です。&quot;access.allows&quot; では許可するネットワーク帯の設定、&quot;access.denyForward&quot; では許可していないネットワークからアクセスがあった場合のフォワード先アクションを指定しています。(&quot;access.denyForward&quot; 属性が未指定の場合は、モジュールのデフォルトアクションにフォワードがかかります)</p>
   <p>もう一つの &quot;packages&quot; 属性は、現在のルーティングに関連付けるパッケージを指定します。上記例では &quot;entry:/restrict/*&quot; となっていますので、entry モジュールの actions/restrict ディレクトリ下の全てのアクションが accessRestrictEntry ルータに関連付けられます。packages 属性は routes.yml ファイルで指定された順序でパッケージとの関連付けを設定します。よって、moduleEntry の &quot;packages&quot; 属性で &quot;entry:/*&quot; のように指定した場合は、&quot;entry:/restrict&quot; を除いたパッケージからアクションが検索されるようになります。</p>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>packages 属性が未指定の場合、他のルーティングを介して制限対象のアクションにアクセスされる恐れがあります。IP 制限が必要なルーティングには必ず packages を指定するようにしましょう。</p>
     </div>
   </div>

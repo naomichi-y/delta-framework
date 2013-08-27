@@ -52,7 +52,7 @@
   <p>サイトファイルには基本的にどのようなパラメータを定義しても構いません。例えば次のような構成になるでしょう。</p>
   <dl>
     <dt>YAML Code#</dt>
-    <dd class="lang-yaml"><code># サイト名の定義<br />
+    <dd class="lang_yaml"><code># サイト名の定義<br />
       siteName:       Hello world!<br />
       <br />
       # メール送信者情報の定義 <br />
@@ -69,7 +69,7 @@
   <p>ファイルに設定したパラメータは次のコードで読み込むことができます。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang-php"><code>$config = Delta_Config::getSite();<br />
+    <dd class="lang_php"><code>$config = Delta_Config::getSite();<br />
       <br />
       // 'Hello world!'<br />
       $config-&gt;get('siteName);<br />
@@ -90,12 +90,12 @@
   <p>また、HTML テンプレート内で設定ファイルを参照するための Delta_SiteHelper クラスも提供されています。このクラスを使うことで、自動的に HTML エスケープした値を取得することができます。</p>
   <dl>
     <dt>Template Code#</dt>
-    <dd class="lang-template"><code>&lt;h1&gt;&lt;?php echo $site-&gt;get('siteName') ?&gt;&lt;/h1&gt;<br />
+    <dd class="lang_template"><code>&lt;h1&gt;&lt;?php echo $site-&gt;get('siteName') ?&gt;&lt;/h1&gt;<br />
       &lt;?php echo $form-&gt;start('Start') ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;select('genders', $site-&gt;get('genders'));<br />
       &lt;?php echo $form-&gt;close() ?&gt; </code></dd>
     <dt>HTML Code#</dt>
-    <dd class="lang-html"><code>&lt;h1&gt;Hello world!&lt;/h1&gt;<br />
+    <dd class="lang_html"><code>&lt;h1&gt;Hello world!&lt;/h1&gt;<br />
       &lt;form action=&quot;/start.do&quot; method=&quot;post&quot;&gt;<br />
       &nbsp;&nbsp;&lt;select name=&quot;genders&quot;&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&lt;option value=&quot;male&quot;&gt;男性&lt;/option&gt;<br />

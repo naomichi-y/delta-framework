@@ -34,7 +34,7 @@
   <p>まず初めにユーザのデータを登録するためのフォームを作成しましょう。コンソールを立ち上げ、delta コマンドで Form アクションを作成して下さい。</p>
   <dl>
     <dt>Shell Code# アクションの作成</dt>
-    <dd class="lang-shell"><code>cd /var/www/modules/hello<br />
+    <dd class="lang_shell"><code>cd /var/www/modules/hello<br />
       delta --add-action<br />
       &gt; Package name [/] (e.g. foo/bar): <br />
       &gt; Add action name: Form <br />
@@ -98,7 +98,7 @@
   <p>血液型や趣味に関しては、マスタとなるデータが必要となります。まずはデータを作成しましょう。今回はデータベースを使用しないので、サイト設定ファイルにパラメータを定義します。config/site.yml を開いたら、次のコードを追加して下さい。</p>
   <dl>
     <dt>YAML Code# config/site.yml</dt>
-    <dd class="lang-yaml"> <code>blood:<br />
+    <dd class="lang_yaml"> <code>blood:<br />
       &nbsp;&nbsp;a: A型<br />
       &nbsp;&nbsp;b: B型<br />
       &nbsp;&nbsp;ab: AB型<br />
@@ -114,7 +114,7 @@
   <p>Form に関しては今のところアクションを編集する必要はないので、テンプレートファイルを編集します。</p>
   <dl>
     <dt>Template Code# modules/hello/templates/form.php</dt>
-    <dd class="lang-template"><code>&lt;!DOCTYPE html&gt;<br>
+    <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
       &lt;html lang=&quot;ja&quot;&gt;<br />
       &nbsp;&nbsp;&lt;head&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
@@ -182,9 +182,9 @@
     </tr>
   </table>
   <p>このように、$form オブジェクトはフォームの生成を手助けする様々なメソッドを提供します。delta ではこのようなオブジェクトのことをテンプレートヘルパと呼んでいます。テンプレートヘルパには $form 以外にも、HTML を作成する HTML ヘルパ ($html)、リクエストデータを取得するリクエストヘルパ ($request) などが提供されています。</p>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>詳しくは <a href="../whitepaper/helper.html">テンプレートで使用可能なヘルパ</a> を参照して下さい。</p>
     </div>
   </div>
@@ -193,7 +193,7 @@
   <p>おなじみの delta コマンドで Confirm アクションを作成した後に、アクションクラスを開いて下さい。execute() メソッドに次のコードを記述します。</p>
   <dl>
     <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
-    <dd class="lang-php"> <code>class ConfirmAction extends Delta_Action<br />
+    <dd class="lang_php"> <code>class ConfirmAction extends Delta_Action<br />
       {<br />
       &nbsp;&nbsp;public function execute()<br />
       &nbsp;&nbsp;{<br />
@@ -220,34 +220,34 @@
   <p>ようやく本格的なプログラムコードになってきました。それでは一つずつコードを見ていきましょう。</p>
   <dl>
     <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
-    <dd class="lang-php"> <code> $form = $this-&gt;getForm();<br />
+    <dd class="lang_php"> <code> $form = $this-&gt;getForm();<br />
       $blood = $form-&gt;get('blood');<br />
       $hobbies = $form-&gt;get('hobbies', array());</code></dd>
   </dl>
   <p>$this-&gt;getForm()-&gt;get() は、フォームから送信された値を取得するメソッドです。例えば血液型として「A 型」のラベルが送信された場合、$blood に代入される値は「a」となります。同様に、趣味で「ゲーム」と「インターネット」を選択した場合、$hobbies に入る値は array('game', 'internet') となるでしょう。hobbies に関しては get() の第二引数に空の配列を指定していますが、これはチェックボックスが未送信の場合に NULL の代替値として array() を返す処理を施しています。(get() メソッドは引数に指定したフィールドが見つからない場合にデフォルトで NULL を返します)</p>
   <p>このように、値が見つからない場合の代替値を指定しておくことで、型の変換エラーを事前に防止することが可能となります。また、ここで登場した $this-&gt;getForm() は、テンプレートコードで見た $form 変数とはオブジェクトが異なる点に注意して下さい。getForm() の戻り値は form コンポーネント (Delta_ActionForm) ですが、$form ヘルパの実態は Delta_FormHelper のインスタンスとなっています。</p>
-  <div class="note-container note-important">
-    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note-contents">
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
       <p>PHP にはクライアントからリクエストされた値を取得するための $_GET や $_POST といったスーパーグローバル変数が提供されていますが、delta を使ったアプリケーションを構築する上ではこれらの変数を使用するべきではありません。中には悪意を持つユーザがプログラムを破壊する目的で不正なコードを送信してくる可能性もあります。delta これらのリクエストデータを安全な形で取得するための各種ラッパーメソッドを提供しています。詳しくは <a href="../../api/reference/http.request/delta___http_request.html">Delta_HttpRequest</a> クラスを参照して下さい。</p>
     </div>
   </div>
   <dl>
     <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
-    <dd class="lang-php"><code>$site = Delta_Config::getSite();<br />
+    <dd class="lang_php"><code>$site = Delta_Config::getSite();<br />
       $this-&gt;getView()-&gt;setAttribute('blood', $site-&gt;get('blood')-&gt;get($blood));</code></dd>
   </dl>
   <p>Delta_Config は、アプリケーションの設定ファイルを読み込むためのローダークラスです。今回は getSite() というメソッドを実行しているので、参照されるファイルは先ほどのサイトファイルになります。Delta_Config::loadXXX() メソッドは YAML データを Delta_ParameterHolder オブジェクトとして返します。 </p>
   <p>今回は blood の下のキー $blood も指定していることから、$site-&gt;get('blood')-&gt;get('a') の戻り値は「A 型」となります。ここではラベルに変換された文字列を setAttribute() メソッドを通してテンプレートに割り当てていることが分かります。</p>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <p>setAttribute() メソッドによって割り当てられた変数はテンプレート上で自動的に HTML エスケープの処理が施されます。これは文字列や整数といったスカラー型だけではなく、配列型、オブジェクト型も対象となります。</p>
     </div>
   </div>
   <dl>
     <dt>PHP Code# modules/hello/actions/ConfirmAction.php</dt>
-    <dd class="lang-php"><code>$values = array();<br/>
+    <dd class="lang_php"><code>$values = array();<br/>
       foreach ($hobbies as $hobby) {<br />
       &nbsp;&nbsp;$values[] = $property['hobby'][$hobby];<br />
       }<br/>
@@ -258,7 +258,7 @@
   <p>これでアクションクラスのコードは終わりです。ここでは血液型と趣味に関して、フォームから送信された値をラベル名に変換し、テンプレートに割り当てるという処理を行いました。続いてテンプレートファイルを編集しましょう。</p>
   <dl>
     <dt>Template Code# modules/hello/templates/confirm.php</dt>
-    <dd class="lang-template"><code>&lt;!DOCTYPE html&gt;<br>
+    <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
       &lt;html lang=&quot;ja&quot;&gt;<br />
       &nbsp;&nbsp;&lt;head&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />
@@ -296,7 +296,7 @@
   <p>最後に $form-&gt;requestDataToInputHiddens() というメソッドに注目して下さい。このメソッドは、フォームから送信されたデータを元に hidden フィールドを生成します。これは入力項目を持たない入力確認画面などで、次のページ (登録処理アクション) に値を引き継がせたい場合に使用します。</p>
   <dl>
     <dt>HTML Code# requestDataToInputHiddens() メソッドが出力する値</dt>
-    <dd class="lang-html"><code>&lt;input type=&quot;hidden&quot; name=&quot;nickname&quot; value=&quot;test&quot; id=&quot;nickname&quot; /&gt;<br />
+    <dd class="lang_html"><code>&lt;input type=&quot;hidden&quot; name=&quot;nickname&quot; value=&quot;test&quot; id=&quot;nickname&quot; /&gt;<br />
       &lt;input type=&quot;hidden&quot; name=&quot;birth[year]&quot; value=&quot;1980&quot; id=&quot;birth_year&quot; /&gt;<br />
       &lt;input type=&quot;hidden&quot; name=&quot;birth[month]&quot; value=&quot;08&quot; id=&quot;birth_month&quot; /&gt;<br />
       &lt;input type=&quot;hidden&quot; name=&quot;birth[day]&quot; value=&quot;6&quot; id=&quot;birth_day&quot; /&gt;<br />
@@ -315,7 +315,7 @@
   <p>初めにフォームの遷移先をディスパッチを行うアクション名に書き換えます。ここでは Dispatcher としました。</p>
   <dl>
     <dt>Template Code# modules/hello/templates/confirm.php</dt>
-    <dd class="lang-template"><code>&lt;!-- 古いコード --&gt;<br />
+    <dd class="lang_template"><code>&lt;!-- 古いコード --&gt;<br />
       &lt;?php echo $form-&gt;start('Form') ?&gt;<br />
       <br />
       &lt;!-- 新しいコード --&gt;<br />
@@ -324,13 +324,13 @@
   <p>次に「登録」ボタンを追加します。ここで先ほど無かった第 2 引数に注目して下さい。inputSubmit() メソッドの第 2 引数には、HTML タグに変換した際に付加する属性を設定できます。name はフォームの要素名を表す属性ですが、それぞれ dispatch という接頭辞が付いてます。これはディスパッチャを使う際の決まり事だと捉えて下さい。もし他のボタンが追加された場合も、要素の名前は dispatchXXX という形式になります。</p>
   <dl>
     <dt>Template Code# modules/hello/templates/confirm.php</dt>
-    <dd class="lang-template"><code> &lt;?php echo $form-&gt;inputSubmit('修正', array('name' =&gt; 'dispatchForm')) ?&gt;<br />
+    <dd class="lang_template"><code> &lt;?php echo $form-&gt;inputSubmit('修正', array('name' =&gt; 'dispatchForm')) ?&gt;<br />
       &lt;?php echo $form-&gt;inputSubmit('登録', array('name' =&gt; 'dispatchRegister')) ?&gt;</code></dd>
   </dl>
   <p>これで確認画面のテンプレート編集は終わりです。今度は Dispatcher アクションを作成しましょう。</p>
   <dl>
     <dt>PHP Code# modules/hello/actions/DispacherAction</dt>
-    <dd class="lang-php"> <code>class DispatcherAction extends Delta_DispatchAction<br />
+    <dd class="lang_php"> <code>class DispatcherAction extends Delta_DispatchAction<br />
       {<br />
       &nbsp;&nbsp;      public function dispatchForm()<br />
       &nbsp;&nbsp;{<br />
@@ -350,16 +350,16 @@
   </dl>
   <p>ファイルを開いたら、Delta_Action となっている親クラスの名前を Delta_DispatchAction に書き換えます。Delta_DispatchAction は、フォームから送信されたボタンに従って実行するアクションを確定させる抽象クラスです。実体は Delta_Action の子クラスですが、execute() メソッドは使用せず、代わりに dispatchForm()、dispatchRegister() といったメソッドが定義されています。</p>
   <p>勘の良い方は気づいたかもしれませんが、Dispatcher アクションに定義されたメソッド名はそのまま確認画面のボタンの名に合致しています。つまり、修正ボタンを押したら dispatchForm()、登録ボタンが押されたら dispatchRegister() メソッドが実行されるという仕組みです。メソッドの戻り値はそのままフォワード (遷移) するアクション名になります。</p>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <p>defaultForward() メソッドは、送信されたボタンが不明な場合に起動するデフォルトフォワードメソッドであり、Delta_DispatchAction クラスに定義されています。送信ボタン押下時のリクエストパスは /hello/dispatcher.do のようになりますが、URI をブラウザに直に入力した場合、ボタンが押されていない状態となるため、defaultForward() メソッドが起動します。 </p>
     </div>
   </div>
   <p>最後に登録完了画面を作成します。アクション名は Register として下さい。</p>
   <dl>
     <dt>PHP Code# modules/hello/actions/DispacherAction</dt>
-    <dd class="lang-php"> <code>class RegisterAction extends Delta_Action<br />
+    <dd class="lang_php"> <code>class RegisterAction extends Delta_Action<br />
       {<br />
       &nbsp;&nbsp;public function execute()<br />
       &nbsp;&nbsp;{<br />
@@ -373,7 +373,7 @@
   <p>アクションを書き換えたところでテンプレートを編集しましょう。</p>
   <dl>
     <dt>Template Code# modules/hello/templates/register.php</dt>
-    <dd class="lang-template"><code>&lt;!DOCTYPE html&gt;<br>
+    <dd class="lang_template"><code>&lt;!DOCTYPE html&gt;<br>
       &lt;html lang=&quot;ja&quot;&gt;<br />
       &nbsp;&nbsp;&lt;head&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot; /&gt;<br />

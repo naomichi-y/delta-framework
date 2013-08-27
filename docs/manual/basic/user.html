@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta charset="UTF-8" />
+<title>delta - セッションを操作する</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
+<!--[if lt IE 9]>
+<script src="../assets/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">基本的な機能  - セッションを操作する</h1>
+</header>
+<div id="contents">
+  <article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2013 年 7 月 17 日</p>
+    <ul>
+      <li><a href="#session">セッションデータの取り扱い</a></li>
+      <li><a href="#operation">セッションの操作</a></li>
+      <li><a href="#flash">フラッシュデータ</a></li>
+      <li><a href="#login">ログイン管理</a></li>
+      <li><a href="#role">ロール管理</a></li>
+      <li><a href="#session_handler">セッションハンドラの変更</a></li>
+    </ul>
+    <h2><a id="session"></a>セッションデータの取り扱い</h2>
+    <p>PHP には HTTP セッションを扱うための $_SESSION 変数が用意されており、比較的簡単にセッションを扱うことができます。しかしその半面、セッションハイジャックやセッションフィクセーションを始めとするセキュリティ対策に注意を払う必要があります。こうした問題はプロジェクトが大きくなるに連れコードの保守が困難になるものです。</p>
+    <p>delta には $_SESSION をラッピングする <a href="../../api/reference/http.session/delta___http_session.html">Delta_HttpSession</a>、<a href="../../api/reference/http.session.user/delta___authority_user.html">Delta_AuthorityUser</a> クラスが用意されており、これらの API を使うことで上記の問題を解決することができます。Delta_HttpSession は生のセッション操作に近い低レベル API を提供するのに対し、Delta_AuthorityUser は Web アプリケーション向けの高レベルな API を提供します。一般的な Web アプリケーションであれば Delta_AuthorityUser を理解していれば問題ないので、ここではこのクラスを中心に便利なメソッドを紹介します。</p>
+    <div class="note_container note_important">
+      <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+      <div class="note_contents">
+        <p>アプリケーションコードで  $_SESSION 変数を直接利用するべきではありません。使い方によってはセッションデータを破壊する可能性があります。必ず Delta_AuthorityUser (または Delta_HttpSession) 経由でセッションを操作して下さい。</p>
+      </div>
+    </div>
+    <p>まず始めにセッションオブジェクトを取得する方法を紹介します。Delta_DIController を継承したクラス (アクションやフィルタ) から次のメソッドをコールして下さい。　</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>// Delta_AuthorityUser　オブジェクトの取得<br>
+        $user = $this-&gt;getUser();<br>
+        <br>
+        // Delta_HttpSession
+        オブジェクトの取得<br>
+        $session = $this-&gt;getSession(); </code></dd>
+    </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>これらのクラスは DI コンテナで管理されているため、base_dicon.yml を編集することでクラスが持つ機能を拡張することもできます。</p>
+      </div>
+    </div>
+    <h2><a id="operation"></a>セッションの操作</h2>
+    <p>それでは早速セッションにデータを書き込んでみましょう。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>$user-&gt;setAttribute('nickname', 'naomichi'); </code></dd>
+    </dl>
+    <p>setAttribute() はその名の通り、ユーザ (セッション) にデータを割り当てます。割り当てたデータは getAttribute() で参照することができます。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>// 'naomichi' <br>
+        $user-&gt;getAttribute('nickname'); </code></dd>
+    </dl>
+    <p>セッションにセットしたデータをテンプレートから読み出すための <a href="../../api/reference/view.helper/delta___user_helper.html">Delta_UserHelper</a> クラスもあります。アプリケーションによってはコンテンツヘッダにログイン中のユーザ名を表示することがありますが、こういったケースでは Delta_UserHelper::get() メソッドを利用すると良いでしょう。</p>
+    <dl>
+      <dt>Template Code#</dt>
+      <dd class="lang_template"><code>&lt;p&gt;Hello &lt;?php echo $user-&gt;get('nickname') ?&gt;!&lt;/p&gt;</code></dd>
+    </dl>
+    <p>出力される HTML は次のようになります。</p>
+    <dl>
+      <dt>HTML Code#</dt>
+      <dd class="lang_html"><code>&lt;p&gt;Hello naomichi!&lt;/p&gt;</code></dd>
+    </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>Delta_AuthorityUser はセッションをモジュール単位で管理します。つまり、モジュール a  で setAttribute('foo') としてセットした値は、モジュール b で getAttribute('foo') として受け取ることはできません。この点は注意して下さい。</p>
+      </div>
+    </div>
+    <h2><a id="flash"></a>フラッシュデータ</h2>
+    <p>Delta_AuthorityUser は一定期間だけ有効なセッションデータを作ることもできます。この機能は一度だけ通知するメッセージを生成する時などに役立ちます。</p>
+    <dl>
+      <dt>PHP Code# 画面 A</dt>
+      <dd class="lang_php"><code>$user-&gt;setFlash('greeting', 'Hello world!');</code></dd>
+    </dl>
+    <p>ここでは setFlash() メソッドで 'Hello world!' という文字列を書き出しました。	このメッセージは「次のリクエストが完了するまで有効」となります。例えば上記でデータを書きだした直後に画面 B に移動してみましょう。</p>
+    <dl>
+      <dt>PHP Code# 画面 B (画面 A からの遷移)</dt>
+      <dd class="lang_php"><code>// 'Hello world!'<br>
+        $user-&gt;getFlash('greeting');</code></dd>
+    </dl>
+    <p>画面 B に移動した直後は結果が返されますが、リクエストが完了する (セッションが閉じられる) 時点でこのデータは破棄されます。従ってページを再読み込みすると返される値は NULL となります。</p>
+    <dl>
+      <dt>PHP Code# 画面 B (再読み込み)</dt>
+      <dd class="lang_php"><code>// NULL<br>
+        $user-&gt;getFlash('greeting');</code></dd>
+    </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>setFlash() にはオプション引数 $persist があり、デフォルトは FALSE (永続性なし) となります。このオプションを TRUE に指定することで、データが破棄されるタイミングを「getFlash() をコールした時点」に変更することができます。アプリケーションの性質に合わせて使い分けて下さい。</p>
+      </div>
+    </div>
+    <h2><a id="login"></a>ログイン管理</h2>
+    <p>会員制の Web アプリケーションではユーザがサイトにログインしているかしていないかで、提供する機能を分けることが殆どです。Delta_AuthorityUser にはシンプルな認証 API が用意されており、簡単に処理の切り分けができる仕組みが提供されています。代表的なメソッドが次のコードで示す login()、isLogin()、logout() です。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>$user-&gt;login();<br>
+        <br>
+        if ($user-&gt;isLogin()) {<br>
+        &nbsp;&nbsp;$user-&gt;logout();<br>
+        } </code></dd>
+    </dl>
+    <p>Web 認証でユーザがモジュールにログインしたと見なす場合は login()、ログイン中か判定する場合は isLogin()、ログアウト処理では logout() を利用します。isLogin() はヘルパクラス (Delta_UserHelper) に isLogin() としてエイリアスが用意されているため、アクションと同様に処理を切り分けることができます。</p>
+    <dl>
+      <dt>Template Code#</dt>
+      <dd class="lang_template"><code>&lt;?php if ($user-&gt;isLogin()): ?&gt;<br>
+        &nbsp;&nbsp;&lt;p&gt;ログイン中です&lt;/p&gt;<br>
+        &lt;?php endif ?&gt; </code></dd>
+    </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>login() メソッドはセッションフィクセーション対策として、セッション ID の再生成を内部的に行います。</p>
+      </div>
+    </div>
+    <h3>ビヘイビアとフィルタを組み合わせた応用</h3>
+    <p>複数のページでログインチェックが必要な場合、ビヘイビアとフィルタを組み合わせることで認証メカニズムを簡略化することができます。</p>
+    <p>まず初めに、ログインが必要なアクションのビヘイビアに 'login' 属性を追加します。</p>
+    <dl>
+      <dt>YAML Code# modules/entry/behaviors/MemberList.yml</dt>
+      <dd class="lang_yaml"><code>login: TRUE</code></dd>
+    </dl>
+    <p>次に対象モジュールのフィルタリストに <a href="../../api/reference/controller.filter/delta___login_filter.html">Delta_LoginFilter</a> を追加します。</p>
+    <dl>
+      <dt>YAML Code# modules/entry/behaviors/MemberList.yml</dt>
+      <dd class="lang_yaml"><code>loginFilter:<br>
+        &nbsp;&nbsp;class: Delta_LoginFilter<br>
+&nbsp;&nbsp;forward: LoginForm       <br>
+      </code></dd>
+    </dl>
+    <p>以上の設定で、未ログイン状態のまま MemberList アクションをリクエストするとアクションが実行されず、LoginForm にフォワードする形となります。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>フィルタの詳しい使い方は <a href="../whitepaper/filter.html">フィルタを使う</a> を参照して下さい。</p>
+      </div>
+    </div>
+    <h2><a id="role"></a>ロール管理</h2>
+    <p>ユーザに権限を持たせたい場合はロール機能を使います。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>// 'insert' ロールの付与 <br>
+        $user-&gt;addRole('insert');<br>
+        <br>
+        // 複数のロールを一括付与<br>
+        $user-&gt;addRoles(array('select', 'insert', 'update', 'delete')); <br>
+        <br>
+        // 'insert' ロールの破棄 <br>
+        $user-&gt;revokeRole('insert');<br>
+        <br>
+        // 全てのロールを破棄 <br>
+        $user-&gt;revokeRokes();</code></dd>
+    </dl>
+    <p>ユーザが特定のロールを満たしているか判定するには hasRole() メソッドを利用します。</p>
+    <dl>
+      <dt>PHP Code#</dt>
+      <dd class="lang_php"><code>// 1 つ以上のロールがセットされているかチェック<br>
+        $user-&gt;hasRole();<br>
+        <br>
+        // ユーザが 'insert' 
+        ロールを満たしているか<br>
+        $user-&gt;hasRole('insert'); <br>
+        <br>
+        // ユーザが 'select'、'insert' ロールを満たしているか<br>
+        $user-&gt;hasRole(array('select', 'insert')); </code></dd>
+    </dl>
+    <p>hasRole() メソッドはヘルパクラスにもエイリアスが提供されているため、テンプレート上でも処理の切り分けが可能となっています。 </p>
+    <h3>ビヘイビアとフィルタを組み合わせた応用</h3>
+    <p>ユーザが特定のロールを持たない場合に例外をスローさせることもできます。</p>
+    <dl>
+      <dt>YAML Code# modules/entry/behaviors/MemberList.yml</dt>
+      <dd class="lang_yaml"><code> roles:<br />
+        &nbsp;&nbsp;- select</code></dd>
+    </dl>
+    <p>ここでは MemberList アクションに select のロールを設定しました。次にフィルタを追加します。</p>
+    <dl>
+      <dt>YAML Code# modules/entry/config/filters.yml</dt>
+      <dd class="lang_yaml"><code> aclFilter:<br />
+        &nbsp;&nbsp;class: Delta_ACLFilter</code></dd>
+    </dl>
+    <p><a href="../../api/reference/controller.filter/delta___acl_filter.html">Delta_ACLFilter</a> は、ユーザがビヘイビアに定義されたロールを満たしていない場合に Delta_SecurityException をスローします。</p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>実行対象のアクションでユーザがロールを満たしているかどうかは、<a href="../../api/reference/http.session.user/delta___authority_user.html#method_isCurrentActionAuthenticated">Delta_AuthorityUser::isCurrentActionAuthenticated()</a> メソッドで判定することができます。</p>
+      </div>
+    </div>
+    <h2><a id="session_handler"></a>セッションハンドラの変更</h2>
+    <p>Delta_HttpSession はデフォルトでファイルにセッションデータを保存しますが、ロードバランサ配下の Web アプリケーションではセッションが正しく機能しなくなります。変わりにセッションデータをデータベースや Memcached に保存する必要があります。delta には <a href="../../api/reference/http.session.handler/delta___database_session_handler.html">Delta_DatabaseSessionHandler</a> が用意されているので、データベースにセッションを保存する例を見てみましょう。</p>
+    <p>セッションハンドラにデータベースを使うには、セッションテーブルの作成が必要です。delta コマンドからセッションテーブルを作成しましょう。</p>
+    <dl>
+      <dt>Shell Code# config/application.yml</dt>
+      <dd class="lang_yaml"><code> $ delta install-database-session<br>
+        &gt; Install data source of database. [default]: <br>
+      Create table default.delta_sessions. <br>
+      Create database session is complete. <br>
+      <br>
+      Please add settings to the file. <br>
+      ------------------------------------------------------------------------------ <br>
+      {config/application.yml} <br>
+      session:   <br>
+      &nbsp;&nbsp;handler: <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_DatabaseSessionHandler <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;dataSource: default <br>
+      ------------------------------------------------------------------------------</code></dd>
+    </dl>
+    <p>&quot;Please add...&quot; に書かれた設定を application.yml に追記すれば設定は完了です。以上の設定でセッションハンドラとしてデータベースが利用されるようになります。   </p>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>'delta install-database-session' コマンドを実行することで、データベース上に delta_sessions というテーブルが作成されます。</p>
+      </div>
+    </div>
+    <p class="right"><a href="#top">上へ</a></p>
+  </article>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
+</body>
+</html>

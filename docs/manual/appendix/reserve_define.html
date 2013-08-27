@@ -58,12 +58,12 @@
   <p>プロジェクトディレクトリ内のファイルを参照する場合は、基本的に Delta_FileUtils::readFile() メソッドを使用して下さい。readFile() メソッドは、絶対パス、または APP_ROOT_DIR からの相対パスを指定することができ、ファイルが存在しない場合は Delta_IOException をスローします。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang-php"><code>$contents = read_file('data/foo.csv');</code></dd>
+    <dd class="lang_php"><code>$contents = read_file('data/foo.csv');</code></dd>
   </dl>
   <p>上記コードは次のように記述することも可能です。file_get_contents() 関数は、ファイルが存在しない場合に上位レベルの例外である ErrorException をスローします。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang-php"><code>$path = APP_ROOT_DIR . '/data/foo.csv';<br />
+    <dd class="lang_php"><code>$path = APP_ROOT_DIR . '/data/foo.csv';<br />
       $contents = file_get_contents($path);</code></dd>
   </dl>
   <p>どちらのコードが良いかは対象となるファイルによって異なります。コードのパフォーマンスとしては後者の方が上なので、ファイルが普遍的に存在するのであれば定数値を使用した方が良いでしょう。</p>

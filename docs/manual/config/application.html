@@ -23,7 +23,7 @@
 <div id="contents">
   <article>
   <p class="right"><a href="../index.html">戻る</a><br />
-    最終更新日: 2013 年 4 月 19 日</p>
+    最終更新日: 2013 年 6 月 27 日</p>
   <h2>application.yml の概要</h2>
   <p>application.yml はアプリケーションの動作に関わる設定を管理します。</p>
   <table>
@@ -44,13 +44,13 @@
     </tr>
     <tr>
       <td>config/application_{hostname}.yml</td>
-      <td><a href="../whitepaper/extend_yaml.html">ホスト拡張ファイル。</a></td>
+      <td><a href="../basic/config.html#extend_host">ホスト拡張ファイル。</a></td>
       <td>&nbsp;</td>
     </tr>
   </table>
-  <div class="note-container note-important">
-    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note-contents">
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
       <p>application.yml には開発者がカスタムパラメータを定義するべきではありません。カスタムパラメータは <a href="site.html">site.yml</a> か、カスタム設定ファイル内に定義するべきです。</p>
     </div>
   </div>
@@ -96,6 +96,14 @@
       <td scope="col">&nbsp;</td>
     </tr>
     <tr>
+      <td scope="col">cpanel</td>
+      <td colspan="3" scope="col">password</td>
+      <td scope="col">(プロジェクト作成時にランダム文字列が割り当てられる)</td>
+      <td scope="col">(string)</td>
+      <td scope="col">◯</td>
+      <td scope="col">コントロールパネルのログインパスワード。</td>
+    </tr>
+    <tr>
       <td rowspan="2" scope="col">controller</td>
       <td colspan="5" scope="col">&nbsp;</td>
       <td scope="col">&nbsp;</td>
@@ -129,127 +137,15 @@
       <td>HTMLエスケープに使用するフラグ。詳しくは <a href="http://php.net/manual/en/function.htmlentities.php">htmlentities()</a> 関数を参照。</td>
     </tr>
     <tr>
-      <td rowspan="16">module</td>
+      <td rowspan="2">module</td>
       <td colspan="5">&nbsp;</td>
       <td>&nbsp;</td>
       <td>モジュールの動作を定義。</td>
     </tr>
     <tr>
-      <td colspan="3">default (※1)</td>
-      <td>&nbsp;</td>
-      <td>(string)</td>
-      <td>◯</td>
-      <td>URI にモジュール名が含まれない場合に実行するデフォルトのモジュール。</td>
-    </tr>
-    <tr>
       <td colspan="5">subdomain</td>
       <td>&nbsp;</td>
       <td><p>サブドメインをモジュール名に割り当てる。例えば foo.example.com というリクエストは foo モジュール、bar.example.com は bar モジュールを起動する。サブドメインが無い、またはサブドメインに該当するモジュールが見つからない場合はデフォルトモジュールを起動する。</p></td>
-    </tr>
-    <tr>
-      <td colspan="5">unknown (※1)</td>
-      <td>&nbsp;</td>
-      <td>実行対象のモジュールが存在しない場合に実行する代替モジュール、アクションの指定。未指定の場合は RuntimeException をスロー。</td>
-    </tr>
-    <tr>
-      <td rowspan="2">&nbsp;</td>
-      <td colspan="2">module</td>
-      <td>&nbsp;</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>実行するモジュール名。</td>
-    </tr>
-    <tr>
-      <td colspan="2">action</td>
-      <td>&nbsp;</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>実行するアクション名。</td>
-    </tr>
-    <tr>
-      <td>entries</td>
-      <td colspan="2">&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>アプリケーションで有効なモジュールを定義。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="2">{module_name}</td>
-      <td>&nbsp;</td>
-      <td>(array)</td>
-      <td>◯</td>
-      <td>モジュール名。アプリケーションで有効なモジュールは全て定義する必要がある。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>default (※1)</td>
-      <td>Index</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>URI にアクション名が含まれない場合に実行するデフォルトのアクション。アクションが見つからない場合は &quot;module.entries.{module_name}.unknown&quot; 属性に指定されたアクションへフォワードする。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>enable</td>
-      <td>TRUE</td>
-      <td>(bool)</td>
-      <td>&nbsp;</td>
-      <td>モジュールの有効 (無効) 化指定。FALSE を指定した場合はモジュールが起動せず、RuntimeException をスロー。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>unknown (※1)</td>
-      <td>Index</td>
-      <td>(string)</td>
-      <td>&nbsp;</td>
-      <td>アクションが見つからない場合に実行するデフォルトのアクション。アクションが見つからない場合は RuntimeException をスロー。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="2">cpanel</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>コントロールパネルの動作を定義。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>default</td>
-      <td>LoginForm</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td rowspan="3">&quot;module.entries.{module_name} を参照。</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>enable</td>
-      <td>TRUE</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>unknown</td>
-      <td>LoginForm</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>password</td>
-      <td>(create-project 時に設定される)</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>ログインパスワード。</td>
     </tr>
     <tr>
       <td rowspan="2">action</td>
@@ -469,7 +365,7 @@
         PHP タグによる定数値の指定のほか、(非推奨ですが) 数値による指定も可能です。
         <dl>
           <dt>YAML Code#</dt>
-          <dd class="lang-yaml"><code>error:<br />
+          <dd class="lang_yaml"><code>error:<br />
             &nbsp;&nbsp;catchLevel: &lt;?php echo E_ALL ?&gt;</code></dd>
         </dl></td>
     </tr>
@@ -544,7 +440,7 @@
     </tr>
     <tr>
       <td colspan="4">secretKey</td>
-      <td>(create-project 時に設定される)</td>
+      <td>(プロジェクト作成時にランダム文字列が割り当てられる)</td>
       <td>(string)</td>
       <td>◯</td>
       <td>40bit で構成されるアプリケーションの秘密鍵。<a href="../../api/reference/util.common/delta___string_utils.html#method_buildHash">Delta_StringUtils::buildHash()</a> や <a href="../../api/reference/util/delta___blowfish_cipher.html">Delta_BlowfishCipher</a> クラスの動作に影響する。</td>
@@ -587,9 +483,9 @@
       <td>delta コマンド (add-theme、add-module) がアプリケーションに空のディレクトリを作成する際、.gitkeep (Git リポジトリで空ディレクトリを管理するためのダミーファイル) を設置するかどうか。</td>
     </tr>
   </table>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <ul>
         <li>表内の (+) は、対象属性が複数回指定可能なことを表します。</li>
         <li>※1: <a href="#defaultForward">モジュールやアクションが見つからない場合の動作</a> の項も参照して下さい。 </li>
@@ -600,7 +496,7 @@
   <p>Delta_ClassLoader が参照するクラスの自動読み込みパスを追加します。</p>
   <dl>
     <dt>YAML Code#</dt>
-    <dd class="lang-yaml"><code>autoload:<br />
+    <dd class="lang_yaml"><code>autoload:<br />
       &nbsp;&nbsp;# {autoload_id}: {autoload_path} 形式。{autoload_id} はパスを一意に識別する ID<br />
       &nbsp;&nbsp;plugin: /var/lib/plguins<br />
       &nbsp;&nbsp;extension: /var/lib/extensions </code></dd>
@@ -646,17 +542,17 @@
   <p>アプリケーションのデフォルトエンコーディング形式を指定します。default で指定した形式は、内部・入力・出力エンコーディング (及び出力ヘッダ) にそれぞれ適用されます。また &quot;auto&quot; を指定することで、mbstring オプションによる個別のエンコーディング指定が可能となります。</p>
   <dl>
     <dt>YAML Code#</dt>
-    <dd class="lang-yaml"><code>default:<br />
+    <dd class="lang_yaml"><code>default:<br />
       &nbsp;&nbsp;charset: auto<br />
       <br />
       php:<br />
-      <code>&nbsp;&nbsp;mbstring.internal_encoding: UTF-8</code><br />
+      &nbsp;&nbsp;mbstring.internal_encoding: UTF-8<br />
       &nbsp;&nbsp;mbstring.http_input: Shift_JIS<br />
       &nbsp;&nbsp;mbstring.http_output: Shift_JIS</code></dd>
   </dl>
-  <div class="note-container note-important">
-    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note-contents">
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
       <p>default に &quot;auto&quot; を指定する場合、mbstring.internal_encoding の指定は必須となります。オプションに &quot;pass&quot; や &quot;auto&quot;が指定されている場合は実行時にエラーが発生します。 </p>
     </div>
   </div>
@@ -664,155 +560,11 @@
   <p>php.ini の設定をアプリケーションレベルで上書きします。</p>
   <dl>
     <dt>YAML Code</dt>
-    <dd class="lang-yaml"><code>php:<br />
+    <dd class="lang_yaml"><code>php:<br />
       &nbsp;&nbsp;error_log: &lt;?php echo APP_ROOT_DIR . '/logs/fatal_log'; ?&gt;<br />
       &nbsp;&nbsp;display_errors: On<br />
       &nbsp;&nbsp;max_execution_time: 30 </code></dd>
   </dl>
-  <h2 id="defaultForward">モジュールやアクションが見つからない場合の動作</h2>
-  <p>リクエストされたモジュールやアクションが見つからない場合、ルータは設定ファイルに定義されたデフォルトモジュール (アクション) の起動を試みます。ルータが実行するマッチング処理は下表を参照して下さい。</p>
-  <div class="note-container note-important">
-    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note-contents">
-      <p>コンソールアプリケーションは対象外です。コンソールアプリケーションでアクションが見つからない場合はその場で例外が発生します。 </p>
-    </div>
-  </div>
-  <table>
-    <colgroup>
-    <col width="2%" />
-    <col width="2%" />
-    <col width="2%" />
-    <col width="2%" />
-    <col width="28%" />
-    <col width="16%" />
-    <col width="16%" />
-    <col width="32%" />
-    </colgroup>
-    <tr>
-      <th colspan="5" scope="col">&nbsp;</th>
-      <th scope="col">実行モジュール</th>
-      <th scope="col">実行アクション</th>
-      <th scope="col">結果</th>
-    </tr>
-    <tr>
-      <td colspan="5"><p>リクエスト URI が routes.yml のパターンにマッチする</p></td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="4">フォワード先のモジュールが指定されている</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">フォワード先のアクション名の解析に成功</td>
-      <td>リクエストモジュール</td>
-      <td>リクエストアクション</td>
-      <td>リクエストされたアクションを起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">フォワード先のアクション名が不明 (URI にアクション名が含まれない)</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;action.default&quot; アクションが存在する</td>
-      <td>リクエストモジュール</td>
-      <td>&quot;action.default&quot;</td>
-      <td>リクエストモジュールの default アクションを起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;action.default&quot; アクションが存在しない</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;action.unknown&quot; アクションが存在する</td>
-      <td>リクエストモジュール</td>
-      <td>&quot;action.unknown&quot;</td>
-      <td>リクエストモジュールの unknown アクションを起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;action.unknown&quot; アクションが存在しない</td>
-      <td>-</td>
-      <td>-</td>
-      <td>例外が発生</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td colspan="4">フォワード先のモジュールが指定されていない</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">&quot;action.entry&quot; モジュールが存在する</td>
-      <td>&quot;action.entry&quot;</td>
-      <td>リクエストアクション</td>
-      <td>&quot;action.entry&quot; モジュールのリクエストアクションが起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="3">&quot;action.entry&quot; モジュールが存在しない</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;module.unknown.module&quot;モジュールが存在する</td>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;module.unknown.action&quot; アクションが存在する</td>
-      <td>&quot;module.unknown.module&quot;</td>
-      <td>&quot;module.unknown.action&quot;</td>
-      <td>デフォルトアクション (モジュール) を起動</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&quot;module.unknown.action&quot; アクションが存在しない</td>
-      <td>-</td>
-      <td>-</td>
-      <td>例外が発生</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td colspan="2">&quot;module.default.module&quot; モジュールが存在しない</td>
-      <td>-</td>
-      <td>-</td>
-      <td>例外が発生</td>
-    </tr>
-    <tr>
-      <td colspan="5">リクエスト URI が routes.yml のパターンにマッチしない</td>
-      <td colspan="3">(&quot;module.unknown.module&quot; モジュールを検索)</td>
-    </tr>
-  </table>
   <p class="right"><a href="#top">上へ</a></p>
 </article>
 </div>

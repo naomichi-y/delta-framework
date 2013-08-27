@@ -331,10 +331,10 @@ class Delta_RouteResolver extends Delta_Object
               if (preg_match('/^:(\w+)$/', $uriSegments[$i], $matches)) {
                 $buildPath .= '/';
 
-                if ($matches[1] == 'module') {
+                if ($matches[1] === 'module') {
                   $buildPath .= $pathHolder['module'];
 
-                } else if ($matches[1] == 'action') {
+                } else if ($matches[1] === 'action') {
                   if ($actionPathFormat === 'underscore') {
                     $buildPath .= Delta_StringUtils::convertSnakeCase($pathHolder['action']);
                   } else {

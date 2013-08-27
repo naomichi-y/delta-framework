@@ -18,8 +18,16 @@
  */
 abstract class Delta_WebApplication extends Delta_Object
 {
+  /**
+   * @var Delta_FrontController
+   */
   private $_controller;
 
+  /**
+   * コンストラクタ。
+   *
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
   public function __construct()
   {
     $this->_controller = Delta_FrontController::getInstance();

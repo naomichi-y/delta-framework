@@ -29,7 +29,7 @@
   <p>アクションにセキュリティを設定する場合は、対象となるアクションの ビヘイビアファイルに safety 属性を追加します。</p>
   <dl>
     <dt>YAML Code# modules/{module}/behaviors/Secure.yml</dt>
-    <dd class="lang-yaml"><code># セキュアアクションの設定 (HTTPS 接続のみ許可)<br />
+    <dd class="lang_yaml"><code># セキュアアクションの設定 (HTTPS 接続のみ許可)<br />
       safety: <br />
       &nbsp;&nbsp;access: secure <br />
       <br />
@@ -41,7 +41,7 @@
   <p>以上の設定で、クライアントからのリクエストプロトコルが HTTPS の場合のみ、Secure アクションが処理されるようになります。また、safety 属性の値が secure に設定されてる状態で HTTP 接続を行った場合、対象アクションに定義された safetyErrorHandler() メソッドが実行されます。safetyErrorHandler() メソッドは表示するビューを返す必要があり (もちろん、他のアクションへフォワードすることも可能です)、対象アクションにメソッドが定義されていない場合は、デフォルトで Delta_View::SAFETY_ERROR ビューを返します。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/SecureAction.php</dt>
-    <dd class="lang-php"><code>class SecureAction extends Delta_Action<br />
+    <dd class="lang_php"><code>class SecureAction extends Delta_Action<br />
       {<br />
       &nbsp;&nbsp;// HTTPS 接続時に処理される<br />
       &nbsp;&nbsp;public function execute()<br />

@@ -79,14 +79,12 @@ class GenerateDAOAction extends Delta_Action
         $from = array(
           '{%BASE_ENTITY_CLASS_NAME%}',
           '{%CLASS_NAME%}',
-          '{%PROPERTIES%}',
-          '{%CREATE_DATE%}'
+          '{%PROPERTIES%}'
         );
         $to = array(
           $baseEntityClassName,
           $pascalTableName . 'Entity',
-          $propertiesBuffer,
-          date('m/d/Y H:i:s')
+          $propertiesBuffer
         );
 
         $classBuffer = str_replace($from, $to, $entityTemplate);
@@ -111,7 +109,6 @@ class GenerateDAOAction extends Delta_Action
           '{%BASE_DAO_CLASS_NAME%}',
           '{%DATA_SOURCE_ID%}',
           '{%CLASS_NAME%}',
-          '{%CREATE_DATE%}',
           '{%TABLE_NAME%}',
           '{%PRIMARY_KEYS%}'
         );
@@ -119,7 +116,6 @@ class GenerateDAOAction extends Delta_Action
           $baseDAOClassName,
           $namespace,
           $pascalTableName . 'DAO',
-          date('m/d/Y H:i:s'),
           $tableName,
           $primaryKeysString
         );

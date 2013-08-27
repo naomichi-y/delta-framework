@@ -347,7 +347,6 @@ class Delta_CommandExecutor
       $contents = str_replace('"{%SECRET_KEY%}"', $secretKey, $contents);
       $contents = str_replace('"{%CPANEL.PASSWORD%}"', $password, $contents);
       $contents = str_replace('"{%MODULE.ENTRY%}"', $moduleName, $contents);
-      $contents = str_replace('"{%MODULE.UNKNOWN%}"', $moduleName, $contents);
 
       if ($isCreateGitkeep) {
         $replaceGitKeep = 'TRUE';

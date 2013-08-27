@@ -30,7 +30,7 @@
   <p>プロジェクトに新しいテーマを追加するには、&quot;delta add-theme&quot; コマンドを利用します。</p>
   <dl>
     <dt>Shell Code#</dt>
-    <dd class="lang-shell"><code>$ delta add-theme<br />
+    <dd class="lang_shell"><code>$ delta add-theme<br />
       <br />
       # テーマディレクトリの作成<br />
       &gt; Create theme directory. [/var/www/first_project/theme]:<br />
@@ -75,9 +75,9 @@
   </dl>
   <p>&quot;delta add-theme&quot; コマンドを実行すると、いくつかの質問が対話形式で進みます。今回はテーマ名を &quot;bluesky&quot;、テーマを割り当てるモジュールを entry に設定しました。実行ログを見ると分かりますが、デフォルトでテーマディレクトリは {APP_ROOT_DIR}/theme に作成されます。bluesky テーマを有効にするには、ログの最後に記載されている設定を application.yml に追加する必要があります。</p>
   <p>設定を追加したら準備完了です。ブラウザから entry モジュールを起動してみましょう。テンプレートが見つからないとエラーが出たらテーマの切り替えに成功しています。該当テンプレートを {APP_ROOT_DIR}/theme/bluesky/modules/entry/templates に設置すれば、新しいテーマファイルが適用されます。</p>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <ul>
         <li>テーマディレクトリはプロジェクトディレクトリの外部に設置することも可能です。この設定により、プロジェクトリポジトリとテーマリポジトリを分けて運用するといった構成が可能となります。</li>
         <li>テーマの適用を一時的に無効にしたい場合は、application.yml の &quot;theme.name&quot; 値を &quot;none&quot; に設定して下さい。この設定により、フレームワークは従来通りのテンプレートパスを参照するようになります。</li>
@@ -109,9 +109,9 @@
       </ul>
     </li>
   </ul>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <ul>
         <li>data ディレクトリはデフォルトで有効にはなりません。設定を有効にするには、application.yml の &quot;theme.extension&quot; に配列形式で &quot;data&quot; 属性を追加して下さい。 </li>
         <li>テーマを有効にした場合、CSS やイメージといったリソースは {APP_ROOT_DIR}/theme/{theme_name}/webroot/assets 下に配置する必要があります。Web サーバの設定で公開ディレクトリは {APP_ROOT_DIR}/webroot のみに制御されているため、テーマディレクトリへのエイリアスを新たに追加する必要があります。(例えば、&quot;Alias /assets {APP_ROOT_DIR}/theme/{theme_name}/webroot/assets&quot; といった設定になるでしょう)</li>
@@ -122,7 +122,7 @@
   <p>アプリケーションを複数のドメインで運用し、それぞれのドメインで異なるテーマを適用させることができます。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang-yaml"> <code>theme:<br />
+    <dd class="lang_yaml"> <code>theme:<br />
       &nbsp;&nbsp;name: default<br />
       &nbsp;&nbsp;domain:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;delta-bluesky: bluesky<br />
@@ -138,7 +138,7 @@
   <p>テーマが有効な場合、テーマディレクトリのパスは Delta_AppPathManager クラスで取得することができます。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang-php"><code>// パスマネージャのインスタンスを取得<br />
+    <dd class="lang_php"><code>// パスマネージャのインスタンスを取得<br />
       $manager = Delta_AppPathManager::getInstance();<br />
       <br />
       // Delta_Object を継承したクラスであれば Delta_Object::getAppPathManager() でインスタンスを取得することも可能<br />

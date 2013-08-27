@@ -52,7 +52,7 @@
   <p>ヘルパ設定ファイルは、アプリケーションの config ディレクトリに設置されています。</p>
   <dl>
     <dt>YAML Code# config/global_helpers.yml</dt>
-    <dd class="lang-yaml"><code>form: # ヘルパ ID<br />
+    <dd class="lang_yaml"><code>form: # ヘルパ ID<br />
       &nbsp;&nbsp;class: Delta_FormHelper # ヘルパクラス名<br />
       &nbsp;&nbsp;bind: TRUE<br />
       ... </code></dd>
@@ -60,7 +60,7 @@
   <p>ヘルパ ID はテンプレートに割り当てるヘルパの識別子になります。上記例の場合、Delta_FormHelper のインスタンスは form という識別子でテンプレートに割り当てられます。従って、テンプレートからは次のようなコードでヘルパメソッドを呼び出すことができます。</p>
   <dl>
     <dt>Template  Code#</dt>
-    <dd class="lang-template"><code>&lt;?php echo $form-&gt;inputText('hello') ?&gt;</code></dd>
+    <dd class="lang_template"><code>&lt;?php echo $form-&gt;inputText('hello') ?&gt;</code></dd>
   </dl>
   <p>bind 属性はヘルパのインスタンスを自動的にテンプレートに割り当てるかどうかの指定です。bind が FALSE に指定されている場合は、テンプレートが読み込まれる前に手動でインスタンスの割り当てを行う必要があります。</p>
   <h2>属性一覧</h2>
@@ -114,9 +114,9 @@
       <td scope="col">ヘルパクラス名。</td>
     </tr>
   </table>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>ヘルパによって指定可能な属性は異なります。
         詳しくはヘルパクラスのリファレンスを参照して下さい。 </p>
     </div>
