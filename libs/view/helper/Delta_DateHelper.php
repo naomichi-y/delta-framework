@@ -192,7 +192,8 @@ class Delta_DateHelper extends Delta_Helper
     $result = FALSE;
 
     if ($timestamp) {
-      $language = $this->getRequest()->getAcceptLanguage(TRUE);
+      $request = Delta_FrontController::getInstance()->getRequest();
+      $language = $request->getAcceptLanguage(TRUE);
       $result = Delta_DateUtils::date($format, $timestamp, $language);
     }
 
@@ -229,7 +230,9 @@ class Delta_DateHelper extends Delta_Helper
 
     if ($timestamp !== FALSE) {
       $format = $this->_config->getString('dateFormat', 'Y-m-d');
-      $language = $this->getRequest()->getAcceptLanguage(TRUE);
+
+      $request = Delta_FrontController::getInstance()->getRequest();
+      $language = $request->getAcceptLanguage(TRUE);
       $result = Delta_DateUtils::date($format, $timestamp, $language);
     }
 
@@ -266,7 +269,9 @@ class Delta_DateHelper extends Delta_Helper
 
     if ($timestamp !== FALSE) {
       $format = $this->_config->getString('datetimeFormat', 'Y-m-d H:i');
-      $language = $this->getRequest()->getAcceptLanguage(TRUE);
+
+      $request = Delta_FrontController::getInstance()->getRequest();
+      $language = $request->getAcceptLanguage(TRUE);
       $result = Delta_DateUtils::date($format, $timestamp, $language);
     }
 

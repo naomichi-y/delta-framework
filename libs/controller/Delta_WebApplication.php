@@ -106,15 +106,6 @@ abstract class Delta_WebApplication extends Delta_Object
   }
 
   /**
-   * @since 2.0
-   * 削除
-   */
-  public function getForm()
-  {
-    return Delta_ActionForm::getInstance();
-  }
-
-  /**
    * データベースマネージャを取得します。
    *
    * @return Delta_DatabaseManager データベースマネージャを返します。

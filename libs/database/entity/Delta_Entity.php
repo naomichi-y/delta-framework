@@ -24,6 +24,11 @@
 abstract class Delta_Entity extends Delta_Object
 {
   /**
+   * @since string
+   */
+  protected $_entityName;
+
+  /**
    * コンストラクタ。
    *
    * @param array $fields {@link bindFields()} の項を参照。
@@ -46,8 +51,6 @@ abstract class Delta_Entity extends Delta_Object
    */
   public function __set($name, $value)
   {
-    $name = Delta_StringUtils::convertSnakeCase($name, FALSE);
-
     if (property_exists($this, $name)) {
       $this->$name = $value;
 
@@ -65,8 +68,6 @@ abstract class Delta_Entity extends Delta_Object
    */
   public function __get($name)
   {
-    $name = Delta_StringUtils::convertSnakeCase($name);
-
     if (property_exists($this, $name)) {
       return $this->$name;
 
@@ -88,6 +89,14 @@ abstract class Delta_Entity extends Delta_Object
   }
 
   /**
+   * @since 2.0
+   */
+  public function getEntityName()
+  {
+    return $this->_entityName;
+  }
+
+  /**
    * エンティティのフィールドにデータを割り当てます。
    *
    * @param array $fields エンティティに割り当てるデータ。
@@ -105,11 +114,10 @@ abstract class Delta_Entity extends Delta_Object
   /**
    * エンティティデータを配列に変換します。
    *
-   * @param bool $toSnakeCase 配列のキー名を snake_case 形式に変換する場合は TRUE を指定。
    * @return array エンティティデータを含む配列を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function toArray($toSnakeCase = TRUE)
+  public function toArray()
   {
     $class = new ReflectionClass($this);
     $fields = $class->getProperties();
@@ -118,12 +126,7 @@ abstract class Delta_Entity extends Delta_Object
     foreach ($fields as $field) {
       if ($field->isPublic()) {
         $fieldName = $field->getName();
-
-        if ($toSnakeCase) {
-          $assocName = Delta_StringUtils::convertSnakeCase($fieldName);
-        } else {
-          $assocName = $fieldName;
-        }
+        $assocName = $fieldName;
 
         $array[$assocName] = $this->$fieldName;
       }
@@ -147,7 +150,7 @@ abstract class Delta_Entity extends Delta_Object
 
     foreach ($fields as $field) {
       if ($field->isPublic()) {
-        $array[] = Delta_StringUtils::convertSnakeCase($field->getName());
+        $array[] = $field->getName();
       }
     }
 

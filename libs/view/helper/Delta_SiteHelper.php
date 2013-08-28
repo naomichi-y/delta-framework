@@ -39,9 +39,9 @@ class Delta_SiteHelper extends Delta_Helper
    * @see Delta_Helper::__construct()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_View $currentView, array $config = array())
+  public function __construct(Delta_View $view, array $config = array())
   {
-    parent::__construct($currentView, $config);
+    parent::__construct($view, $config);
 
     $this->_siteConfig = Delta_Config::getSite();
   }

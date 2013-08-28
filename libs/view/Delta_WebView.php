@@ -17,27 +17,20 @@
 
 class Delta_WebView extends Delta_View
 {
-  private $_forms = array();
-
-  public function addForm(Delta_Form $form)
+  public function getForm($formName = NULL)
   {
-    $formName = $form->getFormName();
-    $this->_forms[$formName] = $form;
-  }
+    static $instance;
 
-  public function getForm($formName)
-  {
-    $form = NULL;
-
-    if (isset($this->_forms[$formName])) {
-      $form = $this->_forms[$formName];
+    if ($formName === NULL) {
+      $formClassName = 'Delta_Form';
+    } else {
+      $formClassName = $formName . 'Form';
     }
 
-    return $form;
-  }
+    if ($instance === NULL) {
+      $instance = new $formClassName;
+    }
 
-  public function getForms()
-  {
-    return $this->_forms;
+    return $instance;
   }
 }

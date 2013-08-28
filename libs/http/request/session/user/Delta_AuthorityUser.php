@@ -32,21 +32,6 @@ class Delta_AuthorityUser extends Delta_Object
   const REQUIRED_ONE_ROLE = 2;
 
   /**
-   * トランザクショントークンが正常な状態を表す定数。
-   */
-  const TOKEN_VALID = 1;
-
-  /**
-   * トランザクショントークンが異常な状態 (二重コミット、不正なアクセス等) を表す定数。
-   */
-  const TOKEN_INVALID = -1;
-
-  /**
-   * トランザクショントークンが存在しない状態を表す定数。
-   */
-  const TOKEN_WRONG = -2;
-
-  /**
    * モジュールの名前空間。
    * @var string
    */
@@ -454,36 +439,6 @@ class Delta_AuthorityUser extends Delta_Object
     }
 
     return TRUE;
-  }
-
-  /**
-   * トランザクショントークンの状態を取得します。
-   *
-   * @param bool $tokenState TRUE を指定した場合、状態を取得した後にトークンを破棄します。
-   * @return int Delta_AuthorityUser::TOKEN_* 定数を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getTokenState($resetToken = FALSE)
-  {
-    $storeTokenId = $this->getAttribute('tokenId');
-    $request = Delta_FrontController::getInstance()->getRequest();
-    $formTokenId = $request->getParameter('tokenId');
-
-    if ($formTokenId === NULL && $storeTokenId === NULL) {
-      $tokenState = self::TOKEN_WRONG;
-
-    } else if (strcmp($formTokenId, $storeTokenId) == 0) {
-      $tokenState = self::TOKEN_VALID;
-
-    } else {
-      $tokenState = self::TOKEN_INVALID;
-    }
-
-    if ($resetToken) {
-      $this->resetToken();
-    }
-
-    return $tokenState;
   }
 
   /**

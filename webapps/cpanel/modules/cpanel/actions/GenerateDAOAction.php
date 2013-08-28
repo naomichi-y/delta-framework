@@ -68,11 +68,11 @@ class GenerateDAOAction extends Delta_Action
         $fields = $command->getFields($tableName);
         $j = count($fields);
 
-        $propertiesBuffer = null;
+        $entityName = Delta_StringUtils::convertCamelCase($pascalTableName);
+        $propertiesBuffer = '  protected $_entityName = \'' . $entityName . "\';\n";
 
         for ($i = 0; $i < $j; $i++) {
-          $column = strtolower($fields[$i]);
-          $propertyName = Delta_StringUtils::convertCamelCase($column);
+          $propertyName = strtolower($fields[$i]);
           $propertiesBuffer .= '  public $' . $propertyName . ";\n";
         }
 

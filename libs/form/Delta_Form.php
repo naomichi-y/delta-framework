@@ -18,6 +18,24 @@
 class Delta_Form extends Delta_Object
 {
   /**
+   * トランザクショントークンが正常な状態を表す定数。
+   */
+  const TOKEN_VALID = 1;
+
+  /**
+   * トランザクショントークンが異常な状態 (二重コミット、不正なアクセス等) を表す定数。
+   */
+  const TOKEN_INVALID = -1;
+
+  /**
+   * トランザクショントークンが存在しない状態を表す定数。
+   */
+  const TOKEN_WRONG = -2;
+
+  const TOKEN_FIELD_NAME = '_tokenId';
+  const TOKEN_SESSION_KEY = '_tokenId';
+
+  /**
    * @var Delta_ParameterHolder
    */
   private $_holder;
@@ -37,11 +55,109 @@ class Delta_Form extends Delta_Object
   }
 
   /**
-   * @since 2.0
+   * フィールドに値を設定します。
+   *
+   * @param string $name 対象フィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
+   * @param mixed $value フィールドに設定する値。
+   * @param bool $override フォームオブジェクトに同じ値が登録されている場合、値を上書きするかどうか。
+   * @return bool 値の設定に成功した場合は TRUE、失敗した (override が FALSE かつ同名の値が設定されている) 場合は FALSE を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getFormName()
+  public function set($name, $value, $override = FALSE)
   {
-    return Delta_StringUtils::convertCamelCase(substr(get_class($this), 0, -4));
+    $result = FALSE;
+
+    if ($override || !$this->hasName($name)) {
+      $this->_holder->set($name, $value);
+      $result = TRUE;
+    }
+
+    return $result;
+  }
+
+  /**
+   * フィールド名と値で構成される連想配列をフォームフィールドとして設定します。
+   *
+   * @param array $fields フィールド名と値で構成される連想配列データ。
+   * @param bool $override フォームオブジェクトに同じ値が登録されている場合、値を上書きするかどうか。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function setFields(array $fields, $override = TRUE)
+  {
+    if (is_array($fields)) {
+      foreach ($fields as $name => $value) {
+        $this->set($name, $value, $override);
+      }
+    }
+  }
+
+  /**
+   * 対象フィールドに値が格納されているかチェックします。
+   *
+   * @param string $name チェックするフィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function hasName($name)
+  {
+    return $this->_holder->hasName($name);
+  }
+
+  /**
+   * フォームオブジェクトに設定されたフィールド数を取得します。
+   *
+   * @return int フォームオブジェクトに設定されたフィールド数を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getSize()
+  {
+    return $this->_holder->count();
+  }
+
+  /**
+   * フィールドに設定されている値を取得します。
+   *
+   * @param string $name 対象フィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
+   * @param mixed $alternative 値が見つからない (NULL)、または空文字の場合に返す代替値。
+   * @return mixed name に対応するフィールド値を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function get($name, $alternative = NULL)
+  {
+    return $this->_holder->get($name, $alternative);
+  }
+
+  /**
+   * フォームオブジェクトに設定されているフィールドデータを取得します。
+   *
+   * @return array フィールド名と値で構成される連想配列を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getFields()
+  {
+    return $this->_holder->toArray();
+  }
+
+  /**
+   * フォームオブジェクトに設定されているフィールドデータを削除します。
+   *
+   * @param string $name 削除対象のフィールド名。
+   * @return bool 削除が成功した場合は TRUE を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function remove($name)
+  {
+    return $this->_holder->remove($name);
+  }
+
+  /**
+   * フォームオブジェクトに設定されているフィールドデータを破棄します。
+   *
+   * @param string $name 破棄対象のフィールド名。未指定の場合は全てのフィールドを破棄します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function clear()
+  {
+    $this->_holder->clear();
   }
 
   public function addFieldError($name, $value)
@@ -49,7 +165,18 @@ class Delta_Form extends Delta_Object
     $this->_fieldErrors[$name] = $value;
   }
 
-  public function hasFieldError()
+  public function hasFieldError($name)
+  {
+    $result = FALSE;
+
+    if (isset($this->_fieldErrors[$name])) {
+      $result = TRUE;
+    }
+
+    return $result;
+  }
+
+  public function hasErrors()
   {
     $result = FALSE;
 
@@ -108,6 +235,36 @@ class Delta_Form extends Delta_Object
     return $this;
   }
 
+  public function bindEntity(Delta_Entity $entity, $bindName = NULL)
+  {
+    if ($bindName === NULL) {
+      $bindName = $entity->getEntityName();
+    }
+
+    $fields = $entity->toArray();
+
+    foreach ($fields as $name => $value) {
+      $name = $bindName . '.' . $name;
+      $this->_holder->set($name, $value);
+    }
+  }
+
+  public function getEntity($entityName)
+  {
+    $array = $this->get($entityName);
+    $entity = NULL;
+
+    if (is_array($array)) {
+      $entityClassName = Delta_StringUtils::convertPascalCase($entityName) . 'Entity';
+
+      if (class_exists($entityClassName)) {
+        $entity = new $entityClassName($array);
+      }
+    }
+
+    return $entity;
+  }
+
   /**
    * フォームにおいて二重送信を防止するためのトランザクショントークン ID を発行します。
    * 発行されたトークン ID は {@link Delta_FormHelper::close()} メソッドをコールすることにより、自動的に hidden タグとしてフォーム内に埋め込まれます。
@@ -124,114 +281,71 @@ class Delta_Form extends Delta_Object
     }
 
     $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
-    $user->setAttribute('tokenId', $tokenId);
+    $user->setAttribute(self::TOKEN_SESSION_KEY, $tokenId);
 
-    $this->set('tokenId', $tokenId);
+    $this->set(self::TOKEN_FIELD_NAME, $tokenId);
   }
 
   /**
-   * 対象フィールドに値が格納されているかチェックします。
+   * トランザクショントークンの状態を取得します。
    *
-   * @param string $name チェックするフィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
+   * @param bool $tokenState TRUE を指定した場合、状態を取得した後にトークンを破棄します。
+   * @return int Delta_Form::TOKEN_* 定数を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function hasName($name)
+  public function getTokenState($resetToken = FALSE)
   {
-    return $this->_holder->hasName($name);
-  }
+    $request = Delta_FrontController::getInstance()->getRequest();
+    $storeTokenId = $request->getSession()->getUser()->getAttribute(self::TOKEN_SESSION_KEY);
+    $formTokenId = $request->getParameter(self::TOKEN_FIELD_NAME);
 
-  /**
-   * フィールドに値を設定します。
-   *
-   * @param string $name 対象フィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
-   * @param mixed $value フィールドに設定する値。
-   * @param bool $override フォームオブジェクトに同じ値が登録されている場合、値を上書きするかどうか。
-   * @return bool 値の設定に成功した場合は TRUE、失敗した (override が FALSE かつ同名の値が設定されている) 場合は FALSE を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function set($name, $value, $override = TRUE)
-  {
-    $result = FALSE;
+    if ($formTokenId === NULL && $storeTokenId === NULL) {
+      $tokenState = self::TOKEN_WRONG;
 
-    if ($override || !$this->hasName($name)) {
-      $this->_holder->set($name, $value);
-      $result = TRUE;
+    } else if (strcmp($formTokenId, $storeTokenId) == 0) {
+      $tokenState = self::TOKEN_VALID;
+
+    } else {
+      $tokenState = self::TOKEN_INVALID;
     }
 
-    return $result;
+    if ($resetToken) {
+      $this->resetToken();
+    }
+
+    return $tokenState;
   }
 
   /**
-   * フィールドに設定されている値を取得します。
+   * ユーザが所有しているトークン ID を破棄します。
    *
-   * @param string $name 対象フィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
-   * @param mixed $alternative 値が見つからない (NULL)、または空文字の場合に返す代替値。
-   * @return mixed name に対応するフィールド値を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function get($name, $alternative = NULL)
+  public function resetToken()
   {
-    return $this->_holder->get($name, $alternative);
+    $request = Delta_FrontController::getInstance()->getRequest();
+    $request->getSession()->getUser()->removeAttribute(self::TOKEN_SESSION_KEY);
   }
 
-  /**
-   * フィールド名と値で構成される連想配列をフォームフィールドとして設定します。
-   *
-   * @param array $fields フィールド名と値で構成される連想配列データ。
-   * @param bool $override フォームオブジェクトに同じ値が登録されている場合、値を上書きするかどうか。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function setFields(array $fields, $override = TRUE)
+  public function getTokenStateErrorMessage($tokenState)
   {
-    if (is_array($fields)) {
-      foreach ($fields as $name => $value) {
-        $this->set($name, $value, $override);
+    return 'Token is invalid.';
+  }
+
+  public function validate()
+  {
+    $isValid = FALSE;
+    $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
+
+    if ($user->hasAttribute(self::TOKEN_SESSION_KEY)) {
+      $tokenState = $this->getTokenState();
+
+      if ($tokenState !== self::TOKEN_VALID) {
+        $this->addFieldError(self::TOKEN_FIELD_NAME, $this->getTokenStateErrorMessage($tokenState));
+        $isValid = TRUE;
       }
     }
-  }
 
-  /**
-   * フォームオブジェクトに設定されているフィールドデータを取得します。
-   *
-   * @return array フィールド名と値で構成される連想配列を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getFields()
-  {
-    return $this->_holder->toArray();
-  }
-
-  /**
-   * フォームオブジェクトに設定されたフィールド数を取得します。
-   *
-   * @return int フォームオブジェクトに設定されたフィールド数を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getSize()
-  {
-    return $this->_holder->count();
-  }
-
-  /**
-   * フォームオブジェクトに設定されているフィールドデータを削除します。
-   *
-   * @param string $name 削除対象のフィールド名。
-   * @return bool 削除が成功した場合は TRUE を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function remove($name)
-  {
-    return $this->_holder->remove($name);
-  }
-
-  /**
-   * フォームオブジェクトに設定されているフィールドデータを破棄します。
-   *
-   * @param string $name 破棄対象のフィールド名。未指定の場合は全てのフィールドを破棄します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function clear()
-  {
-    $this->_holder->clear();
+    return $isValid;
   }
 }

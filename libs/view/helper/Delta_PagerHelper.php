@@ -92,11 +92,11 @@ class Delta_PagerHelper extends Delta_Helper
    * @see Delta_Helper::__construct()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_View $currentView, array $config = array())
+  public function __construct(Delta_View $view, array $config = array())
   {
-    parent::__construct($currentView, $config);
+    parent::__construct($view, $config);
 
-    $this->_html = $currentView->getHelperManager()->getHelper('html');
+    $this->_html = $view->getHelperManager()->getHelper('html');
     $this->_recordSet = $config['_recordSet'];
   }
 
@@ -499,7 +499,7 @@ class Delta_PagerHelper extends Delta_Helper
   public function getNavigationLabel()
   {
     $navigationLabel = $this->_config->getString('navigationLabel');
-    $html = $this->_currentView->getHelperManager()->getHelper('html');
+    $html = $this->_view->getHelperManager()->getHelper('html');
 
     $from = array('\1', '\2', '\3', '\4', '\5', '\6');
 
@@ -537,7 +537,7 @@ class Delta_PagerHelper extends Delta_Helper
    */
   public function createHiddenFields()
   {
-    $form = $this->_currentView->getHelperManager()->getHelper('form');
+    $form = $this->_view->getHelperManager()->getHelper('form');
     $buffer = $form->parameterToInputHiddens($this->_config['_queries']);
 
     return $buffer;

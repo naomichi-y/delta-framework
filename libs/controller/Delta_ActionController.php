@@ -32,11 +32,6 @@ abstract class Delta_ActionController extends Delta_WebApplication
     $this->getResponse()->sendError(404);
   }
 
-  public function createForm($formName, $bindRequest = TRUE)
-  {
-    return Delta_FormManager::getInstance($formName);
-  }
-
   public function safetyErrorHandler()
   {
     return Delta_View::SAFETY_ERROR;

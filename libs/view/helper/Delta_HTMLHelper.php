@@ -79,11 +79,11 @@ class Delta_HTMLHelper extends Delta_Helper
    * @see Delta_Helper::__construct()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_View $currentView, array $config = array())
+  public function __construct(Delta_View $view, array $config = array())
   {
-    parent::__construct($currentView, $config);
+    parent::__construct($view, $config);
 
-    $this->_messages = $this->getMessages();
+    $this->_messages = Delta_ActionMessages::getInstance();
     $this->_extension = Delta_Config::getApplication()->getString('path.extension');
   }
 
@@ -220,7 +220,7 @@ class Delta_HTMLHelper extends Delta_Helper
       $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
 
       if ($absolute) {
-        $request = $this->getRequest();
+        $request = Delta_FrontController::getInstance()->getRequest();
         $relativePath = sprintf('%s://%s%s',
           $request->getScheme(),
           $request->getHost(),
@@ -490,7 +490,7 @@ class Delta_HTMLHelper extends Delta_Helper
 
     } else {
       if ($size == 0) {
-        $templatesDirectory = dirname($this->_currentView->getTemplatePath());
+        $templatesDirectory = dirname($this->_view->getTemplatePath());
       } else {
         $templatesDirectory = $this->_pathMapping[$size - 1];
       }
@@ -516,8 +516,8 @@ class Delta_HTMLHelper extends Delta_Helper
     };
 
     // メソッドに渡された変数リストをエスケープ
-    $helpers = $this->_currentView->getHelpers();
-    $variables = $this->_currentView->getAttributes();
+    $helpers = $this->_view->getHelpers();
+    $variables = $this->_view->getAttributes();
 
     foreach ($helpers as $name => $value) {
       $variables[$name] = $value;

@@ -31,7 +31,7 @@
  * @category delta
  * @package view.helper
  */
-abstract class Delta_Helper extends Delta_WebApplication
+abstract class Delta_Helper extends Delta_Object
 {
   /**
    * ヘルパが持つデフォルト属性。
@@ -43,7 +43,7 @@ abstract class Delta_Helper extends Delta_WebApplication
    * ビューオブジェクト。
    * @var Delta_View。
    */
-  protected $_currentView;
+  protected $_view;
 
   /**
    * ヘルパ属性。
@@ -60,15 +60,13 @@ abstract class Delta_Helper extends Delta_WebApplication
   /**
    * コンストラクタ。
    *
-   * @param Delta_View $currentView ヘルパを適用するビューオブジェクト。
+   * @param Delta_View $view ヘルパを適用するビューオブジェクト。
    * @param array $config ヘルパ属性。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_View $currentView, array $config = array())
+  public function __construct(Delta_View $view, array $config = array())
   {
-    parent::__construct();
-
-    $this->_currentView = $currentView;
+    $this->_view = $view;
     $this->_config = new Delta_ParameterHolder(Delta_ArrayUtils::merge(static::$_defaultValues, $config));
     $this->_router = Delta_FrontController::getInstance()->getRouter();
   }
@@ -106,7 +104,7 @@ abstract class Delta_Helper extends Delta_WebApplication
    */
   public function buildRequestPath($path, $queryData, $absolute = FALSE, $secure = NULL)
   {
-    $baseRouteName = $this->_currentView->getHelperManager()->getBaseRouteName();
+    $baseRouteName = $this->_view->getHelperManager()->getBaseRouteName();
 
     if ($baseRouteName !== NULL) {
       if (is_array($path)) {

@@ -43,7 +43,7 @@ class Delta_RequestHelper extends Delta_Helper
   {
     parent::__construct($currentView, $config);
 
-    $this->_request = $this->getRequest();
+    $this->_request = Delta_FrontController::getInstance()->getRequest();
   }
 
   /**
