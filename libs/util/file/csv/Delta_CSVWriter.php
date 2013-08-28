@@ -202,7 +202,7 @@ class Delta_CSVWriter extends Delta_FileWriter
 
     if ($fileName === NULL) {
       $route = $controller->getRequest()->getRoute();
-      $fileName = $route->getForwardStack()->getLast()->getAction()->getActionName() . '.csv';
+      $fileName = $route->getForwardStack()->getLast()->getActionName() . '.csv';
     }
 
     $contentType = sprintf('text/csv; charset=%s; header=%s',

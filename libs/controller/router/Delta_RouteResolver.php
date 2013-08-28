@@ -64,7 +64,7 @@ class Delta_RouteResolver extends Delta_Object
     $this->_requestUri = $request->getURI(FALSE);
 
     // URI に拡張子が付いてる場合は除去する
-    $extension = $this->_applicationConfig->getString('action.extension');
+    $extension = $this->_applicationConfig->getString('path.extension');
 
     if ($extension) {
       $length = strlen($extension);
@@ -133,8 +133,12 @@ class Delta_RouteResolver extends Delta_Object
               $pathHolder['module'] = $segmentValue;
               break;
 
+            case ':controller':
+              $pathHolder['controller'] = Delta_StringUtils::convertPascalCase($segmentValue);
+              break;
+
             case ':action':
-              $pathHolder['action'] = Delta_StringUtils::convertPascalCase($segmentValue);
+              $pathHolder['action'] = Delta_StringUtils::convertCamelCase($segmentValue);
               break;
 
             default:
@@ -177,6 +181,17 @@ class Delta_RouteResolver extends Delta_Object
           }
         }
 
+        // コントローラ名がパスに含まれていない場合はコントローラを確定させる
+        if (!isset($pathHolder['controller'])) {
+           if ($forwardConfig) {
+            $pathHolder['controller'] = $forwardConfig->get('controller');
+
+          } else {
+            $message = sprintf('Forward controller is unknown. [%s]', $routeName);
+            throw new Delta_ForwardException($message);
+          }
+        }
+
         // アクション名がパスに含まれていない場合はアクションを確定させる
         if (!isset($pathHolder['action'])) {
           if ($forwardConfig) {
@@ -205,6 +220,7 @@ class Delta_RouteResolver extends Delta_Object
         $denyForwardConfig = $accessConfig->get('denyForward');
 
         $pathHolder['module'] = $denyForwardConfig->get('module');
+        $pathHolder['controller'] = $denyForwardConfig->get('controller');
         $pathHolder['action'] = $denyForwardConfig->get('action');
       }
 
@@ -274,6 +290,7 @@ class Delta_RouteResolver extends Delta_Object
    *   配列形式では以下のキーから構成されるリクエストパスを生成する。
    *     - route: パスの生成に用いるルート名。未指定時は現在有効なルートが適用される
    *     - module: 遷移先のモジュール名。未指定時は現在有効なモジュールが適用される
+   *     - controller: 遷移先のコントローラ名、未指定時は現在有効なモジュールが適用される
    *     - action: 遷移先のアクション名。未指定時は現在有効なアクションが適用される
    *
    *   上記以外に指定されたキーはリクエストパスのホルダ ID に適用される
@@ -319,7 +336,7 @@ class Delta_RouteResolver extends Delta_Object
       if (!$externalLink) {
         if (is_array($path) || substr($path, 0, 1) !== '/') {
           $pathHolder = $this->buildPathHolder($route, $path);
-          $actionPathFormat = $this->_applicationConfig->get('action.path');
+          $pathFormat = $this->_applicationConfig->get('path.format');
 
           if (isset($this->_routesConfig[$pathHolder['route']])) {
             $moduleName = $this->_request->getRoute()->getModuleName();
@@ -331,11 +348,18 @@ class Delta_RouteResolver extends Delta_Object
               if (preg_match('/^:(\w+)$/', $uriSegments[$i], $matches)) {
                 $buildPath .= '/';
 
-                if ($matches[1] == 'module') {
+                if ($matches[1] === 'module') {
                   $buildPath .= $pathHolder['module'];
 
-                } else if ($matches[1] == 'action') {
-                  if ($actionPathFormat === 'underscore') {
+                } else if ($matches[1] === 'controller') {
+                  if ($pathFormat === 'underscore') {
+                    $buildPath .= Delta_StringUtils::convertSnakeCase($pathHolder['controller']);
+                  } else {
+                    $buildPath .= Delta_StringUtils::convertCamelCase($pathHolder['controller']);
+                  }
+
+                } else if ($matches[1] === 'action') {
+                  if ($pathFormat === 'underscore') {
                     $buildPath .= Delta_StringUtils::convertSnakeCase($pathHolder['action']);
                   } else {
                     $buildPath .= Delta_StringUtils::convertCamelCase($pathHolder['action']);
@@ -367,7 +391,7 @@ class Delta_RouteResolver extends Delta_Object
             }
 
             if (substr($buildPath, -1) !== '/') {
-              $buildPath .= $this->_applicationConfig->getString('action.extension');
+              $buildPath .= $this->_applicationConfig->getString('path.extension');
             }
 
             if ($fragment !== NULL) {
@@ -419,6 +443,10 @@ class Delta_RouteResolver extends Delta_Object
         $pathHolder['module'] = $route->getModuleName();
       }
 
+      if (!isset($path['controller'])) {
+        $pathHolder['controller'] = $route->getControllerName();
+      }
+
       if (!isset($path['action'])) {
         $pathHolder['action'] = $route->getActionName();
       }
@@ -427,6 +455,7 @@ class Delta_RouteResolver extends Delta_Object
     } else {
       $pathHolder['route'] = $route->getRouteName();
       $pathHolder['module'] = $route->getModuleName();
+      $pathHolder['controller'] = $route->getControllerName();
 
       if ($path === NULL) {
         $pathHolder['action'] = $route->getForwardStack()->getLast()->getActionName();

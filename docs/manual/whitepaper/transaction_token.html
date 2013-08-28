@@ -43,25 +43,25 @@
   <p>初めに遷移開始元となる RegisterForm アクション上でトークン ID を発行します。saveToken() メソッドは、SHA1 による 40 ビットのハッシュ値を生成し、発行した ID をユーザオブジェクト (Delta_AuthorityUser) に設定します。</p>
   <dl>
     <dt>PHP Code# actions/{module}/RegisterFormAction.php</dt>
-    <dd class="lang-php"><code> $this-&gt;getUser()-&gt;saveToken(); </code></dd>
+    <dd class="lang_php"><code> $this-&gt;getUser()-&gt;saveToken(); </code></dd>
   </dl>
   <p>RegisterForm、RegisterConfirm のビューにトークン ID を埋め込みます。トークン ID は Delta_FormHelper::close() メソッドを使うことで自動的に生成されます。</p>
   <dl>
     <dt>Template Code# templates/{module}/register_form.php</dt>
-    <dd class="lang-template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
+    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('確認') ?&gt; <br />
       &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
   </dl>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>Delta_FormHelper::get('tokenId') で発行したトークン ID を取得することもできます。</p>
     </div>
   </div>
   <p>生成される HTML は次のようなコードになります。ここで tokenId に文字列が格納されますが、この値は saveToken() を実行する度に毎回新しい値が設定されます。</p>
   <dl>
     <dt>HTML Code#</dt>
-    <dd class="lang-html"><code>&lt;form action=&quot;/registerConfirm.do&quot; method=&quot;post&quot;&gt;<br />
+    <dd class="lang_html"><code>&lt;form action=&quot;/registerConfirm.do&quot; method=&quot;post&quot;&gt;<br />
       &nbsp;&nbsp;&lt;input type=&quot;submit&quot; value=&quot;確認&quot; /&gt;<br />
       &nbsp;&nbsp;&lt;input type=&quot;hidden&quot; name=&quot;tokenId&quot;   value=&quot;23fe1eb1bebe8739af0b5cddf7882300be346802&quot;/&gt;<br />
       &lt;/form&gt;</code></dd>
@@ -69,11 +69,11 @@
   <p>RegisterConfirm も同様に実装します。RegisterForm から正常に遷移した場合は、前画面で発行したトークン ID が引き継がれます。もしこのページにダイレクトにアクセスした場合、tokenId の値は空になります。</p>
   <dl>
     <dt>Template Code# templates/{module}/register_confirm.php</dt>
-    <dd class="lang-template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
+    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('登録') ?&gt; <br />
       &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
     <dt>HTML Code#</dt>
-    <dd class="lang-html"><code>&lt;form action=&quot;/register.do&quot; method=&quot;post&quot;&gt;<br />
+    <dd class="lang_html"><code>&lt;form action=&quot;/register.do&quot; method=&quot;post&quot;&gt;<br />
       &nbsp;&nbsp;&lt;input type=&quot;submit&quot; value=&quot;登録&quot; /&gt;<br />
       <br />
       &nbsp;&nbsp;&lt;!-- RegisterForm で生成した ID を引き続き保持する --&gt; <br />
@@ -83,7 +83,7 @@
   <p>「登録」ボタンを押下すると Register アクションに遷移します。Register アクションでは不正な画面遷移が行われていないか、フォームの二重送信が行われていないかのチェックを実装します。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/RegisterAction.php</dt>
-    <dd class="lang-php"><code>public function execute()<br />
+    <dd class="lang_php"><code>public function execute()<br />
       { <br />
       &nbsp;&nbsp;$user = $this-&gt;getUser();<br />
       <br />

@@ -29,22 +29,20 @@ class Delta_DAOFactory extends Delta_Object
   /**
    * DAO オブジェクトを生成します。
    *
-   * @param string $name DAO の名前、またはクラス名。
+   * @param string $daoName DAO の名前、またはクラス名。
    * @return Delta_DAO {@link Delta_DAO} を実装した DAO のインスタンスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function create($name)
+  public static function create($daoName)
   {
-    static $instance = array();
+    static $instances = array();
 
-    if (strcmp(substr($name, -3), 'DAO') != 0) {
-      $name .= 'DAO';
+    $daoClassName = $daoName . 'DAO';
+
+    if (empty($instances[$daoClassName])) {
+      $instances[$daoClassName] = new $daoClassName;
     }
 
-    if (empty($instance[$name])) {
-      $instance[$name] = new $name;
-    }
-
-    return $instance[$name];
+    return $instances[$daoClassName];
   }
 }

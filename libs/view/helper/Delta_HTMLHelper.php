@@ -84,7 +84,7 @@ class Delta_HTMLHelper extends Delta_Helper
     parent::__construct($currentView, $config);
 
     $this->_messages = $this->getMessages();
-    $this->_extension = Delta_Config::getApplication()->getString('action.extension');
+    $this->_extension = Delta_Config::getApplication()->getString('path.extension');
   }
 
   /**

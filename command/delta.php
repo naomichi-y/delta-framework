@@ -31,7 +31,6 @@ class Delta_CommandExecutor
 {
   private $_input;
   private $_output;
-  private $_dialog;
   private $_currentPath;
 
   public function parse()
@@ -65,8 +64,8 @@ class Delta_CommandExecutor
         $result = TRUE;
         break;
 
-      case 'add-action':
       case 'add-command':
+      case 'add-controller':
       case 'add-module':
       case 'add-theme':
       case 'clear-cache':
@@ -74,7 +73,7 @@ class Delta_CommandExecutor
       case 'install-database-cache':
       case 'install-database-session':
       case 'install-demo-app':
-        $appRootDir = $this->findAppRootDir($this->_currentPath);
+        $appRootDir = $this->findAppRootPath($this->_currentPath);
 
         if ($appRootDir) {
           $result = TRUE;
@@ -107,13 +106,13 @@ class Delta_CommandExecutor
       Delta_BootLoader::startDeltaCommand();
 
       switch ($command) {
-        case 'add-action':
-          $this->executeAddAction();
-          break;
-
         case 'add-command':
           $this->executeAddCommand();
           break;
+
+        case 'add-controller':
+         $this->executeAddController();
+         break;
 
         case 'add-module':
           $this->executeAddModule();
@@ -182,7 +181,7 @@ class Delta_CommandExecutor
     }
   }
 
-  private function findAppRootDir($currentPath)
+  private function findAppRootPath($currentPath)
   {
     $result = FALSE;
 
@@ -197,7 +196,7 @@ class Delta_CommandExecutor
     } else {
       if (($pos = strrpos($currentPath, DIRECTORY_SEPARATOR)) !== FALSE) {
         $currentPath = substr($currentPath, 0, $pos);
-        $result = $this->findAppRootDir($currentPath);
+        $result = $this->findAppRootPath($currentPath);
 
       } else {
         $this->_output->errorLine('Can\'t find the application root directory.');
@@ -207,21 +206,30 @@ class Delta_CommandExecutor
     return $result;
   }
 
-  private function findModuleDirectory($currentPath)
+  private function findModuleName($currentPath)
   {
     $result = FALSE;
-    $actionPath = $currentPath . DIRECTORY_SEPARATOR . 'actions';
+    $controllersPath = $currentPath . DIRECTORY_SEPARATOR . 'controllers';
 
-    if (is_dir($actionPath)) {
-      $result = $currentPath;
+    if (is_dir($controllersPath)) {
+      $result = basename($currentPath);
 
     } else {
       if (($pos = strrpos($currentPath, DIRECTORY_SEPARATOR)) !== FALSE) {
         $currentPath = substr($currentPath, 0, $pos);
-        $result = $this->findModuleDirectory($currentPath);
+        $result = $this->findModuleName($currentPath);
 
       } else {
-        $this->_output->errorLine('Can\'t find the module directory.');
+        $result = $this->_input->getDialog()->send('Target module');
+        $modulePath = sprintf('%s%smodules%s%s',
+          APP_ROOT_DIR,
+          DIRECTORY_SEPARATOR,
+          DIRECTORY_SEPARATOR,
+          $result);
+
+        if (!Delta_FileUtils::isReadable($modulePath)) {
+          $this->_output->errorLine('Can\'t find module directory.');
+        }
       }
     }
 
@@ -347,7 +355,6 @@ class Delta_CommandExecutor
       $contents = str_replace('"{%SECRET_KEY%}"', $secretKey, $contents);
       $contents = str_replace('"{%CPANEL.PASSWORD%}"', $password, $contents);
       $contents = str_replace('"{%MODULE.ENTRY%}"', $moduleName, $contents);
-      $contents = str_replace('"{%MODULE.UNKNOWN%}"', $moduleName, $contents);
 
       if ($isCreateGitkeep) {
         $replaceGitKeep = 'TRUE';
@@ -373,9 +380,9 @@ class Delta_CommandExecutor
       $options = array('recursive' => TRUE);
       Delta_FileUtils::copy($sourcePath, $destinationPath, $options);
 
-      $contents = Delta_FileUtils::readFile($sourcePath . '/actions/IndexAction.php');
-      $contents = str_replace('{%PACKAGE_NAME%}', $moduleName . '.actions', $contents);
-      Delta_FileUtils::writeFile($destinationPath . '/actions/IndexAction.php', $contents);
+      $contents = Delta_FileUtils::readFile($sourcePath . '/controllers/IndexController.php');
+      $contents = str_replace('{%PACKAGE_NAME%}', $moduleName . '.controllers', $contents);
+      Delta_FileUtils::writeFile($destinationPath . '/controllers/IndexController.php', $contents);
 
       $message = sprintf('Project installation is complete. [%s]', APP_ROOT_DIR);
       $this->_output->writeLine($message);
@@ -433,13 +440,37 @@ class Delta_CommandExecutor
     Delta_FileUtils::deleteFile('config/global_helpers_merge.yml');
 
     $message = sprintf("Demo application install completed.\n"
-      ."  - %s%sdemo-front\n"
-      ."  - %s%sdemo-admin\n",
-      APP_ROOT_DIR,
+      ."  - modules%sdemo-front\n"
+      ."  - modules%sdemo-admin\n",
       DIRECTORY_SEPARATOR,
-      APP_ROOT_DIR,
       DIRECTORY_SEPARATOR);
     $this->_output->write($message);
+  }
+
+  private function executeAddController()
+  {
+    $moduleName = $this->findModuleName($this->_currentPath);
+    $dialog = $this->_input->getDialog();
+
+    do {
+      $message = 'Create controller name (e.g. Foo, bar/Baz)';
+
+      try {
+        $controllerName = $dialog->send($message, TRUE);
+
+        $deployFiles = Delta_CoreUtils::addController($moduleName, $controllerName);
+        $deployFiles = implode("\n  - ", $deployFiles);
+
+        $message = sprintf("Create controller is complete.\n  - %s", $deployFiles);
+        $this->_output->writeLine($message);
+
+        break;
+
+      } catch (Exception $e) {
+        $this->_output->errorLine($e->getMessage());
+      }
+
+    } while (TRUE);
   }
 
   private function executeAddModule($isDefaultModule = FALSE)
@@ -480,42 +511,13 @@ class Delta_CommandExecutor
     return $moduleName;
   }
 
-  private function executeAddAction()
-  {
-    $moduleDirectory = $this->findModuleDirectory($this->_currentPath);
-
-    if ($moduleDirectory) {
-      $moduleName = basename($moduleDirectory);
-      $dialog = $this->_input->getDialog();
-
-      do {
-        $message = 'Add action name (e.g. \'{package_name}/HelloWorld\')';
-        $response = $dialog->send($message, TRUE);
-        $parser = $this->parseActionAndCommandArgument($response);
-
-        try {
-          $deployFiles = Delta_CoreUtils::addAction($moduleName, $parser->actionName, $parser->packageName);
-          $deployFiles = implode("\n  - ", $deployFiles);
-
-          $message = sprintf("Create action is complete.\n  - %s", $deployFiles);
-          $this->_output->writeLine($message);
-          break;
-
-        } catch (Exception $e) {
-          $this->_output->errorLine($e->getMessage());
-        }
-
-      } while (TRUE);
-    } // end if
-  }
-
-  private function parseActionAndCommandArgument($argument)
+  private function parseCreateCommand($argument)
   {
     $packageName = '/';
-    $actionName = NULL;
+    $commandName = NULL;
 
     if (($pos = strrpos($argument, '/')) === FALSE) {
-      $actionName = $argument;
+      $commandName = $argument;
 
     } else {
       $packageName = substr($argument, 0, $pos);
@@ -524,12 +526,12 @@ class Delta_CommandExecutor
         $packageName = '/' . $packageName;
       }
 
-      $actionName = substr($argument, $pos + 1);
+      $commandName = substr($argument, $pos + 1);
     }
 
     $parser = new stdClass();
     $parser->packageName = $packageName;
-    $parser->actionName = $actionName;
+    $parser->commandName = $commandName;
 
     return $parser;
   }
@@ -541,10 +543,10 @@ class Delta_CommandExecutor
 
     do {
       $response = $dialog->send($message, TRUE);
-      $parser = $this->parseActionAndCommandArgument($response);
+      $parser = $this->parseCreateCommand($response);
 
       try {
-        $deployFile = Delta_CoreUtils::addCommand($parser->actionName, $parser->packageName);
+        $deployFile = Delta_CoreUtils::addCommand($parser->commandName, $parser->packageName);
         $message = sprintf("Create command is complete.\n  - %s", $deployFile);
 
         $this->_output->writeLine($message);
@@ -921,10 +923,8 @@ class Delta_CommandExecutor
     $buffer = "USAGE: \n"
      ."  delta [OPTIONS]\n\n"
      ."OPTIONS:\n"
-     ."  add-action               Add action to current module.\n"
-     ."                           If you want to use a skeleton template,\n"
-     ."                           please edit '{APP_ROOT_DIR}/templates/html/skeleton.php'.\n"
      ."  add-command              Add command to current project.\n"
+     ."  add-controller           Add controller to current module.\n"
      ."  add-module               Add module to current project.\n"
      ."  add-theme                Add theme to current project.\n"
      ."  clear-cache [cc]         Clear the cache of all.\n"

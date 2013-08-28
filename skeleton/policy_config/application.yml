@@ -14,8 +14,8 @@ htmlEscape{type='array' output='true'}:
   function{default='htmlspecialchars' output='true'}:
   flags{default='<?php echo ENT_QUOTES ?>' output='true'}:
 
-action{type='array' output='true'}:
-  path{default='camelCaps' output='true'}:
+path{type='array' output='true'}:
+  format{default='camelCaps' output='true'}:
   extension{default='' output='true'}:
 
 response{type='array' output='true'}:

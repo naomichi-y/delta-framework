@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="Content-Language" content="ja" />
+<meta charset="UTF-8" />
+<title>delta - メールを送信する</title>
+<link href="../assets/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="apple-touch-icon-precomposed" href="http://delta-framework.org/wp-content/themes/delta/images/apple_touch_icon.png" />
+<!--[if lt IE 9]>
+<script src="../assets/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body>
+<header>
+  <div class="row">
+    <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
+    <div class="half"> 
+      <!--#include virtual="/global_assets/content/navi.php" --> 
+    </div>
+  </div>
+  <h1 id="top">基本的な機能  - メールを送信する</h1>
+</header>
+<div id="contents">
+  <article>
+    <p class="right"><a href="../index.html">戻る</a><br />
+      最終更新日: 2013 年 7 月 15 日</p>
+    <ul>
+      <ul>
+        <li><a href="#simple_mail">シンプルなメール送信</a></li>
+        <li><a href="#smtp_host">別のホストからメールを送信する</a></li>
+        <li><a href="#html_mail">HTML メールの送信</a></li>
+        <li><a href="#attachment_file">添付ファイルの送信</a></li>
+        <li><a href="#template_mail">テンプレートを利用する</a></li>
+      </ul>
+    </ul>
+    <h2><a name="simple_mail" id="simple"></a>シンプルなメール送信</h2>
+    <p>メールを送信する場合は Delta_MailSender クラスを使いましょう。</p>
+    <dl>
+      <dt>PHP Code</dt>
+      <dd class="lang_php"><code>$from = 'from@localhost';<br>
+        $to = 'to@localhost';<br>
+        $subject = 'Greeting';<br>
+        $body = 'Hello world!'; <br>
+        <br>
+        $mail = new Delta_MailSender();<br>
+        $mail-&gt;setFrom($from)<br>
+        &nbsp;&nbsp;-&gt;setTo($to)<br>
+        &nbsp;&nbsp;-&gt;setSubject($subject)<br>
+        &nbsp;&nbsp;-&gt;setBody($body)<br>
+        &nbsp;&nbsp;-&gt;send(); </code></dd>
+    </dl>
+    <p>Delta_MailSender が提供する殆どのメソッドはオブジェクト自身を返すため、メソッドチェーン形式でメソッドを呼び出すことができます。より簡単な手続きでメールを送信したい場合は、buildToSend() メソッドを使うと良いでしょう。</p>
+    <dl>
+      <dt>PHP Code</dt>
+      <dd class="lang_yaml"><code>$mail = new Delta_MailSender();<br>
+        $mail-&gt;buildToSend($from, $to, $subject, $body);</code></dd>
+    </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>送信対象に CC を付けたい場合は <a href="../../api/reference/net.mail/delta___mail_sender.html#method_setCc">setCc()</a>、BCC を付けたい場合は <a href="../../api/reference/net.mail/delta___mail_sender.html#method_setBcc">setBcc()</a> メソッドを利用して下さい。<a id="smtp_host"></a></p>
+      </div>
+    </div>
+    <h2>別のホストからメールを送信する</h2>
+    <p>Delta_MailSender はデフォルトでローカルホストの SMTP サーバからメールを送信しますが、他のホストを経由して送信することもできます。</p>
+    <dl>
+      <dt>PHP Code</dt>
+      <dd class="lang_php"><code>$options = array('host' =&gt; 'foo.bar.baz', 'port' =&gt; 25);<br>
+        $mail = new Delta_MailSender($options);<br>
+        <br>
+        // 'foo.bar.baz:25' からメールを送信する <br>
+        $mail-&gt;buildToSend(); </code> </dd>
+    </dl>
+    <p>コンストラクタのオプション引数が未指定の場合は、application.yml の 'mail' 属性が参照されます。</p>
+    <dl>
+      <dt>YAML Code# config/application.yml</dt>
+      <dd class="lang_yaml"><code> mail:<br>
+        &nbsp;&nbsp;host: foo.bar.baz<br>
+        &nbsp;&nbsp;port: 25</code></dd>
+    </dl>
+    <div class="note_container note_info">
+      <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+      <div class="note_contents">
+        <p>メールを送信するホスト名など、環境に依存する情報は設定ファイルに定義しておくことを推奨します。<a href="../config/application.html">application.yml</a> はホスト拡張に対応しているため、application_{hostname}.yml に接続情報をまとめておくと良いでしょう。</p>
+      </div>
+    </div>
+    <p>オプションに指定可能なパラメータの一覧は <a href="../../api/reference/net.mail/delta___mail_sender.html">API</a> を参照して下さい。</p>
+    <h2><a id="html_mail"></a>HTML メールの送信</h2>
+    <p>HTML メールを送信するには setHTMLText() メソッドを利用します。</p>
+    <dl>
+      <dt>PHP Code</dt>
+      <dd class="lang_php"><code>$htmlText = '&lt;html&gt;...&lt;/html&gt;';<br>
+        <br>
+        $mail = new Delta_MailSender();<br>
+        $mail-&gt;setFrom($from)<br>
+        &nbsp;&nbsp;-&gt;setTo($to)<br>
+        &nbsp;&nbsp;-&gt;setSubject($subject)<br>
+        &nbsp;&nbsp;-&gt;setHTMLText($htmlText)<br>
+        &nbsp;&nbsp;-&gt;send(); </code></dd>
+    </dl>
+    <p>setHTMLText() はマルチパートメッセージを作成するため、テキストパートには  $htmlText から HTML タグを取り除いたテキストが自動的にセットされます。(もちろん setText() を指定することで、全く別のテキストを割り当てることもできます)</p>
+    <h2><a id="attachment_file"></a>添付ファイルの送信</h2>
+    <p>添付ファイルを送信するには <a href="../../api/reference/net.mail/delta___mail_sender.html#method_addAttachmentFile">addAttachmentFile()</a>、または <a href="../../api/reference/net.mail/delta___mail_sender.html#method_addAttachmentData">addAttachmentData()</a>メソッドを利用します。</p>
+    <dl>
+      <dt>PHP Code</dt>
+      <dd class="lang_php"><code>$mail = new Delta_MailSender();<br>
+        $mail-&gt;setFrom($from)<br>
+        &nbsp;&nbsp;-&gt;setTo($to)<br>
+        &nbsp;&nbsp;-&gt;setSubject($subject)<br>
+        &nbsp;&nbsp;-&gt;addAttachmentFile(APP_ROOT_DIR . '/tmp/foo')<br>
+        &nbsp;&nbsp;-&gt;send(); </code></dd>
+    </dl>
+    <p>複数のファイルを添付したい場合は、添付ファイル分だけ addAttachmentFile() をコールして下さい。</p>
+    <h2><a id="template_mail"></a>テンプレートを利用する</h2>
+    <p>一般的な Web アプリケーションでは、ユーザへ送信するメールの文中で差し込み変数を使いたい場合があります。このような場合はテンプレート機能を使うと良いでしょう。</p>
+    <p>始めに差し込み変数を含めたテンプレートを作成します。テンプレートは {APP_ROOT_DOR}/templates/mail (<a href="../whitepaper/theme.html">テーマ機能</a> 機能利用時は {APP_ROOT_DIR}/theme/{theme_name}/templates/mail) ディレクトリ下に配置して下さい。</p>
+    <dl>
+      <dt>PHP Code: templates/mail/thanks.php</dt>
+      <dd class="lang_php"><code>ご登録ありがとうございます。<br>
+        &lt;?php echo $nickname ?&gt;様<br>
+        この度は&lt;?php echo $siteName ?&gt;にご登録いただきありがとうございました。</code></dd>
+    </dl>
+    <p>ここではテンプレートの名前を thanks.php としました。テンプレートの内容は一般的な PHP スクリプトと変わりありませんが、1行目が件名、2 行目以降が本文として扱われます。それでは早速テンプレートをセットしてみましょう。</p>
+    <dl>
+      <dt>PHP Code</dt>
+      <dd class="lang_php"><code>$siteConfig = Delta_Config::getSite();<br>
+        $variables = array('nickname' =&gt; 'foo', 'siteName' =&gt; $siteConfig-&gt;get('siteName'));<br>
+        <br>
+        $mail = new Delta_MailSender();<br>
+        $mail-&gt;setFrom($from)<br>
+        &nbsp;&nbsp;-&gt;setTo($to)<br>
+        &nbsp;&nbsp;-&gt;setTemplate('thanks', $variables)<br>
+        &nbsp;&nbsp;-&gt;send(); </code></dd>
+    </dl>
+    <p><a href="../../api/reference/net.mail/delta___mail_sender.html#method_setTemplate">setTemplate()</a> メソッドにはテンプレート名と変数を割り当てます。実際に送信されるメッセージは次のような結果となるでしょう。</p>
+    <dl>
+      <dt>送信されるメッセージ</dt>
+      <dd class="lang_text"><code>{件名} <br>
+        ご登録ありがとうございます。 <br>
+        <br>
+        {本文} <br>
+        foo様<br>
+        この度はbarにご登録いただきありがとうございました。</code>
+        <p></p>
+        <div class="note_container note_info">
+          <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+          <div class="note_contents">
+            <p>テンプレートをファイル以外から参照したい場合は <a href="../../api/reference/net.mail/delta___mail_sender.html#method_setTemplateData">setTemplateData()</a> メソッドを利用して下さい。</p>
+          </div>
+        </div>
+      </dd>
+    </dl>
+    <p class="right"><a href="#top">上へ</a></p>
+  </article>
+</div>
+<footer>
+  <p>Copyright &copy; delta framework project.</p>
+</footer>
+</body>
+</html>

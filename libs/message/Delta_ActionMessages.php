@@ -11,8 +11,6 @@
 /**
  * プログラムの処理完了時やエラー発生時にクライアントへ返すメッセージを一元管理します。
  *
- * このクラスは 'messages' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getMessages()} からインスタンスを取得することができます。
- *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package message
@@ -144,6 +142,7 @@ class Delta_ActionMessages extends Delta_Object
    * @param string $name 対象となるフィールド要素名。
    * @param string $message 追加するエラーメッセージ。
    *   同じ name に対し複数回同じメソッドがコールされた場合、古いメッセージは上書きされます。
+   * @todo 2.0 削除
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function addFieldError($name, $message)
@@ -197,6 +196,7 @@ class Delta_ActionMessages extends Delta_Object
    * @param string $name 対象となるフィールド要素名。
    * @return bool 対象となるフィールドにエラーメッセージが設定されている場合は TRUE、未設定の場合は FALSE を返します。
    *   また name が未指定の場合は、1 つ以上のフィールドエラーが設定されているかどうかをチェックします。
+   * @todo 2.0 削除
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function hasFieldError($name = NULL)
@@ -217,6 +217,7 @@ class Delta_ActionMessages extends Delta_Object
    *
    * @param string $name 対象となるフィールド要素名。
    * @return mixed 対象フォームフィールドに含まれるエラーメッセージを返します。メッセージが見つからない場合は NULL を返します。
+   * @todo 2.0 削除
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getFieldError($name)
@@ -233,6 +234,7 @@ class Delta_ActionMessages extends Delta_Object
    *
    * @param string $name 対象となるフィールド要素名。
    * @return bool エラーメッセージの削除に成功した場合は TRUE、失敗した場合は FALSE を返します。
+   * @todo 2.0 削除
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function removeFieldError($name)

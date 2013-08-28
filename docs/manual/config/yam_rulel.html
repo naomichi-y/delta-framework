@@ -27,21 +27,21 @@
   <h2>YAML の書き方</h2>
   <p>delta は全ての設定ファイルを YAML 形式で管理します。YAML は XML よりも分かりやすく構造化されたデータを表現するための軽量マークアップ言語です。	ここでは一般的によく使う記述ルールを説明しますが、より詳しい情報は <a href="http://www.yaml.org/spec/">YAML Specification</a> を参照して下さい。</p>
   <p>それでは早速 YAML に設定を定義してみましょう。ここではフレームワークで提供されている config/global_properties.yml を例に挙げて進めます。</p>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <p>YAML ファイルは必ず改行コードを LF に設定して下さい。CRLF コードが混ざっているとファイルが正常に解析されない可能性があります。</p>
     </div>
   </div>
   <dl>
     <dt>YAML Code# config/global_properties.yml</dt>
-    <dd class="lang-yaml"><code>language: php</code></dd>
+    <dd class="lang_yaml"><code>language: php</code></dd>
   </dl>
   <p>これは PHP コードにおける array('language' =&gt; 'php') と同義です。    &quot;:&quot; (コロン) は名前と値を分割するセパレータです。もし文字列の中で &quot;:&quot;を使いたい場合は、文字列全体をシングルクォートで括ると良いでしょう。</p>
   <p>次に配列を定義してみましょう。</p>
   <dl>
     <dt>YAML Code# config/global_properties.yml</dt>
-    <dd class="lang-yaml"><code>language:<br />
+    <dd class="lang_yaml"><code>language:<br />
       &nbsp;&nbsp;- php<br />
       &nbsp;&nbsp;- perl<br />
       &nbsp;&nbsp;- ruby</code></dd>
@@ -49,15 +49,15 @@
   <p>&quot;-&quot; (ハイフン) で要素を指定していますが、これは array('language' =&gt; array('php', 'perl', 'ruby')) と同義です。また、連想配列を指定したい場合は次のようになります。</p>
   <dl>
     <dt>YAML Code# config/global_properties.yml</dt>
-    <dd class="lang-yaml"><code>language:<br />
+    <dd class="lang_yaml"><code>language:<br />
       &nbsp;&nbsp;php: 5<br />
-      </code><code>&nbsp;&nbsp;perl: 5<br />
+      &nbsp;&nbsp;perl: 5<br />
       &nbsp;&nbsp;ruby: 1</code></dd>
   </dl>
   <p>language の下の属性が &quot;-&quot; (ハイフン) の代わりに &quot;(名前):(値)&quot; の形式になりました。PHP のコードで表すとこのようにになります。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang-php"><code>array('language' =&gt; array(<br />
+    <dd class="lang_php"><code>array('language' =&gt; array(<br />
       &nbsp;&nbsp;'php' =&gt; 5,<br />
       &nbsp;&nbsp;'perl' =&gt; 5,<br />
       &nbsp;&nbsp;'ruby' =&gt; 1) <br />
@@ -66,12 +66,12 @@
   <p>シングルクォートで括られていない数値や定数 (TRUE、NULL など) は数値型と見なされる点に注意して下さい。ここまでくると分かるかもしれませんが、YAML は配列と同じ表現が可能なので多重配列を作成することもできます。</p>
   <dl>
     <dt>YAML Code# config/global_properties.yml</dt>
-    <dd class="lang-yaml"><code># シャープから始まる行はコメントと見なされます<br />
+    <dd class="lang_yaml"><code># シャープから始まる行はコメントと見なされます<br />
       language:<br />
       &nbsp;&nbsp;php:<br />
       &nbsp; &nbsp;&nbsp;version: 5<br />
       &nbsp;&nbsp;&nbsp;&nbsp;skill: 'としても詳しい' <br />
-      </code><code>&nbsp;&nbsp;perl: 5<br />
+      &nbsp;&nbsp;perl: 5<br />
       &nbsp;&nbsp;&nbsp;&nbsp;version: 5<br />
       &nbsp;&nbsp;&nbsp;&nbsp;skill: 'コードを読めます'<br />
       &nbsp;&nbsp;ruby:<br />
@@ -81,13 +81,18 @@
   <p>基本的に覚えることはこれだけです。YAML で設定した値は Delta_Config クラスでプログラム上に読み込むことが可能です。 </p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang-php"><code>$config = Delta_Config::loadProperties();</code></dd>
+    <dd class="lang_php"><code>$config = Delta_Config::getApplication();<br>
+      <br>
+      // '5'
+<br>
+      $language = $config-&gt;get('language.php.version');
+    </code></dd>
   </dl>
   <h3>PHP タグを使う</h3>
   <p>delta の YAML 拡張として、設定ファイルの中で PHP タグを使うことができます。</p>
   <dl>
     <dt>YAML Code# config/global_properties.yml</dt>
-    <dd class="lang-yaml"><code>greeting: &lt;?php echo 'hello' ?&gt;</code></dd>
+    <dd class="lang_yaml"><code>greeting: &lt;?php echo 'hello' ?&gt;</code></dd>
   </dl>
   <p>上記コードの場合、PHP では array('greeting' =&gt; 'hello') として解釈されます。</p>
   <p class="right"><a href="#top">上へ</a></p>

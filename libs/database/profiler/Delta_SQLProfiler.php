@@ -196,7 +196,7 @@ class Delta_SQLProfiler extends Delta_Object
       $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
       $report->moduleName = $route->getModuleName();
-      $report->actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
+      $report->actionName = $route->getForwardStack()->getLast()->getActionName();
 
     } else if (Delta_BootLoader::isBootTypeConsole()) {
       $console = Delta_Console::getInstance();

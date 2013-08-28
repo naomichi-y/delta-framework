@@ -2,9 +2,9 @@
 /**
  * @package {%PACKAGE_TAG%}
  */
-class {%ACTION_NAME%}Action extends Delta_Action
+class {%CONTROLLER_NAME%}Controller extends Delta_ActionController
 {
-  public function execute()
+  public function indexAction()
   {
     // Please write code here.
 

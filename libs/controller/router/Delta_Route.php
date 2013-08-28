@@ -35,6 +35,7 @@ class Delta_Route extends Delta_Object
    * @param array $pathHolder ルートを構築するパスホルダ情報。
    *   - route: ルート名
    *   - module: モジュール名
+   *   - controller: コントローラ名
    *   - action: アクション名
    *   その他、リクエスト URI に含むパスホルダパラメータも格納する。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -65,6 +66,18 @@ class Delta_Route extends Delta_Object
   public function getModuleName()
   {
     return $this->_pathHolder['module'];
+  }
+
+  /**
+   * コントローラ名を取得します。
+   *
+   * @return string コントローラ名を返します。
+   * @since 2.0
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getControllerName()
+  {
+    return $this->_pathHolder['controller'];
   }
 
   /**

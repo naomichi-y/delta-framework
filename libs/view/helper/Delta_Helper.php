@@ -34,12 +34,6 @@
 abstract class Delta_Helper extends Delta_WebApplication
 {
   /**
-   * ヘルパで使用する基底のルータ名。
-   * @var string
-   */
-  protected static $_baseRouteName;
-
-  /**
    * ヘルパが持つデフォルト属性。
    * @var array
    */
@@ -101,27 +95,7 @@ abstract class Delta_Helper extends Delta_WebApplication
   {}
 
   /**
-   * パスの生成に用いる基底のルータを設定します。
-   *
-   * @param string $baseRouter ルータ名。
-   * @throws Delta_ConfigurationException 指定されたルータが見つからない場合に発生。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function setBasePathRouter($baseRouter)
-  {
-    $config = Delta_Config::getRoutes();
-
-    if ($config->hasName($baseRouter)) {
-      self::$_baseRouteName = $baseRouter;
-
-    } else {
-      $message = sprintf('Can\'t find router. [%s]', $baseRouter);
-      throw new Delta_ConfigurationException($message);
-    }
-  }
-
-  /**
-   * {@link setBasePathRouter()} メソッドで設定したルータを用いてリクエストパスを生成します。
+   * {@link Delta_HelperManager::setBaseRouteName()} メソッドで設定したルートを基にリクエストパスを生成します。
    *
    * @param mixed $path {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param array $queryData {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
@@ -132,14 +106,16 @@ abstract class Delta_Helper extends Delta_WebApplication
    */
   public function buildRequestPath($path, $queryData, $absolute = FALSE, $secure = NULL)
   {
-    if (self::$_baseRouteName !== NULL) {
+    $baseRouteName = $this->_currentView->getHelperManager()->getBaseRouteName();
+
+    if ($baseRouteName !== NULL) {
       if (is_array($path)) {
         if (!isset($path['route'])) {
-          $path['route'] = self::$_baseRouteName;
+          $path['route'] = $baseRouteName;
         }
 
-      } else if (ctype_upper(substr($path, 0, 1))) {
-        $path = array('action' => $path, 'route' => self::$_baseRouteName);
+      } else {
+        $path = array('route' => $baseRouteName, 'action' => $path);
       }
     }
 

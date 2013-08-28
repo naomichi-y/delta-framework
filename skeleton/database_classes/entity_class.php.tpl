@@ -1,7 +1,6 @@
 <?php
 /**
  * This class was generated automatically by DAO Generator.
- * date: {%CREATE_DATE%}
  *
  * @package libs.entity
  */

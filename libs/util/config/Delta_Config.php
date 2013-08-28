@@ -241,16 +241,16 @@ class Delta_Config extends Delta_Object
    *   o modules/{module_name}/config/behavior.yml
    *   o modules/{module_name}/behaviors/{action_name}.yml
    *
-   * @param bool $throw TRUE 指定時はアクションビヘイビアが見つからない場合に例外を発生させます。
+   * @param bool $throw TRUE 指定時はコントローラビヘイビアが見つからない場合に例外を発生させます。
    * @return Delta_ParameterHolder ファイルに含まれる設定情報を返します。
-   * @throws Delta_IOException アクションビヘイビアが見つからない場合に発生。(throw が TRUE の場合のみ)
+   * @throws Delta_IOException コントローラビヘイビアが見つからない場合に発生。(throw が TRUE の場合のみ)
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function getBehavior($actionName = NULL, $throw = FALSE)
+  public static function getBehavior($controllerName = NULL, $throw = FALSE)
   {
-    if ($actionName === NULL) {
+    if ($controllerName === NULL) {
       $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-      $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
+      $controllerName = $route->getForwardStack()->getLast()->getControllerName();
     }
 
     if (empty(self::$_gets['behavior'])) {
@@ -258,25 +258,25 @@ class Delta_Config extends Delta_Object
       self::$_gets['behavior'] = new Delta_ParameterHolder($merge, TRUE);
     }
 
-    // アクションビヘイビアをマージ
+    // コントローラビヘイビアをマージ
     if (Delta_BootLoader::isBootTypeWeb()) {
-      static $actionConfigs = array();
+      static $controllerBehaviors = array();
 
-      if (isset($actionConfigs[$actionName])) {
-        $actionConfig = $actionConfigs[$actionName];
+      if (isset($controllerBehaviors[$controllerName])) {
+        $controllerBehavior = $controllerBehaviors[$controllerName];
 
       } else {
-        $actionConfig = self::getArray(self::TYPE_DEFAULT_ACTION_BEHAVIOR, $actionName);
-        $actionConfigs[$actionName] = $actionConfig;
+        $controllerBehavior = self::getArray(self::TYPE_DEFAULT_ACTION_BEHAVIOR, $controllerName);
+        $controllerBehaviors[$controllerName] = $controllerBehavior;
       }
 
-      if ($throw && $actionConfig === FALSE) {
-        $message = sprintf('Can not find the specified behavior. [%s]', $actionName);
+      if ($throw && $controllerBehavior === FALSE) {
+        $message = sprintf('Can not find the specified behavior. [%s]', $controllerName);
         throw new Delta_IOException($message);
       }
 
       $holder = clone self::$_gets['behavior'];
-      $holder->merge($actionConfig);
+      $holder->merge($controllerBehavior);
     }
 
     return $holder;
@@ -428,7 +428,8 @@ class Delta_Config extends Delta_Object
           $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
           if ($route) {
-            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());
+            $moduleName = $route->getForwardStack()->getLast()->getModuleName();
+            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($moduleName);
 
             $path = sprintf('%s%sconfig%sfilters.yml',
               $modulePath,
@@ -452,7 +453,8 @@ class Delta_Config extends Delta_Object
           $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
 
           if ($route) {
-            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($route->getModuleName());
+            $moduleName = $route->getForwardStack()->getLast()->getModuleName();
+            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($moduleName);
 
             $path = sprintf('%s%sconfig%sbehavior.yml',
               $modulePath,
@@ -466,8 +468,11 @@ class Delta_Config extends Delta_Object
       case self::TYPE_DEFAULT_ACTION_BEHAVIOR:
         if (Delta_BootLoader::isBootTypeWeb()) {
           $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-          $basePath = dirname($route->getForwardStack()->getLast()->getAction()->getBehaviorPath());
-          $path = Delta_AppPathManager::buildAbsolutePath($basePath, $include, '.yml');
+          $moduleName = $route->getForwardStack()->getLast()->getModuleName();
+          $modulePath = Delta_AppPathManager::getInstance()->getModulePath($moduleName);
+          $controllerBasePath = sprintf('%s%sbehaviors', $modulePath, DIRECTORY_SEPARATOR);
+
+          $path = Delta_AppPathManager::buildAbsolutePath($controllerBasePath, $include, '.yml');
         }
 
         break;

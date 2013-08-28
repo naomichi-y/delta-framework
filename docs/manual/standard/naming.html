@@ -102,6 +102,11 @@
     <h3 id="classNaming">クラスの命名規則 </h3>
     <ul>
       <li>クラス名は PascalCase 方式で命名します。PascalCase は、各単語の 1 文字目を大文字とし、2 文字目以降を小文字に変換します。例えば対象が「Hello world」であれば、クラス名は「HelloWorld」となります。</li>
+      <li>クラスが持つ役割として適切な名前付けを行います。
+        <ul>
+          <li>汎用的なユーティリティの集合体クラスに Utilitites といった名前付けはふさわしくありません。この名前では、将来的にクラスのメソッドが増え続け、クラスコードが肥大化する恐れがあります。このようなケースでは、より目的に見合った名前を付けるべきでしょう。例えば日付を操作するユーティリティであれば DateUtility とします。</li>
+        </ul>
+      </li>
       <li>クラスファイルの拡張子は &quot;.php&quot; で統一します。クラス名が HelloWorld の場合、ファイル名は HelloWorld.php となります。</li>
     </ul>
     <h3><a id="actionNaming"></a>アクションクラス </h3>
@@ -171,7 +176,7 @@
           <li>カテゴリ名は定数の接頭辞として命名すると良いでしょう。IDE によっては名前を補完してくれるので、候補が見つけやすくなります。
             <dl>
               <dt>PHP Code# クラス定数の宣言</dt>
-              <dd class="lang-php"><code>class XXX extends Delta_Object<br />
+              <dd class="lang_php"><code>class XXX extends Delta_Object<br />
                 {<br />
                 &nbsp;&nbsp;/**<br />
                 &nbsp;&nbsp; * 会員ステータス。(有効)<br />
@@ -268,7 +273,7 @@
       <li>ループカウンタの変数名は、イディオムに従って i、j、k を使用して下さい。ただし、例外的に具体的な変数名を使用したほうが分かりやすい場合もあります。
         <dl>
           <dt>PHP Code# ループカウンタの変数名</dt>
-          <dd class="lang-php"><code>// 原則的なループ変数の宣言<br />
+          <dd class="lang_php"><code>// 原則的なループ変数の宣言<br />
             for ($i = 0; $i &lt; $j; $i++) {<br />
             &nbsp;&nbsp;... <br />
             }<br />
@@ -283,7 +288,7 @@
       <li>スコープが広い場所では、分かりやすい変数名をつけるべきです。
         <dl>
           <dt>PHP Code# 変数の宣言 (悪い例)</dt>
-          <dd class="lang-php"><code>// 何のフラグか分からない<br />
+          <dd class="lang_php"><code>// 何のフラグか分からない<br />
             $flag = TRUE;<br />
             <br />
             // 何のカウンタか分からない <br />
@@ -292,7 +297,7 @@
             // 何のパスか分からない <br />
             $path = NULL; </code></dd>
           <dt>PHP Code# 変数の宣言 (良い例)</dt>
-          <dd class="lang-php"><code>// 削除フラグであることが明確<br />
+          <dd class="lang_php"><code>// 削除フラグであることが明確<br />
             $deleteFlag = TRUE;<br />
             <br />
             // 削除数<br />

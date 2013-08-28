@@ -315,8 +315,9 @@ class Delta_ConfigCompiler extends Delta_Object
     foreach ($data as $name => &$keys) {
       $regexp = str_replace('/', '\/', $keys['uri']);
       $regexp = str_replace('.', '\.', $regexp);
-      $regexp = str_replace(':action', '(?:[\w]+)', $regexp);
       $regexp = str_replace(':module', '(?:[\w\-]+)', $regexp);
+      $regexp = str_replace(':controller', '(?:[\w]+)', $regexp);
+      $regexp = str_replace(':action', '(?:[\w]+)', $regexp);
 
       // Match pattern is ':foo', ':bar'...
       $regexp = preg_replace('/:\w+/', '(?:[\w-%]+)', $regexp);

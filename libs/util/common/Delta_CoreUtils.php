@@ -33,9 +33,9 @@ class Delta_CoreUtils
   const REGEXP_COMMAND = '/^[a-zA-Z]+(\w+)?$/';
 
   /**
-   * 正規表現パターン定数。(アクション名)
+   * 正規表現パターン定数。(コントローラ名)
    */
-  const REGEXP_ACTION = '/^[a-zA-Z]+(\w+)?$/';
+  const REGEXP_CONTROLLER = '/^[a-zA-Z]+(\w+)?$/';
 
   /**
    * 正規表現パターン定数。(テーマ名)
@@ -53,21 +53,21 @@ class Delta_CoreUtils
    */
   public static function clearCache()
   {
-    $cacheDir = sprintf('%s%scache', APP_ROOT_DIR, DIRECTORY_SEPARATOR);
-    Delta_FileUtils::deleteDirectory($cacheDir, FALSE);
+    $cachePath = 'cache';
+    Delta_FileUtils::deleteDirectory($cachePath, FALSE);
 
-    if (!is_dir($cacheDir)) {
-      Delta_FileUtils::createDirectory($cacheDir, 0775);
+    if (!Delta_FileUtils::isReadable($cachePath)) {
+      Delta_FileUtils::createDirectory($cachePath, 0775);
     }
 
-    $autoloadDir = $cacheDir . '/file';
-    Delta_FileUtils::createDirectory($autoloadDir, 0775);
+    $autoloadPath = $cachePath . '/file';
+    Delta_FileUtils::createDirectory($autoloadPath, 0775);
 
-    $templatesDir = $cacheDir . '/templates';
-    Delta_FileUtils::createDirectory($templatesDir, 0775);
+    $templatesPath = $cachePath . '/templates';
+    Delta_FileUtils::createDirectory($templatesPath, 0775);
 
-    $yamlDir = $cacheDir . '/yaml';
-    Delta_FileUtils::createDirectory($yamlDir, 0775);
+    $yamlPath = $cachePath . '/yaml';
+    Delta_FileUtils::createDirectory($yamlPath, 0775);
   }
 
   /**
@@ -76,7 +76,7 @@ class Delta_CoreUtils
    * @return bool
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private static function checkValidateName($type, $name)
+  private static function validateName($type, $name)
   {
     if (!preg_match($type, $name)) {
       $message = sprintf('This name can not be used. [%s]', $name);
@@ -97,25 +97,20 @@ class Delta_CoreUtils
    */
   public static function addCommand($commandName, $packageName = '/')
   {
-    self::checkValidateName(self::REGEXP_COMMAND, $commandName);
+    self::validateName(self::REGEXP_COMMAND, $commandName);
 
     // 出力ディレクトリの取得
     if ($packageName === '/') {
-      $writeDirectory = sprintf('%s%sconsole%scommands',
-        APP_ROOT_DIR,
-        DIRECTORY_SEPARATOR,
-        DIRECTORY_SEPARATOR);
+      $writeDirectory = sprintf('console%scommands', DIRECTORY_SEPARATOR);
 
     } else {
-      $writeDirectory = sprintf('%s%sconsole%scommands%s%s',
-        APP_ROOT_DIR,
-        DIRECTORY_SEPARATOR,
+      $writeDirectory = sprintf('console%scommands%s%s',
         DIRECTORY_SEPARATOR,
         DIRECTORY_SEPARATOR,
         ltrim($packageName, '/'));
     }
 
-    if (!is_dir($writeDirectory)) {
+    if (!Delta_Utils::isReadable($writeDirectory)) {
       Delta_FileUtils::createDirectory($writeDirectory);
     }
 
@@ -127,7 +122,7 @@ class Delta_CoreUtils
       $commandClassName);
 
     if (is_file($writePath)) {
-      $message = sprintf('Command file of same name exists. [%s]', $writePath);
+      $message = sprintf('Command class of same name exists. [%s]', $writePath);
       throw new Delta_IOException($message);
     }
 
@@ -168,44 +163,92 @@ class Delta_CoreUtils
    */
   public static function addModule($moduleName)
   {
-    self::checkValidateName(self::REGEXP_MODULE, $moduleName);
+    self::validateName(self::REGEXP_MODULE, $moduleName);
 
-    $modulePath = sprintf('%s/modules/%s', APP_ROOT_DIR, $moduleName);
+    $modulePath = sprintf('modules%s%s', DIRECTORY_SEPARATOR, $moduleName);
+
+    if (is_file($modulePath)) {
+      $message = sprintf('Module of same name exists. [%s]', $modulePath);
+      throw new Delta_IOException($message);
+    }
 
     Delta_FileUtils::createDirectory($modulePath);
 
+    // モジュールディレクトリ下の定型ディレクトリを作成
     $skeletonPath = DELTA_SKELETON_DIR . '/blank_module';
+
     $options = array('recursive' => TRUE);
-
     Delta_FileUtils::copy($skeletonPath, $modulePath, $options);
-    $deployFiles = Delta_FileUtils::search($modulePath, '/.*/', array('directory' => TRUE));
 
-    $fromPath = sprintf('%s%stemplates%shtml%sskeleton.php',
-      APP_ROOT_DIR,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR);
-    $toPath = sprintf('%s%smodules%s%s%stemplates%sindex%s',
-      APP_ROOT_DIR,
-      DIRECTORY_SEPARATOR,
+    $options = array('directory' => TRUE, 'basePath' => APP_ROOT_DIR . DIRECTORY_SEPARATOR);
+    $createdFiles = Delta_FileUtils::search($modulePath, '/.*/', $options);
+
+    foreach (self::addController($moduleName, 'Index') as $createFile) {
+      $createdFiles[] = $createFile;
+    }
+
+    sort($createdFiles);
+
+    return $createdFiles;
+  }
+
+  /**
+   * @since 2.0
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function addController($moduleName, $controllerName)
+  {
+    $pos = strrpos($controllerName, '/');
+
+    if ($pos === FALSE) {
+      $packageTag = sprintf('modules.%s.controllers', $moduleName);
+      $deepPath = NULL;
+      $controllerName = Delta_StringUtils::convertPascalCase($controllerName);
+
+    } else {
+      $packageId = substr($controllerName, 0, $pos);
+
+      $packageTag = sprintf('modules.%s.controllers.%s', $moduleName, str_replace('/', '.', $packageId));
+      $deepPath = DIRECTORY_SEPARATOR . $packageId;
+      $controllerName = Delta_StringUtils::convertPascalCase(substr($controllerName, $pos + 1));
+    }
+
+    self::validateName(self::REGEXP_MODULE, $moduleName);
+    self::validateName(self::REGEXP_CONTROLLER, $controllerName);
+
+    // コントローラクラスの作成
+    $controllerPath = sprintf('modules%s%s%scontrollers%s%s%sController.php',
       DIRECTORY_SEPARATOR,
       $moduleName,
       DIRECTORY_SEPARATOR,
+      $deepPath,
       DIRECTORY_SEPARATOR,
-      Delta_Config::getApplication()->getString('view.extension'));
+      $controllerName);
 
-    copy($fromPath, $toPath);
-    $deployFiles[] = $toPath;
-
-    $actionFiles = self::addAction($moduleName, 'Index');
-
-    foreach ($actionFiles as $actionFile) {
-      $deployFiles[] = $actionFile;
+    if (Delta_FileUtils::isReadable($controllerPath)) {
+      $message = sprintf('Controller class of same name exists. [%s]', $controllerPath);
+      throw new Delta_IOException($message);
     }
 
-    sort($deployFiles);
+    $controllerBaseDirectory = dirname($controllerPath);
 
-    return $deployFiles;
+    if (!Delta_FileUtils::isReadable($controllerBaseDirectory)) {
+      Delta_FileUtils::createDirectory($controllerBaseDirectory, 0775, TRUE);
+    }
+
+    $skeletonPath = sprintf('%s%sskeleton%sblank_controller%sBlankController.php.tpl',
+      DELTA_ROOT_DIR,
+      DIRECTORY_SEPARATOR,
+      DIRECTORY_SEPARATOR,
+      DIRECTORY_SEPARATOR);
+    Delta_FileUtils::copy($skeletonPath, $controllerPath);
+
+    $contents = Delta_FileUtils::readFile($controllerPath);
+    $contents = str_replace('{%PACKAGE_TAG%}', $packageTag, $contents);
+    $contents = str_replace('{%CONTROLLER_NAME%}', $controllerName, $contents);
+    Delta_FileUtils::writeFile($controllerPath, $contents);
+
+    return array($controllerPath);
   }
 
   /**
@@ -220,7 +263,7 @@ class Delta_CoreUtils
    */
   public static function addTheme($basePath, $themeName, array $moduleNames)
   {
-    self::checkValidateName(self::REGEXP_THEME, $themeName);
+    self::validateName(self::REGEXP_THEME, $themeName);
 
     $themePath = sprintf('%s%s%s',
       $basePath,
@@ -230,7 +273,7 @@ class Delta_CoreUtils
     Delta_FileUtils::createDirectory($themePath, 0775, TRUE);
 
     foreach ($moduleNames as $moduleName) {
-      self::checkValidateName(self::REGEXP_MODULE, $moduleName);
+      self::validateName(self::REGEXP_MODULE, $moduleName);
 
       $createList = array(
         sprintf('%s%sdata', $themePath, DIRECTORY_SEPARATOR),
@@ -278,152 +321,9 @@ class Delta_CoreUtils
       Delta_FileUtils::copy($from, $to, array('recursive' => TRUE));
     }
 
-    $deployFiles = Delta_FileUtils::search($themePath, '/.*/', array('directory' => TRUE));
+    $createdFiles = Delta_FileUtils::search($themePath, '/.*/', array('directory' => TRUE));
 
-    return $deployFiles;
-  }
-
-  /**
-   * モジュールにアクションクラス、ビヘイビア、テンプレートファイルを追加します。
-   * テンプレートのスケルトンは APP_ROOT_DIR/templates/html/skeleton.php ファイルが使用されます。
-   *
-   * @param string $moduleName 対象のモジュール名。
-   * @param string $moduleName 追加するアクションの名前。
-   *   使用可能な文字は英数字、及び '_' (アンダースコア)。名前は英字から始める必要がある。
-   * @param string $packageNmae アクションを配置するパッケージ。
-   *   '/foo/bar' をパッケージとした場合、アクションは modules/{module_name}/actions/foo/bar 下に作成される。
-   *   パッケージ名は同時に作成れるビヘイビア、テンプレートのパスにも影響する。
-   * @return array 作成したファイルのパス情報を返します。
-   *   - action: アクションのクラスパス。
-   *   - behavior: ビヘイビアファイルパス。
-   *   - template: テンプレートのファイルパス。
-   * @throws Delta_ParseException 使用できない文字が含まれる場合に発生。
-   * @throws Delta_IOException ファイルの作成が失敗した場合に発生。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function addAction($moduleName, $actionName, $packageName = '/')
-  {
-    $moduleDirectory = sprintf('%s%smodules%s%s',
-      APP_ROOT_DIR,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR,
-      $moduleName);
-    $packageTag = sprintf('modules.%s.actions%s', $moduleName, rtrim(str_replace('/', '.', $packageName), '.'));
-    $actionName = Delta_StringUtils::convertPascalCase($actionName);
-    $actionFile = $actionName . 'Action.php';
-
-    $actions = Delta_FileUtils::search($moduleDirectory, $actionFile);
-
-    // 同じアクションファイルが存在しないかチェック
-    if (sizeof($actions)) {
-      $message = sprintf('Action file of same name exists. [%s]', $actions[0]);
-      throw new Delta_IOException($message);
-    }
-
-    // パッケージ名、アクション名の妥当性をチェック
-    self::checkValidateName(self::REGEXP_PACKAGE, $packageName);
-    self::checkValidateName(self::REGEXP_ACTION, $actionName);
-
-    // スケルトンテンプレートの取得
-    $skeletonDirectory = sprintf('%s%sskeleton',
-      DELTA_ROOT_DIR,
-      DIRECTORY_SEPARATOR);
-
-    $actionSkeletonPath = sprintf('%s%sblank_action%sBlankAction.php.tpl',
-      $skeletonDirectory,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR);
-    $behaviorSkeletonPath = sprintf('%s%sblank_action%sBlank.yml',
-      $skeletonDirectory,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR);
-    $templateSkeletonPath = sprintf('%s%stemplates%shtml%sskeleton.php',
-      APP_ROOT_DIR,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR);
-
-    // アクションのコピー
-    $toDirectory = $moduleDirectory . '/actions';
-
-    if ($packageName !== '/') {
-      $toDirectory .= $packageName;
-    }
-
-    $toPath = $toDirectory . '/' . $actionFile;
-
-    if (!is_dir($toDirectory)) {
-      Delta_FileUtils::createDirectory($toDirectory);
-    }
-
-    copy($actionSkeletonPath, $toPath);
-
-    $deployFiles = array();
-    $deployFiles[] = $toPath;
-
-    $contents = file_get_contents($toPath);
-    $contents = str_replace('{%PACKAGE_TAG%}', $packageTag, $contents);
-    $contents = str_replace('{%ACTION_NAME%}', $actionName, $contents);
-
-    file_put_contents($toPath, $contents);
-
-    // ビヘイビアのコピー
-    $toDirectory = $moduleDirectory . '/behaviors';
-
-    if ($packageName !== '/') {
-      $toDirectory .= $packageName;
-    }
-
-    if (!is_dir($toDirectory)) {
-      Delta_FileUtils::createDirectory($toDirectory);
-    }
-
-    $toPath = sprintf('%s/%s.yml', $toDirectory, $actionName);
-    copy($behaviorSkeletonPath, $toPath);
-    $deployFiles[] = $toPath;
-
-    $templateName = Delta_StringUtils::convertSnakeCase($actionName);
-
-    if ($packageName === '/') {
-      $packageName = '';
-    } else {
-      $packageName = ltrim($packageName, '/') . '/';
-    }
-
-    $contents = file_get_contents($toPath);
-    $contents = str_replace('"{%PACKAGE_NAME%}"', $packageName, $contents);
-    $contents = str_replace('index', $templateName, $contents);
-
-    file_put_contents($toPath, $contents);
-
-    // テンプレートのコピー
-    if ($packageName === '/') {
-      $toDirectory = sprintf('%s%stemplates',
-        $moduleDirectory,
-        DIRECTORY_SEPARATOR);
-
-    } else {
-      $toDirectory = sprintf('%s%stemplates%s',
-        $moduleDirectory,
-        DIRECTORY_SEPARATOR,
-        $packageName);
-
-      if (!is_dir($toDirectory)) {
-        Delta_FileUtils::createDirectory($toDirectory);
-      }
-    }
-
-    $toPath = sprintf('%s%s%s%s',
-      $toDirectory,
-      DIRECTORY_SEPARATOR,
-      $templateName,
-      Delta_Config::getApplication()->getString('view.extension'));
-
-    copy($templateSkeletonPath, $toPath);
-    $deployFiles[] = $toPath;
-    sort($deployFiles);
-
-    return $deployFiles;
+    return $createdFiles;
   }
 
   /**

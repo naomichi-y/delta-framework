@@ -8,8 +8,6 @@
  * @link http://delta-framework.org/
  */
 
-require DELTA_LIBS_DIR . '/view/renderer/Delta_Renderer.php';
-
 /**
  * ビューの出力を制御します。
  *
@@ -82,6 +80,7 @@ require DELTA_LIBS_DIR . '/view/renderer/Delta_Renderer.php';
  * @package view
  */
 
+require DELTA_LIBS_DIR . '/view/renderer/Delta_Renderer.php';
 require DELTA_LIBS_DIR . '/view/helper/Delta_Helper.php';
 require DELTA_LIBS_DIR . '/view/helper/Delta_HelperManager.php';
 

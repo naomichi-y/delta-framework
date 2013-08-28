@@ -23,11 +23,22 @@ class Delta_ActionFilter extends Delta_Filter
    */
   private $_config;
 
+  /**
+   * @var Delta_Forward
+   */
+  private $_forward;
+
+  /**
+   * @since 2.0
+   */
   public function __construct($filterId, Delta_ParameterHolder $holder)
   {
     parent::__construct($filterId, $holder);
 
     $this->_config = Delta_Config::getBehavior();
+
+    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+    $this->_forward = $route->getForwardStack()->getLast();
   }
 
   /**
@@ -36,9 +47,8 @@ class Delta_ActionFilter extends Delta_Filter
    */
   public function doFilter(Delta_FilterChain $chain)
   {
-    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-    $action = $route->getForwardStack()->getLast()->getAction();
-    $action->initialize();
+    $controller = $this->_forward->getController();
+    $controller->initialize();
 
     if ($this->isSafety()) {
       // コンバータの実行
@@ -52,38 +62,39 @@ class Delta_ActionFilter extends Delta_Filter
       // バリデータの実行
       $hasError = FALSE;
 
-      if ($action->isValidate()) {
-        $validateConfig = $this->_config->get('validate');
+      $validateConfig = $this->_config->get('validate');
 
-        if ($validateConfig) {
-          $validateManager = new Delta_ValidateManager($validateConfig);
+      if ($validateConfig) {
+        $validateManager = new Delta_ValidateManager($validateConfig);
 
-          // ビヘイビアに定義されたバリデータの結果に影響せず Delta_Action::validate() を実行
-          if ($validateConfig->getBoolean('invokeMethod')) {
-            if (!$validateManager->execute()) {
-              $hasError = TRUE;
-            }
-
-            if (!$action->validate()) {
-              $hasError = TRUE;
-            }
-
-          // ビヘイビアに定義されたバリデータをパスした場合のみ Delta_Action::validate() を実行
-          } else if (!$validateManager->execute() || !$action->validate()) {
+        // ビヘイビアに定義されたバリデータの結果に影響せず Delta_Action::validate() を実行
+        if ($validateConfig->getBoolean('invokeMethod')) {
+          if (!$validateManager->execute()) {
             $hasError = TRUE;
           }
 
-        } else if (!$action->validate()) {
+        // ビヘイビアに定義されたバリデータをパスした場合のみ Delta_Action::validate() を実行
+        } else if (!$validateManager->execute()) {
           $hasError = TRUE;
         }
       }
 
+      $dispatchView = NULL;
+
       if ($hasError) {
-        $action->setValidateError(TRUE);
-        $dispatchView = $action->validateErrorHandler();
+        // @todo 2.0
+        //$action->setValidateError(TRUE);
+        //$dispatchView = $action->validateErrorHandler();
+        $dispatchView = Delta_View::SUCCESS;
 
       } else {
-        $dispatchView = $action->execute();
+        $actionMethodName = $this->_forward->getActionName() . 'Action';
+
+        if (method_exists($controller, $actionMethodName)) {
+          $dispatchView = call_user_func(array($controller, $actionMethodName));
+        } else {
+          $dispatchView = $controller->unknownAction();
+        }
 
         if (!$dispatchView) {
           $dispatchView = Delta_View::SUCCESS;
@@ -91,7 +102,7 @@ class Delta_ActionFilter extends Delta_Filter
       }
 
     } else {
-      $dispatchView = $action->safetyErrorHandler();
+      $dispatchView = $controller->safetyErrorHandler();
     }
 
     $this->dispatchView($dispatchView);
@@ -107,6 +118,7 @@ class Delta_ActionFilter extends Delta_Filter
     $response = $this->getResponse();
 
     if ($dispatchView !== Delta_View::NONE && $response->isWrite() && !$response->isCommitted()) {
+      // @todo 2.0 {action.view} を参照するよう変更
       $viewConfig = $this->_config->get('view');
       $hasDispatch = FALSE;
 
@@ -148,12 +160,13 @@ class Delta_ActionFilter extends Delta_Filter
 
       if (!$hasDispatch) {
         if ($dispatchView === Delta_View::SUCCESS) {
-          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-          $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
-          $template = Delta_StringUtils::convertSnakeCase($actionName);
+          $controllerName = Delta_StringUtils::convertSnakeCase($this->_forward->getControllerName());
+          $actionName = Delta_StringUtils::convertSnakeCase($this->_forward->getActionName());
+
+          $templatePath = $controllerName . DIRECTORY_SEPARATOR . $actionName;
 
           $view = $this->getView();
-          $view->setTemplatePath($template);
+          $view->setTemplatePath($templatePath);
           $view->importHelpers();
           $view->execute();
 

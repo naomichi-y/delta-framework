@@ -33,6 +33,11 @@ class Delta_HelperManager extends Delta_Object
   private $_instances = array();
 
   /**
+   * @var string
+   */
+  private $_baseRouteName;
+
+  /**
    * コンストラクタ。
    *
    * @param Delta_View $view ヘルパを適用するビューオブジェクト。
@@ -42,6 +47,35 @@ class Delta_HelperManager extends Delta_Object
   {
     $this->_view = $view;
     $this->_config = Delta_Config::getHelpers();
+  }
+
+  /**
+   * ヘルパが生成するパスの基底ルートを設定します。
+   *
+   * @param string $baseRouteName ルート名。
+   * @throws Delta_ConfigurationException 指定されたルートが見つからない場合に発生。
+   * @since 2.0
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function setBaseRouteName($baseRouteName)
+  {
+    $config = Delta_Config::getRoutes();
+
+    if ($config->hasName($baseRouteName)) {
+      $this->_baseRouteName = $baseRouteName;
+
+    } else {
+      $message = sprintf('Can\'t find route. [%s]', $baseRouteName);
+      throw new Delta_ConfigurationException($message);
+    }
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function getBaseRouteName()
+  {
+    return $this->_baseRouteName;
   }
 
   /**

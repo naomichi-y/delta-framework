@@ -28,7 +28,7 @@
   <p>delta が標準で実装しているコンポーネントには、クライアントからのリクエストを解析するリクエストクラスや、セッションを扱うユーザクラスがあります。これらは delta が動作するための必要最低限なコアコンポーネントとして定義されており、config/base_dicon.yml にて実装クラスが定義されています。 </p>
   <dl>
     <dt>YAML Code# config/base_dicon.yml</dt>
-    <dd class="lang-yaml"><code>componentNames:<br />
+    <dd class="lang_yaml"><code>componentNames:<br />
       &nbsp;&nbsp;&nbsp;request:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class: Delta_HttpRequest<br />
       <br />
@@ -44,13 +44,13 @@
   <p>まず初めに、base_dicon.yml にて session のコアクラスに HttpSessionWrapper を使うよう設定します。</p>
   <dl>
     <dt>YAML Code# config/base_dicon.yml</dt>
-    <dd class="lang-yaml"><code> session:<br />
+    <dd class="lang_yaml"><code> session:<br />
       &nbsp;&nbsp;class: HttpSessionWrapper </code></dd>
   </dl>
   <p>次に Delta_HttpSession を継承した HttpSessionWrapper クラスを実装します。ファイルは libs 配下に設置しておくことで自動的に読み込まれます。</p>
   <dl>
     <dt>PHP Code# libs/components/HttpSessionWrapper.php</dt>
-    <dd class="lang-php"><code>class HttpSessionWrapper extends Delta_HttpSession<br />
+    <dd class="lang_php"><code>class HttpSessionWrapper extends Delta_HttpSession<br />
       {<br />
       &nbsp;&nbsp;public function __construct()<br />
       &nbsp;&nbsp;{<br />

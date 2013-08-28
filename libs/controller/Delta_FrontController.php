@@ -8,7 +8,7 @@
  * @link http://delta-framework.org/
  */
 
-require DELTA_LIBS_DIR . '/controller/action/Delta_Action.php';
+require DELTA_LIBS_DIR . '/controller/Delta_ActionController.php';
 require DELTA_LIBS_DIR . '/controller/router/Delta_RouteResolver.php';
 require DELTA_LIBS_DIR . '/controller/filter/Delta_Filter.php';
 require DELTA_LIBS_DIR . '/controller/filter/Delta_FilterManager.php';
@@ -19,8 +19,6 @@ require DELTA_LIBS_DIR . '/controller/forward/Delta_ForwardStack.php';
 
 /**
  * Web アプリケーションのためのフロントエンドコントローラ機能を提供します。
- *
- * このクラスは 'controller' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getController()} からインスタンスを取得することができます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -165,7 +163,6 @@ class Delta_FrontController extends Delta_Object
    */
   public function dispatch()
   {
-
     // ルートの探索
     if ($route = $this->_resolver->connect()) {
       $this->_request->setRoute($route);
@@ -175,7 +172,7 @@ class Delta_FrontController extends Delta_Object
 
       ob_start();
 
-      $this->forward($route->getActionName());
+      $this->forward($route->getActionName(), $route->getControllerName());
       $buffer = ob_get_contents();
 
       ob_end_clean();
@@ -199,123 +196,85 @@ class Delta_FrontController extends Delta_Object
   /**
    * アクションのフォワードを実行します。
    *
-   * @param string $actionName フォワードするアクション名。
-   * @throws Delta_ForwardException フォワードが失敗した場合に発生。
+   * @param string $actionName フォワード先のアクション名。
+   * @param string $controllerName フォワード先のコントローラ名。
+   * @param bool $throw コントローラが見つからない場合に例外をスローする場合は TRUE、404 ページを出力する場合は FALSE を指定。
+   * @throws Delta_ForwardException コントローラが見つからない場合に発生。(throw が TRUE の場合のみ)
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function forward($actionName, $validate = TRUE)
+  public function forward($actionName, $controllerName = NULL, $throw = FALSE)
   {
     $moduleName = $this->_route->getModuleName();
 
-    // 実行モジュールを決定する
-    $modulePath = $this->getModulePath($moduleName);
+    if ($controllerName === NULL) {
+      $controllerName = $this->_route->getControllerName();
+    }
 
-    if ($modulePath) {
-      $actionClass = $this->loadAction($actionName, $moduleName, $modulePath, $validate);
+    if ($this->loadController($moduleName, $controllerName)) {
+      $forward = new Delta_Forward($moduleName, $controllerName, $actionName);
+      $this->_route->getForwardStack()->add($forward);
 
-      if ($actionClass) {
-        $filter = new Delta_FilterManager();
-        $filter->addFilter('actionFilter', array('class' => 'Delta_ActionFilter'));
-        $filter->doFilters();
+      $filter = new Delta_FilterManager();
+      $filter->addFilter('actionFilter', array('class' => 'Delta_ActionFilter'));
+      $filter->doFilters();
+
+    } else {
+      if ($throw) {
+        $message = sprintf('Controller class can\'t be found. [%s]', $controllerName);
+        throw new Delta_ForwardException($message);
 
       } else {
         $this->_response->sendError(404);
       }
-
-    // モジュールが存在しない場合
-    } else {
-      $this->_response->sendError(404);
     }
   }
 
   /**
-   * モジュールのパスを取得します。
-   *
-   * @param string $moduleName モジュール名。
-   * @return string モジュール名に対応するパスを返します。
-   * @since 1.2
+   * @since 2.0
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function getModulePath($moduleName)
+  private function loadController($moduleName, $controllerName)
   {
-    if ($moduleName === 'cpanel') {
-      $modulePath = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel';
-      $this->_pathManager->addModulePath('cpanel', $modulePath);
+    static $loadedControllers = array();
 
-    } else {
-      $modulePath = $this->_pathManager->getModulePath($moduleName);
-    }
+    $result = FALSE;
 
-    if (!is_dir($modulePath)) {
-      $modulePath = FALSE;
-    }
+    if (!in_array($controllerName, $loadedControllers)) {
+      // モジュールパスの取得
+      if ($moduleName === 'cpanel') {
+        $modulePath = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel';
+        $this->_pathManager->addModulePath('cpanel', $modulePath);
 
-    return $modulePath;
-  }
+      } else {
+        $modulePath = $this->_pathManager->getModulePath($moduleName);
+      }
 
-  /**
-   * アクションオブジェクトを取得します。
-   *
-   * @return Delta_Action アクションオブジェクトを返します。
-   * @since 1.2
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private function loadAction($actionName, $moduleName, $modulePath, $validate)
-  {
-    static $loads = array();
+      $formsPath = sprintf('%s%sforms', $modulePath, DIRECTORY_SEPARATOR);
+      Delta_ClassLoader::addSearchPath($formsPath);
 
-    $action = FALSE;
+      $controllerClassName = $controllerName . 'Controller';
+      $controllerClassPath = sprintf('%s%scontrollers%s%s.php',
+        $modulePath,
+        DIRECTORY_SEPARATOR,
+        DIRECTORY_SEPARATOR,
+        $controllerClassName);
 
-    if (!isset($loads[$actionName])) {
-      $actionClassName = $actionName . 'Action';
-      $searchBasePath = $modulePath . '/actions';
-      $actionPath = Delta_ClassLoader::findPath($actionClassName, $searchBasePath);
+      if (is_file($controllerClassPath)) {
+        require $controllerClassPath;
 
-      if ($actionPath !== FALSE) {
-        $actionRelativePath = substr($actionPath, strpos($actionPath, 'actions') + 7);
-        $packagePath = dirname(substr($actionRelativePath, 1));
+        /** @todo 2.0
+        $config = Delta_Config::getBehavior($controllerName);
+        $action->setRoles($config->getArray('roles'));
+        */
 
-        if (DIRECTORY_SEPARATOR === "\\") {
-          $packageName = str_replace("\\", '/', $padckagePath);
-        } else {
-          $packageName = $packagePath;
-        }
-
-        if ($packageName === '.') {
-          $packageName = $moduleName . ':/';
-          $behaviorRelativePath = $actionName . '.yml';
-
-        } else {
-          $packageName = $moduleName . ':' . $packageName;
-          $behaviorRelativePath = sprintf('%s%s%s.yml', $packagePath, DIRECTORY_SEPARATOR, $actionName);
-        }
-
-        if ($this->_resolver->isAllowPackage($packageName)) {
-          require $actionPath;
-
-          // アクションクラスの生成
-          $actionClass = $actionName . 'Action';
-          $behaviorPath = $this->_pathManager->getModuleBehaviorsPath($moduleName, $behaviorRelativePath);
-
-          $action = new $actionClass($actionPath, $behaviorPath);
-          $action->setPackageName($packageName);
-          $action->setValidate($validate);
-
-          $forward = new Delta_Forward($moduleName, $actionName);
-          $forward->setAction($action);
-          $this->_route->getForwardStack()->add($forward);
-
-          $config = Delta_Config::getBehavior($actionName);
-          $action->setRoles($config->getArray('roles'));
-        }
-
-        $loads[$actionName] = $action;
+        $loadedControllers[] = $controllerName;
+        $result = TRUE;
       }
 
     } else {
-      $action = $loads[$actionName];
+      $result = TRUE;
     }
 
-    return $action;
+    return $result;
   }
 }

@@ -23,8 +23,21 @@ class Delta_ForwardStack extends Delta_Object
   public function add(Delta_Forward $forward)
   {
     if (sizeof($this->_forwardStack) > 8) {
-      $message = 'Forward too many.';
-      throw new OverflowException($message);
+      $buffer = NULL;
+      $i = 0;
+
+      foreach ($this->_forwardStack as $forward) {
+        if ($i < 4) {
+          $buffer .= sprintf('%sController::%sAction(), ', $forward->getControllerName(), $forward->getActionName());
+        }
+
+        $i++;
+      }
+
+      $buffer = rtrim($buffer, ', ');
+
+      $message = sprintf('Forward too many. [%s...]', $buffer);
+      throw new Delta_Exception($message);
     }
 
     $this->_forwardStack[] = $forward;

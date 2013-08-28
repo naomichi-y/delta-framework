@@ -28,10 +28,10 @@
   <p>フォームを表示する際に特定のフィールドへデフォルト値を格納しておきたい、あるいは空文字が送信された時にデフォルト値へ置き換えたいといった場合は、ビヘイビアファイルに form 属性を設定しておくと良いでしょう。コントローラは form 属性を見つけると、アクションを起動する前に指定されたフィールドへデフォルト値を格納します。 </p>
   <dl>
     <dt>YAML Code# modules/entry/behaviors/CustomerRegisterForm.yml</dt>
-    <dd class="lang-yaml"><code> form: <br />
+    <dd class="lang_yaml"><code> form: <br />
       &nbsp;&nbsp;customerName: foo </code></dd>
     <dt>PHP Code# modules/entry/actions/CustomerRegisterFormAction.php</dt>
-    <dd class="lang-php"><code>public function execute()<br />
+    <dd class="lang_php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;// customerName フィールドがリクエストされていない (あるいは空文字が送信された) 場合は &quot;foo&quot; を返す <br />
       &nbsp;&nbsp;$customerName = $this-&gt;getForm()-&gt;get('customerName');<br />
@@ -39,7 +39,7 @@
       &nbsp;&nbsp;return Delta_View::SUCCESS; <br />
       }</code></dd>
     <dt>Template Code# modules/entry/templates/customer_register_form.php</dt>
-    <dd class="lang-template"> <code>&lt;?php echo $form-&gt;inputText('customerName'); ?&gt;</code></dd>
+    <dd class="lang_template"> <code>&lt;?php echo $form-&gt;inputText('customerName'); ?&gt;</code></dd>
   </dl>
   <p>アクションを起動すると、customerName フィールドにはデフォルト値 &quot;foo&quot; が設定されるようになります。 </p>
   <p class="right"><a href="#top">上へ</a></p>

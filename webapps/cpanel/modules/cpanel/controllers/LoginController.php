@@ -1,11 +1,22 @@
 <?php
 /**
- * @package actions
+ * @package controllers
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  */
-class LoginAction extends Delta_Action
+class LoginController extends Delta_ActionController
 {
-  public function execute()
+  public function formAction()
+  {
+    if ($this->getUser()->hasRole('cpanel')) {
+      $this->getController()->forward('Home');
+
+      return Delta_View::NONE;
+    }
+
+    return Delta_View::SUCCESS;
+  }
+
+  public function authAction()
   {
     $loginPassword = $this->getForm()->get('loginPassword');
     $validPassword = Delta_Config::getApplication()->get('cpanel.password');

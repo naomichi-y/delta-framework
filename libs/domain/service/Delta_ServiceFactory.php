@@ -31,11 +31,12 @@ class Delta_ServiceFactory extends Delta_Object
   {
     static $instances = array();
 
-    if (!isset($instances[$serviceName])) {
-      $className = $serviceName . 'Service';
-      $instances[$serviceName] = new $className;
+    $serviceClassName = $serviceName . 'Service';
+
+    if (!isset($instances[$serviceClassName])) {
+      $instances[$serviceClassName] = new $serviceClassName;
     }
 
-    return $instances[$serviceName];
+    return $instances[$serviceClassName];
   }
 }

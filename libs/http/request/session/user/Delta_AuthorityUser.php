@@ -425,7 +425,7 @@ class Delta_AuthorityUser extends Delta_Object
   public function isCurrentActionAuthenticated($requiredRole = self::REQUIRED_ALL_ROLES)
   {
     $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-    $actionRoles = $route->getForwardStack()->getLast()->getAction()->getRoles();
+    $actionRoles = $route->getForwardStack()->getLast()->getController()->getRoles();
     $userRoles = $this->_context['roles'];
 
     if ($actionRoles) {
@@ -454,27 +454,6 @@ class Delta_AuthorityUser extends Delta_Object
     }
 
     return TRUE;
-  }
-
-  /**
-   * フォームにおいて二重送信を防止するためのトランザクショントークン ID を発行します。
-   * 発行されたトークン ID は {@link Delta_FormHelper::close()} メソッドをコールすることにより、自動的に hidden タグとしてフォーム内に埋め込まれます。
-   *
-   * @param string $tokenId 任意のトークン ID。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function saveToken($tokenId = NULL)
-  {
-    if ($tokenId === NULL) {
-      $secretKey = Delta_Config::getApplication()->getString('secretKey');
-      $seed = $secretKey . microtime(TRUE);
-      $tokenId = md5($seed);
-    }
-
-    $this->setAttribute('tokenId', $tokenId);
-
-    $form = Delta_ActionForm::getInstance();
-    $form->set('tokenId', $tokenId);
   }
 
   /**

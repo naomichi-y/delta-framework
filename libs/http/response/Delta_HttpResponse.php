@@ -799,7 +799,7 @@ class Delta_HttpResponse extends Delta_Object
   {
     if ($name === NULL) {
       $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-      $actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
+      $actionName = $route->getForwardStack()->getLast()->getActionName();
       $name = Delta_StringUtils::convertCamelCase($actionName);
     }
 

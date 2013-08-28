@@ -26,16 +26,16 @@
     最終更新日: 2010 年 9 月 14 日</p>
   <h2>携帯端末への対応</h2>
   <p>PC と携帯、両方に対応するサイトを作る場合、ネックとなるのが文字コードの問題です。delta 自体はUTF-8 で書かれており、デフォルトの出力形式も UTF-8 を採用しています。しかし、携帯端末の中には UTF-8 の出力に対応していないキャリア (または機種) も存在するため、特定のキャリア用に出力形式を変更する必要が出てきます。ここでは、デフォルトのエンコーディングに UTF-8 を採用しつつ、特定のユーザエージェントのみ出力形式を変更する方法を解説します。</p>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <p>このページにおける携帯端末は日本国内のキャリア DoCoMo、au、Softbank を指します。左記 3 キャリアは許可されたエンコーディング形式が Shift_JIS のみという前提で解説を進めます。(一部機種は UTF-8 の出力にも対応していますが、全機種の対応を考えるのであれば Shift_JIS を使うのが安全です) </p>
     </div>
   </div>
   <p>初めに application.yml の設定を確認してみて下さい。&quot;default.charset&quot; には &quot;UTF-8&quot; という値が設定されている筈です。ここで設定されている形式は、クライアントからの入力、出力、及び内部エンコーディング (マルチバイト文字の変換等に使用されるエンコーディング) に適用されます。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang-yaml"><code>default:<br />
+    <dd class="lang_yaml"><code>default:<br />
       &nbsp;&nbsp;charset: UTF-8 # デフォルトエンコーディング形式に UTF-8 を使用</code></dd>
   </dl>
   <p>通常は一貫したエンコーディング形式が望ましいため UTF-8で問題ありませんが、今回は携帯端末からのリクエスト、及びレスポンスは Shift_JIS に変換して処理する必要があります。クライアントがリクエストを送信してからレスポンスが返されるまでのエンコーディングの変換フローについては下表を参照して下さい。</p>
@@ -93,7 +93,7 @@
   <p>エンコーディングの指定はロジックが実行されるよりも前に設定しておくべきなので、ここではフィルタを使って処理してみましょう。libs/filter の下に次のようなフィルタを作成して下さい。</p>
   <dl>
     <dt>PHP Code# libs/filter/MobileEncodingFilter.php</dt>
-    <dd class="lang-php"><code>class MobileEncodingFilter extends Delta_Filter<br />
+    <dd class="lang_php"><code>class MobileEncodingFilter extends Delta_Filter<br />
       {<br />
       &nbsp;&nbsp;public function doFilter($chain)<br />
       &nbsp;&nbsp;{<br />
@@ -106,16 +106,16 @@
       } </code></dd>
   </dl>
   <p>内容は至ってシンプルです。setInputEncoding() メソッドで入力エンコーディングを設定し、setOutputEncoding() メソッドで出力エンコーディングを設定します。</p>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <p>絵文字の使用が想定される場合は &quot;Shift_JIS&quot; ではなく &quot;SJIS-win&quot; (cp932) を指定して下さい。&quot;Shift_JIS&quot; では絵文字の変換が失敗し、文字化けを起こします。 </p>
     </div>
   </div>
   <p>最後に対象とするモジュールでフィルタを有効化しておきましょう。</p>
   <dl>
     <dt>YAML Code# modules/{module}/config/filter.yml</dt>
-    <dd class="lang-yaml"><code>mobileEncodingFilter:<br />
+    <dd class="lang_yaml"><code>mobileEncodingFilter:<br />
       &nbsp;&nbsp;class: MobileEncodingFilter<br />
       &nbsp;&nbsp;enable: TRUE</code></dd>
   </dl>
@@ -124,7 +124,7 @@
   <p>それでは実際にエンコーディングの変更が有効になったか確認するためのアクションを作成してみましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/SjisOutputAction.php</dt>
-    <dd class="lang-php"><code>public function execute()<br />
+    <dd class="lang_php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;$this-&gt;getView()-&gt;setAttribute('text', 'UTF-8 で書かれています。');<br />
       <br />
@@ -135,7 +135,7 @@
   <p>次に実際の出力を行なうテンプレートを作成します。</p>
   <dl>
     <dt>Template Code# modules/{module}/templates/sjis_output.php</dt>
-    <dd class="lang-template"><code>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;<br />
+    <dd class="lang_template"><code>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;<br />
       &lt;html lang=&quot;ja&quot; dir=&quot;ltr&quot;&gt;<br />
       &lt;head&gt;<br />
       &nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot;&gt;<br />
@@ -147,9 +147,9 @@
       &lt;/body&gt;<br />
       &lt;/html&gt; </code></dd>
   </dl>
-  <div class="note-container note-important">
-    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note-contents">
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
       <p>テンプレートファイルは Shift_JIS ではなく UTF-8 で記述する点に注意して下さい。</p>
     </div>
   </div>

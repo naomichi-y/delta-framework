@@ -61,9 +61,9 @@
 class Delta_FormHelper extends Delta_Helper
 {
   /**
-   * @var Delta_ActionForm
+   * @var string
    */
-  private $_form;
+  private $_activeFormName;
 
   /**
    * @var Delta_ActionMessages
@@ -96,9 +96,20 @@ class Delta_FormHelper extends Delta_Helper
   {
     parent::__construct($currentView, $config);
 
-    $this->_form = $this->getForm();
     $this->_messages = $this->getMessages();
     $this->_request = $this->getRequest();
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function getContext($formName = NULL)
+  {
+    if ($formName === NULL) {
+      $formName = $this->_activeFormName;
+    }
+
+    return $this->_currentView->getForm($formName);
   }
 
   /**
@@ -106,6 +117,7 @@ class Delta_FormHelper extends Delta_Helper
    * attributes に 'method' 属性の指定がない場合、生成されるフォームのメソッドは GET 形式となります。
    * start() メソッドで開始したフォームは {@link close()} メソッドで閉じるようにして下さい。
    *
+   * @param string $formName {@link Delta_Form::getFormName() フォーム名} を指定。
    * @param string $path フォームの送信先。
    *   指定可能なパスの書式は {@link Delta_RouteResolver::buildRequestPath()} メソッドを参照。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
@@ -117,8 +129,9 @@ class Delta_FormHelper extends Delta_Helper
    * @return string 生成したタグを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function start($path = NULL, $attributes = array(), $extra = array())
+  public function start($formName, $path = NULL, $attributes = array(), $extra = array())
   {
+    $this->_activeFormName = $formName;
     $extra = parent::constructParameters($extra);
     $secure = Delta_ArrayUtils::find($extra, 'secure');
 
@@ -134,7 +147,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['action'] = $this->buildRequestPath($path, $queryData, $absolute, $secure);
     $defaults['method'] = 'post';
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
     $buffer = self::buildTagAttribute($attributes, FALSE);
     $buffer = sprintf("<form%s>\n", $buffer);
@@ -147,13 +160,10 @@ class Delta_FormHelper extends Delta_Helper
    * このメソッドは基本的に {@link start()} と同じです。
    * 唯一の違いは、フォームのエンコーディング形式 (ファイルの送信を許可するかどうか) にあります。
    *
-   * @param string $path {@link start()} メソッドを参照。
-   * @param mixed $attributes {@link start()} メソッドを参照。
-   * @param mixed $extra {@link start()} メソッドを参照。
-   * @return string {@link start()} メソッドを参照。
+   * @see Delta_FormHelper::start()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function startMultipart($path = NULL, $attributes = array(), $extra = array())
+  public function startMultipart($formName, $path = NULL, $attributes = array(), $extra = array())
   {
     $attributes = parent::constructParameters($attributes);
     $attributes['enctype'] = 'multipart/form-data';
@@ -171,13 +181,15 @@ class Delta_FormHelper extends Delta_Helper
   public function close()
   {
     $buffer = NULL;
+    $form = $this->getContext($this->_activeFormName);
 
-    if ($this->_form->hasName('tokenId')) {
-      $attributes = array('value' => $this->_form->get('tokenId'));
+    if ($form && $form->hasName('tokenId')) {
+      $attributes = array('value' => $form->get('tokenId'));
       $buffer = $this->inputHidden('tokenId', $attributes);
     }
 
     $buffer .= "</form>\n";
+    $this->_activeFormName = NULL;
 
     return $buffer;
   }
@@ -198,7 +210,7 @@ class Delta_FormHelper extends Delta_Helper
 
     $attributes = self::buildTagAttribute($attributes, FALSE);
 
-    $buffer = sprintf('<label%s>%s</label>',
+    $buffer = sprintf("<label%s>%s</label>\n",
       $attributes,
       Delta_StringUtils::escape($label));
 
@@ -206,17 +218,47 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
+   * @since 2.0
+   */
+  private function parse($name)
+  {
+    if (($pos = strpos($name, '/')) !== FALSE) {
+      $formName = substr($name, 0, $pos);
+      $fieldName = substr($name, $pos + 1);
+
+    } else if ($this->_activeFormName !== NULL) {
+      $formName = $this->_activeFormName;
+      $fieldName = $name;
+    }
+
+    $form = Delta_FormManager::getInstance($formName);
+
+    $object = new stdClass();
+    $object->form = $form;
+    $object->formName = $formName;
+    $object->fieldName = $formName . '.' . $fieldName;
+
+    return $object;
+  }
+
+  /**
    * {@link Delta_ActionForm::get()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
    *
+   * @todo 2.0 '/'区切りでフォーム名/フィールド名を指定することについて追記。
    * @param bool $escape 値を HTML エスケープした状態で返す場合は TRUE を指定。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function get($name, $escape = TRUE)
   {
-    $value = $this->_form->get($name);
+    $object = $this->parse($name);
+    $value = NULL;
 
-    if ($escape) {
-      $value = Delta_StringUtils::escape($value);
+    if ($object !== NULL) {
+      $value = $object->form->get($object->fieldName);
+
+      if ($escape) {
+        $value = Delta_StringUtils::escape($value);
+      }
     }
 
     return $value;
@@ -225,132 +267,124 @@ class Delta_FormHelper extends Delta_Helper
   /**
    * {@link Delta_ActionForm::hasName()} のエイリアスメソッドです。
    *
+   * @todo 2.0 '/'区切りでフォーム名/フィールド名を指定することについて追記。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function hasName($name)
   {
-    return $this->_form->hasName($name);
+    $object = $this->parse($name);
+    $result = $object->form->hasName($object->fieldName);
+
+    return $result;
   }
 
   /**
-   * {@link Delta_ActionForm::getFields()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
-   *
-   * @param bool $escape 値を HTML エスケープした状態で返す場合は TRUE を指定。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getFields($escape = TRUE)
-  {
-    $values = $this->_form->getFields();
-
-    if ($escape) {
-      $values = Delta_StringUtils::escape($values);
-    }
-
-    return $values;
-  }
-
-  /**
-   * {@link Delta_ActionMessages::hasFieldError()} メソッドを複数のフィールドチェックに対応させた拡張メソッドです。
+   * {@link Delta_Form::hasFieldError()} メソッドを複数のフィールドチェックに対応させた拡張メソッドです。
    *
    * @param mixed $fields チェック対象のフィールド名。
    *   配列形式で複数のフィールドを指定した場合は、1 つ以上のフィールドにエラーが含まれているかどうかをチェックします。
+   * @param string $formName {@link Delta_Form::getFormName() フォーム名} を指定。
    * @return bool 対象フィールドにエラーが含まれる場合は TRUE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function hasFieldError($fields)
+  public function hasFieldError($fields, $formName = NULL)
   {
-    if (!is_array($fields)) {
-      $fields = array($fields);
-    }
+    $form = $this->getContext($formName);
+    $result = FALSE;
 
-    foreach ($fields as $fieldName) {
-      if ($this->_messages->hasFieldError($fieldName)) {
-        return TRUE;
+    if ($form) {
+      if (!is_array($fields)) {
+        $fields = array($fields);
+      }
+
+      foreach ($fields as $fieldName) {
+        if ($form->hasFieldError($fieldName)) {
+          $result = TRUE;
+          break;
+        }
       }
     }
 
-    return FALSE;
+    return $result;
   }
 
   /**
-   * {@link Delta_ActionMessages::getFieldError()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
+   * {@link Delta_Form::getFieldError()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
    *
    * @param bool $escape 値を HTML エスケープした状態で返す場合は TRUE を指定。
+   * @see Delta_Form::getFieldError()
+   * @todo 2.0 '/'区切りでフォーム名/フィールド名を指定することについて追記。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getFieldError($name, $escape = TRUE)
   {
-    $message = $this->_messages->getFieldError($name);
+    $object = $this->parse($name);
+    $fieldError = NULL;
 
-    if ($escape) {
-      $message = Delta_StringUtils::escape($message);
+    if ($object) {
+      $fieldError = $object->form->getFieldError($object->fieldName);
+
+      if ($escape) {
+        $fieldError = Delta_StringUtils::escape($fieldError);
+      }
     }
 
-    return $message;
+    return $fieldError;
   }
 
   /**
    * フォームにエラーが含まれる場合、エラーメッセージを包括したメッセージタグを生成します。
    *
+   * @param string $formName {@link Delta_Form::getFormName() フォーム名} を指定。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @return string 出力されるメッセージはヘルパ属性の 'containErrors' に定義したタグが使用されます。
    *   また、フォームにエラーが含まれない場合は NULL を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function containFieldErrors($attributes = array('class' => 'error'))
+  public function containFieldErrors($formName = NULL, $attributes = array('class' => 'error'))
   {
-    $errorSize = $this->_messages->getErrorSize(Delta_ActionMessages::ERROR_TYPE_FIELD);
+    $form = $this->getContext($formName);
+    $buffer = NULL;
 
-    if ($errorSize) {
-      $attributes = self::buildTagAttribute($attributes, TRUE);
+    if ($form) {
+      $errorSize = sizeof($form->getFieldErrors());
 
-      $buffer = str_replace('\1', $errorSize, $this->_config->getString('containErrors'));
-      $buffer = sprintf("<div%s>%s</div>\n", $attributes, Delta_StringUtils::escape($buffer));
+      if ($errorSize) {
+        $attributes = self::buildTagAttribute($attributes, TRUE);
 
-      return $buffer;
+        $buffer = str_replace('\1', $errorSize, $this->_config->getString('containErrors'));
+        $buffer = sprintf("<div%s>%s</div>\n", $attributes, Delta_StringUtils::escape($buffer));
+      }
     }
 
-    return NULL;
+    return $buffer;
   }
 
   /**
    * 対象フィールドに含まれたエラーメッセージを表示するためのタグを取得します。
    *
-   * @param mixed $fieldName フィールド名、またはフィールド名の配列。
+   * @param mixed $fieldName フィールド名。
    *   '.' (ピリオド) 区切りのキー名が指定された場合は連想配列として認識されます。
    * @return string 出力されるメッセージはヘルパ属性の 'errorFieldTag' に定義したタグが使用されます。
    *   fieldName が配列で構成される場合はメッセージの内容をリスト化します。
    *   また、フィールドにエラーが含まれない場合は NULL を返します。
+   * @todo 2.0 '/'区切りでフォーム名/フィールド名を指定することについて追記。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getErrorTag($fieldName)
+  public function getFieldErrorTag($fieldName)
   {
-    if (is_array($fieldName)) {
-      $fields = (array) $fieldName;
-      $buffer = NULL;
+    $object = $this->parse($fieldName);
+    $buffer = NULL;
 
-      foreach ($fields as $name) {
-        if ($this->hasFieldError($name)) {
-          $buffer .= '<li>' . $this->getFieldError($name) . "</li>\n";
-        }
-      }
-
-      if ($buffer) {
-        $buffer = "\n<ul>\n" . $buffer . "</ul>\n";
-        $buffer = str_replace('\1', $buffer, $this->_config->getString('errorFieldTag'));
-
-        return $buffer;
-      }
-
-    } else {
-      if ($this->hasFieldError($fieldName)) {
-        $buffer = str_replace('\1', $this->getFieldError($fieldName), $this->_config->getString('errorFieldTag'));
-
-        return $buffer;
+    if ($object) {
+      if ($object->form->hasFieldError($object->fieldName)) {
+        $buffer = str_replace('\1',
+          $object->form->getFieldError($object->fieldName),
+          $this->_config->getString('errorFieldTag')) . "\n";
       }
     }
 
-    return NULL;
+    return $buffer;
   }
 
   /**
@@ -374,7 +408,7 @@ class Delta_FormHelper extends Delta_Helper
     }
 
     if ($isAppendError && $this->hasFieldError($fieldName)) {
-      $buffer .= $this->getErrorTag($fieldName) . "\n";
+      $buffer .= $this->getFieldErrorTag($fieldName) . "\n";
     }
   }
 
@@ -531,9 +565,9 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $defaults['value'] = $this->_form->get($fieldName, '');
+    $defaults['value'] = $this->get($fieldName, '');
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
     $buffer = $this->buildInputField('text', $attributes);
 
     $this->decorateControl($buffer, 'text', $fieldName, $attributes, $extra);
@@ -749,9 +783,9 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $defaults['value'] = $this->_form->get($fieldName, '');
+    $defaults['value'] = $this->get($fieldName, '');
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
     if ($this->_request->getUserAgent()->isMobile()) {
       $attributes = $this->appendInputAlphabetStyle($attributes);
@@ -936,7 +970,7 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
     // 複数選択を許可するかどうか
     $multiple = FALSE;
@@ -978,7 +1012,7 @@ class Delta_FormHelper extends Delta_Helper
   public function selectNumber($fieldName, $options, $attributes = array(), $extra = array())
   {
     $array = array();
-    $options = self::constructParameters($options);
+    $options = self::buildFieldAttributes($this->_activeFormName, $options);
 
     $from = Delta_ArrayUtils::find($options, 'from', 0);
     $to = Delta_ArrayUtils::find($options, 'to', 0);
@@ -1164,8 +1198,8 @@ class Delta_FormHelper extends Delta_Helper
           $unitAttributes['id'] = $unitAttributes['id'] . '_year';
         }
 
-        if ($this->_form->hasName($fieldNameYear)) {
-          $selected = $this->_form->get($fieldNameYear);
+        if ($this->hasName($fieldNameYear)) {
+          $selected = $this->get($fieldNameYear);
         } else {
           $selected = date('Y', $time);
         }
@@ -1207,8 +1241,8 @@ class Delta_FormHelper extends Delta_Helper
         $unitAttributes['id'] = $unitAttributes['id'] . '_month';
       }
 
-      if ($this->_form->hasName($fieldNameMonth)) {
-        $selected = $this->_form->get($fieldNameMonth);
+      if ($this->hasName($fieldNameMonth)) {
+        $selected = $this->get($fieldNameMonth);
       } else {
         $selected = Delta_DateUtils::date($monthValueFormat, $time);
       }
@@ -1247,8 +1281,8 @@ class Delta_FormHelper extends Delta_Helper
         $unitAttributes['id'] = $unitAttributes['id'] . '_day';
       }
 
-      if ($this->_form->hasName($fieldNameDay)) {
-        $selected = $this->_form->get($fieldNameDay);
+      if ($this->hasName($fieldNameDay)) {
+        $selected = $this->get($fieldNameDay);
       } else {
         $selected = Delta_DateUtils::date($dayValueFormat, $time);
       }
@@ -1292,7 +1326,7 @@ class Delta_FormHelper extends Delta_Helper
       $defaults['value'] = $value;
     }
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
     $buffer = $this->buildInputField('submit', $attributes);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
@@ -1319,7 +1353,7 @@ class Delta_FormHelper extends Delta_Helper
       $defaults['value'] = $value;
     }
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
     $buffer = $this->buildInputField('reset', $attributes);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
@@ -1343,7 +1377,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults = array();
     $defaults['value'] = $value;
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
     $buffer = $this->buildInputField('button', $attributes);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
@@ -1368,7 +1402,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['name'] = $fieldName;
     $defaults['value'] = '';
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
     $buffer = $this->buildInputField('file', $attributes);
 
     $this->decorateControl($buffer, 'file', $fieldName, $attributes, $extra);
@@ -1388,9 +1422,9 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $defaults['value'] = $this->_form->get($fieldName);
+    $defaults['value'] = $this->get($fieldName);
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
     $buffer = $this->buildInputField('hidden', $attributes);
 
     $this->decorateControl($buffer, 'hidden', $fieldName, $attributes, array('decorate' => FALSE));
@@ -1411,7 +1445,7 @@ class Delta_FormHelper extends Delta_Helper
    */
   public function inputHiddens($fieldName, $attributes = array())
   {
-    $values = $this->_form->get($fieldName);
+    $values = $this->get($fieldName);
     $buffer = NULL;
 
     if (is_array($values)) {
@@ -1499,7 +1533,7 @@ class Delta_FormHelper extends Delta_Helper
    */
   public function inputImage($source, $attributes = array(), $extra = array())
   {
-    $extra = self::constructParameters($extra);
+    $extra = parent::constructParameters($this->_activeFormName, $extra);
     $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
 
     $html = $this->_currentView->getHelperManager()->getHelper('html');
@@ -1509,7 +1543,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['src'] = $imagePath;
     $defaults['value'] = '';
 
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
     $buffer = $this->buildInputField('image', $attributes, $defaults);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
 
@@ -1535,10 +1569,10 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['name'] = $fieldName;
 
     $value = NULL;
-    $attributes = self::constructParameters($attributes, $defaults);
+    $attributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
-    if ($this->_form->hasName($fieldName)) {
-      $value = Delta_StringUtils::escape($this->_form->get($fieldName));
+    if ($this->hasName($fieldName)) {
+      $value = Delta_StringUtils::escape($this->get($fieldName));
 
     } else if (isset($attributes['value'])) {
       $value = Delta_StringUtils::escape($attributes['value']);
@@ -1578,8 +1612,8 @@ class Delta_FormHelper extends Delta_Helper
 
     // $options 配列が output (値)、values (キー) の連想配列で構成される場合は 1 つの配列に統合する
     if (isset($options['output']) && isset($options['values'])) {
-      $output = self::constructParameters($options['output']);
-      $values = self::constructParameters($options['values']);
+      $output = parent::constructParameters($options['output']);
+      $values = parent::constructParameters($options['values']);
 
       $outputSize = sizeof($output);
       $valueSize = sizeof($values);
@@ -1635,8 +1669,8 @@ class Delta_FormHelper extends Delta_Helper
     $selected = NULL;
 
     // チェックボックス (フィールド名 foo) で何も選択せずに送信すると、foo パラメータは送信されず、リストが送信されたことを示す _foo パラメータが追加される
-    if ($this->_form->hasName($fieldName) || ($hiddenOutput && $this->_request->hasParameter($hiddenFieldName))) {
-      $selected = $this->_form->get($fieldName);
+    if ($this->hasName($fieldName) || ($hiddenOutput && $this->_request->hasParameter($hiddenFieldName))) {
+      $selected = $this->get($fieldName);
 
     // リクエスト (またはフォームにセット) されたデフォルト値がない、またはリストが未送信の場合に限りヘルパに渡されたデフォルト値を設定する
     } else if ($selected === NULL) {
@@ -1680,7 +1714,7 @@ class Delta_FormHelper extends Delta_Helper
             $defaults['checked'] = 'checked';
           }
 
-          $itemAttributes = self::constructParameters($attributes, $defaults);
+          $itemAttributes = self::buildFieldAttributes($this->_activeFormName, $attributes, $defaults);
 
           if ($type == 'checkbox') {
             if ($single) {
@@ -1798,18 +1832,33 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
+   * @param string $formName
    * @param array $attributes
    * @param array $defaults
    * @return array
-   * @see Delta_Helper::constructParameters()
+   * @throws Delta_ParseException
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  protected static function constructParameters($attributes, $defaults = array())
+  protected static function buildFieldAttributes($formName, $attributes, $defaults = array())
   {
     $attributes = parent::constructParameters($attributes, $defaults);
 
-    // ID 属性が未定義の場合は追加
     if (isset($attributes['name'])) {
+      if (($pos = strpos($attributes['name'], '/')) !== FALSE) {
+        $formName = substr($attributes['name'], 0, $pos);
+        $fieldName = substr($attributes['name'], $pos + 1);
+
+      } else if ($formName !== NULL) {
+        $fieldName = $attributes['name'];
+
+      } else {
+        $message = sprintf('Form class can\'t be found. [%s]', $attributes['name']);
+        throw new Delta_ParseException($message);
+      }
+
+      $attributes['name'] = $formName . '.' . $fieldName;
+
+      // id が未指定の場合は name と同じ値を付与
       if (!isset($attributes['id'])) {
         $method = array(get_called_class(), 'buildId');
         $attributes['id'] = forward_static_call($method, $attributes['name']);

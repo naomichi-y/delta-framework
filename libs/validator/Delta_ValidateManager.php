@@ -51,7 +51,7 @@ class Delta_ValidateManager extends Delta_Object
     $this->_validateConfig = $validateConfig;
 
     $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-    $this->_actionName = $route->getForwardStack()->getLast()->getAction()->getActionName();
+    $this->_actionName = $route->getForwardStack()->getLast()->getActionName();
   }
 
   /**

@@ -24,9 +24,9 @@
   <article>
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2009 年 3 月31 日</p>
-  <div class="note-container note-important">
-    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note-contents">
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
       <p>このドキュメントは情報が整備されておらず、情報が古い可能性があります。ドキュメントは新しく書き換える予定です。</p>
     </div>
   </div>
@@ -40,7 +40,7 @@
     はじめに Delta_BasicAuthenticationFilter を継承したカスタムフィルタを作成します。</p>
   <dl>
     <dt>PHP Code# libs/filter/BasicAuthenticationFilter.php</dt>
-    <dd class="lang-php"><code>class BasicAuthenticationFilter extends Delta_BasicAuthenticationFilter<br />
+    <dd class="lang_php"><code>class BasicAuthenticationFilter extends Delta_BasicAuthenticationFilter<br />
       {<br />
       &nbsp;&nbsp;// $username: 認証プロンプトから入力されたユーザ名<br />
       &nbsp;&nbsp;// $password: 認証プロンプトから入力されたパスワード<br />
@@ -83,7 +83,7 @@
   <p>次に特定モジュールで認証フィルタが適用されるよう設定ファイルにルールを追加します。</p>
   <dl>
     <dt>YAML Code# modules/{module}/filters.yml</dt>
-    <dd class="lang-yaml"><code>basicAuthenticationFilter:<br />
+    <dd class="lang_yaml"><code>basicAuthenticationFilter:<br />
       &nbsp;&nbsp;clsas: BasicAuthenticationFilter<br />
       &nbsp;&nbsp;# 特定パッケージのみ認証フィルタを適用させる場合<br />
       &nbsp;&nbsp;# packages:<br />
@@ -92,7 +92,7 @@
   <p>最後に認証対象となるアクションを作成しましょう。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/AuthenticationAction.php</dt>
-    <dd class="lang-php"><code>class AuthenticationAction extends Delta_Action<br />
+    <dd class="lang_php"><code>class AuthenticationAction extends Delta_Action<br />
       {<br />
       &nbsp;&nbsp;public function execute()<br />
       &nbsp;&nbsp;{<br />
@@ -110,7 +110,7 @@
     初めに Delta_DigestAuthenticationFilter を親とする実装クラスを作成しましょう。</p>
   <dl>
     <dt>PHP Code# libs/filter/DigestAuthenticationFilter.php</dt>
-    <dd class="lang-php"><code>class DigestAuthenticationFilter extends Delta_DigestAuthenticationFilter<br />
+    <dd class="lang_php"><code>class DigestAuthenticationFilter extends Delta_DigestAuthenticationFilter<br />
       {<br />
       &nbsp;&nbsp;// $username: 認証プロンプトから入力されたユーザ名<br />
       &nbsp;&nbsp;function getPassword($username)<br />
@@ -128,15 +128,16 @@
       &nbsp;&nbsp;&nbsp;&nbsp;}<br />
       <br />
       &nbsp;&nbsp;&nbsp;&nbsp;// 存在しない場合は認証失敗<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;return FALSE; </code><br />
-      <code>&nbsp;&nbsp;</code>}<br />
-      }</dd>
+      &nbsp;&nbsp;&nbsp;&nbsp;return FALSE;<br>
+      &nbsp;&nbsp;}<br>
+      }
+      </code></dd>
   </dl>
   <p>getPassword() メソッドは、Delta_DigestAuthenticationFilter に定義された抽象メソッドです。このメソッドは認証ダイアログから送信されたユーザ名を引数に取り、ユーザ名に対応するパスワードを返すよう実装します。Basic 認証の時とは認証実装メソッドが異なるので注意して下さい。</p>
   <p>次にフィルタ適用ルールを定義します。</p>
   <dl>
     <dt>YAML Code# modules/{module}/filters.yml</dt>
-    <dd class="lang-yaml"><code>digestAuthenticationFilter:<br />
+    <dd class="lang_yaml"><code>digestAuthenticationFilter:<br />
       &nbsp;&nbsp;clsas: DigestAuthenticationFilter<br />
       &nbsp;&nbsp;# 特定パッケージのみ認証フィルタを適用させる場合<br />
       &nbsp;&nbsp;# packages:<br />
@@ -145,7 +146,7 @@
   <p>最後に認証対象となるアクションを作成すれば完了です。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/AuthenticationAction.php</dt>
-    <dd class="lang-php"><code>class AuthenticationAction extends Delta_Action<br />
+    <dd class="lang_php"><code>class AuthenticationAction extends Delta_Action<br />
       {<br />
       &nbsp;&nbsp;public function execute()<br />
       &nbsp;&nbsp;{<br />

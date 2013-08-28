@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">付録 - ディレクトリ構成</h1>
@@ -25,10 +25,10 @@
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2012 年 12 月 20 日 </p>
   <ul class="index">
-    <li> <a href="#frameworkDirectory">コアパッケージのディレクトリ構成</a></li>
-    <li><a href="#projectDirectory">プロジェクトのディレクトリ構成</a></li>
+    <li> <a href="#framework">コアパッケージのディレクトリ構成</a></li>
+    <li><a href="#project">プロジェクトのディレクトリ構成</a></li>
   </ul>
-  <h2 id="frameworkDirectory">コアパッケージのディレクトリ構成</h2>
+  <h2><a id="framework"></a>コアパッケージのディレクトリ構成</h2>
   <p>フレームワーク本体を含むコアパッケージには、クラスライブラリの他に各種ドキュメントやジェネレータ、ベンダープログラムを含んでいます。コアパッケージは Web から参照できる場所に配置するべきではありません。Linux 環境であれば /var/lib/delta などのディレクトリに配置することを推奨します。</p>
   <p>下表はコアパッケージの主なディレクトリ・ファイル構成を示したものです。基本的に開発者が直接参照するディレクトリは docs ディレクトリのみとなるでしょう。</p>
   <table>
@@ -109,7 +109,7 @@
     <tr>
       <td colspan="2">webapps</td>
       <td class="center">&nbsp;</td>
-      <td>cpanel やデモアプリケーションを管理</td>
+      <td>cpanel やサンプルアプリケーションを管理</td>
     </tr>
     <tr>
       <td colspan="2">VERSION</td>
@@ -117,7 +117,7 @@
       <td>フレームワークのバージョンを記したファイル</td>
     </tr>
   </table>
-  <h2 id="projectDirectory">プロジェクトのディレクトリ構成</h2>
+  <h2><a id="project"></a>プロジェクトのディレクトリ構成</h2>
   <p>プロジェクト構成ディレクトリは、開発者が作成したアクションやコンポーネントを管理します。</p>
   <table>
     <colgroup>
@@ -234,6 +234,11 @@
     </tr>
     <tr>
       <td rowspan="4">html</td>
+      <td>fatal_error.php</td>
+      <td class="center">&nbsp;</td>
+      <td>致命的なエラーが発生した際に出力するテンプレート</td>
+    </tr>
+    <tr>
       <td>http_error.php</td>
       <td class="center">&nbsp;</td>
       <td>HTTP ステータスエラーを出力するテンプレート</td>
@@ -243,11 +248,6 @@
         <p>maintenance.php</p></td>
       <td class="center">&nbsp;</td>
       <td>メンテナンス画面を出力するテンプレート</td>
-    </tr>
-    <tr>
-      <td>skeleton.php</td>
-      <td class="center">&nbsp;</td>
-      <td>delta add-action コマンドで使用される HTML テンプレート</td>
     </tr>
     <tr>
       <td>system_error.php</td>
@@ -342,9 +342,9 @@
       <td>Web アプリケーション起動スクリプト</td>
     </tr>
   </table>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>表内の (+) は、対象属性が複数回指定可能なことを表します。 </p>
     </div>
   </div>

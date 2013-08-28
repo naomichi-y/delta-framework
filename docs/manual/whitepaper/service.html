@@ -35,7 +35,7 @@
   <p>サービスクラスにはこれらのロジックを機能ごとにメソッドとして実装します。例えばショッピングカートを実装するための ShoppingCartService クラスは次のようなコードになるでしょう。</p>
   <dl>
     <dt>PHP Code# libs/service/ShoppingCartService.php</dt>
-    <dd class="lang-php"><code>class ShoppingCartService extends Delta_Service<br />
+    <dd class="lang_php"><code>class ShoppingCartService extends Delta_Service<br />
       {<br />
       &nbsp;&nbsp;/**<br />
       &nbsp;&nbsp;&nbsp;* Delta_Service::initialize() をオーバーライド (任意)<br />
@@ -77,7 +77,7 @@
   <p>作成したクラスは、サービスコンポーネント (Delta_ServiceFactory) から取得することができます。</p>
   <dl>
     <dt>PHP Code#</dt>
-    <dd class="lang-php"><code>$cart = Delta_ServiceFactory::get('ShoppingCart');<br />
+    <dd class="lang_php"><code>$cart = Delta_ServiceFactory::get('ShoppingCart');<br />
       $cart-&gt;addItem($item);<br />
       <br />
       // Delta_Object を継承したクラスであれば、Delta_Object::getService() メソッドを使うことも可能<br />
@@ -85,15 +85,15 @@
   </dl>
   <p>サービスクラスは MVC のモデルに相当するため、V (ビュー) や C (コントローラ) のコードはロジックに含まれるべきではありません。例えば、サービスクラス内で HTTP リクエストを解析したり、セッションを操作するロジックを入れ込むことは好ましくありません。サービスクラスは Web アプリケーションの外 (例えばコンソールアプリケーション) からコールされる可能性もあります。</p>
   <p>またモデルが請け負う仕事は、あくまでコントローラ (アクション) から渡されたデータを適切に処理・加工した上で結果を「コントローラに」返すことです。結果をビューに割り当てるのはコントローラの役割です。従ってモデルから直接ビューにデータを割り当てるといった実装も推奨されるものではありません。サービスを設計する上では、対象のロジックコードが MVC で分離できているか検証する必要があります。</p>
-  <div class="note-container note-info">
-    <div class="note-bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
-    <div class="note-contents">
+  <div class="note_container note_info">
+    <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
+    <div class="note_contents">
       <p>サービスクラスはシステムのユースケース単位で作成することをお勧めします。例えば「買い物をする」というユースケースは ShoppingCartService、「会員を管理する」というユースケースであれば MemberService クラスでロジックを一元管理します。ユースケースとサービスをマッピングさせておくことで、将来的にシステムの変更が加わった際も、ロジックの修正が分かりやすくなるメリットがあります。</p>
     </div>
   </div>
-  <div class="note-container note-important">
-    <div class="note-bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
-    <div class="note-contents">
+  <div class="note_container note_important">
+    <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
+    <div class="note_contents">
       <p>サービスクラスにはデータベースに低レベルでアクセスするコード (クエリの発行等) を含めるべきではありません。delta ではデータアクセスに DAO パターンを採用しています。データベースを操作する場合は、必ず DAO クラス (またはベンダーが提供する ORM フレームワーク) を経由してアクセスして下さい。(詳しくは API を参照)</p>
     </div>
   </div>

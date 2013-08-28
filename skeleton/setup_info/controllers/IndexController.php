@@ -2,9 +2,9 @@
 /**
  * @package modules.entry.actions
  */
-class IndexAction extends Delta_Action
+class IndexController extends Delta_ActionController
 {
-  public function execute()
+  public function indexAction()
   {
     $request = $this->getRequest();
     $messages = $this->getMessages();
@@ -57,7 +57,7 @@ class IndexAction extends Delta_Action
           throw new Delta_RequestException();
         }
 
-      } catch (Delta_RequestException $e) {
+      } catch (Exception $e) {
         $messages->addError('mod_rewrite が正常に動作していない可能性があります。モジュールの設定を見直して下さい。', 'route');
       }
     }

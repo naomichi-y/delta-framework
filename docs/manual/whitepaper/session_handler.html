@@ -28,7 +28,7 @@
   <p>delta はデフォルトでファイルベースのセッション管理を行いますが、memcached や データベースといった高速なストレージへハンドリングを変更することが可能です。セッションハンドラの宣言は、application.yml の session 属性で設定します。ここでは delta にあらかじめ用意されている Delta_APCSessionHandler を利用してみましょう。</p>
   <dl>
     <dt>YAML Code# config/application.yml</dt>
-    <dd class="lang-yaml"><code>...<br />
+    <dd class="lang_yaml"><code>...<br />
       session:<br />
       &nbsp;&nbsp;autoStart: TRUE<br />
       <br />
@@ -37,9 +37,9 @@
       &nbsp;&nbsp;&nbsp;&nbsp;class: Delta_APCSessionHandler<br />
       </code></dd>
   </dl>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>APCSessionHandler を利用するには、実行環境に APC がインストールされている必要があります。詳しくは APC のインストールサイトを参照して下さい。APC は <a href="http://pecl.php.net/package/APC">PECL</a> から入手可能です。 </p>
     </div>
   </div>

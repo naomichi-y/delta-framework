@@ -27,24 +27,34 @@ class Delta_Forward extends Delta_Object
   /**
    * @var string
    */
-  private $_actionName;
+  private $_controllerName;
 
   /**
-   * @var Delta_Action
+   * Delta_ActionController
    */
-  private $_action;
+  private $_controller;
+
+  /**
+   * @var string
+   */
+  private $_actionName;
 
   /**
    * コンストラクタ。
    *
    * @param string $moduleName モジュール名。
+   * @param string $controllerName コントローラ名。
    * @param string $actionName アクション名。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct($moduleName, $actionName)
+  public function __construct($moduleName, $controllerName, $actionName)
   {
     $this->_moduleName = $moduleName;
+    $this->_controllerName = $controllerName;
     $this->_actionName = $actionName;
+
+    $controllerClassName = $controllerName . 'Controller';
+    $this->_controller = new $controllerClassName;
   }
 
   /**
@@ -59,6 +69,25 @@ class Delta_Forward extends Delta_Object
   }
 
   /**
+   * コントローラ名を取得します。
+   *
+   * @return string コントローラ名を返します。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function getControllerName()
+  {
+    return $this->_controllerName;
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function getController()
+  {
+    return $this->_controller;
+  }
+
+  /**
    * アクション名を取得します。
    *
    * @return string アクション名を返します。
@@ -67,28 +96,6 @@ class Delta_Forward extends Delta_Object
   public function getActionName()
   {
     return $this->_actionName;
-  }
-
-  /**
-   * アクションオブジェクトを設定します。
-   *
-   * @param Delta_Action アクションオブジェクトを設定します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function setAction(Delta_Action $action)
-  {
-    $this->_action = $action;
-  }
-
-  /**
-   * アクションオブジェクトを取得します。
-   *
-   * @return Delta_Action アクションオブジェクトを取得します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getAction()
-  {
-    return $this->_action;
   }
 }
 

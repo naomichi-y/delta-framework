@@ -2,25 +2,27 @@ rewriteTestRoute:
   uri: /rewriteTest
   forward:
     module: entry
-    action: Index
+    controller: Index
+    action: index
 
 cpanelConnectTestRoute:
-  uri: /cpanel/connectTest
+  uri: /cpanel/:controller/:action
   forward:
     module: cpanel
-    action: ConnectTest
 
 defaultRoute:
   uri: /:action
   forward:
     module: "{%MODULE.ENTRY%}"
+    controller: Index
 
 moduleRoute:
-  uri: /:module/:action
+  uri: /:module/:controller/:action
 
-frontRoute:
+rootRoute:
   uri: /
   forward:
     module: "{%MODULE.ENTRY%}"
-    action: Index
+    controller: Index
+    action: index
 

@@ -503,7 +503,7 @@ class Delta_StringUtils
       $encoding = Delta_Config::getApplication()->get('charset.default');
     }
 
-    while ($pos = self::searchIndex($string, $delimiter, $offset, $excludeTag, $encoding)) {
+    while (($pos = self::searchIndex($string, $delimiter, $offset, $excludeTag, $encoding)) !== FALSE) {
       $value = mb_substr($string, $offset, $pos - $offset, $encoding);
 
       if ($trim) {

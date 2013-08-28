@@ -34,7 +34,7 @@
   <p>初めに、会員登録するためのアクション、及び HTML フォームを作成します。(アクションのコードはここでは省略)</p>
   <dl>
     <dt>Template Code# modules/{module}/templates/customer_register_form.php</dt>
-    <dd class="lang-template"><code>&lt;form action=&quot;customerRegister.do&quot; method=&quot;post&quot;&gt;<br />
+    <dd class="lang_template"><code>&lt;form action=&quot;customerRegister.do&quot; method=&quot;post&quot;&gt;<br />
       &nbsp;&nbsp;&lt;dl&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;
       &lt;dt&gt;名前&lt;/dt&gt;<br />
@@ -49,22 +49,22 @@
   <p>次にフォームの遷移先となる CustomerRegister のビヘイビアファイルを設定します。</p>
   <dl>
     <dt>YAML Code# modules/{module}/behaviors/CustomerRegister.yml</dt>
-    <dd class="lang-yaml"><code>converte:<br />
+    <dd class="lang_yaml"><code>converte:<br />
       &nbsp;&nbsp;commonConverter: # コンバータ ID (一意な ID に設定する) <br />
       &nbsp;&nbsp;&nbsp;&nbsp;names: customerName, ... # 対象とするフィールド<br />
       &nbsp;&nbsp;&nbsp;&nbsp;converters: # names に適用するコンバータのリスト<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- class: Delta_TrimConverter</code></dd>
   </dl>
   <p>上記の設定により、customerRegister.do が実行されると、対象フィールド (customerName) の文字列前後の空白が除去されるようになります。</p>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>names 属性に &quot;@all&quot; を指定することで、リクエストされた全てのフィールドに対しコンバート処理することが可能です。 </p>
     </div>
   </div>
   <dl>
     <dt>PHP Code# modules/{module}/actions/CustomerRegisterAction.php</dt>
-    <dd class="lang-php"><code>public function execute()<br />
+    <dd class="lang_php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;// 前後の空白は除去された状態<br />
       &nbsp;&nbsp;$customerName = $this-&gt;getForm()-&gt;get('customerName'); <br />
@@ -126,7 +126,7 @@
   <p>コンバータの種類によっては、クラスに対し属性を設定する必要があります。属性の記述の仕方は全て同じです。ここでは記述方法の例として、Delta_MaskConverter を使った正規表現による文字列の置換方法を示します。</p>
   <dl>
     <dt>YAML Code# modules/{module}/behaviors/CustomerRegister.yml</dt>
-    <dd class="lang-yaml"><code>convert:<br />
+    <dd class="lang_yaml"><code>convert:<br />
       &nbsp;&nbsp;telephoneNumberConverter:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;names: password<br />
       &nbsp;&nbsp;&nbsp;&nbsp;converters:<br />
@@ -140,7 +140,7 @@
   <p>では初めにコンバータクラスを作成してみましょう。サンプルコードとして、リクエストされた日付形式 (YYYY、または YYYYMM、YYYYMMDD) に不足するフォーマット文字列を現在の日付でアペンドするコードを実装します。このコンバータは、現在が 2008 年 4 月 1 日だとして、&quot;2008&quot; がリクエストされた場合は &quot;20080401&quot;、&quot;200804&quot; がリクエストされた場合は &quot;20080401&quot; に変換する仕組みが必要となります。詳しくは次のコードを確認して下さい。</p>
   <dl>
     <dt>PHP Code# libs/validator/OriginalConverter.php</dt>
-    <dd class="lang-php"><code>class OriginalConverter extends Delta_Converter <br />
+    <dd class="lang_php"><code>class OriginalConverter extends Delta_Converter <br />
       {<br />
       &nbsp;&nbsp;// イニシャライザ<br />
       &nbsp;&nbsp;public function initialize($converterId, $holder)<br />
@@ -186,9 +186,9 @@
       &nbsp;&nbsp;}<br />
       }</code></dd>
   </dl>
-  <div class="note-container note-hint">
-    <div class="note-bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
-    <div class="note-contents">
+  <div class="note_container note_hint">
+    <div class="note_bar"><img src="../assets/images/icons/hint.png" width="32" height="32" alt="ヒント" /></div>
+    <div class="note_contents">
       <p>変換に失敗した際に Delta_ConverterException をスローすることも可能です。 </p>
     </div>
   </div>
@@ -196,7 +196,7 @@
   <p>次にコンバータの呼び出し元となるビヘイビアを作成します。ここでは beginDate、endDate という 2 つのフィールドに対し、OriginalConverter クラスで入力値を変換する処理を定義しています。</p>
   <dl>
     <dt>YAML Code# modules/{module}/behaviors/OriginalConverter.yml</dt>
-    <dd class="lang-yaml"><code>convert:<br />
+    <dd class="lang_yaml"><code>convert:<br />
       &nbsp;&nbsp;dateConverter:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;names: beginDate, endDate <br />
       &nbsp;&nbsp;&nbsp;&nbsp;converters:<br />
@@ -206,7 +206,7 @@
   <p>&quot;appendTime&quot; 属性はオプションパラメータです。値が TRUE の場合は、変換した結果文字列に現在の時・分・秒を追加します。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/OriginalValidatorAction.php</dt>
-    <dd class="lang-php"><code>public function execute()<br />
+    <dd class="lang_php"><code>public function execute()<br />
       {<br />
       &nbsp;&nbsp;// (例) 20080401230000 を返す <br />
       &nbsp;&nbsp;$beginDate = $this-&gt;getForm()-&gt;get('beginDate');<br />
