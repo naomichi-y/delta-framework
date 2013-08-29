@@ -41,57 +41,35 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo ドキュメント更新
  */
 class Delta_RequiredValidator extends Delta_Validator
 {
   /**
-   * 対象文字列内にホワイトスペースが含まれているかチェックします。
-   * このメソッドはビヘイビアに定義された whitespace 属性が TRUE の場合のみ {@link validate()} メソッドからコールされます。
-   *
-   * @param string $value 対象となる文字列。
-   * @return bool ホワイトスペースが含まれる場合は TRUE、含まれない場合は FALSE を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function hasWhitespace($value)
-  {
-    if (preg_match('/^[\s]+$/', $value)) {
-      return TRUE;
-    }
-
-    return FALSE;
-  }
-
-  /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-    $required = $holder->getBoolean('required');
+    $result = FALSE;
+    $whitespace = $this->_conditions->getBoolean('whitespace');
+return false;
 
-    if (!$required || is_array($value)) {
-      return TRUE;
-
-    } else if (strlen($value)) {
-      if ($holder->getBoolean('whitespace')) {
-        return TRUE;
+    if (strlen($this->_fieldValue)) {
+      if (preg_match('/^[\s]+$/', $this->_fieldValue)) {
+        if ($whitespace) {
+          $result = TRUE;
+        }
 
       } else {
-        if (!$this->hasWhitespace($value)) {
-          return TRUE;
-        }
+        $result = TRUE;
       }
     }
 
-    $message = $holder->getString('requiredError');
-
-    if ($message === NULL) {
-      $message = sprintf('Field is empty. [%s]', $fieldName);
+    if (!$result) {
+      $this->_error = sprintf('Field is empty. [%s]', $this->_fieldName);
     }
 
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

@@ -24,9 +24,14 @@
 abstract class Delta_Entity extends Delta_Object
 {
   /**
-   * @since string
+   * @var string
    */
   protected $_entityName;
+
+  /**
+   * var string
+   */
+  private $_errors = array();
 
   /**
    * コンストラクタ。
@@ -86,6 +91,48 @@ abstract class Delta_Entity extends Delta_Object
       get_class($this),
       $fieldName);
     throw new RuntimeException($message);
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function build(Delta_DataFieldBuilder $builder)
+  {
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function validate()
+  {
+    $result = TRUE;
+
+    $builder = new Delta_DataFieldBuilder();
+    $this->build($builder);
+    $validatorsConfig = Delta_Config::getBehavior()->get('validators');
+
+    if ($validatorsConfig) {
+      foreach ($builder->getFields() as $fieldName => $dataField) {
+        foreach ($dataField->getValidators() as $validatorId => $attributes) {
+          $validatorConfig = $validatorsConfig->get($validatorId);
+          $validatorClassName = $validatorConfig->get('class');
+
+          $validator = new $validatorClassName($fieldName, $this->$fieldName, $attributes);
+
+          if (!$validator->validate()) {
+            $this->_errors[$fieldName] = $validator->getError();
+            $result = FALSE;
+          }
+        }
+      }
+    }
+
+    return $result;
+  }
+
+  public function getErrors()
+  {
+    return $this->_errors;
   }
 
   /**

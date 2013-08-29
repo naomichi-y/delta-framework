@@ -187,18 +187,25 @@ class Delta_FormHelper extends Delta_Helper
   /**
    * ラベルタグを生成します。
    *
-   * @param string $fieldId ラベルに紐付けるフィールドの ID。
-   * @param string $label ラベル名。
+   * @param string $fieldName ラベルに紐付けるフィールドの ID。
+   * @param string $label ラベル名。未指定時は {@link Delta_Form::build()} メソッドで定義されたラベルが使用される。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @return string 生成したタグを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function label($fieldId, $label, $attributes = array())
+  public function label($fieldName, $label = NULL, $attributes = array())
   {
     $attributes = parent::constructParameters($attributes);
-    $attributes['for'] = $fieldId;
-
+    $attributes['for'] = $fieldName;
     $attributes = self::buildTagAttribute($attributes, FALSE);
+
+    if ($label === NULL) {
+      $field = $this->_form->getDataFieldBuilder()->get($fieldName);
+
+      if ($field) {
+        $label = $field->getLabel();
+      }
+    }
 
     $buffer = sprintf("<label%s>%s</label>\n",
       $attributes,
@@ -213,9 +220,9 @@ class Delta_FormHelper extends Delta_Helper
    * @param bool $escape 値を HTML エスケープした状態で返す場合は TRUE を指定。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function get($name, $escape = TRUE)
+  public function get($fieldName, $escape = TRUE)
   {
-    $value = $this->_form->get($name);
+    $value = $this->_form->get($fieldName);
 
     if ($escape) {
       $value = Delta_StringUtils::escape($value);
@@ -279,6 +286,29 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
+   * @since 2.0
+   */
+  public function errors($attributes = array('class' => 'error'))
+  {
+    $buffer = NULL;
+    $errors = $this->_form->getErrors();
+    $errorSize = sizeof($errors);
+
+    if ($errorSize) {
+      $attributes = self::buildTagAttribute($attributes, TRUE);
+      $buffer = sprintf("<div%s>\n<ul>\n", $attributes);
+
+      foreach ($errors as $error) {
+        $buffer .= sprintf("<li>%s</li>\n", $error);
+      }
+
+      $buffer .= "</ul>\n</div>\n";
+    }
+
+    return $buffer;
+  }
+
+  /**
    * フォームにエラーが含まれる場合、エラーメッセージを包括したメッセージタグを生成します。
    *
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
@@ -289,7 +319,7 @@ class Delta_FormHelper extends Delta_Helper
   public function containFieldErrors($attributes = array('class' => 'error'))
   {
     $buffer = NULL;
-    $errorSize = sizeof($this->_form->getFieldErrors());
+    $errorSize = sizeof($this->_form->getErrors());
 
     if ($errorSize) {
       $attributes = self::buildTagAttribute($attributes, TRUE);
@@ -309,7 +339,6 @@ class Delta_FormHelper extends Delta_Helper
    * @return string 出力されるメッセージはヘルパ属性の 'errorFieldTag' に定義したタグが使用されます。
    *   fieldName が配列で構成される場合はメッセージの内容をリスト化します。
    *   また、フィールドにエラーが含まれない場合は NULL を返します。
-   * @todo 2.0 '/'区切りでフォーム名/フィールド名を指定することについて追記。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function fieldError($fieldName)
@@ -1384,8 +1413,8 @@ class Delta_FormHelper extends Delta_Helper
     $buffer = NULL;
 
     if (is_array($values)) {
-      foreach ($values as $name => $value) {
-        $assocName = $fieldName . '.' . $name;
+      foreach ($values as $fieldName => $fieldValue) {
+        $assocName = $fieldName . '.' . $fieldName;
         $buffer .= $this->inputHidden($assocName, $attributes);
       }
 
@@ -1424,8 +1453,8 @@ class Delta_FormHelper extends Delta_Helper
     $buffer = NULL;
 
     if (is_array($parameters)) {
-      foreach ($parameters as $name => $value) {
-        $buffer .= $this->buildInputHiddens($name, $value);
+      foreach ($parameters as $name => $fieldValue) {
+        $buffer .= $this->buildInputHiddens($name, $fieldValue);
       }
     }
 
