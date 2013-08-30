@@ -111,18 +111,19 @@ abstract class Delta_Entity extends Delta_Object
     $this->build($builder);
     $validatorsConfig = Delta_Config::getBehavior()->get('validators');
 
+    $validatorInvoker = new Delta_ValidatorInvoker();
+
     if ($validatorsConfig) {
       foreach ($builder->getFields() as $fieldName => $dataField) {
-        foreach ($dataField->getValidators() as $validatorId => $attributes) {
-          $validatorConfig = $validatorsConfig->get($validatorId);
-          $validatorClassName = $validatorConfig->get('class');
+        $fieldValue = $this->$fieldName;
+        $fieldLabel = $builder->get($fieldName)->getLabel();
+        $validators = $dataField->getValidators();
 
-          $validator = new $validatorClassName($fieldName, $this->$fieldName, $attributes);
+        $validatorInvoker->invoke($fieldName, $fieldValue, $fieldLabel, $validators);
 
-          if (!$validator->validate()) {
-            $this->_errors[$fieldName] = $validator->getError();
-            $result = FALSE;
-          }
+        if ($validatorInvoker->hasErrors()) {
+          $this->_errors = $validatorInvoker->getErrors();
+          $result = FALSE;
         }
       }
     }
@@ -130,6 +131,9 @@ abstract class Delta_Entity extends Delta_Object
     return $result;
   }
 
+  /**
+   * @since 2.0
+   */
   public function getErrors()
   {
     return $this->_errors;

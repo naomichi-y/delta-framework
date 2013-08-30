@@ -46,6 +46,11 @@
 class Delta_RequiredValidator extends Delta_Validator
 {
   /**
+   * @var string
+   */
+  protected $_validatorId = 'required';
+
+  /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -53,7 +58,6 @@ class Delta_RequiredValidator extends Delta_Validator
   {
     $result = FALSE;
     $whitespace = $this->_conditions->getBoolean('whitespace');
-return false;
 
     if (strlen($this->_fieldValue)) {
       if (preg_match('/^[\s]+$/', $this->_fieldValue)) {
@@ -67,7 +71,7 @@ return false;
     }
 
     if (!$result) {
-      $this->_error = sprintf('Field is empty. [%s]', $this->_fieldName);
+      $this->_error = $this->buildError($this->_conditions);
     }
 
     return $result;

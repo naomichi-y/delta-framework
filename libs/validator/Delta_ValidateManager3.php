@@ -15,7 +15,7 @@
  * @category delta
  * @package validator
  */
-class Delta_ValidateManager extends Delta_Object
+class Delta_ValidateManager3 extends Delta_Object
 {
   /**
    * @var Delta_ActionForm
@@ -71,7 +71,7 @@ class Delta_ValidateManager extends Delta_Object
    * バリデータインスタンスの生成:
    * <code>
    * $variables = array('MIN' => 3, 'MAX' => 10, 'FIELD_NAME' => '数値');
-   * $validator = Delta_ValidateManager::createValidator('rangeValidator');
+   * $validator = Delta_ValidateManager3::createValidator('rangeValidator');
    *
    * // FALSE
    * $validator->validate('number', 12, $variables);
@@ -124,7 +124,7 @@ class Delta_ValidateManager extends Delta_Object
           $config = Delta_Config::getBehavior($include, TRUE)->get('validate');
 
           if ($config) {
-            $manager = new Delta_ValidateManager($config);
+            $manager = new Delta_ValidateManager3($config);
             $manager->execute();
           }
         }

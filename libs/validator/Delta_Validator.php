@@ -20,6 +20,11 @@ abstract class Delta_Validator extends Delta_Object
   /**
    * @var string
    */
+  protected $_validatorId;
+
+  /**
+   * @var string
+   */
   protected $_fieldName;
 
   /**
@@ -56,6 +61,39 @@ abstract class Delta_Validator extends Delta_Object
    * @since 2.0
    */
   abstract public function validate();
+
+  /**
+   * @since 2.0
+   */
+  protected function buildError(Delta_ParameterHolder $conditions)
+  {
+    $config = Delta_Config::getBehavior()->toArray();
+    $error = NULL;
+
+    if (isset($config['validators'][$this->_validatorId]['error'])) {
+      $error = $config['validators'][$this->_validatorId]['error'];
+
+      $error = preg_replace_callback('/{\$[\w_]+}/',
+        function($matches) use ($error, $conditions) {
+          $key = substr($matches[0], 2, -1);
+
+          if (isset($conditions[$key])) {
+            $value = $conditions[$key];
+          } else {
+            $value = $matches[0];
+          }
+
+          return $value;
+        },
+        $error
+      );
+
+    } else {
+      // @todo 2.0
+    }
+
+    return $error;
+  }
 
   /**
    * @since 2.0

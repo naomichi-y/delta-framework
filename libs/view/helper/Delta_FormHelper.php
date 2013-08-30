@@ -242,14 +242,14 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_Form::hasFieldError()} メソッドを複数のフィールドチェックに対応させた拡張メソッドです。
+   * {@link Delta_Form::hasError()} メソッドを複数のフィールドチェックに対応させた拡張メソッドです。
    *
    * @param mixed $fields チェック対象のフィールド名。
    *   配列形式で複数のフィールドを指定した場合は、1 つ以上のフィールドにエラーが含まれているかどうかをチェックします。
    * @return bool 対象フィールドにエラーが含まれる場合は TRUE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function hasFieldError($fields)
+  public function hasError($fields)
   {
     $result = FALSE;
 
@@ -258,7 +258,7 @@ class Delta_FormHelper extends Delta_Helper
     }
 
     foreach ($fields as $fieldName) {
-      if ($this->_form->hasFieldError($fieldName)) {
+      if ($this->_form->hasError($fieldName)) {
         $result = TRUE;
         break;
       }
@@ -268,21 +268,21 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_Form::getFieldError()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
+   * {@link Delta_Form::getError()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
    *
    * @param bool $escape 値を HTML エスケープした状態で返す場合は TRUE を指定。
-   * @see Delta_Form::getFieldError()
+   * @see Delta_Form::getError()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getFieldError($fieldName, $escape = TRUE)
+  public function getError($fieldName, $escape = TRUE)
   {
-    $fieldError = $this->_form->getFieldError($fieldName);
+    $error = $this->_form->getError($fieldName);
 
     if ($escape) {
-      $fieldError = Delta_StringUtils::escape($fieldError);
+      $error = Delta_StringUtils::escape($error);
     }
 
-    return $fieldError;
+    return $error;
   }
 
   /**
@@ -341,13 +341,13 @@ class Delta_FormHelper extends Delta_Helper
    *   また、フィールドにエラーが含まれない場合は NULL を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function fieldError($fieldName)
+  public function error($fieldName)
   {
     $buffer = NULL;
 
-    if ($this->_form->hasFieldError($fieldName)) {
+    if ($this->_form->hasError($fieldName)) {
       $buffer = str_replace('\1',
-        $this->_form->getFieldError($fieldName),
+        $this->_form->getError($fieldName),
         $this->_config->getString('errorFieldTag')) . "\n";
     }
 
@@ -374,8 +374,8 @@ class Delta_FormHelper extends Delta_Helper
       $isAppendError = TRUE;
     }
 
-    if ($isAppendError && $this->hasFieldError($fieldName)) {
-      $buffer .= $this->fieldError($fieldName) . "\n";
+    if ($isAppendError && $this->hasError($fieldName)) {
+      $buffer .= $this->error($fieldName) . "\n";
     }
   }
 

@@ -65,7 +65,7 @@ class Delta_ActionFilter extends Delta_Filter
       $validateConfig = $this->_config->get('validate');
 
       if ($validateConfig) {
-        $validateManager = new Delta_ValidateManager($validateConfig);
+        $validateManager = new Delta_ValidateManager3($validateConfig);
 
         // ビヘイビアに定義されたバリデータの結果に影響せず Delta_Action::validate() を実行
         if ($validateConfig->getBoolean('invokeMethod')) {

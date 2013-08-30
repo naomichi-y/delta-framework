@@ -4,6 +4,11 @@ convert:
     converters:
       - class: Delta_TrimConverter
 
+validators:
+  required:
+    class: Delta_RequiredValidator
+    error: '{$label}が未入力です。'
+
 validate:
   validators:
     commonCheckBoxValidator:

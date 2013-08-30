@@ -180,7 +180,7 @@ class Delta_Form extends Delta_Object
     $this->_errors[$fieldName] = $fieldValue;
   }
 
-  public function hasFieldError($fieldName)
+  public function hasError($fieldName)
   {
     $result = FALSE;
 
@@ -250,19 +250,17 @@ class Delta_Form extends Delta_Object
     return $this;
   }
 
-  public function bindEntity(Delta_Entity $entity, $override = FALSE, $bindName = NULL)
+  public function bindEntity(Delta_Entity $entity, $override = FALSE)
   {
-    if ($bindName === NULL) {
-      $bindName = $entity->getEntityName();
-    }
+    $bindName = $entity->getEntityName();
+
+    $builder = new Delta_DataFieldBuilder($bindName);
+    $entity->build($builder);
 
     foreach ($entity->toArray() as $fieldName => $fieldValue) {
       // エンティティが持つ全てのフィールドをフォームにセット
       $fieldName = $bindName . '.' . $fieldName;
       $this->_fields->set($fieldName, $fieldValue, $override);
-
-      $builder = new Delta_DataFieldBuilder($bindName);
-      $entity->build($builder);
 
       foreach ($builder->getFields() as $field) {
         $this->_builder->addField($field);
@@ -373,11 +371,33 @@ class Delta_Form extends Delta_Object
 
     if ($result) {
       foreach ($this->getFields() as $fieldName => $attributes) {
+        $isEntity = FALSE;
+
         if (is_array($attributes)) {
+          $isEntity = TRUE;
           $entity = $this->getEntity($fieldName);
 
           if (!$entity->validate()) {
             foreach ($entity->getErrors() as $fieldName => $fieldError) {
+              $fieldName = $entity->getEntityName() . '.' . $fieldName;
+              $this->addError($fieldName, $fieldError);
+            }
+
+            $result = FALSE;
+          }
+        }
+
+        if (!$isEntity) {
+          $dataField = $this->_builder->get($fieldName);
+          $fieldValue = $this->get($fieldName);
+          $label = $this->_builder->get($fieldName)->getLabel();
+          $validators = $dataField->getValidators();
+
+          $validatorInvoker = new Delta_ValidatorInvoker();
+          $validatorInvoker->invoke($fieldName, $fieldValue, $label, $validators);
+
+          if ($validatorInvoker->hasErrors()) {
+            foreach ($validatorInvoker->getErrors() as $fieldError) {
               $this->addError($fieldName, $fieldError);
             }
 
