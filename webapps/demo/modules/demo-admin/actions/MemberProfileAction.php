@@ -11,7 +11,7 @@ class MemberProfileAction extends Delta_Action
     $member = Delta_DAOFactory::create('Members')->findByMemberId($memberId);
 
     // デモアプリケーション上、会員が存在しない場合の処理は行っていない
-    // 通常は例外を発生させるか、テンプレート側でエラーを表示する
+    // 通常は例外を発生させるか、ビュー側でエラーを表示する
     if ($member) {
       $view = $this->getView();
       $view->setAttribute('mailAddress', $member->mailAddress);

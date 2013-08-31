@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - 出力エンコーディング形式を変更する</h1>
@@ -72,7 +72,7 @@
     </tr>
     <tr>
       <th scope="row">4</th>
-      <td>アクションを実行 (応答メッセージ「初めまして」をテンプレートに出力)</td>
+      <td>アクションを実行 (応答メッセージ「初めまして」をビューに出力)</td>
       <td>内部エンコーディング</td>
       <td>UTF-8</td>
     </tr>
@@ -132,10 +132,10 @@
       }</code></dd>
   </dl>
   <p>SjisOutputAction のエンコーディング形式は従来通り UTF-8 のままで問題ありません。</p>
-  <p>次に実際の出力を行なうテンプレートを作成します。</p>
+  <p>次に実際の出力を行なうビューを作成します。</p>
   <dl>
-    <dt>Template Code# modules/{module}/templates/sjis_output.php</dt>
-    <dd class="lang_template"><code>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;<br />
+    <dt>View Code# modules/{module}/views/sjis_output.php</dt>
+    <dd class="lang_view"><code>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;<br />
       &lt;html lang=&quot;ja&quot; dir=&quot;ltr&quot;&gt;<br />
       &lt;head&gt;<br />
       &nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Language&quot; content=&quot;ja&quot;&gt;<br />
@@ -150,7 +150,7 @@
   <div class="note_container note_important">
     <div class="note_bar"><img src="../assets/images/icons/important.png" width="32" height="32" alt="重要" /></div>
     <div class="note_contents">
-      <p>テンプレートファイルは Shift_JIS ではなく UTF-8 で記述する点に注意して下さい。</p>
+      <p>ビューファイルは Shift_JIS ではなく UTF-8 で記述する点に注意して下さい。</p>
     </div>
   </div>
   <p>最後に携帯端末から SjisOutputAction にアクセスしてみましょう。文字化けせず「UTF-8 で書かれています。」と出力されていれば変換が成功しています。</p>

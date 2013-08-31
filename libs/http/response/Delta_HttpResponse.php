@@ -243,8 +243,8 @@ class Delta_HttpResponse extends Delta_Object
    * このメソッドは実行した時点でレスポンスが返されます。
    * 後に続く処理は一切実行されない点に注意して下さい。
    *
-   * エラーメッセージのテンプレートは {DELTA_ROOT_DIR}/skeleton/templates/http_error.php が使用されます。
-   * カスタムテンプレートを利用したい場合は {APP_ROOT_DIR}/templates/html/http_{status}.php ファイルを作成して下さい。
+   * エラーメッセージのビューは {DELTA_ROOT_DIR}/skeleton/views/http_error.php が使用されます。
+   * カスタムビューを利用したい場合は {APP_ROOT_DIR}/views/html/http_{status}.php ファイルを作成して下さい。
    * 例えば HTTP ステータス 404 に対応するカスタムファイルは http_404.php となります。
    *
    * @param int $status クライアントに送信する HTTP レスポンスコード。
@@ -260,18 +260,18 @@ class Delta_HttpResponse extends Delta_Object
 
     $this->sendStatus($status, $message, $version);
     $path = sprintf('%s%shtml%shttp_%s.php',
-      $this->getAppPathManager()->getTemplatesPath(),
+      $this->getAppPathManager()->getViewsPath(),
       DIRECTORY_SEPARATOR,
       DIRECTORY_SEPARATOR,
       $status);
 
     if (!file_exists($path)) {
-      $path = sprintf('%s/skeleton/templates/http_error.php', DELTA_ROOT_DIR);
+      $path = sprintf('%s/skeleton/views/http_error.php', DELTA_ROOT_DIR);
     }
 
     $view = new Delta_View(new Delta_BaseRenderer());
     $view->setAttribute('message', $this->_status);
-    $view->setTemplatePath($path);
+    $view->setViewPath($path);
     $view->execute();
 
     $buffer = ob_get_contents();

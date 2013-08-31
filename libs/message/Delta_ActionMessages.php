@@ -137,7 +137,7 @@ class Delta_ActionMessages extends Delta_Object
   /**
    * 指定したフォームフィールドにエラーメッセージを設定します。
    * 例えば会員登録時に 'loginId' フィールドに入力された ID が登録済みで使用できない場合、addFieldError('loginId', '指定された ID は利用できません。') とすることで対象フィールドにエラーメッセージを設定することができます。
-   * フィールドに設定したメッセージは {@link getFieldError()} や、テンプレート上からは {@link Delta_FormHelper::getFieldError()} といったメソッドで取得することができます。
+   * フィールドに設定したメッセージは {@link getFieldError()} や、ビュー上からは {@link Delta_FormHelper::getFieldError()} といったメソッドで取得することができます。
    *
    * @param string $name 対象となるフィールド要素名。
    * @param string $message 追加するエラーメッセージ。

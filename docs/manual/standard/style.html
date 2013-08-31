@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">コーディング規約 - コーディングスタイル</h1>
@@ -55,7 +55,7 @@
         <li><a href="#if">if 文</a></li>
         <li><a href="#for">for 文</a></li>
         <li><a href="#switch">switch case 文</a> </li>
-        <li><a href="#template">テンプレートにおける記述形式</a></li>
+        <li><a href="#view">ビューにおける記述形式</a></li>
       </ul>
     </li>
     <li><a href="#class">クラス</a>
@@ -400,24 +400,24 @@
       }<br />
       </code></dd>
   </dl>
-  <h3 id="template">テンプレートにおける記述形式</h3>
+  <h3 id="view">ビューにおける記述形式</h3>
   <ul>
-    <li>テンプレートファイル限定で次のような制御構造も認められます。
+    <li>ビューファイル限定で次のような制御構造も認められます。
       <dl>
-        <dt>Template Code# if 文の定義</dt>
-        <dd class="lang_template"><code>&lt;?php if ($html-&gt;hasErrors()): ?&gt;<br />
+        <dt>View Code# if 文の定義</dt>
+        <dd class="lang_view"><code>&lt;?php if ($html-&gt;hasErrors()): ?&gt;<br />
           &lt;p&gt;エラーがあります。&lt;/p&gt;<br />
           &lt;?php elseif: ?&gt; <br />
           &lt;p&gt;エラーはありません。&lt;/p&gt;<br />
           &lt;?php endif; ?&gt; </code></dd>
-        <dt>Template Code# for 文の定義</dt>
-        <dd class="lang_template"><code>&lt;ul&gt;<br />
+        <dt>View Code# for 文の定義</dt>
+        <dd class="lang_view"><code>&lt;ul&gt;<br />
           &nbsp;&nbsp;&lt;?php for ($i = 0; $i &lt; 100; $i++): ?&gt;<br />
           &nbsp;&nbsp;&lt;li&gt;&lt;?php echo $i ?&gt;&lt;/li&gt; <br />
           &nbsp;&nbsp;&lt;?php endfor; ?&gt;<br />
           &lt;/p&gt; </code></dd>
-        <dt>Template Code# while 文の定義</dt>
-        <dd class="lang_template"><code>&lt;ul&gt;<br />
+        <dt>View Code# while 文の定義</dt>
+        <dd class="lang_view"><code>&lt;ul&gt;<br />
           &nbsp;&nbsp;&lt;?php while($current = $pager-&gt;next()) ?&gt;<br />
           &nbsp;&nbsp;&lt;li&gt;&lt;?php echo $current['name'] ?&gt;&lt;/li&gt; <br />
           &nbsp;&nbsp;&lt;?php endwhile; ?&gt;<br />

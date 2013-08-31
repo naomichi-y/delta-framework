@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能  - セッションを操作する</h1>
@@ -69,10 +69,10 @@
       <dd class="lang_php"><code>// 'naomichi' <br>
         $user-&gt;getAttribute('nickname'); </code></dd>
     </dl>
-    <p>セッションにセットしたデータをテンプレートから読み出すための <a href="../../api/reference/view.helper/delta___user_helper.html">Delta_UserHelper</a> クラスもあります。アプリケーションによってはコンテンツヘッダにログイン中のユーザ名を表示することがありますが、こういったケースでは Delta_UserHelper::get() メソッドを利用すると良いでしょう。</p>
+    <p>セッションにセットしたデータをビューから読み出すための <a href="../../api/reference/view.helper/delta___user_helper.html">Delta_UserHelper</a> クラスもあります。アプリケーションによってはコンテンツヘッダにログイン中のユーザ名を表示することがありますが、こういったケースでは Delta_UserHelper::get() メソッドを利用すると良いでしょう。</p>
     <dl>
-      <dt>Template Code#</dt>
-      <dd class="lang_template"><code>&lt;p&gt;Hello &lt;?php echo $user-&gt;get('nickname') ?&gt;!&lt;/p&gt;</code></dd>
+      <dt>View Code#</dt>
+      <dd class="lang_view"><code>&lt;p&gt;Hello &lt;?php echo $user-&gt;get('nickname') ?&gt;!&lt;/p&gt;</code></dd>
     </dl>
     <p>出力される HTML は次のようになります。</p>
     <dl>
@@ -121,8 +121,8 @@
     </dl>
     <p>Web 認証でユーザがモジュールにログインしたと見なす場合は login()、ログイン中か判定する場合は isLogin()、ログアウト処理では logout() を利用します。isLogin() はヘルパクラス (Delta_UserHelper) に isLogin() としてエイリアスが用意されているため、アクションと同様に処理を切り分けることができます。</p>
     <dl>
-      <dt>Template Code#</dt>
-      <dd class="lang_template"><code>&lt;?php if ($user-&gt;isLogin()): ?&gt;<br>
+      <dt>View Code#</dt>
+      <dd class="lang_view"><code>&lt;?php if ($user-&gt;isLogin()): ?&gt;<br>
         &nbsp;&nbsp;&lt;p&gt;ログイン中です&lt;/p&gt;<br>
         &lt;?php endif ?&gt; </code></dd>
     </dl>
@@ -176,14 +176,14 @@
       <dd class="lang_php"><code>// 1 つ以上のロールがセットされているかチェック<br>
         $user-&gt;hasRole();<br>
         <br>
-        // ユーザが 'insert' 
+        // ユーザが 'insert'
         ロールを満たしているか<br>
         $user-&gt;hasRole('insert'); <br>
         <br>
         // ユーザが 'select'、'insert' ロールを満たしているか<br>
         $user-&gt;hasRole(array('select', 'insert')); </code></dd>
     </dl>
-    <p>hasRole() メソッドはヘルパクラスにもエイリアスが提供されているため、テンプレート上でも処理の切り分けが可能となっています。 </p>
+    <p>hasRole() メソッドはヘルパクラスにもエイリアスが提供されているため、ビュー上でも処理の切り分けが可能となっています。 </p>
     <h3>ビヘイビアとフィルタを組み合わせた応用</h3>
     <p>ユーザが特定のロールを持たない場合に例外をスローさせることもできます。</p>
     <dl>

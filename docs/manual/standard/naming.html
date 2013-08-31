@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">コーディング規約 - 命名規則</h1>
@@ -41,9 +41,9 @@
       </li>
       <li><a href="#functionNaming">関数の命名規則</a></li>
       <li><a href="#variableName">変数名</a></li>
-      <li><a href="#template">テンプレート</a>
+      <li><a href="#view">ビュー</a>
         <ul>
-          <li><a href="#templateFileNaming">テンプレートファイルの命名規則</a></li>
+          <li><a href="#viewFileNaming">ビューファイルの命名規則</a></li>
         </ul>
       </li>
     </ul>
@@ -310,12 +310,12 @@
       <li>スコープが狭い範囲の場合、一時的な変数名は短くても構いません。</li>
       <li>使用済みの変数を (再初期化する等して) 他のロジックで使用するべきではありません。これはソースコードの理解のしやすさやリファクタリングに繋がります。</li>
     </ul>
-    <h2 id="template">テンプレート</h2>
-    <h3 id="templateFileNaming">テンプレートファイルの命名規則</h3>
+    <h2 id="view">ビュー</h2>
+    <h3 id="viewFileNaming">ビューファイルの命名規則</h3>
     <ul>
-      <li>テンプレートファイル名は snake_case 形式で命名します。拡張子はデフォルトで &quot;.php&quot; を付加して下さい。(application.yml で変更することも可能です)</li>
-      <li>テンプレートファイルの拡張子はプロジェクト内で統一するべきです。</li>
-      <li>モジュール内で共通して使うファイルは modules/{module}/templates/includes に配置して下さい。また、アプリケーション内で共通して使うファイルは templates/html 下に配置します。</li>
+      <li>ビューファイル名は snake_case 形式で命名します。拡張子はデフォルトで &quot;.php&quot; を付加して下さい。(application.yml で変更することも可能です)</li>
+      <li>ビューファイルの拡張子はプロジェクト内で統一するべきです。</li>
+      <li>モジュール内で共通して使うファイルは modules/{module}/views/includes に配置して下さい。また、アプリケーション内で共通して使うファイルは views/html 下に配置します。</li>
     </ul>
     <p class="right"><a href="#top">上へ</a></p>
   </article>

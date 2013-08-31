@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - 入力値の検証 (バリデータ) </h1>
@@ -40,8 +40,8 @@
   <p>バリデータを使用するには、対象アクションのビヘイビアファイル (yml) に validator セクションを設定する必要があります。ビヘイビアの設定に関しては、<a href="../config/behavior.html">ビヘイビアリファレンス</a> を参照して下さい。ここでは最も基本的なバリデータである、データの未入力チェックを例にサンプルコードを示します。</p>
   <p>フォーム検証を行うに辺り、初めに HTML のデータ入力フォームを作成します。</p>
   <dl>
-    <dt>Template Code# modules/{module}/templates/member_register_form.php</dt>
-    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start('MemberRegisterConfirm') ?&gt;<br />
+    <dt>View Code# modules/{module}/views/member_register_form.php</dt>
+    <dd class="lang_view"><code>&lt;?php echo $form-&gt;start('MemberRegisterConfirm') ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $html-&gt;containErrors() ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;inputText('memberName') ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('登録') ?&gt;<br />
@@ -270,10 +270,10 @@
   <h2 id="groupingValidator">グルーピングバリデータ機能</h2>
   <p>例えば複数の商品を一括登録する機能が必要な場合、Web フォーム上には商品名や在庫数、定価といったフィールドが複数行並ぶインタフェースになることがあります。一括登録フォームのデザインは、固定行の場合もありますし、動的行のときもあります。このような場合、今までに解説したバリデータの使用方法では検証を行うことができません。</p>
   <p>バリデータは、このような静的・動的フィールドに対して検証を行うための、グルーピングバリデータ機能を実装しています。グルーピングバリデータ機能を利用することで、商品名や在庫数といったフィールドを 1 つの行と捉え、存在する全ての行に対してバリデータを行うことが可能になります。</p>
-  <p>まず初めに入力フォームのテンプレートを作成します。今回は、行数が動的に変化する例を示しています。</p>
+  <p>まず初めに入力フォームのビューを作成します。今回は、行数が動的に変化する例を示しています。</p>
   <dl>
-    <dt>Template Code# modules/{module}/templates/grouping_validator_form.php</dt>
-    <dd class="lang_template"> <code>&lt;table&gt;<br />
+    <dt>View Code# modules/{module}/views/grouping_validator_form.php</dt>
+    <dd class="lang_view"> <code>&lt;table&gt;<br />
       &nbsp;&nbsp;
       &lt;tr&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -321,7 +321,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validators: commentValidator<br />
       </code></dd>
   </dl>
-  <p>ここで、productRegisterCondition 属性の直下に groups  属性が定義されていることに注目して下さい。groups は、その下に定義された names 要素を 1 つの「行」として見なします。上記のサンプルコードの場合、&quot;productName&quot;、&quot;stock&quot;、&quot;comment&quot; のフィールドを 1 つの行と見なし、存在する全ての行に対して検証を行います。テンプレート上では 4 行が定義されているため、最大で 4 行×3 フィールドのバリデータが実行されることになります。</p>
+  <p>ここで、productRegisterCondition 属性の直下に groups  属性が定義されていることに注目して下さい。groups は、その下に定義された names 要素を 1 つの「行」として見なします。上記のサンプルコードの場合、&quot;productName&quot;、&quot;stock&quot;、&quot;comment&quot; のフィールドを 1 つの行と見なし、存在する全ての行に対して検証を行います。ビュー上では 4 行が定義されているため、最大で 4 行×3 フィールドのバリデータが実行されることになります。</p>
   <h2 id="placeHolder">プレースホルダ機能</h2>
   <p>プレースホルダ機能を利用することで、似たようなバリデータを 1 つにまとめることができます。このテクニックは、特に検証項目の多いページで有効です。</p>
   <p>下記にプレースホルダのサンプルコードを示します。</p>
@@ -432,7 +432,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;forward: Bar<br />
       &nbsp;&nbsp;&nbsp;&nbsp;validate: FALSE </code></dd>
   </dl>
-  <p>FooAction#execute() が Delta_View::SUCCESS を返すことで、フォワード先を Bar、バリデータを無効設定にしています。尚、テンプレートマッピング属性 (success) に forward を指定する場合、validate 属性の設定は任意です。指定が無い場合は TRUE となり、バリデータの実行が有効状態になります。</p>
+  <p>FooAction#execute() が Delta_View::SUCCESS を返すことで、フォワード先を Bar、バリデータを無効設定にしています。尚、ビューマッピング属性 (success) に forward を指定する場合、validate 属性の設定は任意です。指定が無い場合は TRUE となり、バリデータの実行が有効状態になります。</p>
   <h2 id="validatorOverride">バリデータの作成</h2>
   <p>delta にはあらかじめ一般的によく使われるバリデータが用意されていますが、アプリケーションによってはシステム独自のバリデータが必要となることがあります。このような場合はバリデータクラスを作成して、システム内で汎用的に使い回せるよう実装してみましょう。</p>
   <p>バリデータクラスは次のようなコードになります。</p>

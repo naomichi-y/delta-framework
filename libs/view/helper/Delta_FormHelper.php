@@ -9,8 +9,8 @@
  */
 
 /**
- * テンプレート上で HTML フォームを生成するためのヘルパメソッドを提供します。
- * このヘルパは、$form という変数名であらかじめテンプレートにインスタンスが割り当てられています。
+ * ビュー上で HTML フォームを生成するためのヘルパメソッドを提供します。
+ * このヘルパは、$form という変数名であらかじめビューにインスタンスが割り当てられています。
  *
  * <code>
  * <?php echo $form->{method}; ?>
@@ -49,6 +49,9 @@
  *   # 複数のフィールドが混在するグループのセパレータ。
  *   fieldSeparatorTag: '<span class="field_separator">\1</span>'
  *
+ *   # {@link label()} メソッドでラベルを生成する際、対象フィールドに {@link Delta_RequiredValidator} が登録されていれば必須マークを出力する。
+ *   required: TRUE
+ *
  *   # 対象フィールドが必須入力であることを示すシンボル。{@link Delta_FormHelper::inputText()} メソッドを参照。
  *   requiredTag: '<span class="required">*</span>'
  * </code>
@@ -80,6 +83,7 @@ class Delta_FormHelper extends Delta_Helper
     'fieldTag' => "<div class=\"form-field\">\n\\1</div>",
     'fieldElementTag' => "<span class=\"field_element\">\n\\1</span>",
     'fieldSeparatorTag' => "<span class=\"field_separator\">\\1</span>",
+    'required' => TRUE,
     'requiredTag' => '<span class="required">*</span>'
   );
 
@@ -199,17 +203,27 @@ class Delta_FormHelper extends Delta_Helper
     $attributes['for'] = $fieldName;
     $attributes = self::buildTagAttribute($attributes, FALSE);
 
+    $requiredMark = FALSE;
+
     if ($label === NULL) {
       $field = $this->_form->getDataFieldBuilder()->get($fieldName);
 
       if ($field) {
         $label = $field->getLabel();
+
+        if ($this->_config->getBoolean('required') && $field->hasValidator('required')) {
+          $requiredMark = TRUE;
+        }
       }
     }
 
     $buffer = sprintf("<label%s>%s</label>\n",
       $attributes,
       Delta_StringUtils::escape($label));
+
+    if ($requiredMark) {
+      $buffer .= ' ' . $this->_config->getString('requiredTag');
+    }
 
     return $buffer;
   }
@@ -380,68 +394,6 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
-   * @param string &$buffer
-   * @param string $type
-   * @param string $fieldName
-   * @param array $attributes
-   * @param array $extra
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private function decorateAppendLabel(&$buffer, $type, $fieldName, $attributes, $extra)
-  {
-    // 'set' は複数のコントロールを含む特殊な形式
-    if ($type === 'radio' || $type === 'checkbox' || $type === 'set') {
-      if (isset($extra['label']) && $extra['label']) {
-        $label = Delta_StringUtils::escape($extra['label']);
-
-        if (isset($extra['required'])) {
-          $label .= ' ' . $this->_config->getString('requiredTag');
-        }
-
-        $buffer = sprintf("\n<legend>%s</legend>\n%s",
-          $label,
-          $buffer);
-
-        // フィールドに紐付くエラータグの生成
-        if ($fieldName !== NULL) {
-          $this->decorateAppendFieldError($buffer, $fieldName, $extra);
-        }
-
-        $buffer = sprintf("<fieldset>%s</fieldset>\n", $buffer);
-
-      } else {
-        if ($fieldName !== NULL) {
-          $this->decorateAppendFieldError($buffer, $fieldName, $extra);
-        }
-      }
-
-    } else {
-      if (isset($extra['label']) && $extra['label']) {
-        if (isset($attributes['id'])) {
-          $id = $attributes['id'];
-        } else {
-          $id = $fieldName;
-        }
-
-        $label = Delta_StringUtils::escape($extra['label']);
-
-        if (isset($extra['required'])) {
-          $label .= ' ' . $this->_config->getString('requiredTag');
-        }
-
-        $buffer = sprintf("<label for=\"%s\">%s</label>\n%s",
-          $id,
-          $label,
-          $buffer);
-      }
-
-      if ($fieldName !== NULL) {
-        $this->decorateAppendFieldError($buffer, $fieldName, $extra);
-      }
-    }
-  }
-
-  /**
    * @param array &$buffer
    * @param array $extra
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -491,9 +443,6 @@ class Delta_FormHelper extends Delta_Helper
       return;
     }
 
-    // 'label' 属性が FALSE の場合はラベルを出力しない
-    $this->decorateAppendLabel($buffer, $type, $fieldName, $attributes, $extra);
-
     // フィールド、ラベル、エラーメッセージを括るタグを生成
     switch ($type) {
       case 'text':
@@ -518,8 +467,6 @@ class Delta_FormHelper extends Delta_Helper
    * @param string $fieldName フィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
    * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @param mixed $extra タグの出力オプション。
-   *   - label: フィールドに表示するラベル。テキスト系フィールドは label タグ、ラジオやチェックボックスといった選択ボックスは fieldset、legend タグを生成する。
-   *   - required: TRUE を指定した場合、'label' に対象フィールドが必須入力であることを示すタグ ('requiredTag' 属性を参照) を追加する。
    *   - error: ヘルパ属性 'error' と同じ。フィールド単位でエラーメッセージの出力制御を行う。
    *       ヘルパ属性の 'error' が TRUE かつ、extra で array('error' => FALSE) が指定された場合、対象フィールドのエラーメッセージは出力されない。
    *       ヘルパ属性の 'error' が FALSE かつ extra で array('error' => TRUE) が指定された場合、対象フィールドのエラーメッセージが出力される。
@@ -1270,7 +1217,6 @@ class Delta_FormHelper extends Delta_Helper
       $this->decorateAppendFieldError($buffer, $fieldNameDay, $extra);
     }
 
-    $this->decorateAppendLabel($buffer, 'set', NULL, $attributes, $extra);
     $this->decorateAppendFieldDivision($buffer, $extra);
 
     return $buffer;

@@ -309,30 +309,30 @@ class Delta_AppPathManager
   }
 
   /**
-   * モジュールテンプレートディレクトリの絶対パスを取得します。
+   * モジュールビューディレクトリの絶対パスを取得します。
    * このメソッドはテーマに対応したパスを返します。
    *
    * @param string $moduleName 検索するモジュール名。モジュールが実際に存在するかどうかのチェックは行いません。
    * @param string $appendPath 戻り値に追加する追記パス。
-   * @return string モジュールテンプレートディレクトリの絶対パスを返します。
+   * @return string モジュールビューディレクトリの絶対パスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getModuleTemplatesPath($moduleName, $appendPath = NULL)
+  public function getModuleViewsPath($moduleName, $appendPath = NULL)
   {
-    return $this->buildModuleThemePath($moduleName, 'templates', $appendPath);
+    return $this->buildModuleThemePath($moduleName, 'views', $appendPath);
   }
 
   /**
-   * テンプレートディレクトリの絶対パスを取得します。
+   * ビューディレクトリの絶対パスを取得します。
    * このメソッドはテーマに対応したパスを返します。
    *
    * @param string $appendPath 戻り値に追加する追記パス。
-   * @return テンプレートディレクトリの絶対パスを返します。
+   * @return ビューディレクトリの絶対パスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getTemplatesPath($appendPath = NULL)
+  public function getViewsPath($appendPath = NULL)
   {
-    $path = $this->buildInternalThemePath('templates', $appendPath);
+    $path = $this->buildInternalThemePath('views', $appendPath);
 
     if ($appendPath !== NULL) {
       $path .= DIRECTORY_SEPARATOR . $appendPath;

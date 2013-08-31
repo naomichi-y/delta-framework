@@ -14,7 +14,7 @@
  * <code>
  * $view = new Delta_View();
  * $view->setAttribtue('greeting', 'Hello World!');
- * $view->setTemplatePath($path);
+ * $view->setViewPath($path);
  * $renderer = $view->getRenderer();
  * </code>
  *
@@ -65,7 +65,7 @@ abstract class Delta_Renderer extends Delta_Object
   {
     $cacheDirectory = NULL;
 
-    // テンプレート設置パスの取得
+    // ビュー設置パスの取得
     if (Delta_BootLoader::isBootTypeWeb()) {
       $extension = Delta_Config::getApplication()->getString('view.extension');
       $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
@@ -74,7 +74,7 @@ abstract class Delta_Renderer extends Delta_Object
         $moduleName = $route->getModuleName();
 
         // キャッシュディレクトリの取得
-        $cacheDirectory = sprintf('%s%scache%stemplates%scache%s%s',
+        $cacheDirectory = sprintf('%s%scache%sviews%scache%s%s',
           APP_ROOT_DIR,
           DIRECTORY_SEPARATOR,
           DIRECTORY_SEPARATOR,
@@ -84,7 +84,7 @@ abstract class Delta_Renderer extends Delta_Object
 
       } else {
         // キャッシュディレクトリの取得
-        $cacheDirectory = sprintf('%s%scache%stemplates%scache%sconsole',
+        $cacheDirectory = sprintf('%s%scache%sviews%scache%sconsole',
           APP_ROOT_DIR,
           DIRECTORY_SEPARATOR,
           DIRECTORY_SEPARATOR,
@@ -155,7 +155,6 @@ abstract class Delta_Renderer extends Delta_Object
 
   /**
    * ファイルの内容を描画します。
-   * このメソッドは {@link Delta_View::execute()} メソッドからコールされます。
    *
    * @param string $path 描画対象のファイルパス。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

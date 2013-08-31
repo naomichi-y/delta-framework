@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - 入力値の変換 (コンバータ)</h1>
@@ -33,8 +33,8 @@
   <p>コンバータは、クライアントから要求されたリクエスト内容を特定のデータ形式に変換する機能です。例えば HTML フォームから名前を入力させ、次の確認画面で名前を表示させたい場合、名前の前後に余計な空白があると次のアクションでも空白部分が保持されてしまいます。このような場合は、Delta_TrimConverter を利用することで問題を解決することが出来ます。下記のサンプルコードを参照して下さい。</p>
   <p>初めに、会員登録するためのアクション、及び HTML フォームを作成します。(アクションのコードはここでは省略)</p>
   <dl>
-    <dt>Template Code# modules/{module}/templates/customer_register_form.php</dt>
-    <dd class="lang_template"><code>&lt;form action=&quot;customerRegister.do&quot; method=&quot;post&quot;&gt;<br />
+    <dt>View Code# modules/{module}/views/customer_register_form.php</dt>
+    <dd class="lang_view"><code>&lt;form action=&quot;customerRegister.do&quot; method=&quot;post&quot;&gt;<br />
       &nbsp;&nbsp;&lt;dl&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;
       &lt;dt&gt;名前&lt;/dt&gt;<br />

@@ -580,8 +580,8 @@ class Delta_MailSender extends Delta_Object {
   }
 
   /**
-   * メール送信時に利用するテンプレートを設定します。
-   * テンプレート内では PHP タグを使用することができます。(base_dicon.yml の設定による)
+   * メール送信時に利用するビューを設定します。
+   * ビュー内では PHP タグを使用することができます。(base_dicon.yml の設定による)
    * 一行目が件名となり、改行を 2 つ入れた後から本文と見なされます。
    *
    * <code>
@@ -594,34 +594,34 @@ class Delta_MailSender extends Delta_Object {
    * なお、行末で PHP タグで終わらせる場合、PHP は末尾の改行を除去する点に注意して下さい。
    * この問題は末尾に改行を 2 つ入れるか、もしくは PHP タグの後にスペースを入れることで回避することができます。
    *
-   * 作成したテンプレートの名前を thanks.php とした場合、setTemplate() の指定は次のようになります。
+   * 作成したビューの名前を thanks.php とした場合、setView() の指定は次のようになります。
    * <code>
    * $parameters = array('nickname' => 'Guest', 'code' => Delta_StringUtils::buildRandomString());
-   * $mail->setTemplate('thanks', $parameters);
+   * $mail->setView('thanks', $parameters);
    * </code>
    *
-   * <i>テンプレートが指定された場合、{@link setSubject()}、{@link setBody()} メソッドで指定された内容は破棄されます。</i>
+   * <i>ビューが指定された場合、{@link setSubject()}、{@link setBody()} メソッドで指定された内容は破棄されます。</i>
    *
-   * @param string $path 現在有効なテンプレートディレクトリからの相対パスで読み込むファイル名を指定。
+   * @param string $path 現在有効なビューディレクトリからの相対パスで読み込むファイル名を指定。
    *   {@link Delta_AppPathManager::buildAbsolutePath()} も参照。
-   * @param array $parameters テンプレートに割り当てる変数のリスト。
+   * @param array $parameters ビューに割り当てる変数のリスト。
    * @return Delta_MailSender Delta_MailSender オブジェクトを返します。
-   * @throws Delta_IOException テンプレートが見つからない場合に発生。
-   * @see Delta_MailSender::setTemplateData()
+   * @throws Delta_IOException ビューが見つからない場合に発生。
+   * @see Delta_MailSender::setViewData()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setTemplate($path, array $parameters = array())
+  public function setView($path, array $parameters = array())
   {
     $extension = Delta_Config::getApplication()->getString('view.extension');
     $path = sprintf('mail%s%s', DIRECTORY_SEPARATOR, $path);
 
-    $templatesPath = $this->getAppPathManager()->getInstance()->getTemplatesPath();
-    $path = Delta_AppPathManager::buildAbsolutePath($templatesPath, $path, $extension);
+    $viewsPath = $this->getAppPathManager()->getInstance()->getViewsPath();
+    $path = Delta_AppPathManager::buildAbsolutePath($viewsPath, $path, $extension);
 
     if (is_file($path)) {
       $view = new Delta_View();
       $view->setAttributes($parameters, FALSE);
-      $view->setTemplatePath($path);
+      $view->setViewPath($path);
 
       $linefeed = $this->_options->getString('linefeed');
 
@@ -636,10 +636,10 @@ class Delta_MailSender extends Delta_Object {
         $data = $subject . $linefeed . $linefeed . $body;
       }
 
-      $this->setTemplateData($data);
+      $this->setViewData($data);
 
     } else {
-      $message = sprintf('Template file does not exist. [%s]', $path);
+      $message = sprintf('View file does not exist. [%s]', $path);
       throw new Delta_IOException($message);
     }
 
@@ -647,15 +647,15 @@ class Delta_MailSender extends Delta_Object {
   }
 
   /**
-   * メール送信時に使用するテンプレートデータを設定します。
+   * メール送信時に使用するビューデータを設定します。
    *
-   * @param string $data メールテンプレートのデータ。データの書式は {@link setTemplate()} メソッドを確認して下さい。
+   * @param string $data メールビューのデータ。データの書式は {@link setView()} メソッドを確認して下さい。
    * @return Delta_MailSender Delta_MailSender オブジェクトを返します。
    * @throws Delta_ParseException データの書式が不正な場合に発生。
-   * @see Delta_MailSender::setTemplate()
+   * @see Delta_MailSender::setView()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setTemplateData($data)
+  public function setViewData($data)
   {
     $linefeed = $this->_options->getString('linefeed');
     $data = Delta_StringUtils::replaceLinefeed($data, $linefeed);
@@ -669,7 +669,7 @@ class Delta_MailSender extends Delta_Object {
       $this->setBody($body);
 
     } else {
-      $message = 'Template is malformed.';
+      $message = 'View is malformed.';
       throw new Delta_IOException($message);
     }
 

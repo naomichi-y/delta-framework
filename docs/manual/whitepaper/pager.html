@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - ページャによるナビゲーション実装</h1>
@@ -31,7 +31,7 @@
     </div>
   </div>
   <h2>ページャの概要</h2>
-  <p>検索結果などの大量のデータを複数のページにわたって表示したい場合は、ページャ機能を使います。delta が提供するページャには、データベース (PDO) から取得したデータをページ分割する Delta_DatabasePager と、配列から構成されたデータをページ分割する Delta_ArrayPager があります。これらのクラスはページャの基本機能を持つ Delta_Pager 抽象クラスから派生しているため、殆どのメソッドは同じように使うことができます。また、分割されたデータをテンプレート上で表示するには、Delta_Pager::assivnView() メソッドでページャヘルパ (Delta_PagerHelper) をテンプレートに割り当てる必要があります。</p>
+  <p>検索結果などの大量のデータを複数のページにわたって表示したい場合は、ページャ機能を使います。delta が提供するページャには、データベース (PDO) から取得したデータをページ分割する Delta_DatabasePager と、配列から構成されたデータをページ分割する Delta_ArrayPager があります。これらのクラスはページャの基本機能を持つ Delta_Pager 抽象クラスから派生しているため、殆どのメソッドは同じように使うことができます。また、分割されたデータをビュー上で表示するには、Delta_Pager::assivnView() メソッドでページャヘルパ (Delta_PagerHelper) をビューに割り当てる必要があります。</p>
   <p><img src="../assets/images/diagram/class/pager.png" alt="cd Delta_Pager" width="439" height="249" /></p>
   <h2>Delta_Pager API ガイド</h2>
   <p>Delta_Pager クラスの代表的なメソッドを紹介します。詳しくは <img alt="delta API" src="../assets/images/icons/api.gif" width="14" height="14" /> <a href="../../api/reference/pager/delta___pager.html">Delta_Pager</a> リファレンスを参照して下さい。</p>
@@ -92,10 +92,10 @@
       $pager-&gt;addQueryData('bar', ''); // value が NULL、または空文字の場合はクエリを追加しない<br />
       $pager-&gt;addQueryData('baz', array('1', '2', '3')); チェックボックスのように 1 つのフィールドに複数の値を保持する形式も指定可能</code></dd>
   </dl>
-  <p>上記のようなクエリパラメータを追加した場合、テンプレートからヘルパを介して「次ページ」へのリンクを生成すると次のようなパスが出力されます。</p>
+  <p>上記のようなクエリパラメータを追加した場合、ビューからヘルパを介して「次ページ」へのリンクを生成すると次のようなパスが出力されます。</p>
   <dl>
-    <dt>Template  Code#</dt>
-    <dd class="lang_template"><code>&lt;a href=&quot;&lt;?php echo $pager-&gt;getNextPagePath() ?&gt;&quot;&gt;次へ&lt;/a&gt;</code></dd>
+    <dt>View Code#</dt>
+    <dd class="lang_view"><code>&lt;a href=&quot;&lt;?php echo $pager-&gt;getNextPagePath() ?&gt;&quot;&gt;次へ&lt;/a&gt;</code></dd>
     <dt>HTML Code#</dt>
     <dd class="lang_html"><code># &quot;%5B1%5D&quot; は配列表記を URL エンコードした形式<br />
       &lt;a href=&quot;/searchList.do/page/2/foo/100/baz%5B0%5D/1/baz%5B1%5D/2/baz%5B2%5D/3&quot;&gt;次へ&lt;/a&gt;</code></dd>
@@ -120,10 +120,10 @@
     <dt>PHP Code#</dt>
     <dd class="lang_php"><code> $pager-&gt;setActionName('SearchResult');</code></dd>
   </dl>
-  <p><code></code>上記のコードで基底アクションは SearchResult に設定されます。テンプレート上のパスがどのように表示されるか見てみましょう。</p>
+  <p><code></code>上記のコードで基底アクションは SearchResult に設定されます。ビュー上のパスがどのように表示されるか見てみましょう。</p>
   <dl>
-    <dt>Template Code#</dt>
-    <dd class="lang_template"><code>&lt;a href=&quot;&lt;?php echo $pager-&gt;buildPath(2) ?&gt;&quot;&gt;2 ページを開く&lt;/a&gt;</code></dd>
+    <dt>View Code#</dt>
+    <dd class="lang_view"><code>&lt;a href=&quot;&lt;?php echo $pager-&gt;buildPath(2) ?&gt;&quot;&gt;2 ページを開く&lt;/a&gt;</code></dd>
   </dl>
   <p>Delta_PagerHelper::buildPath() メソッドは、指定されたページナンバーを元にリンクパスを生成します。</p>
   <dl>
@@ -132,17 +132,17 @@
   </dl>
   <p>アクション名が camelCaps  + 拡張子を追加した形でパスに用いられていることが分かります。</p>
   <h3 id="assignView">public function assignView()</h3>
-  <p>ページ分割したレコードセットをテンプレートから参照できるようページャヘルパを割り当てます。<br />
+  <p>ページ分割したレコードセットをビューから参照できるようページャヘルパを割り当てます。<br />
     このメソッドは、ページャの最後の処理 (通常は fetch() メソッドより後) としてコールする必要があります。</p>
   <dl>
     <dt>PHP Code#</dt>
     <dd class="lang_php"><code>$pager-&gt;assivnView();</code></dd>
   </dl>
-  <p>assignVIew() メソッドを実行することにより、テンプレートからは $pager を通してレコードセットにアクセスすることが出来るようになります。ヘルパの詳しい使用方法については <a href="../../api/reference/view.helper/delta___pager_helper.html">Delta_PagerHelper</a> の API を参照して下さい。</p>
+  <p>assignVIew() メソッドを実行することにより、ビューからは $pager を通してレコードセットにアクセスすることが出来るようになります。ヘルパの詳しい使用方法については <a href="../../api/reference/view.helper/delta___pager_helper.html">Delta_PagerHelper</a> の API を参照して下さい。</p>
   <div class="note_container note_info">
     <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
     <div class="note_contents">
-      <p>テンプレートに割り当てられる変数名は global_helpers.yml (helpers.yml) で変更可能です。</p>
+      <p>ビューに割り当てられる変数名は global_helpers.yml (helpers.yml) で変更可能です。</p>
     </div>
   </div>
   <h2>Delta_DatabasePager API ガイド</h2>
@@ -244,7 +244,7 @@
         //             'register_date' =&gt; '2010-04-29 14:00:00'));<br />
         $recordSet = $pager-&gt;getRecordSet();<br />
       <br />
-        // テンプレートにヘルパを割り当てる<br />
+        // ビューにヘルパを割り当てる<br />
         $pager-&gt;assignView();<br />
       <br />
         return Delta_View::SUCCESS; <br />
@@ -296,7 +296,7 @@
       <br />
       &nbsp;&nbsp;$pager-&gt;fetch($recordSet);<br />
       <br />
-      &nbsp;&nbsp;// テンプレートにヘルパを割り当てる <br />
+      &nbsp;&nbsp;// ビューにヘルパを割り当てる <br />
       &nbsp;&nbsp;$pager-&gt;assignView(); <br />
       <br />
       &nbsp;&nbsp;return Delta_View::SUCCESS;<br />
@@ -316,12 +316,12 @@
       <p>Delta_DatabasePager::addSort() メソッドと異なり、ソートキーを複数指定することはできません。 </p>
     </div>
   </div>
-  <h2>テンプレートからレコードセットを参照する</h2>
-  <p>fetch() (または fetchStatement()) メソッドでレコードセットを取得した後、assignView() メソッドでテンプレートにヘルパ ($pager) を割り当てることにより、テンプレートからはアクションや DAO クラスで生成したレコードセットを参照できるようになります。</p>
+  <h2>ビューからレコードセットを参照する</h2>
+  <p>fetch() (または fetchStatement()) メソッドでレコードセットを取得した後、assignView() メソッドでビューにヘルパ ($pager) を割り当てることにより、ビューからはアクションや DAO クラスで生成したレコードセットを参照できるようになります。</p>
   <p>次のコードはレコードセットをページ分割して表示するためのサンプルです。$pager には Delta_PagerHelper クラスのインスタンスが格納されています。</p>
   <dl>
-    <dt>Template Code#</dt>
-    <dd class="lang_template"><code>&lt;?php if ($pager-&gt;hasRecord()): ?&gt; <br />
+    <dt>View Code#</dt>
+    <dd class="lang_view"><code>&lt;?php if ($pager-&gt;hasRecord()): ?&gt; <br />
       &nbsp;&nbsp;&lt;p&gt;&lt;?php echo $pager-&gt;getNavigationLabel() ?&gt;&lt;/p&gt;<br />
       &nbsp;&nbsp;&lt;table&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;<br />

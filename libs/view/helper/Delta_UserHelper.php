@@ -9,8 +9,8 @@
  */
 
 /**
- * テンプレート上で {@link Delta_AuthorityUser ユーザ情報} を取得するためのヘルパメソッドを提供します。
- * このヘルパは、$user という変数名であらかじめテンプレートにインスタンスが割り当てられています。
+ * ビュー上で {@link Delta_AuthorityUser ユーザ情報} を取得するためのヘルパメソッドを提供します。
+ * このヘルパは、$user という変数名であらかじめビューにインスタンスが割り当てられています。
  *
  * <code>
  * <?php echo $user->{method}; ?>
@@ -98,8 +98,8 @@ class Delta_UserHelper extends Delta_Helper
 
   /**
    * トランザクショントークン ID を取得します。
-   * <i>通常はテンプレート上でこのメソッドをコールする必要はありません。
-   * トークン ID は {@link Delta_FormHelper::close()} メソッドをコールした時点で自動的にテンプレートの hidden フィールドに埋め込まれます。</i>
+   * <i>通常はビュー上でこのメソッドをコールする必要はありません。
+   * トークン ID は {@link Delta_FormHelper::close()} メソッドをコールした時点で自動的にビューの hidden フィールドに埋め込まれます。</i>
    *
    * @return string トランザクショントークン ID を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

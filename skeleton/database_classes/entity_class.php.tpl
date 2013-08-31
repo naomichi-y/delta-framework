@@ -6,4 +6,8 @@
  */
 class {%CLASS_NAME%} extends {%BASE_ENTITY_CLASS_NAME%}
 {
-{%PROPERTIES%}}
+{%PROPERTIES%}
+
+  public function build(Delta_DataFieldBuilder $builder)
+  {}
+}

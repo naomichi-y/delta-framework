@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - トランザクショントークン</h1>
@@ -47,8 +47,8 @@
   </dl>
   <p>RegisterForm、RegisterConfirm のビューにトークン ID を埋め込みます。トークン ID は Delta_FormHelper::close() メソッドを使うことで自動的に生成されます。</p>
   <dl>
-    <dt>Template Code# templates/{module}/register_form.php</dt>
-    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
+    <dt>View Code# views/{module}/register_form.php</dt>
+    <dd class="lang_view"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('確認') ?&gt; <br />
       &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
   </dl>
@@ -68,8 +68,8 @@
   </dl>
   <p>RegisterConfirm も同様に実装します。RegisterForm から正常に遷移した場合は、前画面で発行したトークン ID が引き継がれます。もしこのページにダイレクトにアクセスした場合、tokenId の値は空になります。</p>
   <dl>
-    <dt>Template Code# templates/{module}/register_confirm.php</dt>
-    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
+    <dt>View Code# views/{module}/register_confirm.php</dt>
+    <dd class="lang_view"><code>&lt;?php echo $form-&gt;start() ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;submit('登録') ?&gt; <br />
       &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
     <dt>HTML Code#</dt>

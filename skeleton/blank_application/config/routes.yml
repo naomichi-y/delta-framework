@@ -5,17 +5,23 @@ rewriteTestRoute:
     controller: Index
     action: index
 
-cpanelRoute:
+cpanelRootRoute:
+  uri: /cpanel/
+  forward:
+    module: cpanel
+    controller: Login
+
+cpanelActionRoute:
   uri: /cpanel/:controller/:action
   forward:
     module: cpanel
 
 moduleRoute:
-  uri: /:module
+  uri: /:module/
   forward:
     controller: Index
 
-controllerRoute:
+actionRoute:
   uri: /:module/:controller/:action
 
 rootRoute:

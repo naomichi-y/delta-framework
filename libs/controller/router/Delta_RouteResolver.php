@@ -351,7 +351,8 @@ class Delta_RouteResolver extends Delta_Object
           if (isset($this->_routesConfig[$pathHolder['route']])) {
             $moduleName = $this->_request->getRoute()->getModuleName();
 
-            $uriSegments = explode('/', substr($this->_routesConfig[$pathHolder['route']]['uri'], 1));
+            $routeUri = $this->_routesConfig[$pathHolder['route']]['uri'];
+            $uriSegments = explode('/', substr($routeUri, 1));
             $j = sizeof($uriSegments);
 
             for ($i = 0; $i < $j; $i++) {
@@ -400,7 +401,7 @@ class Delta_RouteResolver extends Delta_Object
               $buildPath = $scheme . $this->_request->getHost() . $buildPath;
             }
 
-            if (substr($buildPath, -1) !== '/') {
+            if (substr($routeUri, -1) !== '/') {
               $buildPath .= $this->_applicationConfig->getString('path.extension');
             }
 

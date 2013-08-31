@@ -128,10 +128,10 @@ class Delta_ErrorHandler
         header('HTTP/1.0 500 Internal Server Error');
       }
 
-      $path = APP_ROOT_DIR . '/templates/html/fatal_error.php';
+      $path = APP_ROOT_DIR . '/views/html/fatal_error.php';
 
       if (!is_file($path)) {
-        $path = DELTA_ROOT_DIR . '/skeleton/templates/fatal_error.php';
+        $path = DELTA_ROOT_DIR . '/skeleton/views/fatal_error.php';
       }
 
       $options = array('format' => array('target' => $line));

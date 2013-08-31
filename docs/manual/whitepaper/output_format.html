@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - さまざまな形式でデータを出力する</h1>
@@ -94,7 +94,7 @@
       }</code></dd>
   </dl>
   <h2 id="custom">Content-Type を直接指定する</h2>
-  <p>これまで紹介した方法はアクション上で一般的な出力形式にデータを変換するものでしたが、アプリケーションの機能によっては XML 形式でデータを出力したい、またはテンプレートの出力結果をダウンロードさせたいといった場面も出てくるでしょう。こうした場合はレスポンス出力時のヘッダを直接指定することで対応することができます。次のコードを確認して下さい。</p>
+  <p>これまで紹介した方法はアクション上で一般的な出力形式にデータを変換するものでしたが、アプリケーションの機能によっては XML 形式でデータを出力したい、またはビューの出力結果をダウンロードさせたいといった場面も出てくるでしょう。こうした場合はレスポンス出力時のヘッダを直接指定することで対応することができます。次のコードを確認して下さい。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/CSVDownloadAction.php</dt>
     <dd class="lang_php"><code>public function execute()<br />
@@ -108,11 +108,11 @@
       &nbsp;	return Delta_View::SUCCESS;<br />
       }</code></dd>
   </dl>
-  <p>ここでは setContentType() メソッドで Content-Type の形式を指定し、setHeader() メソッドでデータの形式 (ファイル名) を設定しました。これでこのアクションはクライアントからリクエストされた場合に download.csv という名前でダウンロードされることになります。ただし、この時点では何も出力するデータがないので、続けてテンプレートに greeting という変数を割り当てました。</p>
-  <p>次にテンプレートファイルを編集します。</p>
+  <p>ここでは setContentType() メソッドで Content-Type の形式を指定し、setHeader() メソッドでデータの形式 (ファイル名) を設定しました。これでこのアクションはクライアントからリクエストされた場合に download.csv という名前でダウンロードされることになります。ただし、この時点では何も出力するデータがないので、続けてビューに greeting という変数を割り当てました。</p>
+  <p>次にビューファイルを編集します。</p>
   <dl>
-    <dt>PHP Code# modules/{module}/templates/csv_download.php</dt>
-    <dd class="lang_template"><code>&lt;?php echo $greeting ?&gt;</code></dd>
+    <dt>PHP Code# modules/{module}/views/csv_download.php</dt>
+    <dd class="lang_view"><code>&lt;?php echo $greeting ?&gt;</code></dd>
   </dl>
   <p>サンプルコードらしく、割り当てられたコードを出力するだけの記述としました。出来上がったプログラムをブラウザから実行してみてください。ダウンロードダイアログが表示されましたか? それではファイルをダウンロードしてテキストエディタで開いてみましょう。想像される通り、中に書かれた文字列は hello となります。</p>
   <p class="right"><a href="#top">上へ</a></p>

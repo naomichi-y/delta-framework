@@ -28,11 +28,9 @@
  *
  *   // レコードセットをページャヘルパに割り当てる
  *   $pager->assignView();
- *
- *   return Delta_View::SUCCESS;
  * }
  * </code>
- * <i>テンプレート上では {@link Delta_DatabasePager ページャヘルパ} を用いてレコードセットを表示することができます。</i>
+ * <i>ビュー上では {@link Delta_DatabasePager ページャヘルパ} を用いてレコードセットを表示することができます。</i>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta

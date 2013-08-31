@@ -32,6 +32,11 @@ class Delta_DataField extends Delta_Object
     $this->_validators[$validatorId] = new Delta_ParameterHolder($conditions);
   }
 
+  public function hasValidator($validatorId)
+  {
+    return isset($this->_validators[$validatorId]);
+  }
+
   public function getValidators()
   {
     return $this->_validators;

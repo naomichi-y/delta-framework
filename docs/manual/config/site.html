@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">設定ファイル - site.yml </h1>
@@ -87,10 +87,10 @@
       // 値の変更 (ファイル自体は上書きされない)<br />
       $config-&gt;set('mail.fromName', 'yyy');</code></dd>
   </dl>
-  <p>また、HTML テンプレート内で設定ファイルを参照するための Delta_SiteHelper クラスも提供されています。このクラスを使うことで、自動的に HTML エスケープした値を取得することができます。</p>
+  <p>また、HTML ビュー内で設定ファイルを参照するための Delta_SiteHelper クラスも提供されています。このクラスを使うことで、自動的に HTML エスケープした値を取得することができます。</p>
   <dl>
-    <dt>Template Code#</dt>
-    <dd class="lang_template"><code>&lt;h1&gt;&lt;?php echo $site-&gt;get('siteName') ?&gt;&lt;/h1&gt;<br />
+    <dt>View Code#</dt>
+    <dd class="lang_view"><code>&lt;h1&gt;&lt;?php echo $site-&gt;get('siteName') ?&gt;&lt;/h1&gt;<br />
       &lt;?php echo $form-&gt;start('Start') ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;select('genders', $site-&gt;get('genders'));<br />
       &lt;?php echo $form-&gt;close() ?&gt; </code></dd>

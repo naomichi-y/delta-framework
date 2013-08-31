@@ -11,7 +11,7 @@
 /**
  * アプリケーション全体 (あるいは特定のモジュール) をメンテナンスモードに移行します。
  * メンテナンスモードが有効な場合、クライアントがリクエストした当該アクションは実行されず、メンテナンスページが出力されるようになります。
- * メンテナンスページのレイアウトをカスタマイズする場合は、アプリケーションディレクトリ下の templates/html/maintenance.php ファイルを編集して下さい。
+ * メンテナンスページのレイアウトをカスタマイズする場合は、{APP_ROOT_DIR}/views/html/maintenance.php ファイルを編集して下さい。
  *
  * global_filters.yml の設定例:
  * <code>
@@ -61,12 +61,12 @@ class Delta_MaintenanceFilter extends Delta_Filter
 
     } else {
       $path = sprintf('%s%shtml%smaintenance.php',
-        $this->getAppPathManager()->getTemplatesPath(),
+        $this->getAppPathManager()->getViewsPath(),
         DIRECTORY_SEPARATOR,
         DIRECTORY_SEPARATOR);
 
       $view = $this->getView();
-      $view->setTemplatePath($path);
+      $view->setViewPath($path);
       $view->importHelpers();
       $view->execute();
     }

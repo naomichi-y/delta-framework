@@ -445,7 +445,7 @@ abstract class Delta_Pager extends Delta_Object
   }
 
   /**
-   * ページ分割されたレコードデータをテンプレートから参照できるようページャヘルパを割り当てます。
+   * ページ分割されたレコードデータをビューから参照できるようページャヘルパを割り当てます。
    * このメソッドは、ページャの最後の処理 (通常は {@link fetch()} メソッドより後) としてコールする必要があります。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

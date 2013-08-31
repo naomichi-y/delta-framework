@@ -45,8 +45,7 @@ class IndexController extends Delta_ActionController
     // mod_rewrite の動作チェック
     if ($request->getRoute()->getRouteName() === 'rewriteTestRoute') {
       $this->getResponse()->write('SUCCESS');
-
-      return Delta_View::NONE;
+      $this->getView()->setDisableOutput();
 
     } else {
       $path = array('route' => 'rewriteTestRoute');
@@ -93,7 +92,5 @@ class IndexController extends Delta_ActionController
         $messages->addError('データベースに接続できないため、デモアプリケーションを起動できません。', 'demo');
       }
     }
-
-    return Delta_View::SUCCESS;
   }
 }

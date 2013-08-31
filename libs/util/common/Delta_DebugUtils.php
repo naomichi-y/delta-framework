@@ -326,7 +326,7 @@ class Delta_DebugUtils
         }
 
         $code = $inspector->buildFromBacktrace();
-        $path = DELTA_ROOT_DIR . '/skeleton/templates/dprint.php';
+        $path = DELTA_ROOT_DIR . '/skeleton/views/dprint.php';
 
         static $functionCallCount = 0;
         $functionCallCount++;
@@ -343,7 +343,7 @@ class Delta_DebugUtils
 
         $view->setAttribute('message', $message);
         $view->setAttribute('functionCallCount', $functionCallCount);
-        $view->setTemplatePath($path);
+        $view->setViewPath($path);
         $view->execute();
 
       } else {
@@ -410,11 +410,11 @@ class Delta_DebugUtils
    */
   public static function trace()
   {
-    $path = DELTA_ROOT_DIR . '/skeleton/templates/dtrace.php';
+    $path = DELTA_ROOT_DIR . '/skeleton/views/dtrace.php';
 
     $view = new Delta_View(new Delta_BaseRenderer());
     $view->setAttribute('trace', debug_backtrace());
-    $view->setTemplatePath($path);
+    $view->setViewPath($path);
     $view->execute();
   }
 }

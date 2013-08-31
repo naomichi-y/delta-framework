@@ -276,9 +276,11 @@ class Delta_Form extends Delta_Object
     if (is_array($array)) {
       $entityClassName = Delta_StringUtils::convertPascalCase($entityName) . 'Entity';
 
-      if (class_exists($entityClassName)) {
+      try {
+        Delta_ClassLoader::loadByName($entityClassName);
         $entity = new $entityClassName($array);
-      }
+
+      } catch (Exception $e) {}
     }
 
     return $entity;
@@ -377,7 +379,7 @@ class Delta_Form extends Delta_Object
           $isEntity = TRUE;
           $entity = $this->getEntity($fieldName);
 
-          if (!$entity->validate()) {
+          if ($entity && !$entity->validate()) {
             foreach ($entity->getErrors() as $fieldName => $fieldError) {
               $fieldName = $entity->getEntityName() . '.' . $fieldName;
               $this->addError($fieldName, $fieldError);
@@ -389,19 +391,22 @@ class Delta_Form extends Delta_Object
 
         if (!$isEntity) {
           $dataField = $this->_builder->get($fieldName);
-          $fieldValue = $this->get($fieldName);
-          $label = $this->_builder->get($fieldName)->getLabel();
-          $validators = $dataField->getValidators();
 
-          $validatorInvoker = new Delta_ValidatorInvoker();
-          $validatorInvoker->invoke($fieldName, $fieldValue, $label, $validators);
+          if ($dataField) {
+            $fieldValue = $this->get($fieldName);
+            $label = $dataField->getLabel();
+            $validators = $dataField->getValidators();
 
-          if ($validatorInvoker->hasErrors()) {
-            foreach ($validatorInvoker->getErrors() as $fieldError) {
-              $this->addError($fieldName, $fieldError);
+            $validatorInvoker = new Delta_ValidatorInvoker();
+            $validatorInvoker->invoke($fieldName, $fieldValue, $label, $validators);
+
+            if ($validatorInvoker->hasErrors()) {
+              foreach ($validatorInvoker->getErrors() as $fieldError) {
+                $this->addError($fieldName, $fieldError);
+              }
+
+              $result = FALSE;
             }
-
-            $result = FALSE;
           }
         }
       }

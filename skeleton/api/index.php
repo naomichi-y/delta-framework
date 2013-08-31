@@ -86,6 +86,6 @@
       <!-- /row -->
     </div>
     <!-- /contents -->
-    <?php echo $html->includeTemplate('includes/footer') ?>
+    <?php echo $html->includeView('/includes/footer') ?>
   </body>
 </html>

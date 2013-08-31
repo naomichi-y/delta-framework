@@ -23,17 +23,12 @@ class Delta_APIGenerator extends Delta_Object
   /**
    * @var string
    */
-  private $_parseDirectory;
+  private $_parsePath;
 
   /**
    * @var string
    */
-  private $_templateDirectory;
-
-  /**
-   * @var string
-   */
-  private $_outputparseDirectory;
+  private $_viewPath;
 
   /**
    * @var Delta_View
@@ -88,8 +83,8 @@ class Delta_APIGenerator extends Delta_Object
   {
     $parseDirectory = realpath(str_replace('/', DIRECTORY_SEPARATOR, $parseDirectory));
 
-    $this->_parseDirectory = $parseDirectory;
-    $this->_templateDirectory = DELTA_ROOT_DIR . '/skeleton/api';
+    $this->_parsePath = $parseDirectory;
+    $this->_viewPath = DELTA_ROOT_DIR . '/skeleton/api';
     $this->_outputDirectory = APP_ROOT_DIR . '/data/api';
 
     $this->_view = new Delta_View(new Delta_BaseRenderer());
@@ -109,7 +104,7 @@ class Delta_APIGenerator extends Delta_Object
       if (Delta_FileUtils::isAbsolutePath($excludeDirectory)) {
         $array[] = $excludeDirectory;
       } else {
-        $array[] = $this->_parseDirectory . DIRECTORY_SEPARATOR . $excludeDirectory;
+        $array[] = $this->_parsePath . DIRECTORY_SEPARATOR . $excludeDirectory;
       }
     }
 
@@ -126,12 +121,12 @@ class Delta_APIGenerator extends Delta_Object
   }
 
   /**
-   * @param string $templateDirectory
+   * @param string $viewPath
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setTemplateDirectory($templateDirectory)
+  public function setViewPath($viewPath)
   {
-    $this->_templateDirectory = $templateDirectory;
+    $this->_viewPath = $viewPath;
   }
 
   /**
@@ -179,7 +174,7 @@ class Delta_APIGenerator extends Delta_Object
    */
   private function buildRelativePath($absolutePath)
   {
-    $pos = strlen($this->_parseDirectory);
+    $pos = strlen($this->_parsePath);
     $relativePath = str_replace('\\', '/', substr($absolutePath, $pos));
 
     return $relativePath;
@@ -309,7 +304,7 @@ class Delta_APIGenerator extends Delta_Object
     // ディレクトリ内のスクリプトを解析
     $pattern = '/^.*.php$/';
     $options = array('excludes' => $this->_excludeDirectories);
-    $files = Delta_FileUtils::search($this->_parseDirectory, $pattern, $options);
+    $files = Delta_FileUtils::search($this->_parsePath, $pattern, $options);
 
     foreach ($files as $path) {
       $tokenizer = new Delta_Tokenizer($path, $outputError);
@@ -650,25 +645,25 @@ class Delta_APIGenerator extends Delta_Object
   private function createIndexPage()
   {
     // メニュー部の生成
-    $menuTemplate = $this->_templateDirectory . '/menu.php';
+    $menuPath = $this->_viewPath . '/menu.php';
 
     $view = $this->_view;
     $view->setAttribute('menus', $this->_summaries, FALSE);
     $view->setAttribute('relativeIndexPath', '');
     $view->setAttribute('relativeAPIPath', 'reference/');
-    $view->setTemplatePath($menuTemplate);
+    $view->setViewPath($menuPath);
     $menuTag = $view->fetch();
     $view->clear();
 
     // コンテンツ部の生成
-    $contentsTemplate = $this->_templateDirectory . '/index.php';
+    $contentsPath = $this->_viewPath . '/index.php';
 
     $view->setAttribute('menus', $this->_summaries, FALSE);
     $view->setAttribute('relativeAPIPath', 'reference/');
     $view->setAttribute('title', $this->_title);
     $view->setAttribute('menuTag', $menuTag, FALSE);
     $view->setAttribute('document', $this->_documentHelper, FALSE);
-    $view->setTemplatePath($contentsTemplate);
+    $view->setViewPath($contentsPath);
     $contents = $view->fetch();
     $view->clear();
 
@@ -682,20 +677,20 @@ class Delta_APIGenerator extends Delta_Object
   private function createReferencePage()
   {
     // メニュー部の生成
-    $menuTemplate = $this->_templateDirectory . '/menu.php';
+    $menuPath = $this->_viewPath . '/menu.php';
 
     $view = $this->_view;
     $view->setAttribute('menus', $this->_summaries, FALSE);
     $view->setAttribute('relativeIndexPath', '../../');
     $view->setAttribute('relativeAPIPath', '../');
-    $view->setTemplatePath($menuTemplate);
+    $view->setViewPath($menuPath);
 
     $menuTag = $view->fetch();
     $view->clear();
 
     // コンテンツ部の生成
-    $functionTemplate = $this->_templateDirectory . '/function.php';
-    $classTemplate = $this->_templateDirectory . '/class.php';
+    $functionPath = $this->_viewPath . '/function.php';
+    $classPath = $this->_viewPath . '/class.php';
     $data = array();
 
     $view->setAttribute('title', $this->_title);
@@ -714,7 +709,7 @@ class Delta_APIGenerator extends Delta_Object
         foreach ($fileAttributes['functions'] as $name => $functionAttributes) {
           $this->_documentHelper->setFileId($fileAttributes['file']['name']);
           $view->setAttribute('file', $fileAttributes, FALSE);
-          $view->setTemplatePath($functionTemplate);
+          $view->setViewPath($functionPath);
           $contents = $view->fetch();
 
           $path = $this->createReferencePath($fileAttributes['file']['package'], $fileAttributes['file']['name']);
@@ -742,7 +737,7 @@ class Delta_APIGenerator extends Delta_Object
           $view->setAttribute('class', $classAttributes, FALSE);
 
           $this->_documentHelper->setFileId($classAttributes['name']);
-          $view->setTemplatePath($classTemplate);
+          $view->setViewPath($classPath);
           $contents = $view->fetch();
 
           $path = $this->createReferencePath($classAttributes['package'], $classAttributes['name']);
@@ -802,8 +797,8 @@ class Delta_APIGenerator extends Delta_Object
     $from[] = DELTA_ROOT_DIR . '/docs/manual/assets/css/base.css';
     $from[] = DELTA_ROOT_DIR . '/docs/manual/assets/css/kube.css';
     $from[] = DELTA_ROOT_DIR . '/docs/manual/assets/images/logo.png';
-    $from[] = $this->_templateDirectory . '/css';
-    $from[] = $this->_templateDirectory . '/js';
+    $from[] = $this->_viewPath . '/css';
+    $from[] = $this->_viewPath . '/js';
 
     $to = array();
     $to[] = $this->_outputDirectory . '/assets/css/base.css';

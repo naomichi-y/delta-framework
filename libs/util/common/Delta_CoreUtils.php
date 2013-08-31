@@ -46,7 +46,7 @@ class Delta_CoreUtils
    * フレームワークが生成した全てのキャッシュを破棄します。
    * キャッシュ削除対象ディレクトリは次の通りです。
    *   - cache/file
-   *   - cache/templates
+   *   - cache/views
    *   - cache/yaml
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -63,8 +63,8 @@ class Delta_CoreUtils
     $autoloadPath = $cachePath . '/file';
     Delta_FileUtils::createDirectory($autoloadPath, 0775);
 
-    $templatesPath = $cachePath . '/templates';
-    Delta_FileUtils::createDirectory($templatesPath, 0775);
+    $viewsPath = $cachePath . '/views';
+    Delta_FileUtils::createDirectory($viewsPath, 0775);
 
     $yamlPath = $cachePath . '/yaml';
     Delta_FileUtils::createDirectory($yamlPath, 0775);
@@ -277,7 +277,7 @@ class Delta_CoreUtils
 
       $createList = array(
         sprintf('%s%sdata', $themePath, DIRECTORY_SEPARATOR),
-        sprintf('%s%smodules%s%s%stemplates',
+        sprintf('%s%smodules%s%s%sviews',
           $themePath,
           DIRECTORY_SEPARATOR,
           DIRECTORY_SEPARATOR,
@@ -313,8 +313,8 @@ class Delta_CoreUtils
     }
 
     $copyFiles = array(
-      DELTA_ROOT_DIR . '/skeleton/blank_application/templates' =>
-        sprintf('%s%stemplates', $themePath, DIRECTORY_SEPARATOR)
+      DELTA_ROOT_DIR . '/skeleton/blank_application/views' =>
+        sprintf('%s%sviews', $themePath, DIRECTORY_SEPARATOR)
     );
 
     foreach ($copyFiles as $from => $to) {

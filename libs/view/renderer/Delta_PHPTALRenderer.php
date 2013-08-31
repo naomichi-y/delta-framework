@@ -31,7 +31,7 @@
  * $view->setAttribute('greeting', 'Hello World!');
  * </code>
  *
- * テンプレートの実装例:
+ * ビューの実装例:
  * <code>
  * <div id="content">
  *   <p tal:content="var"></p>
@@ -86,7 +86,7 @@ class Delta_PHPTALRenderer extends Delta_Renderer
   public function renderFile($path)
   {
     $engine = $this->getEngine();
-    $engine->setTemplate($path);
+    $engine->setView($path);
 
     foreach ($this->_context['attributes'] as $name => $value) {
       $engine->set($name, $value);

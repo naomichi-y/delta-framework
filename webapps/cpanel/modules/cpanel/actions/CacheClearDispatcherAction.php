@@ -12,32 +12,32 @@ class CacheClearDispatcherAction extends Delta_DispatchAction
 
   public function dispatchClearFileCache()
   {
-    $clearDirectory = APP_ROOT_DIR . '/cache/file';
-    $this->getRequest()->setAttribute('clearDirectory', $clearDirectory);
+    $deleteCachePath = APP_ROOT_DIR . '/cache/file';
+    $this->getRequest()->setAttribute('deleteCachePath', $deleteCachePath);
 
     return 'CacheClear';
   }
 
-  public function dispatchClearTemplatesCache()
+  public function dispatchClearViewsCache()
   {
-    $clearDirectory = APP_ROOT_DIR . '/cache/templates';
-    $this->getRequest()->setAttribute('clearDirectory', $clearDirectory);
+    $deleteCachePath = APP_ROOT_DIR . '/cache/views';
+    $this->getRequest()->setAttribute('deleteCachePath', $deleteCachePath);
 
     return 'CacheClear';
   }
 
-  public function dispatchClearYamlTemplatesCache()
+  public function dispatchClearYamlViewsCache()
   {
-    $clearDirectory = APP_ROOT_DIR . '/cache/yaml';
-    $this->getRequest()->setAttribute('clearDirectory', $clearDirectory);
+    $deleteCachePath = APP_ROOT_DIR . '/cache/yaml';
+    $this->getRequest()->setAttribute('deleteCachePath', $deleteCachePath);
 
     return 'CacheClear';
   }
 
   public function dispatchClearAllCache()
   {
-    $clearDirectory = APP_ROOT_DIR . '/cache';
-    $this->getRequest()->setAttribute('clearDirectory', $clearDirectory);
+    $deleteCachePath = APP_ROOT_DIR . '/cache';
+    $this->getRequest()->setAttribute('deleteCachePath', $deleteCachePath);
 
     return 'CacheClear';
   }

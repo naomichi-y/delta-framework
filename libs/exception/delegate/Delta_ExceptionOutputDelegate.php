@@ -15,8 +15,8 @@
  * <ul>
  *   <li>
  *     デバッグモード無効時:
- *     システムエラー (例外) が発生した旨を一般的なクライアントに通知するためのお知らせページ (テンプレート) を出力する。
- *     テンプレート内では 'exception' 変数 (例外オブジェクトを格納した変数) が使用可能。
+ *     システムエラー (例外) が発生した旨を一般的なクライアントに通知するためのお知らせページ (ビュー) を出力する。
+ *     ビュー内では 'exception' 変数 (例外オブジェクトを格納した変数) が使用可能。
  *     <ul>
  *       <li>
  *         AJAX リクエスト ({@link Delta_HttpRequest::isAjax()}) で例外が発生した場合は、以下のデータを JSON 形式で返す。
@@ -70,8 +70,8 @@
  *       type: json
  * </code>
  *
- * システムエラーの出力に使用されるテンプレートは {APP_ROOT_DIR}/templates/html/system_error.php にあります。
- * 尚、フレームワークが提供するヘルパのインスタンスはテンプレートに割り当てられないため、ヘルパメソッドを使用することはできません。
+ * システムエラーの出力に使用されるビューは {APP_ROOT_DIR}/views/html/system_error.php にあります。
+ * 尚、フレームワークが提供するヘルパのインスタンスはビューに割り当てられないため、ヘルパメソッドを使用することはできません。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -133,13 +133,13 @@ class Delta_ExceptionOutputDelegate extends Delta_ExceptionStackTraceDelegate
   protected static function sendWebResponse(Delta_HttpResponse $response, Exception $exception, Delta_ParameterHolder $holder)
   {
     $path = sprintf('%s%shtml%ssystem_error.php',
-      Delta_AppPathManager::getInstance()->getTemplatesPath(),
+      Delta_AppPathManager::getInstance()->getViewsPath(),
       DIRECTORY_SEPARATOR,
       DIRECTORY_SEPARATOR);
 
     $view = new Delta_View(new Delta_BaseRenderer());
     $view->setAttribute('exception', $exception);
-    $view->setTemplatePath($path);
+    $view->setViewPath($path);
     $view->importHelpers();
     $view->execute();
   }

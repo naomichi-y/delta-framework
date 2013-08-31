@@ -10,7 +10,7 @@
 
 /**
  * 変数のデータを HTML エスケープする機能を提供します。
- * このクラスは、テンプレートに変数を渡す際に利用する {@link Delta_Renderer::setAttribute()} メソッドや {@link Delta_StringUtils::escape()} といった関数から内部的にコールされて利用されます。
+ * このクラスは、ビューに変数を渡す際に利用する {@link Delta_Renderer::setAttribute()} メソッドや {@link Delta_StringUtils::escape()} といった関数から内部的にコールされて利用されます。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta

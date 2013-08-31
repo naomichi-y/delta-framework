@@ -25,7 +25,7 @@
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2013 年 1 月 31 日</p>
   <h2>ビヘイビア設定ファイルの概要</h2>
-  <p>ビヘイビアはアクションの動作設定ファイルで、バリデータの設定やコンバータ、表示するビュー (テンプレート) の関連付けを行います。ファイルの命名は対象とするアクション名と同じに設定する必要があります。例えば、アクション名が Greeting であれば、ビヘイビアのファイル名は &quot;Greetiing.yml&quot; になります。</p>
+  <p>ビヘイビアはアクションの動作設定ファイルで、バリデータの設定やコンバータ、表示するビュー (ビュー) の関連付けを行います。ファイルの命名は対象とするアクション名と同じに設定する必要があります。例えば、アクション名が Greeting であれば、ビヘイビアのファイル名は &quot;Greetiing.yml&quot; になります。</p>
   <dl>
     <dt>ビヘイビアファイルの命名規則 </dt>
     <dd>{アクション名}.yml</dd>
@@ -61,7 +61,7 @@
   <div class="note_container note_info">
     <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
     <div class="note_contents">
-      <p>アクションにおいてビューを返す場合は、ビヘイビアファイルにて表示するテンプレートを関連付ける必要があるため必須です。(global_behavior.yml にてビューが定義されている場合を除く)</p>
+      <p>アクションにおいてビューを返す場合は、ビヘイビアファイルにて表示するビューを関連付ける必要があるため必須です。(global_behavior.yml にてビューが定義されている場合を除く)</p>
     </div>
   </div>
   <h2 id="behaviorReference">属性一覧</h2>
@@ -379,7 +379,7 @@
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td></td>
-      <td>ビューセクション。テンプレートを出力する場合は必須。</td>
+      <td>ビューセクション。ビューを出力する場合は必須。</td>
     </tr>
     <tr>
       <td colspan="4">@ref</td>
@@ -389,24 +389,24 @@
       <td><a href="#ref">@ref 指示子</a> の項を参照。</td>
     </tr>
     <tr>
-      <td colspan="4">(ビューとテンプレートのマッピング設定)</td>
+      <td colspan="4">(ビューとビューのマッピング設定)</td>
       <td>&nbsp;</td>
       <td>(array)</td>
       <td></td>
-      <td><p>アクションの実行結果を表示するためのテンプレートを指定。テンプレートパスを指定できる他、別のアクションへのフォワード処理を定義することも可能。</p>
+      <td><p>アクションの実行結果を表示するためのビューを指定。ビューパスを指定できる他、別のアクションへのフォワード処理を定義することも可能。</p>
         <dl>
-          <dt>YAML Code# テンプレートへのディスパッチ指定 (一般例) </dt>
+          <dt>YAML Code# ビューへのディスパッチ指定 (一般例) </dt>
           <dd class="lang_yaml"><code>view:<br />
             &nbsp;success: success<br />
             &nbsp;error: foo/error</code></dd>
         </dl>
         <ul>
-          <li>上記例の場合、Delta_Action#execute() メソッドにて Delta_View::SUCCESS が返された場合は success.php (modules/{module}/templates ディレクトリからの相対パス)、Delta_View::ERROR が返された場合は foo/error.php が読み込まれるテンプレートになります。 </li>
-          <li>Delta_View::SUCCESS に対応する view 指定を省略した場合、アクション名のアンダースコア表記 + &quot;.php&quot; に変換したテンプレートが自動で読み込まれます。(アクション名が FooBarAction の場合、読み込まれるテンプレートファイルは foo_bar.php となる)</li>
-          <li>プロジェクトディレクトリ下の任意の場所にあるファイルを読み込みたい場合は、ファイルパスの先頭に &quot;@&quot; 指示子を指定して下さい。次の例の場合、テンプレートファイルは &quot;{APP_ROOT_DIR}/webroot/success.php&quot; から読み込まれます。</li>
+          <li>上記例の場合、Delta_Action#execute() メソッドにて Delta_View::SUCCESS が返された場合は success.php (modules/{module}/views ディレクトリからの相対パス)、Delta_View::ERROR が返された場合は foo/error.php が読み込まれるビューになります。 </li>
+          <li>Delta_View::SUCCESS に対応する view 指定を省略した場合、アクション名のアンダースコア表記 + &quot;.php&quot; に変換したビューが自動で読み込まれます。(アクション名が FooBarAction の場合、読み込まれるビューファイルは foo_bar.php となる)</li>
+          <li>プロジェクトディレクトリ下の任意の場所にあるファイルを読み込みたい場合は、ファイルパスの先頭に &quot;@&quot; 指示子を指定して下さい。次の例の場合、ビューファイルは &quot;{APP_ROOT_DIR}/webroot/success.php&quot; から読み込まれます。</li>
         </ul>
         <dl>
-          <dt>YAML Code# テンプレートへのディスパッチ指定 (@指示子によるパスの相対指定) </dt>
+          <dt>YAML Code# ビューへのディスパッチ指定 (@指示子によるパスの相対指定) </dt>
           <dd class="lang_yaml"><code>view:<br />
             &nbsp;success: @webroot/success </code></dd>
         </dl>

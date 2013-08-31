@@ -23,57 +23,20 @@
  *       autoEscape: TRUE
  * </code>
  *
- * 新しいビューのインスタンスを生成し、テンプレートを描画することもできます。
+ * 新しいビューのインスタンスを生成し、ビューを描画することもできます。
  * <code>
  * $view = new Delta_View();
  * $view->setAttribute('greeting', 'Hello World!');
  * $view->importHelpers();
  *
- * // テンプレートファイルの出力
- * $view->setTemplatePath($path);
+ * // ビューファイルの出力
+ * $view->setViewPath($path);
  * $view->execute();
  *
  * // 文字列から描画を行う
  * $view->setSource($source);
  * $view->execute();
  * </code>
- *
- * ビューはアクションの {@link Delta_Action::execute() 実行結果} にマッピングされます。
- *
- * アクションクラスにおけるビューのマッピング:
- * <code>
- * class GreetingAction extends Delta_Action
- * {
- *   public function execute()
- *   {
- *     // ビヘイビアに定義された 'success' ビューにマッピング
- *     return Delta_View::SUCCESS;
- *
- *     // 'error' ビューにマッピング
- *     return Delta_View::ERROR;
- *
- *     // 任意のマッピング名を指定することも可能
- *     return 'custom';
- *   }
- * }
- * </code>
- *
- * ビヘイビアの設定例:
- * <code>
- * view:
- *   # modules/{module_name}/templates/greeting.php テンプレートにマッピング
- *   success: greeting
- *
- *   # GreetingError アクションにフォワード
- *   error:
- *     forward: GreetingError
- *
- *   # GreetingResponse アクションにリダイレクト
- *   custom:
- *     redirect: GreetingResponse
- * </code>
- *
- * アクションの戻り値に {@link Delta_View::NONE} が指定された場合、テンプレートとのマッピングは行われません。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -86,31 +49,6 @@ require DELTA_LIBS_DIR . '/view/helper/Delta_HelperManager.php';
 
 class Delta_View extends Delta_Object
 {
-  /**
-   * ビューマッピング定数。(アクションが正常に処理された)
-   */
-  const SUCCESS = 'success';
-
-  /**
-   * ビューマッピング定数。(入力フォームへの遷移)
-   */
-  const INPUT = 'input';
-
-  /**
-   * ビューマッピング定数。(アクションでエラーが発生した)
-   */
-  const ERROR = 'error';
-
-  /**
-   * ビューマッピング定数。(アクションでセキュリティエラーが発生した)
-   */
-  const SAFETY_ERROR = 'safety_error';
-
-  /**
-   * ビューマッピング定数。(ビューを必要としない)
-   */
-  const NONE = 'none';
-
   /**
    * @var Delta_Renderer
    */
@@ -149,7 +87,7 @@ class Delta_View extends Delta_Object
   /**
    * @var string
    */
-  protected $_templatePath;
+  protected $_viewPath;
 
   /**
    * @var bool
@@ -341,17 +279,17 @@ class Delta_View extends Delta_Object
    * ビューに指定したファイルを出力します。
    * 出力結果を文字列として取得したい場合は {@link fetch()} メソッドを使用して下さい。
    *
-   * @throws Delta_ParseException {@link setTemplatePath()} で指定されたファイルが見つからない場合に発生。
+   * @throws Delta_ParseException {@link setViewPath()} で指定されたファイルが見つからない場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function execute()
   {
-    if ($this->_templatePath) {
-      if (is_file($this->_templatePath)) {
-        $this->_renderer->renderFile($this->_templatePath);
+    if ($this->_viewPath) {
+      if (is_file($this->_viewPath)) {
+        $this->_renderer->renderFile($this->_viewPath);
 
       } else {
-        $message = sprintf('Template path is not found. [%s]', $this->_templatePath);
+        $message = sprintf('View path is not found. [%s]', $this->_viewPath);
         throw new Delta_ParseException($message);
       }
 
@@ -383,24 +321,38 @@ class Delta_View extends Delta_Object
   }
 
   /**
-   * 出力対象のテンプレートパスを設定します。
+   * 出力するビューのファイルパスを設定します。
+   * <code>
+   * // IndexController で設定した場合、modules/{module}/views/index/bar.php を出力する
+   * $view->setViewPath('bar');
    *
-   * @param string $templatePath 出力対象のファイルパス。
-   *   {@link Delta_AppPathManager::getModuleTemplatesPath() 現在有効なテンプレートディレクトリ} から相対パスでファイルを指定。
+   * // modules/{module}/views/foo/bar.php を出力する
+   * $view->setViewPath('foo/bar');
+   *
+   * // '@' から始まるパスは APP_ROOT_DIR からの相対パスと見なされる
+   * $view->setViewPath('@views/html/baz');
+   * </code>
+   *
+   * @param string $viewPath 出力するビューのファイルパス。
+   *   {@link Delta_AppPathManager::getModuleViewsPath() 現在有効なビューディレクトリ} からの相対パスでファイルを指定。
    *   拡張子の指定は任意。未指定時は application.yml に定義された 'view.extension' がパスに追加される。
-   *   指定可能なパス形式については {@link Delta_AppPathManager::buildAbsolutePath()} を参照。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setTemplatePath($templatePath)
+  public function setViewPath($viewPath)
   {
     $basePath = NULL;
 
     if (Delta_BootLoader::isBootTypeWeb()) {
-      $extension = Delta_Config::getApplication()->getString('view.extension');
       $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+      $extension = Delta_Config::getApplication()->getString('view.extension');
 
       if ($route) {
-        $basePath = $this->getAppPathManager()->getModuleTemplatesPath($route->getModuleName());
+        if (strpos($viewPath, '/') === FALSE && strpos($viewPath, '\\') === FALSE) {
+          $controllerPath = Delta_StringUtils::convertSnakeCase($route->getForwardStack()->getLast()->getControllerName());
+          $viewPath = $controllerPath . DIRECTORY_SEPARATOR . $viewPath;
+        }
+
+        $basePath = $this->getAppPathManager()->getModuleViewsPath($route->getModuleName());
       }
 
     } else {
@@ -408,7 +360,7 @@ class Delta_View extends Delta_Object
       $extension = NULL;
     }
 
-    $this->_templatePath = Delta_AppPathManager::buildAbsolutePath($basePath, $templatePath, $extension);
+    $this->_viewPath = Delta_AppPathManager::buildAbsolutePath($basePath, $viewPath, $extension);
   }
 
   /**
@@ -428,14 +380,14 @@ class Delta_View extends Delta_Object
   }
 
   /**
-   * 出力対象のテンプレートパスを取得します。
+   * 出力対象のビューパスを取得します。
    *
-   * @return string 出力対象のテンプレートパスを返します。
+   * @return string 出力対象のビューパスを返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getTemplatePath()
+  public function getViewPath()
   {
-    return $this->_templatePath;
+    return $this->_viewPath;
   }
 
   /**

@@ -18,7 +18,7 @@
 class Delta_DataFieldBuilder extends Delta_Object
 {
   private $_baseName;
-  private $_fields;
+  private $_fields = array();
 
   public function __construct($baseName = NULL)
   {

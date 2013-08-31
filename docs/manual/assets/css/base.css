@@ -269,7 +269,7 @@ footer p {
  * ****************************************************************
  */
 
-.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code, .lang_html code, .lang_text code {
+.lang_php code, .lang_view code, .lang_yaml code, .lang_config code, .lang_shell code, .lang_html code, .lang_text code {
   padding: 1%;
   display: block;
   line-height: 150%;

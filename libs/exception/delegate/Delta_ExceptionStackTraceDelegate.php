@@ -102,9 +102,9 @@ class Delta_ExceptionStackTraceDelegate extends Delta_ExceptionDelegate
 
     $view->setAttribute('trace', $trace, FALSE);
 
-    $path = DELTA_ROOT_DIR . '/skeleton/templates/exception.php';
+    $path = DELTA_ROOT_DIR . '/skeleton/views/exception.php';
 
-    $view->setTemplatePath($path);
+    $view->setViewPath($path);
     $view->execute();
   }
 

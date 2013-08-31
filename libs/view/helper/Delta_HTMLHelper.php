@@ -10,7 +10,7 @@
 
 /**
  * HTML の作成を補助するヘルパメソッドを提供します。
- * このヘルパは、$html という変数名であらかじめテンプレートにインスタンスが割り当てられています。
+ * このヘルパは、$html という変数名であらかじめビューにインスタンスが割り当てられています。
  *
  * <code>
  * <?php echo $html->{method}; ?>
@@ -68,7 +68,7 @@ class Delta_HTMLHelper extends Delta_Helper
   private $_pathMapping = array();
 
   /**
-   * テンプレートの拡張子。
+   * ビューの拡張子。
    * @var string
    */
   private $_extension;
@@ -451,29 +451,29 @@ class Delta_HTMLHelper extends Delta_Helper
   }
 
   /**
-   * テンプレートファイルを読み込みます。
+   * ビューファイルを読み込みます。
    *
    * <code>
-   * # modules/{module}/templates/includes/header.php を読み込む。
-   * #   - 各種ヘルパは子テンプレートでも使用可能
-   * #   - 現在のテンプレートディレクトリからの相対パスでファイルを指定
-   * #   - '/' から始まるパスはテンプレート基底ディレクトリからの絶対パスと見なされる
+   * # modules/{module}/views/includes/header.php を読み込む。
+   * #   - 各種ヘルパは子ビューでも使用可能
+   * #   - 現在のビューディレクトリからの相対パスでファイルを指定
+   * #   - '/' から始まるパスはビュー基底ディレクトリからの絶対パスと見なされる
    * #   - 拡張子はオプション。未指定時は application.yml に定義された 'view.extension' 属性が参照される
-   * $html->includeTemplate('includes/header');
+   * $html->includeView('includes/header');
    *
    * # header.php を読み込む際に $foo、$bar 変数を宣言。
-   * $html->includeTemplate('includes/header', array('foo' => 100, 'bar' => 200));
+   * $html->includeView('includes/header', array('foo' => 100, 'bar' => 200));
    *
-   * # {APP_ROOT_DIR}/templates/html/global_footer.php を読み込む。
-   * $html->includeTemplate('@templates/html/global_footer');
+   * # {APP_ROOT_DIR}/views/html/global_footer.php を読み込む。
+   * $html->includeView('@views/html/global_footer');
    * </code>
    *
-   * @param string $path 参照するテンプレートのパスを指定。
-   * @param mixed $attributes テンプレートに渡す変数を連想配列形式 (変数名、変数値) で指定。変数の値は自動的に HTML エスケープされる。
+   * @param string $path 参照するビューのパスを指定。
+   * @param mixed $attributes ビューに渡す変数を連想配列形式 (変数名、変数値) で指定。変数の値は自動的に HTML エスケープされる。
    * @param mixed $unescapeAttributes HTML エスケープを必要としない変数のリスト。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function includeTemplate($path, array $attributes = array(), array $unescapeAttributes = array())
+  public function includeView($path, array $attributes = array(), array $unescapeAttributes = array())
   {
     $size = sizeof($this->_pathMapping);
     $isAbsolutePath = FALSE;
@@ -484,21 +484,21 @@ class Delta_HTMLHelper extends Delta_Helper
 
     if ($isAbsolutePath) {
       $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-      $basePath = $this->getAppPathManager()->getModuleTemplatesPath($route->getModuleName());
-      $templatesDirectory = dirname($basePath . $path);
+      $basePath = $this->getAppPathManager()->getModuleViewsPath($route->getModuleName());
+      $viewsPath = dirname($basePath . $path);
       $path = basename($path);
 
     } else {
       if ($size == 0) {
-        $templatesDirectory = dirname($this->_view->getTemplatePath());
+        $viewsPath = dirname($this->_view->getViewPath());
       } else {
-        $templatesDirectory = $this->_pathMapping[$size - 1];
+        $viewsPath = $this->_pathMapping[$size - 1];
       }
     }
 
-    // 親テンプレートからの相対パス上にファイルが存在するかチェック
+    // 親ビューからの相対パス上にファイルが存在するかチェック
     $extension = Delta_Config::getApplication()->getString('view.extension');
-    $path = Delta_AppPathManager::buildAbsolutePath($templatesDirectory, $path, $extension);
+    $path = Delta_AppPathManager::buildAbsolutePath($viewsPath, $path, $extension);
 
     $load = function(&$pathMapping, $path, $variables)
     {
@@ -510,7 +510,7 @@ class Delta_HTMLHelper extends Delta_Helper
         require $path;
 
       } else {
-        $message = sprintf('Template file does not exist. [%s]', $path);
+        $message = sprintf('View file does not exist. [%s]', $path);
         throw new Delta_IOException($message);
       }
     };

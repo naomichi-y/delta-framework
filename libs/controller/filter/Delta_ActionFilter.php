@@ -47,13 +47,13 @@ class Delta_ActionFilter extends Delta_Filter
    */
   public function doFilter(Delta_FilterChain $chain)
   {
-    $templatePath = sprintf('%s%s%s',
+    $viewPath = sprintf('%s%s%s',
       Delta_StringUtils::convertSnakeCase($this->_forward->getControllerName()),
       DIRECTORY_SEPARATOR,
       Delta_StringUtils::convertSnakeCase($this->_forward->getActionName()));
 
     $view = $this->getView();
-    $view->setTemplatePath($templatePath);
+    $view->setViewPath($viewPath);
 
     $controller = $this->_forward->getController();
     $controller->initialize();

@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">フレームワークの応用 - カスタムヘルパを作成する</h1>
@@ -25,7 +25,7 @@
   <p class="right"><a href="../index.html">戻る</a><br />
     最終更新日: 2010 年 7 月 6 日</p>
   <h2>アプリケーション独自のカスタムヘルパクラスを作成する</h2>
-  <p>delta にはテンプレートで使用可能ないくつかのヘルパがあらかじめ用意されていますが、アプリケーション独自のカスタムヘルパを作成することも可能です。ヘルパの追加は設定ファイル global_helpers.yml (helpers.yml) に定義します。</p>
+  <p>delta にはビューで使用可能ないくつかのヘルパがあらかじめ用意されていますが、アプリケーション独自のカスタムヘルパを作成することも可能です。ヘルパの追加は設定ファイル global_helpers.yml (helpers.yml) に定義します。</p>
   <p>まずはヘルパ機能を提供するクラスを作成してみましょう。カスタムヘルパは Delta_Helper を継承する必要があります。ここでは名前を CustomHelper とし、文字列 &quot;hello&quot; を返す hello() メソッドを実装します。</p>
   <dl>
     <dt>PHP Code# libs/helper/CustomHelper.php</dt>
@@ -46,12 +46,12 @@
       &nbsp;&nbsp;assign: custom<br />
       &nbsp;&nbsp;bind: TRUE </code></dd>
   </dl>
-  <p>assign 属性はテンプレート上でヘルパを呼び出す際に割り当てる変数名になります。今回は &quot;custom&quot; としているので、$custom-&gt;hello() のようにメソッドを呼び出すことができます。尚、ヘルパ ID と変数名が同じ場合は assign 属性の指定を省略することが可能です。</p>
-  <p>bind 属性はテンプレートが読み込まれた時点でヘルパインスタンスを割り当てるかどうかの設定です。デフォルトは TRUE なので自動的に割り当てが行われます。(属性の指定は省略可能) bind 属性を FALSE に指定した場合は、ヘルパを使用したいページからインスタンスの割り当てを行なう必要があります。</p>
-  <p>準備はこれで完了です。<code>さっそくテンプレートからカスタムヘルパを呼び出してみましょう。メソッドの呼び出し方は他のヘルパと変わりありません。</code></p>
+  <p>assign 属性はビュー上でヘルパを呼び出す際に割り当てる変数名になります。今回は &quot;custom&quot; としているので、$custom-&gt;hello() のようにメソッドを呼び出すことができます。尚、ヘルパ ID と変数名が同じ場合は assign 属性の指定を省略することが可能です。</p>
+  <p>bind 属性はビューが読み込まれた時点でヘルパインスタンスを割り当てるかどうかの設定です。デフォルトは TRUE なので自動的に割り当てが行われます。(属性の指定は省略可能) bind 属性を FALSE に指定した場合は、ヘルパを使用したいページからインスタンスの割り当てを行なう必要があります。</p>
+  <p>準備はこれで完了です。<code>さっそくビューからカスタムヘルパを呼び出してみましょう。メソッドの呼び出し方は他のヘルパと変わりありません。</code></p>
   <dl>
-    <dt>Template code# modules/{module}/templates/hello.php</dt>
-    <dd class="lang_template"><code>&lt;p&gt;&lt;?php echo $custom-&gt;hello() ?&gt;&lt;/p&gt;</code></dd>
+    <dt>View code# modules/{module}/views/hello.php</dt>
+    <dd class="lang_view"><code>&lt;p&gt;&lt;?php echo $custom-&gt;hello() ?&gt;&lt;/p&gt;</code></dd>
   </dl>
   <p>結果は次のようになります。</p>
   <dl>
@@ -61,7 +61,7 @@
   <h2>ヘルパマネージャ</h2>
   <p>全てのヘルパクラスは Delta_HelperManager で管理されています。ヘルパを追加したりインスタンスを取得する場合は、Delta_View::getHelperManager() からマネージャにアクセスして下さい。</p>
   <dl>
-    <dt>PHP  Code# ヘルパインスタンスをテンプレートに割り当てる</dt>
+    <dt>PHP  Code# ヘルパインスタンスをビューに割り当てる</dt>
     <dd class="lang_php"><code>$manager = $this-&gt;getView()-&gt;getHelperManager();<br />
       <br />
       // カスタムヘルパの登録 <br />

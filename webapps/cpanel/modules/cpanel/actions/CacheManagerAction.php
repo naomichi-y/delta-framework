@@ -8,10 +8,10 @@ class CacheManagerAction extends Delta_Action
   public function execute()
   {
     $view = $this->getView();
-    $fileCacheDirectory = APP_ROOT_DIR . '/cache/file';
+    $fileCachePath = APP_ROOT_DIR . '/cache/file';
 
-    if (is_dir($fileCacheDirectory)) {
-      $fileCacheSize = Delta_FileUtils::sizeOfDirectory($fileCacheDirectory);
+    if (is_dir($fileCachePath)) {
+      $fileCacheSize = Delta_FileUtils::sizeOfDirectory($fileCachePath);
       $fileCacheSize = round($fileCacheSize / 1024, 2);
     } else {
       $fileCacheSize = 0;
@@ -19,21 +19,21 @@ class CacheManagerAction extends Delta_Action
 
     $view->setAttribute('fileCacheSize', $fileCacheSize);
 
-    $templatesCacheDirectory = APP_ROOT_DIR . '/cache/templates';
+    $viewsCachePath = APP_ROOT_DIR . '/cache/views';
 
-    if (is_dir($templatesCacheDirectory)) {
-      $templateCacheSize = Delta_FileUtils::sizeOfDirectory($templatesCacheDirectory);
-      $templateCacheSize = round($templateCacheSize / 1024, 2);
+    if (is_dir($viewsCachePath)) {
+      $viewCacheSize = Delta_FileUtils::sizeOfDirectory($viewsCachePath);
+      $viewCacheSize = round($viewCacheSize / 1024, 2);
     } else {
-      $templateCacheSize = 0;
+      $viewCacheSize = 0;
     }
 
-    $view->setAttribute('templatesCacheSize', $templateCacheSize);
+    $view->setAttribute('viewsCacheSize', $viewCacheSize);
 
-    $yamlCacheDirectory = APP_ROOT_DIR . '/cache/yaml';
+    $yamlCachePath = APP_ROOT_DIR . '/cache/yaml';
 
-    if (is_dir($yamlCacheDirectory)) {
-      $yamlCacheSize = Delta_FileUtils::sizeOfDirectory($yamlCacheDirectory);
+    if (is_dir($yamlCachePath)) {
+      $yamlCacheSize = Delta_FileUtils::sizeOfDirectory($yamlCachePath);
       $yamlCacheSize = round($yamlCacheSize / 1024, 2);
     } else {
       $yamlCacheSize = 0;

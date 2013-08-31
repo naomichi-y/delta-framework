@@ -18,12 +18,12 @@
  *   # 実装クラス名。
  *   class:
  *
- *   # テンプレートに割り当てるヘルパインスタンスの変数名。
+ *   # ビューに割り当てるヘルパインスタンスの変数名。
  *   # 未指定の場合はヘルパ ID が変数名として使用される。
  *   assign:
  *
- *   # テンプレート変数の自動割り当てを行うかどうかの指定。
- *   # TRUE を指定した場合は出力テンプレート決定時に自動的にインスタンスが割り当てられる。
+ *   # ビュー変数の自動割り当てを行うかどうかの指定。
+ *   # TRUE を指定した場合は出力ビュー決定時に自動的にインスタンスが割り当てられる。
  *   bind: TRUE
  * </code>
  *
@@ -84,9 +84,7 @@ abstract class Delta_Helper extends Delta_Object
 
   /**
    * ヘルパを初期化します。
-   * このメソッドは {@link Delta_View::loadHelpers()} がコールされた直後に実行されます。
    *
-   * @see Delta_View::execute()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function initialize()

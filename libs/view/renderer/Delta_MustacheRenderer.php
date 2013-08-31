@@ -31,7 +31,7 @@
  * $view->setAttribute('greeting', 'Hello World!');
  * </code>
  *
- * テンプレートの実装例:
+ * ビューの実装例:
  * <code>
  * <div id="content">
  *   <p>{{greeting}}</p>

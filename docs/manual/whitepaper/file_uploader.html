@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - ファイルのアップロード</h1>
@@ -36,8 +36,8 @@
   </ul>
   <p>それでは早速、これらのクラスを使ってイメージファイルをアップロードするコードを見てみましょう。初めにファイルをアップロードするためのフォームが必要になります。アクションクラスで必要な処理は特にないのでここでは省略します。 </p>
   <dl>
-    <dt>Template Code# modules/{module}/templates/image_register_form.php</dt>
-    <dd class="lang_template"> <code>&lt;?php echo $form-&gt;startMultipart('ImageRegister'): ?&gt;<br />
+    <dt>View Code# modules/{module}/views/image_register_form.php</dt>
+    <dd class="lang_view"> <code>&lt;?php echo $form-&gt;startMultipart('ImageRegister'): ?&gt;<br />
       &nbsp;&nbsp;&lt;p&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputFile('imageFile') ?&gt;<br />
       &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('アップロード') ?&gt; <br />

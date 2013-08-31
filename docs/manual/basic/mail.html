@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能  - メールを送信する</h1>
@@ -30,7 +30,7 @@
         <li><a href="#smtp_host">別のホストからメールを送信する</a></li>
         <li><a href="#html_mail">HTML メールの送信</a></li>
         <li><a href="#attachment_file">添付ファイルの送信</a></li>
-        <li><a href="#template_mail">テンプレートを利用する</a></li>
+        <li><a href="#view_mail">ビューを利用する</a></li>
       </ul>
     </ul>
     <h2><a name="simple_mail" id="simple"></a>シンプルなメール送信</h2>
@@ -111,16 +111,16 @@
         &nbsp;&nbsp;-&gt;send(); </code></dd>
     </dl>
     <p>複数のファイルを添付したい場合は、添付ファイル分だけ addAttachmentFile() をコールして下さい。</p>
-    <h2><a id="template_mail"></a>テンプレートを利用する</h2>
-    <p>一般的な Web アプリケーションでは、ユーザへ送信するメールの文中で差し込み変数を使いたい場合があります。このような場合はテンプレート機能を使うと良いでしょう。</p>
-    <p>始めに差し込み変数を含めたテンプレートを作成します。テンプレートは {APP_ROOT_DOR}/templates/mail (<a href="../whitepaper/theme.html">テーマ機能</a> 機能利用時は {APP_ROOT_DIR}/theme/{theme_name}/templates/mail) ディレクトリ下に配置して下さい。</p>
+    <h2><a id="view_mail"></a>ビューを利用する</h2>
+    <p>一般的な Web アプリケーションでは、ユーザへ送信するメールの文中で差し込み変数を使いたい場合があります。このような場合はビュー機能を使うと良いでしょう。</p>
+    <p>始めに差し込み変数を含めたビューを作成します。ビューは {APP_ROOT_DOR}/views/mail (<a href="../whitepaper/theme.html">テーマ機能</a> 機能利用時は {APP_ROOT_DIR}/theme/{theme_name}/views/mail) ディレクトリ下に配置して下さい。</p>
     <dl>
-      <dt>PHP Code: templates/mail/thanks.php</dt>
+      <dt>PHP Code: views/mail/thanks.php</dt>
       <dd class="lang_php"><code>ご登録ありがとうございます。<br>
         &lt;?php echo $nickname ?&gt;様<br>
         この度は&lt;?php echo $siteName ?&gt;にご登録いただきありがとうございました。</code></dd>
     </dl>
-    <p>ここではテンプレートの名前を thanks.php としました。テンプレートの内容は一般的な PHP スクリプトと変わりありませんが、1行目が件名、2 行目以降が本文として扱われます。それでは早速テンプレートをセットしてみましょう。</p>
+    <p>ここではビューの名前を thanks.php としました。ビューの内容は一般的な PHP スクリプトと変わりありませんが、1行目が件名、2 行目以降が本文として扱われます。それでは早速ビューをセットしてみましょう。</p>
     <dl>
       <dt>PHP Code</dt>
       <dd class="lang_php"><code>$siteConfig = Delta_Config::getSite();<br>
@@ -129,10 +129,10 @@
         $mail = new Delta_MailSender();<br>
         $mail-&gt;setFrom($from)<br>
         &nbsp;&nbsp;-&gt;setTo($to)<br>
-        &nbsp;&nbsp;-&gt;setTemplate('thanks', $variables)<br>
+        &nbsp;&nbsp;-&gt;setView('thanks', $variables)<br>
         &nbsp;&nbsp;-&gt;send(); </code></dd>
     </dl>
-    <p><a href="../../api/reference/net.mail/delta___mail_sender.html#method_setTemplate">setTemplate()</a> メソッドにはテンプレート名と変数を割り当てます。実際に送信されるメッセージは次のような結果となるでしょう。</p>
+    <p><a href="../../api/reference/net.mail/delta___mail_sender.html#method_setView">setView()</a> メソッドにはビュー名と変数を割り当てます。実際に送信されるメッセージは次のような結果となるでしょう。</p>
     <dl>
       <dt>送信されるメッセージ</dt>
       <dd class="lang_text"><code>{件名} <br>
@@ -145,7 +145,7 @@
         <div class="note_container note_info">
           <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
           <div class="note_contents">
-            <p>テンプレートをファイル以外から参照したい場合は <a href="../../api/reference/net.mail/delta___mail_sender.html#method_setTemplateData">setTemplateData()</a> メソッドを利用して下さい。</p>
+            <p>ビューをファイル以外から参照したい場合は <a href="../../api/reference/net.mail/delta___mail_sender.html#method_setViewData">setViewData()</a> メソッドを利用して下さい。</p>
           </div>
         </div>
       </dd>

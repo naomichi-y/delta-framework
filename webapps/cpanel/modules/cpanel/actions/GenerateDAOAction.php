@@ -29,26 +29,26 @@ class GenerateDAOAction extends Delta_Action
 
     $command = $this->getDatabase()->getConnection($namespace)->getCommand();
 
-    $baseDirectory = DELTA_ROOT_DIR . '/skeleton/database_classes';
-    $requirePath = $baseDirectory . '/entity_class.php.tpl';
-    $entityTemplate = Delta_FileUtils::readFile($requirePath);
+    $basePath = DELTA_ROOT_DIR . '/skeleton/database_classes';
+    $requirePath = $basePath . '/entity_class.php.tpl';
+    $entityViewPath = Delta_FileUtils::readFile($requirePath);
 
-    $requirePath = $baseDirectory . '/dao_class.php.tpl';
-    $daoTemplate = Delta_FileUtils::readFile($requirePath);
+    $requirePath = $basePath . '/dao_class.php.tpl';
+    $daoViewPath = Delta_FileUtils::readFile($requirePath);
 
     $entities = array();
     $dataAccessObjects = array();
 
-    $tmpEntityDirectory = APP_ROOT_DIR . '/tmp/entity';
+    $tmpEntityPath = APP_ROOT_DIR . '/tmp/entity';
 
-    if (!is_dir($tmpEntityDirectory)) {
-      Delta_FileUtils::createDirectory($tmpEntityDirectory);
+    if (!is_dir($tmpEntityPath)) {
+      Delta_FileUtils::createDirectory($tmpEntityPath);
     }
 
-    $tmpDaoDirectory = APP_ROOT_DIR . '/tmp/dao';
+    $tmpPath = APP_ROOT_DIR . '/tmp/dao';
 
-    if (!is_dir($tmpDaoDirectory)) {
-      Delta_FileUtils::createDirectory($tmpDaoDirectory);
+    if (!is_dir($tmpPath)) {
+      Delta_FileUtils::createDirectory($tmpPath);
     }
 
     foreach ($tables as $tableName) {
@@ -59,7 +59,7 @@ class GenerateDAOAction extends Delta_Action
         $fileName = $pascalTableName . 'Entity.php';
 
         $array = array();
-        $array['absolute'] = $tmpEntityDirectory . '/' . $fileName;
+        $array['absolute'] = $tmpEntityPath . '/' . $fileName;
         $array['relative'] = 'tmp/' . $fileName;
         $array['file'] = $fileName;
 
@@ -87,7 +87,7 @@ class GenerateDAOAction extends Delta_Action
           $propertiesBuffer
         );
 
-        $classBuffer = str_replace($from, $to, $entityTemplate);
+        $classBuffer = str_replace($from, $to, $entityViewPath);
 
         Delta_FileUtils::writeFile($array['absolute'], $classBuffer);
       }
@@ -97,7 +97,7 @@ class GenerateDAOAction extends Delta_Action
         $fileName = $pascalTableName . 'DAO.php';
 
         $array = array();
-        $array['absolute'] = $tmpDaoDirectory . '/' . $fileName;
+        $array['absolute'] = $tmpPath . '/' . $fileName;
         $array['relative'] = 'tmp/' . $fileName;
         $array['file'] = $pascalTableName . 'DAO.php';
 
@@ -120,7 +120,7 @@ class GenerateDAOAction extends Delta_Action
           $primaryKeysString
         );
 
-        $classBuffer = str_replace($from, $to, $daoTemplate);
+        $classBuffer = str_replace($from, $to, $daoViewPath);
         Delta_FileUtils::writeFile($array['absolute'], $classBuffer);
       }
     }

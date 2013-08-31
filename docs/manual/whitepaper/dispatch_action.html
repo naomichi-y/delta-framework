@@ -14,8 +14,8 @@
 <header>
   <div class="row">
     <div class="half"> <a href="../index.html"><img src="../assets/images/logo.png" alt="delta" /></a> </div>
-    <div class="half"> 
-      <!--#include virtual="/global_assets/content/navi.php" --> 
+    <div class="half">
+      <!--#include virtual="/global_assets/content/navi.php" -->
     </div>
   </div>
   <h1 id="top">基本的な機能 - ディスパッチアクションの利用</h1>
@@ -26,16 +26,16 @@
     最終更新日: 2006 年 7 月 21 日</p>
   <h2>Hacks</h2>
   <p>フォームに submit ボタンが存在する場合、form タグの action 属性に処理先となるアクション名を指定しますが、複数の submit ボタンが存在する場合は、押下されたボタンによって処理するアクションをディスパッチする必要があります。delta では、Delta_DispatchAction クラスを使用することで、アクションのリレーフォワードを実現することが出来ます。</p>
-  <p>まず初めに、テンプレートファイルにてフォームを作成します。</p>
+  <p>まず初めに、ビューファイルにてフォームを作成します。</p>
   <dl>
-    <dt>Template Code# modules/{module}/templates/member_register_confirm.php</dt>
-    <dd class="lang_template"><code>&lt;?php echo $form-&gt;start('MemberRegisterDispatch') ?&gt;<br />
+    <dt>View Code# modules/{module}/views/member_register_confirm.php</dt>
+    <dd class="lang_view"><code>&lt;?php echo $form-&gt;start('MemberRegisterDispatch') ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('修正', array('name' =&gt; 'dispatchMemberRegisterForm')) ?&gt;<br />
       &nbsp;&nbsp;&lt;?php echo $form-&gt;inputSubmit('登録', array('name' =&gt; 'dispatchMemberRegister')) ?&gt;<br />
       &lt;?php echo $form-&gt;close() ?&gt;</code></dd>
   </dl>
   <p>form タグの action 属性では、リレーを処理するアクションを指定しており、submit ボタンでは Modify、Register の 2 つのボタンを用意しておきます。submit ボタンの name 属性がそれぞれ dispatchMemberRegisterForm、dispatchMemberRegister になっていることに注目して下さい。リレーアクションでは、&quot;dispatch&quot; から始まるフォーム要素名をフォワード先アクションとして捕らえます。つまり、Modify ボタンが押下された場合は MemberRegisterForm アクション、Register ボタンが押下された場合は MemberRegister アクションへのフォワード処理が発生します。</p>
-  <p>テンプレートの作成が終わったら、次はリレーアクションを作成します。Delta_DispatchAction クラスは、Delta_Action クラスを基底としたディスパッチャです。</p>
+  <p>ビューの作成が終わったら、次はリレーアクションを作成します。Delta_DispatchAction クラスは、Delta_Action クラスを基底としたディスパッチャです。</p>
   <dl>
     <dt>PHP Code# modules/{module}/actions/MemberRegisterDispatchAction.php</dt>
     <dd class="lang_php"><code>// Delta_DispatchAction クラスを継承<br />

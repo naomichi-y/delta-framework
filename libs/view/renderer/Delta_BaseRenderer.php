@@ -10,14 +10,14 @@
 
 /**
  * delta が提供する標準の描画クラスです。
- * このクラスは生の PHP コードでテンプレートを作成することができます。
+ * このクラスは生の PHP コードでビューを作成することができます。
  *
  * ビューに変数を設定:
  * <code>
  * $view->setAttribute('greeting', 'Hello World!');
  * </code>
  *
- * テンプレートの実装例:
+ * ビューの実装例:
  * <code>
  * <div id="content">
  *   <?php echo $form->start() ?>
