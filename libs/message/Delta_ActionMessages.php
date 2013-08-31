@@ -11,8 +11,6 @@
 /**
  * プログラムの処理完了時やエラー発生時にクライアントへ返すメッセージを一元管理します。
  *
- * このクラスは 'messages' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getMessages()} からインスタンスを取得することができます。
- *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package message

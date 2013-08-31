@@ -11,8 +11,6 @@
 /**
  * データベースの接続情報を管理するマネージャクラスです。
  *
- * このクラスは 'database' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getDatabase()} からインスタンスを取得することができます。
- *
  * アプリケーション属性:
  * <code>
  * # データベース設定
