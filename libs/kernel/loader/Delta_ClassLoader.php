@@ -8,10 +8,6 @@
  * @link http://delta-framework.org/
  */
 
-/**
- * require files
- */
-
 require DELTA_LIBS_DIR . '/cache/Delta_Cache.php';
 require DELTA_LIBS_DIR . '/cache/Delta_CacheManager.php';
 require DELTA_LIBS_DIR . '/cache/Delta_YAMLCache.php';
