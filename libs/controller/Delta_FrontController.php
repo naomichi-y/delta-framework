@@ -20,8 +20,6 @@ require DELTA_LIBS_DIR . '/controller/forward/Delta_ForwardStack.php';
 /**
  * Web アプリケーションのためのフロントエンドコントローラ機能を提供します。
  *
- * このクラスは 'controller' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getController()} からインスタンスを取得することができます。
- *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package controller

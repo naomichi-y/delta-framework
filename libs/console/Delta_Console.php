@@ -17,8 +17,6 @@ require DELTA_LIBS_DIR . '/console/Delta_ConsoleOutput.php';
  * コンソールアプリケーションのためのコマンドラインインタフェースを提供します。
  * コンソールで './deltac' (Windows 環境の場合は ./deltac.bat) を実行することでコマンドの起動方法を確認することができます。
  *
- * このクラスは 'console' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getConsole()} からインスタンスを取得することができます。
- *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package console
