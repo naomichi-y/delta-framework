@@ -152,6 +152,11 @@ class Delta_View extends Delta_Object
   protected $_templatePath;
 
   /**
+   * @var bool
+   */
+  protected $_disableOutput = FALSE;
+
+  /**
    * コンストラクタ。
    *
    * @param mixed $renderer 指定した描画エンジンでビューを出力することができる。指定可能な形式は次の通り。
@@ -382,7 +387,7 @@ class Delta_View extends Delta_Object
    *
    * @param string $templatePath 出力対象のファイルパス。
    *   {@link Delta_AppPathManager::getModuleTemplatesPath() 現在有効なテンプレートディレクトリ} から相対パスでファイルを指定。
-   *   例えば admin モジュールで path に 'greeting' を指定した場合、出力対象のファイルパスは {APP_ROOT_DIR}/modules/admin/templates/greeting.php' となる。(コンソール環境から実行した場合は APP_ROOT_DIR からの相対パスとなる)
+   *   拡張子の指定は任意。未指定時は application.yml に定義された 'view.extension' がパスに追加される。
    *   指定可能なパス形式については {@link Delta_AppPathManager::buildAbsolutePath()} を参照。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -404,6 +409,22 @@ class Delta_View extends Delta_Object
     }
 
     $this->_templatePath = Delta_AppPathManager::buildAbsolutePath($basePath, $templatePath, $extension);
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function setDisableOutput($disableOutput = TRUE)
+  {
+    $this->_disableOutput = TRUE;
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function isDisableOutput()
+  {
+    return $this->_disableOutput;
   }
 
   /**

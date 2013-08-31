@@ -27,14 +27,39 @@ abstract class Delta_ActionController extends Delta_WebApplication
     Delta_FrontController::getInstance()->forward($actionName, $controllerName, TRUE);
   }
 
+  public function dispatchAction()
+  {
+    $fields = $this->getView()->getForm()->getFields();
+    $hasDispatch = FALSE;
+
+    foreach ($fields as $fieldName => $fieldValue) {
+      if (strpos($fieldName, 'dispatch') == 0) {
+        $actionName = Delta_StringUtils::convertCamelCase(substr($fieldName, 8));
+        $hasDispatch = TRUE;
+
+        $this->forward($actionName);
+        break;
+      }
+    }
+
+    if (!$hasDispatch) {
+      $this->dispatchUnknownAction();
+    }
+
+    return Delta_View::NONE;
+  }
+
+  public function dispatchUnknownAction()
+  {
+    $this->indexAction();
+  }
+
+  public function indexAction()
+  {}
+
   public function unknownAction()
   {
     $this->getResponse()->sendError(404);
-  }
-
-  public function safetyErrorHandler()
-  {
-    return Delta_View::SAFETY_ERROR;
   }
 
   public function getRoles()

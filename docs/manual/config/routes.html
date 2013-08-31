@@ -76,13 +76,9 @@
       &nbsp;&nbsp;uri: /auth/*<br />
       &nbsp;&nbsp;forward:<br />
       &nbsp;&nbsp;&nbsp;&nbsp;module: auth<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;action: LoginForm <br />
-      &nbsp;&nbsp;parameters:<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;loginId: foo <br />
-      </code></dd>
+      &nbsp;&nbsp;&nbsp;&nbsp;action: LoginForm </code></dd>
   </dl>
-  <p>uri 属性に &quot;/auth/*&quot; と指定されていますが、これはリクエスト URI が &quot;/auth&quot;、&quot;/auth/foo&quot;、&quot;/auth/foo/bar&quot; といったパターンにマッチします。リクエスト URI が &quot;/auth/foo/bar&quot; の場合、アクション上で $request-&gt;getParameter('foo') の値を取得すると &quot;bar&quot; といった値が返されるでしょう。</p>
-  <p>また、新たに &quot;parameters&quot; という属性が追加されていますが、これは auth/LoginForm アクションが実行された際に付加するデフォルトのリクエストパラメータを表します。LoginForm アクション上で $request-&gt;getParameter('loginId') の値を取得すると &quot;foo&quot; を返すでしょう。但し、uri のパターンが &quot;/auth/:loginId&quot;、リクエスト URI が &quot;/auth/bar&quot; の場合は $request-&gt;getParameter('loginId') で &quot;bar&quot; を返します。これはリクエスト URI が parameters の値を上書きするためです。 </p>
+  <p>uri 属性に &quot;/auth/*&quot; と指定されていますが、これはリクエスト URI が &quot;/auth&quot;、&quot;/auth/foo&quot;、&quot;/auth/foo/bar&quot; といったパターンにマッチします。リクエスト URI が &quot;/auth/foo/bar&quot; の場合、アクション上で $request-&gt;getParameter('foo') の値を取得すると &quot;bar&quot; といった値が返されるでしょう。  </p>
   <h2>デフォルトルーティング設定</h2>
   <p>delta では従来、URI が &quot;/(モジュール名)/(アクション名)&quot; 形式でのリクエストを処理していました。もし現在のプロジェクトで古いタイプのルータを有効にしたい場合は、下記のコードを routes.yml に追加して下さい。 </p>
   <dl>
@@ -106,7 +102,7 @@
       <th scope="col">説明</th>
     </tr>
     <tr>
-      <td rowspan="15">(ルーティング ID) (+) </td>
+      <td rowspan="13">(ルーティング ID) (+) </td>
       <td colspan="3">&nbsp;</td>
       <td>&nbsp;</td>
       <td>◯</td>
@@ -197,18 +193,7 @@
       <td>(key)   (+) </td>
       <td>(value) (+) </td>
     </tr>
-    <tr>
-      <td colspan="3">attributes</td>
-      <td rowspan="2">(array)</td>
-      <td rowspan="2">FALSE</td>
-      <td rowspan="2">リクエスト属性の設定。設定した値は Delta_HttpRequest::getAttribute() で取得可能。 </td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>(key)   (+) </td>
-      <td>(value) (+) </td>
-    </tr>
-  </table>
+    </table>
   <div class="note_container note_info">
     <div class="note_bar"><img src="../assets/images/icons/info.png" width="32" height="32" alt="情報" /></div>
     <div class="note_contents">

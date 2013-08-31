@@ -51,6 +51,16 @@ class Delta_RouteResolver extends Delta_Object
   private $_routesConfig;
 
   /**
+   * デフォルトコントローラ名。
+   */
+  private $_defaultControllerName = 'Index';
+
+  /**
+   * デフォルトアクション名。
+   */
+  private $_defaultActionName = 'index';
+
+  /**
    * コンストラクタ。
    *
    * @param Delta_HttpRequest HTTP リクエストオブジェクト。
@@ -184,7 +194,7 @@ class Delta_RouteResolver extends Delta_Object
         // コントローラ名がパスに含まれていない場合はコントローラを確定させる
         if (!isset($pathHolder['controller'])) {
            if ($forwardConfig) {
-            $pathHolder['controller'] = $forwardConfig->get('controller');
+            $pathHolder['controller'] = $forwardConfig->get('controller', $this->_defaultControllerName);
 
           } else {
             $message = sprintf('Forward controller is unknown. [%s]', $routeName);
@@ -195,7 +205,7 @@ class Delta_RouteResolver extends Delta_Object
         // アクション名がパスに含まれていない場合はアクションを確定させる
         if (!isset($pathHolder['action'])) {
           if ($forwardConfig) {
-            $pathHolder['action'] = $forwardConfig->get('action');
+            $pathHolder['action'] = $forwardConfig->get('action', $this->_defaultActionName);
 
           } else {
             $message = sprintf('Forward action is unknown. [%s]', $routeName);

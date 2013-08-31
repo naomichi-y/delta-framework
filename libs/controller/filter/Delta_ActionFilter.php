@@ -47,6 +47,14 @@ class Delta_ActionFilter extends Delta_Filter
    */
   public function doFilter(Delta_FilterChain $chain)
   {
+    $templatePath = sprintf('%s%s%s',
+      Delta_StringUtils::convertSnakeCase($this->_forward->getControllerName()),
+      DIRECTORY_SEPARATOR,
+      Delta_StringUtils::convertSnakeCase($this->_forward->getActionName()));
+
+    $view = $this->getView();
+    $view->setTemplatePath($templatePath);
+
     $controller = $this->_forward->getController();
     $controller->initialize();
 
@@ -59,123 +67,26 @@ class Delta_ActionFilter extends Delta_Filter
         $convertManager->execute();
       }
 
-      // バリデータの実行
-      $hasError = FALSE;
+      $actionMethodName = $this->_forward->getActionName() . 'Action';
 
-      $validateConfig = $this->_config->get('validate');
-
-      if ($validateConfig) {
-        $validateManager = new Delta_ValidateManager3($validateConfig);
-
-        // ビヘイビアに定義されたバリデータの結果に影響せず Delta_Action::validate() を実行
-        if ($validateConfig->getBoolean('invokeMethod')) {
-          if (!$validateManager->execute()) {
-            $hasError = TRUE;
-          }
-
-        // ビヘイビアに定義されたバリデータをパスした場合のみ Delta_Action::validate() を実行
-        } else if (!$validateManager->execute()) {
-          $hasError = TRUE;
-        }
-      }
-
-      $dispatchView = NULL;
-
-      if ($hasError) {
-        // @todo 2.0
-        //$action->setValidateError(TRUE);
-        //$dispatchView = $action->validateErrorHandler();
-        $dispatchView = Delta_View::SUCCESS;
-
+      if (method_exists($controller, $actionMethodName)) {
+        call_user_func(array($controller, $actionMethodName));
       } else {
-        $actionMethodName = $this->_forward->getActionName() . 'Action';
-
-        if (method_exists($controller, $actionMethodName)) {
-          $dispatchView = call_user_func(array($controller, $actionMethodName));
-        } else {
-          $dispatchView = $controller->unknownAction();
-        }
-
-        if (!$dispatchView) {
-          $dispatchView = Delta_View::SUCCESS;
-        }
+        $controller->unknownAction();
       }
 
     } else {
-      $dispatchView = $controller->safetyErrorHandler();
+      // @todo 2.0
     }
 
-    $this->dispatchView($dispatchView);
-    $chain->filterChain();
-  }
-
-  /**
-   * @param string $dispatchView
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private function dispatchView($dispatchView)
-  {
     $response = $this->getResponse();
 
-    if ($dispatchView !== Delta_View::NONE && $response->isWrite() && !$response->isCommitted()) {
-      // @todo 2.0 {action.view} を参照するよう変更
-      $viewConfig = $this->_config->get('view');
-      $hasDispatch = FALSE;
-
-      // ビヘイビアに 'view' 属性が定義されているか
-      if ($viewConfig) {
-        $dispatchConfig = $viewConfig->get($dispatchView);
-
-        // ビヘイビアにマッピングするビューが定義されている
-        if (is_string($dispatchConfig)) {
-          $hasDispatch = TRUE;
-
-          $view = $this->getView();
-          $view->setTemplatePath($dispatchConfig);
-          $view->importHelpers();
-          $view->execute();
-
-        // ビヘイビアにマッピングするフォワードアクション、またはリダイレクト URI が指定されている
-        } else if ($dispatchConfig) {
-          $forwardConfig = $dispatchConfig->getString('forward');
-
-          // フォワード指定がある場合
-          if ($forwardConfig) {
-            $hasDispatch = TRUE;
-
-            $validate = $dispatchConfig->getBoolean('validate', TRUE);
-            $this->getController()->forward($forwardConfig, $validate);
-
-          // リダイレクト指定がある場合
-          } else {
-            $redirectConfig = $dispatchConfig->getString('redirect');
-
-            if ($redirectConfig) {
-              $hasDispatch = TRUE;
-              $response->sendRedirectAction($redirectConfig);
-            }
-          }
-        }
-      }
-
-      if (!$hasDispatch) {
-        if ($dispatchView === Delta_View::SUCCESS) {
-          $controllerName = Delta_StringUtils::convertSnakeCase($this->_forward->getControllerName());
-          $actionName = Delta_StringUtils::convertSnakeCase($this->_forward->getActionName());
-
-          $templatePath = $controllerName . DIRECTORY_SEPARATOR . $actionName;
-
-          $view = $this->getView();
-          $view->setTemplatePath($templatePath);
-          $view->importHelpers();
-          $view->execute();
-
-        } else {
-          $message = sprintf('Specified view does not exist. [%s]', $dispatchView);
-          throw new Delta_ForwardException($message);
-        }
-      }
+    if ($response->isWrite() && !$response->isCommitted() && !$view->isDisableOutput()) {
+      $view->importHelpers();
+      $view->execute();
     }
+
+    $chain->filterChain();
   }
 
   /**

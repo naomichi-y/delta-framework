@@ -90,7 +90,7 @@
             <div class="data-content">
               <?php if (isset($hasDemoApp)): ?>
                 <?php if (!$html->hasError('demo')): ?>
-                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'demo-front', 'action' => 'Start')) ?>
+                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'demo-front')) ?>
                     <p><?php echo $form->inputSubmit('スタート', array('class' => 'btn')) ?></p>
                   <?php echo $form->close() ?>
                 <?php else: ?>
