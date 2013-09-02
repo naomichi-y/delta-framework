@@ -20,11 +20,6 @@ require DELTA_LIBS_DIR . '/controller/forward/Delta_ForwardStack.php';
 /**
  * Web アプリケーションのためのフロントエンドコントローラ機能を提供します。
  *
-<<<<<<< HEAD
- * このクラスは 'controller' コンポーネントとして DI コンテナに登録されているため、{@link Delta_DIContainer::getComponent()}、あるいは {@link Delta_WebApplication::getController()} からインスタンスを取得することができます。
- *
-=======
->>>>>>> 1.2-stable
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package controller
@@ -104,7 +99,6 @@ class Delta_FrontController extends Delta_Object
   public static function getInstance()
   {
     static $instance;
-<<<<<<< HEAD
 
     if ($instance === NULL) {
       $instance = new Delta_FrontController();
@@ -175,78 +169,6 @@ class Delta_FrontController extends Delta_Object
       $this->_request->setRoute($route);
       $this->_route = $route;
 
-=======
-
-    if ($instance === NULL) {
-      $instance = new Delta_FrontController();
-    }
-
-    return $instance;
-  }
-
-  /**
-   * オブザーバイブジェクトを取得します。
-   *
-   * @return Delta_KernelEventObserver オブザーバオブジェクトを返します。
-   * @since 1.2
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getObserver()
-  {
-    return $this->_observer;
-  }
-
-  /**
-   * HTTP リクエストオブジェクトを取得します。
-   *
-   * @return Delta_HttpRequest HTTP リクエストオブジェクトを返します。
-   * @since 1.2
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getRequest()
-  {
-    return $this->_request;
-  }
-
-  /**
-   * HTTP レスポンスオブジェクトを取得します。
-   *
-   * @return Delta_HttpResponse HTTP レスポンスオブジェクトを返します。
-   * @since 1.2
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getResponse()
-  {
-    return $this->_response;
-  }
-
-  /**
-   * ルータオブジェクトを取得します。
-   *
-   * @return Delta_RouteResolver ルータオブジェクトを返します。
-   * @since 1.2
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getRouter()
-  {
-    return $this->_resolver;
-  }
-
-  /**
-   * アクションを実行するための準備を行います。
-   *
-   * @throws Delta_RequestException リクエストパスが見つからない場合に発生。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function dispatch()
-  {
-
-    // ルートの探索
-    if ($route = $this->_resolver->connect()) {
-      $this->_request->setRoute($route);
-      $this->_route = $route;
-
->>>>>>> 1.2-stable
       $this->_observer->dispatchEvent('postRouteConnect');
 
       ob_start();
