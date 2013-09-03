@@ -37,6 +37,17 @@ class Delta_DataField extends Delta_Object
     return isset($this->_validators[$validatorId]);
   }
 
+  public function getValidator($validatorId)
+  {
+    $validator = NULL;
+
+    if (isset($this->_validators[$validatorId])) {
+      $validator = $this->_validators[$validatorId];
+    }
+
+    return $validator;
+  }
+
   public function getValidators()
   {
     return $this->_validators;

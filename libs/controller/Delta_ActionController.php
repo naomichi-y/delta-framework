@@ -29,7 +29,8 @@ abstract class Delta_ActionController extends Delta_WebApplication
 
   public function dispatchAction()
   {
-    $fields = $this->getView()->getForm()->getFields();
+    $view = $this->getView();
+    $fields = $view->bindForm()->getFields();
     $hasDispatch = FALSE;
 
     foreach ($fields as $fieldName => $fieldValue) {
@@ -46,7 +47,7 @@ abstract class Delta_ActionController extends Delta_WebApplication
       $this->dispatchUnknownAction();
     }
 
-    return Delta_View::NONE;
+    $view->setDisableOutput();
   }
 
   public function dispatchUnknownAction()

@@ -36,6 +36,11 @@ class Delta_Form extends Delta_Object
   const TOKEN_SESSION_KEY = '_tokenId';
 
   /**
+   * @var array
+   */
+  protected $_bindEntities = array();
+
+  /**
    * @var Delta_ParameterHolder
    */
   private $_fields;
@@ -60,8 +65,12 @@ class Delta_Form extends Delta_Object
 
     $builder = new Delta_DataFieldBuilder();
     $this->build($builder);
-
     $this->_builder = $builder;
+
+    foreach ($this->_bindEntities as $entity) {
+      $entityClassName = ucfirst($entity) . 'Entity';
+      $this->bindEntity(new $entityClassName);
+    }
   }
 
   public function getDataFieldBuilder()
@@ -165,14 +174,11 @@ class Delta_Form extends Delta_Object
   }
 
   /**
-   * フォームオブジェクトに設定されているフィールドデータを破棄します。
-   *
-   * @param string $fieldName 破棄対象のフィールド名。未指定の場合は全てのフィールドを破棄します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function clear()
   {
     $this->_fields->clear();
+    $this->_errors = array();
   }
 
   public function addError($fieldName, $fieldValue)
@@ -270,17 +276,27 @@ class Delta_Form extends Delta_Object
 
   public function getEntity($entityName)
   {
-    $array = $this->get($entityName);
+    $array = $this->get(lcfirst($entityName));
     $entity = NULL;
 
     if (is_array($array)) {
       $entityClassName = Delta_StringUtils::convertPascalCase($entityName) . 'Entity';
+      $existsClass = FALSE;
 
       try {
         Delta_ClassLoader::loadByName($entityClassName);
-        $entity = new $entityClassName($array);
-
+        $existsClass = TRUE;
       } catch (Exception $e) {}
+
+      if ($existsClass) {
+        $entity = new $entityClassName();
+
+        foreach ($array as $fieldName => $fieldValue) {
+          if (property_exists($entity, $fieldName)) {
+            $entity->$fieldName = $fieldValue;
+          }
+        }
+      }
     }
 
     return $entity;
@@ -304,7 +320,7 @@ class Delta_Form extends Delta_Object
     $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
     $user->setAttribute(self::TOKEN_SESSION_KEY, $tokenId);
 
-    $this->set(self::TOKEN_FIELD_NAME, $tokenId);
+    $this->set(self::TOKEN_FIELD_NAME, $tokenId, TRUE);
   }
 
   /**
@@ -360,10 +376,9 @@ class Delta_Form extends Delta_Object
   public function validate($checkToken = FALSE)
   {
     $result = TRUE;
-    $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
 
     if ($checkToken) {
-      $tokenState = $this->getTokenState();
+      $tokenState = $this->getTokenState(TRUE);
 
       if ($tokenState !== self::TOKEN_VALID) {
         $this->addError(self::TOKEN_FIELD_NAME, $this->getTokenStateErrorMessage($tokenState));

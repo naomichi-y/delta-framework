@@ -43,67 +43,57 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_CheckBoxValidator extends Delta_Validator
 {
   /**
-   * @throws Delta_ConfigurationException 必須属性がビヘイビアに定義されていない場合に発生。
+   * @var string
+   */
+  protected $_validatorId = 'checkbox';
+
+  /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-    $size = sizeof($value);
-    $message = NULL;
+    $checkedSize = sizeof($this->_fieldValue);
+    $result = TRUE;
 
     // 指定の数だけチェックが付いているか
-    if ($holder->hasName('requiredMatch')) {
-      if ($holder->getInt('requiredMatch') != $size) {
-        $message = $holder->getString('requiredMatchError');
-
-        if ($message === NULL) {
-          $message = sprintf('Check number does not match. [%s]', $fieldName);
-        }
+    if ($this->_conditions->hasName('requiredMatch')) {
+      if ($this->_conditions->getInt('requiredMatch') != $checkedSize) {
+        $this->_error = $this->buildError('requiredMatchError');
+        $result = FALSE;
       }
 
     } else {
-      $requiredMin = $holder->getInt('requiredMin');
-      $requiredMax = $holder->getInt('requiredMax');
+      $requiredMin = $this->_conditions->getInt('requiredMin');
+      $requiredMax = $this->_conditions->getInt('requiredMax');
 
       // 最小チェック以上数を満たしているか
       if ($requiredMin) {
-        if ($requiredMin > $size) {
-          $message = $holder->getString('requiredMinError');
-
-          if ($message === NULL) {
-            $message = sprintf('Check number does not satisfy. [%s]', $fieldName);
-          }
+        if ($requiredMin > $checkedSize) {
+          $this->_error = $this->buildError('requiredMinError');
+          $result = FALSE;
         }
       }
 
       // 最大チェック数以下を満たしているか
       if ($requiredMax) {
-        if ($requiredMax < $size) {
-          $message = $holder->getString('requiredMaxError');
-
-          if ($message === NULL) {
-            $message = sprintf('Check number is beyond the upper limit. [%s]', $fieldName);
-          }
+        if ($requiredMax < $checkedSize) {
+          $this->_error = $this->buildError('requiredMaxError');
+          $result = FALSE;
         }
       }
 
       if (!$requiredMin && !$requiredMax) {
-        $message = sprintf('\'requiredMatch\' or \'requiredMin\' or \'requiredMax\' validator attribute is undefined.');
+        $message = sprintf('Validate condition is undefined. [requiredMatch, requirdMin, requiredMax]');
         throw new Delta_ConfigurationException($message);
       }
     }
 
-    if ($message) {
-      $this->sendError($fieldName, $message);
-      return FALSE;
-    }
-
-    return TRUE;
+    return $result;
   }
 }

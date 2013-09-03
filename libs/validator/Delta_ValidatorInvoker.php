@@ -50,10 +50,14 @@ class Delta_ValidatorInvoker extends Delta_Object
 
         $validator = new $validatorClassName($fieldName, $fieldValue, $attributes);
 
-        if (!$validator->validate()) {
+        if (!isset($this->_errors[$fieldName]) && !$validator->validate()) {
           $this->_errors[$fieldName] = $validator->getError();
           $result = FALSE;
         }
+
+      } else {
+        $message = sprintf('Validator is undefined. [%s]', $validatorId);
+        throw new Delta_ConfigurationException($message);
       }
     }
 

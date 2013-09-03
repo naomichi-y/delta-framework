@@ -19,6 +19,11 @@
 class Delta_ActionFilter extends Delta_Filter
 {
   /**
+   * @var bool
+   */
+  private static $_viewExecuted = FALSE;
+
+  /**
    * @var Delta_ParameterHolder
    */
   private $_config;
@@ -81,9 +86,11 @@ class Delta_ActionFilter extends Delta_Filter
 
     $response = $this->getResponse();
 
-    if ($response->isWrite() && !$response->isCommitted() && !$view->isDisableOutput()) {
+    if ($response->isWrite() && !$response->isCommitted() && !$view->isDisableOutput() && !self::$_viewExecuted) {
       $view->importHelpers();
       $view->execute();
+
+      self::$_viewExecuted = TRUE;
     }
 
     $chain->filterChain();

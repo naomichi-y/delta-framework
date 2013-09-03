@@ -65,13 +65,14 @@ abstract class Delta_Validator extends Delta_Object
   /**
    * @since 2.0
    */
-  protected function buildError(Delta_ParameterHolder $conditions)
+  protected function buildError($errorId)
   {
     $config = Delta_Config::getBehavior()->toArray();
     $error = NULL;
 
-    if (isset($config['validators'][$this->_validatorId]['error'])) {
-      $error = $config['validators'][$this->_validatorId]['error'];
+    if (isset($config['validators'][$this->_validatorId][$errorId])) {
+      $conditions = $this->_conditions;
+      $error = $config['validators'][$this->_validatorId][$errorId];
 
       $error = preg_replace_callback('/{\$[\w_]+}/',
         function($matches) use ($error, $conditions) {

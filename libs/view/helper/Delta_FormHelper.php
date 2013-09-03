@@ -49,7 +49,8 @@
  *   # 複数のフィールドが混在するグループのセパレータ。
  *   fieldSeparatorTag: '<span class="field_separator">\1</span>'
  *
- *   # {@link label()} メソッドでラベルを生成する際、対象フィールドに {@link Delta_RequiredValidator} が登録されていれば必須マークを出力する。
+ *   # {@link label()} メソッドでフィールドを指定する際に必須入力項目へマークを付ける
+ *   # 対象フィールドに {@link Delta_RequiredValidator} や {@link Delta_RadioValidator} が登録されていることが条件。
  *   required: TRUE
  *
  *   # 対象フィールドが必須入力であることを示すシンボル。{@link Delta_FormHelper::inputText()} メソッドを参照。
@@ -95,7 +96,7 @@ class Delta_FormHelper extends Delta_Helper
   {
     parent::__construct($view, $config);
 
-    $this->_form = $view->getForm();
+    $this->_form = $view->bindForm();
     $this->_request = Delta_FrontController::getInstance()->getRequest();
   }
 
@@ -140,7 +141,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['action'] = $this->buildRequestPath($path, $queryData, $absolute, $secure);
     $defaults['method'] = 'post';
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
 
     $buffer = self::buildTagAttribute($attributes, FALSE);
     $buffer = sprintf("<form%s>\n", $buffer);
@@ -189,6 +190,21 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
+   * @since 2.0
+   */
+  public function labelText($fieldName)
+  {
+    $field = $this->_form->getDataFieldBuilder()->get($fieldName);
+    $labelText = NULL;
+
+    if ($field) {
+      $labelText = $field->getLabel();
+    }
+
+    return $labelText;
+  }
+
+  /**
    * ラベルタグを生成します。
    *
    * @param string $fieldName ラベルに紐付けるフィールドの ID。
@@ -203,7 +219,7 @@ class Delta_FormHelper extends Delta_Helper
     $attributes['for'] = $fieldName;
     $attributes = self::buildTagAttribute($attributes, FALSE);
 
-    $requiredMark = FALSE;
+    $isRequired = FALSE;
 
     if ($label === NULL) {
       $field = $this->_form->getDataFieldBuilder()->get($fieldName);
@@ -211,8 +227,8 @@ class Delta_FormHelper extends Delta_Helper
       if ($field) {
         $label = $field->getLabel();
 
-        if ($this->_config->getBoolean('required') && $field->hasValidator('required')) {
-          $requiredMark = TRUE;
+        if ($this->_config->getBoolean('required')) {
+          $isRequired = $this->isRequired($fieldName);
         }
       }
     }
@@ -221,11 +237,37 @@ class Delta_FormHelper extends Delta_Helper
       $attributes,
       Delta_StringUtils::escape($label));
 
-    if ($requiredMark) {
+    if ($isRequired) {
       $buffer .= ' ' . $this->_config->getString('requiredTag');
     }
 
     return $buffer;
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function isRequired($fieldName)
+  {
+    $field = $this->_form->getDataFieldBuilder()->get($fieldName);
+    $isRequired = FALSE;
+
+    if ($field) {
+      $label = $field->getLabel();
+
+      if ($field->hasValidator('required') || $field->hasValidator('radio')) {
+        $isRequired = TRUE;
+
+      } else if ($field->hasValidator('checkbox')) {
+        $validator = $field->getValidator('checkbox');
+
+        if ($validator->getInt('requiredMin')) {
+          $isRequired = TRUE;
+        }
+      }
+    }
+
+    return $isRequired;
   }
 
   /**
@@ -443,6 +485,8 @@ class Delta_FormHelper extends Delta_Helper
       return;
     }
 
+    $this->decorateAppendFieldError($buffer, $fieldName, $extra);
+
     // フィールド、ラベル、エラーメッセージを括るタグを生成
     switch ($type) {
       case 'text':
@@ -479,9 +523,9 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $defaults['value'] = $this->get($fieldName, '');
+    $defaults['value'] = $this->_form->get($fieldName, '');
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
     $buffer = $this->buildInputField('text', $attributes);
 
     $this->decorate($buffer, 'text', $fieldName, $attributes, $extra);
@@ -697,9 +741,9 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $defaults['value'] = $this->get($fieldName, '');
+    $defaults['value'] = $this->_form->get($fieldName, '');
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
 
     if ($this->_request->getUserAgent()->isMobile()) {
       $attributes = $this->appendInputAlphabetStyle($attributes);
@@ -804,8 +848,6 @@ class Delta_FormHelper extends Delta_Helper
     $extra['single'] = TRUE;
 
     $buffer = $this->buildMultipleFields('checkbox', $fieldName, $option, $attributes, $extra);
-    $buffer .= $this->buildCheckboxSendField($fieldName);
-
     $this->decorate($buffer, 'checkbox', $fieldName, $attributes, $extra);
 
     return $buffer;
@@ -828,27 +870,9 @@ class Delta_FormHelper extends Delta_Helper
     $extra = array())
   {
     $buffer = $this->buildMultipleFields('checkbox', $fieldName, $options, $attributes, $extra);
-    $buffer .= $this->buildCheckboxSendField($fieldName);
-
     $this->decorate($buffer, 'checkbox', $fieldName, $attributes, $extra);
 
     return $buffer;
-  }
-
-  /**
-   * @param string $fieldName
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private function buildCheckboxSendField($fieldName)
-  {
-    $hiddenFieldName = '_' . $fieldName;
-
-    $attributes = array();
-    $attributes['value'] = 'on';
-    $attributes['id'] = $hiddenFieldName;
-    $tag = $this->inputHidden($hiddenFieldName, $attributes);
-
-    return $tag;
   }
 
   /**
@@ -884,26 +908,16 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
 
     // 複数選択を許可するかどうか
-    $multiple = FALSE;
-
     if (array_key_exists('multiple', $attributes)) {
       $attributes['name'] = $fieldName . '[]';
-      $multiple = TRUE;
     }
 
     $buffer = sprintf("<select%s>\n%s\n</select>\n",
       self::buildTagAttribute($attributes, FALSE),
       $this->buildMultipleFields('select', $fieldName, $options, $attributes, $extra));
-
-    // hidden タグの追加
-    if ($multiple) {
-      $hiddenFieldName = '_' . $fieldName;
-      $hiddenAttributes = array('id' => $hiddenFieldName);
-      $buffer .= $this->inputHidden($hiddenFieldName, $hiddenAttributes);
-    }
 
     $this->decorate($buffer, 'select', $fieldName, $attributes, $extra);
 
@@ -926,7 +940,7 @@ class Delta_FormHelper extends Delta_Helper
   public function selectNumber($fieldName, $options, $attributes = array(), $extra = array())
   {
     $array = array();
-    $options = self::buildTagAttributes($options);
+    $options = self::constructParameters($options);
 
     $from = Delta_ArrayUtils::find($options, 'from', 0);
     $to = Delta_ArrayUtils::find($options, 'to', 0);
@@ -949,7 +963,7 @@ class Delta_FormHelper extends Delta_Helper
    *   - fieldPrefix: 各フィールド名に追加する接頭辞。既定値は 'date'。
    *        例えば年フィールドは 'date.year' (date['year']) となる。
    *   - fieldAssoc: 各フィールド名を連想配列の形式とするかどうか。既定値は TRUE。(連想配列形式とする)
-   *       FALSE 指定時はフィールド名の 'fieldPrefix' に続けて 'Year'、'Month'、'Day' が追加される。
+   *       FALSE 指定時はフィールド名の 'fieldPrefix' に続けて 'year'、'month'、'day' が追加される。
    *   - yearAsText: TRUE を指定した場合、年をフィールドではなくテキストとして表示する。
    *   - yearEmpty: 年リストの初めの項目に指定した文字列を追加する。(文字列の値は '' となる)
    *   - yearFormat: 年の表示フォーマット。既定値は 'Y'。指定可能なフォーマットは {@link date()} 関数を参照。
@@ -985,7 +999,7 @@ class Delta_FormHelper extends Delta_Helper
 
     $time = Delta_ArrayUtils::find($conditions, 'time', time());
     $fieldPrefix = Delta_ArrayUtils::find($conditions, 'fieldPrefix', 'date');
-    $fieldAssoc = Delta_ArrayUtils::find($conditions, 'fieldAssoc', TRUE);
+    $fieldAssoc = Delta_ArrayUtils::find($conditions, 'fieldAssoc', FALSE);
 
     $yearAsText = Delta_ArrayUtils::find($conditions, 'yearAsText', FALSE);
     $yearEmpty = Delta_ArrayUtils::find($conditions, 'yearEmpty');
@@ -1102,7 +1116,7 @@ class Delta_FormHelper extends Delta_Helper
         if ($fieldAssoc) {
           $fieldNameYear = $fieldPrefix . '.year';
         } else {
-          $fieldNameYear = $fieldPrefix . 'Year';
+          $fieldNameYear = $fieldPrefix . 'year';
         }
 
         // 年リストの属性
@@ -1113,7 +1127,7 @@ class Delta_FormHelper extends Delta_Helper
         }
 
         if ($this->hasName($fieldNameYear)) {
-          $selected = $this->get($fieldNameYear);
+          $selected = $this->_form->get($fieldNameYear);
         } else {
           $selected = date('Y', $time);
         }
@@ -1145,7 +1159,7 @@ class Delta_FormHelper extends Delta_Helper
       if ($fieldAssoc) {
         $fieldNameMonth = $fieldPrefix . '.month';
       } else {
-        $fieldNameMonth = $fieldPrefix . 'Month';
+        $fieldNameMonth = $fieldPrefix . 'month';
       }
 
       // 月リストの属性
@@ -1156,7 +1170,7 @@ class Delta_FormHelper extends Delta_Helper
       }
 
       if ($this->hasName($fieldNameMonth)) {
-        $selected = $this->get($fieldNameMonth);
+        $selected = $this->_form->get($fieldNameMonth);
       } else {
         $selected = Delta_DateUtils::date($monthValueFormat, $time);
       }
@@ -1185,7 +1199,7 @@ class Delta_FormHelper extends Delta_Helper
       if ($fieldAssoc) {
         $fieldNameDay = $fieldPrefix . '.day';
       } else {
-        $fieldNameDay = $fieldPrefix . 'Day';
+        $fieldNameDay = $fieldPrefix . 'day';
       }
 
       // 日リストの属性
@@ -1196,7 +1210,7 @@ class Delta_FormHelper extends Delta_Helper
       }
 
       if ($this->hasName($fieldNameDay)) {
-        $selected = $this->get($fieldNameDay);
+        $selected = $this->_form->get($fieldNameDay);
       } else {
         $selected = Delta_DateUtils::date($dayValueFormat, $time);
       }
@@ -1239,7 +1253,7 @@ class Delta_FormHelper extends Delta_Helper
       $defaults['value'] = $value;
     }
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
 
     $buffer = $this->buildInputField('submit', $attributes);
@@ -1265,7 +1279,7 @@ class Delta_FormHelper extends Delta_Helper
       $defaults['value'] = $value;
     }
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
 
     $buffer = $this->buildInputField('reset', $attributes);
@@ -1288,7 +1302,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults = array();
     $defaults['value'] = $value;
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
 
     $buffer = $this->buildInputField('button', $attributes);
@@ -1312,7 +1326,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['name'] = $fieldName;
     $defaults['value'] = '';
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
     $buffer = $this->buildInputField('file', $attributes);
 
     $this->decorate($buffer, 'file', $fieldName, $attributes, $extra);
@@ -1332,100 +1346,12 @@ class Delta_FormHelper extends Delta_Helper
   {
     $defaults = array();
     $defaults['name'] = $fieldName;
-    $defaults['value'] = $this->get($fieldName);
+    $defaults['value'] = $this->_form->get($fieldName);
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
     $buffer = $this->buildInputField('hidden', $attributes);
 
     $this->decorate($buffer, 'hidden', $fieldName, $attributes, array('decorate' => FALSE));
-
-    return $buffer;
-  }
-
-  /**
-   * クライアントから送信されたフィールド名を元に同じ名前の hidden フィールドを生成します。
-   * フィールドには送信された値が含まれます。
-   * 対象フィールドが配列で構成される場合 (複数選択可能なチェックボックス等) は、送信されたパラメータの数だけフィールドを生成します。
-   * 例えば '?foo[]=100&foo[]=200&foo[]=300' というリクエストが発生した場合、inputHiddens('foo') は 3 つの hidden フィールドを生成することになります。
-   *
-   * @param string $fieldName フィールド名。'.' (ピリオド) を含む名前は連想配列名として扱われる。
-   * @param mixed $attributes タグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
-   * @return string 生成したタグを返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function inputHiddens($fieldName, $attributes = array())
-  {
-    $values = $this->get($fieldName);
-    $buffer = NULL;
-
-    if (is_array($values)) {
-      foreach ($values as $fieldName => $fieldValue) {
-        $assocName = $fieldName . '.' . $fieldName;
-        $buffer .= $this->inputHidden($assocName, $attributes);
-      }
-
-    } else {
-      $buffer = $this->inputHidden($fieldName, $attributes);
-    }
-
-    return $buffer;
-  }
-
-  /**
-   * POST (または GET) で送信されたデータを元に hidden フィールドを生成します。
-   *
-   * @return string 生成したタグを返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function requestDataToInputHiddens()
-  {
-    $parameters = $this->_request->getParameters();
-    unset($parameters['tokenId']);
-
-    $buffer = $this->parameterToInputHiddens($parameters);
-
-    return $buffer;
-  }
-
-  /**
-   * 連想配列のデータを元に hidden フィールドを生成します。
-   *
-   * @param array $parameters 名前と値から構成される連想配列のリスト。
-   * @return string 生成したタグを返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function parameterToInputHiddens($parameters)
-  {
-    $buffer = NULL;
-
-    if (is_array($parameters)) {
-      foreach ($parameters as $name => $fieldValue) {
-        $buffer .= $this->buildInputHiddens($name, $fieldValue);
-      }
-    }
-
-    return $buffer;
-  }
-
-  /**
-   * @param string $fieldName
-   * @param string $fieldValue
-   * @return buffer
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private function buildInputHiddens($fieldName, $fieldValue)
-  {
-    $buffer = NULL;
-
-    if (is_array($fieldValue)) {
-      foreach ($fieldValue as $assocName => $assocValue) {
-        $assocName = sprintf('%s.%s', $fieldName, $assocName);
-        $buffer .= $this->inputHidden($assocName, array('value' => $assocValue));
-      }
-
-    } else {
-      $buffer .= $this->inputHidden($fieldName, array('value' => $fieldValue));
-    }
 
     return $buffer;
   }
@@ -1453,7 +1379,7 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['src'] = $imagePath;
     $defaults['value'] = '';
 
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
     $fieldName = Delta_ArrayUtils::find($attributes, 'name');
 
     $buffer = $this->buildInputField('image', $attributes, $defaults);
@@ -1479,10 +1405,10 @@ class Delta_FormHelper extends Delta_Helper
     $defaults['name'] = $fieldName;
 
     $value = NULL;
-    $attributes = self::buildTagAttributes($attributes, $defaults);
+    $attributes = self::constructParameters($attributes, $defaults);
 
     if ($this->hasName($fieldName)) {
-      $value = Delta_StringUtils::escape($this->get($fieldName));
+      $value = Delta_StringUtils::escape($this->_form->get($fieldName));
 
     } else if (isset($attributes['value'])) {
       $value = Delta_StringUtils::escape($attributes['value']);
@@ -1543,7 +1469,7 @@ class Delta_FormHelper extends Delta_Helper
 
     if ($type === 'checkbox') {
       $hiddenOutput = TRUE;
-      $hiddenFieldName = '_' . $fieldName;
+      $hiddenFieldName = $fieldName . '_hidden_checkbox';
     }
 
     // フィールド要素のセパレータ
@@ -1578,9 +1504,8 @@ class Delta_FormHelper extends Delta_Helper
     // 生成するコントロールが既に送信済みの場合は選択値を取得
     $selected = NULL;
 
-    // チェックボックス (フィールド名 foo) で何も選択せずに送信すると、foo パラメータは送信されず、リストが送信されたことを示す _foo パラメータが追加される
-    if ($this->hasName($fieldName) || ($hiddenOutput && $this->_request->hasParameter($hiddenFieldName))) {
-      $selected = $this->get($fieldName);
+    if ($this->hasName($fieldName)) {
+      $selected = $this->_form->get($fieldName);
 
     // リクエスト (またはフォームにセット) されたデフォルト値がない、またはリストが未送信の場合に限りヘルパに渡されたデフォルト値を設定する
     } else if ($selected === NULL) {
@@ -1624,7 +1549,7 @@ class Delta_FormHelper extends Delta_Helper
             $defaults['checked'] = 'checked';
           }
 
-          $itemAttributes = self::buildTagAttributes($attributes, $defaults);
+          $itemAttributes = self::constructParameters($attributes, $defaults);
 
           if ($type == 'checkbox') {
             if ($single) {
@@ -1745,10 +1670,9 @@ class Delta_FormHelper extends Delta_Helper
    * @param array $attributes
    * @param array $defaults
    * @return array
-   * @throws Delta_ParseException
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  protected static function buildTagAttributes($attributes, $defaults = array())
+  protected static function constructParameters($attributes, $defaults = array())
   {
     $attributes = parent::constructParameters($attributes, $defaults);
 

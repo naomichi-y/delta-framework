@@ -30,7 +30,7 @@
  *     domainCheck: FALSE
  *
  *     # メールアドレスのフォーマットが不正な場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  * </code>
  *
  * @link http://www.ietf.org/rfc/rfc0822.txt Standard for ARPA Internet Text Messages
@@ -38,6 +38,7 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @since 2.0 ドキュメント更新
  */
 class Delta_EMailValidator extends Delta_Validator
 {
@@ -52,61 +53,45 @@ class Delta_EMailValidator extends Delta_Validator
   const EMAIL_STRICT_PATTERN = '/^((?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*")(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|"[^\\\\\x80-\xff\n\015"]*(?:\\\\[^\x80-\xff][^\\\\\x80-\xff\n\015"]*)*"))*@(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\])(?:\.(?:[^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff]+(?![^(\040)<>@,;:".\\\\\[\]\000-\037\x80-\xff])|\[(?:[^\\\\\x80-\xff\n\015\[\]]|\\\\[^\x80-\xff])*\]))*)/$';
 
   /**
-   * E-Mail アドレスの書式が正当なものであるかチェックします。
-   *
-   * @param string $value チェック対象の E-Mail アドレス。
-   * @param bool $strict 厳格な E-Mail アドレスのチェックを行う場合は TRUE、あいまいなチェックを行う場合は FALSE を指定。規定値は FALSE。
-   * @param bool $domainCheck メールアドレスのドメインパートが存在するか DNS レコードをチェックする。既定値は FALSE。(Windows では動作しないため、必ず TRUE を返す)
-   * @return bool E-Mail アドレスの書式が正当なものかどうかを TRUE/FALSE で返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   * @var string
    */
-  public static function isValid($value, $strict = FALSE, $domainCheck = FALSE)
-  {
-    if ($strict) {
-      $mask = self::EMAIL_STRICT_PATTERN;
-    } else {
-      $mask = self::EMAIL_TRANSITIONAL_PATTERN;
-    }
-
-    if (preg_match($mask, $value)) {
-      if ($domainCheck && function_exists('checkdnsrr')) {
-        $domain = substr($value, strpos($value, '@') + 1);
-
-        // MX レコードが未定義の場合は A レコードをチェック (CNAME の使用は実際のところ RFC2821 違反)
-        if (checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A') || checkdnsrr($domain, 'CNAME')) {
-          return TRUE;
-        }
-
-      } else {
-        return TRUE;
-      }
-    }
-
-    return FALSE;
-  }
+  protected $_validatorId = 'email';
 
   /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-    $strict = $holder->getBoolean('strict');
-    $domainCheck = $holder->getBoolean('domainCheck');
+    $result = TRUE;
 
-    if (strlen($value) == 0 || self::isValid($value, $strict, $domainCheck)) {
-      return TRUE;
+    $strict = $this->_conditions->getBoolean('strict');
+    $domainCheck = $this->_conditions->getBoolean('domainCheck');
+
+    if ($strict) {
+      $pattern = self::EMAIL_STRICT_PATTERN;
+    } else {
+      $pattern = self::EMAIL_TRANSITIONAL_PATTERN;
     }
 
-    $message = $holder->getString('matchError');
+    if (preg_match($pattern, $this->_fieldValue)) {
+      if ($domainCheck) {
+        $domainPart = substr($this->_fieldValue, strpos($this->_fieldValue, '@') + 1);
 
-    if ($message === NULL) {
-      $message = sprintf('E-Mail format is illegal. [%s]', $fieldName);
+        // MX レコードが未定義の場合は A レコードをチェック (CNAME の使用は実際のところ RFC2821 違反)
+        if (!checkdnsrr($domainPart, 'MX') && !checkdnsrr($domainPart, 'A') && !checkdnsrr($domainPart, 'CNAME')) {
+          $result = FALSE;
+        }
+      }
+
+    } else {
+      $result = FALSE;
     }
 
-    $this->sendError($fieldName, $message);
+    if (!$result) {
+      $this->_error = $this->buildError('formatError');
+    }
 
-    return FALSE;
+    return $result;
   }
 }

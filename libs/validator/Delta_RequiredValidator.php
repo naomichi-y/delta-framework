@@ -41,7 +41,7 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
- * @todo ドキュメント更新
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_RequiredValidator extends Delta_Validator
 {
@@ -56,22 +56,20 @@ class Delta_RequiredValidator extends Delta_Validator
    */
   public function validate()
   {
-    $result = FALSE;
+    $result = TRUE;
     $whitespace = $this->_conditions->getBoolean('whitespace');
 
     if (strlen($this->_fieldValue)) {
-      if (preg_match('/^[\s]+$/', $this->_fieldValue)) {
-        if ($whitespace) {
-          $result = TRUE;
-        }
-
-      } else {
-        $result = TRUE;
+      if (preg_match('/^[\s]+$/', $this->_fieldValue) && !$whitespace) {
+        $result = FALSE;
       }
+
+    } else {
+      $result = FALSE;
     }
 
     if (!$result) {
-      $this->_error = $this->buildError($this->_conditions);
+      $this->_error = $this->buildError('error');
     }
 
     return $result;

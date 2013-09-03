@@ -109,26 +109,36 @@ abstract class Delta_Entity extends Delta_Object
 
     $builder = new Delta_DataFieldBuilder();
     $this->build($builder);
-    $validatorsConfig = Delta_Config::getBehavior()->get('validators');
 
+    $validatorsConfig = Delta_Config::getBehavior()->get('validators');
     $validatorInvoker = new Delta_ValidatorInvoker();
 
     if ($validatorsConfig) {
       foreach ($builder->getFields() as $fieldName => $dataField) {
-        $fieldValue = $this->$fieldName;
-        $fieldLabel = $builder->get($fieldName)->getLabel();
-        $validators = $dataField->getValidators();
+        if (property_exists($this, $fieldName)) {
+          $fieldValue = $this->$fieldName;
+          $fieldLabel = $builder->get($fieldName)->getLabel();
+          $validators = $dataField->getValidators();
 
-        $validatorInvoker->invoke($fieldName, $fieldValue, $fieldLabel, $validators);
+          $validatorInvoker->invoke($fieldName, $fieldValue, $fieldLabel, $validators);
 
-        if ($validatorInvoker->hasErrors()) {
-          $this->_errors = $validatorInvoker->getErrors();
-          $result = FALSE;
+          if ($validatorInvoker->hasErrors()) {
+            $this->_errors = $validatorInvoker->getErrors();
+            $result = FALSE;
+          }
         }
       }
     }
 
     return $result;
+  }
+
+  /**
+   * @since 2.0
+   */
+  public function addError($fieldName, $error)
+  {
+    $this->_errors[$fieldName] = $error;
   }
 
   /**

@@ -17,7 +17,7 @@
 
 class Delta_WebView extends Delta_View
 {
-  public function getForm($formName = NULL)
+  public function bindForm($formName = NULL)
   {
     static $instance;
 
