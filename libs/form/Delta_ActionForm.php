@@ -161,9 +161,8 @@ class Delta_ActionForm extends Delta_Object
   }
 
   /**
-   * フォームオブジェクトに設定されているフィールドデータを破棄します。
+   * フォームオブジェクトに設定されている全てのフィールドデータを破棄します。
    *
-   * @param string $name 破棄対象のフィールド名。未指定の場合は全てのフィールドを破棄します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function clear()

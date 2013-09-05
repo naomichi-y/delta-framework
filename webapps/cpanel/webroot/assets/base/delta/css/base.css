@@ -99,7 +99,6 @@ table {
 
 th, td {
   border-bottom: 1px solid #C9C9C9;
-  word-break: break-all;
 }
 
 th {
@@ -115,10 +114,6 @@ textarea {
   height: auto;
 }
 
-
-strong {
-  color: #E8673C;
-}
 
 footer {
   color: #ccc;
@@ -252,8 +247,8 @@ footer p {
 #menu-main ul {
   display: none;
   position: absolute;
-  top: 50px;
-  left: 0;
+  top: 40px;
+  left: 20px;
   background-color: #87b854;
   color: #fff;
   z-index: 1;
@@ -262,7 +257,6 @@ footer p {
 .sub-menu li {
   text-align: left;
   width: 100%;
-  border-bottom: 1px solid #ccc;
 }
 
 .sub-menu li a {
@@ -275,51 +269,51 @@ footer p {
  * ****************************************************************
  */
 
-.lang-php code, .lang-template code, .lang-yaml code, .lang-config code, .lang-shell code, .lang-html code, .lang-text code {
+.lang_php code, .lang_template code, .lang_yaml code, .lang_config code, .lang_shell code, .lang_html code, .lang_text code {
   padding: 1%;
   display: block;
   line-height: 150%;
 }
 
-.note-container {
+.note_container {
   margin-bottom: 2%;
 }
 
-.note-container ul, .note-container ol {
+.note_container ul, .note_container ol {
   margin: 1% 2% 1% 8%;
 }
 
-.note-hint, .note-info, .note-important {
+.note_hint, .note_info, .note_important {
   color: #fff;
 }
 
-.note-hint a, .note-info a, .note-important a {
+.note_hint a, .note_info a, .note_important a {
   color: #fff;
   text-decoration: underline;
 }
 
-.note-hint {
+.note_hint {
   background-color: #3498db;
 }
-.note-info {
+.note_info {
   background-color: #87b854;
 }
-.note-important {
+.note_important {
   background-color: #E8673C;
 }
 
-.note-bar {
+.note_bar {
   float: left;
   width: 40px;
   text-align: center;
   padding: 14px 10px 14px 10px;
 }
 
-.note-contents p {
+.note_contents p {
   padding: 2%;
 }
 
-.note-contents ul {
+.note_contents ul {
   padding: 2% 0 2% 0;
 }
 
@@ -429,7 +423,7 @@ footer p {
 
 /**
  * ****************************************************************
- * カスタムクラス (デモアプリケーション)
+ * カスタムクラス (サンプルアプリケーション)
  * ****************************************************************
  */
 div.success, div.error {
@@ -462,19 +456,19 @@ span.error {
   font-weight: bold;
 }
 
-.form-field {
+.form_field {
   margin-bottom: 2%;
 }
 
-.form-field > label {
+.form_field > label {
   display: block;
 }
 
-.form-field fieldset {
+.form_field fieldset {
   padding: 1%;
 }
 
-.field-error-message {
+.field_error_message {
   color: #E8673C;
   font-weight: bold;
 }
@@ -500,20 +494,18 @@ span.error {
   border-bottom: 1px solid #999999;
 }
 
-.data-label {
+.data_label {
   font-weight: bold;
   float: left;
   width: 25%;
 }
 
-.data-content {
+.data_content {
   margin-left: 25%;
 }
 
-.data-content p, .data-content form {
+.data_content p, .data_content form {
   margin: 0;
 }
 
-.sort-asc, .sort-desc {
-  margin-top: 7px;
-}
+

@@ -34,6 +34,7 @@ class Delta_CSVReader extends Delta_FileReader
     parent::__construct($path);
 
     $this->_linefeed = "\r\n";
+    $this->_disableAutoConvertEncoding = TRUE;
   }
 
   /**
