@@ -217,7 +217,7 @@ class Delta_ArrayUtils
           ${$current} = &${'_array' . $i};
           $key = key(${$current});
 
-          if (sizeof(${$current}[$key]) == 0) {
+          if (isset(${$current}[$key]) && sizeof(${$current}[$key]) == 0) {
             unset(${$current}[$key]);
           }
         }

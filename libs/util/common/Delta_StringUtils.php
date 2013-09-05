@@ -579,6 +579,7 @@ class Delta_StringUtils
 
       // 検索文字列を検知した場合
       } else if (strcmp(mb_substr($string, $i, $searchLength, $encoding), $search) == 0) {
+        // $endTag が見つかる位置を検索
         $pos = $i;
         break;
 

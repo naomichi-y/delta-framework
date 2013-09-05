@@ -784,7 +784,7 @@ class Delta_FileUtils
   public static function isWritable($path)
   {
     if (!self::isAbsolutePath($path)) {
-      $path = self::buildAbsolutePath($path);
+      $path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
     }
 
     return is_writable($path);
@@ -800,7 +800,7 @@ class Delta_FileUtils
   public static function isReadable($path)
   {
     if (!self::isAbsolutePath($path)) {
-      $path = self::buildAbsolutePath($path);
+      $path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
     }
 
     return is_readable($path);
@@ -816,7 +816,7 @@ class Delta_FileUtils
   public static function isExecutable($path)
   {
     if (!self::isAbsolutePath($path)) {
-      $path = self::buildAbsolutePath($path);
+      $path = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $path;
     }
 
     return is_executable($path);
