@@ -65,12 +65,15 @@ class Delta_ActionFilter extends Delta_Filter
 
     if ($this->isSafety()) {
       // コンバータの実行
+      // @todo 2.0
+      /**
       $convertConfig = $this->_config->get('convert');
 
       if ($convertConfig) {
         $convertManager = new Delta_ConvertManager($convertConfig);
         $convertManager->execute();
       }
+       */
 
       $actionMethodName = $this->_forward->getActionName() . 'Action';
 

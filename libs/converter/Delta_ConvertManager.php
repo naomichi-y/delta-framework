@@ -42,6 +42,8 @@ class Delta_ConvertManager extends Delta_Object
    */
   public function execute()
   {
+    // @todo 2.0
+    exit;
     $convertConfig = $this->_convertConfig;
     $form = Delta_ActionForm::getInstance();
 
@@ -96,6 +98,8 @@ class Delta_ConvertManager extends Delta_Object
    */
   private function groupFieldToConvert(Delta_Converter $converter, $fieldValue, $postFieldName = NULL)
   {
+    // @todo 2.0
+    exit;
     $form = Delta_ActionForm::getInstance();
 
     foreach ($fieldValue as $name => $value) {

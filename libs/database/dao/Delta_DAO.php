@@ -71,31 +71,6 @@ abstract class Delta_DAO extends Delta_Object
   }
 
   /**
-   * フォームのフィールド名とマッチするカラム名がエンティティに定義されている場合、フィールド値をエンティティにセットした状態でオブジェクトを生成します。
-   *
-   * @return Delta_Entity {@link Delta_Entity} を実装したエンティティオブジェクトのインスタンスを返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function formToEntity()
-  {
-    $form = Delta_ActionForm::getInstance();
-    $fields = $form->getFields();
-    $entity = $this->createEntity();
-    $class = new ReflectionClass($entity);
-
-    foreach ($fields as $name => $value) {
-      $name = Delta_StringUtils::convertCamelCase($name);
-
-      // 公開プロパティを持ってる場合、フィールドの値をセットする
-      if ($class->hasProperty($name)) {
-        $entity->$name = $value;
-      }
-    }
-
-    return $entity;
-  }
-
-  /**
    * DAO が参照するデータソース ID を設定します。
    * 未指定の場合は 'default' (application.yml に定義された 'database.default') のデータベースを参照します。
    *

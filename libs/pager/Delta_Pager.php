@@ -400,6 +400,8 @@ abstract class Delta_Pager extends Delta_Object
    */
   public function setQueryDataFromForm()
   {
+    // @todo 2.0
+    exit;
     $fields = Delta_ActionForm::getInstance()->getFields();
 
     unset($fields[$this->_pagerKey]);

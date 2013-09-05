@@ -57,6 +57,8 @@ class Delta_CompareValidator extends Delta_Validator
   public function validate($fieldName, $value, array $variables = array())
   {
     $holder = $this->buildParameterHolder($variables);
+    // @todo 2.0
+    exit;
     $form = Delta_ActionForm::getInstance();
 
     $fieldName1 = $holder->getString('compareField1');

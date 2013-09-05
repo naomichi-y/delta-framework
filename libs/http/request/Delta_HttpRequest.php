@@ -214,6 +214,8 @@ class Delta_HttpRequest extends Delta_Object
         $requestData = $this->_queryData;
       }
 
+      // @todo 2.0
+      exit;
       $form = Delta_ActionForm::getInstance();
       $form->setFields($requestData);
     }

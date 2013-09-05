@@ -408,6 +408,8 @@ class Delta_CreditCardValidator extends Delta_Validator
   public function validate($fieldName, $value, array $variables = array())
   {
     $holder = $this->buildParameterHolder($variables);
+    // @todo 2.0
+    exit;
     $form = Delta_ActionForm::getInstance();
 
     $number1 = $form->get($holder->getString('number1'));

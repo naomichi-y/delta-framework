@@ -92,6 +92,8 @@ class Delta_DateValidator extends Delta_Validator
 
     } else {
       // Get date field values
+      // @todo 2.0
+      exit;
       $form = Delta_ActionForm::getInstance();
 
       if ($form->hasName($holder->getString('yearField'))) {

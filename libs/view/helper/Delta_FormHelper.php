@@ -271,7 +271,7 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_ActionForm::get()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
+   * {@link Delta_Form::get()} メソッドに {@link Delta_StringUtils::escape() HTML エスケープ} 機能を追加した拡張メソッドです。
    *
    * @param bool $escape 値を HTML エスケープした状態で返す場合は TRUE を指定。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -288,7 +288,7 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
-   * {@link Delta_ActionForm::hasName()} のエイリアスメソッドです。
+   * {@link Delta_Form::hasName()} のエイリアスメソッドです。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
