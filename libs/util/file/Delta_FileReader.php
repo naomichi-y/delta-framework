@@ -37,7 +37,12 @@ class Delta_FileReader extends Delta_Object
   /**
    * @var string
    */
-  protected $_outputEncoding;
+  protected $_internalEncoding;
+
+  /**
+   * @var bool
+   */
+  protected $_disableAutoConvertEncoding = FALSE;
 
   /**
    * @var string
@@ -62,7 +67,7 @@ class Delta_FileReader extends Delta_Object
       throw new Delta_IOException($message);
     }
 
-    $this->_outputEncoding = Delta_Config::getApplication()->getString('charset.default');
+    $this->_internalEncoding = Delta_Config::getApplication()->getString('charset.default');
     $this->_path = $path;
 
     $this->open();
@@ -80,15 +85,26 @@ class Delta_FileReader extends Delta_Object
   }
 
   /**
-   * 出力エンコーディングを設定します。
+   * 内部エンコーディングを設定します。
    * 未指定の場合は application.yml に定義された 'charaset.default' が使用されます。
    *
-   * @param string $outputEncoding 出力エンコーディング。
+   * @param string $internalEncoding 出力エンコーディング。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function setOutputEncoding($outputEncoding)
+  public function setInternalEncoding($internalEncoding)
   {
-    $this->_outputEncoding = $outputEncoding;
+    $this->_internalEncoding = $internalEncoding;
+  }
+
+  /**
+   * 行を読み込む際に、入力エンコーディングから内部エンコーディングへの自動変換を無効にします。
+   *
+   * @param bool $disableAutoConvertEncoding エンコーディングの自動変換を無効化する場合は TRUE を指定。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public function setDisableAutoConvertEncoding($disableAutoConvertEncoding = TRUE)
+  {
+    $this->_disableAutoConvertEncoding = $disableAutoConvertEncoding;
   }
 
   /**
@@ -223,8 +239,8 @@ class Delta_FileReader extends Delta_Object
       $buffer = fgets($this->_handler, $char + 1);
       flock($this->_handler, LOCK_UN);
 
-      if ($this->_inputEncoding !== NULL) {
-        $buffer = mb_convert_encoding($buffer, $this->_outputEncoding, $this->_inputEncoding);
+      if ($buffer !== FALSE && $this->_inputEncoding !== NULL && !$this->_disableAutoConvertEncoding) {
+        $buffer = mb_convert_encoding($buffer, $this->_internalEncoding, $this->_inputEncoding);
       }
     }
 
@@ -248,8 +264,8 @@ class Delta_FileReader extends Delta_Object
       $buffer = fgets($this->_handler);
       flock($this->_handler, LOCK_UN);
 
-      if ($buffer !== FALSE && $this->_inputEncoding !== NULL) {
-        $buffer = mb_convert_encoding($buffer, $this->_outputEncoding, $this->_inputEncoding);
+      if ($buffer !== FALSE && $this->_inputEncoding !== NULL && !$this->_disableAutoConvertEncoding) {
+        $buffer = mb_convert_encoding($buffer, $this->_internalEncoding, $this->_inputEncoding);
       }
     }
 
@@ -296,7 +312,7 @@ class Delta_FileReader extends Delta_Object
       flock($this->_handler, LOCK_UN);
 
       if ($this->_inputEncoding !== NULL) {
-        $buffer = mb_convert_encoding($buffer, $this->_outputEncoding, $this->_inputEncoding);
+        $buffer = mb_convert_encoding($buffer, $this->_internalEncoding, $this->_inputEncoding);
       }
 
     } else {
