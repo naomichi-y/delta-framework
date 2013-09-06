@@ -150,7 +150,6 @@ class Delta_StringUtils
     $emptyToNull = FALSE,
     $encoding = NULL)
   {
-
     $isTransformEncoding = FALSE;
 
     if ($encoding !== NULL && strcasecmp($encoding, 'UTF-8') !== 0) {
@@ -526,6 +525,22 @@ class Delta_StringUtils
   }
 
   /**
+   * 文字列のエンコーディングが正しいかどうかチェックします。
+   *
+   * @param string $string チェック対象の文字列。
+   * @param string $encoding 文字列のエンコーディング。
+   * @throws Delta_ParseException 文字列のエンコーディングが不正な場合に発生。
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  private static function checkValidEncoding($string, $encoding)
+  {
+    if (!mb_check_encoding($string, $encoding)) {
+      $message = sprintf('Encoding of string is invalid. [%s]', $encoding);
+      throw new Delta_ParseException($message);
+    }
+  }
+
+  /**
    * 文字列 string から search が最初に現れる位置を取得します。
    * {@link strpos()} 関数と異なり、excludeTag で囲まれた内部の文字列はマッチ対象外となります。
    *
@@ -546,6 +561,8 @@ class Delta_StringUtils
       $encoding = Delta_Config::getApplication()->get('charset.default');
     }
 
+    self::checkValidEncoding($string, $encoding);
+
     $j = mb_strlen($string, $encoding);
 
     if (is_array($excludeTag)) {
@@ -556,8 +573,8 @@ class Delta_StringUtils
       $startTag = $endTag = $excludeTag;
     }
 
-    $exclude = FALSE;
     $pos = FALSE;
+    $exclude = FALSE;
     $searchLength = mb_strlen($search, $encoding);
 
     for ($i = $offset; $i < $j; $i++) {
@@ -612,8 +629,8 @@ class Delta_StringUtils
             }
           }
         }
-      }
-    }
+      } // end if
+    } // end if
 
     return $pos;
   }
@@ -939,7 +956,9 @@ class Delta_StringUtils
   {
     return preg_replace_callback('/[^-\.0-9a-zA-Z]+/u', function($matches) {
       $utf16 = mb_convert_encoding($matches[0], 'UTF-16', 'UTF-8');
-      return preg_replace('/[0-9a-f]{4}/', '\u$0', bin2hex($utf16));
+      $value = preg_replace('/[0-9a-f]{4}/', '\u$0', bin2hex($utf16));
+
+      return $value;
 
     }, $string);
   }
