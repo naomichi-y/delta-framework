@@ -681,15 +681,6 @@ util.file
                     </tr>
                                                                                             <tr>
                                                   <td>
-                                                          <a href="#property__disableAutoConvertEncoding">$_disableAutoConvertEncoding</a>                                                      </td>
-                          <td>
-                                                          bool                                                      </td>
-                          <td>
-                                                      </td>
-                          <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
-                        </tr>
-                                                                                                                  <tr>
-                                                  <td>
                                                           <a href="#property__handler">$_handler</a>                                                      </td>
                           <td>
                                                           resource                                                      </td>
@@ -941,16 +932,6 @@ Delta_AppPathManager のインスタンスを取得します。
                       </tr>
                                                                                                         <tr>
                                               <td>
-                                                      <a href="#method_setDisableAutoConvertEncoding">setDisableAutoConvertEncoding()</a>                                                  </td>
-                        <td>
-                                                      <p>
-行を読み込む際に、入力エンコーディングから内部エンコーディングへの自動変換を無効にします。
-</p>
-                                                  </td>
-                        <td><a href="../util.file/delta___file_reader.html">Delta_FileReader</a></td>
-                      </tr>
-                                                                                                        <tr>
-                                              <td>
                                                       <a href="#method_setInputEncoding">setInputEncoding()</a>                                                  </td>
                         <td>
                                                       <p>
@@ -985,13 +966,7 @@ Delta_AppPathManager のインスタンスを取得します。
             
                         <h3>Property details</h3>
               <dl>
-                                                <dt id="property__disableAutoConvertEncoding">$_disableAutoConvertEncoding</dt>
-                  <dd>
-                    <div class="source"><code>protected bool $_disableAutoConvertEncoding = FALSE</code></div>
-                                          <p>このプロパティは現在のところ詳細な情報はありません。</p>
-                                                            <p class="right"><a href="#properties">To properties</a></p>
-                  </dd>
-                                                                <dt id="property__handler">$_handler</dt>
+                                                <dt id="property__handler">$_handler</dt>
                   <dd>
                     <div class="source"><code>protected resource $_handler</code></div>
                                           <p>このプロパティは現在のところ詳細な情報はありません。</p>
@@ -1584,46 +1559,12 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
                                                                                                                                             </ul>
                                             <p class="right"><a href="#methods">To methods</a></p>
                     </dd>
-                                                                        <dt id="method_setDisableAutoConvertEncoding">setDisableAutoConvertEncoding()</dt>
-                    <dd>
-                      <div class="source"><code>public void setDisableAutoConvertEncoding($disableAutoConvertEncoding = TRUE)</code></div>
-                                              <p>
-行を読み込む際に、入力エンコーディングから内部エンコーディングへの自動変換を無効にします。
-</p>
-                                                                    <table>
-                        <colgroup>
-                          <col class="col-parameter-name" />
-                          <col class="col-parameter-type" />
-                          <col class="col-parameter-description" />
-                        </colgroup>
-                        <tr>
-                          <th>Property</th>
-                          <th>Type</th>
-                          <th>Description</th>
-                        </tr>
-                                                                                                          <tr>
-                              <td>$disableAutoConvertEncoding</td>
-                              <td>bool</td>
-                              <td>
-                                                                  <p>
-エンコーディングの自動変換を無効化する場合は TRUE を指定。
-</p>
-                                                              </td>
-                            </tr>
-                                                                                                                                                                                                                                                                                                                                                                                        </table>
-                                                                    <ul class="note">
-                                                                                                                                                                                                                                      <li>Author: <p>
-Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y@delta-framework.org</a>&gt;
-</p>
-</li>
-                                                                                                                                                                                                  </ul>
-                                            <p class="right"><a href="#methods">To methods</a></p>
-                    </dd>
                                                                         <dt id="method_setInputEncoding">setInputEncoding()</dt>
                     <dd>
                       <div class="source"><code>public void setInputEncoding($inputEncoding)</code></div>
                                               <p>
 ファイルの入力エンコーディングを設定します。
+<a href="../util.file/delta___file_reader.html#method_readLine">readLine()</a> 等で行を読み込む際は、自動的に内部エンコーディングに変換されます。
 </p>
                                                                     <table>
                         <colgroup>
@@ -1734,7 +1675,7 @@ Naomichi Yamakita &lt;<a href="mailto:naomichi.y@delta-framework.org">naomichi.y
     </div>
     <!-- /contents -->
     <footer>
-  <p>This document was generated on Fri, 06 Sep 2013 02:52:38 +0900<br />
+  <p>This document was generated on Sat, 07 Sep 2013 17:54:06 +0900<br />
   Copyright © delta framework project.</p>
 </footer>
   </body>
