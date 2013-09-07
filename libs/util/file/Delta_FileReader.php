@@ -40,11 +40,6 @@ class Delta_FileReader extends Delta_Object
   protected $_internalEncoding;
 
   /**
-   * @var bool
-   */
-  protected $_disableAutoConvertEncoding = FALSE;
-
-  /**
    * @var string
    */
   protected $_linefeed = PHP_EOL;
@@ -75,6 +70,7 @@ class Delta_FileReader extends Delta_Object
 
   /**
    * ファイルの入力エンコーディングを設定します。
+   * {@link readLine()} 等で行を読み込む際は、自動的に内部エンコーディングに変換されます。
    *
    * @param string $inputEncoding ファイルの入力エンコーディング。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -94,17 +90,6 @@ class Delta_FileReader extends Delta_Object
   public function setInternalEncoding($internalEncoding)
   {
     $this->_internalEncoding = $internalEncoding;
-  }
-
-  /**
-   * 行を読み込む際に、入力エンコーディングから内部エンコーディングへの自動変換を無効にします。
-   *
-   * @param bool $disableAutoConvertEncoding エンコーディングの自動変換を無効化する場合は TRUE を指定。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function setDisableAutoConvertEncoding($disableAutoConvertEncoding = TRUE)
-  {
-    $this->_disableAutoConvertEncoding = $disableAutoConvertEncoding;
   }
 
   /**
@@ -239,7 +224,7 @@ class Delta_FileReader extends Delta_Object
       $buffer = fgets($this->_handler, $char + 1);
       flock($this->_handler, LOCK_UN);
 
-      if ($buffer !== FALSE && $this->_inputEncoding !== NULL && !$this->_disableAutoConvertEncoding) {
+      if ($buffer !== FALSE && $this->_inputEncoding !== NULL) {
         $buffer = mb_convert_encoding($buffer, $this->_internalEncoding, $this->_inputEncoding);
       }
     }
@@ -264,7 +249,7 @@ class Delta_FileReader extends Delta_Object
       $buffer = fgets($this->_handler);
       flock($this->_handler, LOCK_UN);
 
-      if ($buffer !== FALSE && $this->_inputEncoding !== NULL && !$this->_disableAutoConvertEncoding) {
+      if ($buffer !== FALSE && $this->_inputEncoding !== NULL) {
         $buffer = mb_convert_encoding($buffer, $this->_internalEncoding, $this->_inputEncoding);
       }
     }

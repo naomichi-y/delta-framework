@@ -525,22 +525,6 @@ class Delta_StringUtils
   }
 
   /**
-   * 文字列のエンコーディングが正しいかどうかチェックします。
-   *
-   * @param string $string チェック対象の文字列。
-   * @param string $encoding 文字列のエンコーディング。
-   * @throws Delta_ParseException 文字列のエンコーディングが不正な場合に発生。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  private static function checkValidEncoding($string, $encoding)
-  {
-    if (!mb_check_encoding($string, $encoding)) {
-      $message = sprintf('Encoding of string is invalid. [%s]', $encoding);
-      throw new Delta_ParseException($message);
-    }
-  }
-
-  /**
    * 文字列 string から search が最初に現れる位置を取得します。
    * {@link strpos()} 関数と異なり、excludeTag で囲まれた内部の文字列はマッチ対象外となります。
    *
@@ -560,8 +544,6 @@ class Delta_StringUtils
     if ($encoding === NULL) {
       $encoding = Delta_Config::getApplication()->get('charset.default');
     }
-
-    self::checkValidEncoding($string, $encoding);
 
     $j = mb_strlen($string, $encoding);
 

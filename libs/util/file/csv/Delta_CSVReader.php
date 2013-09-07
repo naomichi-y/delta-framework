@@ -34,7 +34,6 @@ class Delta_CSVReader extends Delta_FileReader
     parent::__construct($path);
 
     $this->_linefeed = "\r\n";
-    $this->_disableAutoConvertEncoding = TRUE;
   }
 
   /**
@@ -61,7 +60,7 @@ class Delta_CSVReader extends Delta_FileReader
 
     if ($line !== FALSE) {
       $line = rtrim($line, $this->_linefeed);
-      $fields = Delta_StringUtils::splitExclude($line, $this->_separator, '"', FALSE, $this->_inputEncoding);
+      $fields = Delta_StringUtils::splitExclude($line, $this->_separator, '"', FALSE);
 
       foreach ($fields as &$value) {
         if (substr($value, 0, 1) === '"' && substr($value, -1, 1) === '"') {
