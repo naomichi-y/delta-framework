@@ -45,75 +45,53 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_LengthValidator extends Delta_Validator
 {
+  protected $_validatorId = 'length';
+
   /**
-   * @throws Delta_ConfigurationException 必須属性がビヘイビアに定義されていない場合に発生。
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
 
-    if ($holder->getBoolean('multibyte', TRUE)) {
+    if ($this->_conditions->getBoolean('multibyte', TRUE)) {
       $encoding = Delta_Config::getApplication()->get('charset.default');
-      $length = mb_strlen($value, $encoding);
+      $length = mb_strlen($this->_fieldValue, $encoding);
+
     } else {
-      $length = strlen($value);
+      $length = strlen($this->_fieldValue);
     }
 
-    if ($length == 0) {
-      return TRUE;
-    }
-
-    if ($holder->hasName('matchLength')) {
-      if ($holder->getInt('matchLength') != $length) {
-        $message = $holder->getString('matchLengthError');
-
-        if ($message === NULL) {
-          $message = sprintf('Length of the character is not matched. [%s]', $fieldName);
-        }
-
-        $this->sendError($fieldName, $message);
-
-        return FALSE;
+    if ($this->_conditions->hasName('matchLength')) {
+      if ($this->_conditions->getInt('matchLength') != $length) {
+        $this->setError('matchLengthError');
+        $result = FALSE;
       }
 
     } else {
-      $hasMinLength = $holder->hasName('minLength');
-      $hasMaxLength = $holder->hasName('maxLength');
+      $hasMinLength = $this->_conditions->hasName('minLength');
+      $hasMaxLength = $this->_conditions->hasName('maxLength');
 
-      if ($hasMinLength && $length < $holder->getInt('minLength')) {
-        $message = $holder->getString('minLengthError');
+      if ($hasMinLength && $length < $this->_conditions->getInt('minLength')) {
+        $this->setError('minLengthError');
+        $result = FALSE;
 
-        if ($message === NULL) {
-          $message = sprintf('Character is too short. [%s]', $fieldName);
-        }
-
-        $this->sendError($fieldName, $message);
-
-        return FALSE;
-
-      } else if ($hasMaxLength && $length > $holder->getInt('maxLength')) {
-        $message = $holder->getString('maxLengthError');
-
-        if ($message === NULL) {
-          $message = sprintf('Character is too long. [%s]', $fieldName);
-        }
-
-        $this->sendError($fieldName, $message);
-
-        return FALSE;
+      } else if ($hasMaxLength && $length > $this->_conditions->getInt('maxLength')) {
+        $this->setError('maxLengthError');
+        $result = FALSE;
       }
 
       if (!$hasMinLength && !$hasMaxLength) {
-        $message = sprintf('\'minLength\' or \'maxLength\' or \'matchLength\' validator attribute is undefined.');
+        $message = sprintf('Validate condition is undefined. [matchLength, minLength, maxLength]');
         throw new Delta_ConfigurationException($message);
       }
     }
 
-    return TRUE;
+    return $result;
   }
 }

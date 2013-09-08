@@ -17,6 +17,9 @@
 
 class Delta_Form extends Delta_Object
 {
+  const METHOD_GET = 'get';
+  const METHOD_POST = 'post';
+
   /**
    * トランザクショントークンが正常な状態を表す定数。
    */
@@ -41,6 +44,11 @@ class Delta_Form extends Delta_Object
   protected $_bindEntities = array();
 
   /**
+   * @var string
+   */
+  private $_method;
+
+  /**
    * @var Delta_ParameterHolder
    */
   private $_fields;
@@ -55,13 +63,10 @@ class Delta_Form extends Delta_Object
    */
   private $_errors = array();
 
-  public function __construct($bindRequest = TRUE)
+  public function __construct()
   {
-    if ($bindRequest) {
-      $this->bindRequest();
-    } else {
-      $this->_fields = new Delta_ParameterHolder();
-    }
+    $this->bindRequest();
+    $this->_method = self::METHOD_POST;
 
     $builder = new Delta_DataFieldBuilder();
     $this->build($builder);
@@ -71,6 +76,16 @@ class Delta_Form extends Delta_Object
       $entityClassName = ucfirst($entity) . 'Entity';
       $this->bindEntity(new $entityClassName);
     }
+  }
+
+  public function setMethod($method)
+  {
+    $this->_method = $method;
+  }
+
+  public function getMethod()
+  {
+    return $this->_method;
   }
 
   public function getDataFieldBuilder()
@@ -245,7 +260,7 @@ class Delta_Form extends Delta_Object
   {
     $request = Delta_FrontController::getInstance()->getRequest();
 
-    if ($request->getRequestMethod() == Delta_HttpRequest::HTTP_GET) {
+    if ($request->getMethod() == Delta_HttpRequest::HTTP_GET) {
       $data = $request->getQuery();
     } else {
       $data = $request->getPost();

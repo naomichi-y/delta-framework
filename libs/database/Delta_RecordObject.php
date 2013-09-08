@@ -201,22 +201,15 @@ class Delta_RecordObject extends Delta_Object implements ArrayAccess
   /**
    * レコードオブジェクトが持つ全てのフィールドデータを配列形式に変換します。
    *
-   * @param bool $nameToCamelCaps フィールド名を camelCaps 形式に変換する場合は TRUE を指定。
    * @return array レコードオブジェクトが持つ全てのフィールドデータを配列形式で返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function toArray($nameToCamelCaps = FALSE)
+  public function toArray()
   {
     $array = array();
 
     foreach ($this->getNames() as $name) {
-      $value = $this->$name;
-
-      if ($nameToCamelCaps) {
-        $name = Delta_StringUtils::convertCamelCase($name);
-      }
-
-      $array[$name] = $value;
+      $array[$name] = $this->$name;
     }
 
     return $array;
@@ -234,7 +227,7 @@ class Delta_RecordObject extends Delta_Object implements ArrayAccess
     $entityClassName = $entityName . 'Entity';
 
     $entity = new $entityClassName;
-    $bindings = $this->toArray(TRUE);
+    $bindings = $this->toArray();
     $entity->bindFields($bindings);
 
     return $entity;

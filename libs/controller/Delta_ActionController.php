@@ -22,6 +22,29 @@ abstract class Delta_ActionController extends Delta_WebApplication
   {
   }
 
+  public function createForm($formName = NULL)
+  {
+    static $instances = array();
+
+    if ($formName === NULL) {
+      $formName = 'Delta_';
+    }
+
+    if (!isset($instances[$formName])) {
+      if ($formName === NULL) {
+        $instance = new Delta_Form();
+
+      } else {
+        $formClassName = $formName . 'Form';
+        $instance = new $formClassName;
+      }
+
+      $instances[$formName] = $instance;
+    }
+
+    return $instances[$formName];
+  }
+
   public function forward($actionName, $controllerName = NULL)
   {
     Delta_FrontController::getInstance()->forward($actionName, $controllerName, TRUE);
@@ -29,11 +52,17 @@ abstract class Delta_ActionController extends Delta_WebApplication
 
   public function dispatchAction()
   {
-    $view = $this->getView();
-    $fields = $view->bindForm()->getFields();
+    $request = $this->getRequest();
+
+    if ($request->isPost()) {
+      $data = $request->getPost();
+    } else {
+      $data = $request->getQuery();
+    }
+
     $hasDispatch = FALSE;
 
-    foreach ($fields as $fieldName => $fieldValue) {
+    foreach ($data as $fieldName => $fieldValue) {
       if (strpos($fieldName, 'dispatch') == 0) {
         $actionName = Delta_StringUtils::convertCamelCase(substr($fieldName, 8));
         $hasDispatch = TRUE;
@@ -47,7 +76,7 @@ abstract class Delta_ActionController extends Delta_WebApplication
       $this->dispatchUnknownAction();
     }
 
-    $view->setDisableOutput();
+    $this->getView()->setDisableOutput();
   }
 
   public function dispatchUnknownAction()

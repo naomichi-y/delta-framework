@@ -150,7 +150,6 @@ class Delta_StringUtils
     $emptyToNull = FALSE,
     $encoding = NULL)
   {
-
     $isTransformEncoding = FALSE;
 
     if ($encoding !== NULL && strcasecmp($encoding, 'UTF-8') !== 0) {
@@ -556,8 +555,8 @@ class Delta_StringUtils
       $startTag = $endTag = $excludeTag;
     }
 
-    $exclude = FALSE;
     $pos = FALSE;
+    $exclude = FALSE;
     $searchLength = mb_strlen($search, $encoding);
 
     for ($i = $offset; $i < $j; $i++) {
@@ -579,6 +578,7 @@ class Delta_StringUtils
 
       // 検索文字列を検知した場合
       } else if (strcmp(mb_substr($string, $i, $searchLength, $encoding), $search) == 0) {
+        // $endTag が見つかる位置を検索
         $pos = $i;
         break;
 
@@ -611,8 +611,8 @@ class Delta_StringUtils
             }
           }
         }
-      }
-    }
+      } // end if
+    } // end if
 
     return $pos;
   }
@@ -938,7 +938,9 @@ class Delta_StringUtils
   {
     return preg_replace_callback('/[^-\.0-9a-zA-Z]+/u', function($matches) {
       $utf16 = mb_convert_encoding($matches[0], 'UTF-16', 'UTF-8');
-      return preg_replace('/[0-9a-f]{4}/', '\u$0', bin2hex($utf16));
+      $value = preg_replace('/[0-9a-f]{4}/', '\u$0', bin2hex($utf16));
+
+      return $value;
 
     }, $string);
   }

@@ -69,7 +69,7 @@ class Delta_RequiredValidator extends Delta_Validator
     }
 
     if (!$result) {
-      $this->_error = $this->buildError('error');
+      $this->setError('error');
     }
 
     return $result;

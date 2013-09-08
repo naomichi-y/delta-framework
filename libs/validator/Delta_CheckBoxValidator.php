@@ -64,7 +64,7 @@ class Delta_CheckBoxValidator extends Delta_Validator
     // 指定の数だけチェックが付いているか
     if ($this->_conditions->hasName('requiredMatch')) {
       if ($this->_conditions->getInt('requiredMatch') != $checkedSize) {
-        $this->_error = $this->buildError('requiredMatchError');
+        $this->setError('requiredMatchError');
         $result = FALSE;
       }
 
@@ -75,7 +75,7 @@ class Delta_CheckBoxValidator extends Delta_Validator
       // 最小チェック以上数を満たしているか
       if ($requiredMin) {
         if ($requiredMin > $checkedSize) {
-          $this->_error = $this->buildError('requiredMinError');
+          $this->setError('requiredMinError');
           $result = FALSE;
         }
       }
@@ -83,7 +83,7 @@ class Delta_CheckBoxValidator extends Delta_Validator
       // 最大チェック数以下を満たしているか
       if ($requiredMax) {
         if ($requiredMax < $checkedSize) {
-          $this->_error = $this->buildError('requiredMaxError');
+          $this->setError('requiredMaxError');
           $result = FALSE;
         }
       }

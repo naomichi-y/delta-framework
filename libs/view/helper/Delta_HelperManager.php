@@ -150,17 +150,6 @@ class Delta_HelperManager extends Delta_Object
   }
 
   /**
-   * ヘルパマネージャに登録されている全てのヘルパ情報を取得します。
-   *
-   * @return Delta_ParameterHolder ヘルパマネージャに登録されている全てのヘルパ情報を取得します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getConfig()
-  {
-    return $this->_config;
-  }
-
-  /**
    * 登録されている全てのヘルパを破棄します。
    *
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>

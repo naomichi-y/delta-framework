@@ -28,41 +28,31 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_MaskValidator extends Delta_Validator
 {
+  protected $_validatorId = 'mask';
+
   /**
-   * @throws Delta_ConfigurationException 必須属性がビヘイビアに定義されていない場合に発生。
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-
-    if (strlen($value) == 0) {
-      return TRUE;
-    }
-
-    $mask = $holder->getString('mask');
+    $mask = $this->_conditions->getString('mask');
 
     if ($mask === NULL) {
-      $message = sprintf('\'mask\' validator attribute is undefined.');
+      $message = sprintf('Validate condition is undefined. [mask]');
       throw new Delta_ConfigurationException($message);
     }
 
-    if (preg_match($mask, $value)) {
-      return TRUE;
+    $result = preg_match($mask, $this->_fieldValue);
+
+    if (!$result) {
+      $this->setError('maskError');
     }
 
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('Pattern is not matched. [%s]', $fieldName);
-    }
-
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

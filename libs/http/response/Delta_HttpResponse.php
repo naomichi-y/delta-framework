@@ -520,7 +520,7 @@ class Delta_HttpResponse extends Delta_Object
       $sessionName = Delta_Config::getApplication()->getString('session.name');
       $isSendSessionId = FALSE;
 
-      if ($request->getRequestMethod() == Delta_HttpRequest::HTTP_GET) {
+      if ($request->getMethod() == Delta_HttpRequest::HTTP_GET) {
         if ($request->getQuery($sessionName)) {
           $isSendSessionId = TRUE;
         }

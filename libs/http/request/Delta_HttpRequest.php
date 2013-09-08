@@ -208,7 +208,7 @@ class Delta_HttpRequest extends Delta_Object
         $this->_queryData,
         $this->_postData);
 
-      if ($this->isPostRequest()) {
+      if ($this->isPost()) {
         $requestData = $this->_postData;
       } else {
         $requestData = $this->_queryData;
@@ -379,7 +379,7 @@ class Delta_HttpRequest extends Delta_Object
    * @return int Delta_HttpRequest::HTTP_* 定数を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function getRequestMethod()
+  public function getMethod()
   {
     if (isset($_SERVER['REQUEST_METHOD'])) {
       return $_SERVER['REQUEST_METHOD'];
@@ -394,9 +394,9 @@ class Delta_HttpRequest extends Delta_Object
    * @return bool GET リクエストが要求された場合は TRUE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function isGetRequest()
+  public function isGet()
   {
-    if ($this->getRequestMethod() === 'GET') {
+    if ($this->getMethod() === 'GET') {
       return TRUE;
     }
 
@@ -409,9 +409,9 @@ class Delta_HttpRequest extends Delta_Object
    * @return bool GET リクエストが要求された場合は TRUE を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function isPostRequest()
+  public function isPost()
   {
-    if ($this->getRequestMethod() === 'POST') {
+    if ($this->getMethod() === 'POST') {
       return TRUE;
     }
 

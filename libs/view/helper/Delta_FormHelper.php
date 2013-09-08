@@ -92,11 +92,11 @@ class Delta_FormHelper extends Delta_Helper
    * @see Delta_Helper::__construct()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_View $view, array $config = array())
+  public function __construct(Delta_Form $form, Delta_View $view, array $config = array())
   {
     parent::__construct($view, $config);
 
-    $this->_form = $view->bindForm();
+    $this->_form = $form;
     $this->_request = Delta_FrontController::getInstance()->getRequest();
   }
 
@@ -139,7 +139,7 @@ class Delta_FormHelper extends Delta_Helper
 
     $defaults = array();
     $defaults['action'] = $this->buildRequestPath($path, $queryData, $absolute, $secure);
-    $defaults['method'] = 'post';
+    $defaults['method'] = $this->_form->getMethod();
 
     $attributes = self::constructParameters($attributes, $defaults);
 

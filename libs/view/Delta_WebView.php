@@ -17,20 +17,9 @@
 
 class Delta_WebView extends Delta_View
 {
-  public function bindForm($formName = NULL)
+  public function setForm($bindName, Delta_Form $form)
   {
-    static $instance;
-
-    if ($formName === NULL) {
-      $formClassName = 'Delta_Form';
-    } else {
-      $formClassName = $formName . 'Form';
-    }
-
-    if ($instance === NULL) {
-      $instance = new $formClassName;
-    }
-
-    return $instance;
+    $config = Delta_Config::getHelpers()->getArray('form');
+    $this->_helpers[$bindName] = new Delta_FormHelper($form, $this, $config);
   }
 }

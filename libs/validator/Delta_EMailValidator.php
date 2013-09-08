@@ -89,7 +89,7 @@ class Delta_EMailValidator extends Delta_Validator
     }
 
     if (!$result) {
-      $this->_error = $this->buildError('formatError');
+      $this->setError('formatError');
     }
 
     return $result;

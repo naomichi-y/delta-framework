@@ -403,7 +403,7 @@ class Delta_View extends Delta_Object
   {
     $result = FALSE;
     $manager = $this->getHelperManager();
-    $helperConfig = $manager->getConfig()->get($helperId);
+    $helperConfig = Delta_Config::getHelpers()->get($helperId);
 
     if ($helperConfig) {
       if ($helperConfig->getBoolean('bind')) {
@@ -431,7 +431,7 @@ class Delta_View extends Delta_Object
   public function importHelpers()
   {
     $manager = $this->getHelperManager();
-    $helpersConfig = $manager->getConfig();
+    $helpersConfig = Delta_Config::getHelpers();
 
     foreach ($helpersConfig as $helperId => $helperConfig) {
       // インスタンスの生成が許可されているクラスのみオブジェクトを生成

@@ -295,35 +295,47 @@ class Delta_RouteResolver extends Delta_Object
    * 指定されたパスを Web からアクセス可能なリクエストパスの形式に変換します。
    *
    * @param mixed $path 遷移先のリクエストパスを文字列、または配列形式で指定することができる。
-   *   文字列形式の場合、は PascalCase 形式でアクション名を指定。
-   *   (ただし、'http://'、'https://' から始まるパスは外部リンク、'/' から始まるパスは絶対と見なされ、パスの変換は行われない)
-   *   配列形式では以下のキーから構成されるリクエストパスを生成する。
-   *     - route: パスの生成に用いるルート名。未指定時は現在有効なルートが適用される
-   *     - module: 遷移先のモジュール名。未指定時は現在有効なモジュールが適用される
-   *     - controller: 遷移先のコントローラ名、未指定時は現在有効なモジュールが適用される
-   *     - action: 遷移先のアクション名。未指定時は現在有効なアクションが適用される
+   *   文字列形式:
+   *     - '{routeName}:{moduleName}/{controllerName}/{actionName}'
+   *     - '{moduleName}/{controllerName}/{actionName}'
+   *     - '{controllerName}/{actionName}'
+   *     - '{actionName}'
+   *     - 'http://{fqdn}/...'
+   *     - 'https://{fqdn}/...'
    *
-   *   上記以外に指定されたキーはリクエストパスのホルダ ID に適用される
+   *     文字列形式の場合、末尾に '#{flagment} を指定することでフラグメント指示子として認識される
+   *
+   *   配列形式:
+   *     array(
+   *       'route' => '...',
+   *       'module' => '...',
+   *       'controller' => '...',
+   *       'action' => '...'
+   *     );
+   *
+   *   - route: ルート名。未指定時は現在有効なルートが適用される
+   *   - module: モジュール名。未指定時は現在有効なモジュールが適用される
+   *   - controller: コントローラ名、未指定時は現在有効なモジュールが適用される
+   *   - action: アクション名。未指定時は現在有効なアクションが適用される
+   *   - flagment: フラグメント指示子。(配列形式でのみ指定可能)
+   *
+   *   配列形式では上記以外に指定されたキーはリクエストパスのホルダ ID として認識される
    *   <code>
-   *   // routes.yml に 'uri: /:action/:greeting' が定義されている場合、'/index/helloWorld.do' といったパスを生成
+   *   // routes.yml に 'uri: /:action/:greeting' が定義されている場合、'/index/helloWorld.do' というパスを生成
    *   array('action' => 'Index', 'greeting' => 'helloWorld');
-   *
-   *   // フラグメント識別子の指定
-   *   // '/index.do#top' といったパスを生成
-   *   array('action' => 'Index', 'fragment' => 'top');
    *   </code>
-   * @param array $queryData path に追加する GET パラメータ。
-   * @param bool $absolute 絶対パスを返す場合は TRUE、相対パスを返す場合は FALSE を指定。
-   * @secure bool $secure URL スキームの形式。
-   *   o TRUE: 'https' 形式
-   *   o FALSE: 'http' 形式
-   *   o NULL: 現在のリクエスト形式に合わせる
+   * @param array $queryData path に付加するクエリパラメータ。
+   * @param bool $absolute 生成したパスを絶対パスとして返す場合は TRUE、相対パスとして返す場合は FALSE を指定。
+   * @secure string $secure URL スキームの形式。
+   *   o secure: 'https' 形式
+   *   o nonsecure: 'http' 形式
+   *   o auto: 現在のリクエスト形式に合わせる
    * @return string URL エンコードされたリクエストパスを返します。
    * @throws Delta_ForwardException ルートパスの生成に必要なホルダが不足している場合に発生。
    * @throws Delta_ConfigurationException 指定されたルートがルート設定ファイル定義されていない場合に発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function buildRequestPath($path = NULL, array $queryData = array(), $absolute = FALSE, $secure = NULL)
+  public function buildRequestPath($path = NULL, array $queryData = array(), $absolute = FALSE, $secure = 'auto')
   {
     $route = $this->_request->getRoute();
     $buildPath = NULL;
@@ -336,6 +348,7 @@ class Delta_RouteResolver extends Delta_Object
         if (isset($path['fragment'])) {
           $fragment = '#' . $path['fragment'];
         }
+
       } else {
         if (strpos($path, 'http://') !== FALSE || strpos($path, 'https://') !== FALSE) {
           $externalLink = TRUE;
@@ -390,9 +403,9 @@ class Delta_RouteResolver extends Delta_Object
             }  // end if
 
             if ($absolute) {
-              if ($secure === NULL) {
+              if ($secure === 'auto') {
                 $scheme = $this->_request->getScheme() . '://';
-              } else if ($secure === TRUE) {
+              } else if ($secure === 'secure') {
                 $scheme = 'https://';
               } else {
                 $scheme = 'http://';
@@ -464,14 +477,38 @@ class Delta_RouteResolver extends Delta_Object
 
     // パスが文字列で構成されている場合
     } else {
-      $pathHolder['route'] = $route->getRouteName();
-      $pathHolder['module'] = $route->getModuleName();
-      $pathHolder['controller'] = $route->getControllerName();
+      if (($pos = strpos($path, ':')) !== FALSE) {
+        $pathHolder['route'] = substr($path, 0, $pos);
+        $path = substr($path, $pos + 1);
 
-      if ($path === NULL) {
-        $pathHolder['action'] = $route->getForwardStack()->getLast()->getActionName();
       } else {
-        $pathHolder['action'] = $path;
+        $pathHolder['route'] = $route->getRouteName();
+      }
+
+      $paths = explode('/', $path);
+      $j = sizeof($paths);
+
+      // モジュールが指定されている
+      if ($j == 3) {
+        $pathHolder['module'] = $paths[0];
+        $pathHolder['controller'] = $paths[1];
+        $pathHolder['action'] = $paths[2];
+
+      // コントローラ名が指定されている
+      } else if ($j == 2) {
+        $pathHolder['module'] = $route->getModuleName();
+        $pathHolder['controller'] = $paths[0];
+        $pathHolder['action'] = $paths[1];
+
+      } else {
+        $pathHolder['module'] = $route->getModuleName();
+        $pathHolder['controller'] = $route->getControllerName();
+
+        if (strlen($paths[0])) {
+          $pathHolder['action'] = $paths[0];
+        } else {
+          $pathHolder['action'] = $route->getForwardStack()->getLast()->getActionName();
+        }
       }
     }
 
