@@ -19,9 +19,8 @@
  *     class: Delta_DateValidator
  *
  *     # 日付フォーマットのチェックパターン。
- *     # 指定可能なパターンは strftime() 関数のマニュアルを参照。
- *     # 'format' が未指定 (または Windows 環境) の場合は、'%m[-/]%d[-/]%Y' (または '%Y[-/]%m[-/]%d') 形式で検証が行われます。
- *     format:
+ *     # 指定可能なパターンは {@link strftime()} 関数のマニュアルを参照。
+ *     format: %Y%m%d
  *
  *     # 年の検証フィールド。
  *     yearField:
@@ -52,166 +51,106 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 マニュアル更新
  */
 class Delta_DateValidator extends Delta_Validator
 {
+  protected $_validatorId = 'date';
+
   /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
+    $format = $this->_conditions->getString('format', '%Y%m%d');
 
-    $parseError = FALSE;
-    $format = $holder->getString('format');
+    if ($this->_conditions->hasName('yearField') &&
+      $this->_conditions->hasName('monthField') &&
+      $this->_conditions->hasName('dayField')) {
 
-    // 日付フォーマットのチェック
-    if (isset($format)) {
-      if (function_exists('strptime')) {
-        if (strlen($value) == 0) {
-          return TRUE;
-        }
+      $request = Delta_FrontController::getInstance()->getRequest();
 
-        $date = strptime($value, $format);
+      $year = $request->getParameter($this->_conditions->get('yearField'));
+      $month = $request->getParameter($this->_conditions->get('monthField'));
+      $day = $request->getParameter($this->_conditions->get('dayField'));
 
-        if ($date !== FALSE && strlen($date['unparsed']) == 0) {
-          $year = $date['tm_year'] + 1900;
-          $month = $date['tm_mon'] + 1;
-          $day = $date['tm_mday'];
+      $result = $this->validateDateAllow($year, $month, $day);
 
-          return $this->validateDateAllow($fieldName, $year, $month, $day, $holder);
+    } else if (function_exists('strptime')) {
+      $parse = strptime($this->_fieldValue, $format);
 
-        } else {
-          $parseError = TRUE;
-        }
+      if ($parse !== FALSE && strlen($parse['unparsed']) == 0) {
+        $year = $parse['tm_year'] + 1900;
+        $month = $parse['tm_mon'] + 1;
+        $day = $parse['tm_mday'];
 
-      } else {
-        return TRUE;
-      }
-
-    } else {
-      // Get date field values
-      // @todo 2.0
-      exit;
-      $form = Delta_ActionForm::getInstance();
-
-      if ($form->hasName($holder->getString('yearField'))) {
-        $year = $form->get($holder->getString('yearField'));
-        $month = $form->get($holder->getString('monthField'));
-        $day = $form->get($holder->getString('dayField'));
-
-        if (strlen($year) == 0 && strlen($month) == 0 && strlen($day) == 0) {
-          return TRUE;
-        }
-
-      } else {
-        if (strlen($value) == 0) {
-          return TRUE;
-        }
-
-        $result = preg_split('/-|\//', $value);
-
-        if (sizeof($result) == 3) {
-          if (strlen($result[0]) == 2) {
-            $year = $result[2];
-            $month = $result[0];
-            $day = $result[1];
-
-          } else {
-            $year = $result[0];
-            $month = $result[1];
-            $day = $result[2];
-          }
-
-        } else {
-          $year = $month = $day = NULL;
-        }
+        $result = $this->validateDateAllow($year, $month, $day);
       }
     }
 
-    if (!$parseError && strlen($year) && strlen($month) && strlen($day)) {
-      $date = $year . $month . $day;
-
-      if (preg_match('/^[\d]+$/', $date) && checkdate($month, $day, $year)) {
-        return $this->validateDateAllow($fieldName, $year, $month, $day, $holder);
-      }
-    }
-
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('Date format is illegal. [%s]', $fieldName);
-    }
-
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 
   /**
-   * 検証する日付が許可されている範囲 (過去・未来) 内にあるかチェックします。
-   *
-   * @param string $fieldName 検証するフィールド名。
-   * @param int $year 検証対象の年。
-   * @param int $month 検証対象の月。
-   * @param int $day 検証対象の日。
-   * @param Delta_ParameterHolder $holder パラメータホルダ。
-   * @return bool 日付が許可されている範囲内かどうかを TRUE/FALSE で返します。
+   * @param int $year
+   * @param int $month
+   * @param int $day
+   * @return bool
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  private function validateDateAllow($fieldName, $year, $month, $day, Delta_ParameterHolder $holder)
+  private function validateDateAllow($year, $month, $day)
   {
-    $allowPast = $holder->getBoolean('allowPast', TRUE);
-    $allowCurrent = $holder->getBoolean('allowCurrent', TRUE);
-    $allowFuture = $holder->getBoolean('allowFuture', TRUE);
+    $result = TRUE;
 
-    $allowError = FALSE;
+    $allowPast = $this->_conditions->getBoolean('allowPast', TRUE);
+    $allowCurrent = $this->_conditions->getBoolean('allowCurrent', TRUE);
+    $allowFuture = $this->_conditions->getBoolean('allowFuture', TRUE);
 
     $currentDate = mktime(0, 0, 0, date('m'), date('d'), date('y'));
-    $checkDate = mktime(0, 0, 0, $month, $day, $year);
+    $validateDate = mktime(0, 0, 0, $month, $day, $year);
 
-    // $year は 2038 年まで
-    if ($checkDate === FALSE) {
-      $allowError = TRUE;
-    }
+    // 日付書式の妥当性をチェック
+    if (checkdate($month, $day, $year)) {
+      // 過去の日付指定を無効とする
+      if (!$allowPast) {
+        if ($allowCurrent) {
+          if ($validateDate < $currentDate) {
+            $result = FALSE;
+          }
 
-    if (!$allowPast) {
-      if ($allowCurrent) {
-        if ($checkDate < $currentDate) {
-          $allowError = TRUE;
-        }
-      } else {
-        if ($checkDate <= $currentDate) {
-          $allowError = TRUE;
-        }
-      }
-    }
-
-    if (!$allowFuture && !$allowError) {
-      if ($allowCurrent) {
-        if ($currentDate < $checkDate) {
-          $allowError = TRUE;
-        }
-      } else {
-        if ($currentDate <= $checkDate) {
-          $allowError = TRUE;
+        } else {
+          if ($validateDate <= $currentDate) {
+            $result = FALSE;
+          }
         }
       }
-    }
 
-    if ($allowError) {
-      $message = $holder->getString('allowError');
+      // 未来の日付指定を無効とする
+      if (!$allowFuture) {
+        if ($allowCurrent) {
+          if ($currentDate < $validateDate) {
+            $result = FALSE;
+          }
 
-      if ($message === NULL) {
-        $message = sprintf('This value is invalid date. [%s]', $fieldName);
+        } else {
+          if ($currentDate <= $validateDate) {
+            $result = FALSE;
+          }
+        }
       }
 
-      $this->sendError($fieldName, $message);
+      if (!$result) {
+        $this->setError('allowError');
+      }
 
-      return FALSE;
+    // 日付の書式が不正
+    } else {
+      $this->setError('matchError');
+      $result = FALSE;
     }
 
-    return TRUE;
+    return $result;
   }
 }

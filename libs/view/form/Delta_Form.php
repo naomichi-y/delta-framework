@@ -401,43 +401,59 @@ class Delta_Form extends Delta_Object
       }
     }
 
-    if ($result) {
-      foreach ($this->getFields() as $fieldName => $attributes) {
-        $isEntity = FALSE;
+    $invoker = function($dataField, $fieldValue) use ($result) {
+      $fieldName = $dataField->getFieldName();
+      $label = $dataField->getLabel();
+      $validators = $dataField->getValidators();
 
-        if (is_array($attributes)) {
-          $isEntity = TRUE;
-          $entity = $this->getEntity($fieldName);
+      $validatorInvoker = new Delta_ValidatorInvoker();
+      $validatorInvoker->invoke($fieldName, $fieldValue, $label, $validators);
 
-          if ($entity && !$entity->validate()) {
-            foreach ($entity->getErrors() as $fieldName => $fieldError) {
-              $fieldName = $entity->getEntityName() . '.' . $fieldName;
-              $this->addError($fieldName, $fieldError);
-            }
-
-            $result = FALSE;
-          }
+      if ($validatorInvoker->hasErrors()) {
+        foreach ($validatorInvoker->getErrors() as $fieldError) {
+          $this->addError($fieldName, $fieldError);
         }
 
-        if (!$isEntity) {
-          $dataField = $this->_builder->get($fieldName);
+        $result = FALSE;
+      }
+    };
 
-          if ($dataField) {
-            $fieldValue = $this->get($fieldName);
-            $label = $dataField->getLabel();
-            $validators = $dataField->getValidators();
+    if ($result) {
+      // 入力フィールドの検証
+      foreach ($this->getFields() as $fieldName => $attributes) {
+        if ($fieldName !== self::TOKEN_FIELD_NAME) {
+          $isEntity = FALSE;
 
-            $validatorInvoker = new Delta_ValidatorInvoker();
-            $validatorInvoker->invoke($fieldName, $fieldValue, $label, $validators);
+          if (is_array($attributes)) {
+            $isEntity = TRUE;
+            $entity = $this->getEntity($fieldName);
 
-            if ($validatorInvoker->hasErrors()) {
-              foreach ($validatorInvoker->getErrors() as $fieldError) {
+            if ($entity && !$entity->validate()) {
+              foreach ($entity->getErrors() as $fieldName => $fieldError) {
+                $fieldName = $entity->getEntityName() . '.' . $fieldName;
                 $this->addError($fieldName, $fieldError);
               }
 
               $result = FALSE;
             }
           }
+
+          if (!$isEntity) {
+            $dataField = $this->_builder->get($fieldName);
+
+            if ($dataField) {
+              $fieldValue = $this->get($fieldName);
+              $invoker($dataField, $fieldValue);
+            }
+          }
+        } // end if
+      } // end foreach
+
+      // ファイルアップロードの検証
+      foreach ($_FILES as $fieldName => $attributes) {
+        $dataField = $this->_builder->get($fieldName);
+
+        if ($dataField) {
         }
       }
     }

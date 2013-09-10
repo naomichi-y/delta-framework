@@ -19,12 +19,23 @@ class Delta_DataField extends Delta_Object
 {
   private $_fieldName;
   private $_label;
+  private $_value;
   private $_validators = array();
 
   public function __construct($fieldName, $label)
   {
     $this->_fieldName = $fieldName;
     $this->_label = $label;
+  }
+
+  public function setValue($value)
+  {
+    $this->_value = $value;
+  }
+
+  public function getValue()
+  {
+    return $this->_value;
   }
 
   public function addValidator($validatorId, array $conditions = array())

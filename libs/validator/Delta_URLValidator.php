@@ -29,9 +29,12 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_URLValidator extends Delta_Validator
 {
+  protected $_validatorId = 'url';
+
   /**
    * URL の正規表現パターン。
    */
@@ -43,49 +46,24 @@ class Delta_URLValidator extends Delta_Validator
   const URL_QUERY_PATTERN = '/^(https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/';
 
   /**
-   * URL の書式が正当なものであるかチェックします。
-   *
-   * @param string $value チェック対象の URL。
-   * @param bool $query クエリパラメータを許可する場合は TRUE、許可しない場合は FALSE。規定値は FALSE。
-   * @return bool URL の書式が正当なものかどうかを TRUE/FALSE で返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function isValid($value, $query = FALSE)
-  {
-    if ($query) {
-      $mask = self::URL_QUERY_PATTERN;
-    } else {
-      $mask = self::URL_PATTERN;
-    }
-
-    if (preg_match($mask, $value)) {
-      return TRUE;
-    }
-
-    return FALSE;
-  }
-
-  /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-    $query = $holder->getBoolean('query');
+    $result = TRUE;
 
-    if (strlen($value) == 0 || self::isValid($value, $query)) {
-      return TRUE;
+    if ($this->_conditions->getBoolean('query')) {
+      $pattern = self::URL_QUERY_PATTERN;
+    } else {
+      $pattern = self::URL_PATTERN;
     }
 
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('URL format is illegal. [%s]', $fieldName);
+    if (!preg_match($pattern, $this->_fieldValue)) {
+      $this->setError('matchError');
+      $result = FALSE;
     }
 
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

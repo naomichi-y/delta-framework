@@ -64,13 +64,15 @@
 
 class Delta_FileUploadValidator extends Delta_Validator
 {
+  protected $_validatorId = 'fileUpload';
+
   /**
-   * @throws RuntimeException アップロードサイズが upload_max_filesize (php.ini) を超えた場合に発生。
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
+    exit;
     $holder = $this->buildParameterHolder($variables);
     $hasUpload = Delta_FileUploader::hasUpload($fieldName);
 
