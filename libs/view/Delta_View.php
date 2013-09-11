@@ -87,6 +87,11 @@ class Delta_View extends Delta_Object
   /**
    * @var string
    */
+  protected $_viewBasePath = APP_ROOT_DIR;
+
+  /**
+   * @var string
+   */
   protected $_viewPath;
 
   /**
@@ -284,24 +289,15 @@ class Delta_View extends Delta_Object
    */
   public function execute()
   {
-    $viewPath = $this->_viewPath;
-
-    if (!Delta_FileUtils::isAbsolutePath($viewPath)) {
-      $viewPath = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $viewPath;
-    }
-
     $extension = Delta_Config::getApplication()->getString('view.extension');
+    $absolutePath = Delta_AppPathManager::buildAbsolutePath($this->_viewBasePath, $this->_viewPath, $extension);
 
-    if (substr($viewPath, - strlen($extension)) !== $extension) {
-      $viewPath .= $extension;
-    }
-
-    if ($viewPath) {
-      if (is_file($viewPath)) {
-        $this->_renderer->renderFile($viewPath);
+    if ($absolutePath) {
+      if (is_file($absolutePath)) {
+        $this->_renderer->renderFile($absolutePath);
 
       } else {
-        $message = sprintf('View path is not found. [%s]', $viewPath);
+        $message = sprintf('View path is not found. [%s]', $absolutePath);
         throw new Delta_ParseException($message);
       }
 
@@ -330,6 +326,22 @@ class Delta_View extends Delta_Object
   public function getSource()
   {
     return $this->_source;
+  }
+
+  /**
+   * @todo 2.0
+   */
+  public function setViewBasePath($viewBasePath)
+  {
+    $this->_viewBasePath = $viewBasePath;
+  }
+
+  /**
+   * @todo 2.0
+   */
+  public function getViewBasePath()
+  {
+    return $this->_viewBasePath;
   }
 
   /**
