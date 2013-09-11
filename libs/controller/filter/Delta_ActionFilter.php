@@ -57,7 +57,11 @@ class Delta_ActionFilter extends Delta_Filter
       DIRECTORY_SEPARATOR,
       Delta_StringUtils::convertSnakeCase($this->_forward->getActionName()));
 
+    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+    $viewBasePath = $this->getAppPathManager()->getModuleViewsPath($route->getModuleName());
+
     $view = $this->getView();
+    $view->setViewBasePath($viewBasePath);
     $view->setViewPath($viewPath);
 
     $controller = $this->_forward->getController();

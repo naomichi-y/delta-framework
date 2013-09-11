@@ -54,9 +54,9 @@ class Delta_DocumentMakeHelper extends Delta_Helper
    * @see Delta_Helper::__construct()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function __construct(Delta_View $currentView, array $config = array())
+  public function __construct(Delta_View $view, array $config = array())
   {
-    parent::__construct($currentView, $config);
+    parent::__construct($view, $config);
 
     $functions = get_defined_functions();
 
@@ -120,7 +120,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
   public function setIndexes($indexes)
   {
     $this->_indexes = $indexes;
-    $this->_html = $this->_currentView->getHelperManager()->getHelper('html');
+    $this->_html = $this->_view->getHelperManager()->getHelper('html');
   }
 
   /**
@@ -365,7 +365,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
 
     // ユーザ関数の検索
     if (isset($this->_indexes[$search])) {
-      $path = $this->_currentView->getAttribute('relativeAPIPath') . $this->_indexes[$search];
+      $path = $this->_view->getAttribute('relativeAPIPath') . $this->_indexes[$search];
 
       if ($label === NULL) {
         $value = $value . '()';
@@ -407,7 +407,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
 
     // ユーザ定義クラスの検索
     if (isset($this->_indexes['class'][$className])) {
-      $path = $this->_currentView->getAttribute('relativeAPIPath') . $this->_indexes['class'][$className];
+      $path = $this->_view->getAttribute('relativeAPIPath') . $this->_indexes['class'][$className];
       $value = $this->_html->link($value, $path);
 
     // 内部クラスの検索
@@ -434,7 +434,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
         $value = $label;
       }
 
-      $path = $this->_currentView->getAttribute('relativeAPIPath') . $this->_indexes['file'][$fileName];
+      $path = $this->_view->getAttribute('relativeAPIPath') . $this->_indexes['file'][$fileName];
       $value = $this->_html->link($value, $path);
     }
 
@@ -456,7 +456,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
         $value = $label;
       }
 
-      $path = $this->_currentView->getAttribute('relativeAPIPath') . $this->_indexes['define'][$defineName];
+      $path = $this->_view->getAttribute('relativeAPIPath') . $this->_indexes['define'][$defineName];
       $value = $this->_html->link($value, $path);
     }
 
@@ -499,7 +499,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
         $value = $label;
       }
 
-      $path = $this->_currentView->getAttribute('relativeAPIPath') . $this->_indexes['constant'][$search];
+      $path = $this->_view->getAttribute('relativeAPIPath') . $this->_indexes['constant'][$search];
       $value = $this->_html->link($value, $path);
     }
 
@@ -538,7 +538,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
     }
 
     if (isset($this->_indexes['method'][$search])) {
-      $path = $this->_currentView->getAttribute('relativeAPIPath') . $this->_indexes['method'][$search];
+      $path = $this->_view->getAttribute('relativeAPIPath') . $this->_indexes['method'][$search];
       $value = $this->_html->link($value, $path);
 
     } else {
@@ -584,7 +584,7 @@ class Delta_DocumentMakeHelper extends Delta_Helper
     }
 
     if (isset($this->_indexes['property'][$search])) {
-      $path = $this->_currentView->getAttribute('relativeAPIPath') . $this->_indexes['property'][$search];
+      $path = $this->_view->getAttribute('relativeAPIPath') . $this->_indexes['property'][$search];
       $value = $this->_html->link($value, $path);
     }
 

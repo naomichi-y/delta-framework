@@ -483,8 +483,14 @@ class Delta_HTMLHelper extends Delta_Helper
     }
 
     if ($isAbsolutePath) {
-      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-      $basePath = $this->getAppPathManager()->getModuleViewsPath($route->getModuleName());
+      $viewPath = $this->_view->getViewPath();
+
+      if (Delta_FileUtils::isAbsolutePath($viewPath)) {
+        $basePath = dirname($viewPath);
+      } else {
+        $basePath = $this->getAppPathManager()->getModuleViewsPath($viewPath);
+      }
+
       $viewsPath = dirname($basePath . $path);
       $path = basename($path);
 

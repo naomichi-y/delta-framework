@@ -116,11 +116,8 @@ abstract class Delta_Entity extends Delta_Object
     if ($validatorsConfig) {
       foreach ($builder->getFields() as $fieldName => $dataField) {
         if (property_exists($this, $fieldName)) {
-          $fieldValue = $this->$fieldName;
-          $fieldLabel = $builder->get($fieldName)->getLabel();
-          $validators = $dataField->getValidators();
-
-          $validatorInvoker->invoke($fieldName, $fieldValue, $fieldLabel, $validators);
+          $dataField->setValue($this->$fieldName);
+          $validatorInvoker->invoke($dataField);
 
           if ($validatorInvoker->hasErrors()) {
             $this->_errors = $validatorInvoker->getErrors();

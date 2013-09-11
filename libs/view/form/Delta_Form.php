@@ -65,11 +65,18 @@ class Delta_Form extends Delta_Object
 
   public function __construct()
   {
-    $this->bindRequest();
     $this->_method = self::METHOD_POST;
 
     $builder = new Delta_DataFieldBuilder();
     $this->build($builder);
+
+    $this->_fields = new Delta_ParameterHolder();
+
+    foreach ($builder->getFields() as $fieldName => $dataField) {
+      $this->_fields->set($fieldName, $dataField->getValue());
+    }
+
+    $this->bindRequest();
     $this->_builder = $builder;
 
     foreach ($this->_bindEntities as $entity) {
@@ -266,7 +273,9 @@ class Delta_Form extends Delta_Object
       $data = $request->getPost();
     }
 
-    $this->_fields = new Delta_ParameterHolder($data);
+    foreach ($data as $fieldName => $fieldValue) {
+      $this->_fields->set($fieldName, $fieldValue);
+    }
 
     return $this;
   }
@@ -401,17 +410,13 @@ class Delta_Form extends Delta_Object
       }
     }
 
-    $invoker = function($dataField, $fieldValue) use ($result) {
-      $fieldName = $dataField->getFieldName();
-      $label = $dataField->getLabel();
-      $validators = $dataField->getValidators();
-
+    $invoker = function(Delta_DataField $dataField) use ($result) {
       $validatorInvoker = new Delta_ValidatorInvoker();
-      $validatorInvoker->invoke($fieldName, $fieldValue, $label, $validators);
+      $validatorInvoker->invoke($dataField);
 
       if ($validatorInvoker->hasErrors()) {
         foreach ($validatorInvoker->getErrors() as $fieldError) {
-          $this->addError($fieldName, $fieldError);
+          $this->addError($dataField->getFieldName(), $fieldError);
         }
 
         $result = FALSE;
@@ -442,20 +447,12 @@ class Delta_Form extends Delta_Object
             $dataField = $this->_builder->get($fieldName);
 
             if ($dataField) {
-              $fieldValue = $this->get($fieldName);
-              $invoker($dataField, $fieldValue);
+              $dataField->setValue($this->get($fieldName));
+              $invoker($dataField);
             }
           }
         } // end if
       } // end foreach
-
-      // ファイルアップロードの検証
-      foreach ($_FILES as $fieldName => $attributes) {
-        $dataField = $this->_builder->get($fieldName);
-
-        if ($dataField) {
-        }
-      }
     }
 
     return $result;

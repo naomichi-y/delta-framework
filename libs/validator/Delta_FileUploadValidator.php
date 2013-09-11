@@ -60,6 +60,7 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 
 class Delta_FileUploadValidator extends Delta_Validator
@@ -72,145 +73,145 @@ class Delta_FileUploadValidator extends Delta_Validator
    */
   public function validate()
   {
-    exit;
-    $holder = $this->buildParameterHolder($variables);
-    $hasUpload = Delta_FileUploader::hasUpload($fieldName);
+    $result = TRUE;
+    $hasUpload = Delta_FileUploader::hasUpload($this->_fieldName);
 
-    if (!$holder->getBoolean('required') && !$hasUpload) {
-      return TRUE;
-    }
+    if (!$this->_conditions->getBoolean('required') && !$hasUpload) {
+      $result = FALSE;
 
-    // ファイルがアップロードされているか検証
-    if (is_array($value) && $value['error'] == UPLOAD_ERR_NO_FILE) {
-      $message = $holder->getString('requiredError');
-
-      if ($message === NULL) {
-        $message = sprintf('The file is not up-loaded. [%s]', $fieldName);
-      }
-
-      $this->sendError($fieldName, $message);
-
-      return FALSE;
-    }
-
-    // エンコーディング形式の検証
-    if (!is_array($value)) {
-      $message = $holder->getString('encodingError');
-
-      if ($message === NULL) {
-        $message = 'Form data is not encoded by multipart/form-data.';
-      }
-
-      $this->sendError($fieldName, $message);
-
-      return FALSE;
-    }
-
-    // アップロードに関する基本的なエラーチェックを行う
-    $message = NULL;
-
-    switch ($value['error']) {
-      case UPLOAD_ERR_PARTIAL:
-        $message = $holder->getString('partialError');
+    } else {
+      // ファイルがアップロードされているか検証
+      if (is_array($value) && $value['error'] == UPLOAD_ERR_NO_FILE) {
+        $message = $this->_conditions->getString('requiredError');
 
         if ($message === NULL) {
-          $message = sprintf('The uploaded file was only partially uploaded. [%s]', $fieldName);
-        }
-
-        break;
-
-      case UPLOAD_ERR_NO_TMP_DIR:
-        $message = $holder->getString('temporaryError');
-
-        if ($message === NULL) {
-          $message = sprintf('Missing a temporary directory. [%s]', $fieldName);
-        }
-
-        break;
-
-      case UPLOAD_ERR_CANT_WRITE:
-        $message = $holder->getString('writeError');
-
-        if ($message === NULL) {
-          $message = sprintf('Failed to write file to disk. [%s]', $fieldName);
-        }
-
-        break;
-
-      case UPLOAD_ERR_EXTENSION:
-        $message = $holder->getString('extensionError');
-
-        if ($message === NULL) {
-          $message = sprintf('Upload file was stopped with an expansion module. [%s]', $fieldName);
-        }
-
-        break;
-    }
-
-    if ($message) {
-      $this->sendError($fieldName, $message);
-
-      return FALSE;
-    }
-
-    // ファイルサイズの検証
-    $fileSizeError = FALSE;
-    $maxSize = $holder->getString('maxSize');
-
-    if ($maxSize) {
-      $maxSize = Delta_NumberUtils::realBytes($maxSize);
-
-      if ($maxSize && $value['size'] > $maxSize) {
-        $fileSizeError = TRUE;
-      }
-    }
-
-    // PHP (upload_max_filesize) が許容するアップロードサイズを超えた場合
-    if ($value['error'] == UPLOAD_ERR_INI_SIZE) {
-      $message = sprintf('Upload limit is %s. '
-        .'Please rewrite the value of \'upload_max_filesize\' in php.ini.', ini_get('upload_max_filesize'));
-      throw new RuntimeException($message);
-    }
-
-    if ($fileSizeError || $value['error'] == UPLOAD_ERR_FORM_SIZE) {
-      $message = $holder->getString('maxSizeError');
-
-      if ($message === NULL) {
-        $message = sprintf('File size exceeds it. [%s]', $fieldName);
-      }
-
-      $this->sendError($fieldName, $message);
-
-      return FALSE;
-    }
-
-    // データが POST 形式でリクエストされているか検証
-    if (!is_uploaded_file($value['tmp_name'])) {
-      $message = $holder->getString('postError');
-
-      if ($message === NULL) {
-        $message = 'Upload file format is wrong.';
-      }
-
-      $this->sendError($fieldName, $message);
-
-      return FALSE;
-    }
-
-    // MIME タイプの検証
-    $mimeTypes = $holder->getArray('mimeTypes');
-
-    if (sizeof($mimeTypes)) {
-      if (!in_array($value['type'], $mimeTypes)) {
-        $message = $holder->getString('mimeTypeError');
-
-        if ($message === NULL) {
-          $message = sprintf('MIME-Type format is illegal. [%s]', $fieldName);
+          $message = sprintf('The file is not up-loaded. [%s]', $fieldName);
         }
 
         $this->sendError($fieldName, $message);
 
         return FALSE;
+      }
+
+      // エンコーディング形式の検証
+      if (!is_array($value)) {
+        $message = $this->_conditions->getString('encodingError');
+
+        if ($message === NULL) {
+          $message = 'Form data is not encoded by multipart/form-data.';
+        }
+
+        $this->sendError($fieldName, $message);
+
+        return FALSE;
+      }
+
+      // アップロードに関する基本的なエラーチェックを行う
+      $message = NULL;
+
+      switch ($value['error']) {
+        case UPLOAD_ERR_PARTIAL:
+          $message = $this->_conditions->getString('partialError');
+
+          if ($message === NULL) {
+            $message = sprintf('The uploaded file was only partially uploaded. [%s]', $fieldName);
+          }
+
+          break;
+
+        case UPLOAD_ERR_NO_TMP_DIR:
+          $message = $this->_conditions->getString('temporaryError');
+
+          if ($message === NULL) {
+            $message = sprintf('Missing a temporary directory. [%s]', $fieldName);
+          }
+
+          break;
+
+        case UPLOAD_ERR_CANT_WRITE:
+          $message = $this->_conditions->getString('writeError');
+
+          if ($message === NULL) {
+            $message = sprintf('Failed to write file to disk. [%s]', $fieldName);
+          }
+
+          break;
+
+        case UPLOAD_ERR_EXTENSION:
+          $message = $this->_conditions->getString('extensionError');
+
+          if ($message === NULL) {
+            $message = sprintf('Upload file was stopped with an expansion module. [%s]', $fieldName);
+          }
+
+          break;
+      }
+
+      if ($message) {
+        $this->sendError($fieldName, $message);
+
+        return FALSE;
+      }
+
+      // ファイルサイズの検証
+      $fileSizeError = FALSE;
+      $maxSize = $this->_conditions->getString('maxSize');
+
+      if ($maxSize) {
+        $maxSize = Delta_NumberUtils::realBytes($maxSize);
+
+        if ($maxSize && $value['size'] > $maxSize) {
+          $fileSizeError = TRUE;
+        }
+      }
+
+      // PHP (upload_max_filesize) が許容するアップロードサイズを超えた場合
+      if ($value['error'] == UPLOAD_ERR_INI_SIZE) {
+        $message = sprintf('Upload limit is %s. '
+          .'Please rewrite the value of \'upload_max_filesize\' in php.ini.', ini_get('upload_max_filesize'));
+        throw new RuntimeException($message);
+      }
+
+      if ($fileSizeError || $value['error'] == UPLOAD_ERR_FORM_SIZE) {
+        $message = $this->_conditions->getString('maxSizeError');
+
+        if ($message === NULL) {
+          $message = sprintf('File size exceeds it. [%s]', $fieldName);
+        }
+
+        $this->sendError($fieldName, $message);
+
+        return FALSE;
+      }
+
+      // データが POST 形式でリクエストされているか検証
+      if (!is_uploaded_file($value['tmp_name'])) {
+        $message = $this->_conditions->getString('postError');
+
+        if ($message === NULL) {
+          $message = 'Upload file format is wrong.';
+        }
+
+        $this->sendError($fieldName, $message);
+
+        return FALSE;
+      }
+
+      // MIME タイプの検証
+      $mimeTypes = $this->_conditions->getArray('mimeTypes');
+
+      if (sizeof($mimeTypes)) {
+        if (!in_array($value['type'], $mimeTypes)) {
+          $message = $this->_conditions->getString('mimeTypeError');
+
+          if ($message === NULL) {
+            $message = sprintf('MIME-Type format is illegal. [%s]', $fieldName);
+          }
+
+          $this->sendError($fieldName, $message);
+
+          return FALSE;
+        }
       }
     }
 

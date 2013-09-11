@@ -29,11 +29,11 @@ class Delta_ValidatorInvoker extends Delta_Object
     }
   }
 
-  public function invoke($fieldName, $fieldValue, $fieldLabel, array $validators)
+  public function invoke(Delta_DataField $dataField)
   {
     $result = TRUE;
 
-    foreach ($validators as $validatorId => $attributes) {
+    foreach ($dataField->getValidators() as $validatorId => $attributes) {
       $validatorConfig = $this->_validatorsConfig->get($validatorId);
 
       if ($validatorConfig) {
@@ -45,10 +45,11 @@ class Delta_ValidatorInvoker extends Delta_Object
         }
 
         if (!$attributes->hasName('label')) {
-          $attributes->set('label', $fieldLabel);
+          $attributes->set('label', $dataField->getLabel());
         }
 
-        $validator = new $validatorClassName($fieldName, $fieldValue, $attributes);
+        $fieldName = $dataField->getFieldName();
+        $validator = new $validatorClassName($fieldName, $dataField->getValue(), $attributes);
 
         if (!isset($this->_errors[$fieldName]) && !$validator->validate()) {
           $this->_errors[$fieldName] = $validator->getError();

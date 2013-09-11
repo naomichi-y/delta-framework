@@ -52,12 +52,12 @@ class Delta_View extends Delta_Object
   /**
    * @var Delta_Renderer
    */
-  private $_renderer;
+  protected $_renderer;
 
   /**
    * @var Delta_HelperManager
    */
-  private $_helperManager;
+  protected $_helperManager;
 
   /**
    * @var array
@@ -284,12 +284,24 @@ class Delta_View extends Delta_Object
    */
   public function execute()
   {
-    if ($this->_viewPath) {
-      if (is_file($this->_viewPath)) {
-        $this->_renderer->renderFile($this->_viewPath);
+    $viewPath = $this->_viewPath;
+
+    if (!Delta_FileUtils::isAbsolutePath($viewPath)) {
+      $viewPath = APP_ROOT_DIR . DIRECTORY_SEPARATOR . $viewPath;
+    }
+
+    $extension = Delta_Config::getApplication()->getString('view.extension');
+
+    if (substr($viewPath, - strlen($extension)) !== $extension) {
+      $viewPath .= $extension;
+    }
+
+    if ($viewPath) {
+      if (is_file($viewPath)) {
+        $this->_renderer->renderFile($viewPath);
 
       } else {
-        $message = sprintf('View path is not found. [%s]', $this->_viewPath);
+        $message = sprintf('View path is not found. [%s]', $viewPath);
         throw new Delta_ParseException($message);
       }
 
@@ -322,45 +334,15 @@ class Delta_View extends Delta_Object
 
   /**
    * 出力するビューのファイルパスを設定します。
-   * <code>
-   * // IndexController で設定した場合、modules/{module}/views/index/bar.php を出力する
-   * $view->setViewPath('bar');
-   *
-   * // modules/{module}/views/foo/bar.php を出力する
-   * $view->setViewPath('foo/bar');
-   *
-   * // '@' から始まるパスは APP_ROOT_DIR からの相対パスと見なされる
-   * $view->setViewPath('@views/html/baz');
-   * </code>
    *
    * @param string $viewPath 出力するビューのファイルパス。
-   *   {@link Delta_AppPathManager::getModuleViewsPath() 現在有効なビューディレクトリ} からの相対パスでファイルを指定。
+   *   絶対パス、あるいは APP_ROOT_DIR からの相対パスが有効。
    *   拡張子の指定は任意。未指定時は application.yml に定義された 'view.extension' がパスに追加される。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function setViewPath($viewPath)
   {
-    $basePath = NULL;
-
-    if (Delta_BootLoader::isBootTypeWeb()) {
-      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-      $extension = Delta_Config::getApplication()->getString('view.extension');
-
-      if ($route) {
-        if (strpos($viewPath, '/') === FALSE && strpos($viewPath, '\\') === FALSE) {
-          $controllerPath = Delta_StringUtils::convertSnakeCase($route->getForwardStack()->getLast()->getControllerName());
-          $viewPath = $controllerPath . DIRECTORY_SEPARATOR . $viewPath;
-        }
-
-        $basePath = $this->getAppPathManager()->getModuleViewsPath($route->getModuleName());
-      }
-
-    } else {
-      $basePath = APP_ROOT_DIR;
-      $extension = NULL;
-    }
-
-    $this->_viewPath = Delta_AppPathManager::buildAbsolutePath($basePath, $viewPath, $extension);
+    $this->_viewPath = $viewPath;
   }
 
   /**
