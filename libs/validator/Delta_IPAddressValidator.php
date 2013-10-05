@@ -20,52 +20,55 @@
  *
  *     # IP アドレスのフォーマットが不正な場合に通知するエラーメッセージ。
  *     matchError: {default_message}
+ *
+ *     # グローバル IP アドレスを許可するかどうか。
+ *     allowGlobal: TRUE
+ *
+ *     # プライベート IP アドレスを許可するかどうか。
+ *     allowPrivate: TRUE
+ *
+ *     # 許可されない IP アドレスが指定された場合に通知するメッセージ。
+ *     allowError: {default_message}
  * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_IPAddressValidator extends Delta_Validator
 {
   /**
-   * IP アドレスの書式が正当なものであるかチェックします。
-   *
-   * @param string $value チェック対象の IP アドレス。
-   * @return bool IP アドレスの書式が正当なものかどうかを TRUE/FALSE で返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   * @var string
    */
-  public static function isValid($value)
-  {
-    $verify = long2ip(ip2long($value));
-
-    if ($value === $verify) {
-      return TRUE;
-    }
-
-    return FALSE;
-  }
+  protected $_validatorId = 'ipAddress';
 
   /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
+    $verifyIpAddress = long2ip(ip2long($this->_fieldValue));
 
-    if (strlen($value) == 0 || self::isValid($value)) {
-      return TRUE;
+    if ($this->_fieldValue != $verifyIpAddress) {
+      $this->setError('matchError');
+      $result = FALSE;
+
+    } else {
+      // IP アドレスが許可されるネットワークアドレスかチェック
+      $isPrivateIPAddress = Delta_NetworkUtils::isPrivateIPAddress($this->_fieldValue);
+
+      $allowPrivate = $this->_conditions->getBoolean('allowPrivate', TRUE);
+      $allowGlobal = $this->_conditions->getBoolean('allowGlobal', TRUE);
+
+      if (!$allowPrivate && $isPrivateIPAddress || !$allowGlobal && !$isPrivateIPAddress) {
+        $this->setError('allowError');
+        $result = FALSE;
+      }
     }
 
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('IP Address format is illegal. [%s]', $fieldName);
-    }
-
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

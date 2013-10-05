@@ -1210,30 +1210,14 @@ class Delta_HttpRequest extends Delta_Object
   }
 
   /**
-   * リクエストアクセスがローカルネットワークから行われたものかチェックします。
-   * ローカルネットワークの範囲はクラス A、B、C、及びローカルループバックアドレスとします。
-   *   - 127.0.0.1-127.255.255.254
-   *   - 192.168.0.0-192.168.255.255
-   *   - 172.16.0.0-172.31.255.255
-   *   - 10.0.0.0-10.255.255.255
+   * リクエストがローカルネットワークから送信されたものであるかどうかチェックします。
    *
-   * @return bool リクエストがローカルネットワークからのアクセスの場合に TRUE を返します。
+   * @return bool リクエストがローカルネットワークから送信されたものであれば TRUE を返します。
+   * @see Delta_NetworkUtils::isPrivateIPAddress()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function isLocal()
+  public function isLocalAccess()
   {
-    $remoteAddress = $this->getRemoteAddress();
-
-    $range[] = array();
-    $range[] = '127.0.0.1-127.255.255.254';
-    $range[] = '192.168.0.0-192.168.255.255';
-    $range[] = '172.16.0.0-172.31.255.255';
-    $range[] = '10.0.0.0-10.255.255.255';
-
-    if (Delta_NetworkUtils::hasContainNetwork($range, $remoteAddress)) {
-      return TRUE;
-    }
-
-    return FALSE;
+    return Delta_NetworkUtils::isPrivateIPAddress($this->getRemoteAddress());
   }
 }

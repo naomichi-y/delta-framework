@@ -32,27 +32,40 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 マニュアル更新
  */
 class Delta_SequenceStringValidator extends Delta_Validator
 {
   /**
-   * 文字列 value に連続した文字が含まれるかどうかチェックします。
-   *
-   * @param string $value チェック対象の文字列。
-   * @param int $size 連続した文字をエラーと見なす文字数。
-   * @param bool $multibyte マルチバイト文字を対象とするか。
-   * @return bool 連続した文字が含まれない (size 以下の) 場合に TRUE、含まれる場合に FALSE を返します。
+   * @var string
+   */
+  protected $_validatorId = 'sequenceString';
+
+  /**
+   * @throws Delta_ConfigurationException 必須属性が未指定の場合に発生。
+   * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function isValid($value, $size, $multibyte = FALSE)
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
+
+    $size = $this->_conditions->getString('size');
+    $multibyte = $this->_conditions->getBoolean('multibyte');
+
+    if ($size === NULL) {
+      $message = 'Required attribute is not specified. [size]';
+      throw new Delta_ConfigurationException($message);
+    }
+
+    // マルチバイトの連続文字をチェックするかどうか
     $regexpOption = NULL;
 
     if ($multibyte) {
-      if (mb_detect_encoding($value) != 'UTF-8') {
-        $fromEncoding = Delta_Config::getApplication()->get('charset.default');
-        $value = mb_convert_encoding($value, 'UTF-8', $fromEncoding);
+      $detectEncoding = mb_detect_encoding($this->_fieldValue);
+
+      if ($detectEncoding !== 'UTF-8') {
+        $value = mb_convert_encoding($value, 'UTF-8', $detectEncoding);
       }
 
       $regexpOption = 'u';
@@ -60,43 +73,10 @@ class Delta_SequenceStringValidator extends Delta_Validator
 
     $regexp = sprintf('/(.)\1{%s,}/%s', $size - 1, $regexpOption);
 
-    if (preg_match($regexp, $value)) {
-      return FALSE;
+    if (preg_match($regexp, $this->_fieldValue)) {
+      $this->setError('sizeError');
+      $result = FALSE;
     }
-
-    return TRUE;
-  }
-
-  /**
-   * @throws Delta_ConfigurationException 必須属性がビヘイビアに定義されていない場合に発生。
-   * @see Delta_Validator::validate()
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function validate($fieldName, $value, array $variables = array())
-  {
-    if (strlen($value) == 0) {
-      return TRUE;
-    }
-
-    $size = $holder->getInt('size');
-    $multibyte = $holder->getBoolean('multibyte');
-
-    if ($size === NULL) {
-      $message = 'Undefined \'size\' attribute.';
-      throw new Delta_ConfigurationException($message);
-    }
-
-    if ($this->isValid($value, $size, $multibyte)) {
-      return TRUE;
-    }
-
-    $message = $holder->getString('sizeError');
-
-    if ($message === NULL) {
-      $message = sprintf('Contains consecutive letters at %s characters.', $size);
-    }
-
-    $this->sendError($fieldName, $message);
 
     return FALSE;
   }

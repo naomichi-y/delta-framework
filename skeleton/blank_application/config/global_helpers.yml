@@ -4,6 +4,7 @@ date:
 form:
   class: Delta_FormHelper
   containErrors: 正しく入力されていない項目があります。(残り\1箇所)
+  bind: FALSE
 
 html:
   class: Delta_HTMLHelper

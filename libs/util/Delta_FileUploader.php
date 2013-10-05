@@ -32,7 +32,7 @@ class Delta_FileUploader extends Delta_Object
    */
   public function __construct($name)
   {
-    $fileInfo = self::getFileInfo($name);
+    $fileInfo = Delta_ArrayUtils::find($_FILES, $name);
 
     if ($fileInfo !== NULL) {
       $this->_fileInfo = $fileInfo;
@@ -56,25 +56,6 @@ class Delta_FileUploader extends Delta_Object
     }
 
     return FALSE;
-  }
-
-  /**
-   * ファイルがアップロードされているかどうかチェックします。
-   * {@link isUpload()} メソッドと異なり、アップロードの成功可否はチェックしません。
-   *
-   * @param string $name チェック対象のフィールド名。
-   * @return bool ファイルがアップロードされている場合は TRUE を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function hasUpload($name)
-  {
-    $fileInfo = self::getFileInfo($name);
-
-    if ($fileInfo === NULL || $fileInfo['error'] == UPLOAD_ERR_NO_FILE) {
-      return FALSE;
-    }
-
-    return TRUE;
   }
 
   /**
@@ -201,41 +182,5 @@ class Delta_FileUploader extends Delta_Object
     }
 
     return FALSE;
-  }
-
-  /**
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function getFileInfo($name)
-  {
-    $fileInfo = NULL;
-
-    if (($pos = strpos($name, '.')) !== FALSE) {
-      $types = array('name', 'tmp_name', 'type', 'size', 'error');
-      $array = array();
-
-      foreach ($types as $type) {
-        $search = sprintf('%s.%s.%s',
-          substr($name, 0, $pos),
-          $type,
-          substr($name, $pos + 1));
-        $data = Delta_ArrayUtils::find($_FILES, $search);
-
-        if ($data !== NULL) {
-          $array[$type] = $data;
-        }
-      }
-
-      if (sizeof($array)) {
-        $fileInfo = $array;
-      }
-
-    } else {
-      if (isset($_FILES[$name])) {
-        $fileInfo = $_FILES[$name];
-      }
-    }
-
-    return $fileInfo;
   }
 }

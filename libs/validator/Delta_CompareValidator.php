@@ -38,6 +38,7 @@ class Delta_CompareValidator extends Delta_Validator
   protected $_validatorId = 'compare';
 
   /**
+   * @throws Delta_ConfigurationException 必須属性が未指定の場合に発生。
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
@@ -52,11 +53,11 @@ class Delta_CompareValidator extends Delta_Validator
       throw new Delta_ConfigurationException($message);
     }
 
+    $result = TRUE;
     $compareField = $this->_conditions->getString('compareField');
 
     $request = Delta_FrontController::getInstance()->getRequest();
     $compareValue = $request->getParameter($compareField);
-    $result = TRUE;
 
     if (strcmp($this->_fieldValue, $compareValue) != 0) {
       $result = FALSE;

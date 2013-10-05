@@ -53,6 +53,11 @@ class Delta_DataFieldBuilder extends Delta_Object
     $this->_fields[$dataField->getFieldName()] = $dataField;
   }
 
+  public function hasName($fieldName)
+  {
+    return isset($this->_fields[$fieldName]);
+  }
+
   public function get($fieldName)
   {
     $result = NULL;

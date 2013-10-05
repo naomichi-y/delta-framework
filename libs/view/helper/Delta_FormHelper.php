@@ -65,11 +65,6 @@
 class Delta_FormHelper extends Delta_Helper
 {
   /**
-   * @var string
-   */
-  private $_activeFormName;
-
-  /**
    * @var Delta_HttpRequest
    */
   private $_request;
@@ -183,7 +178,6 @@ class Delta_FormHelper extends Delta_Helper
 
     $buffer .= "</form>\n";
 
-    $this->_activeFormName = NULL;
     $this->_activeForm = NULL;
 
     return $buffer;
@@ -1357,6 +1351,24 @@ class Delta_FormHelper extends Delta_Helper
   }
 
   /**
+   * @since 2.0
+   */
+  public function inputHiddenCheckboxes($fieldName)
+  {
+    $values = $this->_form->get($fieldName);
+    $buffer = NULL;
+
+    if (is_array($values)) {
+      foreach ($values as $name => $value) {
+        $checkboxFieldName = $fieldName . '.' . $name;
+        $buffer .= $this->inputHidden($checkboxFieldName, array('value' => $value)) . "\n";
+      }
+    }
+
+    return $buffer;
+  }
+
+  /**
    * image フィールドを生成します。
    *
    * @param string $source {@link Delta_HTMLHelper::buildAssetPath()} メソッドを参照。
@@ -1369,7 +1381,7 @@ class Delta_FormHelper extends Delta_Helper
    */
   public function inputImage($source, $attributes = array(), $extra = array())
   {
-    $extra = parent::constructParameters($this->_activeFormName, $extra);
+    $extra = parent::constructParameters($extra);
     $absolute = Delta_ArrayUtils::find($extra, 'absolute', FALSE);
 
     $html = $this->_view->getHelperManager()->getHelper('html');

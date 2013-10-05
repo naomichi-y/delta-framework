@@ -18,6 +18,36 @@
 class Delta_NetworkUtils
 {
   /**
+   * 指定された IP アドレスがプライベートネットワークのアドレスかどうかチェックします。
+   * プライベートネットワークはクラス A、B、C、及びローカルループバックアドレスが対象に含まれます。
+   *   - 127.0.0.1-127.255.255.254
+   *   - 192.168.0.0-192.168.255.255
+   *   - 172.16.0.0-172.31.255.255
+   *   - 10.0.0.0-10.255.255.255
+   *
+   * @param string $ipAddress チェック対象の IP アドレス。
+   * @return bool 対象 IP がプライベートネットワークアドレスの場合に TRUE を返します。
+   * @since 2.0
+   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   */
+  public static function isPrivateIPAddress($ipAddress)
+  {
+    $result = FALSE;
+
+    $range = array();
+    $range[] = '127.0.0.1-127.255.255.254';
+    $range[] = '192.168.0.0-192.168.255.255';
+    $range[] = '172.16.0.0-172.31.255.255';
+    $range[] = '10.0.0.0-10.255.255.255';
+
+    if (self::hasContainNetwork($range, $ipAddress)) {
+      $result = TRUE;
+    }
+
+    return $result;
+  }
+
+  /**
    * 指定した IP アドレスがネットワークアドレス ranges に含まれているかチェックします。
    *
    * @param mixed $ranges ネットワークアドレスの範囲を文字列または配列で指定。

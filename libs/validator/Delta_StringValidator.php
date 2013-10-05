@@ -19,59 +19,60 @@
  *     class: Delta_StringValidator
  *
  *     # 文字列が英字で構成されているかどうかを検証する。
- *     alphabet: FALSE
+ *     allowAlphabet: FALSE
  *
  *     # 文字列が数値で構成されているかどうかを検証する。
- *     numeric: FALSE
+ *     allowNumeric: FALSE
  *
  *     # 文字列に許可されない文字が含まれる場合に通知するエラーメッセージ。
  *     matchError: {default_message}
  * </code>
- * ※'alphabet'、'numeric' の両方が TRUE の場合、文字列が英数字で構成されているかどうかをチェックします。
+ * ※'allowAlphabet'、'allowNumeric' の両方が TRUE の場合、文字列が英数字で構成されているかどうかをチェックします。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_StringValidator extends Delta_Validator
 {
   /**
+   * @var string
+   */
+  protected $_validatorId = 'string';
+
+  /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
 
-    if (strlen($value) == 0) {
-      return TRUE;
-    }
+    $allowAlphabet = $this->_conditions->getBoolean('allowAlphabet', TRUE);
+    $allowNumeric = $this->_conditions->getBoolean('allowNumeric', TRUE);
 
-    $alphabet = $holder->getBoolean('alphabet', TRUE);
-    $numeric = $holder->getBoolean('numeric', TRUE);
-
-    if ($alphabet) {
-      if ($numeric) {
-        if (ctype_alnum($value)) {
-          return TRUE;
+    // 文字列中のアルファベットを許可
+    if ($allowAlphabet) {
+      // 文字列中の数値を許可
+      if ($allowNumeric) {
+        if (!ctype_alnum($this->_fieldValue)) {
+          $result = FALSE;
         }
 
-      } else if (ctype_alpha($value)) {
-        return TRUE;
+      } else if (!ctype_alpha($this->_fieldValue)) {
+        $result = FALSE;
       }
 
-    } else if (ctype_digit($value)) {
-      return TRUE;
+    // 文字列中の数値を許可
+    } else if ($allowNumeric && !ctype_digit($this->_fieldValue)) {
+      $result = FALSE;
     }
 
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('String format is illegal. [%s]', $fieldName);
+    if (!$result) {
+      $this->setError('matchError');
     }
 
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

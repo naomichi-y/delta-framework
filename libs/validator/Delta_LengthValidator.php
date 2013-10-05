@@ -59,10 +59,12 @@ class Delta_LengthValidator extends Delta_Validator
   {
     $result = TRUE;
 
+    // 文字数をカウント
     if ($this->_conditions->getBoolean('multibyte', TRUE)) {
       $encoding = Delta_Config::getApplication()->get('charset.default');
       $length = mb_strlen($this->_fieldValue, $encoding);
 
+    // バイト数をカウント
     } else {
       $length = strlen($this->_fieldValue);
     }

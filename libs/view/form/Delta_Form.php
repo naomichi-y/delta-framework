@@ -17,7 +17,14 @@
 
 class Delta_Form extends Delta_Object
 {
+  /**
+   * @since 2.0
+   */
   const METHOD_GET = 'get';
+
+  /**
+   * @since 2.0
+   */
   const METHOD_POST = 'post';
 
   /**
@@ -35,23 +42,20 @@ class Delta_Form extends Delta_Object
    */
   const TOKEN_WRONG = -2;
 
+  /**
+   * @since 2.0
+   */
   const TOKEN_FIELD_NAME = '_tokenId';
-  const TOKEN_SESSION_KEY = '_tokenId';
 
   /**
-   * @var array
+   * @since 2.0
    */
-  protected $_bindEntities = array();
+  const TOKEN_SESSION_KEY = '_tokenId';
 
   /**
    * @var string
    */
-  private $_method;
-
-  /**
-   * @var Delta_ParameterHolder
-   */
-  private $_fields;
+  private $_method = self::METHOD_POST;
 
   /**
    * @var Delta_DataFieldBuilder
@@ -65,24 +69,10 @@ class Delta_Form extends Delta_Object
 
   public function __construct()
   {
-    $this->_method = self::METHOD_POST;
+    $this->_builder = new Delta_DataFieldBuilder();
 
-    $builder = new Delta_DataFieldBuilder();
-    $this->build($builder);
-
-    $this->_fields = new Delta_ParameterHolder();
-
-    foreach ($builder->getFields() as $fieldName => $dataField) {
-      $this->_fields->set($fieldName, $dataField->getValue());
-    }
-
+    $this->build($this->_builder);
     $this->bindRequest();
-    $this->_builder = $builder;
-
-    foreach ($this->_bindEntities as $entity) {
-      $entityClassName = ucfirst($entity) . 'Entity';
-      $this->bindEntity(new $entityClassName);
-    }
   }
 
   public function setMethod($method)
@@ -114,8 +104,12 @@ class Delta_Form extends Delta_Object
     $result = FALSE;
 
     if ($override || !$this->hasName($fieldName)) {
-      $this->_fields->set($fieldName, $fieldValue);
-      $result = TRUE;
+      $dataField = $this->_builder->get($fieldName);
+
+      if ($dataField) {
+        $dataField->setValue($fieldValue);
+        $result = TRUE;
+      }
     }
 
     return $result;
@@ -145,18 +139,11 @@ class Delta_Form extends Delta_Object
    */
   public function hasName($fieldName)
   {
-    return $this->_fields->hasName($fieldName);
-  }
+    if ($this->_builder->hasName($fieldName)) {
+      return FALSE;
+    }
 
-  /**
-   * フォームオブジェクトに設定されたフィールド数を取得します。
-   *
-   * @return int フォームオブジェクトに設定されたフィールド数を返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public function getSize()
-  {
-    return $this->_fields->count();
+    return TRUE;
   }
 
   /**
@@ -169,7 +156,21 @@ class Delta_Form extends Delta_Object
    */
   public function get($fieldName, $alternative = NULL)
   {
-    return $this->_fields->get($fieldName, $alternative);
+    $value = NULL;
+    $dataField = $this->_builder->get($fieldName);
+
+    if ($dataField) {
+      $value = $dataField->getValue();
+
+      if (Delta_StringUtils::nullOrEmpty($value)) {
+        $value = $alternative;
+      }
+
+    } else {
+      $value = $alternative;
+    }
+
+    return $value;
   }
 
   /**
@@ -180,7 +181,7 @@ class Delta_Form extends Delta_Object
    */
   public function getFields()
   {
-    return $this->_fields->toArray();
+    return $this->_builder->getFields();
   }
 
   /**
@@ -192,14 +193,25 @@ class Delta_Form extends Delta_Object
    */
   public function remove($fieldName)
   {
-    return $this->_fields->remove($fieldName);
+    $result = FALSE;
+    $dataField = $this->_builder->get($fieldName);
+
+    if ($dataField) {
+      $dataField->setValue(NULL);
+      $result = TRUE;
+    }
+
+    return $result;
   }
 
   /**
    */
   public function clear()
   {
-    $this->_fields->clear();
+    foreach ($this->_builder->getFields() as $fieldName => $dataField) {
+      $dataField->setValue(NULL);
+    }
+
     $this->_errors = array();
   }
 
@@ -266,20 +278,23 @@ class Delta_Form extends Delta_Object
   public function bindRequest()
   {
     $request = Delta_FrontController::getInstance()->getRequest();
+    $fields = $this->_builder->getFields();
 
     if ($request->getMethod() == Delta_HttpRequest::HTTP_GET) {
-      $data = $request->getQuery();
-    } else {
-      $data = $request->getPost();
-    }
+      foreach ($fields as $fieldName => $dataField) {
+        $dataField->setValue($request->getQuery($fieldName));
+      }
 
-    foreach ($data as $fieldName => $fieldValue) {
-      $this->_fields->set($fieldName, $fieldValue);
+    } else {
+      foreach ($fields as $fieldName => $dataField) {
+        $dataField->setValue($request->getPost($fieldName));
+      }
     }
 
     return $this;
   }
 
+  /**
   public function bindEntity(Delta_Entity $entity, $override = FALSE)
   {
     $bindName = $entity->getEntityName();
@@ -297,6 +312,7 @@ class Delta_Form extends Delta_Object
       }
     }
   }
+   */
 
   public function getEntity($entityName)
   {
@@ -410,7 +426,7 @@ class Delta_Form extends Delta_Object
       }
     }
 
-    $invoker = function(Delta_DataField $dataField) use ($result) {
+    $invoker = function(Delta_DataField $dataField) use (&$result) {
       $validatorInvoker = new Delta_ValidatorInvoker();
       $validatorInvoker->invoke($dataField);
 
@@ -425,15 +441,18 @@ class Delta_Form extends Delta_Object
 
     if ($result) {
       // 入力フィールドの検証
-      foreach ($this->getFields() as $fieldName => $attributes) {
+      foreach ($this->_builder->getFields() as $fieldName => $dataField) {
         if ($fieldName !== self::TOKEN_FIELD_NAME) {
-          $isEntity = FALSE;
+          /**
+          // この行を消す場合はEntity::validate()周りも変更?
+            $isEntity = FALSE;
 
           if (is_array($attributes)) {
-            $isEntity = TRUE;
             $entity = $this->getEntity($fieldName);
 
             if ($entity && !$entity->validate()) {
+              $isEntity = TRUE;
+
               foreach ($entity->getErrors() as $fieldName => $fieldError) {
                 $fieldName = $entity->getEntityName() . '.' . $fieldName;
                 $this->addError($fieldName, $fieldError);
@@ -442,15 +461,10 @@ class Delta_Form extends Delta_Object
               $result = FALSE;
             }
           }
+          */
 
-          if (!$isEntity) {
-            $dataField = $this->_builder->get($fieldName);
+          $invoker($dataField);
 
-            if ($dataField) {
-              $dataField->setValue($this->get($fieldName));
-              $invoker($dataField);
-            }
-          }
         } // end if
       } // end foreach
     }
