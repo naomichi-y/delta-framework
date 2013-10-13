@@ -59,38 +59,40 @@ class Delta_LengthValidator extends Delta_Validator
   {
     $result = TRUE;
 
-    // 文字数をカウント
-    if ($this->_conditions->getBoolean('multibyte', TRUE)) {
-      $encoding = Delta_Config::getApplication()->get('charset.default');
-      $length = mb_strlen($this->_fieldValue, $encoding);
+    if (strlen($this->_fieldValue)) {
+      // 文字数をカウント
+      if ($this->_conditions->getBoolean('multibyte', TRUE)) {
+        $encoding = Delta_Config::getApplication()->get('charset.default');
+        $length = mb_strlen($this->_fieldValue, $encoding);
 
-    // バイト数をカウント
-    } else {
-      $length = strlen($this->_fieldValue);
-    }
-
-    if ($this->_conditions->hasName('matchLength')) {
-      if ($this->_conditions->getInt('matchLength') != $length) {
-        $this->setError('matchLengthError');
-        $result = FALSE;
+      // バイト数をカウント
+      } else {
+        $length = strlen($this->_fieldValue);
       }
 
-    } else {
-      $hasMinLength = $this->_conditions->hasName('minLength');
-      $hasMaxLength = $this->_conditions->hasName('maxLength');
+      if ($this->_conditions->hasName('matchLength')) {
+        if ($this->_conditions->getInt('matchLength') != $length) {
+          $this->setError('matchLengthError');
+          $result = FALSE;
+        }
 
-      if ($hasMinLength && $length < $this->_conditions->getInt('minLength')) {
-        $this->setError('minLengthError');
-        $result = FALSE;
+      } else {
+        $hasMinLength = $this->_conditions->hasName('minLength');
+        $hasMaxLength = $this->_conditions->hasName('maxLength');
 
-      } else if ($hasMaxLength && $length > $this->_conditions->getInt('maxLength')) {
-        $this->setError('maxLengthError');
-        $result = FALSE;
-      }
+        if ($hasMinLength && $length < $this->_conditions->getInt('minLength')) {
+          $this->setError('minLengthError');
+          $result = FALSE;
 
-      if (!$hasMinLength && !$hasMaxLength) {
-        $message = sprintf('Validate condition is undefined. [matchLength, minLength, maxLength]');
-        throw new Delta_ConfigurationException($message);
+        } else if ($hasMaxLength && $length > $this->_conditions->getInt('maxLength')) {
+          $this->setError('maxLengthError');
+          $result = FALSE;
+        }
+
+        if (!$hasMinLength && !$hasMaxLength) {
+          $message = sprintf('Validate condition is undefined. [matchLength, minLength, maxLength]');
+          throw new Delta_ConfigurationException($message);
+        }
       }
     }
 

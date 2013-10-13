@@ -2,7 +2,7 @@
 /**
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
- * @package form
+ * @package validator
  * @copyright Copyright (c) delta framework project.
  * @license GNU GPL v3+
  * @link http://delta-framework.org/
@@ -49,7 +49,7 @@ class Delta_ValidatorInvoker extends Delta_Object
         }
 
         $fieldName = $dataField->getFieldName();
-        $validator = new $validatorClassName($fieldName, $dataField->getValue(), $attributes);
+        $validator = new $validatorClassName($fieldName, $dataField->getFieldValue(), $attributes);
 
         if (!isset($this->_errors[$fieldName]) && !$validator->validate()) {
           $this->_errors[$fieldName] = $validator->getError();

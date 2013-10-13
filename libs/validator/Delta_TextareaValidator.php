@@ -36,7 +36,7 @@
  *     # 入力された行数が 'matchRowSize' と一致しない場合に通知するエラーメッセージ。
  *     matchRowSizeError: {default_message}
  *
- *     # ホワイトスペースで構成された行をカウントする場合は TRUE を指定。
+ *     # ホワイトスペースで構成される行をカウントしない場合は TRUE を指定。
  *     ignoreBlankLine: FALSE
  * </code>
  * ※: 'minRowSize'、'maxRowSize'、'matchRowSize' のいずれかの指定は必須です。
@@ -44,86 +44,73 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_TextareaValidator extends Delta_Validator
 {
   /**
-   * @throws Delta_ConfigurationException 必須属性がビヘイビアに定義されていない場合に発生。
+   * @var string
+   */
+  protected $_validatorId = 'textarea';
+
+  /**
+   * @throws Delta_ConfigurationException 必須属性が未指定の場合に発生。
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
 
-    if (strlen($value) == 0) {
-      return TRUE;
-    }
-
-    $values = explode("\n", $value);
-
-    if ($holder->getBoolean('ignoreBlankLine')) {
-      $rowSize = sizeof($values);
-
-    } else {
+    if (strlen($this->_fieldValue)) {
+      $fieldValue = Delta_StringUtils::replaceLinefeed($this->_fieldValue, "\n");
+      $lines = explode("\n", $this->_fieldValue);
       $rowSize = 0;
 
-      foreach ($values as $line) {
-        if (strlen($line)) {
-          $rowSize++;
-        }
-      }
-    }
-
-    $message = NULL;
-
-    if ($holder->hasName('matchRowSize')) {
-      $matchRowSize = $holder->getInt('matchRowSize');
-
-      if ($rowSize != $matchRowSize) {
-        $message = $holder->getString('matchRowSizeError');
-
-        if ($message === NULL) {
-          $message = sprintf('Value elements is illegal. [%s]', $fieldName);
-        }
-      }
-
-    } else {
-      if ($holder->hasName('minRowSize')) {
-        $minRowSize = $holder->getInt('minRowSize');
-
-        if ($rowSize < $minRowSize) {
-          $message = $holder->getString('minRowSizeError');
-
-          if ($message === NULL) {
-            $message = sprintf('Value elements is short. [%s]', $fieldName);
-          }
-        }
-      }
-
-      if ($holder->hasName('maxRowSize')) {
-        $maxRowSize = $holder->getInt('maxRowSize');
-
-        if ($rowSize > $maxRowSize) {
-          $message = $holder->getString('maxRowSizeError');
-
-          if ($message === NULL) {
-            $message = sprintf('Value elements is long. [%s]', $fieldName);
+      if ($this->_conditions->getBoolean('ignoreBlankLine')) {
+        foreach ($lines as $line) {
+          if (strlen($line)) {
+            $rowSize++;
           }
         }
 
       } else {
-        $message = sprintf('\'minRowSize\' or \'maxRowSize\' or \'matchRowSize\' validator attribute is undefined.');
+        $rowSize = sizeof($lines);
+      }
+
+      // 必要行数にマッチしているか
+      if ($this->_conditions->hasName('matchRowSize')) {
+        $matchRowSize = $this->_conditions->getInt('matchRowSize');
+
+        if ($rowSize != $matchRowSize) {
+          $this->setError('matchRowSizeError');
+          $result = FALSE;
+        }
+
+      // 必要行数以上を満たしているか
+      } else if ($this->_conditions->hasName('minRowSize')) {
+        $minRowSize = $this->_conditions->getInt('minRowSize');
+
+        if ($rowSize < $minRowSize) {
+          $this->setError('minRowSizeError');
+          $result = FALSE;
+        }
+
+      // 必要行数以下を満たしているか
+      } else if ($this->_conditions->hasName('maxRowSize')) {
+        $maxRowSize = $this->_conditions->getInt('maxRowSize');
+
+        if ($rowSize > $maxRowSize) {
+          $this->setError('maxRowSizeError');
+          $result = FALSE;
+        }
+
+      } else {
+        $message = sprintf('Validate condition is undefined. [matchRowSize, minRowSize, maxRowSize]');
         throw new Delta_ConfigurationException($message);
       }
     }
 
-    if ($message !== NULL) {
-      $this->sendError($fieldName, $message);
-
-      return FALSE;
-    }
-
-    return TRUE;
+    return $result;
   }
 }

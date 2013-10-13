@@ -34,7 +34,7 @@
  *     hyphnate: TRUE
  *
  *     # 電話番号の書式が不正な場合に通知するメッセージ。
- *     phoneNumberError: {default_message}
+ *     formatError: {default_message}
  * </code>
  * o 'number*' が未指定の場合は、{validator_id} フィールドを用いた検証が実行されます。
  * o 現在のところ、国際番号はサポートしていません。
@@ -42,15 +42,21 @@
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 
 class Delta_PhoneNumberValidator extends Delta_Validator
 {
   /**
+   * @var string
+   */
+  protected $_validatorId = 'phoneNumber';
+
+  /**
    * 国別のハイフンを含む電話番号パターン、ハイフンを含まない電話番号パターンリスト。
    * @var array
    */
-  private static $_patterns = array(
+  protected $_patterns = array(
     'jp' => array('/^\d{1,5}-\d{1,5}-\d{1,5}$/', '/^\d{10,11}$/')
   );
 
@@ -62,7 +68,7 @@ class Delta_PhoneNumberValidator extends Delta_Validator
    * @return bool 電話番号の形式が正当なものかどうかを TRUE/FALSE で返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function isValid($value, $hyphnate = TRUE)
+  private function validatePhoneNumber($value, $hyphnate = TRUE)
   {
     $numberLength = strlen($value);
     $result = NULL;
@@ -80,9 +86,9 @@ class Delta_PhoneNumberValidator extends Delta_Validator
 
     if ($result === NULL) {
       if ($hyphnate) {
-        $pattern = self::$_patterns['jp'][0];
+        $pattern = $this->_patterns['jp'][0];
       } else {
-        $pattern = self::$_patterns['jp'][1];
+        $pattern = $this->_patterns['jp'][1];
       }
 
       $result = preg_match($pattern, $value);
@@ -95,39 +101,33 @@ class Delta_PhoneNumberValidator extends Delta_Validator
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    // @todo 2.0
-    exit;
-    $form = Delta_ActionForm::getInstance();
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
+    $request = Delta_FrontController::getInstance()->getRequest();
 
-    $number1 = $form->get($holder->getString('number1'));
-    $number2 = $form->get($holder->getString('number2'));
-    $number3 = $form->get($holder->getString('number3'));
+    $number1 = $request->getParameter($this->_conditions->getString('number1'));
+    $number2 = $request->getParameter($this->_conditions->getString('number2'));
+    $number3 = $request->getParameter($this->_conditions->getString('number3'));
 
-    $hyphnate = $holder->getBoolean('hyphnate', FALSE);
+    $hyphnate = $this->_conditions->getBoolean('hyphnate', FALSE);
+    $fullPhoneNumber = $number1 . $number2 . $number3;
 
-    if (strlen($number1 . $number2 . $number3)) {
+    if (strlen($fullPhoneNumber)) {
       $fullPhoneNumber = sprintf('%s-%s-%s', $number1, $number2, $number3);
       $hyphnate = TRUE;
 
     } else {
-      $fullPhoneNumber = $value;
+      $fullPhoneNumber = $this->_fieldValue;
     }
 
-    if (!self::isValid($fullPhoneNumber, $hyphnate)) {
-      $message = $holder->get('phoneNumberError');
-
-      if ($message === NULL) {
-        $message = sprintf('Format of phone number is invalid. [%s]', $fieldName);
+    if (strlen($fullPhoneNumber)) {
+      if (!$this->validatePhoneNumber($fullPhoneNumber, $hyphnate)) {
+        $this->setError('formatError');
+        $result = FALSE;
       }
-
-      $this->sendError($fieldName, $message);
-
-      return FALSE;
     }
 
-    return TRUE;
+    return $result;
   }
 }

@@ -25,57 +25,66 @@
  *     max:
  *
  *     # 小数点以下の入力を許可する場合は TRUE を指定。
- *     float:
+ *     allowFloat: FALSE
+ *
+ *     # 小数点が指定された場合に通知するエラーメッセージ。('allowFloat' が FALSE の場合のみ)
+ *     floatError: {default_message}
  *
  *     # 数値が指定範囲外の場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     rangeError: {default_message}
  * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_RangeValidator extends Delta_Validator
 {
   /**
-   * @throws Delta_ConfigurationException 必須属性がビヘイビアに定義されていない場合に発生。
+   * @var string
+   */
+  protected $_validatorId = 'range';
+
+  /**
+   * @throws Delta_ConfigurationException 必須属性が未指定の場合に発生。
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
+    $result = TRUE;
 
-    if (strlen($value) == 0) {
-      return TRUE;
-    }
+    if (strlen($this->_fieldValue)) {
+      // 整数値であるか検証
+      if (is_numeric($this->_fieldValue)) {
+        $allowFloat = $this->_conditions->getBoolean('allowFloat');
 
-    // 整数値であるか検証
-    if (is_numeric($value)) {
-      $float = $holder->getBoolean('float');
-
-      if ($float || (!$float && strpos($value, '.') === FALSE)) {
-        // min、max 値による範囲検証
-        if ($holder->hasName('min') && $holder->hasName('max')) {
-          if ($holder->getInt('min') <= $value && $value <= $holder->getInt('max')) {
-            return TRUE;
-          }
+        // 浮動小数点数の入力が許可されているか
+        if (strpos($this->_fieldValue, '.') !== FALSE && !$allowFloat) {
+          $result = FALSE;
+          $this->setError('floatError');
 
         } else {
-          $message = sprintf('\'min\' and \'max\' attribute is undefined.');
-          throw new Delta_ConfigurationException($message);
+          // 上限と下限の数値範囲チェック
+          if ($this->_conditions->hasName('min') && $this->_conditions->hasName('max')) {
+            if ($this->_conditions->getFloat('min') > $this->_fieldValue || $this->_fieldValue > $this->_conditions->getFloat('max')) {
+              $result = FALSE;
+              $this->setError('rangeError');
+            }
+
+          } else {
+            $message = 'Required attribute is not specified. [min, max]';
+            throw new Delta_ConfigurationException($message);
+          }
         }
+
+      } else {
+        $result = FALSE;
+        $this->setError('rangeError');
       }
     }
 
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('Out of range value was specified. [%s]', $fieldName);
-    }
-
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

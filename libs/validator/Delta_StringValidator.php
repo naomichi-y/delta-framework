@@ -19,15 +19,17 @@
  *     class: Delta_StringValidator
  *
  *     # 文字列が英字で構成されているかどうかを検証する。
- *     allowAlphabet: FALSE
+ *     allowAlphabet: TRUE
  *
  *     # 文字列が数値で構成されているかどうかを検証する。
- *     allowNumeric: FALSE
+ *     allowNumeric: TRUE
+ *
+ *     # 文字列がダッシュ、アンダースコアで構成されているか検証する。
+ *     allowDash: TRUE
  *
  *     # 文字列に許可されない文字が含まれる場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  * </code>
- * ※'allowAlphabet'、'allowNumeric' の両方が TRUE の場合、文字列が英数字で構成されているかどうかをチェックします。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -49,28 +51,31 @@ class Delta_StringValidator extends Delta_Validator
   {
     $result = TRUE;
 
-    $allowAlphabet = $this->_conditions->getBoolean('allowAlphabet', TRUE);
-    $allowNumeric = $this->_conditions->getBoolean('allowNumeric', TRUE);
+    if (strlen($this->_fieldValue)) {
+      $allowAlphabet = $this->_conditions->getBoolean('allowAlphabet', TRUE);
+      $allowNumeric = $this->_conditions->getBoolean('allowNumeric', TRUE);
+      $allowDash = $this->_conditions->getBoolean('allowDash', TRUE);
 
-    // 文字列中のアルファベットを許可
-    if ($allowAlphabet) {
-      // 文字列中の数値を許可
-      if ($allowNumeric) {
-        if (!ctype_alnum($this->_fieldValue)) {
-          $result = FALSE;
-        }
+      $pattern = NULL;
 
-      } else if (!ctype_alpha($this->_fieldValue)) {
-        $result = FALSE;
+      if ($allowAlphabet) {
+        $pattern = 'a-zA-Z';
       }
 
-    // 文字列中の数値を許可
-    } else if ($allowNumeric && !ctype_digit($this->_fieldValue)) {
-      $result = FALSE;
-    }
+      if ($allowNumeric) {
+        $pattern .= '0-9';
+      }
 
-    if (!$result) {
-      $this->setError('matchError');
+      if ($allowDash) {
+        $pattern .= '\-_';
+      }
+
+      $pattern = '/^[' . $pattern . ']+$/';
+
+      if (!preg_match($pattern, $this->_fieldValue)) {
+        $this->setError('formatError');
+        $result = FALSE;
+      }
     }
 
     return $result;

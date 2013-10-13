@@ -1,0 +1,511 @@
+/**
+ * Theme Name: Delta framework
+ * Author: Naomichi Yamakita
+ */
+
+@import url('kube.css');
+
+/**
+ * ****************************************************************
+ * タグの再定義
+ * ****************************************************************
+ */
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif !important;
+  color: #555;
+  font-size: 0.88em;
+  border-top: 4px solid #87b854;
+}
+
+a:link, a:visited, a:active {
+  color: #87b854;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #555;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;
+}
+
+header {
+  margin-top: 2%;
+}
+
+header .row, #contents, header h1, #menu-main {
+  max-width: 960px;
+  margin: auto;
+}
+
+header h1 {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-bottom: 1px solid #555;
+}
+
+header a:link, header a:visited, header a:active {
+  color: #555 !important;
+}
+
+h1 {
+  font-size: 1.4em;
+  padding-bottom: 0.4%;
+}
+
+.half h1 {
+  border-bottom: none;
+}
+
+h2 {
+  font-size: 1.2em;
+  margin-top: 4%;
+  padding-bottom: 0.4%;
+  border-bottom: 1px solid #ccc;
+}
+
+h2 a:link, h2 a:visited, h2 a:active {
+  color: #555;
+}
+
+h2 a:hover {
+  color: #87b854;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+article {
+  margin-bottom: 6%;
+}
+
+blockquote p {
+  font-style: normal;
+}
+
+dt {
+  font-size: 1em;
+}
+
+dd {
+  margin: 1% 0 1% 0;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  border-bottom: 1px solid #C9C9C9;
+}
+
+th {
+  font-weight: bold;
+  text-align: center;
+}
+
+form {
+  margin-top: 2%;
+}
+
+textarea {
+  height: auto;
+}
+
+
+footer {
+  color: #ccc;
+  background-color: #353431;
+  border-top: 10px solid #ebebea;
+}
+
+footer p {
+  width: 960px;
+  margin: auto;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (共通)
+ * ****************************************************************
+ */
+.global-nav {
+  font-size: 0.88em;
+  float: right;
+}
+
+.global-nav .current {
+  color: #87b854;
+  font-weight: bold;
+}
+
+.global-nav ul li a:active {
+  color: #87b854 !important;
+}
+
+.global-nav ul li a:hover {
+  color: #87b854 !important;
+  text-decoration: none;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  font-size: 0.86em;
+  text-align: right;
+}
+
+.comment {
+  line-height: 130%;
+  color: #999;
+  font-size: 0.86em;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (delta-framework.org)
+ * ****************************************************************
+ */
+
+.gallery dt {
+  border-bottom: none;
+}
+
+.gallery-item {
+  float: left;
+  margin-top: 10px;
+  text-align: center;
+  width: 33%;
+}
+
+.gallery img {
+  border: 1px solid #ccc;
+}
+
+.meta {
+  text-align: right;
+  color: #999;
+  font-size: 0.88em;
+}
+
+#sidebar .info {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+#sidebar .info button {
+  padding: 8% 16% 8% 16%;
+  line-height: 150%;
+}
+
+.description {
+  font-size: 0.88em;
+  color: #999;
+}
+
+#menu-main-container {
+  background-color: #f5f5f5;
+  border-top: 1px solid #ebebea;
+  border-bottom: 1px solid #ebebea;
+}
+
+#menu-main-container a {
+  padding: 1em;
+}
+
+#menu-main-container a:hover {
+  color: #fff !important;
+  background-color: #555 !important;
+  text-decoration: none !important;
+  transition-duration: 0.6s;
+  transition-delay: ease-in-out;
+}
+
+#menu-main-container .current-menu-item, #menu-main-container .current-menu-parent {
+  background-color: #ccc;
+}
+
+#menu-main > li
+{
+  position: relative;
+  line-height: 30px;
+}
+
+#menu-main a
+{
+  white-space: nowrap;
+}
+
+#menu-main ul {
+  display: none;
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  background-color: #87b854;
+  color: #fff;
+  z-index: 1;
+}
+
+.sub-menu li {
+  text-align: left;
+  width: 100%;
+}
+
+.sub-menu li a {
+  color: #fff !important;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (manual.delta-framework.org)
+ * ****************************************************************
+ */
+
+.lang-php code, .lang-view code, .lang-yaml code, .lang-config code, .lang-shell code, .lang-html code, .lang-text code {
+  padding: 1%;
+  display: block;
+  line-height: 150%;
+}
+
+.note-container {
+  margin-bottom: 2%;
+}
+
+.note-container ul, .note-container ol {
+  margin: 1% 2% 1% 8%;
+}
+
+.note-hint, .note-info, .note-important {
+  color: #fff;
+}
+
+.note-hint a, .note-info a, .note-important a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.note-hint {
+  background-color: #3498db;
+}
+.note-info {
+  background-color: #87b854;
+}
+.note-important {
+  background-color: #E8673C;
+}
+
+.note-bar {
+  float: left;
+  width: 40px;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.note-contents p {
+  padding: 2%;
+}
+
+.note-contents ul {
+  padding: 2% 0 2% 0;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (api.delta-framework.org)
+ * ****************************************************************
+ */
+
+.collapsable li {
+  word-wrap: break-word;
+}
+
+.source {
+  margin: 2% 0 2% 0;
+}
+
+.source code {
+  line-height: 150%;
+  display: block;
+  padding: 1%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+}
+
+.col-package {
+  width: 20%;
+}
+
+.col-package-name {
+  width: 25%;
+}
+
+.col-package-summary {
+  width: 55%;
+}
+
+.col-description-name, .col-constant-name, .col-define-name {
+  width: 20%;
+}
+
+.col-description-value, .col-constant-value, .col-define-value {
+  width: 80%;
+}
+
+.col-property-name, .col-property-type, .col-property-defined {
+  width: 20%;
+}
+
+.col-property-summary {
+  width: 40%;
+}
+
+.col-method-name {
+  width: 20%;
+}
+
+.col-method-summary {
+  width: 60%;
+}
+
+.col-method-defined {
+  width: 20%;
+}
+
+.col-parameter-name {
+  width: 15%;
+}
+
+.col-parameter-type {
+  width: 15%;
+}
+
+.col-parameter-description {
+  width: 70%;
+}
+
+.col-function-name {
+  width: 20%;
+}
+
+.col-function-summary {
+  width: 80%;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (cpanel)
+ * ****************************************************************
+ */
+.tablesorter th, .tablesorter td {
+  font-size: 1.1em !important;
+}
+
+.tablesorter thead tr .headerSortDown, .tablesorter thead tr .headerSortUp {
+  color: #555 !important;
+  background-color: #ccc !important;
+}
+
+.ui-tabs-nav {
+}
+
+.ui-widget {
+  font-size: 0.86em !important;
+}
+
+/**
+ * ****************************************************************
+ * カスタムクラス (サンプルアプリケーション)
+ * ****************************************************************
+ */
+div.success, div.error {
+  padding: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  font-size: 1em;
+}
+
+div.success {
+  color: #fff;
+  background-color: #87b854;
+}
+
+div.error {
+  background-color: #E8673C;
+  color: #fff;
+}
+
+div.success ul, div.error ul {
+  margin-bottom: 0 !important;
+}
+
+span.success, span.error {
+  margin: 0;
+}
+
+span.error {
+  color: #E8673C;
+  font-weight: bold;
+}
+
+.form-field {
+  margin-bottom: 2%;
+}
+
+.form-field > label {
+  display: block;
+}
+
+.form-field fieldset {
+  padding: 1%;
+}
+
+.field-error-message {
+  color: #E8673C;
+  font-weight: bold;
+}
+
+.data {
+  margin-bottom: 1%;
+}
+
+.data li {
+  list-style: none;
+  padding: 1%;
+}
+
+.data li:not(:last-child), .data li:not(:last-child) {
+  border-bottom: 1px solid #cccccc;
+}
+
+.data li:first-child {
+  border-top: 1px solid #999999;
+}
+
+.data li:last-child {
+  border-bottom: 1px solid #999999;
+}
+
+.data-label {
+  font-weight: bold;
+  float: left;
+  width: 25%;
+}
+
+.data-content {
+  margin-left: 25%;
+}
+
+.data-content p, .data-content form {
+  margin: 0;
+}
+
+

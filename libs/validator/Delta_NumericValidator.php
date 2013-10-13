@@ -19,56 +19,52 @@
  *     class: Delta_NumericValidator
  *
  *     # 小数点以下の入力を許可する場合は TRUE を指定。
- *     float: FLASE
+ *     allowFloat: FLASE
+ *
+ *     # 小数点が指定された場合に通知するエラーメッセージ。('allowFloat' が FALSE の場合のみ)
+ *     floatError: {default_message}
  *
  *     # 許可されない文字が含まれた場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_NumericValidator extends Delta_Validator
 {
   /**
-   * 数値の書式が正当なものであるかチェックします。
-   *
-   * @param string $value チェック対象の数値。
-   * @param bool $float 小数点以下の入力を許可する場合は TRUE。
-   * @return bool 数値の書式が正当なものかどうかを TRUE/FALSE で返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   * @var string
    */
-  public static function isValid($value, $float = FALSE)
-  {
-    if (is_numeric($value) && ($float || (!$float && strpos($value, '.') === FALSE))) {
-      return TRUE;
-    }
-
-    return FALSE;
-  }
+  protected $_validatorId = 'numeric';
 
   /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-    $float = $holder->getBoolean('float');
+    $result = TRUE;
 
-    if (strlen($value) == 0 || self::isValid($value, $float)) {
-      return TRUE;
+    if (strlen($this->_fieldValue)) {
+      // 文字列が数値 (浮動小数点数を含む) で構成されているかチェック
+      if (!is_numeric($this->_fieldValue)) {
+        $this->setError('formatError');
+        $result = FALSE;
+
+      } else {
+        $allowFloat = $this->_conditions->getBoolean('allowFloat');
+
+        // 浮動小数点数を含む数値文字列が許可されているかチェック
+        if (strpos($this->_fieldValue, '.') !== FALSE && !$allowFloat) {
+          $this->setError('floatError');
+          $result = FALSE;
+        }
+      }
     }
 
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('Numeric format is illegal. [%s]', $fieldName);
-    }
-
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

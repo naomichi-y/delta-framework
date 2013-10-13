@@ -29,12 +29,9 @@ class Delta_RadioValidator extends Delta_Validator
   {
     $result = TRUE;
 
-    if (!strlen($this->_fieldValue)) {
+    if ($this->_fieldValue === NULL) {
+      $this->setError('requiredError');
       $result = FALSE;
-    }
-
-    if (!$result) {
-      $this->setError('error');
     }
 
     return $result;

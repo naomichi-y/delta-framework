@@ -50,32 +50,34 @@ class Delta_SequenceStringValidator extends Delta_Validator
   {
     $result = TRUE;
 
-    $size = $this->_conditions->getString('size');
-    $multibyte = $this->_conditions->getBoolean('multibyte');
+    if (strlen($this->_fieldValue)) {
+      $size = $this->_conditions->getString('size');
+      $multibyte = $this->_conditions->getBoolean('multibyte');
 
-    if ($size === NULL) {
-      $message = 'Required attribute is not specified. [size]';
-      throw new Delta_ConfigurationException($message);
-    }
-
-    // マルチバイトの連続文字をチェックするかどうか
-    $regexpOption = NULL;
-
-    if ($multibyte) {
-      $detectEncoding = mb_detect_encoding($this->_fieldValue);
-
-      if ($detectEncoding !== 'UTF-8') {
-        $value = mb_convert_encoding($value, 'UTF-8', $detectEncoding);
+      if ($size === NULL) {
+        $message = 'Required attribute is not specified. [size]';
+        throw new Delta_ConfigurationException($message);
       }
 
-      $regexpOption = 'u';
-    }
+      // マルチバイトの連続文字をチェックするかどうか
+      $regexpOption = NULL;
 
-    $regexp = sprintf('/(.)\1{%s,}/%s', $size - 1, $regexpOption);
+      if ($multibyte) {
+        $detectEncoding = mb_detect_encoding($this->_fieldValue);
 
-    if (preg_match($regexp, $this->_fieldValue)) {
-      $this->setError('sizeError');
-      $result = FALSE;
+        if ($detectEncoding !== 'UTF-8') {
+          $value = mb_convert_encoding($value, 'UTF-8', $detectEncoding);
+        }
+
+        $regexpOption = 'u';
+      }
+
+      $regexp = sprintf('/(.)\1{%s,}/%s', $size - 1, $regexpOption);
+
+      if (preg_match($regexp, $this->_fieldValue)) {
+        $this->setError('sizeError');
+        $result = FALSE;
+      }
     }
 
     return FALSE;

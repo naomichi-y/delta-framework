@@ -65,31 +65,33 @@ class Delta_EMailValidator extends Delta_Validator
   {
     $result = TRUE;
 
-    $strict = $this->_conditions->getBoolean('strict');
-    $domainCheck = $this->_conditions->getBoolean('domainCheck');
+    if (strlen($this->_fieldValue)) {
+      $strict = $this->_conditions->getBoolean('strict');
+      $domainCheck = $this->_conditions->getBoolean('domainCheck');
 
-    if ($strict) {
-      $pattern = self::EMAIL_STRICT_PATTERN;
-    } else {
-      $pattern = self::EMAIL_TRANSITIONAL_PATTERN;
-    }
-
-    if (preg_match($pattern, $this->_fieldValue)) {
-      if ($domainCheck) {
-        $domainPart = substr($this->_fieldValue, strpos($this->_fieldValue, '@') + 1);
-
-        // MX レコードが未定義の場合は A レコードをチェック (CNAME の使用は実際のところ RFC2821 違反)
-        if (!checkdnsrr($domainPart, 'MX') && !checkdnsrr($domainPart, 'A') && !checkdnsrr($domainPart, 'CNAME')) {
-          $result = FALSE;
-        }
+      if ($strict) {
+        $pattern = self::EMAIL_STRICT_PATTERN;
+      } else {
+        $pattern = self::EMAIL_TRANSITIONAL_PATTERN;
       }
 
-    } else {
-      $result = FALSE;
-    }
+      if (preg_match($pattern, $this->_fieldValue)) {
+        if ($domainCheck) {
+          $domainPart = substr($this->_fieldValue, strpos($this->_fieldValue, '@') + 1);
 
-    if (!$result) {
-      $this->setError('formatError');
+          // MX レコードが未定義の場合は A レコードをチェック (CNAME の使用は実際のところ RFC2821 違反)
+          if (!checkdnsrr($domainPart, 'MX') && !checkdnsrr($domainPart, 'A') && !checkdnsrr($domainPart, 'CNAME')) {
+            $result = FALSE;
+          }
+        }
+
+      } else {
+        $result = FALSE;
+      }
+
+      if (!$result) {
+        $this->setError('formatError');
+      }
     }
 
     return $result;

@@ -36,16 +36,13 @@
  *     allows:
  *
  *     # カードタイプの識別に失敗した場合に通知するエラーメッセージ。
- *     unknownTypeError: {default_message}
+ *     unsupportedError: {default_message}
  *
  *     # カード番号が 13～19 桁の数値以外で構成されている場合に通知するエラーメッセージ。
  *     formatError: {default_message}
  *
  *     # チェックディジットが不正な場合に通知するエラーメッセージ。
- *     numberError: {default_message}
- *
- *     # カード番号の長さが不正な場合に通知するエラーメッセージ。
- *     lengthError: {default_message}
+ *     checkDigitError: {default_message}
  *
  *     # 'allows' で許可されていないカードタイプが指定された場合に通知するエラーメッセージ。
  *     denyCardError: {default_message}
@@ -59,6 +56,7 @@
  * @category delta
  * @package validator
  * @link http://en.wikipedia.org/wiki/Credit_card_number Bank card number
+ * @todo 2.0
  */
 class Delta_CreditCardValidator extends Delta_Validator
 {
@@ -128,9 +126,14 @@ class Delta_CreditCardValidator extends Delta_Validator
   const CREDIT_TYPE_LASERCARD = 'laserCard';
 
   /**
+   * @var string
+   */
+  protected $_validatorId = 'creditCard';
+
+  /**
    * @var array
    */
-  private static $_cards = array(
+  private static $_creditCards = array(
     array('name' => self::CREDIT_TYPE_AMERICAN_EXPRESS,
           'length' => '15',
           'prefixes' => '34,37',
@@ -201,28 +204,27 @@ class Delta_CreditCardValidator extends Delta_Validator
   /**
    * カードタイプを取得します。
    * <i>このメソッドはカード番号のチェックディジットを計算しません。
-   * カード番号が正当なものであるかチェックするには、{@link isValidCheckDigit()} メソッドを使用して下さい。</i>
+   * カード番号が正当なものであるかチェックするには、{@link validateCheckDigit()} メソッドを使用して下さい。</i>
    *
    * @param string $cardNumber チェック対象のカード番号。
    * @return int CREDIT_TYPE_* 定数を返します。カードタイプが不明な場合は -1 を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    * @author www.braemoor.co.uk <webmeister@braemoor.co.uk>
    */
-  public static function getCardType($cardNumber)
+  private function getCardType($cardNumber)
   {
     $issuerType = -1;
-    $j = sizeof(self::$_cards);
+    $j = sizeof(self::$_creditCards);
 
     for ($i = 0; $i < $j; $i++) {
-      $prefixes = explode(',', self::$_cards[$i]['prefixes']);
+      $prefixes = explode(',', self::$_creditCards[$i]['prefixes']);
 
       foreach ($prefixes as $prefix) {
         if (strpos($cardNumber, $prefix) === 0) {
-          $lengths = explode(',', self::$_cards[$i]['length']);
+          $lengths = explode(',', self::$_creditCards[$i]['length']);
 
           if (in_array(strlen($cardNumber), $lengths)) {
             $issuerType = $i;
-
             break 2;
           }
         }
@@ -240,7 +242,7 @@ class Delta_CreditCardValidator extends Delta_Validator
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    * @author www.braemoor.co.uk <webmeister@braemoor.co.uk>
    */
-  public static function isValidCheckDigit($cardNumber)
+  private function validateCheckDigit($cardNumber)
   {
     $checksum = 0; // running checksum total
     $j = 1; // takes value of 1 or 2
@@ -277,179 +279,77 @@ class Delta_CreditCardValidator extends Delta_Validator
   }
 
   /**
-   * クレジットカードの書式が正当なものであるかチェックします。
-   *
-   * @param string $cardNumber チェック対象のカード番号。
-   * @param int $cardType チェック対象のカードタイプ。CREDIT_TYPE_* 定数を指定。
-   * @param int &$validCardType カードタイプを返します。(CREDIT_TYPE_* 定数)
-   * @param int &$errorType エラータイプを返します。
-   * @param string &$errorMessage エラーメッセージを返します。
-   * @return bool クレジットカードの書式が正しいものであるかどうかを返します。発生しうるエラーは下記の通り。
-   *   - unknownTypeError:
-   *   - formatError: cardType が指定された場合のみ発生。
-   *   - numberError:
-   *   - lengthError: cardType が指定された場合のみ発生。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    * @author www.braemoor.co.uk <webmeister@braemoor.co.uk>
    */
-  public static function isValid($cardNumber,
-    $cardType = NULL,
-    &$validCardType = NULL,
-    &$errorType = NULL,
-    &$errorMessage = NULL)
+  private function validateCardNumber($cardNumber, &$creditCardType = NULL)
   {
+    $result = TRUE;
     $cardNumber = str_replace('-', '', $cardNumber);
-    $cards = self::$_cards;
-
-    $errors = array(
-      'unknownTypeError' => 'Unknown card type',
-      'formatError' => 'Credit card number has invalid format',
-      'numberError' => 'Credit card number is invalid',
-      'lengthError' => 'Credit card number is wrong length'
-    );
 
     // Establish card type
-    if ($cardType === NULL) {
-      $validCardType = self::getCardType($cardNumber);
-
-    } else {
-      $j = sizeof($cards);
-      $validCardType = -1;
-
-      for ($i = 0; $i < $j; $i++) {
-        // See if it is this card (ignoring the case of the string)
-        if (strcmp(strtolower($cardType), strtolower($cards[$i]['name'])) == 0) {
-          $validCardType = $i;
-          break;
-        }
-      }
-    }
+    $creditCardType = $this->getCardType($cardNumber);
 
     // If card type not found, report an #
-    if ($validCardType == -1) {
-      $errorType = 'unknownTypeError';
-      $errorMessage = $errors[$errorType];
-
-      return FALSE;
-    }
+    if ($creditCardType == -1) {
+      $this->setError('unsupportedCardError');
+      $result = FALSE;
 
     // Check that the number is numeric and of the right sort of length.
-    if ($cardType !== NULL && !preg_match('/^[0-9]{13,19}$/', $cardNumber)) {
-      $errorType = 'formatError';
-      $errorMessage = $errors[$errorType];
-
-      return FALSE;
-    }
+    } else if (!preg_match('/^[0-9]{13,19}$/', $cardNumber)) {
+      $this->setError('formatError');
+      $result = FALSE;
 
     // Now check the modulus 10 check digit - if required
-    if ($cards[$validCardType]['checkdigit']) {
-      if (!self::isValidCheckDigit($cardNumber)) {
-        $errorType = 'numberError';
-        $errorMessage = $errors[$errorType];
-
-        return FALSE;
-      }
+    } else if (self::$_creditCards[$creditCardType]['checkdigit'] && !$this->validateCheckDigit($cardNumber)) {
+      $this->setError('checkDigitError');
+      $result = FALSE;
     }
 
-    // The following are the card-specific checks we undertake.
-
-    // Load an array with the valid prefixes for this card
-    if ($cardType !== NULL) {
-      $prefix = explode(',', $cards[$validCardType]['prefixes']);
-
-      // Now see if any of them match what we have in the card number
-      $PrefixValid = FALSE;
-      $j = sizeof($prefix);
-
-      for ($i = 0; $i < $j; $i++) {
-        if (strpos($cardNumber, $prefix[$i]) === 0) {
-          $PrefixValid = TRUE;
-          break;
-        }
-      }
-
-      // If it isn't a valid prefix there's no point at looking at the length
-      if (!$PrefixValid) {
-        $errorType = 'numberError';
-        $errorMessage = $errors[$errorType];
-
-        return FALSE;
-      }
-
-      // See if the length is valid for this card
-      $lengthValid = FALSE;
-      $lengths = explode(',', $cards[$validCardType]['length']);
-      $l = sizeof($lengths);
-
-      for ($j = 0; $j < $l; $j++) {
-        if (strlen($cardNumber) == $lengths[$j]) {
-          $lengthValid = TRUE;
-          break;
-        }
-      }
-
-      // See if all is OK by seeing if the length was valid.
-      if (!$lengthValid) {
-        $errorType = 'lengthError';
-        $errorMessage = $errors[$errorType];
-
-        return FALSE;
-      }
-    }
-
-    // The credit card is in the required format.
-    return TRUE;
+    return $result;
   }
 
   /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-    // @todo 2.0
-    exit;
-    $form = Delta_ActionForm::getInstance();
+    $result = TRUE;
+    $request = Delta_FrontController::getInstance()->getRequest();
 
-    $number1 = $form->get($holder->getString('number1'));
-    $number2 = $form->get($holder->getString('number2'));
-    $number3 = $form->get($holder->getString('number3'));
-    $number4 = $form->get($holder->getString('number4'));
+    $number1 = $request->getParameter($this->_conditions->getString('number1'));
+    $number2 = $request->getParameter($this->_conditions->getString('number2'));
+    $number3 = $request->getParameter($this->_conditions->getString('number3'));
+    $number4 = $request->getParameter($this->_conditions->getString('number4'));
 
-    if (strlen($number1 . $number2 . $number3 . $number4)) {
-      $cardNumber = sprintf('%s%s%s%s', $number1, $number2, $number3, $number4);
+    $fullNumber = $number1 . $number2 . $number3 . $number4;
+    $hasCardValue = FALSE;
 
-      if (strlen($cardNumber) == 0) {
-        return TRUE;
-      }
-
-    } else if (strlen($value) == 0) {
-      return TRUE;
+    if (strlen($fullNumber)) {
+      $hasCardValue = TRUE;
 
     } else {
-      $cardNumber = $value;
-    }
-
-    if (self::isValid($cardNumber, NULL, $validCardType, $errorType, $errorMessage)) {
-      $allows = $holder->getArray('allows');
-
-      if (sizeof($allows)) {
-        if (in_array(self::$_cards[$validCardType]['name'], $allows)) {
-          return TRUE;
-        }
-
-        $errorType = 'denyCardError';
-        $errorMessage = 'Specified cards are not accepted.';
-
-      } else {
-        return TRUE;
+      if (strlen($this->_fieldValue)) {
+        $hasCardValue = TRUE;
+        $fullNumber = $this->_fieldValue;
       }
     }
 
-    $message = $holder->getString($errorType, $errorMessage);
-    $this->sendError($fieldName, $message);
+    if ($hasCardValue) {
+      if (!$this->validateCardNumber($fullNumber, $creditCardType)) {
+        $result = FALSE;
 
-    return FALSE;
+      } else {
+        $allows = $this->_conditions->getArray('allows');
+
+        if ($allows && !in_array(self::$_creditCards[$creditCardType]['name'], $allows)) {
+          $this->setError('denyCardError');
+          $result = FALSE;
+        }
+      }
+    }
+
+    return $result;
   }
 }

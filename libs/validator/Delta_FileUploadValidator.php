@@ -102,7 +102,19 @@ class Delta_FileUploadValidator extends Delta_Validator
         }
 
         if ($this->validateErrorType($fileInfo['error'])) {
-           // ファイルサイズの上限チェック (アプリケーションの制限)
+          // ファイルサイズの下限サイズチェック
+          $minSize = $this->_conditions->getString('minSize');
+
+          if ($minSize) {
+            $minSize = Delta_NumberUtils::realBytes($minSize);
+
+            if ($minSize && $fileInfo['size'] < $minSize) {
+              $this->setError('minSizeError');
+              $result = FALSE;
+            }
+          }
+
+          // ファイルサイズの上限チェック
           $maxSize = $this->_conditions->getString('maxSize');
 
           if ($maxSize) {

@@ -107,7 +107,7 @@ class Delta_Form extends Delta_Object
       $dataField = $this->_builder->get($fieldName);
 
       if ($dataField) {
-        $dataField->setValue($fieldValue);
+        $dataField->setFieldValue($fieldValue);
         $result = TRUE;
       }
     }
@@ -140,10 +140,10 @@ class Delta_Form extends Delta_Object
   public function hasName($fieldName)
   {
     if ($this->_builder->hasName($fieldName)) {
-      return FALSE;
+      return TRUE;
     }
 
-    return TRUE;
+    return FALSE;
   }
 
   /**
@@ -160,7 +160,7 @@ class Delta_Form extends Delta_Object
     $dataField = $this->_builder->get($fieldName);
 
     if ($dataField) {
-      $value = $dataField->getValue();
+      $value = $dataField->getFieldValue();
 
       if (Delta_StringUtils::nullOrEmpty($value)) {
         $value = $alternative;
@@ -197,7 +197,7 @@ class Delta_Form extends Delta_Object
     $dataField = $this->_builder->get($fieldName);
 
     if ($dataField) {
-      $dataField->setValue(NULL);
+      $dataField->setFieldValue(NULL);
       $result = TRUE;
     }
 
@@ -209,7 +209,7 @@ class Delta_Form extends Delta_Object
   public function clear()
   {
     foreach ($this->_builder->getFields() as $fieldName => $dataField) {
-      $dataField->setValue(NULL);
+      $dataField->setFieldValue(NULL);
     }
 
     $this->_errors = array();
@@ -275,6 +275,15 @@ class Delta_Form extends Delta_Object
     $this->_errors = array();
   }
 
+  private function sanitize(Delta_DataField $dataField)
+  {
+    $sanitizerInvoker = new Delta_SanitizerInvoker();
+
+    foreach ($dataField->getSanitizers() as $sanitizerId => $attributes) {
+      $sanitizerInvoker->invoke($dataField);
+    }
+  }
+
   public function bindRequest()
   {
     $request = Delta_FrontController::getInstance()->getRequest();
@@ -282,12 +291,14 @@ class Delta_Form extends Delta_Object
 
     if ($request->getMethod() == Delta_HttpRequest::HTTP_GET) {
       foreach ($fields as $fieldName => $dataField) {
-        $dataField->setValue($request->getQuery($fieldName));
+        $dataField->setFieldValue($request->getQuery($fieldName));
+        $this->sanitize($dataField);
       }
 
     } else {
       foreach ($fields as $fieldName => $dataField) {
-        $dataField->setValue($request->getPost($fieldName));
+        $dataField->setFieldValue($request->getPost($fieldName));
+        $this->sanitize($dataField);
       }
     }
 

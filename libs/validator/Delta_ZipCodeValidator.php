@@ -31,7 +31,7 @@
  *     hyphnate: TRUE
  *
  *     # 郵便番号の書式が不正な場合に通知するメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  * </code>
  * o 'number*' が未指定の場合は、{validator_id} フィールドを用いた検証が実行されます。
  *
@@ -43,6 +43,9 @@
 
 class Delta_ZipCodeValidator extends Delta_Validator
 {
+  /**
+   * @var string
+   */
   protected $_validatorId = 'zipCode';
 
   /**
@@ -74,22 +77,24 @@ class Delta_ZipCodeValidator extends Delta_Validator
       $fullZipCode = $this->_fieldValue;
     }
 
-    $country = $this->_conditions->getString('country', 'jp');
+    if (strlen($fullZipCode)) {
+      $country = $this->_conditions->getString('country', 'jp');
 
-    if (!isset($this->_patterns[$country])) {
-      $message = sprintf('Country code is undefined. [%s]', $country);
-      throw new Delta_ConfigurationException($message);
-    }
+      if (!isset($this->_patterns[$country])) {
+        $message = sprintf('Country code is undefined. [%s]', $country);
+        throw new Delta_ConfigurationException($message);
+      }
 
-    if ($hyphnate) {
-      $pattern = $this->_patterns[$country][0];
-    } else {
-      $pattern = $this->_patterns[$country][1];
-    }
+      if ($hyphnate) {
+        $pattern = $this->_patterns[$country][0];
+      } else {
+        $pattern = $this->_patterns[$country][1];
+      }
 
-    if (!preg_match($pattern, $fullZipCode)) {
-      $this->setError('matchError');
-      $result = FALSE;
+      if (!preg_match($pattern, $fullZipCode)) {
+        $this->setError('formatError');
+        $result = FALSE;
+      }
     }
 
     return $result;

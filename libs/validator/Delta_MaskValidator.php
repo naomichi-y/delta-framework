@@ -32,6 +32,9 @@
  */
 class Delta_MaskValidator extends Delta_Validator
 {
+  /**
+   * @var string
+   */
   protected $_validatorId = 'mask';
 
   /**
@@ -40,17 +43,20 @@ class Delta_MaskValidator extends Delta_Validator
    */
   public function validate()
   {
-    $mask = $this->_conditions->getString('mask');
+    $result = TRUE;
 
-    if ($mask === NULL) {
-      $message = sprintf('Validate condition is undefined. [mask]');
-      throw new Delta_ConfigurationException($message);
-    }
+    if (strlen($this->_fieldValue)) {
+      $mask = $this->_conditions->getString('mask');
 
-    $result = preg_match($mask, $this->_fieldValue);
+      if ($mask === NULL) {
+        $message = sprintf('Validate condition is undefined. [mask]');
+        throw new Delta_ConfigurationException($message);
+      }
 
-    if (!$result) {
-      $this->setError('maskError');
+      if (!preg_match($mask, $this->_fieldValue)) {
+        $this->setError('formatError');
+        $result = FALSE;
+      }
     }
 
     return $result;

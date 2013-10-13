@@ -32,7 +32,7 @@
  *     dayField:
  *
  *     # 日付フォーマットが不正な場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  *
  *     # 過去の日付を許可する場合は TRUE を指定。
  *     allowPast: TRUE
@@ -76,9 +76,13 @@ class Delta_DateValidator extends Delta_Validator
       $month = $request->getParameter($this->_conditions->get('monthField'));
       $day = $request->getParameter($this->_conditions->get('dayField'));
 
-      $result = $this->validateDateAllow($year, $month, $day);
+      $fullDate = $year . $month . $day;
 
-    } else if (function_exists('strptime')) {
+      if (strlen($fullDate)) {
+        $result = $this->validateDateAllow($year, $month, $day);
+      }
+
+    } else if (function_exists('strptime') && strlen($this->_fieldValue)) {
       $parse = strptime($this->_fieldValue, $format);
 
       if ($parse !== FALSE && strlen($parse['unparsed']) == 0) {
@@ -147,7 +151,7 @@ class Delta_DateValidator extends Delta_Validator
 
     // 日付の書式が不正
     } else {
-      $this->setError('matchError');
+      $this->setError('formatError');
       $result = FALSE;
     }
 

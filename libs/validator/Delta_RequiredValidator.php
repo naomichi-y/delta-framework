@@ -35,8 +35,8 @@
  *    {フィールド名}:
  *      required:
  *      requiredError:
+ *      whitespace:
  * </code>
- * ※'whitespace' 属性に関しては、'validate:validators' 属性下でのみ使用可能です。
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
@@ -69,7 +69,7 @@ class Delta_RequiredValidator extends Delta_Validator
     }
 
     if (!$result) {
-      $this->setError('error');
+      $this->setError('requiredError');
     }
 
     return $result;

@@ -19,23 +19,33 @@ class Delta_DataField extends Delta_Object
 {
   private $_fieldName;
   private $_label;
-  private $_value;
+  private $_fieldValue;
   private $_validators = array();
+  private $_sanitizers = array();
 
-  public function __construct($fieldName, $label)
+  public function __construct($fieldName, $label = NULL)
   {
     $this->_fieldName = $fieldName;
     $this->_label = $label;
   }
 
-  public function setValue($value)
+  public function getFieldName()
   {
-    $this->_value = $value;
+    return $this->_fieldName;
   }
 
-  public function getValue()
+  public function getLabel()
   {
-    return $this->_value;
+    return $this->_label;
+  }
+  public function setFieldValue($fieldValue)
+  {
+    $this->_fieldValue = $fieldValue;
+  }
+
+  public function getFieldValue()
+  {
+    return $this->_fieldValue;
   }
 
   public function addValidator($validatorId, array $conditions = array())
@@ -64,13 +74,29 @@ class Delta_DataField extends Delta_Object
     return $this->_validators;
   }
 
-  public function getFieldName()
+  public function addSanitizer($sanitizerId, array $conditions = array())
   {
-    return $this->_fieldName;
+    $this->_sanitizers[$sanitizerId] = new Delta_ParameterHolder($conditions);
   }
 
-  public function getLabel()
+  public function hasSanitizer($sanitizerId)
   {
-    return $this->_label;
+    return isset($this->_sanitizers[$sanitizerId]);
+  }
+
+  public function getSanitizer($sanitizerId)
+  {
+    $sanitizer = NULL;
+
+    if (isset($this->_sanitizers[$sanitizerId])) {
+      $sanitizer = $this->_sanitizers[$sanitizerId];
+    }
+
+    return $sanitizer;
+  }
+
+  public function getSanitizers()
+  {
+    return $this->_sanitizers;
   }
 }

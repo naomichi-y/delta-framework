@@ -19,7 +19,7 @@
  *     class: Delta_IPAddressValidator
  *
  *     # IP アドレスのフォーマットが不正な場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  *
  *     # グローバル IP アドレスを許可するかどうか。
  *     allowGlobal: TRUE
@@ -28,7 +28,7 @@
  *     allowPrivate: TRUE
  *
  *     # 許可されない IP アドレスが指定された場合に通知するメッセージ。
- *     allowError: {default_message}
+ *     denyError: {default_message}
  * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -50,22 +50,26 @@ class Delta_IPAddressValidator extends Delta_Validator
   public function validate()
   {
     $result = TRUE;
-    $verifyIpAddress = long2ip(ip2long($this->_fieldValue));
 
-    if ($this->_fieldValue != $verifyIpAddress) {
-      $this->setError('matchError');
-      $result = FALSE;
+    if (strlen($this->_fieldValue)) {
+      // IP アドレスの妥当性をチェック
+      $verifyIpAddress = long2ip(ip2long($this->_fieldValue));
 
-    } else {
-      // IP アドレスが許可されるネットワークアドレスかチェック
-      $isPrivateIPAddress = Delta_NetworkUtils::isPrivateIPAddress($this->_fieldValue);
-
-      $allowPrivate = $this->_conditions->getBoolean('allowPrivate', TRUE);
-      $allowGlobal = $this->_conditions->getBoolean('allowGlobal', TRUE);
-
-      if (!$allowPrivate && $isPrivateIPAddress || !$allowGlobal && !$isPrivateIPAddress) {
-        $this->setError('allowError');
+      if ($this->_fieldValue != $verifyIpAddress) {
+        $this->setError('formatError');
         $result = FALSE;
+
+      } else {
+        // IP アドレスが許可されるネットワークアドレスかチェック
+        $isPrivateIPAddress = Delta_NetworkUtils::isPrivateIPAddress($this->_fieldValue);
+
+        $allowPrivate = $this->_conditions->getBoolean('allowPrivate', TRUE);
+        $allowGlobal = $this->_conditions->getBoolean('allowGlobal', TRUE);
+
+        if (!$allowPrivate && $isPrivateIPAddress || !$allowGlobal && !$isPrivateIPAddress) {
+          $this->setError('denyError');
+          $result = FALSE;
+        }
       }
     }
 

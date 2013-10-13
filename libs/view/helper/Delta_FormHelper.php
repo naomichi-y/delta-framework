@@ -1476,14 +1476,6 @@ class Delta_FormHelper extends Delta_Helper
       }
     }
 
-    // チェックボックスはフィールド名を強制送信する
-    $hiddenOutput = FALSE;
-
-    if ($type === 'checkbox') {
-      $hiddenOutput = TRUE;
-      $hiddenFieldName = $fieldName . '_hidden_checkbox';
-    }
-
     // フィールド要素のセパレータ
     $separator = Delta_ArrayUtils::find($extra, 'separator');
 
@@ -1524,8 +1516,13 @@ class Delta_FormHelper extends Delta_Helper
       $selected = Delta_ArrayUtils::find($extra, 'selected');
     }
 
+    // 選択項目値を配列形式に変換
     if (!is_array($selected)) {
-      $selected = array($selected);
+      if ($selected === NULL) {
+        $selected = array();
+      } else {
+        $selected = array($selected);
+      }
     }
 
     $iterator = function($options)

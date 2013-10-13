@@ -20,68 +20,58 @@
  *
  *     # TRUE を指定した場合、ドメイン名が実在するものかどうか DNS (A、CNAME レコード) に問い合わせを行う。
  *     # Windows 環境では動作しないためチェックはスローされます。
- *     domainCheck: FALSE
+ *     checkRecord: FALSE
  *
  *     # ドメインのフォーマットが不正な場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  * </code>
  *
  * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
  * @category delta
  * @package validator
+ * @todo 2.0 ドキュメント更新
  */
 class Delta_DomainValidator extends Delta_Validator
 {
+  /**
+   * @var string
+   */
+  protected $_validatorId = 'domain';
+
   /**
    * ドメインチェックパターン。
    */
   const DOMAIN_PATTERN = '/^(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/';
 
   /**
-   * ドメインの書式が正当なものであるかチェックします。
-   *
-   * @param string $value チェック対象のドメイン名。
-   * @param bool $domainCheck ドメインが存在するか DNS レコード (A、CNAME) のチェックを行う。(Windows では動作しないため、必ず TRUE を返す)
-   * @return bool ドメインの書式が正当なものかどうかを TRUE/FALSE で返します。
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function isValid($value, $domainCheck = FALSE)
-  {
-    if (preg_match(self::DOMAIN_PATTERN, $value)) {
-      if ($domainCheck && function_exists('checkdnsrr')) {
-        if (checkdnsrr($value, 'A') || checkdnsrr($value, 'CNAME')) {
-          return TRUE;
-        }
-
-      } else {
-        return TRUE;
-      }
-    }
-
-    return FALSE;
-  }
-
-  /**
    * @see Delta_Validator::validate()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function validate($fieldName, $value, array $variables = array())
+  public function validate()
   {
-    $holder = $this->buildParameterHolder($variables);
-    $domainCheck = $holder->getBoolean('domainCheck');
+    $result = TRUE;
 
-    if (strlen($value) == 0 || self::isValid($value, $domainCheck)) {
-      return TRUE;
+    if (strlen($this->_fieldValue)) {
+      // ドメインの正規表現チェック
+      if (preg_match(self::DOMAIN_PATTERN, $this->_fieldValue)) {
+        $checkRecord = $this->_conditions->getBoolean('checkRecord');
+
+        // レコードが存在するかチェック
+        if ($checkRecord) {
+          if (!checkdnsrr($this->_fieldValue, 'A') && !checkdnsrr($this->_fieldValue, 'CNAME')) {
+            $result = FALSE;
+          }
+        }
+
+      } else {
+        $result = FALSE;
+      }
+
+      if (!$result) {
+        $this->setError('formatError');
+      }
     }
 
-    $message = $holder->getString('matchError');
-
-    if ($message === NULL) {
-      $message = sprintf('Domain format is illegal. [%s]', $fieldName);
-    }
-
-    $this->sendError($fieldName, $message);
-
-    return FALSE;
+    return $result;
   }
 }

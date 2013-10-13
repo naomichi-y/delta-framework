@@ -25,7 +25,7 @@ class Delta_DataFieldBuilder extends Delta_Object
     $this->_baseName = $baseName;
   }
 
-  public function createDataField($fieldName, $label)
+  public function createDataField($fieldName, $label = NULL)
   {
     if ($this->_baseName === NULL) {
       $fieldName = $fieldName;

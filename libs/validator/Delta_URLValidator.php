@@ -22,7 +22,7 @@
  *     query: FALSE
  *
  *     # URL のフォーマットが不正な場合に通知するエラーメッセージ。
- *     matchError: {default_message}
+ *     formatError: {default_message}
  * </code>
  *
  * @link http://www.din.or.jp/~ohzaki/perl.htm URI(URL) の正規表現
@@ -33,6 +33,9 @@
  */
 class Delta_URLValidator extends Delta_Validator
 {
+  /**
+   * @var string
+   */
   protected $_validatorId = 'url';
 
   /**
@@ -53,15 +56,39 @@ class Delta_URLValidator extends Delta_Validator
   {
     $result = TRUE;
 
-    if ($this->_conditions->getBoolean('query')) {
-      $pattern = self::URL_QUERY_PATTERN;
-    } else {
-      $pattern = self::URL_PATTERN;
-    }
+    if (strlen($this->_fieldValue)) {
+      if ($this->_conditions->getBoolean('query')) {
+        $pattern = self::URL_QUERY_PATTERN;
+      } else {
+        $pattern = self::URL_PATTERN;
+      }
 
-    if (!preg_match($pattern, $this->_fieldValue)) {
-      $this->setError('matchError');
-      $result = FALSE;
+      // URL パターンのチェック
+      if (!preg_match($pattern, $this->_fieldValue)) {
+        $this->setError('formatError');
+        $result = FALSE;
+      }
+
+      // プロトコルのチェック
+      $isHttps = FALSE;
+
+      if (substr($this->_fieldValue, 0, 5) === 'https') {
+        $isHttps = TRUE;
+      }
+
+      $allowHttp = $this->_conditions->getBoolean('allowHttp');
+      $allowHttps = $this->_conditions->getBoolean('allowHttps');
+
+      // 許可されない http プロトコルが指定された
+      if (!$allowHttp && !$isHttps) {
+        $this->setError('httpError');
+        $result = FALSE;
+
+      // 許可されない https プロコトルが指定された
+      } else if (!$allowHttps && $isHttps) {
+        $this->setError('httpsError');
+        $result = FALSE;
+      }
     }
 
     return $result;
