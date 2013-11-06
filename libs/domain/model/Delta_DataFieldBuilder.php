@@ -19,6 +19,7 @@ class Delta_DataFieldBuilder extends Delta_Object
 {
   private $_baseName;
   private $_fields = array();
+  private $_sanitizers = array();
 
   public function __construct($baseName = NULL)
   {
@@ -34,6 +35,32 @@ class Delta_DataFieldBuilder extends Delta_Object
     }
 
     return new Delta_DataField($fieldName, $label);
+  }
+
+  public function addSanitizer($sanitizerId, array $conditions = array())
+  {
+    $this->_sanitizers[$sanitizerId] = new Delta_ParameterHolder($conditions);
+  }
+
+  public function hasSanitizer($sanitizerId)
+  {
+    return isset($this->_sanitizers[$sanitizerId]);
+  }
+
+  public function getSanitizer($sanitizerId)
+  {
+    $sanitizer = NULL;
+
+    if (isset($this->_sanitizers[$sanitizerId])) {
+      $sanitizer = $this->_sanitizers[$sanitizerId];
+    }
+
+    return $sanitizer;
+  }
+
+  public function getSanitizers()
+  {
+    return $this->_sanitizers;
   }
 
   public function add($fieldName, $label)

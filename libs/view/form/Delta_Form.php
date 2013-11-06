@@ -277,11 +277,12 @@ class Delta_Form extends Delta_Object
 
   private function sanitize(Delta_DataField $dataField)
   {
-    $sanitizerInvoker = new Delta_SanitizerInvoker();
-
-    foreach ($dataField->getSanitizers() as $sanitizerId => $attributes) {
-      $sanitizerInvoker->invoke($dataField);
+    foreach ($this->_builder->getSanitizers() as $sanitizerId => $attributes) {
+      $dataField->addSanitizer($sanitizerId, $attributes->toArray());
     }
+
+    $sanitizerInvoker = new Delta_SanitizerInvoker();
+    $sanitizerInvoker->invoke($dataField);
   }
 
   public function bindRequest()

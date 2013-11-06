@@ -81,7 +81,9 @@ abstract class Delta_ActionController extends Delta_WebApplication
 
   public function dispatchUnknownAction()
   {
-    $this->indexAction();
+    $message = sprintf('Forward destination is unknown. Please implement %s::dispatchUnknownAction() method.',
+      get_class($this));
+    throw new Delta_ForwardException($message);
   }
 
   public function indexAction()
