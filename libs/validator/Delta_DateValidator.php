@@ -73,9 +73,9 @@ class Delta_DateValidator extends Delta_Validator
 
       $request = Delta_FrontController::getInstance()->getRequest();
 
-      $year = $request->getParameter($this->_conditions->get('yearField'));
-      $month = $request->getParameter($this->_conditions->get('monthField'));
-      $day = $request->getParameter($this->_conditions->get('dayField'));
+      $year = (int) $request->getParameter($this->_conditions->get('yearField'));
+      $month = (int) $request->getParameter($this->_conditions->get('monthField'));
+      $day = (int) $request->getParameter($this->_conditions->get('dayField'));
 
       $result = $this->validateDateAllow($year, $month, $day);
 
@@ -106,56 +106,48 @@ class Delta_DateValidator extends Delta_Validator
   {
     $result = TRUE;
 
-    // 日付が数値型で指定されているかチェック
-    if (is_int($year) && is_int($month) && is_int($day)) {
-      $allowPast = $this->_conditions->getBoolean('allowPast', TRUE);
-      $allowCurrent = $this->_conditions->getBoolean('allowCurrent', TRUE);
-      $allowFuture = $this->_conditions->getBoolean('allowFuture', TRUE);
+    $allowPast = $this->_conditions->getBoolean('allowPast', TRUE);
+    $allowCurrent = $this->_conditions->getBoolean('allowCurrent', TRUE);
+    $allowFuture = $this->_conditions->getBoolean('allowFuture', TRUE);
 
-      $currentDate = mktime(0, 0, 0, date('m'), date('d'), date('y'));
-      $validateDate = mktime(0, 0, 0, $month, $day, $year);
+    $currentDate = mktime(0, 0, 0, date('m'), date('d'), date('y'));
+    $validateDate = mktime(0, 0, 0, $month, $day, $year);
 
-      // 不正な日付書式でないかチェック
-      if (checkdate($month, $day, $year)) {
-        // 過去の日付指定を無効とする
-        if (!$allowPast) {
-          if ($allowCurrent) {
-            if ($validateDate < $currentDate) {
-              $result = FALSE;
-            }
+    // 不正な日付書式でないかチェック
+    if (checkdate($month, $day, $year)) {
+      // 過去の日付指定を無効とする
+      if (!$allowPast) {
+        if ($allowCurrent) {
+          if ($validateDate < $currentDate) {
+            $result = FALSE;
+          }
 
-          } else {
-            if ($validateDate <= $currentDate) {
-              $result = FALSE;
-            }
+        } else {
+          if ($validateDate <= $currentDate) {
+            $result = FALSE;
           }
         }
-
-        // 未来の日付指定を無効とする
-        if (!$allowFuture) {
-          if ($allowCurrent) {
-            if ($currentDate < $validateDate) {
-              $result = FALSE;
-            }
-
-          } else {
-            if ($currentDate <= $validateDate) {
-              $result = FALSE;
-            }
-          }
-        }
-
-        if (!$result) {
-          $this->setError('allowError');
-        }
-
-      // 日付の書式が不正
-      } else {
-        $this->setError('formatError');
-        $result = FALSE;
       }
 
-    // 年月日に数値以外が指定されている
+      // 未来の日付指定を無効とする
+      if (!$allowFuture) {
+        if ($allowCurrent) {
+          if ($currentDate < $validateDate) {
+            $result = FALSE;
+          }
+
+        } else {
+          if ($currentDate <= $validateDate) {
+            $result = FALSE;
+          }
+        }
+      }
+
+      if (!$result) {
+        $this->setError('allowError');
+      }
+
+    // 日付の書式が不正
     } else {
       $this->setError('formatError');
       $result = FALSE;

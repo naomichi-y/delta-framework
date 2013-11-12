@@ -63,9 +63,14 @@ class Delta_Form extends Delta_Object
   private $_builder;
 
   /**
+   * @var string
+   */
+  private $_logicError;
+
+  /**
    * @var array
    */
-  private $_errors = array();
+  private $_fieldErrors = array();
 
   public function __construct()
   {
@@ -212,67 +217,82 @@ class Delta_Form extends Delta_Object
       $dataField->setFieldValue(NULL);
     }
 
-    $this->_errors = array();
+    $this->_fieldErrors = array();
   }
 
-  public function addError($fieldName, $fieldValue)
+  public function setLogicError($logicError)
   {
-    $this->_errors[$fieldName] = $fieldValue;
+    $this->_logicError = $logicError;
   }
 
-  public function hasError($fieldName)
+  public function hasLogicError()
+  {
+    return !is_null($this->_logicError);
+  }
+
+  public function getLogicError()
+  {
+    return $this->_logicError;
+  }
+
+  public function addFieldError($fieldName, $fieldValue)
+  {
+    $this->_fieldErrors[$fieldName] = $fieldValue;
+  }
+
+  public function hasFieldError($fieldName)
   {
     $result = FALSE;
 
-    if (isset($this->_errors[$fieldName])) {
+    if (isset($this->_fieldErrors[$fieldName])) {
       $result = TRUE;
     }
 
     return $result;
   }
 
-  public function hasErrors()
+  public function hasFieldErrors()
   {
     $result = FALSE;
 
-    if (sizeof($this->_errors)) {
+    if (sizeof($this->_fieldErrors)) {
       $result = TRUE;
     }
 
     return $result;
   }
 
-  public function getError($fieldName)
+  public function getFieldError($fieldName)
   {
     $fieldError = NULL;
 
-    if (isset($this->_errors[$fieldName])) {
-      $fieldError = $this->_errors[$fieldName];
+    if (isset($this->_fieldErrors[$fieldName])) {
+      $fieldError = $this->_fieldErrors[$fieldName];
     }
 
     return $fieldError;
   }
 
-  public function getErrors()
+  public function getFieldErrors()
   {
-    return $this->_errors;
+    return $this->_fieldErrors;
   }
 
-  public function removeError($fieldName)
+  public function removeFieldError($fieldName)
   {
     $result = FALSE;
 
-    if (isset($this->_errors[$fieldName])) {
-      unset($this->_errors[$fieldName]);
+    if (isset($this->_fieldErrors[$fieldName])) {
+      unset($this->_fieldErrors[$fieldName]);
       $result = TRUE;
     }
 
     return $result;
   }
 
-  public function clearErrors()
+  public function clearFieldErrors()
   {
-    $this->_errors = array();
+    $this->_fieldErrors = array();
   }
 
   private function sanitize(Delta_DataField $dataField)
@@ -326,27 +346,30 @@ class Delta_Form extends Delta_Object
   }
    */
 
+  protected function getEntityMappingFields($entityName)
+  {
+    $fields = array();
+
+    foreach ($this->_builder->getFields() as $fieldName => $attributes) {
+      $fields[] = $fieldName;
+    }
+
+    return $fields;
+  }
+
   public function getEntity($entityName)
   {
-    $array = $this->get(lcfirst($entityName));
-    $entity = NULL;
+    $fieldNames = $this->getEntityMappingFields($entityName);
+    $entityClassName = $entityName . 'Entity';
 
-    if (is_array($array)) {
-      $entityClassName = Delta_StringUtils::convertPascalCase($entityName) . 'Entity';
-      $existsClass = FALSE;
+    $entity = new $entityClassName();
 
-      try {
-        Delta_ClassLoader::loadByName($entityClassName);
-        $existsClass = TRUE;
-      } catch (Exception $e) {}
+    foreach ($fieldNames as $fieldName) {
+      if (property_exists($entity, $fieldName)) {
+        $dataField = $this->_builder->get($fieldName);
 
-      if ($existsClass) {
-        $entity = new $entityClassName();
-
-        foreach ($array as $fieldName => $fieldValue) {
-          if (property_exists($entity, $fieldName)) {
-            $entity->$fieldName = $fieldValue;
-          }
+        if ($dataField) {
+          $entity->$fieldName = $dataField->getFieldValue();
         }
       }
     }
@@ -433,7 +456,7 @@ class Delta_Form extends Delta_Object
       $tokenState = $this->getTokenState(TRUE);
 
       if ($tokenState !== self::TOKEN_VALID) {
-        $this->addError(self::TOKEN_FIELD_NAME, $this->getTokenStateErrorMessage($tokenState));
+        $this->setLogicError($this->getTokenStateErrorMessage($tokenState));
         $result = FALSE;
       }
     }
@@ -444,7 +467,7 @@ class Delta_Form extends Delta_Object
 
       if ($validatorInvoker->hasErrors()) {
         foreach ($validatorInvoker->getErrors() as $fieldError) {
-          $this->addError($dataField->getFieldName(), $fieldError);
+          $this->addFieldError($dataField->getFieldName(), $fieldError);
         }
 
         $result = FALSE;
@@ -467,7 +490,7 @@ class Delta_Form extends Delta_Object
 
               foreach ($entity->getErrors() as $fieldName => $fieldError) {
                 $fieldName = $entity->getEntityName() . '.' . $fieldName;
-                $this->addError($fieldName, $fieldError);
+                $this->addFieldError($fieldName, $fieldError);
               }
 
               $result = FALSE;
