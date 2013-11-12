@@ -958,11 +958,11 @@ class Delta_MailSender extends Delta_Object {
       $to = $part->getHeaderValue('To');
       $subject = $part->getHeaderValue('Subject');
 
-      $header = $this->buildHeader();
-      $latestSendData = $header . $this->_options->getString('linefeed') . $body;
-
       $part->removeHeader('To');
       $part->removeHeader('Subject');
+
+      $header = $this->buildHeader();
+      $latestSendData = $header . $this->_options->getString('linefeed') . $body;
 
       if ($send) {
         if ($this->_options->hasName('parameters')) {
