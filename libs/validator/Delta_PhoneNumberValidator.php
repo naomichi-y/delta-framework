@@ -34,7 +34,7 @@
  *     hyphnate: TRUE
  *
  *     # 電話番号の書式が不正な場合に通知するメッセージ。
- *     phoneNumberError: {default_message}
+ *     formatError: {default_message}
  * </code>
  * o 'number*' が未指定の場合は、{validator_id} フィールドを用いた検証が実行されます。
  * o 現在のところ、国際番号はサポートしていません。
