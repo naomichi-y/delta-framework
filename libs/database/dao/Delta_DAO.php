@@ -178,13 +178,14 @@ abstract class Delta_DAO extends Delta_Object
    * レコードを挿入します。
    *
    * @param Delta_Entity $entity データベースに登録するエンティティ。
+   * @param string シーケンスオブジェクト名。詳しくは {@link PDO::lastInsertId()} メソッドを参照。
    * @return int 最後に挿入されたレコードの ID を返します。
    *   詳しくは {@link PDO::lastInsertId()} を参照して下さい。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function insert(Delta_DatabaseEntity $entity)
+  public function insert(Delta_DatabaseEntity $entity, $name = NULL)
   {
-    return $this->getConnection()->getCommand()->insert($this->getTableName(), $entity->toArray());
+    return $this->getConnection()->getCommand()->insert($this->getTableName(), $entity->toArray(), $name);
   }
 
   /**

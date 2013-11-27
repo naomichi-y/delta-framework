@@ -20,27 +20,27 @@ class Delta_CoreUtils
   /**
    * 正規表現パターン定数。(モジュール名)
    */
-  const REGEXP_MODULE = '/^[a-z]+([\w\-]+)?$/';
+  const REGEXP_MODULE_NAME = '/^[a-z]+([\w]+)?$/';
 
   /**
    * 正規表現パターン定数。(パッケージ名)
    */
-  const REGEXP_PACKAGE = '/^\/([\w\/]+)?$/';
+  const REGEXP_PACKAGE_NAME = '/^\/([\w\/]+)?$/';
 
   /**
    * 正規表現パターン定数。(コマンド名)
    */
-  const REGEXP_COMMAND = '/^[a-zA-Z]+(\w+)?$/';
+  const REGEXP_COMMAND_NAME = '/^[a-zA-Z]+(\w+)?$/';
 
   /**
    * 正規表現パターン定数。(コントローラ名)
    */
-  const REGEXP_CONTROLLER = '/^[a-zA-Z]+(\w+)?$/';
+  const REGEXP_CONTROLLER_NAME = '/^[a-zA-Z]+(\w+)?$/';
 
   /**
    * 正規表現パターン定数。(テーマ名)
    */
-  const REGEXP_THEME = '/^[a-z]+(\w+)?$/';
+  const REGEXP_THEME_NAME = '/^[a-z]+(\w+)?$/';
 
  /**
    * フレームワークが生成した全てのキャッシュを破棄します。
@@ -97,7 +97,7 @@ class Delta_CoreUtils
    */
   public static function addCommand($commandName, $packageName = '/')
   {
-    self::validateName(self::REGEXP_COMMAND, $commandName);
+    self::validateName(self::REGEXP_COMMAND_NAME, $commandName);
 
     // 出力ディレクトリの取得
     if ($packageName === '/') {
@@ -127,7 +127,7 @@ class Delta_CoreUtils
     }
 
     // スケルトンファイルの取得
-    $skeletonPath = sprintf('%s%sskeleton%sblank_command%sBlankCommand.php.tpl',
+    $skeletonPath = sprintf('%s%sskeleton%sclasses%sBlankCommand.php.tpl',
       DELTA_ROOT_DIR,
       DIRECTORY_SEPARATOR,
       DIRECTORY_SEPARATOR,
@@ -163,7 +163,7 @@ class Delta_CoreUtils
    */
   public static function addModule($moduleName)
   {
-    self::validateName(self::REGEXP_MODULE, $moduleName);
+    self::validateName(self::REGEXP_MODULE_NAME, $moduleName);
 
     $modulePath = sprintf('modules%s%s', DIRECTORY_SEPARATOR, $moduleName);
 
@@ -174,9 +174,26 @@ class Delta_CoreUtils
 
     Delta_FileUtils::createDirectory($modulePath);
 
-    // モジュールディレクトリ下の定型ディレクトリを作成
-    $skeletonPath = DELTA_SKELETON_DIR . '/blank_module';
+    // モジュールクラスの作成
+    $skeletonModuleClassPath = DELTA_SKELETON_DIR . '/classes/BlankModule.php.tpl';
+    $moduleClassName = Delta_StringUtils::convertPascalCase($moduleName) . 'Module';
 
+    $moduleClassPath = sprintf('%s%s%s.php',
+      $modulePath,
+      DIRECTORY_SEPARATOR,
+      $moduleClassName);
+    Delta_FileUtils::copy($skeletonModuleClassPath, $moduleClassPath);
+
+    $contents = Delta_FileUtils::readFile($moduleClassPath);
+    $contents = str_replace('{%PACKAGE_TAG%}', $moduleName, $contents);
+    $contents = str_replace('{%MODULE_NAME%}', $moduleClassName, $contents);
+
+    Delta_FileUtils::writeFile($moduleClassPath, $contents);
+
+    $createFiles[] = $moduleClassPath;
+
+    // スケルトンモジュールのコピー
+    $skeletonPath = DELTA_SKELETON_DIR . '/blank_module';
     $options = array('recursive' => TRUE);
     Delta_FileUtils::copy($skeletonPath, $modulePath, $options);
 
@@ -213,8 +230,8 @@ class Delta_CoreUtils
       $controllerName = Delta_StringUtils::convertPascalCase(substr($controllerName, $pos + 1));
     }
 
-    self::validateName(self::REGEXP_MODULE, $moduleName);
-    self::validateName(self::REGEXP_CONTROLLER, $controllerName);
+    self::validateName(self::REGEXP_MODULE_NAME, $moduleName);
+    self::validateName(self::REGEXP_CONTROLLER_NAME, $controllerName);
 
     // コントローラクラスの作成
     $controllerPath = sprintf('modules%s%s%scontrollers%s%s%sController.php',
@@ -236,7 +253,7 @@ class Delta_CoreUtils
       Delta_FileUtils::createDirectory($controllerBaseDirectory, 0775, TRUE);
     }
 
-    $skeletonPath = sprintf('%s%sskeleton%sblank_controller%sBlankController.php.tpl',
+    $skeletonPath = sprintf('%s%sskeleton%sclasses%sBlankController.php.tpl',
       DELTA_ROOT_DIR,
       DIRECTORY_SEPARATOR,
       DIRECTORY_SEPARATOR,
@@ -263,7 +280,7 @@ class Delta_CoreUtils
    */
   public static function addTheme($basePath, $themeName, array $moduleNames)
   {
-    self::validateName(self::REGEXP_THEME, $themeName);
+    self::validateName(self::REGEXP_THEME_NAME, $themeName);
 
     $themePath = sprintf('%s%s%s',
       $basePath,
@@ -273,7 +290,7 @@ class Delta_CoreUtils
     Delta_FileUtils::createDirectory($themePath, 0775, TRUE);
 
     foreach ($moduleNames as $moduleName) {
-      self::validateName(self::REGEXP_MODULE, $moduleName);
+      self::validateName(self::REGEXP_MODULE_NAME, $moduleName);
 
       $createList = array(
         sprintf('%s%sdata', $themePath, DIRECTORY_SEPARATOR),
@@ -366,7 +383,7 @@ class Delta_CoreUtils
           continue;
         }
 
-        if (preg_match(Delta_CoreUtils::REGEXP_MODULE, $path)) {
+        if (preg_match(Delta_CoreUtils::REGEXP_MODULE_NAME, $path)) {
           $modules[] = $path;
         }
       }

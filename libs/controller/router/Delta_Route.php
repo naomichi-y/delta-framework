@@ -20,6 +20,11 @@
 class Delta_Route extends Delta_Object
 {
   /**
+   * @var Delta_Module
+   */
+  private $_module;
+
+  /**
    * @var array
    */
   private $_pathHolder = array();
@@ -44,6 +49,21 @@ class Delta_Route extends Delta_Object
   {
     $this->_pathHolder = $pathHolder;
     $this->_forwardStack = new Delta_ForwardStack();
+
+    // モジュールクラスの読み込み
+    $moduleName = $pathHolder['module'];
+    $moduleClassName = Delta_StringUtils::convertPascalCase($moduleName) . 'Module';
+
+    $moduleClassPath = sprintf('%s%smodules%s%s%s%s.php',
+      APP_ROOT_DIR,
+      DIRECTORY_SEPARATOR,
+      DIRECTORY_SEPARATOR,
+      $moduleName,
+      DIRECTORY_SEPARATOR,
+      $moduleClassName);
+    require $moduleClassPath;
+
+    $this->_module = new $moduleClassName;
   }
 
   /**
@@ -58,9 +78,17 @@ class Delta_Route extends Delta_Object
   }
 
   /**
+   * @since 2.0
+   */
+  public function getModule()
+  {
+    return $this->_module;
+  }
+
+  /**
    * モジュール名を取得します。
    *
-   * @return string ルート名を返します。
+   * @return string モジュール名を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
   public function getModuleName()

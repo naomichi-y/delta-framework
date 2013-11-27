@@ -29,11 +29,6 @@ class Delta_ActionFilter extends Delta_Filter
   private $_config;
 
   /**
-   * @var Delta_Forward
-   */
-  private $_forward;
-
-  /**
    * @since 2.0
    */
   public function __construct($filterId, Delta_ParameterHolder $holder)
@@ -41,9 +36,6 @@ class Delta_ActionFilter extends Delta_Filter
     parent::__construct($filterId, $holder);
 
     $this->_config = Delta_Config::getBehavior();
-
-    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-    $this->_forward = $route->getForwardStack()->getLast();
   }
 
   /**
@@ -52,37 +44,50 @@ class Delta_ActionFilter extends Delta_Filter
    */
   public function doFilter(Delta_FilterChain $chain)
   {
-    $viewPath = sprintf('%s%s%s',
-      Delta_StringUtils::convertSnakeCase($this->_forward->getControllerName()),
-      DIRECTORY_SEPARATOR,
-      Delta_StringUtils::convertSnakeCase($this->_forward->getActionName()));
+    $request = Delta_FrontController::getInstance()->getRequest();
+    $route = $request->getRoute();
+    $forward = $route->getForwardStack()->getLast();
 
-    $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
+    $viewPath = sprintf('%s%s%s',
+      Delta_StringUtils::convertSnakeCase($forward->getControllerName()),
+      DIRECTORY_SEPARATOR,
+      Delta_StringUtils::convertSnakeCase($forward->getActionName()));
+
     $viewBasePath = $this->getAppPathManager()->getModuleViewsPath($route->getModuleName());
 
     $view = $this->getView();
     $view->setViewBasePath($viewBasePath);
     $view->setViewPath($viewPath);
 
-    $controller = $this->_forward->getController();
+    $actionName = $forward->getActionName();
+
+    $controller = $forward->getController();
     $controller->initialize();
 
-    if ($this->isSafety()) {
-      // コンバータの実行
-      // @todo 2.0
-      /**
-      $convertConfig = $this->_config->get('convert');
+    // ログインが必要なアクションで認証チェックを行う
+    $validLoginAccess = FALSE;
 
-      if ($convertConfig) {
-        $convertManager = new Delta_ConvertManager($convertConfig);
-        $convertManager->execute();
+    if ($controller->isLoginRequired($actionName)) {
+      // ログインが必要なアクションに未ログインでアクセスしていないか
+      if ($request->getSession()->getUser()->isLogin()) {
+        $validLoginAccess =  TRUE;
       }
-       */
 
-      $actionMethodName = $this->_forward->getActionName() . 'Action';
+    } else {
+      $validLoginAccess = TRUE;
+    }
+
+    if ($validLoginAccess) {
+    } else {
+      $controller->forward($route->getModule()->getLoginFormPath());
+    }
+
+    if ($this->isSafety()) {
+      $actionMethodName = $actionName . 'Action';
 
       if (method_exists($controller, $actionMethodName)) {
         call_user_func(array($controller, $actionMethodName));
+
       } else {
         $controller->unknownAction();
       }

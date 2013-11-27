@@ -22,6 +22,11 @@ abstract class Delta_ActionController extends Delta_WebApplication
   {
   }
 
+  public function isLoginRequired($actionName)
+  {
+    return FALSE;
+  }
+
   public function createForm($formName = NULL)
   {
     static $instances = array();
@@ -45,8 +50,20 @@ abstract class Delta_ActionController extends Delta_WebApplication
     return $instances[$formName];
   }
 
-  public function forward($actionName, $controllerName = NULL)
+  public function forward($forward)
   {
+    $actionName = NULL;
+    $controllerName = NULL;
+
+    // 文字列に '/' が含まれる場合は '{コントローラ名}/{アクション名}' 形式と識別
+    if (($pos = strpos($forward, '/')) !== FALSE) {
+      $controllerName = substr($forward, 0, $pos);
+      $actionName = substr($forward, $pos + 1);
+
+    } else {
+      $actionName = $forward;
+    }
+
     Delta_FrontController::getInstance()->forward($actionName, $controllerName, TRUE);
   }
 

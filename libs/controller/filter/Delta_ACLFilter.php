@@ -23,9 +23,9 @@ class Delta_ACLFilter extends Delta_Filter
    * @see Delta_Filter::doFilter()
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public function doFilter(Delta_HttpRequest $request, Delta_HttpResponse $response, Delta_FilterChain $chain)
+  public function doFilter(Delta_FilterChain $chain)
   {
-    $user = $request->getSession()->getUser();
+    $user = Delta_FrontController::getInstance()->getRequest()->getSession()->getUser();
 
     if ($user->isCurrentActionAuthenticated(Delta_AuthorityUser::REQUIRED_ONE_ROLE)) {
       $chain->filterChain();
