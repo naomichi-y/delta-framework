@@ -16,4 +16,8 @@
  */
 abstract class Delta_Module extends Delta_Object
 {
+  public function getLoginFormPath()
+  {
+    return 'Index/index';
+  }
 }

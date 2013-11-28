@@ -48,6 +48,11 @@ class Delta_DataField extends Delta_Object
     return $this->_fieldValue;
   }
 
+  public function hasFieldValue()
+  {
+    return !is_null($this->_fieldValue);
+  }
+
   public function addValidator($validatorId, array $conditions = array())
   {
     $this->_validators[$validatorId] = new Delta_ParameterHolder($conditions);

@@ -9,7 +9,6 @@ cpanelRootRoute:
   uri: /cpanel/
   forward:
     module: cpanel
-    controller: Login
 
 cpanelActionRoute:
   uri: /cpanel/:controller/:action
@@ -18,6 +17,11 @@ cpanelActionRoute:
 
 moduleRoute:
   uri: /:module/
+  forward:
+    controller: Index
+
+controllerRoute:
+  uri: /:module/:action
   forward:
     controller: Index
 

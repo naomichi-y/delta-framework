@@ -144,7 +144,9 @@ class Delta_Form extends Delta_Object
    */
   public function hasName($fieldName)
   {
-    if ($this->_builder->hasName($fieldName)) {
+    $dataField = $this->_builder->get($fieldName);
+
+    if ($dataField && $dataField->hasFieldValue()) {
       return TRUE;
     }
 

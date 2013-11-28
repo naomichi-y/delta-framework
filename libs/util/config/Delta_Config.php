@@ -51,16 +51,6 @@ class Delta_Config extends Delta_Object
   const TYPE_DEFAULT_GLOBAL_BEHAVIOR = 6;
 
   /**
-   * YAML 定数。(modules/{module}/config/behavior.yml)
-   */
-  const TYPE_DEFAULT_MODULE_BEHAVIOR = 7;
-
-  /**
-   * YAML 定数。(modules/{module}/behaviors/{action}.yml)
-   */
-  const TYPE_DEFAULT_ACTION_BEHAVIOR = 8;
-
-  /**
    * YAML 定数。(config/global_helpers.yml)
    */
   const TYPE_DEFAULT_GLOBAL_HELPERS = 9;
@@ -236,50 +226,17 @@ class Delta_Config extends Delta_Object
 
   /**
    * ビヘイビア設定ファイルを読み込みます。
-   * ファイルは次の順でマージされます。(一番下が最優先)
-   *   o config/global_behavior.yml
-   *   o modules/{module_name}/config/behavior.yml
-   *   o modules/{module_name}/behaviors/{action_name}.yml
    *
-   * @param bool $throw TRUE 指定時はコントローラビヘイビアが見つからない場合に例外を発生させます。
    * @return Delta_ParameterHolder ファイルに含まれる設定情報を返します。
-   * @throws Delta_IOException コントローラビヘイビアが見つからない場合に発生。(throw が TRUE の場合のみ)
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
    */
-  public static function getBehavior($controllerName = NULL, $throw = FALSE)
+  public static function getBehavior()
   {
-    if ($controllerName === NULL) {
-      $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-      $controllerName = $route->getForwardStack()->getLast()->getControllerName();
-    }
-
     if (empty(self::$_gets['behavior'])) {
-      $merge = self::merge(self::TYPE_DEFAULT_GLOBAL_BEHAVIOR, self::TYPE_DEFAULT_MODULE_BEHAVIOR);
-      self::$_gets['behavior'] = new Delta_ParameterHolder($merge, TRUE);
+      self::$_gets['behavior'] = $merge = self::get(self::TYPE_DEFAULT_GLOBAL_BEHAVIOR);
     }
 
-    // コントローラビヘイビアをマージ
-    if (Delta_BootLoader::isBootTypeWeb()) {
-      static $controllerBehaviors = array();
-
-      if (isset($controllerBehaviors[$controllerName])) {
-        $controllerBehavior = $controllerBehaviors[$controllerName];
-
-      } else {
-        $controllerBehavior = self::getArray(self::TYPE_DEFAULT_ACTION_BEHAVIOR, $controllerName);
-        $controllerBehaviors[$controllerName] = $controllerBehavior;
-      }
-
-      if ($throw && $controllerBehavior === FALSE) {
-        $message = sprintf('Can not find the specified behavior. [%s]', $controllerName);
-        throw new Delta_IOException($message);
-      }
-
-      $holder = clone self::$_gets['behavior'];
-      $holder->merge($controllerBehavior);
-    }
-
-    return $holder;
+    return self::$_gets['behavior'];
   }
 
   /**
@@ -383,9 +340,8 @@ class Delta_Config extends Delta_Object
    *
    * @param int $type 参照するファイルタイプ。Delta_Config::TYPE_DEFAULT_* 定数を指定。
    * @param string $include 参照するファイルを指定します。
-   *   type が {@link TYPE_DEFAULT_ACTION_BEHAVIOR}、あるいは {@link TYPE_DEFAULT_CUSTOM} の場合に有効です。
+   *   type が {@link TYPE_DEFAULT_CUSTOM} の場合に有効です。
    *   - TYPE_DEFAULT_CUSTOM: 対象ファイルを絶対パス、または {APP_ROOT_DIR} からの相対パスで指定。
-   *   - TYPE_DEFAULT_ACTION_BEHAVIOR: 参照するアクション名を指定。
    * @return string ファイルパスを返します。パスが取得できない場合は FALSE を返します。
    * @since 1.1
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
@@ -445,35 +401,6 @@ class Delta_Config extends Delta_Object
           APP_ROOT_DIR,
           DIRECTORY_SEPARATOR,
           DIRECTORY_SEPARATOR);
-
-        break;
-
-      case self::TYPE_DEFAULT_MODULE_BEHAVIOR:
-        if (Delta_BootLoader::isBootTypeWeb()) {
-          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-
-          if ($route) {
-            $moduleName = $route->getForwardStack()->getLast()->getModuleName();
-            $modulePath = Delta_AppPathManager::getInstance()->getModulePath($moduleName);
-
-            $path = sprintf('%s%sconfig%sbehavior.yml',
-              $modulePath,
-              DIRECTORY_SEPARATOR,
-              DIRECTORY_SEPARATOR);
-          }
-        }
-
-        break;
-
-      case self::TYPE_DEFAULT_ACTION_BEHAVIOR:
-        if (Delta_BootLoader::isBootTypeWeb()) {
-          $route = Delta_FrontController::getInstance()->getRequest()->getRoute();
-          $moduleName = $route->getForwardStack()->getLast()->getModuleName();
-          $modulePath = Delta_AppPathManager::getInstance()->getModulePath($moduleName);
-          $controllerBasePath = sprintf('%s%sbehaviors', $modulePath, DIRECTORY_SEPARATOR);
-
-          $path = Delta_AppPathManager::buildAbsolutePath($controllerBasePath, $include, '.yml');
-        }
 
         break;
 
@@ -584,13 +511,8 @@ class Delta_Config extends Delta_Object
         break;
 
       case self::TYPE_DEFAULT_GLOBAL_BEHAVIOR:
-      case self::TYPE_DEFAULT_MODULE_BEHAVIOR:
-      case self::TYPE_DEFAULT_ACTION_BEHAVIOR:
         if ($type == self::TYPE_DEFAULT_GLOBAL_BEHAVIOR) {
           $callback = 'compileGlobalBehavior';
-
-        } else if ($type == self::TYPE_DEFAULT_MODULE_BEHAVIOR) {
-          $callback = 'compileModuleBehavior';
 
         } else {
           $callback = 'compileActionBehavior';
@@ -598,7 +520,6 @@ class Delta_Config extends Delta_Object
 
         if ($path && is_file($path)) {
           $config = $cache->get($path, array($callback));
-          $config = self::behaviorLoadReference($config);
         }
 
         break;
@@ -691,31 +612,5 @@ class Delta_Config extends Delta_Object
     }
 
     return $config;
-  }
-
-  /**
-   * @param array $data
-   * @return array
-   * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
-   */
-  public static function behaviorLoadReference($data)
-  {
-    if (isset($data['@ref']) && is_string($data['@ref'])) {
-      $data = self::getBehavior($data['@ref'], TRUE);
-
-    } else {
-      foreach ($data as $name => $value) {
-        if (is_array($value) && isset($value['@ref'])) {
-          $include = $value['@ref'];
-          $reference = self::getArray(self::TYPE_DEFAULT_ACTION_BEHAVIOR, $include);
-
-          if (isset($reference[$name])) {
-            $data[$name] = $reference[$name];
-          }
-        }
-      }
-    }
-
-    return $data;
   }
 }

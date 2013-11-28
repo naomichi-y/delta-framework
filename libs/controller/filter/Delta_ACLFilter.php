@@ -31,6 +31,7 @@ class Delta_ACLFilter extends Delta_Filter
       $chain->filterChain();
 
     } else {
+      // @todo 2.0 getBehavior()は廃止
       $roles = Delta_Config::getBehavior()->get('roles')->toArray();
       $message = sprintf('User roll is not enough. [%s]', implode(',', $roles));
 

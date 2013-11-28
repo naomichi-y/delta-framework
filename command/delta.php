@@ -440,8 +440,8 @@ class Delta_CommandExecutor
     Delta_FileUtils::deleteFile('config/global_helpers_merge.yml');
 
     $message = sprintf("Demo application install completed.\n"
-      ."  - modules%sdemo-front\n"
-      ."  - modules%sdemo-admin\n",
+      ."  - modules%sdemo_front\n"
+      ."  - modules%sdemo_admin\n",
       DIRECTORY_SEPARATOR,
       DIRECTORY_SEPARATOR);
     $this->_output->write($message);

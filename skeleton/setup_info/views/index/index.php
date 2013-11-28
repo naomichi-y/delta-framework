@@ -18,7 +18,7 @@
     </header>
     <div id="contents">
       <article>
-        <p>プロジェクトのインストールが成功しました。設定情報に問題がないか確認して下さい。確認を終えた後は当アクション及びビューは削除しておくことをお勧めします。</p>
+        <p>プロジェクトのインストールが成功しました。設定情報に問題がないか確認して下さい。確認を終えた後は当アクション及びテンプレートは削除しておくことをお勧めします。</p>
         <ul class="data">
           <li>
             <div class="data-label">PHP のバージョン</div>
@@ -90,14 +90,14 @@
             <div class="data-content">
               <?php if (isset($hasDemoApp)): ?>
                 <?php if (!$html->hasError('demo')): ?>
-                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'demo-front')) ?>
+                  <?php echo $form->start(array('route' => 'moduleRoute', 'module' => 'demo_front')) ?>
                     <p><?php echo $form->inputSubmit('スタート', array('class' => 'btn')) ?></p>
                   <?php echo $form->close() ?>
                 <?php else: ?>
                 <p><?php echo $html->error('demo') ?></p>
                 <?php endif ?>
               <?php else: ?>
-                <p>デモアプリケーションがインストールされていません。デモアプリケーションを起動するには、'delta install-demo-app' コマンドでインストールを行なう必要があります。</p>
+                <p>デモアプリケーションがインストールされていません。デモアプリケーションを起動するには、'delta install-demo_app' コマンドでインストールを行なう必要があります。</p>
               <?php endif ?>
             </div>
           </li>

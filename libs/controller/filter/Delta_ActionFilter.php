@@ -35,6 +35,7 @@ class Delta_ActionFilter extends Delta_Filter
   {
     parent::__construct($filterId, $holder);
 
+    // @todo 2.0 廃止
     $this->_config = Delta_Config::getBehavior();
   }
 

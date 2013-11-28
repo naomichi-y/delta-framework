@@ -9,6 +9,9 @@ class IndexController extends Delta_ActionController
     $request = $this->getRequest();
     $messages = $this->getMessages();
 
+    $view = $this->getView();
+    $view->setForm('form', $this->createForm());
+
     // PHP のバージョンチェック
     $requireVersion = '5.3.0';
     $currentVersion = phpversion();
@@ -72,7 +75,7 @@ class IndexController extends Delta_ActionController
     // cpanel の動作チェック
     if (!$request->getParameter('check')) {
       // cpanel のパスは固定なので Delta_RouteResolver::buildRequestPath() 経由でパスを算出しない
-      $requestUrl = 'http://' . $request->getEnvironment('HTTP_HOST') . '/cpanel/connectTest';
+      $requestUrl = 'http://' . $request->getEnvironment('HTTP_HOST') . '/cpanel/test';
 
       try {
         if (file_get_contents($requestUrl) !== 'SUCCESS') {
@@ -85,7 +88,7 @@ class IndexController extends Delta_ActionController
     }
 
     // デモアプリケーションがインストールされているかチェック
-    if (in_array('demo-front', Delta_CoreUtils::getModuleNames())) {
+    if (in_array('demo_front', Delta_CoreUtils::getModuleNames())) {
       $this->getView()->setAttribute('hasDemoApp', TRUE);
 
       if ($messages->hasError('database')) {

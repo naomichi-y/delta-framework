@@ -385,6 +385,7 @@ class Delta_HTMLHelper extends Delta_Helper
    * @param mixed $attributes リストタグに追加する属性。{@link Delta_HTMLHelper::link()} メソッドを参照。
    * @return string エラーメッセージを HTML のリスト形式で返します。エラーが未登録の場合は NULL を返します。
    * @author Naomichi Yamakita <naomichi.y@delta-framework.org>
+   * @todo 2.0 廃止予定
    */
   public function errors($fieldError = TRUE, $attributes = array('class' => 'error'))
   {

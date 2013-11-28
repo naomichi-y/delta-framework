@@ -54,16 +54,24 @@ class Delta_Route extends Delta_Object
     $moduleName = $pathHolder['module'];
     $moduleClassName = Delta_StringUtils::convertPascalCase($moduleName) . 'Module';
 
-    $moduleClassPath = sprintf('%s%smodules%s%s%s%s.php',
-      APP_ROOT_DIR,
-      DIRECTORY_SEPARATOR,
-      DIRECTORY_SEPARATOR,
-      $moduleName,
-      DIRECTORY_SEPARATOR,
-      $moduleClassName);
-    require $moduleClassPath;
+    if ($moduleName === 'cpanel') {
+      $moduleClassPath = DELTA_ROOT_DIR . '/webapps/cpanel/modules/cpanel/CpanelModule.php';
 
-    $this->_module = new $moduleClassName;
+    } else {
+      $moduleClassPath = sprintf('%s%smodules%s%s%s%s.php',
+        APP_ROOT_DIR,
+        DIRECTORY_SEPARATOR,
+        DIRECTORY_SEPARATOR,
+        $moduleName,
+        DIRECTORY_SEPARATOR,
+        $moduleClassName);
+    }
+
+    if (is_file($moduleClassPath)) {
+      require $moduleClassPath;
+
+      $this->_module = new $moduleClassName;
+    }
   }
 
   /**

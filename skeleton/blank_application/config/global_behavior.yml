@@ -1,100 +1,137 @@
-convert:
-  trimConverter:
-    names: @all
-    converters:
-      - class: Delta_TrimConverter
+sanitizer:
+  whitespace:
+    class: Delta_WhitespaceSanitizer
+
+  emoji:
+    class: Delta_EmojiSanitizer
+
+  multibyteKana:
+    class: Delta_MultibyteKanaSanitizer
+
+  vendorCharacter:
+    class: Delta_VendorCharacterSanitizer
 
 validators:
   required:
     class: Delta_RequiredValidator
-    error: '{$label}が未入力です。'
+    requiredError: '{$label}が未指定です。'
 
-validate:
-  validators:
-    commonCheckBoxValidator:
-      class: Delta_CheckBoxValidator
-      requiredMatch: '${REQUIRED_MATCH}'
-      requiredMatchError: '{%FIELD_NAME%}に{%REQUIRED_MATCH%}つチェックを付けて下さい。'
-      requiredMin: '${REQUIRED_MIN}'
-      requiredMinError: '{%FIELD_NAME%}は{%REQUIRED_MIN%}つ以上にチェックを付けて下さい。'
-      requiredMax: '${REQUIRED_MAX}'
-      requiredMaxError: '{%FIELD_NAME%}は{%REQUIRED_MAX%}つ以内でチェックを付けて下さい。'
+  length:
+    class: Delta_LengthValidator
+    minLengthError: '{$label}は{$minLength}文字以上入力して下さい。'
+    maxLengthError: '{$label}は{$maxLength}文字以内で入力して下さい。'
+    matchLengthError: '{$label}は{$matchLength}文字で入力して下さい。'
 
-    commonCompareValidator:
-      class: Delta_CompareValidator
-      compareField1: '${COMPARE_FIELD1}'
-      compareField2: '${COMPARE_FIELD2}'
-      pattern: '${PATTERN}'
-      matchError: '{%COMPARE_FIELD_NAME1%}が合致していません。'
-      lessThanError: '{%COMPARE_FIELD_NAME2%}に{%COMPARE_FIELD_NAME1%}より小さい値が指定されています。'
-      moreThanError: '{%COMPARE_FIELD_NAME2%}に{%COMPARE_FIELD_NAME1%}より大きい値が指定されています。'
+  radio:
+    class: Delta_RadioValidator
+    requiredError: '{$label}が未指定です。'
 
-    commonDateValidator:
-      class: Delta_DateValidator
-      yearField: '${YEAR_FIELD}'
-      monthField: '${MONTH_FIELD}'
-      dayField: '${DAY_FIELD}'
-      matchError: '日付の書式が不正です。'
-      allowPast: '${ALLOW_PAST}'
-      allowCurrent: '${ALLOW_CURRENT}'
-      allowFuture: '${ALLOW_FUTURE}'
-      allowError: '許可されない日付です。'
+  check:
+    class: Delta_CheckValidator
+    requiredMatchError: '{$label}は{$requiredMatch}つにチェックを付けて下さい。'
+    requiredMinError: '{$label}は{$requiredMin}つ以上にチェックを付けて下さい。'
+    requiredMaxError: '{$label}は{$requiredMax}つ以内でチェックを付けて下さい。'
 
-    commonEMailValidator:
-      class: Delta_EMailValidator
-      matchError: '{%FIELD_NAME%}の書式が正しくありません。'
-      strict: FALSE
-      domainCheck: '${DOMAIN_CHECK}'
+  select:
+    class: Delta_SelectValidator
+    requiredMatchError: '{$label}は{$requiredMatch}つにチェックを付けて下さい。'
+    requiredMinError: '{$label}は{$requiredMin}つ以上にチェックを付けて下さい。'
+    requiredMaxError: '{$label}は{$requiredMax}つ以内でチェックを付けて下さい。'
 
-    commonFileUploadValidator:
-      class: Delta_FileUploadValidator
-      required: '${REQUIRED}'
-      requiredError: '{%FIELD_NAME%}をアップロードして下さい。'
-      encodingError: 'フォームのエンコーディング形式が不正です。'
-      postError: 'フォームデータが不正です。'
-      mimeTypes: '${MIME_TYPES}'
-      mimeTypeError: '許可されないファイルタイプです。'
-      maxSize: '${MAX_SIZE}'
-      maxSizeError: 'アップロード可能なファイルサイズは{%MAX_SIZE%}までです。'
-      partialError: 'ファイルのアップロードが失敗しました。'
-      temporaryError: 'ファイルのアップロード先となる一時ディレクトリが見つかりません。'
-      writeError: 'ディスクへの描き込みに失敗しました。'
-      extensionError: 'PHP の拡張モジュールがファイルのアップロードを中止しました。'
+  textarea:
+    class: Delta_TextareaValidator
+    matchRowSizeError: '{$label}は{$matchRowSize}行で指定して下さい。'
+    minRowSizeError: '{$label}は{$minRowSize}行以上で指定して下さい。'
+    maxRowSizeError: '{$label}は{$maxRowSize}行以下で指定して下さい。'
 
-    commonLengthValidator:
-      class: Delta_LengthValidator
-      multibyte: '${MULTIBYTE}'
-      minLength: '${MIN_LENGTH}'
-      minLengthError: '{%FIELD_NAME%}は{%MIN_LENGTH%}文字以上入力して下さい。'
-      maxLength: '${MAX_LENGTH}'
-      maxLengthError: '{%FIELD_NAME%}は{%MAX_LENGTH%}文字以内で入力して下さい。'
-      matchLength: '${MATCH_LENGTH}'
-      matchLengthError: '{%FIELD_NAME%}は{%MATCH_LENGTH%}文字で入力して下さい。'
+  email:
+    class: Delta_EMailValidator
+    formatError: '{$label}の書式が正しくありません。'
 
-    commonNumericValidator:
-      class: Delta_NumericValidator
-      matchError: '{%FIELD_NAME%}は数値で指定して下さい。'
-      float: '${FLOAT}'
+  string:
+    class: Delta_StringValidator
+    formatError: '{$label}に許可されない文字が含まれています。'
 
-    commonRangeValidator:
-      class: Delta_RangeValidator
-      min: '${MIN}'
-      max: '${MAX}'
-      float: '${FLOAT}'
-      matchError: '{%FIELD_NAME%}は{%MIN%}～{%MAX%}の間の値を指定して下さい。'
+  multibyte:
+    class: Delta_MultibyteValidator
+    multibyteError: '{$label}は全角文字で指定して下さい。'
+    hiraganaError: '{$label}は全角ひらがなで指定して下さい。'
+    katakanaError: '{$label}は全角カタカナで指定して下さい。'
 
-    commonRequiredValidator:
-      class: Delta_RequiredValidator
-      required: TRUE
-      requiredError: '{%FIELD_NAME%}が未入力です。'
-      whitespace: FALSE
+  vendorCharacter:
+    class: Delta_VendorCharacterValidator
+    formatError: '{$label}に使用できない文字が含まれています。'
 
-    commonTextareaValidator:
-      class: Delta_TextareaValidator
-      minRowSize: '${MIN_ROW_SIZE}'
-      minRowSizeError: '{%FIELD_NAME%}は{%MIN_ROW_SIZE%}行以上入力して下さい。'
-      maxRowSize: '${MAX_ROW_SIZE}'
-      maxRowSizeError: '{%FIELD_NAME%}は{%MAX_ROW_SIZE%}行以内で入力して下さい。'
-      matchRowSize: '${MATCH_ROW_SIZE}'
-      matchRowSizeError: '{%FIELD_NAME%}は{%MATCH_ROW_SIZE%}行で入力して下さい。'
-      ignoreBlankLine: FALSE
+  numeric:
+    class: Delta_NumericValidator
+    formatError: '{$label}の書式が不正です。'
+    floatError: '{$label}は小数点以下を指定することはできません。'
+
+  range:
+    class: Delta_RangeValidator
+    rangeError: '{$label}は{$min}〜{$max}の間で指定して下さい。'
+    floatError: '{$label}は小数点以下を指定することはできません。'
+
+  mask:
+    class: Delta_MaskValidator
+    formatError: '{$label}の書式が不正です。'
+
+  compare:
+    class: Delta_CompareValidator
+    matchError: '{$compareLabel}が一致していません。'
+
+  date:
+    class: Delta_DateValidator
+    formatError: '{$label}の書式が不正です。'
+    allowError: '{$label}に無効な日付が指定されています。'
+
+  zipCode:
+    class: Delta_ZipCodeValidator
+    formatError: '{$label}の書式が不正です。'
+
+  url:
+    class: Delta_URLValidator
+    formatError: '{$label}の書式が不正です。'
+    httpError: '{$label}はhttps://〜形式で指定して下さい。'
+    httpsError: '{$label}はhttp://〜形式で指定して下さい。'
+
+  ipAddress:
+    class: Delta_IPAddressValidator
+    formatError: '{$label}の書式が不正です。'
+    notAllowError: '{$label}に許可されないアドレスが指定されています。'
+
+  domain:
+    class: Delta_DomainValidator
+    formatError: '{$label}の書式が不正です。'
+
+  sequenceString:
+    class: Delta_SequenceStringValidator
+    sizeError: '{$label}は同じ文字が{$size}文字以上連続しています。'
+
+  fileUpload:
+    class: Delta_FileUploadValidator
+    encodeError: '{$label}のエンコード形式が不正です。'
+    unuploadError: '{$label}がアップロードされていません。'
+    partialError: '{$label}ファイルのアップロード中に欠損が発生しました。'
+    temporaryError: 'アップロードファイルを配置するテンポラリディレクトリが存在しません。'
+    writeError: 'アップロードファイルの書き込みに失敗しました。'
+    extensionModuleError: '拡張モジュールによりアップロードが中止されました。'
+    minSizeError: '{$label}のファイルサイズが小さすぎます。{$minSize}以上のファイルをアップロードして下さい。'
+    maxSizeError: '{$label}のファイルサイズが大きすぎます。{$maxSize}以下のファイルをアップロードして下さい。'
+    mimeTypeError: '{$label}に指定されたファイル形式は許可されていません。'
+    extensionError: '{$label}に指定されたファイル拡張子は許可されていません。'
+
+  phoneNumber:
+    class: Delta_PhoneNumberValidator
+    formatError: '{$label}の形式が不正です。'
+
+  zipCode:
+    class: Delta_ZipCodeValidator
+    formatError: '{$label}の形式が不正です。'
+
+  creditCard:
+    class: Delta_CreditCardValidator
+    unsupportedCardError: '指定されたクレジットカードはサポートされていません。'
+    denyCardError: '許可されないクレジットカードです。'
+    formatError: 'クレジットカード番号の形式が正しくありません。'
+    checkDigitError: 'クレジットカード番号が不正です。'
