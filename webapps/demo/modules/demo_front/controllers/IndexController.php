@@ -5,6 +5,5 @@
 class IndexController extends Delta_ActionController
 {
   public function indexAction()
-  {
-  }
+  {}
 }

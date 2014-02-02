@@ -54,13 +54,15 @@ class IndexController extends Delta_ActionController
       $path = array('route' => 'rewriteTestRoute');
       $requestUrl = Delta_FrontController::getInstance()->getRouter()->buildRequestPath($path, array(), TRUE);
 
+
       try {
         if (file_get_contents($requestUrl) !== 'SUCCESS') {
-          throw new Delta_RequestException();
+          throw new Delta_RequestException('ルート接続に失敗しました。mod_rewrite が正しく動いていない可能性があります。');
         }
 
       } catch (Exception $e) {
-        $messages->addError('mod_rewrite が正常に動作していない可能性があります。モジュールの設定を見直して下さい。', 'route');
+        $message = sprintf('%s [%s]', $e->getMessage(), $requestUrl);
+        $messages->addError($message, 'route');
       }
     }
 
