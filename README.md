@@ -6,6 +6,6 @@ What's this?
 delta is a Web application framework for PHP.
 For more information, see the official site.
 
- * http://delta.devlabs.link/
- * http://delta-docs.devlabs.link
- * http://delta-api.devlabs.link
+ * [Official](http://delta.devlabs.link/)
+ * [Documentation](http://delta-docs.devlabs.link)
+ * [API](http://delta-api.devlabs.link)
